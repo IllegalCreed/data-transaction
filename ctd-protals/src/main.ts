@@ -1,9 +1,11 @@
-import './assets/main.css'
+import '@/assets/main.css'
+import '@/styles/index.scss'
 import 'virtual:uno.css'
+import 'element-plus/theme-chalk/src/message.scss'
 
 import { createApp } from 'vue'
+import App from '@/App.vue'
 
-import App from './App.vue'
 import router from '@/router'
 import store from '@/stores'
 import i18n from '@/locales'

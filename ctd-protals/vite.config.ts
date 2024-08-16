@@ -5,10 +5,49 @@ import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 import UnoCSS from 'unocss/vite'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import Icons from 'unplugin-icons/vite'
+import IconsResolver from 'unplugin-icons/resolver'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), vueDevTools(), VueI18nPlugin({}), UnoCSS()],
+  plugins: [
+    vue(),
+    vueDevTools(),
+    VueI18nPlugin({}),
+    UnoCSS(),
+    AutoImport({
+      imports: [
+        'vue',
+        'vue-router',
+        '@vueuse/core',
+        'pinia',
+        // 自定义导入
+        {
+          // 包导入
+          axios: [
+            // 默认别名导入
+            ['default', 'axios'] // import { default as axios } from 'axios',
+          ],
+          moment: [['default', 'moment']]
+        }
+      ],
+      dts: true,
+      eslintrc: {
+        enabled: true
+      },
+      resolvers: [ElementPlusResolver()]
+    }),
+    Components({
+      dts: true,
+      resolvers: [IconsResolver(), ElementPlusResolver({ importStyle: 'sass' })]
+    }),
+    Icons({
+      compiler: 'vue3'
+    })
+  ],
   resolve: {
     alias: {
       '~': fileURLToPath(new URL('./', import.meta.url)),
@@ -18,7 +57,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: ``
+        additionalData: `@use "@/styles/element/index.scss" as *;`
       }
     }
   }
