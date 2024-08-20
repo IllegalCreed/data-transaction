@@ -7,12 +7,12 @@
         </el-carousel>
 
         <div self-center flex flex-row space-x-10 mt-10>
-            <el-card shadow="always" w-80 h-100 text-8>数据</el-card>
-            <el-card shadow="always" w-80 h-100 text-8>场景</el-card>
-            <el-card shadow="always" w-80 h-100 text-8>服务</el-card>
+            <el-card shadow="always" w-80 h-100 text-8>数据交易</el-card>
+            <el-card shadow="always" w-80 h-100 text-8>数据服务</el-card>
+            <el-card shadow="always" w-80 h-100 text-8>资产咨询</el-card>
         </div>
 
-        <el-card shadow="always" self-center w-260 h-80 text-8 mt-10>热门需求</el-card>
+        <el-card shadow="always" self-center w-260 h-80 text-8 mt-10>热点需求</el-card>
 
         <div flex justify-center items-center min-w-full bg-blueGray min-h-100 text-8 mt-10>
             商业模式闭环图

@@ -44,8 +44,14 @@ export default defineConfig({
             ['default', 'axios'] // import { default as axios } from 'axios',
           ],
           moment: [['default', 'moment']]
+        },
+        {
+          from: '.src/types',
+          type: true,
+          imports: ['ISort']
         }
       ],
+      dirs: ['./src/utils', './src/composables', './src/apis/**', './src/stores/**'],
       dts: true,
       eslintrc: {
         enabled: true

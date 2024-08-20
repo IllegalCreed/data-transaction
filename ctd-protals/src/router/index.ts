@@ -17,19 +17,29 @@ const router = createRouter({
           component: HomeView
         },
         {
-          path: 'data',
-          name: 'data',
-          component: () => import('@/views/Data/DataView.vue')
+          path: 'product',
+          name: 'product',
+          component: () => import('@/views/Product/ProductView.vue')
         },
         {
-          path: 'scene',
-          name: 'scene',
-          component: () => import('@/views/Scene/SceneView.vue')
+          path: 'catalog',
+          name: 'catalog',
+          component: () => import('@/views/Catalog/CatalogView.vue')
         },
         {
           path: 'service',
           name: 'service',
           component: () => import('@/views/Service/ServiceView.vue')
+        },
+        {
+          path: 'consult',
+          name: 'consult',
+          component: () => import('@/views/Consult/ConsultView.vue')
+        },
+        {
+          path: 'company',
+          name: 'company',
+          component: () => import('@/views/Company/CompanyView.vue')
         },
         {
           path: 'community',
@@ -38,7 +48,16 @@ const router = createRouter({
         }
       ]
     }
-  ]
+  ],
+  scrollBehavior(to, from, savedPosition) {
+    // 如果有保存的位置，返回到该位置
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      // 否则，滚动到顶部
+      return { top: 0 }
+    }
+  }
 })
 
 export default router

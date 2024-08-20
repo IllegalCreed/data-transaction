@@ -302,6 +302,12 @@
     "watchThrottled": true,
     "watchTriggerable": true,
     "watchWithFilter": true,
-    "whenever": true
+    "whenever": true,
+    "isDark": true,
+    "pxToRem": true,
+    "remToPx": true,
+    "stores": true,
+    "toggleDark": true,
+    "ISort": true
   }
 }
