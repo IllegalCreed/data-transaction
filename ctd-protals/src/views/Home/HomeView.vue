@@ -24,10 +24,6 @@
         </div>
 
         <el-card shadow="always" flex justify-center items-center self-center w-260 h-80 text-8 mt-10>合作伙伴列表</el-card>
-
-        <div flex justify-center items-center min-w-full bg-blueGray min-h-100 text-8 mt-10>
-            友情链接+联系方式
-        </div>
     </div>
 </template>
 

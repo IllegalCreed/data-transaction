@@ -14,6 +14,7 @@ declare module 'vue' {
     ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
     ElInput: typeof import('element-plus/es')['ElInput']
     ElOption: typeof import('element-plus/es')['ElOption']
+    ElPagination: typeof import('element-plus/es')['ElPagination']
     ElSelect: typeof import('element-plus/es')['ElSelect']
     'IVaadin:menu': typeof import('~icons/vaadin/menu')['default']
     'IVaadin:search': typeof import('~icons/vaadin/search')['default']

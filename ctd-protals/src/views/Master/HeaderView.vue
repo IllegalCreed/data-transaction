@@ -13,12 +13,10 @@
     </nav>
     <div flex-1></div>
 
-    <div flex flex-row-reverse items-center w-40>
-      <i-vaadin:menu cursor-pointer></i-vaadin:menu>
+    <div flex flex-row justify-end items-center w-40>
       <ElButton type="primary" mr-5>登录</ElButton>
+      <i-vaadin:menu cursor-pointer></i-vaadin:menu>
     </div>
-
-
   </div>
 </template>
 
@@ -34,7 +32,7 @@ const isActive = (path: string) => {
 
 <style scoped lang="scss">
 .header-root-container {
-  @apply flex flex-row items-center h-20 w-full px-20 fixed bg-white shadow;
+  @apply flex flex-row items-center h-20 w-full px-20 fixed bg-white shadow min-w-1200px;
 
   a {
     @apply text-gray-600 no-underline text-lg;

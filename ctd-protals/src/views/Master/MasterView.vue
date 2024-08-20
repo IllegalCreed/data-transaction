@@ -1,7 +1,7 @@
 <template>
   <div class="master-root-container">
     <header-view z-20></header-view>
-    <router-view v-slot="{ Component }" mt-20 min-h-100vh>
+    <router-view v-slot="{ Component }" mt-20 min-h-100>
       <transition name="fade" mode="out-in">
         <component :is="Component" />
       </transition>

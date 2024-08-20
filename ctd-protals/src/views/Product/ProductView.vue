@@ -25,12 +25,22 @@
     <div flex flex-row mt-10 w-260>
       <sort-list-view v-model="sort"></sort-list-view>
     </div>
+
+    <div flex flex-row flex-wrap mt-10 w-260>
+      <product-item v-for="(product, index) in products" :key="index" :product="product" />
+    </div>
+
+    <div flex flex-row justify-end mt-10 w-260>
+      <el-pagination background :total="1000" layout="total, prev, pager, next" />
+    </div>
+
   </div>
 </template>
 
 <script setup lang="ts">
 import FilterListView from './FilterListView.vue';
 import SortListView from './SortListView.vue';
+import ProductItem from './ProductItem.vue';
 
 const sort = ref({ sortType: 'comprehensive', order: 'desc' as const });
 watch(sort, (newValue) => {
@@ -47,7 +57,23 @@ watch(filters, (newValue) => {
 const searchKey = ref('');
 const select = ref('1');
 
-
+// 示例商品数据
+const products = ref([
+  {
+    id: 1,
+    name: '虚拟艺术品',
+    description: '一件非常独特的虚拟艺术品。一件非常独特的虚拟艺术品。一件非常独特的虚拟艺术品。一件非常独特的虚拟艺术品。一件非常独特的虚拟艺术品。',
+    seller: '虚拟商店123123123123123123123123123123123123123123123123',
+    price: 199.99,
+  },
+  {
+    id: 2,
+    name: '高级课程',
+    description: '一门提升技能的高级课程。',
+    seller: '教育机构',
+    price: 299.99,
+  },
+]);
 </script>
 
 <style scoped lang="scss">
