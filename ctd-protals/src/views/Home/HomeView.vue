@@ -44,10 +44,10 @@
 }
 
 .el-carousel__item:nth-child(2n) {
-    background-color: #99a9bf;
+    @apply bg-blueGray
 }
 
 .el-carousel__item:nth-child(2n + 1) {
-    background-color: #d3dce6;
+    @apply bg-slate-300;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <el-card shadow="hover" class="product-item-root-container" body-class="product-item-body-container"
     @click="goToProductDetail">
-    <div h-40 m--5 rounded bg-blueGray></div>
+    <div h-40 m--5 rounded bg-slate-300></div>
     <div flex flex-col flex-1 pt-2 mt-4>
       <span font-bold text-lg mt-2>{{ product.name }}</span>
       <div flex flex-row flex-wrap gap-2 mt-2>
