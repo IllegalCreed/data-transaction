@@ -1,11 +1,18 @@
 <template>
-  <el-card shadow="hover" class="product-card" @click="goToProductDetail">
-    <div class="image-placeholder" bg-blueGray></div>
-    <div class="product-info">
-      <h3 class="product-name">{{ product.name }}</h3>
-      <p class="product-description">{{ product.description }}</p>
-      <p class="product-seller">商家: {{ product.seller }}</p>
-      <span class="product-price">价格: ￥{{ product.price }}</span>
+  <el-card shadow="hover" class="product-item-root-container" body-class="product-item-body-container"
+    @click="goToProductDetail">
+    <div h-40 m--5 rounded bg-blueGray></div>
+    <div flex flex-col flex-1 pt-2 mt-4>
+      <span font-bold text-lg mt-2>{{ product.name }}</span>
+      <div flex flex-row flex-wrap gap-2 mt-2>
+        <el-tag v-for="(tag, index) in product.tags" :key="index" type="danger" size="small">
+          {{ tag }}
+        </el-tag>
+      </div>
+      <span mt-6 text-sm text-gray-700 line-clamp-2 text-ellipsis>{{ product.description }}</span>
+      <span mt-2 text-sm text-gray-400 line-clamp-1 text-ellipsis>服务商: {{ product.seller }}</span>
+      <div flex-1></div>
+      <span mt-4 font-bold text-red-600 self-end>￥{{ product.price }}</span>
     </div>
   </el-card>
 </template>
@@ -20,6 +27,7 @@ const props = defineProps<{
     description: string;
     seller: string;
     price: number;
+    tags: string[];
   };
 }>();
 
@@ -31,36 +39,13 @@ const goToProductDetail = () => {
 </script>
 
 <style scoped lang="scss">
-.product-card {
-  @apply mb-5 mr-5 w-60 cursor-pointer;
+.product-item-root-container {
+  @apply mb-5 mx-2 w-60 cursor-pointer;
 }
 
-.image-placeholder {
-  @apply h-40 m--5 bg-blueGray rounded;
-}
-
-.product-info {
-  @apply pt-2 mt-4;
-}
-
-.product-name {
-  @apply font-bold text-lg;
-}
-
-.product-description {
-  @apply mt-2 h-10 text-sm text-gray-600 overflow-hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  text-overflow: ellipsis;
-}
-
-.product-seller {
-  @apply mt-1 text-sm text-gray-500 overflow-hidden whitespace-nowrap;
-  text-overflow: ellipsis;
-}
-
-.product-price {
-  @apply mt-2 font-bold text-red-600;
+.wrap {
+  :global(.product-item-body-container) {
+    @apply flex flex-col h-full;
+  }
 }
 </style>
