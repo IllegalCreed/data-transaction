@@ -3,13 +3,13 @@
     <LogoView w-60></LogoView>
     <div flex-1></div>
     <nav space-x-10>
-      <RouterLink to="home" :class="{ active: isActive('/home') }">首页</RouterLink>
-      <RouterLink to="product" :class="{ active: isActive('/product') }">数据交易</RouterLink>
-      <RouterLink to="service" :class="{ active: isActive('/service') }">数据服务</RouterLink>
-      <RouterLink to="catalog" :class="{ active: isActive('/catalog') }">资产目录</RouterLink>
-      <RouterLink to="consult" :class="{ active: isActive('/consult') }">资产咨询</RouterLink>
-      <RouterLink to="company" :class="{ active: isActive('/company') }">数据生态</RouterLink>
-      <RouterLink to="community" :class="{ active: isActive('/community') }">社区</RouterLink>
+      <RouterLink to="/home" :class="{ active: isActive('/home') }">首页</RouterLink>
+      <RouterLink to="/product" :class="{ active: isActive('/product') }">数据交易</RouterLink>
+      <RouterLink to="/service" :class="{ active: isActive('/service') }">数据服务</RouterLink>
+      <RouterLink to="/catalog" :class="{ active: isActive('/catalog') }">资产目录</RouterLink>
+      <RouterLink to="/consult" :class="{ active: isActive('/consult') }">资产咨询</RouterLink>
+      <RouterLink to="/company" :class="{ active: isActive('/company') }">数据生态</RouterLink>
+      <RouterLink to="/community" :class="{ active: isActive('/community') }">社区</RouterLink>
     </nav>
     <div flex-1></div>
 
