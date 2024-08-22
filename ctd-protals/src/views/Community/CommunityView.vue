@@ -1,7 +1,7 @@
 <template>
-    <div>
-
-    </div>
+  <div>
+    社区
+  </div>
 </template>
 
 <script setup lang="ts">

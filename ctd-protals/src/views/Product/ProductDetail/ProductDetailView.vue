@@ -1,26 +1,7 @@
 <template>
   <div class="product-detail-root-container">
-    <!-- 左侧内容区域 -->
-    <div class="left-content flex-1 pr-8">
-      <!-- 图片集 -->
-      <div class="image-gallery mb-8">
-        <div class="main-image bg-gray-200 h-96 mb-4 flex items-center justify-center">
-          <!-- 大图显示区 -->
-          <span>大图显示区</span>
-        </div>
-        <div class="thumbnail-list flex items-center">
-          <button class="prev-button mr-4" @click="scrollThumbnails('prev')">←</button>
-          <div class="thumbnails flex space-x-2 overflow-hidden">
-            <!-- 缩略图 -->
-            <div class="thumbnail bg-gray-300 h-24 w-24 flex-shrink-0"></div>
-            <div class="thumbnail bg-gray-300 h-24 w-24 flex-shrink-0"></div>
-            <div class="thumbnail bg-gray-300 h-24 w-24 flex-shrink-0"></div>
-            <div class="thumbnail bg-gray-300 h-24 w-24 flex-shrink-0"></div>
-            <!-- 更多缩略图... -->
-          </div>
-          <button class="next-button ml-4" @click="scrollThumbnails('next')">→</button>
-        </div>
-      </div>
+    <div flex-1 pr-8 min-w-0>
+      <image-gallery :images="productImages" />
 
       <!-- 锚点导航的Tab栏 -->
       <div class="tab-bar sticky top-0 bg-white z-10">
@@ -58,45 +39,36 @@
       </div>
     </div>
 
-    <control-panel :product-id="productId" />
+    <control-panel class="w-1/3" :product-id="productId" />
   </div>
 </template>
 
 <script setup lang="ts">
 import ControlPanel from './ControlPanel.vue';
+import ImageGallery from './ImageGallery.vue';
 
 const route = useRoute()
 const productId = ref(route.params.id ? route.params.id as string : '');
 
-const scrollThumbnails = (direction: 'prev' | 'next') => {
-  console.log(`Scrolling thumbnails to the ${direction}`);
-  // 缩略图滚动逻辑
-};
+const productImages = ref([
+  'https://via.placeholder.com/600x400?text=Image+1',
+  'https://via.placeholder.com/600x400?text=Image+2',
+  'https://via.placeholder.com/600x400?text=Image+3',
+  'https://via.placeholder.com/600x400?text=Image+4',
+  'https://via.placeholder.com/600x400?text=Image+1',
+  'https://via.placeholder.com/600x400?text=Image+2',
+  'https://via.placeholder.com/600x400?text=Image+3',
+  'https://via.placeholder.com/600x400?text=Image+4',
+  'https://via.placeholder.com/600x400?text=Image+1',
+  'https://via.placeholder.com/600x400?text=Image+2',
+  'https://via.placeholder.com/600x400?text=Image+3',
+  'https://via.placeholder.com/600x400?text=Image+4',
+]);
 </script>
 
 <style scoped lang="scss">
 .product-detail-root-container {
   @apply flex flex-row items-start w-300 mx-auto pt-30
-}
-
-.left-content {
-  @apply flex-1 pr-8;
-}
-
-.image-gallery {
-  @apply mb-8;
-}
-
-.main-image {
-  @apply bg-gray-200 h-96 mb-4 flex items-center justify-center;
-}
-
-.thumbnail-list {
-  @apply flex items-center;
-}
-
-.thumbnail {
-  @apply bg-gray-300 h-24 w-24 flex-shrink-0;
 }
 
 .tab-bar {

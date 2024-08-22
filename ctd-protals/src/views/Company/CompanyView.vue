@@ -1,7 +1,7 @@
 <template>
-    <div>
-
-    </div>
+  <div>
+    数据生态
+  </div>
 </template>
 
 <script setup lang="ts">

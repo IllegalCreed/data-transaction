@@ -2,14 +2,21 @@
   <div class="header-root-container">
     <LogoView w-60></LogoView>
     <div flex-1></div>
-    <nav space-x-10>
-      <RouterLink to="/home" :class="{ active: isActive('/home') }">首页</RouterLink>
-      <RouterLink to="/product" :class="{ active: isActive('/product') }">数据交易</RouterLink>
-      <RouterLink to="/service" :class="{ active: isActive('/service') }">数据服务</RouterLink>
-      <RouterLink to="/catalog" :class="{ active: isActive('/catalog') }">资产目录</RouterLink>
-      <RouterLink to="/consult" :class="{ active: isActive('/consult') }">资产咨询</RouterLink>
-      <RouterLink to="/company" :class="{ active: isActive('/company') }">数据生态</RouterLink>
-      <RouterLink to="/community" :class="{ active: isActive('/community') }">社区</RouterLink>
+    <nav flex flex-row items-center space-x-8>
+      <RouterLink v-for="link in links" :key="link.path" :to="link.path" class="nav-item"
+        :class="{ active: isActive(link.path) }">
+        {{ link.label }}
+      </RouterLink>
+      <el-dropdown class="ellipsis-menu" trigger="click">
+        <i-lucide:ellipsis class="ellipsis-icon"></i-lucide:ellipsis>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item v-for="link in links.slice(3)" :key="link.path" @click="navigateTo(link.path)">
+              {{ link.label }}
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
     </nav>
     <div flex-1></div>
 
@@ -31,10 +38,26 @@
 import LogoView from './LogoView.vue'
 import SearchDialog from './SearchDialog.vue';
 
+// 导航链接列表
+const links = [
+  { path: '/home', label: '首页' },
+  { path: '/product', label: '数据交易' },
+  { path: '/service', label: '数据服务' },
+  { path: '/catalog', label: '资产目录' },
+  { path: '/consult', label: '资产咨询' },
+  { path: '/company', label: '数据生态' },
+  { path: '/community', label: '社区' },
+];
+
 const route = useRoute();
+const router = useRouter();
 
 const isActive = (path: string) => {
   return route.path === path;
+};
+
+const navigateTo = (path: string) => {
+  router.push(path);
 };
 
 const showSearchDialog = ref(false);
@@ -42,15 +65,19 @@ const showSearchDialog = ref(false);
 
 <style scoped lang="scss">
 .header-root-container {
-  @apply flex flex-row items-center h-20 w-full px-20 fixed bg-white shadow min-w-1200px;
+  @apply flex flex-row items-center h-20 w-full px-20 fixed bg-white shadow min-w-100;
 
-  a {
+  .nav-item {
     @apply text-gray-600 no-underline text-lg;
   }
 
-  a.active {
+  .nav-item.active {
     @apply text-green-600;
   }
+}
+
+.ellipsis-menu {
+  display: none;
 }
 
 .search-container {
@@ -63,6 +90,32 @@ const showSearchDialog = ref(false);
 
   .search-icon {
     @apply mr-2;
+  }
+}
+
+@media (max-width: 1280px) {
+  .nav-item:nth-child(n+4) {
+    display: none;
+  }
+
+  .ellipsis-menu {
+    display: inline-block;
+  }
+}
+
+@media (max-width: 1000px) {
+  .nav-item {
+    display: none;
+  }
+
+  .ellipsis-menu {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .search-container {
+    display: none;
   }
 }
 </style>

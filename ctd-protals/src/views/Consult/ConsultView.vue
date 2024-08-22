@@ -1,7 +1,7 @@
 <template>
-    <div>
-
-    </div>
+  <div>
+    资产咨询
+  </div>
 </template>
 
 <script setup lang="ts">
