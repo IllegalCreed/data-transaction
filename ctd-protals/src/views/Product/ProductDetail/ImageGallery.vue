@@ -3,7 +3,7 @@
     <div bg-gray-200 h-96 mb-4 flex items-center justify-center>
       <img :src="currentImage" object-contain h-full w-full />
     </div>
-    <div flex flex-row justify-stretch items-center>
+    <div flex flex-row justify-stretch items-center py-2 px-4 bg-slate-100>
       <i-icon-park-twotone:left-c class="thumbnail-control" mr-4
         @click="scrollThumbnails('prev')"></i-icon-park-twotone:left-c>
       <div ref="thumbnailContainer" class="thumbnail-container" flex-1 flex flex-row items-center space-x-2

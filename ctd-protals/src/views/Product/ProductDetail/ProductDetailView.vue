@@ -1,18 +1,10 @@
 <template>
   <div class="product-detail-root-container">
+
     <div flex-1 pr-8 min-w-0>
       <image-gallery :images="productImages" />
 
-      <!-- 锚点导航的Tab栏 -->
-      <div class="tab-bar sticky top-0 bg-white z-10">
-        <nav class="flex space-x-8 py-4 border-b">
-          <a href="#details" class="tab-item">产品详情</a>
-          <a href="#safety" class="tab-item">安全保障</a>
-          <a href="#reviews" class="tab-item">客户评价</a>
-          <a href="#seller" class="tab-item">关于商家</a>
-          <a href="#recommendations" class="tab-item">为您推荐</a>
-        </nav>
-      </div>
+      <tab-bar mt-10 :links="links" />
 
       <!-- 各部分内容 -->
       <div class="content-sections">
@@ -39,13 +31,14 @@
       </div>
     </div>
 
-    <control-panel class="w-1/3" :product-id="productId" />
+    <control-panel class="control-panel" :product-id="productId" />
   </div>
 </template>
 
 <script setup lang="ts">
 import ControlPanel from './ControlPanel.vue';
 import ImageGallery from './ImageGallery.vue';
+import TabBar from './TabBar.vue';
 
 const route = useRoute()
 const productId = ref(route.params.id ? route.params.id as string : '');
@@ -63,6 +56,14 @@ const productImages = ref([
   'https://via.placeholder.com/600x400?text=Image+2',
   'https://via.placeholder.com/600x400?text=Image+3',
   'https://via.placeholder.com/600x400?text=Image+4',
+]);
+
+const links = ref([
+  { id: 'details', label: '产品详情' },
+  { id: 'safety', label: '安全保障' },
+  { id: 'reviews', label: '客户评价' },
+  { id: 'seller', label: '关于商家' },
+  { id: 'recommendations', label: '为您推荐' },
 ]);
 </script>
 
