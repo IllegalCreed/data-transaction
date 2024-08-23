@@ -53,6 +53,20 @@ const sections = ref([
   { id: 'seller', label: '关于商家', component: markRaw(SellerSection), props: { sellerId: productId.value } },
   { id: 'recommendations', label: '为您推荐', component: markRaw(RecommendationsSection), props: { productId: productId.value } },
 ]);
+
+const fetchData = () => {
+  // 这里放置获取数据的逻辑
+  console.log(`Fetching data for product ID: ${productId.value}`);
+};
+
+onMounted(() => {
+  fetchData();
+});
+
+watch(() => route.params.id, (newId) => {
+  productId.value = newId as string;
+  fetchData(); // 每当ID变化时重新获取数据
+});
 </script>
 
 <style scoped lang="scss">
