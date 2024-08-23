@@ -8,7 +8,7 @@
     <!-- 规格选择 -->
     <div mt-4>
       <div flex flex-row items-start space-x-4 mb-2 v-for="(group, groupIndex) in specGroups" :key="groupIndex">
-        <label mt-3.5 text-sm min-w-18>{{ group.name }}</label>
+        <label mt-3 text-sm min-w-18>{{ group.name }}</label>
         <div flex flex-row items-center flex-wrap>
           <div v-for="(spec, specIndex) in group.specs" :key="specIndex"
             :class="['custom-radio-button', { 'selected': selectedSpecs[groupIndex] === spec }]"

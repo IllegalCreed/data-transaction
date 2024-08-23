@@ -18,8 +18,7 @@ const activeSection = ref<string>('details');
 const isSticky = ref(false);
 const tabBar = ref<HTMLElement | null>(null);
 
-// 自定义滚动偏移量，比如100px
-const offset = 90;
+const offset = 150;
 
 const scrollToSection = (id: string) => {
   const section = document.getElementById(id);
@@ -38,7 +37,7 @@ const updateActiveSection = () => {
     const section = document.getElementById(link.id);
     if (section) {
       const rect = section.getBoundingClientRect();
-      if (rect.top <= 100) {
+      if (rect.top <= 151) {
         activeSection.value = link.id;
       }
     }

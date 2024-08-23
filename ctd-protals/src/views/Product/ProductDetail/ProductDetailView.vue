@@ -9,7 +9,7 @@
       <div class="content-sections">
         <section id="details">
           <span>产品详情</span>
-          <details-section />
+          <details-section :product-id="productId" />
         </section>
         <section id="safety">
           <span>安全保障</span>
@@ -21,11 +21,11 @@
         </section>
         <section id="seller">
           <span>关于商家</span>
-          <seller-section />
+          <seller-section :seller-id="productId" />
         </section>
         <section id="recommendations">
           <span>为您推荐</span>
-          <recommendations-section />
+          <recommendations-section :product-id="productId" />
         </section>
       </div>
     </div>
@@ -38,6 +38,11 @@
 import ControlPanel from './ControlPanel.vue';
 import ImageGallery from './ImageGallery.vue';
 import TabBar from './TabBar.vue';
+import DetailsSection from './DetailsSection.vue';
+import SafetySection from './SafetySection.vue';
+import ReviewsSection from './ReviewsSection.vue';
+import SellerSection from './SellerSection.vue';
+import RecommendationsSection from './RecommendationsSection.vue';
 
 const route = useRoute()
 const productId = ref(route.params.id ? route.params.id as string : '');
@@ -79,7 +84,11 @@ const links = ref([
   }
 
   section>span {
-    @apply block text-6 font-bold text-dark mb-4;
+    @apply block relative h-10 text-5 leading-10 font-bold text-dark mb-4 pl-4 bg-slate-100 rounded-r;
+
+    &::before {
+      @apply absolute bg-orange-500 h-10 top-0 left-0 w-1 content-[''];
+    }
   }
 }
 </style>

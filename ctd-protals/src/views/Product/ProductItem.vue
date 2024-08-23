@@ -1,7 +1,9 @@
 <template>
   <el-card shadow="hover" class="product-item-root-container" body-class="product-item-body-container"
     @click="goToProductDetail">
-    <div h-40 m--5 rounded bg-slate-300></div>
+    <div h-40 m--5 rounded bg-slate-300>
+      <img :src="product.imageUrl" object-contain h-full w-full />
+    </div>
     <div flex flex-col flex-1 pt-2 mt-4>
       <span font-bold text-lg mt-2>{{ product.name }}</span>
       <div flex flex-row flex-wrap gap-2 mt-2>
@@ -18,17 +20,11 @@
 </template>
 
 <script setup lang="ts">
+import type { IProduct } from '@/types/product';
 import { useRouter } from 'vue-router';
 
 const props = defineProps<{
-  product: {
-    id: number;
-    name: string;
-    description: string;
-    seller: string;
-    price: number;
-    tags: string[];
-  };
+  product: IProduct;
 }>();
 
 const router = useRouter();
