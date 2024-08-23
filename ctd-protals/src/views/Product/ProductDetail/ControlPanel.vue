@@ -106,7 +106,7 @@ onMounted(async () => {
 
 <style scoped lang="scss">
 .control-panel-root-container {
-  @apply min-w-100;
+  @apply sticky top-30 w-1/3;
 }
 
 .wrap {

@@ -6,32 +6,31 @@
 
       <tab-bar mt-10 :links="links" />
 
-      <!-- 各部分内容 -->
       <div class="content-sections">
-        <section id="details" class="py-8">
-          <h2>产品详情</h2>
-          <p>这里是产品详情的内容...</p>
+        <section id="details">
+          <span>产品详情</span>
+          <details-section />
         </section>
-        <section id="safety" class="py-8">
-          <h2>安全保障</h2>
-          <p>这里是安全保障的内容...</p>
+        <section id="safety">
+          <span>安全保障</span>
+          <safety-section />
         </section>
-        <section id="reviews" class="py-8">
-          <h2>客户评价</h2>
-          <p>这里是客户评价的内容...</p>
+        <section id="reviews">
+          <span>客户评价</span>
+          <reviews-section />
         </section>
-        <section id="seller" class="py-8">
-          <h2>关于商家</h2>
-          <p>这里是关于商家的内容...</p>
+        <section id="seller">
+          <span>关于商家</span>
+          <seller-section />
         </section>
-        <section id="recommendations" class="py-8">
-          <h2>为您推荐</h2>
-          <p>这里是推荐产品的内容...</p>
+        <section id="recommendations">
+          <span>为您推荐</span>
+          <recommendations-section />
         </section>
       </div>
     </div>
 
-    <control-panel class="control-panel" :product-id="productId" />
+    <control-panel :product-id="productId" />
   </div>
 </template>
 
@@ -72,19 +71,15 @@ const links = ref([
   @apply flex flex-row items-start w-300 mx-auto pt-30
 }
 
-.tab-bar {
-  @apply sticky top-0 bg-white z-10;
-}
+.content-sections {
+  @apply pt-10;
 
-.tab-item {
-  @apply py-4 border-b-2 border-transparent hover:border-blue-500;
-}
+  section {
+    @apply mb-16;
+  }
 
-.content-sections section {
-  @apply py-8;
-}
-
-.control-panel {
-  @apply sticky top-30 w-1/3;
+  section>span {
+    @apply block text-6 font-bold text-dark mb-4;
+  }
 }
 </style>
