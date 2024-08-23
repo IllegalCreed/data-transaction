@@ -7,7 +7,7 @@
         <el-rate :model-value="review.rating" size="small" disabled show-score text-color="#ff9900"></el-rate>
       </div>
       <div flex-1></div>
-      <el-button type="text" @click="markAsUseful">
+      <el-button text type="primary" @click="markAsUseful">
         <template #icon>
           <i-icon-park-outline:good-one></i-icon-park-outline:good-one>
         </template>

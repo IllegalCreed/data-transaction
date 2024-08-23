@@ -4,28 +4,12 @@
     <div flex-1 pr-8 min-w-0>
       <image-gallery :images="productImages" />
 
-      <tab-bar mt-10 :links="links" />
+      <tab-bar mt-10 :links="sections.map(section => ({ id: section.id, label: section.label }))" />
 
       <div class="content-sections">
-        <section id="details">
-          <span>产品详情</span>
-          <details-section :product-id="productId" />
-        </section>
-        <section id="safety">
-          <span>安全保障</span>
-          <safety-section />
-        </section>
-        <section id="reviews">
-          <span>客户评价</span>
-          <reviews-section :product-id="productId" />
-        </section>
-        <section id="seller">
-          <span>关于商家</span>
-          <seller-section :seller-id="productId" />
-        </section>
-        <section id="recommendations">
-          <span>为您推荐</span>
-          <recommendations-section :product-id="productId" />
+        <section v-for="section in sections" :id="section.id" :key="section.id">
+          <span>{{ section.label }}</span>
+          <component :is="section.component" v-bind="section.props" />
         </section>
       </div>
     </div>
@@ -62,12 +46,12 @@ const productImages = ref([
   'https://via.placeholder.com/600x400?text=Image+4',
 ]);
 
-const links = ref([
-  { id: 'details', label: '产品详情' },
-  { id: 'safety', label: '安全保障' },
-  { id: 'reviews', label: '客户评价' },
-  { id: 'seller', label: '关于商家' },
-  { id: 'recommendations', label: '为您推荐' },
+const sections = ref([
+  { id: 'details', label: '产品详情', component: markRaw(DetailsSection), props: { productId: productId.value } },
+  { id: 'safety', label: '安全保障', component: markRaw(SafetySection), props: {} },
+  { id: 'reviews', label: '客户评价', component: markRaw(ReviewsSection), props: { productId: productId.value } },
+  { id: 'seller', label: '关于商家', component: markRaw(SellerSection), props: { sellerId: productId.value } },
+  { id: 'recommendations', label: '为您推荐', component: markRaw(RecommendationsSection), props: { productId: productId.value } },
 ]);
 </script>
 

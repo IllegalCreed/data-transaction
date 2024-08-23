@@ -1,6 +1,6 @@
 <template>
   <div class="reviews-section-root-container">
-    <div flex flex-row items-center my-4>
+    <el-card body-class="reviews-section-body-container">
       <div flex flex-col items-center pl-10>
         <span text-orange-500 block text-2xl font-bold mb-4>{{ overallRating }}</span>
         <span text-gray-500 text-sm>综合星级评价</span>
@@ -21,7 +21,7 @@
           </el-select>
         </div>
       </div>
-    </div>
+    </el-card>
 
     <div flex flex-col mt-4>
       <ReviewItem v-for="(review, index) in reviews" :key="index" :review="review" />
@@ -133,6 +133,12 @@ const viewMoreReviews = () => {
 
   &:hover {
     @apply border-gray-300;
+  }
+}
+
+.wrap {
+  :global(.reviews-section-body-container) {
+    @apply flex flex-row items-center;
   }
 }
 </style>
