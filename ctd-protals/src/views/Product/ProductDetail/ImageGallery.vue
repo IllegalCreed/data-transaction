@@ -59,14 +59,12 @@ const scrollToCurrentThumbnail = () => {
   }
 };
 
-// 监听 currentImageIndex 的变化，自动滚动缩略图容器
 watch(currentImageIndex, () => {
   nextTick(() => {
     scrollToCurrentThumbnail();
   });
 });
 
-// 页面加载时确保缩略图容器滚动到当前选中的图片
 onMounted(() => {
   nextTick(() => {
     scrollToCurrentThumbnail();

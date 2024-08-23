@@ -17,7 +17,7 @@
         </section>
         <section id="reviews">
           <span>客户评价</span>
-          <reviews-section />
+          <reviews-section :product-id="productId" />
         </section>
         <section id="seller">
           <span>关于商家</span>
