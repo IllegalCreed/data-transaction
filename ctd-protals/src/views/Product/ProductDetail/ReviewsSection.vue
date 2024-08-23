@@ -125,7 +125,7 @@ const viewMoreReviews = () => {
 }
 
 .filter-item {
-  @apply cursor-pointer p-2 border-2 border-solid border-transparent rounded text-gray-700 text-3;
+  @apply cursor-pointer select-none p-2 border-2 border-solid border-transparent rounded text-gray-700 text-3;
 
   &.selected {
     @apply border-blue-500 text-blue-500;

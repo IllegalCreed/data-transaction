@@ -7,12 +7,12 @@
         <el-rate :model-value="review.rating" size="small" disabled show-score text-color="#ff9900"></el-rate>
       </div>
       <div flex-1></div>
-      <el-button text type="primary" @click="markAsUseful">
+      <el-link type="primary" :underline="false" @click="markAsUseful" select-none>
         <template #icon>
           <i-icon-park-outline:good-one></i-icon-park-outline:good-one>
         </template>
         <span>有用（{{ review.usefulCount }}）</span>
-      </el-button>
+      </el-link>
     </div>
     <div line-height-relaxed>{{ review.content }}</div>
     <div v-if="review.reply" p-4 bg-gray-100 rounded-md mt-4>
