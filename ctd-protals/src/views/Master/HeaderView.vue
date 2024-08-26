@@ -1,24 +1,24 @@
 <template>
   <div class="header-root-container">
     <LogoView w-60></LogoView>
-    <div flex-1></div>
-    <nav flex flex-row items-center space-x-8>
-      <RouterLink v-for="link in links" :key="link.path" :to="link.path" class="nav-item"
+    <nav ref="navMenu" flex-1 min-w-0 flex flex-row items-center justify-center space-x-8>
+      <RouterLink v-for="(link) in visibleLinks" :key="link.path" :to="link.path" class="nav-item"
         :class="{ active: isActive(link.path) }">
         {{ link.label }}
       </RouterLink>
-      <el-dropdown class="ellipsis-menu" trigger="click">
-        <i-lucide:ellipsis class="ellipsis-icon"></i-lucide:ellipsis>
+      <el-dropdown v-if="dropdownLinks.length > 0 && visibleLinks.length > 0" ml-8 trigger="click">
+        <div flex justify-center items-center p-1>
+          <i-lucide:ellipsis cursor-pointer />
+        </div>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item v-for="link in links.slice(3)" :key="link.path" @click="navigateTo(link.path)">
+            <el-dropdown-item v-for="(link) in dropdownLinks" :key="link.path" @click="navigateTo(link.path)">
               {{ link.label }}
             </el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
     </nav>
-    <div flex-1></div>
 
     <div flex flex-row justify-end items-center w-60>
       <div class="search-container" @click="showSearchDialog = true">
@@ -31,12 +31,28 @@
     </div>
 
     <search-dialog v-model="showSearchDialog"></search-dialog>
+
+
+    <!-- 隐藏的宽度计算容器 -->
+    <div absolute invisible flex flex-row items-center justify-center space-x-8>
+      <a ref="hiddenNavItems" v-for="link in links" :key="link.path" :to="link.path" class="nav-item">
+        {{ link.label }}
+      </a>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import type { INavMenu } from '@/types/navMenu';
 import LogoView from './LogoView.vue'
 import SearchDialog from './SearchDialog.vue';
+
+const route = useRoute();
+const router = useRouter();
+
+const isActive = (path: string) => {
+  return route.path === path;
+};
 
 // 导航链接列表
 const links = [
@@ -49,11 +65,50 @@ const links = [
   { path: '/community', label: '社区' },
 ];
 
-const route = useRoute();
-const router = useRouter();
+const visibleLinks = ref<INavMenu[]>(links);
+const dropdownLinks = ref<INavMenu[]>([]);
 
-const isActive = (path: string) => {
-  return route.path === path;
+// 获取导航菜单的容器和每个菜单项的引用
+const navMenu = ref<HTMLElement | null>(null);
+const hiddenNavItems = ref<HTMLElement[]>([]);
+
+
+// 计算可见的菜单项数量
+const updateMenu = () => {
+  if (!navMenu.value) return;
+
+  const dropdownWidth = 56;
+  let containerWidth = navMenu.value.clientWidth + 32
+  let totalWidth = 0;
+
+  hiddenNavItems.value.forEach(item => {
+    totalWidth += item.clientWidth + 32;
+  });
+
+  if (totalWidth > containerWidth) {
+    containerWidth -= dropdownWidth; // 如果超宽，需要减去 el-dropdown 的宽度
+  }
+
+  totalWidth = 0;
+  const tempVisibleLinks: INavMenu[] = [];
+  const tempDropdownLinks: INavMenu[] = [];
+
+  for (let index in links) {
+    const linkElement = hiddenNavItems.value?.[index];
+    if (linkElement) {
+      const linkWidth = linkElement.clientWidth + 32;
+      if (totalWidth + linkWidth < containerWidth) {
+        totalWidth += linkWidth;
+        tempVisibleLinks.push(links[index]);
+      } else {
+        tempDropdownLinks.push(...links.slice(Number(index)));
+        break;
+      }
+    }
+  }
+
+  visibleLinks.value = tempVisibleLinks;
+  dropdownLinks.value = tempDropdownLinks;
 };
 
 const navigateTo = (path: string) => {
@@ -61,6 +116,15 @@ const navigateTo = (path: string) => {
 };
 
 const showSearchDialog = ref(false);
+
+onMounted(() => {
+  updateMenu();
+  window.addEventListener('resize', updateMenu);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', updateMenu);
+});
 </script>
 
 <style scoped lang="scss">
@@ -68,7 +132,7 @@ const showSearchDialog = ref(false);
   @apply flex flex-row items-center h-20 w-full px-20 fixed bg-white shadow min-w-100;
 
   .nav-item {
-    @apply text-gray-600 no-underline text-lg;
+    @apply text-gray-600 no-underline text-lg flex-shrink-0;
   }
 
   .nav-item.active {
@@ -90,26 +154,6 @@ const showSearchDialog = ref(false);
 
   .search-icon {
     @apply mr-2;
-  }
-}
-
-@media (max-width: 1280px) {
-  .nav-item:nth-child(n+4) {
-    display: none;
-  }
-
-  .ellipsis-menu {
-    display: inline-block;
-  }
-}
-
-@media (max-width: 1000px) {
-  .nav-item {
-    display: none;
-  }
-
-  .ellipsis-menu {
-    display: none;
   }
 }
 
