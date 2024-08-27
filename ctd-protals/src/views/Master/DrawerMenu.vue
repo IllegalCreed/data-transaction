@@ -1,0 +1,156 @@
+<template>
+  <el-drawer v-model="model" direction="rtl" :size="300" :with-header="false" :lock-scroll="false">
+    <!-- 用户信息部分 -->
+    <div flex flex-row items-center mb-4>
+      <img w-14 h-14 rounded-full :src="user.avatar" />
+      <div flex flex-col ml-4 space-y-2>
+        <span text-lg font-bold>{{ user.name }}</span>
+        <el-tag>{{ user.role }}</el-tag>
+      </div>
+      <div flex-1></div>
+      <i-material-symbols-light:close
+        self-start
+        cursor-pointer
+        select-none
+        @click="closeDialog"
+      ></i-material-symbols-light:close>
+    </div>
+
+    <el-divider />
+
+    <!-- 个人相关菜单 -->
+    <div
+      class="menu-item"
+      v-for="(item, index) in personalMenuItems"
+      :key="index"
+      @click="navigateTo(item.path)"
+    >
+      <i :class="item.icon"></i>
+      <span>{{ item.label }}</span>
+    </div>
+
+    <el-divider />
+
+    <!-- 导航菜单 -->
+    <div
+      class="menu-item"
+      v-for="(item, index) in navLinks"
+      :key="index"
+      @click="navigateTo(item.path)"
+    >
+      <i :class="item.icon"></i>
+      <span>{{ item.label }}</span>
+    </div>
+
+    <el-divider />
+
+    <!-- 系统设置 -->
+    <div
+      class="menu-item"
+      v-for="(item, index) in systemSettings"
+      :key="index"
+      @click="handleSetting(item.action)"
+    >
+      <i :class="item.icon"></i>
+      <span>{{ item.label }}</span>
+    </div>
+
+    <el-divider />
+
+    <!-- 登出 -->
+    <el-button type="danger" @click="logout">登出</el-button>
+
+    <setting-dialog v-model="isSettingDialogVisible" />
+    <search-dialog v-model="isSearchDialogVisible" />
+  </el-drawer>
+</template>
+
+<script setup lang="ts">
+import SearchDialog from './SearchDialog.vue'
+import SettingDialog from './SettingDialog.vue'
+
+const model = defineModel<boolean>({ required: true })
+const isSettingDialogVisible = ref(false)
+const isSearchDialogVisible = ref(false)
+
+// 用户信息模拟数据
+const user = {
+  avatar: 'https://via.placeholder.com/100',
+  name: '张三',
+  role: '普通用户'
+}
+
+// 导航菜单
+const navLinks = [
+  { path: '/home', label: '首页', icon: 'i-vaadin:home' },
+  { path: '/product', label: '数据交易', icon: 'i-vaadin:money' },
+  { path: '/service', label: '数据服务', icon: 'i-mdi:database' },
+  { path: '/catalog', label: '资产目录', icon: 'i-vaadin:book' },
+  { path: '/consult', label: '资产咨询', icon: 'i-vaadin:info-circle' },
+  { path: '/company', label: '数据生态', icon: 'i-vaadin:globe' },
+  { path: '/community', label: '社区', icon: 'i-vaadin:users' }
+]
+
+// 个人相关菜单
+const personalMenuItems = [
+  { path: '/profile', label: '个人资料', icon: 'i-vaadin:user' },
+  { path: '/cart', label: '我的购物车', icon: 'i-vaadin:cart' },
+  { path: '/orders', label: '我的订单', icon: 'i-mdi:clipboard-list-outline' },
+  { path: '/addresses', label: '地址管理', icon: 'i-mdi:map-marker-outline' },
+  { path: '/favorites', label: '我的收藏', icon: 'i-vaadin:star' },
+  { path: '/comments', label: '我的评论', icon: 'i-vaadin:comment' }
+]
+
+// 系统设置
+const systemSettings = [
+  { label: '系统设置', icon: 'i-vaadin:cog', action: 'settings' },
+  { label: '全局搜索', icon: 'i-vaadin:search', action: 'search' }
+]
+
+const router = useRouter()
+
+const navigateTo = (path: string) => {
+  router.push(path)
+  closeDialog()
+}
+
+const handleSetting = (action: string) => {
+  switch (action) {
+    case 'settings':
+      isSettingDialogVisible.value = true
+      break
+    case 'search':
+      isSearchDialogVisible.value = true
+      break
+    default:
+      break
+  }
+}
+
+const closeDialog = () => {
+  model.value = false
+}
+
+const logout = () => {
+  console.log('Logging out...')
+  closeDialog()
+}
+</script>
+
+<style scoped lang="scss">
+.menu-item {
+  @apply flex flex-row items-center my-4 cursor-pointer select-none;
+
+  i {
+    @apply w-3 h-3 mx-2;
+  }
+
+  span {
+    @apply text-sm;
+  }
+
+  &:hover {
+    @apply opacity-60;
+  }
+}
+</style>

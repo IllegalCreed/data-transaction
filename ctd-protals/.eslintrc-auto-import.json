@@ -308,6 +308,7 @@
     "remToPx": true,
     "stores": true,
     "toggleDark": true,
-    "ISort": true
+    "ISort": true,
+    "useSettingsStore": true
   }
 }
