@@ -142,7 +142,7 @@ const logout = () => {
   @apply flex flex-row items-center my-4 cursor-pointer select-none;
 
   i {
-    @apply w-3 h-3 mx-2;
+    @apply w-3 h-3 mx-4;
   }
 
   span {

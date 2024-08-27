@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@vueuse/core": "^11.0.0",
+    "aos": "3.0.0-beta.6",
     "axios": "^1.7.4",
     "dompurify": "^3.1.6",
     "element-plus": "^2.8.0",
@@ -32,6 +33,7 @@
     "@intlify/unplugin-vue-i18n": "^4.0.0",
     "@rushstack/eslint-patch": "^1.10.4",
     "@tsconfig/node20": "^20.1.4",
+    "@types/aos": "^3.0.7",
     "@types/dompurify": "^3.0.5",
     "@types/jsdom": "^21.1.7",
     "@types/node": "^22.3.0",
