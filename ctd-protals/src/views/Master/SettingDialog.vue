@@ -69,7 +69,7 @@ const changeLanguage = (val: unknown) => {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .setting-item {
   @apply flex flex-row items-center justify-between mb-4;
 }
