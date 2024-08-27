@@ -310,6 +310,7 @@
     "toggleDark": true,
     "ISort": true,
     "useSettingsStore": true,
-    "useMenuStore": true
+    "useMenuStore": true,
+    "useServiceStore": true
   }
 }

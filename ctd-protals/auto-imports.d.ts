@@ -244,6 +244,7 @@ declare global {
   const useScriptTag: typeof import('@vueuse/core')['useScriptTag']
   const useScroll: typeof import('@vueuse/core')['useScroll']
   const useScrollLock: typeof import('@vueuse/core')['useScrollLock']
+  const useServiceStore: typeof import('./src/stores/modules/service')['useServiceStore']
   const useSessionStorage: typeof import('@vueuse/core')['useSessionStorage']
   const useSettingsStore: typeof import('./src/stores/modules/settings')['useSettingsStore']
   const useShare: typeof import('@vueuse/core')['useShare']
