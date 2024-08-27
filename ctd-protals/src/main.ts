@@ -3,11 +3,13 @@ import '@/styles/index.scss'
 import 'virtual:uno.css'
 import 'element-plus/theme-chalk/src/message.scss'
 import 'aos/dist/aos.css'
+import '@/assets/icons'
 
 import { createApp } from 'vue'
 import App from '@/App.vue'
 
 import router from '@/router'
+
 import store from '@/stores'
 import i18n from '@/locales'
 import AOS from 'aos'

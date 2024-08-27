@@ -47,7 +47,7 @@
     <div absolute invisible flex flex-row items-center justify-center space-x-8>
       <a
         ref="hiddenNavItems"
-        v-for="link in links"
+        v-for="link in moduleMenuLinks"
         :key="link.path"
         :to="link.path"
         class="nav-item"
@@ -59,6 +59,7 @@
 </template>
 
 <script setup lang="ts">
+import { useMenuStore } from '@/stores/modules/menu'
 import type { INavMenu } from '@/types/navMenu'
 import LogoView from './LogoView.vue'
 import SearchDialog from './SearchDialog.vue'
@@ -70,22 +71,13 @@ const router = useRouter()
 const isSearchDialogVisible = ref(false)
 const isDrawerMenuVisible = ref(false)
 
+const { moduleMenuLinks } = useMenuStore()
+
 const isActive = (path: string) => {
   return route.path === path
 }
 
-// 导航链接列表
-const links = [
-  { path: '/home', label: '首页' },
-  { path: '/product', label: '数据交易' },
-  { path: '/service', label: '数据服务' },
-  { path: '/catalog', label: '资产目录' },
-  { path: '/consult', label: '资产咨询' },
-  { path: '/company', label: '数据生态' },
-  { path: '/community', label: '社区' }
-]
-
-const visibleLinks = ref<INavMenu[]>(links)
+const visibleLinks = ref<INavMenu[]>(moduleMenuLinks)
 const dropdownLinks = ref<INavMenu[]>([])
 
 // 获取导航菜单的容器和每个菜单项的引用
@@ -112,15 +104,15 @@ const updateMenu = () => {
   const tempVisibleLinks: INavMenu[] = []
   const tempDropdownLinks: INavMenu[] = []
 
-  for (let index in links) {
+  for (let index in moduleMenuLinks) {
     const linkElement = hiddenNavItems.value?.[index]
     if (linkElement) {
       const linkWidth = linkElement.clientWidth + 32
       if (totalWidth + linkWidth < containerWidth) {
         totalWidth += linkWidth
-        tempVisibleLinks.push(links[index])
+        tempVisibleLinks.push(moduleMenuLinks[index])
       } else {
-        tempDropdownLinks.push(...links.slice(Number(index)))
+        tempDropdownLinks.push(...moduleMenuLinks.slice(Number(index)))
         break
       }
     }

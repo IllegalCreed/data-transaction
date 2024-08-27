@@ -34,7 +34,7 @@
     <!-- 导航菜单 -->
     <div
       class="menu-item"
-      v-for="(item, index) in navLinks"
+      v-for="(item, index) in moduleMenuLinks"
       :key="index"
       @click="navigateTo(item.path)"
     >
@@ -66,6 +66,7 @@
 </template>
 
 <script setup lang="ts">
+import { useMenuStore } from '@/stores/modules/menu'
 import SearchDialog from './SearchDialog.vue'
 import SettingDialog from './SettingDialog.vue'
 
@@ -73,23 +74,14 @@ const model = defineModel<boolean>({ required: true })
 const isSettingDialogVisible = ref(false)
 const isSearchDialogVisible = ref(false)
 
+const { moduleMenuLinks } = useMenuStore()
+
 // 用户信息模拟数据
 const user = {
   avatar: 'https://via.placeholder.com/100',
   name: '张三',
   role: '普通用户'
 }
-
-// 导航菜单
-const navLinks = [
-  { path: '/home', label: '首页', icon: 'i-vaadin:home' },
-  { path: '/product', label: '数据交易', icon: 'i-vaadin:money' },
-  { path: '/service', label: '数据服务', icon: 'i-mdi:database' },
-  { path: '/catalog', label: '资产目录', icon: 'i-vaadin:book' },
-  { path: '/consult', label: '资产咨询', icon: 'i-vaadin:info-circle' },
-  { path: '/company', label: '数据生态', icon: 'i-vaadin:globe' },
-  { path: '/community', label: '社区', icon: 'i-vaadin:users' }
-]
 
 // 个人相关菜单
 const personalMenuItems = [

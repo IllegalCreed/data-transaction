@@ -309,6 +309,7 @@
     "stores": true,
     "toggleDark": true,
     "ISort": true,
-    "useSettingsStore": true
+    "useSettingsStore": true,
+    "useMenuStore": true
   }
 }
