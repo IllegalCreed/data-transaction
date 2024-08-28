@@ -28,6 +28,7 @@ declare module 'vue' {
     ElTag: typeof import('element-plus/es')['ElTag']
     ElWatermark: typeof import('element-plus/es')['ElWatermark']
     'IEosIcons:loading': typeof import('~icons/eos-icons/loading')['default']
+    'IEp:topRight': typeof import('~icons/ep/top-right')['default']
     'IFluent:arrowTurnLeftDown20Regular': typeof import('~icons/fluent/arrow-turn-left-down20-regular')['default']
     'IFluent:arrowTurnRightDown20Regular': typeof import('~icons/fluent/arrow-turn-right-down20-regular')['default']
     'IIconamoon:shieldYesFill': typeof import('~icons/iconamoon/shield-yes-fill')['default']
