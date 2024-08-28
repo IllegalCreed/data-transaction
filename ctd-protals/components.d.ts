@@ -27,6 +27,8 @@ declare module 'vue' {
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
     ElTag: typeof import('element-plus/es')['ElTag']
     ElWatermark: typeof import('element-plus/es')['ElWatermark']
+    FilterItem: typeof import('./src/components/FilterItem.vue')['default']
+    FilterListView: typeof import('./src/components/FilterListView.vue')['default']
     'IEosIcons:loading': typeof import('~icons/eos-icons/loading')['default']
     'IEp:topRight': typeof import('~icons/ep/top-right')['default']
     'IFluent:arrowTurnLeftDown20Regular': typeof import('~icons/fluent/arrow-turn-left-down20-regular')['default']
@@ -41,5 +43,7 @@ declare module 'vue' {
     'IVaadin:search': typeof import('~icons/vaadin/search')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SortItem: typeof import('./src/components/SortItem.vue')['default']
+    SortListView: typeof import('./src/components/SortListView.vue')['default']
   }
 }

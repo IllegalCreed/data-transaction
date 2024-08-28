@@ -311,6 +311,8 @@
     "ISort": true,
     "useSettingsStore": true,
     "useMenuStore": true,
-    "useServiceStore": true
+    "useServiceStore": true,
+    "useProductStore": true,
+    "useDemandStore": true
   }
 }

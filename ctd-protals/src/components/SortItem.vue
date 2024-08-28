@@ -1,7 +1,7 @@
 <template>
   <div @click="handleClick" :class="['sort-button', { active: props.active }]">
-    {{ label }}
-    <template v-if="supportsToggle">
+    {{ data.label }}
+    <template v-if="data.supportsToggle">
       <span v-if="order === 'asc'" class="arrow arrow-up">▲</span>
       <span v-else class="arrow arrow-down">▼</span>
     </template>
@@ -9,29 +9,32 @@
 </template>
 
 <script setup lang="ts">
-const props = withDefaults(defineProps<{
-  label: string;
-  value: string;
-  supportsToggle?: boolean;
-  active?: boolean;
-  order?: 'asc' | 'desc';
-}>(), {
-  active: false,
-  order: 'desc',
-})
+import type { ISortItem } from '@/types/sorting'
 
-const order = ref(props.order);
+const props = withDefaults(
+  defineProps<{
+    data: ISortItem
+    active?: boolean
+    order?: 'asc' | 'desc'
+  }>(),
+  {
+    active: false,
+    order: 'desc'
+  }
+)
+
+const order = ref(props.order)
 
 const emit = defineEmits<{
-  (e: 'update:sort', value: ISort): void;
-}>();
+  (e: 'update:sort', value: ISort): void
+}>()
 
 const handleClick = () => {
-  if (props.supportsToggle) {
-    order.value = order.value === 'desc' ? 'asc' : 'desc';
+  if (props.data.supportsToggle) {
+    order.value = order.value === 'desc' ? 'asc' : 'desc'
   }
-  emit('update:sort', { sortType: props.value, order: order.value });
-};
+  emit('update:sort', { sortType: props.data.id, order: order.value })
+}
 </script>
 
 <style scoped lang="scss">

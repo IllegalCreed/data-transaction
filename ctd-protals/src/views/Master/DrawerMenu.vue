@@ -88,7 +88,7 @@ const personalMenuItems = [
   { path: '/profile', label: '个人资料', icon: 'i-vaadin:user' },
   { path: '/cart', label: '我的购物车', icon: 'i-vaadin:cart' },
   { path: '/orders', label: '我的订单', icon: 'i-mdi:clipboard-list-outline' },
-  { path: '/addresses', label: '地址管理', icon: 'i-mdi:map-marker-outline' },
+  { path: '/addresses', label: '我的需求', icon: 'i-mdi:map-marker-outline' },
   { path: '/favorites', label: '我的收藏', icon: 'i-vaadin:star' },
   { path: '/comments', label: '我的评论', icon: 'i-vaadin:comment' }
 ]

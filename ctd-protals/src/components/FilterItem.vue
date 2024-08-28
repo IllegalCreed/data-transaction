@@ -1,9 +1,9 @@
 <template>
   <div flex flex-row>
-    <label flex flex-row items-center w-25 h-12 font-bold>{{ props.label }}：</label>
+    <label flex flex-row items-center w-25 h-12 font-bold>{{ data.label }}：</label>
     <div class="content" ref="contentRef">
-      <div v-for="(item, index) in props.items" :key="index" @click="selectItem(item)">
-        <span :class="{ selected: model === item }">{{ item }}</span>
+      <div v-for="item in data.items" :key="item.id" @click="selectItem(item.id)">
+        <span :class="{ selected: model === item.id }">{{ item.label }}</span>
       </div>
     </div>
     <el-button v-if="isToggleVisible" @click="toggle" class="toggle-button">
@@ -13,49 +13,48 @@
 </template>
 
 <script setup lang="ts">
+import type { IFilter } from '@/types/filter'
 
-const props = defineProps<{
-  label: string;
-  items: string[];
-}>();
+defineProps<{
+  data: IFilter
+}>()
 
 const model = defineModel<string>({
-  required: true,
-});
+  required: true
+})
 
-
-const isCollapsed = ref(false);
-const isToggleVisible = ref(false);
-const contentRef = ref<HTMLElement | null>(null);
+const isCollapsed = ref(false)
+const isToggleVisible = ref(false)
+const contentRef = ref<HTMLElement | null>(null)
 
 const toggle = () => {
-  isCollapsed.value = !isCollapsed.value;
+  isCollapsed.value = !isCollapsed.value
   if (contentRef.value) {
     if (isCollapsed.value) {
-      contentRef.value.style.maxHeight = `${contentRef.value.scrollHeight}px`;
+      contentRef.value.style.maxHeight = `${contentRef.value.scrollHeight}px`
     } else {
-      contentRef.value.style.maxHeight = '3rem';
+      contentRef.value.style.maxHeight = '3rem'
     }
   }
-};
+}
 
 const checkToggleVisibility = () => {
   if (contentRef.value) {
-    isToggleVisible.value = contentRef.value.scrollHeight > remToPx(3);
+    isToggleVisible.value = contentRef.value.scrollHeight > remToPx(3)
   }
-};
+}
 
-const selectItem = (item: string) => {
-  model.value = item;
-};
+const selectItem = (id: string) => {
+  model.value = id
+}
 
 onMounted(() => {
   nextTick(() => {
-    checkToggleVisibility();
-  });
-});
+    checkToggleVisibility()
+  })
+})
 
-watch(() => contentRef.value?.scrollHeight, checkToggleVisibility);
+watch(() => contentRef.value?.scrollHeight, checkToggleVisibility)
 </script>
 
 <style scoped lang="scss">
