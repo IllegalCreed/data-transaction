@@ -12,6 +12,8 @@ declare module 'vue' {
     ElCarousel: typeof import('element-plus/es')['ElCarousel']
     ElCarouselItem: typeof import('element-plus/es')['ElCarouselItem']
     ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
+    ElDescriptions: typeof import('element-plus/es')['ElDescriptions']
+    ElDescriptionsItem: typeof import('element-plus/es')['ElDescriptionsItem']
     ElDialog: typeof import('element-plus/es')['ElDialog']
     ElDivider: typeof import('element-plus/es')['ElDivider']
     ElDrawer: typeof import('element-plus/es')['ElDrawer']
@@ -45,5 +47,6 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     SortItem: typeof import('./src/components/SortItem.vue')['default']
     SortListView: typeof import('./src/components/SortListView.vue')['default']
+    TabBar: typeof import('./src/components/TabBar.vue')['default']
   }
 }

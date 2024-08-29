@@ -55,6 +55,11 @@ const router = createRouter({
           path: 'demand',
           name: 'demand',
           component: () => import('@/views/Demand/DemandView.vue')
+        },
+        {
+          path: 'demand/:id',
+          name: 'demand-detail',
+          component: () => import('@/views/Demand/DemandDetail/DemandDetailView.vue')
         }
       ]
     }
