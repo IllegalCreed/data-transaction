@@ -30,7 +30,7 @@
 
       <tab-bar
         mt-10
-        :links="sections.map((section) => ({ id: section.id, label: section.label }))"
+        :links="sections.map((section: ISection) => ({ id: section.id, label: section.label }))"
       />
 
       <div class="content-sections">
@@ -52,6 +52,7 @@ import DetailsSection from './DetailsSection.vue'
 import SafetySection from './SafetySection.vue'
 import RecommendationsSection from './RecommendationsSection.vue'
 import type { TransactionMode } from '@/types/demand'
+import type { ISection } from '@/types/section'
 
 const route = useRoute()
 const demandId = ref(route.params.id ? (route.params.id as string) : '')
@@ -67,7 +68,7 @@ const paymentMethod = ref('按项目付款') // 付款方式
 const publishDate = ref('2024-01-10') // 发布时间
 const expectedCompletionDate = ref('2024-12-31') // 预期完成时间
 
-const sections = ref([
+const sections = ref<ISection[]>([
   {
     id: 'details',
     label: '产品详情',

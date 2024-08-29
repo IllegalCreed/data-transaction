@@ -5,7 +5,7 @@
 
       <tab-bar
         mt-10
-        :links="sections.map((section) => ({ id: section.id, label: section.label }))"
+        :links="sections.map((section: ISection) => ({ id: section.id, label: section.label }))"
       />
 
       <div class="content-sections">
@@ -29,6 +29,7 @@ import SafetySection from './SafetySection.vue'
 import ReviewsSection from './ReviewsSection.vue'
 import SellerSection from './SellerSection.vue'
 import RecommendationsSection from './RecommendationsSection.vue'
+import type { ISection } from '@/types/section'
 
 const route = useRoute()
 const productId = ref(route.params.id ? (route.params.id as string) : '')
@@ -48,7 +49,7 @@ const productImages = ref([
   'https://via.placeholder.com/600x400?text=Image+4'
 ])
 
-const sections = ref([
+const sections = ref<ISection[]>([
   {
     id: 'details',
     label: '产品详情',
