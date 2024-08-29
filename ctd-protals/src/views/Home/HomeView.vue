@@ -9,10 +9,10 @@
     <div self-center flex flex-row space-x-10 mt-10>
       <el-card shadow="always" data-aos="fade-up" w-80 h-100 text-8>数据交易</el-card>
       <el-card shadow="always" data-aos="fade-up" data-aos-delay="100" w-80 h-100 text-8
-        >数据服务</el-card
+        >数据处理</el-card
       >
       <el-card shadow="always" data-aos="fade-up" data-aos-delay="200" w-80 h-100 text-8
-        >资产咨询</el-card
+        >咨询服务</el-card
       >
     </div>
 

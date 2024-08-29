@@ -39,10 +39,9 @@
 import FilterListView from '@/components/FilterListView.vue'
 import SortListView from '@/components/SortListView.vue'
 import DemandItem from './DemandItem.vue'
-import type { IDemand } from '@/types/demand'
 import { useDemandStore } from '@/stores/modules/demand'
 import type { ISortValue } from '@/types/sorting'
-const { filterSource, sortSource } = useDemandStore()
+const { filterSource, sortSource, demands } = useDemandStore()
 
 const sort = ref<ISortValue>({ sortType: 'comprehensive', order: 'desc' as const })
 watch(
@@ -68,8 +67,6 @@ watch(
 
 const searchKey = ref('')
 const select = ref('1')
-
-const demands = ref<IDemand[]>([])
 </script>
 
 <style scoped lang="scss">
