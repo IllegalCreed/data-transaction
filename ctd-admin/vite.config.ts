@@ -12,7 +12,6 @@ import IconsResolver from 'unplugin-icons/resolver'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 Object.assign(process.env, loadEnv(process.env.NODE_ENV as string, process.cwd()))
-
 // https://vitejs.dev/config/
 export default defineConfig({
   base: process.env.VITE_BASE_URL || '/',
@@ -45,8 +44,14 @@ export default defineConfig({
             ['default', 'axios'] // import { default as axios } from 'axios',
           ],
           moment: [['default', 'moment']]
+        },
+        {
+          from: '.src/types',
+          type: true,
+          imports: ['ISort']
         }
       ],
+      dirs: ['./src/utils', './src/composables', './src/apis/**', './src/stores/**'],
       dts: true,
       eslintrc: {
         enabled: true

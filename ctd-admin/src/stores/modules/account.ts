@@ -1,6 +1,7 @@
 import { logoutAPI, loginAPI, getCodeAPI, resetPwdAPI } from '@/apis/account'
 import type { ILogin } from '@/types/Login'
 import { useTokenStore } from './token'
+import { ElNotification } from 'element-plus'
 
 export const useAccountStore = defineStore('account', () => {
   const tokenStore = useTokenStore()
@@ -29,29 +30,32 @@ export const useAccountStore = defineStore('account', () => {
 
   const logout = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      logoutAPI()
-        .then(() => {
-          resolve()
-        })
-        .catch((error) => {
-          reject(error)
-        })
-        .finally(() => {
-          tokenStore.clearToken()
-        })
+      // logoutAPI()
+      //   .then(() => {
+      //     resolve()
+      //   })
+      //   .catch((error) => {
+      //     reject(error)
+      //   })
+      //   .finally(() => {
+      //     tokenStore.clearToken()
+      //   })
+      tokenStore.clearToken()
+      resolve()
     })
   }
 
-  const getCode = (): Promise<any> => {
-    return new Promise<any>((resolve, reject) => {
-      getCodeAPI()
-        .then((res) => {
-          resolve(res)
-        })
-        .catch((error) => {
-          reject(error)
-        })
-        .finally(() => {})
+  const getCode = (): Promise<void> => {
+    return new Promise<void>((resolve, reject) => {
+      // getCodeAPI()
+      //   .then((res) => {
+      //     resolve(res)
+      //   })
+      //   .catch((error) => {
+      //     reject(error)
+      //   })
+      //   .finally(() => {})
+      resolve()
     })
   }
 

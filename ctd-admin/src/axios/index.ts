@@ -82,11 +82,11 @@ axiosInstance.interceptors.response.use(
   (error: Error) => {
     let message: string = error.message
     if (message.includes('Network Error')) {
-      message = '后端接口连接异常'
+      message = '网络异常'
     } else if (message.includes('timeout')) {
-      message = '系统接口请求超时'
+      message = '服务器请求超时'
     } else if (message.includes('Request failed with status code')) {
-      message = '系统接口' + message.substring(message.length - 3) + '异常'
+      message = `服务器异常, 错误码: ${message.substring(message.length - 3)}`
     }
     errorMessage(message)
     return Promise.reject(error)

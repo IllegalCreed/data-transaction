@@ -3,16 +3,44 @@
     <HeaderView></HeaderView>
     <div class="home-center-container">
       <div flex flex-col items-stretch justify-stretch>
-        <div flex flex-row justify-stretch items-center pr-5 h-12 transition-all duration-300 :style="{
-          width: isCollapse ? '4rem' : '18rem',
-          'padding-left': isCollapse ? '1.25rem' : '3rem',
-        }" class="home-menu-header">
+        <div
+          flex
+          flex-row
+          justify-stretch
+          items-center
+          pr-5
+          h-12
+          transition-all
+          duration-300
+          :style="{
+            width: isCollapse ? '4rem' : '18rem',
+            'padding-left': isCollapse ? '1.25rem' : '3rem'
+          }"
+          class="home-menu-header"
+        >
           <span v-show="showText" text-5 font-bold>文旅平台管理端</span>
           <div flex-1></div>
-          <i-oi:collapse-left v-if="!isCollapse" @click="isCollapse = true" w-4 h-4 mx-1></i-oi:collapse-left>
-          <i-oi:collapse-right v-else @click="isCollapse = false" w-4 h-4 mx-1></i-oi:collapse-right>
+          <i-oi:collapse-left
+            v-if="!isCollapse"
+            @click="isCollapse = true"
+            w-4
+            h-4
+            mx-1
+          ></i-oi:collapse-left>
+          <i-oi:collapse-right
+            v-else
+            @click="isCollapse = false"
+            w-4
+            h-4
+            mx-1
+          ></i-oi:collapse-right>
         </div>
-        <el-menu class="home-menu" @select="handleSelect" :default-active="activeIndex" :collapse="isCollapse">
+        <el-menu
+          class="home-menu"
+          @select="handleSelect"
+          :default-active="activeIndex"
+          :collapse="isCollapse"
+        >
           <el-menu-item v-for="menu in menuItems" :key="menu.index" :index="menu.index">
             <el-icon>
               <component :is="menu.icon"></component>
@@ -44,62 +72,54 @@ import {
   RouterView,
   useRouter,
   type RouteLocationNormalized,
-  type _RouteLocationBase,
-} from "vue-router";
-import HeaderView from "./HeaderView.vue";
-import { ref } from "vue";
-import { useRouterStore } from "@/stores/modules/router";
-const { cachedViews } = useRouterStore();
-const router = useRouter();
+  type _RouteLocationBase
+} from 'vue-router'
+import HeaderView from './HeaderView.vue'
+import { ref } from 'vue'
+import { useRouterStore } from '@/stores/modules/router'
+const { cachedViews } = useRouterStore()
+const router = useRouter()
 
-const isCollapse = ref(false);
-const showText = ref(true);
+const isCollapse = ref(false)
+const showText = ref(true)
 watch(isCollapse, (value) => {
   if (value) {
-    showText.value = false;
+    showText.value = false
   } else {
     setTimeout(() => {
-      showText.value = true;
-    }, 300);
+      showText.value = true
+    }, 300)
   }
-});
+})
 
-const activeIndex = ref("user");
+const activeIndex = ref('user')
 const handleSelect = (key: string, keyPath: string[]) => {
-  activeIndex.value = key;
+  activeIndex.value = key
   router.push({
-    name: key,
-  });
-};
+    name: key
+  })
+}
 
 const setCurrentMenu = (route: _RouteLocationBase) => {
-  if (route.name === "home") {
-    return;
+  if (route.name === 'home') {
+    return
   }
-  activeIndex.value = route.meta.belong as string;
-};
+  activeIndex.value = route.meta.belong as string
+}
 
-router.afterEach(
-  (to: RouteLocationNormalized, from: RouteLocationNormalized) => {
-    setCurrentMenu(to);
-  }
-);
+router.afterEach((to: RouteLocationNormalized, from: RouteLocationNormalized) => {
+  setCurrentMenu(to)
+})
 
-setCurrentMenu(router.currentRoute.value);
+setCurrentMenu(router.currentRoute.value)
 
 // 菜单项数据
 const menuItems = ref([
-  { index: 'user', label: '用户管理', icon: 'i-ph:user-bold' },
-  { index: 'article', label: '资讯管理', icon: 'i-bx:file' },
-  { index: 'report', label: '举报管理', icon: 'i-ph:warning-bold' },
-  { index: 'role', label: '角色管理', icon: 'i-octicon:people-16' },
-  { index: 'permission', label: '子系统管理', icon: 'i-icon-park-outline:coordinate-system' },
-  { index: 'notice', label: '通知公告', icon: 'i-gridicons:notice-outline' },
-  { index: 'fast', label: '快捷入口', icon: 'i-gravity-ui:thunderbolt' },
-  { index: 'easy', label: '便捷功能', icon: 'i-radix-icons:accessibility' },
-  { index: 'genuine', label: '正版化软件', icon: 'i-fa6-regular:floppy-disk' },
-  { index: 'setting', label: '系统配置', icon: 'i-fa6-regular:floppy-disk' }
-]);
+  { index: 'user', label: '用户管理', icon: 'i-vaadin:users' },
+  { index: 'product', label: '产品管理', icon: 'i-vaadin:package' },
+  { index: 'demand', label: '需求管理', icon: 'i-vaadin:paperplane' },
+  { index: 'setting', label: '系统配置', icon: 'i-vaadin:cog' }
+])
 </script>
 
 <style scoped>
@@ -137,7 +157,7 @@ const menuItems = ref([
 }
 
 :deep(.el-menu-item.is-active::before) {
-  content: "";
+  content: '';
   position: absolute;
   left: 0;
   top: 0;

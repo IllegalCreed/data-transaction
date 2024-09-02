@@ -33,7 +33,7 @@ const router = createRouter({
           path: '/home/product',
           component: () => import('@/views/Product/ProductView.vue'),
           name: 'product',
-          meta: { belong: 'product', title: '商品管理' }
+          meta: { belong: 'product', title: '产品管理' }
         },
         {
           path: '/home/demand',

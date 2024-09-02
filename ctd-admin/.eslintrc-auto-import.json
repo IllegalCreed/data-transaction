@@ -303,6 +303,21 @@
     "watchTriggerable": true,
     "watchWithFilter": true,
     "whenever": true,
-    "ElNotification": true
+    "ElNotification": true,
+    "ISort": true,
+    "closeHint": true,
+    "deleteHint": true,
+    "errorMessage": true,
+    "getCodeAPI": true,
+    "loginAPI": true,
+    "logoutAPI": true,
+    "resetPwdAPI": true,
+    "stores": true,
+    "successMessage": true,
+    "useAccountStore": true,
+    "useRouterStore": true,
+    "useSettingsStore": true,
+    "useTokenStore": true,
+    "warningMessage": true
   }
 }

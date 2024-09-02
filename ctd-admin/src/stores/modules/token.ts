@@ -1,4 +1,5 @@
 import { ElMessageBox } from 'element-plus'
+import router from '@/router'
 
 export const useTokenStore = defineStore('token', () => {
   const token = useLocalStorage('token', '')
@@ -7,7 +8,7 @@ export const useTokenStore = defineStore('token', () => {
   }
   const clearToken = () => {
     token.value = ''
-    useRouter().replace('/login')
+    router.replace('/login')
   }
 
   let isReloginShow = false

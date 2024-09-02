@@ -1,7 +1,10 @@
+// import 'element-plus/theme-chalk/base.css'
+
 import '@/assets/main.css'
 import '@/styles/index.scss'
 import 'virtual:uno.css'
 import 'element-plus/theme-chalk/src/message.scss'
+import '@/assets/icons'
 
 import { createApp } from 'vue'
 import App from '@/App.vue'
