@@ -1,6 +1,7 @@
 import { logoutAPI, loginAPI, getCodeAPI, resetPwdAPI } from '@/apis/account'
 import type { ILogin } from '@/types/Login'
 import { useTokenStore } from './token'
+// NOTE: 必须手动引入，否则会覆盖自定义样式
 import { ElNotification } from 'element-plus'
 
 export const useAccountStore = defineStore('account', () => {
@@ -20,6 +21,7 @@ export const useAccountStore = defineStore('account', () => {
               duration: 0
             })
           }
+
           resolve()
         })
         .catch((error: any) => {

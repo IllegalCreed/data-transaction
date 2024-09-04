@@ -1,7 +1,7 @@
 <template>
   <div class="header-root-container">
-    <LogoView w-60></LogoView>
-    <nav ref="navMenu" flex-1 min-w-0 flex flex-row items-center justify-center space-x-8>
+    <LogoView w-30></LogoView>
+    <nav class="nav-menu" ref="navMenu">
       <RouterLink
         v-for="link in visibleLinks"
         :key="link.path"
@@ -29,14 +29,14 @@
       </el-dropdown>
     </nav>
 
-    <div flex flex-row justify-end items-center w-60>
+    <div flex flex-row justify-end items-center w-30>
       <div class="search-container" @click="isSearchDialogVisible = true">
-        <i-vaadin:search class="search-icon"></i-vaadin:search>
+        <i-vaadin:search class="search-icon" h-5 w-5></i-vaadin:search>
         <span>搜索</span>
       </div>
 
-      <ElButton type="primary" mr-5 size="large">登录</ElButton>
-      <i-vaadin:menu cursor-pointer @click="isDrawerMenuVisible = true"></i-vaadin:menu>
+      <!-- <ElButton type="primary" mr-5 size="large">登录</ElButton> -->
+      <i-vaadin:menu cursor-pointer h-5 w-5 @click="isDrawerMenuVisible = true"></i-vaadin:menu>
     </div>
 
     <search-dialog v-model="isSearchDialogVisible"></search-dialog>
@@ -138,7 +138,11 @@ onBeforeUnmount(() => {
 
 <style scoped lang="scss">
 .header-root-container {
-  @apply flex flex-row items-center h-20 w-full px-20 fixed bg-white shadow min-w-100;
+  @apply flex flex-row items-center h-20 w-full px-20 fixed bg-white shadow min-w-80;
+
+  .nav-menu {
+    @apply flex-1 min-w-0 mx-10 flex flex-row items-center justify-center space-x-8;
+  }
 
   .nav-item {
     @apply text-gray-600 no-underline text-lg flex-shrink-0;
@@ -150,7 +154,7 @@ onBeforeUnmount(() => {
 }
 
 .ellipsis-menu {
-  display: none;
+  @apply hidden;
 }
 
 .search-container {
@@ -165,9 +169,17 @@ onBeforeUnmount(() => {
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 40rem) {
+  .header-root-container {
+    @apply justify-between px-10;
+
+    .nav-menu {
+      @apply hidden;
+    }
+  }
+
   .search-container {
-    display: none;
+    @apply hidden;
   }
 }
 </style>

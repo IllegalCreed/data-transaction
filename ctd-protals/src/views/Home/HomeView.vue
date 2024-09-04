@@ -1,38 +1,22 @@
 <template>
-  <div class="home-root-view">
+  <div class="home-root-container">
     <el-carousel height="300px">
       <el-carousel-item v-for="item in 4" :key="item">
-        <h3 class="justify-center" text="2xl">{{ item }}</h3>
+        <h3 justify-center text-2xl>{{ item }}</h3>
       </el-carousel-item>
     </el-carousel>
 
-    <div self-center flex flex-row space-x-10 mt-10>
-      <el-card shadow="always" data-aos="fade-up" w-120 h-100 text-8>数据交易</el-card>
-      <el-card shadow="always" data-aos="fade-up" data-aos-delay="100" w-120 h-100 text-8
-        >数据服务</el-card
-      >
-    </div>
+    <module-panel mt-20 self-center></module-panel>
 
-    <div self-center flex flex-row space-x-10 mt-10>
-      <el-card shadow="always" data-aos="fade-up" data-aos-delay="200" w-120 h-100 text-8
-        >咨询与代办</el-card
-      >
-      <el-card shadow="always" data-aos="fade-up" data-aos-delay="200" w-120 h-100 text-8
-        >需求中心</el-card
-      >
-    </div>
-
-    <el-card shadow="always" data-aos="fade-up" self-center w-250 h-80 text-8 mt-10
-      >政策与资讯</el-card
-    >
+    <el-card shadow="always" data-aos="fade-up" self-center h-80 text-8 mt-10>政策与资讯</el-card>
 
     <div flex justify-center items-center min-w-full bg-blueGray min-h-100 text-8 mt-10>
       商业模式闭环图
     </div>
 
     <div self-center flex flex-row space-x-10 mt-10>
-      <el-card shadow="always" data-aos="fade-up" w-125 h-50 text-8>顶级合作伙伴</el-card>
-      <el-card shadow="always" data-aos="fade-up" data-aos-delay="100" w-125 h-50 text-8
+      <el-card shadow="always" data-aos="fade-up" h-50 text-8>顶级合作伙伴</el-card>
+      <el-card shadow="always" data-aos="fade-up" data-aos-delay="100" h-50 text-8
         >顶级合作伙伴</el-card
       >
     </div>
@@ -44,7 +28,6 @@
       justify-center
       items-center
       self-center
-      w-260
       h-80
       text-8
       mt-10
@@ -53,10 +36,12 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import ModulePanel from './ModulePanel.vue'
+</script>
 
 <style scoped lang="scss">
-.home-root-view {
+.home-root-container {
   @apply flex flex-col;
 }
 
