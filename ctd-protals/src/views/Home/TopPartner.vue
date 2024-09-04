@@ -37,7 +37,7 @@ const partner = [
   @apply flex flex-row justify-between;
 
   .partner-item {
-    @apply flex flex-row items-center space-x-6 w-125 bg-gray-100 p-6;
+    @apply flex flex-row items-center space-x-6 w-125 bg-gray-100 p-4;
 
     .title {
       @apply text-2xl font-bold;
