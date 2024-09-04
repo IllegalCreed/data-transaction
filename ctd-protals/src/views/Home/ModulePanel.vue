@@ -43,12 +43,10 @@ const modules = [
 
 <style scoped lang="scss">
 .module-panel-container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 默认两列 */
-  gap: 2rem; /* 设置网格之间的间距 */
+  @apply grid grid-cols-2 gap-x-20 gap-y-10;
 
   @media (max-width: 75rem) {
-    grid-template-columns: 1fr; /* 当屏幕宽度小于 260px 时，变为一列 */
+    @apply grid-cols-1;
   }
 }
 </style>

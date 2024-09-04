@@ -8,7 +8,7 @@
 
     <module-panel mt-20 self-center></module-panel>
 
-    <el-card shadow="always" data-aos="fade-up" self-center h-80 text-8 mt-10>政策与资讯</el-card>
+    <news-panel mt-20 self-center></news-panel>
 
     <div flex justify-center items-center min-w-full bg-blueGray min-h-100 text-8 mt-10>
       商业模式闭环图
@@ -38,6 +38,7 @@
 
 <script setup lang="ts">
 import ModulePanel from './ModulePanel.vue'
+import NewsPanel from './NewsPanel.vue'
 </script>
 
 <style scoped lang="scss">

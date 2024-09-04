@@ -20,37 +20,21 @@ defineProps<{
 
 <style scoped lang="scss">
 .module-item-container {
-  @apply relative flex flex-col w-120 h-90 p-4;
-}
+  @apply relative flex flex-col w-120;
 
-@media (max-width: 40rem) {
-  .module-item-container {
-    @apply w-120 h-100;
-
-    img {
-      @apply hidden;
-    }
-
-    span {
-      @apply px-10;
-    }
-
-    p {
-      @apply px-10;
-    }
+  @media (max-width: 75rem) {
+    @apply w-136;
   }
-}
 
-@media (max-width: 30rem) {
-  .module-item-container {
-    @apply w-80 h-100;
+  @media (max-width: 40rem) {
+    @apply w-full;
 
     img {
       @apply hidden;
     }
 
     span {
-      @apply px-10;
+      @apply px-10 pt-0;
     }
 
     p {
