@@ -10,35 +10,34 @@
 
     <news-panel mt-20 self-center></news-panel>
 
-    <div flex justify-center items-center min-w-full bg-blueGray min-h-100 text-8 mt-10>
-      商业模式闭环图
-    </div>
-
-    <div self-center flex flex-row space-x-10 mt-10>
-      <el-card shadow="always" data-aos="fade-up" h-50 text-8>顶级合作伙伴</el-card>
-      <el-card shadow="always" data-aos="fade-up" data-aos-delay="100" h-50 text-8
-        >顶级合作伙伴</el-card
-      >
-    </div>
-
-    <el-card
-      shadow="always"
-      data-aos="fade-up"
+    <div
       flex
+      flex-col
       justify-center
       items-center
-      self-center
-      h-80
-      text-8
-      mt-10
-      >合作伙伴列表</el-card
+      min-w-full
+      bg-blueGray
+      min-h-100
+      mt-20
+      px-10
+      space-y-4
+      data-aos="fade-up"
     >
+      <span text-4xl font-bold mb-10>广告图 </span>
+      <span text-lg>严选商家：精选优质商家，确保每一次交易都值得信赖</span>
+      <span text-lg>资金安全：多重安全保障，每笔交易可追溯，让您更放心</span>
+      <span text-lg>国资背书：国资企业背书，政府信用保证，品质无忧 </span>
+      <span text-lg>全程保障：从签约到交付，平台全程护航，安全无忧</span>
+    </div>
+
+    <partner-panel mt-20 self-center />
   </div>
 </template>
 
 <script setup lang="ts">
 import ModulePanel from './ModulePanel.vue'
 import NewsPanel from './NewsPanel.vue'
+import PartnerPanel from './PartnerPanel.vue'
 </script>
 
 <style scoped lang="scss">

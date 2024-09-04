@@ -1,5 +1,5 @@
 <template>
-  <div class="news-panel-container">
+  <div class="news-panel-container" data-aos="fade-up">
     <span text-4xl font-bold self-center>政策与资讯</span>
 
     <div flex flex-row mt-10 space-x-20>
@@ -16,7 +16,9 @@
       </div>
     </div>
 
-    <span self-center text-base text-slate-400 mt-10 cursor-pointer select-none>更多</span>
+    <span self-center text-base text-slate-400 mt-10 cursor-pointer select-none hover:opacity-60
+      >更多</span
+    >
   </div>
 </template>
 
