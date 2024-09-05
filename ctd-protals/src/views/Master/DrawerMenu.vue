@@ -1,5 +1,11 @@
 <template>
-  <el-drawer v-model="model" direction="rtl" :size="300" :with-header="false" :lock-scroll="false">
+  <el-drawer
+    v-model="model"
+    :direction="drawerDirection"
+    :size="drawerSize"
+    :with-header="false"
+    :lock-scroll="drawerLockScroll"
+  >
     <!-- 用户信息部分 -->
     <div flex flex-row items-center mb-4>
       <img w-14 h-14 rounded-full :src="user.avatar" />
@@ -18,47 +24,49 @@
 
     <el-divider />
 
-    <!-- 个人相关菜单 -->
-    <div
-      class="menu-item"
-      v-for="(item, index) in personalMenuItems"
-      :key="index"
-      @click="navigateTo(item.path)"
-    >
-      <i :class="item.icon"></i>
-      <span>{{ item.label }}</span>
+    <div class="menu-container">
+      <!-- 个人相关菜单 -->
+      <div
+        class="menu-item"
+        v-for="(item, index) in personalMenuItems"
+        :key="index"
+        @click="navigateTo(item.path)"
+      >
+        <i :class="item.icon"></i>
+        <span>{{ item.label }}</span>
+      </div>
+
+      <el-divider />
+
+      <!-- 导航菜单 -->
+      <div
+        class="menu-item"
+        v-for="(item, index) in moduleMenuLinks"
+        :key="index"
+        @click="navigateTo(item.path)"
+      >
+        <i :class="item.icon"></i>
+        <span>{{ item.label }}</span>
+      </div>
+
+      <el-divider />
+
+      <!-- 系统设置 -->
+      <div
+        class="menu-item"
+        v-for="(item, index) in systemSettings"
+        :key="index"
+        @click="handleSetting(item.action)"
+      >
+        <i :class="item.icon"></i>
+        <span>{{ item.label }}</span>
+      </div>
+
+      <el-divider />
+
+      <!-- 登出 -->
+      <el-button type="danger" @click="logout">登出</el-button>
     </div>
-
-    <el-divider />
-
-    <!-- 导航菜单 -->
-    <div
-      class="menu-item"
-      v-for="(item, index) in moduleMenuLinks"
-      :key="index"
-      @click="navigateTo(item.path)"
-    >
-      <i :class="item.icon"></i>
-      <span>{{ item.label }}</span>
-    </div>
-
-    <el-divider />
-
-    <!-- 系统设置 -->
-    <div
-      class="menu-item"
-      v-for="(item, index) in systemSettings"
-      :key="index"
-      @click="handleSetting(item.action)"
-    >
-      <i :class="item.icon"></i>
-      <span>{{ item.label }}</span>
-    </div>
-
-    <el-divider />
-
-    <!-- 登出 -->
-    <el-button type="danger" @click="logout">登出</el-button>
 
     <setting-dialog v-model="isSettingDialogVisible" />
     <search-dialog v-model="isSearchDialogVisible" />
@@ -127,11 +135,45 @@ const logout = () => {
   console.log('Logging out...')
   closeDialog()
 }
+
+const drawerSize = ref('300px') // 默认size
+const drawerDirection = ref<'rtl' | 'ltr' | 'ttb' | 'btt'>('rtl') // 默认方向
+const drawerLockScroll = ref(false)
+
+// 监听窗口大小变化
+const handleResize = () => {
+  if (window.matchMedia('(max-width: 40rem)').matches) {
+    drawerSize.value = '100%'
+    drawerDirection.value = 'ttb'
+    drawerLockScroll.value = true
+  } else {
+    drawerSize.value = '300px'
+    drawerDirection.value = 'rtl'
+    drawerLockScroll.value = false
+  }
+}
+
+onMounted(() => {
+  handleResize()
+  window.addEventListener('resize', handleResize)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', handleResize)
+})
 </script>
 
 <style scoped lang="scss">
+.menu-container {
+  @apply flex flex-col;
+
+  @media (max-width: 40rem) {
+    @apply items-center;
+  }
+}
+
 .menu-item {
-  @apply flex flex-row items-center my-4 cursor-pointer select-none hover:opacity-60;
+  @apply flex flex-row items-center my-2 cursor-pointer select-none hover:opacity-60;
 
   i {
     @apply w-3 h-3 mx-4;
@@ -139,6 +181,16 @@ const logout = () => {
 
   span {
     @apply text-sm;
+  }
+
+  @media (max-width: 40rem) {
+    i {
+      @apply hidden;
+    }
+
+    span {
+      @apply text-xl;
+    }
   }
 }
 </style>

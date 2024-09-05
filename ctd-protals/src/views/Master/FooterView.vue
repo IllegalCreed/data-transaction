@@ -179,7 +179,7 @@ const aboutLinks = [
   }
 
   @media (max-width: 40rem) {
-    @apply flex flex-col h-auto py-8 space-y-4;
+    @apply flex flex-col h-auto py-8 px-10 space-y-4;
 
     div {
       @apply flex flex-col space-x-0 space-y-2;
