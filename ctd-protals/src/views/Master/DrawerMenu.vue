@@ -131,7 +131,7 @@ const logout = () => {
 
 <style scoped lang="scss">
 .menu-item {
-  @apply flex flex-row items-center my-4 cursor-pointer select-none;
+  @apply flex flex-row items-center my-4 cursor-pointer select-none hover:opacity-60;
 
   i {
     @apply w-3 h-3 mx-4;
@@ -139,10 +139,6 @@ const logout = () => {
 
   span {
     @apply text-sm;
-  }
-
-  &:hover {
-    @apply opacity-60;
   }
 }
 </style>

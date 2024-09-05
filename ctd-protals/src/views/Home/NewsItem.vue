@@ -20,11 +20,7 @@ defineProps<{
   @apply flex flex-row items-center border-b-1 border-b-dashed cursor-pointer select-none pb-4;
 
   .title {
-    @apply flex-1 text-base border-gray-500 overflow-hidden whitespace-nowrap text-ellipsis;
-
-    &:hover {
-      @apply opacity-60;
-    }
+    @apply flex-1 text-base border-gray-500 overflow-hidden whitespace-nowrap text-ellipsis hover:opacity-60;
   }
 
   .time {
