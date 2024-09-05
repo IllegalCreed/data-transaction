@@ -24,7 +24,16 @@
 
     <oauth-link-group />
 
-    <span text-xs mt-4>还没有账号？<span @click="goRegister" text-red-500>注册</span></span>
+    <span text-xs mt-4
+      >还没有账号？<span
+        @click="goRegister"
+        text-red-500
+        cursor-pointer
+        select-none
+        hover:opacity-60
+        >注册</span
+      ></span
+    >
   </div>
 </template>
 
