@@ -35,7 +35,13 @@
         </div>
       </div>
     </div>
-    <div flex justify-center items-center h-10 bg-dark text-white>备案信息</div>
+    <div class="filings-root-container">
+      <div flex flex-row flex-wrap space-x-10>
+        <span>经营许可证：京B2-20080224</span>
+        <span>ICP备案号：1234567890</span>
+      </div>
+      <span text-lg>© 2024-现在 北投智慧 版权所有 </span>
+    </div>
   </div>
 </template>
 
@@ -157,6 +163,26 @@ const aboutLinks = [
 
     .qrcode {
       @apply mt-0;
+    }
+  }
+}
+
+.filings-root-container {
+  @apply flex justify-between items-center h-10 px-20 bg-dark text-white;
+
+  @media (max-width: 75rem) {
+    @apply h-20;
+
+    div {
+      @apply flex flex-col space-x-0;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    @apply flex flex-col h-auto py-8 space-y-4;
+
+    div {
+      @apply flex flex-col space-x-0 space-y-2;
     }
   }
 }
