@@ -41,7 +41,7 @@ const goRegister = () => {
 
 <style lang="scss" scoped>
 .login-control-panel {
-  @apply flex flex-col items-center justify-center flex-1 bg-gray-100 rounded-3xl relative;
+  @apply flex flex-col items-center justify-center flex-1 py-20 bg-gray-100 rounded-3xl relative;
 
   .login-input-container {
     @apply flex flex-col w-60 space-y-1;
