@@ -37,10 +37,10 @@
     </div>
     <div class="filings-root-container">
       <div flex flex-row flex-wrap space-x-10>
-        <span>经营许可证：京B2-20080224</span>
-        <span>ICP备案号：1234567890</span>
+        <span text-sm>经营许可证：京B2-20080224</span>
+        <span text-sm>ICP备案号：1234567890</span>
       </div>
-      <span text-lg>© 2024-现在 北投智慧 版权所有 </span>
+      <span>© 2024-现在 北投智慧 版权所有 </span>
     </div>
   </div>
 </template>
