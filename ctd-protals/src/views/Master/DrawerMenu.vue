@@ -136,8 +136,8 @@ const logout = () => {
   closeDialog()
 }
 
-const drawerSize = ref('300px') // 默认size
-const drawerDirection = ref<'rtl' | 'ltr' | 'ttb' | 'btt'>('rtl') // 默认方向
+const drawerSize = ref('300px')
+const drawerDirection = ref<'rtl' | 'ltr' | 'ttb' | 'btt'>('rtl')
 const drawerLockScroll = ref(false)
 
 // 监听窗口大小变化
