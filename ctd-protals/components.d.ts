@@ -52,6 +52,8 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     SortItem: typeof import('./src/components/SortItem.vue')['default']
     SortListView: typeof import('./src/components/SortListView.vue')['default']
+    StepGroup: typeof import('./src/components/StepGroup.vue')['default']
+    StepItem: typeof import('./src/components/StepItem.vue')['default']
     TabBar: typeof import('./src/components/TabBar.vue')['default']
   }
 }

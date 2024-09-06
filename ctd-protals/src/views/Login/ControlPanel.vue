@@ -19,7 +19,7 @@
       <span text-sm cursor-pointer select-none hover:opacity-60>忘记密码</span>
     </div>
 
-    <el-button class="login-button" type="primary">登录</el-button>
+    <el-button class="login-button" type="primary" @click="goHome">登录</el-button>
     <el-divider max-w-60><span text-xs>其他登录方式</span></el-divider>
 
     <oauth-link-group />
@@ -43,8 +43,14 @@ import OauthLinkGroup from './OauthLinkGroup.vue'
 const email = ref('')
 const isRemember = ref(false)
 
+const router = useRouter()
+
+const goHome = () => {
+  router.push('/home')
+}
+
 const goRegister = () => {
-  console.log('goRegister')
+  router.push('/register')
 }
 </script>
 

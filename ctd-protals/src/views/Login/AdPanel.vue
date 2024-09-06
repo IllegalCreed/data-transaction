@@ -6,8 +6,14 @@
       致力于整合和共享全市文化和旅游数据资源，提升信息化服务水平。平台通过数据交易、处理服务和需求发布等功能，为企业和公众提供便捷、安全的数字化解决方案，助力北京市文旅产业的数字化转型与高质量发展。
     </p>
     <div flex-1></div>
-    <el-carousel :interval="5000" arrow="never" indicator-position="outside" height="auto" autoplay>
-      <el-carousel-item v-for="item in carouselItems" :key="item.id" style="height: 12rem">
+    <el-carousel
+      :interval="5000"
+      arrow="never"
+      indicator-position="outside"
+      height="12rem"
+      autoplay
+    >
+      <el-carousel-item v-for="item in carouselItems" :key="item.id">
         <ad-carousel-item
           :title="item.title"
           :comment="item.comment"
