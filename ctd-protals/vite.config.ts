@@ -16,10 +16,10 @@ Object.assign(process.env, loadEnv(process.env.NODE_ENV as string, process.cwd()
 export default defineConfig({
   base: process.env.VITE_BASE_URL || '/',
   server: {
-    port: 5300,
+    port: 9001,
     proxy: {
       '/dev-api': {
-        target: 'http://localhost:6300',
+        target: 'http://localhost:9001',
         changeOrigin: true,
         rewrite: (p) => p.replace(/^\/dev-api/, '')
       }

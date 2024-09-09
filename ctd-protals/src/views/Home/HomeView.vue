@@ -1,8 +1,8 @@
 <template>
   <div class="home-root-container">
     <el-carousel height="300px">
-      <el-carousel-item v-for="item in 4" :key="item">
-        <h3 justify-center text-2xl>{{ item }}</h3>
+      <el-carousel-item v-for="(item, index) in banners" :key="index">
+        <img :src="item" alt="Banner" class="banner-image" />
       </el-carousel-item>
     </el-carousel>
 
@@ -38,6 +38,11 @@
 import ModulePanel from './ModulePanel.vue'
 import NewsPanel from './NewsPanel.vue'
 import PartnerPanel from './PartnerPanel.vue'
+
+const banners = [
+  new URL('@/assets/banner1.jpg', import.meta.url).href,
+  new URL('@/assets/banner2.jpg', import.meta.url).href
+]
 </script>
 
 <style scoped lang="scss">
@@ -45,19 +50,17 @@ import PartnerPanel from './PartnerPanel.vue'
   @apply flex flex-col;
 }
 
-.el-carousel__item h3 {
-  color: #475669;
-  opacity: 0.75;
-  line-height: 300px;
-  margin: 0;
-  text-align: center;
+.banner-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .el-carousel__item:nth-child(2n) {
-  @apply bg-blueGray;
+  @apply bg-#114064;
 }
 
 .el-carousel__item:nth-child(2n + 1) {
-  @apply bg-slate-300;
+  @apply bg-#053A89;
 }
 </style>
