@@ -3,7 +3,7 @@
     <span absolute top-10 left-10 text-2xl font-bold>LOGO</span>
     <span
       absolute
-      top-10
+      top-11
       right-10
       text-sm
       text-gray-500
@@ -38,6 +38,16 @@ const steps = [
 ]
 
 const currentStep = ref(0)
+
+const route = useRoute()
+const token = route.query.token
+if (token) {
+  console.log('激活 token 存在:', token)
+  provide('token', token)
+  currentStep.value = 3
+} else {
+  console.log('激活 token 不存在')
+}
 
 const panels = [RoleSelector, BaseInfo, EmailSended, EmailValidate]
 const includePanels = ref(['RoleSelector', 'BaseInfo', 'EmailSended', 'EmailValidate'])

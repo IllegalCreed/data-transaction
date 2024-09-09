@@ -13,17 +13,35 @@
           label-position="top"
         >
           <el-form-item label="邮箱" prop="email">
-            <el-input v-model="baseInfo.email" />
+            <el-input v-model="baseInfo.email" placeholder="邮箱地址将作为您的登录账号" />
           </el-form-item>
 
           <el-form-item label="密码" prop="password">
-            <el-input v-model="baseInfo.password" type="password" />
+            <el-input
+              v-model="baseInfo.password"
+              type="password"
+              placeholder="至少8位包含大小写字母数字及特殊符号"
+            />
           </el-form-item>
 
           <el-form-item label="确认密码" prop="confirmPassword">
-            <el-input v-model="baseInfo.confirmPassword" type="password" />
+            <el-input
+              v-model="baseInfo.confirmPassword"
+              type="password"
+              placeholder="请再次输入密码"
+            />
           </el-form-item>
         </el-form>
+
+        <span w-full text-xs text-right mb-4
+          >已经注册过但未激活？点击<span
+            @click="reSendEmail"
+            text-red-500
+            cursor-pointer
+            select-none
+            >重新发送激活邮件</span
+          ></span
+        >
       </div>
 
       <person-info
@@ -54,7 +72,7 @@ const { baseInfo } = registerStore
 const baseForm = ref<FormInstance>()
 const personFormRef = ref<{ validateForm: () => Promise<boolean> } | null>(null)
 const enterpriseFormRef = ref<{ validateForm: () => Promise<boolean> } | null>(null)
-const validateOnSubmit = true
+const validateOnSubmit = false
 
 const validateNewPwd = (rule: any, value: any, callback: any) => {
   const regex =
@@ -116,6 +134,15 @@ const handleSubmit = async (): Promise<boolean> => {
   return subFormValid
 }
 
+const reSendEmail = () => {
+  if (baseInfo.email) {
+    registerStore.reSendEmail(baseInfo.email)
+    emit('nextStep')
+  } else {
+    ElMessage.error('请输入邮箱地址')
+  }
+}
+
 const emit = defineEmits(['nextStep', 'prevStep'])
 const handleNextStep = async () => {
   if (validateOnSubmit) {
@@ -147,7 +174,7 @@ const handlePrevStep = () => {
 
   @media (max-width: 30rem) {
     .form {
-      @apply w-60 mt-4;
+      @apply w-70 mt-4;
     }
   }
 }

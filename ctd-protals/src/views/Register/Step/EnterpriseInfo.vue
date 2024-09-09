@@ -133,7 +133,7 @@ defineExpose({
   @apply w-80 mt-4;
 
   @media (max-width: 30rem) {
-    @apply w-60;
+    @apply w-70;
   }
 }
 </style>

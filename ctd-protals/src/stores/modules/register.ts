@@ -34,11 +34,16 @@ export const useRegisterStore = defineStore('register', () => {
     confirmPassword: ''
   })
 
+  const reSendEmail = (email: string) => {
+    console.log('重新发送邮件', email)
+  }
+
   return {
     userIdentity,
     setUserIdentity,
     personalInfo,
     enterpriseInfo,
-    baseInfo
+    baseInfo,
+    reSendEmail
   }
 })
