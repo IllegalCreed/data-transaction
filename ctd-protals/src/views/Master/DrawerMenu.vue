@@ -75,8 +75,11 @@
 
 <script setup lang="ts">
 import { useMenuStore } from '@/stores/modules/menu'
+import { useAccountStore } from '@/stores/modules/account'
 import SearchDialog from './SearchDialog.vue'
 import SettingDialog from './SettingDialog.vue'
+
+const { logout: logoutAction } = useAccountStore()
 
 const model = defineModel<boolean>({ required: true })
 const isSettingDialogVisible = ref(false)
@@ -132,8 +135,8 @@ const closeDialog = () => {
 }
 
 const logout = () => {
-  console.log('Logging out...')
   closeDialog()
+  logoutAction()
 }
 
 const drawerSize = ref('300px')

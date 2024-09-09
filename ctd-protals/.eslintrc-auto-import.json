@@ -313,6 +313,13 @@
     "useMenuStore": true,
     "useServiceStore": true,
     "useProductStore": true,
-    "useDemandStore": true
+    "useDemandStore": true,
+    "useRegisterStore": true,
+    "useAccountStore": true,
+    "useTokenStore": true,
+    "getCodeAPI": true,
+    "loginAPI": true,
+    "logoutAPI": true,
+    "resetPwdAPI": true
   }
 }
