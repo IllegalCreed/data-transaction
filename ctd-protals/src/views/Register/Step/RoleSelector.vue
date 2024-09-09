@@ -36,7 +36,7 @@ import { useRegisterStore } from '@/stores/modules/register'
 const emit = defineEmits(['nextStep'])
 const handleNextStep = () => {
   if (registerStore.userIdentity) {
-    emit('nextStep', registerStore.userIdentity)
+    emit('nextStep')
   } else {
     ElMessage.error('请选择一个身份')
   }
