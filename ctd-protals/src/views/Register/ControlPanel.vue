@@ -1,10 +1,24 @@
 <template>
   <div class="register-control-panel">
     <span absolute top-10 left-10 text-2xl font-bold>LOGO</span>
+    <span
+      absolute
+      top-10
+      right-10
+      text-sm
+      text-gray-500
+      hover:opacity-60
+      cursor-pointer
+      select-none
+      @click="goLogin"
+      >返回登录</span
+    >
     <step-group :steps="steps" :currentStep="currentStep" self-stretch />
 
     <div flex-1 w-full mt-10>
-      <component :is="currentPanel" />
+      <keep-alive :include="includePanels">
+        <component :is="currentPanel" @nextStep="nextStep" @prevStep="prevStep" />
+      </keep-alive>
     </div>
   </div>
 </template>
@@ -26,8 +40,27 @@ const steps = [
 const currentStep = ref(0)
 
 const panels = [RoleSelector, BaseInfo, EmailSended, EmailValidate]
+const includePanels = ref(['RoleSelector', 'BaseInfo', 'EmailSended', 'EmailValidate'])
 
 const currentPanel = computed(() => panels[currentStep.value])
+
+const nextStep = () => {
+  if (currentStep.value < steps.length - 1) {
+    currentStep.value++
+  }
+}
+
+const prevStep = () => {
+  if (currentStep.value > 0) {
+    currentStep.value--
+  }
+}
+
+const router = useRouter()
+
+const goLogin = () => {
+  router.push('/login')
+}
 </script>
 
 <style lang="scss" scoped>

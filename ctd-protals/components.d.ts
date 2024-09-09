@@ -32,6 +32,8 @@ declare module 'vue' {
     ElWatermark: typeof import('element-plus/es')['ElWatermark']
     FilterItem: typeof import('./src/components/FilterItem.vue')['default']
     FilterListView: typeof import('./src/components/FilterListView.vue')['default']
+    'ICarbon:enterprise': typeof import('~icons/carbon/enterprise')['default']
+    'ICarbon:user': typeof import('~icons/carbon/user')['default']
     'IEosIcons:loading': typeof import('~icons/eos-icons/loading')['default']
     'IEp:topRight': typeof import('~icons/ep/top-right')['default']
     'IFluent:arrowTurnLeftDown20Regular': typeof import('~icons/fluent/arrow-turn-left-down20-regular')['default']
