@@ -65,7 +65,7 @@
       <el-divider />
 
       <!-- 登出 -->
-      <el-button type="danger" @click="logout">登出</el-button>
+      <el-button type="danger" min-w-30 @click="logout">登出</el-button>
     </div>
 
     <setting-dialog v-model="isSettingDialogVisible" />
@@ -97,7 +97,6 @@ const user = {
 // 个人相关菜单
 const personalMenuItems = [
   { path: '/profile', label: '个人资料', icon: 'i-vaadin:user' },
-  { path: '/cart', label: '我的购物车', icon: 'i-vaadin:cart' },
   { path: '/orders', label: '我的订单', icon: 'i-mdi:clipboard-list-outline' },
   { path: '/addresses', label: '我的需求', icon: 'i-mdi:map-marker-outline' },
   { path: '/favorites', label: '我的收藏', icon: 'i-vaadin:star' },
