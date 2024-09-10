@@ -1,5 +1,11 @@
 <template>
-  <el-dialog v-model="model" title="系统设置" :width="500" :lock-scroll="false">
+  <el-dialog
+    class="setting-dialog-container"
+    v-model="model"
+    title="系统设置"
+    :width="dialogWidth"
+    :lock-scroll="false"
+  >
     <!-- 语言选择 -->
     <div class="setting-item">
       <span>选择语言</span>
@@ -67,9 +73,29 @@ const toggleWatermark = (val: unknown) => {
 const changeLanguage = (val: unknown) => {
   setLanguage(val as string)
 }
+
+const isMobileDevice = useMediaQuery('(max-width: 40rem)')
+
+const dialogWidth = ref('500px')
+// 监听窗口大小变化
+watchEffect(() => {
+  if (isMobileDevice.value) {
+    dialogWidth.value = '100%'
+  } else {
+    dialogWidth.value = '500px'
+  }
+})
 </script>
 
 <style scoped lang="scss">
+.wrap {
+  :global(.setting-dialog-container) {
+    @media (max-width: 40rem) {
+      @apply fixed left-0 right-0 bottom-0 mb-0;
+    }
+  }
+}
+
 .setting-item {
   @apply flex flex-row items-center justify-between mb-4;
 }

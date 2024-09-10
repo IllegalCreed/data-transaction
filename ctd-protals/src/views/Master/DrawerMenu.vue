@@ -142,9 +142,11 @@ const drawerSize = ref('300px')
 const drawerDirection = ref<'rtl' | 'ltr' | 'ttb' | 'btt'>('rtl')
 const drawerLockScroll = ref(false)
 
+const isMobileDevice = useMediaQuery('(max-width: 40rem)')
+
 // 监听窗口大小变化
-const handleResize = () => {
-  if (window.matchMedia('(max-width: 40rem)').matches) {
+watchEffect(() => {
+  if (isMobileDevice.value) {
     drawerSize.value = '100%'
     drawerDirection.value = 'ttb'
     drawerLockScroll.value = true
@@ -153,15 +155,6 @@ const handleResize = () => {
     drawerDirection.value = 'rtl'
     drawerLockScroll.value = false
   }
-}
-
-onMounted(() => {
-  handleResize()
-  window.addEventListener('resize', handleResize)
-})
-
-onBeforeUnmount(() => {
-  window.removeEventListener('resize', handleResize)
 })
 </script>
 
