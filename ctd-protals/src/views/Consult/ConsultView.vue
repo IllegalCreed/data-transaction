@@ -4,60 +4,9 @@
       咨询服务宣传图
     </div>
 
-    <div flex flex-row w-300 mt-20>
-      <img
-        src="https://via.placeholder.com/400x600?text=placeholder"
-        rounded-3xl
-        h-150
-        w-100
-        object-cover
-        data-aos="fade-up"
-      />
-      <div flex flex-col ml-30>
-        <span text-4xl font-bold data-aos="fade-up">为什么选择我们</span>
-        <p text-base text-gray-400 data-aos="fade-up">
-          我们的咨询服务致力于帮助企业实现数据驱动决策，提升数据治理水平，确保数据合规性，并最大化数据资产的商业价值。
-        </p>
-        <div flex-1></div>
-        <div grid grid-cols-2 gap-6 data-aos="fade-up">
-          <el-card
-            v-for="(metric, index) in metrics"
-            :key="index"
-            body-class="quota-item-body-container"
-            shadow="hover"
-          >
-            <span text-2xl font-bold text-center>{{ metric.title }}</span>
-            <span text-orange-500 font-bold text-5xl my-5>{{ metric.value }}</span>
-            <span text-sm text-center text-gray-400>{{ metric.description }}</span>
-          </el-card>
-        </div>
-      </div>
-    </div>
+    <ad-panel mt-20></ad-panel>
 
-    <div flex flex-col items-center min-w-full bg-slate-300 py-15 mt-20>
-      <span text-4xl font-bold data-aos="fade-up">我们提供哪些咨询服务</span>
-      <div grid grid-cols-2 gap-10 mt-20 w-300>
-        <el-card
-          v-for="(service, index) in services"
-          :key="index"
-          body-class="service-item-body-container"
-          shadow="hover"
-          data-aos="fade-up"
-          :data-aos-delay="index * 100"
-        >
-          <div flex items-center>
-            <img :src="service.icon" alt="服务图标" rounded />
-
-            <div flex-1 flex flex-col ml-4>
-              <span text-xl font-bold mb-4>{{ service.title }}</span>
-              <span text-sm text-gray-600>{{ service.description }}</span>
-            </div>
-
-            <i-ep:top-right ml-20 mr-5 h-8 w-8 text-gray />
-          </div>
-        </el-card>
-      </div>
-    </div>
+    <consult-item-panel mt-20></consult-item-panel>
 
     <div flex flex-col items-center mt-20 w-300>
       <span text-4xl font-bold data-aos="fade-up">我们的明星咨询团队</span>
@@ -87,51 +36,8 @@
 </template>
 
 <script setup lang="ts">
-const metrics = [
-  {
-    title: '数据质量提升',
-    value: '30%',
-    description: '通过我们的数据治理和清洗服务，数据质量提升了30%以上。'
-  },
-  {
-    title: '合规性合格率',
-    value: '95%',
-    description: '我们帮助客户的数据合规性审查通过率达到了95%以上。'
-  },
-  {
-    title: '数据利用率',
-    value: '40%',
-    description: '优化的数据管理策略让数据利用率提高了40%。'
-  },
-  {
-    title: '资产价值评估',
-    value: '20%',
-    description: '数据资产的商业价值评估增长了20%，助力企业战略决策。'
-  }
-]
-
-const services = [
-  {
-    icon: 'https://via.placeholder.com/80', // 替换为实际图标链接
-    title: '数据治理咨询',
-    description: '提供全面的数据治理策略，帮助企业有效管理和利用数据资产。'
-  },
-  {
-    icon: 'https://via.placeholder.com/80', // 替换为实际图标链接
-    title: '数据合规性审查',
-    description: '确保数据处理过程符合法律法规和行业标准，保障数据安全与隐私。'
-  },
-  {
-    icon: 'https://via.placeholder.com/80', // 替换为实际图标链接
-    title: '数据资产价值评估',
-    description: '评估数据资产的商业价值，帮助企业制定数据投资策略。'
-  },
-  {
-    icon: 'https://via.placeholder.com/80', // 替换为实际图标链接
-    title: '数据安全审计',
-    description: '审查数据安全性，识别潜在风险，制定安全增强措施。'
-  }
-]
+import AdPanel from './AdPanel.vue'
+import ConsultItemPanel from './ConsultItemPanel.vue'
 
 const companies = [
   {
@@ -157,15 +63,4 @@ const companies = [
 ]
 </script>
 
-<style scoped lang="scss">
-.wrap {
-  :global(.quota-item-body-container) {
-    @apply flex flex-col h-full items-center bg-gray-100;
-  }
-}
-.wrap {
-  :global(.service-item-body-container) {
-    @apply flex flex-row h-full items-center;
-  }
-}
-</style>
+<style scoped lang="scss"></style>

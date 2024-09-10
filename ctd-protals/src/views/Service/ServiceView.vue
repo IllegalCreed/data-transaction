@@ -1,8 +1,6 @@
 <template>
-  <div flex flex-col items-center>
-    <div flex justify-center items-center min-w-full bg-blueGray min-h-100 text-8>
-      数据处理宣传图
-    </div>
+  <div class="service-root-container" flex flex-col items-center>
+    <div class="banner">数据处理宣传图</div>
 
     <service-item
       v-for="service in services"
@@ -32,4 +30,15 @@ import ServiceStepPanel from './ServiceStepPanel.vue'
 const { services } = useServiceStore()
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.service-root-container {
+  .banner {
+    @apply flex justify-center items-center min-w-full bg-blueGray min-h-100 text-8;
+  }
+  @media (max-width: 40rem) {
+    .banner {
+      @apply hidden;
+    }
+  }
+}
+</style>

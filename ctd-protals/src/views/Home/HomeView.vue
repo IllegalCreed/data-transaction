@@ -1,6 +1,6 @@
 <template>
   <div class="home-root-container">
-    <el-carousel height="300px">
+    <el-carousel class="home-carousel" height="300px">
       <el-carousel-item v-for="(item, index) in banners" :key="index">
         <img :src="item" alt="Banner" class="banner-image" />
       </el-carousel-item>
@@ -48,12 +48,16 @@ const banners = [
 <style scoped lang="scss">
 .home-root-container {
   @apply flex flex-col;
+
+  @media (max-width: 40rem) {
+    .home-carousel {
+      @apply hidden;
+    }
+  }
 }
 
 .banner-image {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+  @apply w-full h-full object-contain;
 }
 
 .el-carousel__item:nth-child(2n) {

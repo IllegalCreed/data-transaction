@@ -109,7 +109,7 @@ defineProps<{
   }
 
   @media (max-width: 40rem) {
-    @apply w-100;
+    @apply w-full px-10;
 
     .title {
       @apply text-4xl;
@@ -125,14 +125,16 @@ defineProps<{
   }
 
   @media (max-width: 30rem) {
-    @apply w-70;
-
     .title {
       @apply text-4xl;
     }
 
     .desc {
       @apply text-base;
+    }
+
+    .slogan {
+      @apply text-xs;
     }
 
     img {

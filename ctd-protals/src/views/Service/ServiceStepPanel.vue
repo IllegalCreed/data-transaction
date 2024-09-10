@@ -41,14 +41,14 @@ const steps = [
 
 <style lang="scss" scoped>
 .step-panel-container {
-  @apply grid grid-cols-4 gap-6;
+  @apply grid grid-cols-4 gap-6 max-w-260;
 
   @media (max-width: 75rem) {
-    @apply grid-cols-2;
+    @apply grid-cols-2 gap-x-10 px-20;
   }
 
   @media (max-width: 40rem) {
-    @apply grid-cols-1;
+    @apply grid-cols-1 px-10;
   }
 }
 </style>

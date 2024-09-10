@@ -1,11 +1,11 @@
 <template>
-  <div flex flex-col items-center w-60>
+  <div flex flex-col items-center>
     <div class="step-label">
       {{ stepNumber }}
     </div>
-    <el-card body-class="step-item-body-container" w-60 mt--8>
+    <el-card body-class="step-item-body-container" mt--8>
       <span font-bold text-xl>{{ title }}</span>
-      <p text-sm text-gray-500 h-20>
+      <p class="desc">
         {{ description }}
       </p>
 
@@ -31,6 +31,13 @@ defineProps<{
 <style scoped lang="scss">
 .step-label {
   @apply flex justify-center items-center w-16 h-16 rounded-full font-bold text-lg bg-gray z-10;
+}
+
+.desc {
+  @apply text-sm text-gray-500 h-20;
+  @media (max-width: 40rem) {
+    @apply h-auto;
+  }
 }
 
 .wrap {
