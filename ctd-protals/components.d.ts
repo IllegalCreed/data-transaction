@@ -39,8 +39,6 @@ declare module 'vue' {
     'ICarbon:warning': typeof import('~icons/carbon/warning')['default']
     'IEosIcons:loading': typeof import('~icons/eos-icons/loading')['default']
     'IEp:topRight': typeof import('~icons/ep/top-right')['default']
-    'IFluent:arrowTurnLeftDown20Regular': typeof import('~icons/fluent/arrow-turn-left-down20-regular')['default']
-    'IFluent:arrowTurnRightDown20Regular': typeof import('~icons/fluent/arrow-turn-right-down20-regular')['default']
     'IIc:baselineWechat': typeof import('~icons/ic/baseline-wechat')['default']
     'IIconamoon:shieldYesFill': typeof import('~icons/iconamoon/shield-yes-fill')['default']
     'IIconParkOutline:goodOne': typeof import('~icons/icon-park-outline/good-one')['default']

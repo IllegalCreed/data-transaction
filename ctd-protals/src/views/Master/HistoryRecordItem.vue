@@ -56,16 +56,16 @@ const navigateToDetail = () => {
   @apply cursor-pointer my-2;
 
   &:hover {
-    @apply bg-blue-500 text-white;
+    @apply bg-red-500 text-white;
     /* 背景变为蓝色，文字变为白色 */
   }
 
   .icon-container {
-    @apply flex items-center justify-center;
+    @apply flex items-center justify-center mr-6;
   }
 
   .title {
-    @apply font-bold text-lg;
+    @apply font-bold text-lg line-clamp-1;
   }
 
   .description {
@@ -75,11 +75,17 @@ const navigateToDetail = () => {
   &:hover .description {
     @apply text-white;
   }
+
+  @media (max-width: 40rem) {
+    .icon-container {
+      @apply hidden;
+    }
+  }
 }
 
 .wrap {
   :global(.history-record-item-body-container) {
-    @apply flex flex-row items-center space-x-6 py-2 px-6;
+    @apply flex flex-row items-center py-2 px-6;
   }
 }
 </style>

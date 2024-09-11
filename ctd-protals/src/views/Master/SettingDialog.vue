@@ -76,13 +76,13 @@ const changeLanguage = (val: unknown) => {
 
 const isMobileDevice = useMediaQuery('(max-width: 40rem)')
 
-const dialogWidth = ref('500px')
+const dialogWidth = ref('30rem')
 // 监听窗口大小变化
 watchEffect(() => {
   if (isMobileDevice.value) {
     dialogWidth.value = '100%'
   } else {
-    dialogWidth.value = '500px'
+    dialogWidth.value = '30rem'
   }
 })
 </script>
@@ -91,7 +91,7 @@ watchEffect(() => {
 .wrap {
   :global(.setting-dialog-container) {
     @media (max-width: 40rem) {
-      @apply fixed left-0 right-0 bottom-0 mb-0;
+      @apply fixed left-0 right-0 bottom-0 mb-0 min-w-80;
     }
   }
 }

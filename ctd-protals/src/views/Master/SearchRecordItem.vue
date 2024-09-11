@@ -53,7 +53,7 @@ const navigateToDetail = () => {
 
 <style scoped lang="scss">
 .search-record-item {
-  @apply cursor-pointer my-2;
+  @apply cursor-pointer my-2 shrink-0;
 
   &:hover {
     @apply bg-blue-500 text-white;
@@ -65,7 +65,7 @@ const navigateToDetail = () => {
   }
 
   .title {
-    @apply font-bold text-lg;
+    @apply font-bold text-lg line-clamp-1;
   }
 
   .description {

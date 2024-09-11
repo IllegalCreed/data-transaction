@@ -1,5 +1,6 @@
 <template>
   <el-drawer
+    class="min-w-80"
     v-model="model"
     :direction="drawerDirection"
     :size="drawerSize"
