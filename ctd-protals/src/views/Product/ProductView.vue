@@ -1,9 +1,14 @@
 <template>
   <div class="product-root-container">
-    <div flex flex-col items-center bg-blueGray p-10 w-full>
-      <el-input v-model="searchKey" size="large" placeholder="请输入" class="max-w-150">
-        <template #prepend>
-          <el-select v-model="select" placeholder="Select" size="large" style="width: 115px">
+    <div class="product-header-container">
+      <el-input
+        class="search-input"
+        v-model="searchKey"
+        size="large"
+        :placeholder="searchPlaceholder"
+      >
+        <template v-if="showSearchType" #prepend>
+          <el-select v-model="searchType" placeholder="Select" size="large" style="width: 115px">
             <el-option label="产品名称" value="1" />
             <el-option label="商家名称" value="2" />
           </el-select>
@@ -17,21 +22,27 @@
         </template>
       </el-input>
 
-      <div mt-10>
+      <div class="filter-panel">
         <filter-list-view v-model="filters" :source="filterSource"></filter-list-view>
       </div>
     </div>
 
-    <div flex flex-row mt-10 w-260>
+    <div class="sort-panel">
       <sort-list-view v-model="sort" :source="sortSource"></sort-list-view>
+      <i-mdi:filter-outline w-6 h-6 class="filter-icon"></i-mdi:filter-outline>
     </div>
 
-    <div flex flex-row flex-wrap mt-4 w-260>
+    <div flex flex-row justify-center self-center flex-wrap mt-4 max-w-260>
       <product-item v-for="(product, index) in products" :key="index" :product="product" />
     </div>
 
-    <div flex flex-row justify-end mt-10 w-260>
-      <el-pagination background :total="1000" layout="total, prev, pager, next" />
+    <div class="pager-panel">
+      <el-pagination
+        :pager-count="pagerCount"
+        :background="showPaginationBackground"
+        :total="1000"
+        :layout="paginationLayout"
+      />
     </div>
   </div>
 </template>
@@ -67,11 +78,80 @@ watch(
 )
 
 const searchKey = ref('')
-const select = ref('1')
+const searchType = ref('1')
+
+const searchPlaceholder = ref('')
+const showSearchType = ref(true)
+const paginationLayout = ref('total, prev, pager, next')
+const showPaginationBackground = ref(true)
+const pagerCount = ref(7)
+const isMobileDevice = useMediaQuery('(max-width: 40rem)')
+
+// 监听窗口大小变化
+watchEffect(() => {
+  if (isMobileDevice.value) {
+    searchType.value = '1'
+    showSearchType.value = false
+    searchPlaceholder.value = '请输入商品名称'
+    paginationLayout.value = 'prev, pager, next'
+    showPaginationBackground.value = false
+    pagerCount.value = 5
+  } else {
+    showSearchType.value = true
+    searchPlaceholder.value = '请输入'
+    paginationLayout.value = 'total, prev, pager, next'
+    showPaginationBackground.value = true
+    pagerCount.value = 7
+  }
+})
 </script>
 
 <style scoped lang="scss">
 .product-root-container {
   @apply flex flex-col items-center;
+
+  .product-header-container {
+    @apply flex flex-col items-center bg-blueGray p-10 w-full;
+  }
+
+  .search-input {
+    @apply max-w-160;
+  }
+
+  .filter-panel {
+    @apply mt-10;
+  }
+
+  .sort-panel {
+    @apply flex flex-row items-center justify-between mt-10 max-w-280 w-full px-10;
+    .filter-icon {
+      @apply hidden text-red-500;
+    }
+  }
+
+  .pager-panel {
+    @apply flex flex-row justify-end mt-10 px-10 max-w-280 w-full;
+  }
+
+  @media (max-width: 75rem) {
+  }
+
+  @media (max-width: 40rem) {
+    .product-header-container {
+      @apply p-4;
+    }
+    .filter-panel {
+      @apply hidden;
+    }
+    .sort-panel {
+      @apply px-4 mt-2;
+      .filter-icon {
+        @apply block;
+      }
+    }
+    .pager-panel {
+      @apply justify-center;
+    }
+  }
 }
 </style>

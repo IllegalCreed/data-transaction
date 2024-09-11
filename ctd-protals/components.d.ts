@@ -47,6 +47,7 @@ declare module 'vue' {
     'ILucide:ellipsis': typeof import('~icons/lucide/ellipsis')['default']
     'IMaterialSymbolsLight:close': typeof import('~icons/material-symbols-light/close')['default']
     'IMdi:email': typeof import('~icons/mdi/email')['default']
+    'IMdi:filterOutline': typeof import('~icons/mdi/filter-outline')['default']
     'IMdi:mapMarker': typeof import('~icons/mdi/map-marker')['default']
     'IMdi:phone': typeof import('~icons/mdi/phone')['default']
     'IVaadin:menu': typeof import('~icons/vaadin/menu')['default']

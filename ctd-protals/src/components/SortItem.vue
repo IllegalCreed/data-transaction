@@ -42,12 +42,32 @@ const handleClick = () => {
   @apply flex flex-row items-center p-2 cursor-pointer select-none;
 
   &.active {
-    @apply font-bold text-5 text-orange-500;
+    @apply font-bold text-5 text-red-500;
+  }
+
+  @media (max-width: 40rem) {
+    @apply text-base;
+
+    &.active {
+      @apply font-bold text-base text-red-500;
+    }
+  }
+
+  @media (max-width: 30rem) {
+    @apply text-sm;
+
+    &.active {
+      @apply font-normal text-sm text-red-500;
+    }
   }
 }
 
 .arrow {
   @apply ml-2 text-xs;
+
+  @media (max-width: 40rem) {
+    @apply ml-1;
+  }
 }
 
 .arrow-up {

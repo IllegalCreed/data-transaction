@@ -1,5 +1,5 @@
 <template>
-  <el-card shadow="always" flex flex-col w-260 bg-white px-2>
+  <div px-10 py-4 flex flex-col max-w-260 w-full bg-white rounded>
     <filter-item
       v-for="filter in source"
       :key="filter.id"
@@ -7,7 +7,7 @@
       :modelValue="model.get(filter.id) || 'all'"
       @update:modelValue="(selectedId) => model.set(filter.id, selectedId)"
     ></filter-item>
-  </el-card>
+  </div>
 </template>
 
 <script setup lang="ts">

@@ -54,7 +54,8 @@ onMounted(() => {
   })
 })
 
-watch(() => contentRef.value?.scrollHeight, checkToggleVisibility)
+const { width } = useElementSize(contentRef)
+watch(width, checkToggleVisibility)
 </script>
 
 <style scoped lang="scss">
