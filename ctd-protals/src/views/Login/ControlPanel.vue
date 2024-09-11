@@ -16,7 +16,7 @@
 
     <div flex flex-row justify-between items-center w-60 mt-2>
       <el-checkbox label="记住登录状态" v-model="isRemember" />
-      <span text-sm cursor-pointer select-none hover:opacity-60>忘记密码</span>
+      <span text-sm cursor-pointer select-none hover:opacity-60 @click="goForgot">忘记密码</span>
     </div>
 
     <el-button class="login-button" type="primary" @click="goHome">登录</el-button>
@@ -51,6 +51,10 @@ const goHome = () => {
 
 const goRegister = () => {
   router.push('/register')
+}
+
+const goForgot = () => {
+  router.push('/forgot')
 }
 </script>
 
