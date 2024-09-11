@@ -45,8 +45,6 @@ if (token) {
   console.log('激活 token 存在:', token)
   provide('token', token)
   currentStep.value = 3
-} else {
-  console.log('激活 token 不存在')
 }
 
 const panels = [RoleSelector, BaseInfo, EmailSended, EmailValidate]

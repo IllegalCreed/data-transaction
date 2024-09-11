@@ -52,6 +52,10 @@ const selectIdentity = (identity: string) => {
 .step-btn {
   @apply self-start ml-90 w-30 mb-10;
 
+  @media (max-width: 80rem) {
+    @apply ml-70;
+  }
+
   @media (max-width: 50rem) {
     @apply ml-50;
   }

@@ -55,6 +55,10 @@ defineProps<{
     @apply text-xs text-right text-slate-400;
   }
 
+  @media (max-width: 80rem) {
+    @apply w-100;
+  }
+
   @media (max-width: 50rem) {
     @apply w-80;
   }
