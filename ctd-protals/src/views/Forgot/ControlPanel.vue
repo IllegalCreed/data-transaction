@@ -17,7 +17,12 @@
 
     <div flex-1 w-full mt-10>
       <keep-alive :include="includePanels">
-        <component :is="currentPanel" @nextStep="nextStep" @prevStep="prevStep" />
+        <component
+          :is="currentPanel"
+          @nextStep="nextStep"
+          @prevStep="prevStep"
+          @setStep="setStep"
+        />
       </keep-alive>
     </div>
   </div>
@@ -25,10 +30,10 @@
 
 <script setup lang="ts">
 import StepGroup from '@/components/StepGroup.vue'
-import RoleSelector from './Step/SendEmail.vue'
-import BaseInfo from './Step/ValidateCode.vue'
-import EmailSended from './Step/ResetPassword.vue'
-import EmailValidate from './Step/ResetComplete.vue'
+import SendEmail from './Step/SendEmail.vue'
+import ValidateCode from './Step/ValidateCode.vue'
+import ResetPassword from './Step/ResetPassword.vue'
+import ResetComplete from './Step/ResetComplete.vue'
 
 const steps = [
   { title: '发送邮件' },
@@ -39,8 +44,8 @@ const steps = [
 
 const currentStep = ref(0)
 
-const panels = [RoleSelector, BaseInfo, EmailSended, EmailValidate]
-const includePanels = ref(['RoleSelector', 'BaseInfo', 'EmailSended', 'EmailValidate'])
+const panels = [SendEmail, ValidateCode, ResetPassword, ResetComplete]
+const includePanels = ref(['SendEmail', 'ValidateCode', 'ResetPassword', 'ResetComplete'])
 
 const currentPanel = computed(() => panels[currentStep.value])
 
@@ -53,6 +58,12 @@ const nextStep = () => {
 const prevStep = () => {
   if (currentStep.value > 0) {
     currentStep.value--
+  }
+}
+
+const setStep = (value: number) => {
+  if (value >= 0 && value < steps.length) {
+    currentStep.value = value
   }
 }
 

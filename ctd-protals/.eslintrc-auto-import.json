@@ -320,6 +320,7 @@
     "getCodeAPI": true,
     "loginAPI": true,
     "logoutAPI": true,
-    "resetPwdAPI": true
+    "resetPwdAPI": true,
+    "ElMessage": true
   }
 }

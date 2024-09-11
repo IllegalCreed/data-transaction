@@ -58,5 +58,6 @@ declare module 'vue' {
     StepGroup: typeof import('./src/components/StepGroup.vue')['default']
     StepItem: typeof import('./src/components/StepItem.vue')['default']
     TabBar: typeof import('./src/components/TabBar.vue')['default']
+    VerificationCodeInput: typeof import('./src/components/VerificationCodeInput.vue')['default']
   }
 }
