@@ -141,6 +141,61 @@ export const useDemandStore = defineStore('demand', () => {
       createTime: '2024-01-30',
       status: '已完成',
       tags: ['数据分析', '工具', '开发']
+    },
+    {
+      id: 8,
+      name: '数据分析工具定制开发',
+      description: '开发一个定制化的数据分析工具，支持多种数据源的集成和高级分析功能。',
+      publisher: 'QRS 数据科技',
+      budget: 120000,
+      transactionMode: { type: '比稿' },
+      createTime: '2024-01-30',
+      status: '已完成',
+      tags: ['数据分析', '工具', '开发']
+    },
+    {
+      id: 9,
+      name: '数据分析工具定制开发',
+      description: '开发一个定制化的数据分析工具，支持多种数据源的集成和高级分析功能。',
+      publisher: 'QRS 数据科技',
+      budget: 120000,
+      transactionMode: { type: '比稿' },
+      createTime: '2024-01-30',
+      status: '已完成',
+      tags: ['数据分析', '工具', '开发']
+    },
+    {
+      id: 10,
+      name: '数据分析工具定制开发',
+      description: '开发一个定制化的数据分析工具，支持多种数据源的集成和高级分析功能。',
+      publisher: 'QRS 数据科技',
+      budget: 120000,
+      transactionMode: { type: '比稿' },
+      createTime: '2024-01-30',
+      status: '已完成',
+      tags: ['数据分析', '工具', '开发']
+    },
+    {
+      id: 11,
+      name: '数据分析工具定制开发',
+      description: '开发一个定制化的数据分析工具，支持多种数据源的集成和高级分析功能。',
+      publisher: 'QRS 数据科技',
+      budget: 120000,
+      transactionMode: { type: '比稿' },
+      createTime: '2024-01-30',
+      status: '已完成',
+      tags: ['数据分析', '工具', '开发']
+    },
+    {
+      id: 12,
+      name: '数据分析工具定制开发',
+      description: '开发一个定制化的数据分析工具，支持多种数据源的集成和高级分析功能。',
+      publisher: 'QRS 数据科技',
+      budget: 120000,
+      transactionMode: { type: '比稿' },
+      createTime: '2024-01-30',
+      status: '已完成',
+      tags: ['数据分析', '工具', '开发']
     }
   ])
 

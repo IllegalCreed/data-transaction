@@ -33,16 +33,29 @@
       </div>
     </div>
 
-    <div flex flex-row mt-10 w-260>
+    <div class="sort-panel">
       <sort-list-view v-model="sort" :source="sortSource"></sort-list-view>
+      <i-mdi:filter-outline
+        w-6
+        h-6
+        cursor-pointer
+        select-none
+        class="filter-icon"
+        @click="showFilterDialog = true"
+      ></i-mdi:filter-outline>
     </div>
 
-    <div flex flex-row flex-wrap mt-4 w-260>
+    <div flex flex-row justify-center self-center flex-wrap mt-4 max-w-260>
       <demand-item v-for="(demand, index) in demands" :key="index" :demand="demand" />
     </div>
 
-    <div flex flex-row justify-end mt-10 w-260>
-      <el-pagination background :total="1000" layout="total, prev, pager, next" />
+    <div class="pager-panel">
+      <el-pagination
+        :pager-count="pagerCount"
+        :background="showPaginationBackground"
+        :total="1000"
+        :layout="paginationLayout"
+      />
     </div>
 
     <filter-dialog v-model:show="showFilterDialog" v-model="filters" :source="filterSource" />

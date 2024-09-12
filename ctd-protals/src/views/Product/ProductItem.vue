@@ -92,10 +92,6 @@ watchEffect(() => {
         @apply mt-0;
       }
 
-      .tag-container {
-        @apply gap-2 mt-2;
-      }
-
       .desc {
         @apply text-sm mt-2;
       }
