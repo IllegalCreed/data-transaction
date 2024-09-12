@@ -4,8 +4,8 @@
       v-for="filter in source"
       :key="filter.id"
       :data="filter"
-      :modelValue="model.get(filter.id) || 'all'"
-      @update:modelValue="(selectedId) => model.set(filter.id, selectedId)"
+      :modelValue="model[filter.id] || 'all'"
+      @update:modelValue="(selectedId) => (model[filter.id] = selectedId)"
     ></filter-item>
   </div>
 </template>
@@ -18,7 +18,7 @@ defineProps<{
   source: IFilter[]
 }>()
 
-const model = defineModel<Map<string, string>>({ required: true })
+const model = defineModel<Record<string, string>>({ required: true })
 </script>
 
 <style scoped lang="scss"></style>

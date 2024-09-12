@@ -29,7 +29,14 @@
 
     <div class="sort-panel">
       <sort-list-view v-model="sort" :source="sortSource"></sort-list-view>
-      <i-mdi:filter-outline w-6 h-6 class="filter-icon"></i-mdi:filter-outline>
+      <i-mdi:filter-outline
+        w-6
+        h-6
+        cursor-pointer
+        select-none
+        class="filter-icon"
+        @click="showFilterDialog = true"
+      ></i-mdi:filter-outline>
     </div>
 
     <div flex flex-row justify-center self-center flex-wrap mt-4 max-w-260>
@@ -44,11 +51,14 @@
         :layout="paginationLayout"
       />
     </div>
+
+    <filter-dialog v-model:show="showFilterDialog" v-model="filters" :source="filterSource" />
   </div>
 </template>
 
 <script setup lang="ts">
 import FilterListView from '@/components/FilterListView.vue'
+import FilterDialog from '@/components/FilterDialog.vue'
 import SortListView from '@/components/SortListView.vue'
 import ProductItem from './ProductItem.vue'
 import { useProductStore } from '@/stores/modules/product'
@@ -65,13 +75,20 @@ watch(
   { deep: true }
 )
 
-const filters = ref(new Map<string, string>(filterSource.map((filter) => [filter.id, 'all'])))
+const filters = ref<Record<string, string>>(
+  filterSource.reduce(
+    (acc, filter) => {
+      acc[filter.id] = 'all'
+      return acc
+    },
+    {} as Record<string, string>
+  )
+)
 watch(
   filters,
   (newValue) => {
-    const readableFilters = Object.fromEntries(newValue.entries())
-
-    console.log(`Searching with filters: ${JSON.stringify(readableFilters, null, 2)}`)
+    // 不再使用 entries，因为 newValue 是普通对象
+    console.log(`Searching with filters: ${JSON.stringify(newValue, null, 2)}`)
     // 在这里触发搜索逻辑
   },
   { deep: true }
@@ -79,6 +96,8 @@ watch(
 
 const searchKey = ref('')
 const searchType = ref('1')
+
+const showFilterDialog = ref(false)
 
 const searchPlaceholder = ref('')
 const showSearchType = ref(true)
