@@ -180,12 +180,14 @@ watchEffect(() => {
   }
 
   @media (max-width: 40rem) {
+    @apply my-1;
+
     i {
       @apply hidden;
     }
 
     span {
-      @apply text-xl;
+      @apply text-base;
     }
   }
 }
