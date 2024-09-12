@@ -171,7 +171,7 @@ onBeforeUnmount(() => {
 
 @media (max-width: 40rem) {
   .header-root-container {
-    @apply justify-between px-10;
+    @apply justify-between px-10 h-16;
 
     .nav-menu {
       @apply hidden;
