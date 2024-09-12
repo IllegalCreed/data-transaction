@@ -6,28 +6,26 @@
     :lock-scroll="true"
     title="筛选"
   >
-    <div flex flex-row>
-      <div class="tab-container">
-        <div
-          v-for="(filter, index) in source"
-          :key="filter.id"
-          class="tab-item"
-          :class="{ active: activeTab === String(index) }"
-          @click="activeTab = String(index)"
-        >
-          {{ filter.label }}
-        </div>
+    <div class="tab-container">
+      <div
+        v-for="(filter, index) in source"
+        :key="filter.id"
+        class="tab-item"
+        :class="{ active: activeTab === String(index) }"
+        @click="activeTab = String(index)"
+      >
+        {{ filter.label }}
       </div>
-      <div class="filter-items-container flex-1">
-        <div
-          v-for="item in selectedFilterItems"
-          :key="item.id"
-          class="filter-item"
-          :class="{ selected: modelValue[source[parseInt(activeTab)].id] === item.id }"
-          @click="onSelectFilterItem(item.id)"
-        >
-          {{ item.label }}
-        </div>
+    </div>
+    <div class="filter-items-container">
+      <div
+        v-for="item in selectedFilterItems"
+        :key="item.id"
+        class="filter-item"
+        :class="{ selected: modelValue[source[parseInt(activeTab)].id] === item.id }"
+        @click="onSelectFilterItem(item.id)"
+      >
+        {{ item.label }}
       </div>
     </div>
   </el-dialog>
@@ -61,54 +59,35 @@ const onSelectFilterItem = (itemId: string) => {
 <style lang="scss" scoped>
 .wrap {
   :global(.filter-dialog-container) {
-    @media (max-width: 40rem) {
-      @apply fixed left-0 right-0 bottom-0 mb-0;
-    }
+    @apply fixed left-0 right-0 bottom-0 mb-0 h-80%;
+  }
+
+  :global(.filter-dialog-container .el-dialog__body) {
+    @apply flex flex-row h-full;
   }
 }
 
 .tab-container {
-  width: 200px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  @apply flex flex-col w-25 ml--4 bg-gray-100;
 }
 
 .tab-item {
-  padding: 10px;
-  cursor: pointer;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  text-align: center;
-  background-color: #f5f5f5;
-  transition: background-color 0.3s;
+  @apply cursor-pointer text-center transition-colors p-4;
 }
 
 .tab-item.active {
-  background-color: #409eff;
-  color: white;
+  @apply bg-red-500 text-white;
 }
 
 .filter-items-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  padding-left: 20px;
+  @apply flex-1 self-start flex flex-row items-start justify-start flex-wrap gap-2 pl-4 overflow-y-auto;
 }
 
 .filter-item {
-  padding: 10px;
-  cursor: pointer;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #f5f5f5;
-  transition: background-color 0.3s;
-  text-align: center;
-  width: 100px;
+  @apply px-3 py-1 border-1 border-solid border-gray-300 rounded cursor-pointer text-sm;
 }
 
 .filter-item.selected {
-  background-color: #409eff;
-  color: white;
+  @apply bg-red-500 text-white;
 }
 </style>
