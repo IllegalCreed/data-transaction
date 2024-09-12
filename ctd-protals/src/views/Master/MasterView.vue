@@ -1,7 +1,7 @@
 <template>
   <div class="master-root-container">
     <header-view z-20></header-view>
-    <router-view v-slot="{ Component }" pt-20>
+    <router-view class="router-view" v-slot="{ Component }">
       <transition name="fade" mode="out-in">
         <component :is="Component" />
       </transition>
@@ -17,5 +17,14 @@ import FooterView from './FooterView.vue'
 
 <style scoped lang="scss">
 .master-root-container {
+  .router-view {
+    @apply pt-20;
+  }
+
+  @media (max-width: 40rem) {
+    .router-view {
+      @apply pt-15;
+    }
+  }
 }
 </style>
