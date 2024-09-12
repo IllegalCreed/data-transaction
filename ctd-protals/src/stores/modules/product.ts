@@ -115,7 +115,7 @@ export const useProductStore = defineStore('product', () => {
       description: '先进的智能手表，支持多种健康监测功能。',
       seller: '智能科技有限公司',
       price: 2999,
-      imageUrl: 'https://via.placeholder.com/600x400?text=Product+1'
+      imageUrl: 'https://via.placeholder.com/250x250'
     },
     {
       id: 2,
@@ -124,7 +124,7 @@ export const useProductStore = defineStore('product', () => {
       description: '高音质智能音箱，支持语音控制。',
       seller: '智能科技有限公司',
       price: 799,
-      imageUrl: 'https://via.placeholder.com/600x400?text=Product+2'
+      imageUrl: 'https://via.placeholder.com/250x250'
     },
     {
       id: 3,
@@ -133,7 +133,7 @@ export const useProductStore = defineStore('product', () => {
       description: '全屋智能家居解决方案，便捷、安全。',
       seller: '智能科技有限公司',
       price: 9999,
-      imageUrl: 'https://via.placeholder.com/600x400?text=Product+3'
+      imageUrl: 'https://via.placeholder.com/250x250'
     },
     {
       id: 4,
@@ -142,7 +142,7 @@ export const useProductStore = defineStore('product', () => {
       description: '支持实时心率监测的智能跑步机。',
       seller: '智能科技有限公司',
       price: 4999,
-      imageUrl: 'https://via.placeholder.com/600x400?text=Product+4'
+      imageUrl: 'https://via.placeholder.com/250x250'
     },
     {
       id: 5,
@@ -151,7 +151,7 @@ export const useProductStore = defineStore('product', () => {
       description: '高安全性的智能门锁，支持多种开锁方式。',
       seller: '智能科技有限公司',
       price: 1599,
-      imageUrl: 'https://via.placeholder.com/600x400?text=Product+5'
+      imageUrl: 'https://via.placeholder.com/250x250'
     },
     {
       id: 6,
@@ -160,7 +160,7 @@ export const useProductStore = defineStore('product', () => {
       description: '超高清智能电视，支持HDR10+。',
       seller: '智能科技有限公司',
       price: 6999,
-      imageUrl: 'https://via.placeholder.com/600x400?text=Product+6'
+      imageUrl: 'https://via.placeholder.com/250x250'
     },
     {
       id: 7,
@@ -169,7 +169,7 @@ export const useProductStore = defineStore('product', () => {
       description: '先进的智能手表，支持多种健康监测功能。',
       seller: '智能科技有限公司',
       price: 2999,
-      imageUrl: 'https://via.placeholder.com/600x400?text=Product+1'
+      imageUrl: 'https://via.placeholder.com/250x250'
     },
     {
       id: 8,
@@ -178,7 +178,7 @@ export const useProductStore = defineStore('product', () => {
       description: '高音质智能音箱，支持语音控制。',
       seller: '智能科技有限公司',
       price: 799,
-      imageUrl: 'https://via.placeholder.com/600x400?text=Product+2'
+      imageUrl: 'https://via.placeholder.com/250x250'
     },
     {
       id: 9,
@@ -187,7 +187,7 @@ export const useProductStore = defineStore('product', () => {
       description: '全屋智能家居解决方案，便捷、安全。',
       seller: '智能科技有限公司',
       price: 9999,
-      imageUrl: 'https://via.placeholder.com/600x400?text=Product+3'
+      imageUrl: 'https://via.placeholder.com/250x250'
     },
     {
       id: 10,
@@ -196,7 +196,7 @@ export const useProductStore = defineStore('product', () => {
       description: '支持实时心率监测的智能跑步机。',
       seller: '智能科技有限公司',
       price: 4999,
-      imageUrl: 'https://via.placeholder.com/600x400?text=Product+4'
+      imageUrl: 'https://via.placeholder.com/250x250'
     },
     {
       id: 11,
@@ -205,7 +205,7 @@ export const useProductStore = defineStore('product', () => {
       description: '高安全性的智能门锁，支持多种开锁方式。',
       seller: '智能科技有限公司',
       price: 1599,
-      imageUrl: 'https://via.placeholder.com/600x400?text=Product+5'
+      imageUrl: 'https://via.placeholder.com/250x250'
     },
     {
       id: 12,
@@ -214,7 +214,7 @@ export const useProductStore = defineStore('product', () => {
       description: '超高清智能电视，支持HDR10+。',
       seller: '智能科技有限公司',
       price: 6999,
-      imageUrl: 'https://via.placeholder.com/600x400?text=Product+6'
+      imageUrl: 'https://via.placeholder.com/250x250'
     }
   ])
 

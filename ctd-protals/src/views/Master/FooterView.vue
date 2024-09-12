@@ -29,9 +29,9 @@
             <a class="link-item" href="tel:+1234567890">+1234567890</a>
           </div>
         </div>
-        <div flex flex-col>
-          <i-ic:baseline-wechat class="qrcode" />
-          <img src="https://via.placeholder.com/200x200?text=QRCode" />
+        <div class="qrcode-container">
+          <i-ic:baseline-wechat class="qrcode-icon" />
+          <img class="qrcode-img" src="https://via.placeholder.com/200x200?text=QRCode" />
         </div>
       </div>
     </div>
@@ -146,23 +146,59 @@ const aboutLinks = [
     @apply flex-shrink-0 my-2 w-4 h-4 text-gray-700 mr-4;
   }
 
-  .qrcode {
+  .qrcode-container {
+    @apply flex flex-col;
+  }
+
+  .qrcode-icon {
     @apply mt-12.5 mb-4;
   }
 
   @media (max-width: 75rem) {
     .responsive-container {
-      @apply grid grid-cols-2 gap-10 space-x-0 py-20;
+      @apply grid grid-cols-[repeat(3,auto)] gap-10 space-x-0 py-20;
+    }
+  }
+
+  @media (max-width: 60rem) {
+    .responsive-container {
+      @apply grid-cols-[repeat(2,auto)];
     }
   }
 
   @media (max-width: 40rem) {
     .responsive-container {
-      @apply grid grid-cols-1 gap-10 space-x-0 py-20;
+      @apply grid grid-cols-2 gap-10 space-x-0 p-10;
     }
 
-    .qrcode {
-      @apply mt-0;
+    .link-title {
+      @apply text-lg;
+    }
+
+    .link-item {
+      @apply text-sm;
+    }
+
+    .qrcode-icon {
+      @apply mt-12;
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .responsive-container {
+      @apply p-5;
+    }
+
+    .qrcode-container {
+      @apply grid-col-span-2;
+    }
+
+    .qrcode-icon {
+      @apply mt--8;
+    }
+
+    .qrcode-img {
+      @apply max-w-60;
     }
   }
 }
