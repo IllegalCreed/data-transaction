@@ -84,6 +84,26 @@ watchEffect(() => {
     .img-container {
       @apply m--1;
     }
+
+    .text-container {
+      @apply pt-0 mt-4;
+
+      .title {
+        @apply mt-0;
+      }
+
+      .tag-container {
+        @apply gap-2 mt-2;
+      }
+
+      .desc {
+        @apply text-sm mt-2;
+      }
+
+      .company {
+        @apply text-sm;
+      }
+    }
   }
 
   @media (max-width: 30rem) {
@@ -112,6 +132,10 @@ watchEffect(() => {
 .wrap {
   :global(.product-item-body-container) {
     @apply flex flex-col h-full;
+
+    @media (max-width: 40rem) {
+      @apply p-2;
+    }
 
     @media (max-width: 30rem) {
       @apply p-1;
