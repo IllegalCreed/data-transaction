@@ -5,7 +5,9 @@
       <div flex flex-col flex-1 min-w-0>
         <span text-lg font-bold mb-2>{{ sellerInfo.name }}</span>
         <div flex flex-row items-center space-x-2>
-          <el-tag v-for="(tag, index) in sellerInfo.tags" :key="index" type="info">{{ tag }}</el-tag>
+          <el-tag v-for="(tag, index) in sellerInfo.tags" :key="index" type="info">{{
+            tag
+          }}</el-tag>
         </div>
       </div>
       <el-button type="primary" @click="viewSellerDetails">查看详情</el-button>
@@ -20,29 +22,28 @@
     </div>
 
     <!-- 商家富文本展示 -->
-    <div v-if="sellerInfo" v-html="richTextContent"></div>
+    <div v-if="sellerInfo" v-html="richTextContent" overflow-hidden></div>
   </div>
 </template>
 
-
 <script setup lang="ts">
-import DOMPurify from 'dompurify';
+import DOMPurify from 'dompurify'
 
 const props = defineProps<{
-  sellerId: string;
-}>();
+  sellerId: string
+}>()
 
-const router = useRouter();
+const router = useRouter()
 
 const sellerInfo = ref<{
-  logo: string;
-  name: string;
-  tags: string[];
-} | null>(null);
+  logo: string
+  name: string
+  tags: string[]
+} | null>(null)
 
-const sellerStats = ref<{ title: string; value: string }[] | null>(null);
+const sellerStats = ref<{ title: string; value: string }[] | null>(null)
 
-const richTextContent = ref<string | null>(null);
+const richTextContent = ref<string | null>(null)
 
 const fetchSellerInfo = async (id: string) => {
   console.log('mock get sellerInfo:', id)
@@ -50,9 +51,9 @@ const fetchSellerInfo = async (id: string) => {
   sellerInfo.value = {
     logo: 'https://via.placeholder.com/100',
     name: '智能科技有限公司',
-    tags: ['五星商家', '企业', '1万保证金', '生态创新Top10'],
-  };
-};
+    tags: ['五星商家', '企业', '1万保证金', '生态创新Top10']
+  }
+}
 
 const fetchSellerStats = async (id: string) => {
   console.log('mock get sellerStats:', id)
@@ -61,9 +62,9 @@ const fetchSellerStats = async (id: string) => {
     { title: '评分', value: '4.9/5' },
     { title: '成交量', value: '1500+' },
     { title: '入驻时间', value: '5年' },
-    { title: '服务完成率', value: '98%' },
-  ];
-};
+    { title: '服务完成率', value: '98%' }
+  ]
+}
 
 const fetchRichTextContent = async (id: string) => {
   console.log('mock get sellerRichText:', id)
@@ -72,21 +73,20 @@ const fetchRichTextContent = async (id: string) => {
     <p>智能科技有限公司是一家专注于大数据和人工智能领域的创新企业，致力于为客户提供高效的解决方案。</p>
     <img src="https://via.placeholder.com/600x400?text=About" alt="关于商家的图片">
     <p>公司成立于2010年，已累计服务超过1000家企业，覆盖多个行业，包括金融、医疗、零售等。</p>
-  `;
-  richTextContent.value = DOMPurify.sanitize(rawContent);
-};
+  `
+  richTextContent.value = DOMPurify.sanitize(rawContent)
+}
 
 const viewSellerDetails = () => {
-  router.push(`/seller/${props.sellerId}`);
-};
+  router.push(`/seller/${props.sellerId}`)
+}
 
 onMounted(() => {
-  fetchSellerInfo(props.sellerId);
-  fetchSellerStats(props.sellerId);
-  fetchRichTextContent(props.sellerId);
-});
+  fetchSellerInfo(props.sellerId)
+  fetchSellerStats(props.sellerId)
+  fetchRichTextContent(props.sellerId)
+})
 </script>
-
 
 <style scoped lang="scss">
 .seller-section-root-container {

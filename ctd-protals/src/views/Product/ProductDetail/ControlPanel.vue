@@ -7,12 +7,23 @@
 
     <!-- 规格选择 -->
     <div mt-4>
-      <div flex flex-row items-start space-x-4 mb-2 v-for="(group, groupIndex) in specGroups" :key="groupIndex">
+      <div
+        flex
+        flex-row
+        items-start
+        space-x-4
+        mb-2
+        v-for="(group, groupIndex) in specGroups"
+        :key="groupIndex"
+      >
         <label mt-3 text-sm min-w-18>{{ group.name }}</label>
         <div flex flex-row items-center flex-wrap>
-          <div v-for="(spec, specIndex) in group.specs" :key="specIndex"
-            :class="['custom-radio-button', { 'selected': selectedSpecs[groupIndex] === spec }]"
-            @click="selectSpec(groupIndex, spec)">
+          <div
+            v-for="(spec, specIndex) in group.specs"
+            :key="specIndex"
+            :class="['custom-radio-button', { selected: selectedSpecs[groupIndex] === spec }]"
+            @click="selectSpec(groupIndex, spec)"
+          >
             {{ spec }}
           </div>
         </div>
@@ -27,7 +38,7 @@
 
     <!-- 按钮 -->
     <div flex flex-row justify-stretch space-x-4 mt-6>
-      <el-button flex-1 type="default" size="large" @click="addToCart">加入购物车</el-button>
+      <el-button flex-1 type="default" size="large" @click="addToFav">收藏产品</el-button>
       <el-button flex-1 type="primary" size="large" @click="placeOrder">立即下单</el-button>
     </div>
   </el-card>
@@ -35,26 +46,26 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  productId: string;
-}>();
+  productId: string
+}>()
 
-const productName = ref('');
-const productShotDesc = ref('');
-const specGroups = ref<{ name: string; specs: string[] }[]>([]);
-const selectedSpecs = ref<string[]>([]);
+const productName = ref('')
+const productShotDesc = ref('')
+const specGroups = ref<{ name: string; specs: string[] }[]>([])
+const selectedSpecs = ref<string[]>([])
 
 // 计算价格
-const calculatedPrice = ref(0.00); // 假设这是基础价格
-const isLoading = ref(false);
+const calculatedPrice = ref(0.0) // 假设这是基础价格
+const isLoading = ref(false)
 
 // 模拟接口调用获取商品信息
 const fetchProductInfo = async () => {
-  console.log(`Fetching product info for ID: ${props.productId}`);
-  await new Promise(resolve => setTimeout(resolve, 1000));
+  console.log(`Fetching product info for ID: ${props.productId}`)
+  await new Promise((resolve) => setTimeout(resolve, 1000))
 
   // 模拟返回的数据
-  productName.value = '示例商品';
-  productShotDesc.value = '这是一个示例商品的简短描述';
+  productName.value = '示例商品'
+  productShotDesc.value = '这是一个示例商品的简短描述'
 
   specGroups.value = [
     {
@@ -65,48 +76,48 @@ const fetchProductInfo = async () => {
       name: '购买方式',
       specs: ['包月', '包年', '永久']
     }
-  ];
+  ]
 
   // 初始化选中的规格
-  selectedSpecs.value = specGroups.value.map(group => group.specs[0]);
-};
+  selectedSpecs.value = specGroups.value.map((group) => group.specs[0])
+}
 
 // 模拟获取价格的接口调用
 const fetchPrice = async () => {
-  console.log('Fetching new price for specs:', selectedSpecs.value);
+  console.log('Fetching new price for specs:', selectedSpecs.value)
 
-  await new Promise(resolve => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, 1000))
 
-  calculatedPrice.value = Math.floor(Math.random() * 200) + 100;
-  isLoading.value = false;
-};
-
-// 防抖处理
-const debouncedFetchPrice = useDebounceFn(fetchPrice, 1000);
-
-const selectSpec = (groupIndex: number, spec: string) => {
-  selectedSpecs.value[groupIndex] = spec;
-  isLoading.value = true;
-  debouncedFetchPrice();
+  calculatedPrice.value = Math.floor(Math.random() * 200) + 100
+  isLoading.value = false
 }
 
-const addToCart = () => {
-  console.log(`将 ${productName.value} 添加到购物车，规格: ${selectedSpecs.value.join(', ')}`);
-};
+// 防抖处理
+const debouncedFetchPrice = useDebounceFn(fetchPrice, 1000)
+
+const selectSpec = (groupIndex: number, spec: string) => {
+  selectedSpecs.value[groupIndex] = spec
+  isLoading.value = true
+  debouncedFetchPrice()
+}
+
+const addToFav = () => {
+  console.log(`将 ${productName.value} 添加到收藏夹`)
+}
 
 const placeOrder = () => {
-  console.log(`下单 ${productName.value}，规格: ${selectedSpecs.value.join(', ')}`);
-};
+  console.log(`下单 ${productName.value}，规格: ${selectedSpecs.value.join(', ')}`)
+}
 
 onMounted(async () => {
-  await fetchProductInfo();
-  fetchPrice();
-});
+  await fetchProductInfo()
+  fetchPrice()
+})
 </script>
 
 <style scoped lang="scss">
 .control-panel-root-container {
-  @apply sticky top-30 w-1/3;
+  @apply sticky top-30 w-1/3 min-w-60;
 }
 
 .wrap {

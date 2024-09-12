@@ -1,6 +1,6 @@
 <template>
   <div class="product-detail-root-container">
-    <div flex-1 pr-8 min-w-0>
+    <div class="product-detail-main">
       <image-gallery :images="productImages" />
 
       <tab-bar
@@ -16,7 +16,14 @@
       </div>
     </div>
 
-    <control-panel :product-id="productId" />
+    <control-panel :product-id="productId" class="control-panel" />
+
+    <div class="product-detail-footer">
+      <el-button flex-1 type="default" size="large" @click="addToFav">收藏产品</el-button>
+      <el-button flex-1 type="primary" size="large" @click="isOrderDialogVisiable = true"
+        >立即下单</el-button
+      >
+    </div>
   </div>
 </template>
 
@@ -30,6 +37,12 @@ import ReviewsSection from './ReviewsSection.vue'
 import SellerSection from './SellerSection.vue'
 import RecommendationsSection from './RecommendationsSection.vue'
 import type { ISection } from '@/types/section'
+
+const isOrderDialogVisiable = ref(false)
+
+const addToFav = () => {
+  console.log(`将 ${productId} 添加到收藏夹`)
+}
 
 const route = useRoute()
 const productId = ref(route.params.id ? (route.params.id as string) : '')
@@ -97,7 +110,21 @@ watch(
 
 <style scoped lang="scss">
 .product-detail-root-container {
-  @apply flex flex-row items-start w-300 mx-auto pt-30;
+  @apply flex flex-row items-start max-w-300 mx-auto px-10;
+
+  .product-detail-main {
+    @apply flex-1 pr-8 mt-10 min-w-0;
+  }
+
+  @media (max-width: 75rem) {
+    .product-detail-main {
+      @apply flex-1 pr-0 mt-10 min-w-0;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    @apply px-5;
+  }
 }
 
 .content-sections {
@@ -113,6 +140,24 @@ watch(
     &::before {
       @apply absolute bg-orange-500 h-10 top-0 left-0 w-1 content-[''];
     }
+  }
+}
+
+.control-panel {
+  @media (max-width: 75rem) {
+    @apply hidden;
+  }
+}
+
+.product-detail-footer {
+  @apply hidden  flex-row items-center px-10 fixed bottom-0 left-0 right-0 h-15 min-w-80 bg-white border-t-1 border-t-solid border-t-gray-200;
+
+  @media (max-width: 75rem) {
+    @apply flex;
+  }
+
+  @media (max-width: 40rem) {
+    @apply px-5;
   }
 }
 </style>
