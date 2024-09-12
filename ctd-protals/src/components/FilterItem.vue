@@ -71,7 +71,7 @@ watch(width, checkToggleVisibility)
     }
 
     .selected {
-      @apply border-2 border-solid border-blue-500 rounded;
+      @apply border-2 border-solid border-red-500 rounded;
     }
   }
 }

@@ -54,6 +54,15 @@ const selectedFilterItems = computed(() => {
 const onSelectFilterItem = (itemId: string) => {
   modelValue.value[source[parseInt(activeTab.value)].id] = itemId
 }
+
+const isMobileDevice = useMediaQuery('(max-width: 40rem)')
+
+// 监听窗口大小变化
+watchEffect(() => {
+  if (!isMobileDevice.value) {
+    showModel.value = false
+  }
+})
 </script>
 
 <style lang="scss" scoped>

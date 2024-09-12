@@ -1,5 +1,5 @@
 <template>
-  <div px-10 py-4 flex flex-col max-w-260 w-full bg-white rounded>
+  <div px-10 py-4 flex flex-col bg-white rounded>
     <filter-item
       v-for="filter in source"
       :key="filter.id"

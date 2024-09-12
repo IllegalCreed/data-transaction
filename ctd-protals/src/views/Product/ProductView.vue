@@ -87,7 +87,6 @@ const filters = ref<Record<string, string>>(
 watch(
   filters,
   (newValue) => {
-    // 不再使用 entries，因为 newValue 是普通对象
     console.log(`Searching with filters: ${JSON.stringify(newValue, null, 2)}`)
     // 在这里触发搜索逻辑
   },
@@ -138,7 +137,7 @@ watchEffect(() => {
   }
 
   .filter-panel {
-    @apply mt-10;
+    @apply mt-10 max-w-260 w-full;
   }
 
   .sort-panel {

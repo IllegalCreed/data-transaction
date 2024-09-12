@@ -149,7 +149,7 @@ onBeforeUnmount(() => {
   }
 
   .nav-item.active {
-    @apply text-green-600;
+    @apply text-red-600;
   }
 }
 

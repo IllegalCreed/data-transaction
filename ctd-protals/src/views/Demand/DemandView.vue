@@ -1,22 +1,34 @@
 <template>
   <div class="demand-root-container">
-    <div flex flex-col items-center bg-blueGray p-10 w-full>
-      <el-input v-model="searchKey" size="large" placeholder="请输入" class="max-w-150">
-        <template #prepend>
-          <el-select v-model="select" placeholder="Select" size="large" style="width: 115px">
-            <el-option label="需求名称" value="1" />
-          </el-select>
-        </template>
-        <template #append>
-          <el-button>
-            <template v-slot:icon>
-              <i-vaadin:search></i-vaadin:search>
-            </template>
-          </el-button>
-        </template>
-      </el-input>
+    <div class="demand-header-container">
+      <div flex flex-row justify-between max-w-260 w-full space-x-2>
+        <el-input
+          v-model="searchKey"
+          size="large"
+          placeholder="请输入需求名称"
+          class="search-input"
+        >
+          <template v-if="showSearchType" #prepend>
+            <el-select v-model="searchType" placeholder="Select" size="large" style="width: 115px">
+              <el-option label="需求名称" value="1" />
+            </el-select>
+          </template>
+          <template #append>
+            <el-button>
+              <template v-slot:icon>
+                <i-vaadin:search></i-vaadin:search>
+              </template>
+            </el-button>
+          </template>
+        </el-input>
 
-      <div mt-10>
+        <el-button type="primary" size="large">
+          <span v-if="!isMobileDevice">发布新需求</span>
+          <i-ic:baseline-plus v-else w-6 h-6></i-ic:baseline-plus>
+        </el-button>
+      </div>
+
+      <div class="filter-panel">
         <filter-list-view v-model="filters" :source="filterSource"></filter-list-view>
       </div>
     </div>
@@ -32,6 +44,8 @@
     <div flex flex-row justify-end mt-10 w-260>
       <el-pagination background :total="1000" layout="total, prev, pager, next" />
     </div>
+
+    <filter-dialog v-model:show="showFilterDialog" v-model="filters" :source="filterSource" />
   </div>
 </template>
 
@@ -53,24 +67,97 @@ watch(
   { deep: true }
 )
 
-const filters = ref(new Map<string, string>(filterSource.map((filter) => [filter.id, 'all'])))
+const filters = ref<Record<string, string>>(
+  filterSource.reduce(
+    (acc, filter) => {
+      acc[filter.id] = 'all'
+      return acc
+    },
+    {} as Record<string, string>
+  )
+)
 watch(
   filters,
   (newValue) => {
-    const readableFilters = Object.fromEntries(newValue.entries())
-
-    console.log(`Searching with filters: ${JSON.stringify(readableFilters, null, 2)}`)
+    console.log(`Searching with filters: ${JSON.stringify(newValue, null, 2)}`)
     // 在这里触发搜索逻辑
   },
   { deep: true }
 )
 
 const searchKey = ref('')
-const select = ref('1')
+const searchType = ref('1')
+
+const showFilterDialog = ref(false)
+
+const showSearchType = ref(true)
+const paginationLayout = ref('total, prev, pager, next')
+const showPaginationBackground = ref(true)
+const pagerCount = ref(7)
+const isMobileDevice = useMediaQuery('(max-width: 40rem)')
+
+// 监听窗口大小变化
+watchEffect(() => {
+  if (isMobileDevice.value) {
+    showSearchType.value = false
+    paginationLayout.value = 'prev, pager, next'
+    showPaginationBackground.value = false
+    pagerCount.value = 5
+  } else {
+    showSearchType.value = true
+    paginationLayout.value = 'total, prev, pager, next'
+    showPaginationBackground.value = true
+    pagerCount.value = 7
+  }
+})
 </script>
 
 <style scoped lang="scss">
 .demand-root-container {
   @apply flex flex-col items-center;
+
+  .demand-header-container {
+    @apply flex flex-col items-center bg-blueGray p-10 w-full;
+  }
+
+  .search-input {
+    @apply max-w-160;
+  }
+
+  .filter-panel {
+    @apply mt-10 max-w-260 w-full;
+  }
+
+  .sort-panel {
+    @apply flex flex-row items-center justify-between mt-10 max-w-280 w-full px-10;
+    .filter-icon {
+      @apply hidden text-red-500;
+    }
+  }
+
+  .pager-panel {
+    @apply flex flex-row justify-end mt-10 px-10 max-w-280 w-full;
+  }
+
+  @media (max-width: 75rem) {
+  }
+
+  @media (max-width: 40rem) {
+    .demand-header-container {
+      @apply p-4;
+    }
+    .filter-panel {
+      @apply hidden;
+    }
+    .sort-panel {
+      @apply px-4 mt-2;
+      .filter-icon {
+        @apply block;
+      }
+    }
+    .pager-panel {
+      @apply justify-center;
+    }
+  }
 }
 </style>
