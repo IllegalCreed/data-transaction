@@ -1,10 +1,10 @@
 <template>
   <div class="review-item-root-container">
     <div flex flex-row items-center mb-4>
-      <img :src="props.review.avatar" rounded-full mr-4 />
+      <img class="avatar" :src="props.review.avatar" />
       <div flex flex-col>
-        <span block text-lg font-bold>{{ review.name }}</span>
-        <el-rate :model-value="review.rating" size="small" disabled show-score text-color="#ff9900"></el-rate>
+        <span class="title">{{ review.name }}</span>
+        <el-rate :model-value="review.rating" size="small" disabled text-color="#ff9900"></el-rate>
       </div>
       <div flex-1></div>
       <el-link type="primary" :underline="false" @click="markAsUseful" select-none>
@@ -14,45 +14,60 @@
         <span>有用（{{ review.usefulCount }}）</span>
       </el-link>
     </div>
-    <div line-height-relaxed>{{ review.content }}</div>
-    <div v-if="review.reply" p-4 bg-gray-100 rounded-md mt-4>
-      <span font-semibold mr-2 line-height-relaxed>商家回复：</span>
+    <div class="content">{{ review.content }}</div>
+    <div v-if="review.reply" class="reply">
+      <span font-semibold mr-2>商家回复：</span>
       <span>{{ review.reply }}</span>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { IReview } from '@/types/review';
+import type { IReview } from '@/types/review'
 
 const props = defineProps<{
-  review: IReview;
-}>();
+  review: IReview
+}>()
 
-const markAsUseful = () => {
-};
+const markAsUseful = () => {}
 </script>
 
 <style scoped lang="scss">
 .review-item-root-container {
   @apply flex flex-col border-b border-b-dashed border-b-gray-200 pb-4 mb-6;
-}
 
-.review-avatar {
-  @apply w-12 h-12;
-}
+  .avatar {
+    @apply w-12 h-12 rounded-full mr-4;
+  }
 
+  .title {
+    @apply block text-lg font-bold;
+  }
 
+  .content {
+    @apply text-gray-800 line-height-relaxed;
+  }
 
-.review-content {
-  @apply text-gray-800;
-}
+  .reply {
+    @apply p-4 bg-gray-100 rounded-md mt-4;
+  }
 
-.review-reply {
-  @apply text-gray-600 text-sm;
-}
+  @media (max-width: 30rem) {
+    .avatar {
+      @apply w-10 h-10 rounded-full mr-2;
+    }
 
-.review-actions {
-  @apply flex items-center mt-2;
+    .title {
+      @apply text-base;
+    }
+
+    .content {
+      @apply text-sm line-height-normal;
+    }
+
+    .reply {
+      @apply p-2 text-sm;
+    }
+  }
 }
 </style>

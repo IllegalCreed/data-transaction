@@ -5,16 +5,16 @@
 </template>
 
 <script setup lang="ts">
-import DOMPurify from 'dompurify';
+import DOMPurify from 'dompurify'
 
 const props = defineProps<{
-  productId: string;
-}>();
+  productId: string
+}>()
 
-const productDetails = ref<string | null>(null);
+const productDetails = ref<string | null>(null)
 
 const fetchProductDetails = async (id: string) => {
-  console.log('mock get productDetails for productId:', id);
+  console.log('mock get productDetails for productId:', id)
   const rawContent = `
   <h3>数据产品介绍</h3>
   <p>我们的最新数据产品 <strong>“智能城市数据包”</strong> 提供了广泛的城市数据，包括交通、天气、人口统计等，适用于各类智能城市项目。</p>
@@ -28,7 +28,7 @@ const fetchProductDetails = async (id: string) => {
 
   <h4>应用场景</h4>
   <p>该数据包可用于多个场景，如智能交通管理、城市规划、环境监测等。以下是一个示意图：</p>
-  <img src="https://via.placeholder.com/800x400?text=TestImage" alt="智能城市数据图" />
+  <img src="https://via.placeholder.com/800x400?text=TestImage" alt="智能城市数据图" style="width:100%"/>
 
   <h4>产品示例</h4>
   <p>下面的视频展示了如何使用该数据包创建智能交通管理系统：</p>
@@ -48,13 +48,13 @@ const fetchProductDetails = async (id: string) => {
 
   <p>更多详情，请访问我们的官方网站。</p>
   <a href="https://example.com" target="_blank">点击这里了解更多</a>
-`;
-  productDetails.value = DOMPurify.sanitize(rawContent);
-};
+`
+  productDetails.value = DOMPurify.sanitize(rawContent)
+}
 
 onMounted(() => {
-  fetchProductDetails(props.productId);
-});
+  fetchProductDetails(props.productId)
+})
 </script>
 
 <style lang="scss" scoped>

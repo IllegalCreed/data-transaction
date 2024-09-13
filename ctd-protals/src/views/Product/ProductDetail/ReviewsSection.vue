@@ -158,13 +158,13 @@ const viewMoreReviews = () => {
 }
 
 .filter-container {
-  @apply flex flex-row flex-wrap items-center self-end gap-2;
+  @apply flex flex-row flex-wrap items-center self-end gap-1;
 
   .filter-item {
     @apply cursor-pointer select-none p-2 border-2 border-solid border-transparent rounded text-gray-700 text-xs whitespace-nowrap;
 
     &.selected {
-      @apply border-blue-500 text-blue-500;
+      @apply border-red-500 text-red-500;
     }
 
     &:hover {
@@ -174,10 +174,6 @@ const viewMoreReviews = () => {
 
   @media (max-width: 40rem) {
     @apply self-stretch justify-between;
-  }
-
-  @media (max-width: 30rem) {
-    @apply mb-4;
   }
 }
 
