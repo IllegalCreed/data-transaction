@@ -29,7 +29,7 @@
 
     <control-panel :product-id="productId" class="control-panel" />
 
-    <div class="product-detail-footer">
+    <div v-show="isFooterVisible" class="product-detail-footer">
       <el-button flex-1 type="default" size="large" @click="addToFav">收藏产品</el-button>
       <el-button flex-1 type="primary" size="large" @click="isOrderDialogVisiable = true"
         >立即下单</el-button
@@ -116,8 +116,43 @@ const fetchData = () => {
   console.log(`Fetching data for product ID: ${productId.value}`)
 }
 
+let observer: IntersectionObserver | null = null
+const isFooterVisible = ref(true)
+
 onMounted(() => {
   fetchData()
+
+  const footerElement = document.querySelector('.footer-root-container')
+
+  if (footerElement) {
+    const options = {
+      root: null, // 以视口为根
+      threshold: 0 // 元素可见部分超过 0% 时触发回调
+    }
+
+    observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          // footer 进入视口，隐藏 product-detail-footer
+          isFooterVisible.value = false
+        } else {
+          // footer 离开视口，显示 product-detail-footer
+          isFooterVisible.value = true
+        }
+      })
+    }, options)
+
+    observer.observe(footerElement)
+  } else {
+    console.warn('无法找到 .footer-root-container 元素')
+  }
+})
+
+onUnmounted(() => {
+  // 在组件卸载时停止观察
+  if (observer) {
+    observer.disconnect()
+  }
 })
 
 watch(
