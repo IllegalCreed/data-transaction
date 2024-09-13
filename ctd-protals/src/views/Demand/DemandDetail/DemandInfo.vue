@@ -1,5 +1,5 @@
 <template>
-  <div flex flex-col bg-slate-100 p-8 rounded>
+  <div class="demand-info-root-container">
     <span text-2xl font-bold>{{ name }}</span>
     <div flex flex-row flex-wrap gap-2 mt-2>
       <el-tag v-for="(tag, index) in tags" :key="index" type="danger" size="small">
@@ -80,4 +80,12 @@ watchEffect(() => {
 })
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.demand-info-root-container {
+  @apply flex flex-col bg-slate-100 p-8 rounded;
+
+  @media (max-width: 30rem) {
+    @apply p-4;
+  }
+}
+</style>
