@@ -32,7 +32,6 @@
 
 <script setup lang="ts">
 import type { FormInstance, FormRules } from 'element-plus'
-import { useTemplateRef } from 'vue'
 import { ElMessage } from 'element-plus'
 
 const baseForm = useTemplateRef<FormInstance>('baseForm')

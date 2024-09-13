@@ -23,7 +23,6 @@
 </template>
 
 <script setup lang="ts">
-import { useTemplateRef } from 'vue'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 
 const baseInfo = ref({
