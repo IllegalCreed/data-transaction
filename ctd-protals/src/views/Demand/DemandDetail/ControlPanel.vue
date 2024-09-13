@@ -11,7 +11,10 @@
       <span font-bold text-red-500 text-4xl>￥{{ budget }}</span>
     </div>
 
-    <el-button mt-10 type="primary" size="large" @click="placeOrder">承接需求</el-button>
+    <div flex flex-row justify-stretch space-x-4 mt-6>
+      <el-button flex-1 type="default" size="large" @click="addToFav">收藏需求</el-button>
+      <el-button flex-1 type="primary" size="large" @click="placeOrder">承接需求</el-button>
+    </div>
   </el-card>
 </template>
 
@@ -44,6 +47,10 @@ const placeOrder = () => {
 onMounted(async () => {
   fetchProductInfo()
 })
+
+const addToFav = () => {
+  console.log(`将 ${demandName.value} 添加到收藏夹`)
+}
 </script>
 
 <style scoped lang="scss">

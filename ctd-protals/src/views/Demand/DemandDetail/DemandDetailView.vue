@@ -1,6 +1,6 @@
 <template>
   <div class="demand-detail-root-container">
-    <div flex-1 pr-8 min-w-0>
+    <div class="demand-detail-main">
       <div flex flex-col bg-slate-100 p-8 rounded>
         <span text-2xl font-bold>{{ name }}</span>
         <div flex flex-row flex-wrap gap-2 mt-2>
@@ -41,7 +41,14 @@
       </div>
     </div>
 
-    <control-panel :demand-id="demandId" />
+    <control-panel :demand-id="demandId" class="control-panel" />
+
+    <div class="demand-detail-footer">
+      <el-button flex-1 type="default" size="large" @click="addToFav">收藏产品</el-button>
+      <el-button flex-1 type="primary" size="large" @click="isOrderDialogVisiable = true"
+        >立即下单</el-button
+      >
+    </div>
   </div>
 </template>
 
@@ -53,6 +60,12 @@ import SafetySection from './SafetySection.vue'
 import RecommendationsSection from './RecommendationsSection.vue'
 import type { TransactionMode } from '@/types/demand'
 import type { ISection } from '@/types/section'
+
+const isOrderDialogVisiable = ref(false)
+
+const addToFav = () => {
+  console.log(`将 ${demandId} 添加到收藏夹`)
+}
 
 const route = useRoute()
 const demandId = ref(route.params.id ? (route.params.id as string) : '')
@@ -116,10 +129,24 @@ watch(
 
 <style scoped lang="scss">
 .demand-detail-root-container {
-  @apply flex flex-row items-start w-300 mx-auto pt-30;
+  @apply flex flex-row items-start max-w-300 mx-auto px-10;
 
-  ::v-deep(.el-descriptions__body) {
+  .demand-detail-main {
+    @apply flex-1 pr-8 mt-10 min-w-0;
+  }
+
+  :deep(.el-descriptions__body) {
     @apply bg-transparent;
+  }
+
+  @media (max-width: 75rem) {
+    .demand-detail-main {
+      @apply pr-0;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    @apply px-5;
   }
 }
 
@@ -136,6 +163,24 @@ watch(
     &::before {
       @apply absolute bg-orange-500 h-10 top-0 left-0 w-1 content-[''];
     }
+  }
+}
+
+.control-panel {
+  @media (max-width: 75rem) {
+    @apply hidden;
+  }
+}
+
+.demand-detail-footer {
+  @apply hidden flex-row items-center px-10 fixed bottom-0 left-0 right-0 h-15 min-w-80 bg-white border-t-1 border-t-solid border-t-gray-200;
+
+  @media (max-width: 75rem) {
+    @apply flex;
+  }
+
+  @media (max-width: 40rem) {
+    @apply px-5;
   }
 }
 </style>
