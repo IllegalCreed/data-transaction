@@ -1,59 +1,54 @@
 <template>
-  <el-card class="control-panel-root-container" body-class="control-panel-body-container">
-    <span text-2xl font-bold>{{ productName }}</span>
-    <span text-sm text-gray-400 mt-1>已售{{ productSelledCount }}</span>
-    <div flex flex-row flex-wrap gap-2 mt-4>
-      <el-tag v-for="(tag, index) in productTags" :key="index" type="danger" size="default">
-        {{ tag }}
-      </el-tag>
-    </div>
-    <span text-sm mt-2 text-gray-500>{{ productShotDesc }}</span>
+  <el-dialog
+    class="order-dialog-container"
+    v-model="modelValue"
+    width="100%"
+    :lock-scroll="true"
+    title="立即下单"
+  >
+    <div flex flex-col justify-start min-h-full>
+      <span text-2xl font-bold>{{ productName }}</span>
 
-    <label class="text-lg font-bold mt-5">规格</label>
-
-    <!-- 规格选择 -->
-    <div mt-4>
-      <div
-        flex
-        flex-row
-        items-start
-        space-x-4
-        mb-2
-        v-for="(group, groupIndex) in specGroups"
-        :key="groupIndex"
-      >
-        <label mt-3 text-sm min-w-18>{{ group.name }}</label>
-        <div flex flex-row items-center flex-wrap>
-          <div
-            v-for="(spec, specIndex) in group.specs"
-            :key="specIndex"
-            :class="['custom-radio-button', { selected: selectedSpecs[groupIndex] === spec }]"
-            @click="selectSpec(groupIndex, spec)"
-          >
-            {{ spec }}
+      <div mt-4>
+        <div
+          flex
+          flex-col
+          items-start
+          mb-4
+          v-for="(group, groupIndex) in specGroups"
+          :key="groupIndex"
+        >
+          <label text-base>{{ group.name }}</label>
+          <div flex flex-row items-center flex-wrap gap-2 mt-2>
+            <div
+              v-for="(spec, specIndex) in group.specs"
+              :key="specIndex"
+              :class="['custom-radio-button', { selected: selectedSpecs[groupIndex] === spec }]"
+              @click="selectSpec(groupIndex, spec)"
+            >
+              {{ spec }}
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- 实际价格 -->
-    <div mt-4 h-10>
-      <span v-if="!isLoading" font-bold text-red-500 text-4xl>￥{{ calculatedPrice }}</span>
-      <i-eos-icons:loading v-else></i-eos-icons:loading>
-    </div>
+      <div flex-1></div>
 
-    <!-- 按钮 -->
-    <div flex flex-row justify-stretch space-x-4 mt-6>
-      <el-button flex-1 type="default" size="large" @click="addToFav">收藏产品</el-button>
-      <el-button flex-1 type="primary" size="large" @click="placeOrder">立即下单</el-button>
+      <div mt-4 h-10>
+        <span v-if="!isLoading" font-bold text-red-500 text-4xl>￥{{ calculatedPrice }}</span>
+        <i-eos-icons:loading v-else></i-eos-icons:loading>
+      </div>
+
+      <el-button mt-4 type="primary" size="large" @click="placeOrder">立即下单</el-button>
     </div>
-  </el-card>
+  </el-dialog>
 </template>
 
 <script setup lang="ts">
 const props = defineProps<{
   productId: string
 }>()
+const modelValue = defineModel<boolean>({ required: true })
 
 const productName = ref('')
 const productShotDesc = ref('')
@@ -111,10 +106,6 @@ const selectSpec = (groupIndex: number, spec: string) => {
   debouncedFetchPrice()
 }
 
-const addToFav = () => {
-  console.log(`将 ${productName.value} 添加到收藏夹`)
-}
-
 const placeOrder = () => {
   console.log(`下单 ${productName.value}，规格: ${selectedSpecs.value.join(', ')}`)
 }
@@ -123,21 +114,30 @@ onMounted(async () => {
   await fetchProductInfo()
   fetchPrice()
 })
+
+const isMobileDevice = useMediaQuery('(max-width: 75rem)')
+
+// 监听窗口大小变化
+watchEffect(() => {
+  if (!isMobileDevice.value) {
+    modelValue.value = false
+  }
+})
 </script>
 
-<style scoped lang="scss">
-.control-panel-root-container {
-  @apply sticky top-30 w-1/3 min-w-60;
-}
-
+<style lang="scss" scoped>
 .wrap {
-  :global(.control-panel-body-container) {
-    @apply flex flex-col;
+  :global(.order-dialog-container) {
+    @apply fixed left-0 right-0 bottom-0 mb-0 h-80% flex flex-col;
+  }
+
+  :global(.order-dialog-container .el-dialog__body) {
+    @apply h-full overflow-y-auto;
   }
 }
 
 .custom-radio-button {
-  @apply px-3 py-1 mx-2 my-1 border-2 border-solid border-gray-300 rounded-md cursor-pointer text-gray-700 text-center;
+  @apply px-3 py-1 border-2 border-solid border-gray-300 rounded-md cursor-pointer text-gray-700 text-center;
 }
 
 .custom-radio-button:hover {

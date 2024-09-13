@@ -173,7 +173,7 @@ watch(
 }
 
 .demand-detail-footer {
-  @apply hidden flex-row items-center px-10 fixed bottom-0 left-0 right-0 h-15 min-w-80 bg-white border-t-1 border-t-solid border-t-gray-200;
+  @apply hidden flex-row items-center px-10 fixed bottom-0 left-0 right-0 h-15 min-w-80 bg-white border-t-1 border-t-solid border-t-gray-200 z-20;
 
   @media (max-width: 75rem) {
     @apply flex;

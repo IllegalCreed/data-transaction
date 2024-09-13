@@ -3,6 +3,17 @@
     <div class="product-detail-main">
       <image-gallery :images="productImages" />
 
+      <div class="product-info">
+        <span text-2xl font-bold>{{ product.name }}</span>
+        <span text-sm text-gray-400 mt-1>已售{{ product.selledCount }}</span>
+        <div flex flex-row flex-wrap gap-2 mt-4>
+          <el-tag v-for="(tag, index) in product.tags" :key="index" type="danger" size="large">
+            {{ tag }}
+          </el-tag>
+        </div>
+        <span text-gray-500 mt-4>{{ product.description }}</span>
+      </div>
+
       <tab-bar
         mt-10
         :links="sections.map((section: ISection) => ({ id: section.id, label: section.label }))"
@@ -24,10 +35,13 @@
         >立即下单</el-button
       >
     </div>
+
+    <order-dialog v-model="isOrderDialogVisiable" :product-id="productId" />
   </div>
 </template>
 
 <script setup lang="ts">
+import OrderDialog from './OrderDialog.vue'
 import ControlPanel from './ControlPanel.vue'
 import ImageGallery from './ImageGallery.vue'
 import TabBar from '@/components/TabBar.vue'
@@ -90,6 +104,13 @@ const sections = ref<ISection[]>([
   }
 ])
 
+const product = ref({
+  name: '商品名称',
+  description: '商品短描述商品短描述商品短描述商品短描述商品短描述商品短描述商品短描述商品短描述',
+  tags: ['Tag 1', 'Tag 2', 'Tag 3'],
+  selledCount: 100
+})
+
 const fetchData = () => {
   // 这里放置获取数据的逻辑
   console.log(`Fetching data for product ID: ${productId.value}`)
@@ -116,9 +137,17 @@ watch(
     @apply flex-1 pr-8 mt-10 min-w-0;
   }
 
+  .product-info {
+    @apply hidden;
+  }
+
   @media (max-width: 75rem) {
     .product-detail-main {
       @apply pr-0;
+    }
+
+    .product-info {
+      @apply flex flex-col mt-10;
     }
   }
 
@@ -150,7 +179,7 @@ watch(
 }
 
 .product-detail-footer {
-  @apply hidden flex-row items-center px-10 fixed bottom-0 left-0 right-0 h-15 min-w-80 bg-white border-t-1 border-t-solid border-t-gray-200;
+  @apply hidden flex-row items-center px-10 fixed bottom-0 left-0 right-0 h-15 min-w-80 bg-white border-t-1 border-t-solid border-t-gray-200 z-20;
 
   @media (max-width: 75rem) {
     @apply flex;
