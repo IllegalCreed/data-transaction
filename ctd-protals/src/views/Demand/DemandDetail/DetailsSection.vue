@@ -17,8 +17,8 @@
           rounded-2xl
           hover:bg-gray-100
         >
-          <img :src="getFileIcon(attachment.name)" h-15 w-15 mb-4 />
-          <span>{{ attachment.name }}</span>
+          <img :src="getFileIcon(attachment.name)" h-10 w-10 mb-4 />
+          <span text-sm max-w-30 line-clamp-1>{{ attachment.name }}</span>
         </a>
       </div>
     </div>

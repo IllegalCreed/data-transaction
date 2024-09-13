@@ -1,32 +1,7 @@
 <template>
   <div class="demand-detail-root-container">
     <div class="demand-detail-main">
-      <div flex flex-col bg-slate-100 p-8 rounded>
-        <span text-2xl font-bold>{{ name }}</span>
-        <div flex flex-row flex-wrap gap-2 mt-2>
-          <el-tag v-for="(tag, index) in tags" :key="index" type="danger" size="small">
-            {{ tag }}
-          </el-tag>
-        </div>
-        <el-divider type="dashed" />
-        <span text-gray-500 text-sm>{{ shortDesc }}</span>
-        <el-divider type="dashed" />
-        <el-descriptions title="需求细节">
-          <el-descriptions-item label="状态">
-            <el-tag :type="status === '进行中' ? 'success' : 'info'" size="small">
-              {{ status }}
-            </el-tag>
-          </el-descriptions-item>
-          <el-descriptions-item label="交易模式">{{ transactionMode?.type }}</el-descriptions-item>
-          <el-descriptions-item label="付款方式">{{ paymentMethod }}</el-descriptions-item>
-          <el-descriptions-item label="预算金额">{{ budget }} 元</el-descriptions-item>
-          <el-descriptions-item label="发布者">{{ publisher }}</el-descriptions-item>
-          <el-descriptions-item label="发布时间">{{ publishDate }}</el-descriptions-item>
-          <el-descriptions-item label="预期完成时间">{{
-            expectedCompletionDate
-          }}</el-descriptions-item>
-        </el-descriptions>
-      </div>
+      <demand-info :demand-id="demandId"></demand-info>
 
       <tab-bar
         mt-10
@@ -43,16 +18,20 @@
 
     <control-panel :demand-id="demandId" class="control-panel" />
 
-    <div class="demand-detail-footer">
-      <el-button flex-1 type="default" size="large" @click="addToFav">收藏产品</el-button>
+    <div v-show="isFooterVisible" class="demand-detail-footer">
+      <el-button flex-1 type="default" size="large" @click="addToFav">收藏需求</el-button>
       <el-button flex-1 type="primary" size="large" @click="isOrderDialogVisiable = true"
-        >立即下单</el-button
+        >承接需求</el-button
       >
     </div>
+
+    <order-dialog v-model="isOrderDialogVisiable" :demand-id="demandId" />
   </div>
 </template>
 
 <script setup lang="ts">
+import OrderDialog from './OrderDialog.vue'
+import DemandInfo from './DemandInfo.vue'
 import ControlPanel from './ControlPanel.vue'
 import TabBar from '@/components/TabBar.vue'
 import DetailsSection from './DetailsSection.vue'
@@ -114,8 +93,43 @@ const fetchData = () => {
   expectedCompletionDate.value = '2024-12-31'
 }
 
+let observer: IntersectionObserver | null = null
+const isFooterVisible = ref(true)
+
 onMounted(() => {
   fetchData()
+
+  const footerElement = document.querySelector('.footer-root-container')
+
+  if (footerElement) {
+    const options = {
+      root: null, // 以视口为根
+      threshold: 0 // 元素可见部分超过 0% 时触发回调
+    }
+
+    observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          // footer 进入视口，隐藏 product-detail-footer
+          isFooterVisible.value = false
+        } else {
+          // footer 离开视口，显示 product-detail-footer
+          isFooterVisible.value = true
+        }
+      })
+    }, options)
+
+    observer.observe(footerElement)
+  } else {
+    console.warn('无法找到 .footer-root-container 元素')
+  }
+})
+
+onUnmounted(() => {
+  // 在组件卸载时停止观察
+  if (observer) {
+    observer.disconnect()
+  }
 })
 
 watch(

@@ -1,10 +1,10 @@
 <template>
   <div class="recommendations-section-root-container">
     <demand-item
+      class="recommend-demand-item"
       v-for="(demand, index) in recommendedDemands"
       :key="index"
       :demand="demand"
-      style="width: 23rem"
     />
   </div>
 </template>
@@ -34,6 +34,12 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .recommendations-section-root-container {
-  @apply flex flex-row flex-wrap;
+  @apply flex flex-row justify-center flex-wrap;
+
+  @media (min-width: 75rem) {
+    .recommend-demand-item {
+      @apply w-85;
+    }
+  }
 }
 </style>
