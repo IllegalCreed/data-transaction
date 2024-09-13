@@ -80,10 +80,9 @@ onUnmounted(() => {
 }
 
 .tab-bar-nav {
-  @apply flex flex-row justify-around space-x-8 px-4;
-
-  @media (max-width: 40rem) {
-    @apply space-x-8 overflow-x-auto whitespace-nowrap;
+  @apply flex flex-row justify-around space-x-8 px-4 overflow-x-auto whitespace-nowrap;
+  &::-webkit-scrollbar {
+    display: none;
   }
 }
 
