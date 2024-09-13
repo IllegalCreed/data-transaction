@@ -1,6 +1,6 @@
 <template>
   <div ref="tabBar" :class="['tab-bar-root-container', { 'sticky-active': isSticky }]">
-    <nav flex flex-row justify-around space-x-8>
+    <nav class="tab-bar-nav">
       <span
         v-for="link in links"
         :key="link.id"
@@ -67,16 +67,32 @@ onUnmounted(() => {
   box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
 
   @media (max-width: 40rem) {
-    @apply top-15 w-full;
+    @apply top-15;
   }
 }
 
 .sticky-active {
   @apply rounded-t-0 rounded-b-6;
+
+  @media (max-width: 40rem) {
+    @apply rounded-none ml--5 mr--5;
+  }
+}
+
+.tab-bar-nav {
+  @apply flex flex-row justify-around space-x-8 px-4;
+
+  @media (max-width: 40rem) {
+    @apply space-x-8 overflow-x-auto whitespace-nowrap;
+  }
 }
 
 .tab-item {
   @apply py-4 font-bold hover:opacity-60 cursor-pointer select-none;
+
+  @media (max-width: 40rem) {
+    @apply text-base;
+  }
 }
 
 .tab-item.active {
