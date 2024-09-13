@@ -1,11 +1,11 @@
 <template>
   <el-drawer
-    class="min-w-80"
     v-model="model"
     :direction="drawerDirection"
     :size="drawerSize"
     :with-header="false"
     :lock-scroll="drawerLockScroll"
+    append-to-body
   >
     <!-- 用户信息部分 -->
     <div flex flex-row items-center mb-4>
