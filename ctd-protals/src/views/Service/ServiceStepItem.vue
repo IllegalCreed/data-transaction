@@ -3,7 +3,7 @@
     <div class="step-label">
       {{ stepNumber }}
     </div>
-    <el-card body-class="step-item-body-container" mt--8>
+    <el-card body-class="step-item-body-container" mt--8 w-full>
       <span font-bold text-xl>{{ title }}</span>
       <p class="desc">
         {{ description }}

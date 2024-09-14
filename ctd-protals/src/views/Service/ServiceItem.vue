@@ -89,7 +89,27 @@ defineProps<{
   }
 
   @media (max-width: 75rem) {
-    @apply w-135;
+    @apply w-full px-20;
+
+    .title {
+      @apply text-4xl;
+    }
+
+    .desc {
+      @apply text-sm;
+    }
+
+    .slogan {
+      @apply text-base;
+    }
+
+    img {
+      @apply rounded-3xl h-70 w-70 object-cover;
+    }
+  }
+
+  @media (max-width: 60rem) {
+    @apply w-full;
 
     .title {
       @apply text-3xl;
@@ -108,6 +128,26 @@ defineProps<{
     }
   }
 
+  @media (max-width: 50rem) {
+    @apply w-full;
+
+    .title {
+      @apply text-2xl;
+    }
+
+    .desc {
+      @apply text-xs;
+    }
+
+    .slogan {
+      @apply text-xs;
+    }
+
+    img {
+      @apply rounded-3xl h-50 w-50 object-cover;
+    }
+  }
+
   @media (max-width: 40rem) {
     @apply w-full px-10;
 
@@ -117,6 +157,10 @@ defineProps<{
 
     .desc {
       @apply text-base;
+    }
+
+    .slogan {
+      @apply text-sm;
     }
 
     img {
@@ -143,22 +187,23 @@ defineProps<{
   }
 }
 
-.outer-btn,
 .inner-btn {
-  @apply w-25 mt-10;
-}
+  @apply w-50 mt-10;
 
-.inner-btn {
   @media (max-width: 75rem) {
     @apply hidden;
   }
 }
 
 .outer-btn {
-  @apply hidden;
+  @apply hidden w-50;
 
   @media (max-width: 75rem) {
-    @apply block w-50 mt-20;
+    @apply block mt-20;
+  }
+
+  @media (max-width: 40rem) {
+    @apply mt-10;
   }
 }
 </style>

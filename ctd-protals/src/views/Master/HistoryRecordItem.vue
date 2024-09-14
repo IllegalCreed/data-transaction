@@ -53,7 +53,7 @@ const navigateToDetail = () => {
 
 <style scoped lang="scss">
 .history-record-item {
-  @apply cursor-pointer my-2;
+  @apply cursor-pointer my-2 shrink-0;
 
   &:hover {
     @apply bg-red-500 text-white;
