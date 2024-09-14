@@ -9,13 +9,7 @@
         {{ description }}
       </p>
 
-      <img
-        src="https://via.placeholder.com/240x240?text=placeholder"
-        rounded-3xl
-        h-40
-        w-40
-        object-cover
-      />
+      <img src="https://via.placeholder.com/240x240" rounded-3xl h-40 w-40 object-cover />
     </el-card>
   </div>
 </template>

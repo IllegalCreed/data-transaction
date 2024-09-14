@@ -20,12 +20,12 @@
 <script setup lang="ts">
 const partner = [
   {
-    img: 'https://via.placeholder.com/200x100?text=Partner+Logo+1',
+    img: 'https://via.placeholder.com/200x100',
     name: 'XXXX有限公司',
     description: 'XXXX是一家全球领先的ICT（信息与通信）基础设施和智能终端提供商'
   },
   {
-    img: 'https://via.placeholder.com/200x100?text=Partner+Logo+2',
+    img: 'https://via.placeholder.com/200x100',
     name: 'XXXX集团',
     description: 'XXXX集团是一家中国跨国科技公司，专注于电子商务、零售、互联网技术'
   }

@@ -71,7 +71,7 @@ const fetchRichTextContent = async (id: string) => {
   // 模拟 API 请求
   const rawContent = `
     <p>智能科技有限公司是一家专注于大数据和人工智能领域的创新企业，致力于为客户提供高效的解决方案。</p>
-    <img src="https://via.placeholder.com/600x400?text=About" alt="关于商家的图片" style="width:100%">
+    <img src="https://via.placeholder.com/600x400" alt="关于商家的图片" style="width:100%">
     <p>公司成立于2010年，已累计服务超过1000家企业，覆盖多个行业，包括金融、医疗、零售等。</p>
   `
   richTextContent.value = DOMPurify.sanitize(rawContent)

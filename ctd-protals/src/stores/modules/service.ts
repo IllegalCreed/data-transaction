@@ -12,7 +12,7 @@ export const useServiceStore = defineStore('service', () => {
         '去除重复和错误数据，优化数据资源',
         '标准化数据格式，提升数据分析效率'
       ],
-      imageUrl: 'https://via.placeholder.com/400x400?text=placeholder',
+      imageUrl: 'https://via.placeholder.com/400x400',
       imagePosition: 'right' as const,
       showBackground: false
     },
@@ -26,7 +26,7 @@ export const useServiceStore = defineStore('service', () => {
         '快速高效的标注流程，节省时间成本',
         '保证数据隐私和安全，确保数据合规'
       ],
-      imageUrl: 'https://via.placeholder.com/400x400?text=placeholder',
+      imageUrl: 'https://via.placeholder.com/400x400',
       imagePosition: 'left' as const,
       showBackground: true
     },
@@ -40,7 +40,7 @@ export const useServiceStore = defineStore('service', () => {
         '自动化数据合并，提高效率',
         '数据规范化，减少错误和冗余'
       ],
-      imageUrl: 'https://via.placeholder.com/400x400?text=placeholder',
+      imageUrl: 'https://via.placeholder.com/400x400',
       imagePosition: 'right' as const,
       showBackground: false
     },
@@ -54,7 +54,7 @@ export const useServiceStore = defineStore('service', () => {
         '采用先进合成技术，提高数据质量',
         '扩展数据集规模，增强数据丰富性'
       ],
-      imageUrl: 'https://via.placeholder.com/400x400?text=placeholder',
+      imageUrl: 'https://via.placeholder.com/400x400',
       imagePosition: 'left' as const,
       showBackground: true
     }

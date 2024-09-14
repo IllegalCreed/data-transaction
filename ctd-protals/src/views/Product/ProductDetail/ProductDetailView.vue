@@ -62,18 +62,18 @@ const route = useRoute()
 const productId = ref(route.params.id ? (route.params.id as string) : '')
 
 const productImages = ref([
-  'https://via.placeholder.com/600x400?text=Image+1',
-  'https://via.placeholder.com/600x400?text=Image+2',
-  'https://via.placeholder.com/600x400?text=Image+3',
-  'https://via.placeholder.com/600x400?text=Image+4',
-  'https://via.placeholder.com/600x400?text=Image+1',
-  'https://via.placeholder.com/600x400?text=Image+2',
-  'https://via.placeholder.com/600x400?text=Image+3',
-  'https://via.placeholder.com/600x400?text=Image+4',
-  'https://via.placeholder.com/600x400?text=Image+1',
-  'https://via.placeholder.com/600x400?text=Image+2',
-  'https://via.placeholder.com/600x400?text=Image+3',
-  'https://via.placeholder.com/600x400?text=Image+4'
+  'https://via.placeholder.com/600x400',
+  'https://via.placeholder.com/600x400',
+  'https://via.placeholder.com/600x400',
+  'https://via.placeholder.com/600x400',
+  'https://via.placeholder.com/600x400',
+  'https://via.placeholder.com/600x400',
+  'https://via.placeholder.com/600x400',
+  'https://via.placeholder.com/600x400',
+  'https://via.placeholder.com/600x400',
+  'https://via.placeholder.com/600x400',
+  'https://via.placeholder.com/600x400',
+  'https://via.placeholder.com/600x400'
 ])
 
 const sections = ref<ISection[]>([

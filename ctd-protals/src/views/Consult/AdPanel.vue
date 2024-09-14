@@ -1,7 +1,7 @@
 <template>
   <div class="consult-ad-panel">
     <img
-      src="https://via.placeholder.com/400x600?text=placeholder"
+      src="https://via.placeholder.com/400x600"
       rounded-3xl
       h-150
       w-100

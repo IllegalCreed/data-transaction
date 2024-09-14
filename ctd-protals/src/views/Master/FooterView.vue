@@ -31,7 +31,7 @@
         </div>
         <div class="qrcode-container">
           <i-ic:baseline-wechat class="qrcode-icon" />
-          <img class="qrcode-img" src="https://via.placeholder.com/200x200?text=QRCode" />
+          <img class="qrcode-img" src="https://via.placeholder.com/200x200" />
         </div>
       </div>
     </div>

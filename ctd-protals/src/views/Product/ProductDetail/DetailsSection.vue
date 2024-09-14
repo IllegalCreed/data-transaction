@@ -28,7 +28,7 @@ const fetchProductDetails = async (id: string) => {
 
   <h4>应用场景</h4>
   <p>该数据包可用于多个场景，如智能交通管理、城市规划、环境监测等。以下是一个示意图：</p>
-  <img src="https://via.placeholder.com/800x400?text=TestImage" alt="智能城市数据图" style="width:100%"/>
+  <img src="https://via.placeholder.com/800x400" alt="智能城市数据图" style="width:100%"/>
 
   <h4>产品示例</h4>
   <p>下面的视频展示了如何使用该数据包创建智能交通管理系统：</p>
