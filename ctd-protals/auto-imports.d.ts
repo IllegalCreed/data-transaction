@@ -39,6 +39,7 @@ declare global {
   const effectScope: typeof import('vue')['effectScope']
   const extendRef: typeof import('@vueuse/core')['extendRef']
   const getActivePinia: typeof import('pinia')['getActivePinia']
+  const getAdAPI: typeof import('./src/apis/account/index')['getAdAPI']
   const getCodeAPI: typeof import('./src/apis/account/index')['getCodeAPI']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']

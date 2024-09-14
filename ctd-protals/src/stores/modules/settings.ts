@@ -6,6 +6,7 @@ export const useSettingsStore = defineStore('settings', () => {
   const setWatermark = (value: boolean) => {
     watermarkEnabled.value = value
   }
+  const watermarkContent = ref('开发中')
 
   // 深色模式相关
   const darkModeEnabled = useDark()
@@ -35,15 +36,26 @@ export const useSettingsStore = defineStore('settings', () => {
     currentLanguage.value = lang
   }
 
+  // Mock 相关
+  const mockEnabled = useLocalStorage('app-mock', true)
+
+  const setMock = (value: boolean) => {
+    mockEnabled.value = value
+  }
+
   return {
     watermarkEnabled,
     setWatermark,
+    watermarkContent,
 
     darkModeEnabled,
     setDarkMode,
 
     currentLanguage,
     getLanguageArray,
-    setLanguage
+    setLanguage,
+
+    mockEnabled,
+    setMock
   }
 })

@@ -1,6 +1,6 @@
 <template>
   <div class="home-root-container">
-    <el-carousel class="home-carousel">
+    <el-carousel class="home-carousel" :arrow="carouselArrow">
       <el-carousel-item v-for="(item, index) in banners" :key="index">
         <img :src="item" alt="Banner" class="banner-image" />
       </el-carousel-item>
@@ -43,6 +43,18 @@ const banners = [
   new URL('@/assets/banner1.jpg', import.meta.url).href,
   new URL('@/assets/banner2.jpg', import.meta.url).href
 ]
+
+const carouselArrow = ref<'always' | 'hover' | 'never'>('hover')
+const isMobileDevice = useMediaQuery('(max-width: 40rem)')
+
+// 监听窗口大小变化
+watchEffect(() => {
+  if (isMobileDevice.value) {
+    carouselArrow.value = 'never'
+  } else {
+    carouselArrow.value = 'hover'
+  }
+})
 </script>
 
 <style scoped lang="scss">
@@ -58,11 +70,11 @@ const banners = [
   @apply h-120;
 
   @media (max-width: 40rem) {
-    @apply h-60;
+    @apply h-70;
   }
 
   @media (max-width: 30rem) {
-    @apply h-40;
+    @apply h-50;
   }
 }
 

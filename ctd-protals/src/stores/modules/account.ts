@@ -1,4 +1,4 @@
-import { logoutAPI, loginAPI, getCodeAPI, resetPwdAPI } from '@/apis/account'
+import { logoutAPI, loginAPI, getCodeAPI, resetPwdAPI, getAdAPI } from '@/apis/account'
 import type { ILogin } from '@/types/login'
 import { useTokenStore } from './token'
 
@@ -60,6 +60,20 @@ export const useAccountStore = defineStore('account', () => {
           reject(error)
         })
         .finally(() => {})
+    })
+  }
+
+  const getAd = (): Promise<void> => {
+    return new Promise<void>((resolve, reject) => {
+      // getAdAPI()
+      //.then((res) => {
+      //     resolve(res)
+      //   })
+      //.catch((error) => {
+      //     reject(error)
+      //   })
+      //.finally(() => {})
+      resolve()
     })
   }
 

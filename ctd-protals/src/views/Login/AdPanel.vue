@@ -1,7 +1,8 @@
 <template>
   <div class="login-ad-panel">
-    <span text-4xl font-bold mt-10>北京市</span>
-    <span text-4xl font-bold mt-4>文旅数据平台</span>
+    <span text-4xl leading-relaxed font-bold mt-10 whitespace-pre-line>{{
+      '北京市\n文旅数据平台'
+    }}</span>
     <p text-lg text-gray-400 mt-10 line-height-loose>
       致力于整合和共享全市文化和旅游数据资源，提升信息化服务水平。平台通过数据交易、处理服务和需求发布等功能，为企业和公众提供便捷、安全的数字化解决方案，助力北京市文旅产业的数字化转型与高质量发展。
     </p>

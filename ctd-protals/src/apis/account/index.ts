@@ -39,3 +39,14 @@ export const resetPwdAPI = (oldPwd: string, newPwd: string): Promise<any> => {
     true
   )
 }
+
+export const getAdAPI = (): Promise<any> => {
+  const params = {}
+  return request.get(
+    {
+      url: '',
+      params
+    },
+    true
+  )
+}
