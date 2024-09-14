@@ -30,6 +30,8 @@ declare module 'vue' {
     ElPagination: typeof import('element-plus/es')['ElPagination']
     ElRate: typeof import('element-plus/es')['ElRate']
     ElSelect: typeof import('element-plus/es')['ElSelect']
+    ElSkeleton: typeof import('element-plus/es')['ElSkeleton']
+    ElSkeletonItem: typeof import('element-plus/es')['ElSkeletonItem']
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
     ElTag: typeof import('element-plus/es')['ElTag']
     ElWatermark: typeof import('element-plus/es')['ElWatermark']
@@ -61,6 +63,7 @@ declare module 'vue' {
     StepGroup: typeof import('./src/components/StepGroup.vue')['default']
     StepItem: typeof import('./src/components/StepItem.vue')['default']
     TabBar: typeof import('./src/components/TabBar.vue')['default']
+    UseImage: typeof import('@vueuse/components')['UseImage']
     VerificationCodeInput: typeof import('./src/components/VerificationCodeInput.vue')['default']
   }
 }

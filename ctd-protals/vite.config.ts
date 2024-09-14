@@ -9,7 +9,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import { ElementPlusResolver, VueUseComponentsResolver } from 'unplugin-vue-components/resolvers'
 
 Object.assign(process.env, loadEnv(process.env.NODE_ENV as string, process.cwd()))
 // https://vitejs.dev/config/
@@ -60,7 +60,11 @@ export default defineConfig({
     }),
     Components({
       dts: true,
-      resolvers: [IconsResolver(), ElementPlusResolver({ importStyle: 'sass' })]
+      resolvers: [
+        VueUseComponentsResolver(),
+        IconsResolver(),
+        ElementPlusResolver({ importStyle: 'sass' })
+      ]
     }),
     Icons({
       compiler: 'vue3'

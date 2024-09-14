@@ -5,7 +5,15 @@
     <div flex-1></div>
     <div flex flex-row items-center justify-between>
       <div flex flex-row items-center>
-        <img :src="avatar" alt="User Avatar" w-10 h-10 rounded-full />
+        <UseImage :src="avatar" class="w-10 h-10 rounded-full">
+          <template #loading>
+            <div w-10 h-10 rounded-full bg-gray-300></div>
+          </template>
+
+          <template #error>
+            <div w-10 h-10 rounded-full bg-gray-300></div>
+          </template>
+        </UseImage>
         <span text-sm text-slate-500 ml-4>{{ name }}</span>
       </div>
 
