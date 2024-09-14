@@ -8,7 +8,7 @@
             item.label
           }}</a>
         </div>
-        <div flex flex-col w-40>
+        <div class="about-container" flex flex-col w-40>
           <span class="link-title">关于</span>
           <a class="link-item" v-for="item of aboutLinks" :key="item.id" :href="item.link">{{
             item.label
@@ -187,6 +187,10 @@ const aboutLinks = [
   @media (max-width: 30rem) {
     .responsive-container {
       @apply p-5;
+    }
+
+    .about-container {
+      @apply w-20;
     }
 
     .qrcode-container {

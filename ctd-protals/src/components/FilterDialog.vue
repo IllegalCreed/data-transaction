@@ -68,7 +68,7 @@ watchEffect(() => {
 <style lang="scss" scoped>
 .wrap {
   :global(.filter-dialog-container) {
-    @apply fixed left-0 right-0 bottom-0 mb-0 h-80%;
+    @apply flex flex-col fixed left-0 right-0 bottom-0 mb-0 h-80%;
   }
 
   :global(.filter-dialog-container .el-dialog__body) {
