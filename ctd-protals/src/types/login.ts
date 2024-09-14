@@ -4,3 +4,8 @@ export interface ILogin {
   code: string
   uuid: string
 }
+
+export interface ILoginCode {
+  uuid: string
+  img: string
+}

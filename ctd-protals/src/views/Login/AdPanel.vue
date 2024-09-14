@@ -1,6 +1,6 @@
 <template>
   <div class="login-ad-panel">
-    <el-skeleton :loading="isLoading" animated>
+    <el-skeleton :loading="GetAdActionLoading" animated>
       <template #template>
         <div flex flex-col>
           <el-skeleton-item variant="h1" mt-15 class="!w-20"></el-skeleton-item>
@@ -51,13 +51,13 @@ const { getAd: getAdAction } = useAccountStore()
 
 const {
   state: adData,
-  isLoading,
-  execute
+  isLoading: GetAdActionLoading,
+  execute: executeGetAdAction
 } = useAsyncState<ILoginAd | undefined>(getAdAction(), undefined)
 
 onMounted(async () => {
   try {
-    execute()
+    executeGetAdAction()
   } catch (error: unknown) {
     console.error(error)
   }
