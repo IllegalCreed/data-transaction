@@ -17,6 +17,14 @@ export const useDemandStore = defineStore('demand', () => {
     tradingModel.value = model
   }
 
+  const paymentOption = reactive({
+    selectedMethod: 'project',
+    budgetType: 'fixed',
+    fixedPrice: 0,
+    minPrice: 0,
+    maxPrice: 0
+  })
+
   const filterSource = ref<IFilter[]>([
     {
       id: 'transaction-mode',
@@ -218,6 +226,7 @@ export const useDemandStore = defineStore('demand', () => {
     demands,
     baseInfo,
     tradingModel,
-    setTradingModel
+    setTradingModel,
+    paymentOption
   }
 })

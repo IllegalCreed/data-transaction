@@ -5,8 +5,8 @@
     <trading-item
       icon="i-fluent:gavel-32-regular"
       title="招标模式"
-      description="如果您是个人用户，可以在平台上浏览、发布个人数据需求，享受数据交易和服务"
-      tag="适合个人数据消费者和数据分析师"
+      description="发布您的项目需求，邀请供应商投标或接受供应商主动投标，择优选择最佳合作伙伴"
+      tag="适合有明确需求的企业和个人"
       :isSelected="demandStore.tradingModel === 'tendering'"
       @click="selectModel('tendering')"
       mb-4
@@ -17,8 +17,8 @@
       icon="i-ic:outline-handshake"
       :disabled="true"
       title="竞标模式（开发中，暂不可选）"
-      description="企业用户可以利用平台进行数据服务交易，管理企业数据资产，发布企业级数据需求"
-      tag="适合数据供应商、服务商和需求承接方"
+      description="发布您的项目意向，供应商提交作品竞标，您从中挑选满意的作品并支付费用"
+      tag="适合需求不明确，寻求创意方案的用户"
       :isSelected="demandStore.tradingModel === 'bidding'"
     ></trading-item>
 

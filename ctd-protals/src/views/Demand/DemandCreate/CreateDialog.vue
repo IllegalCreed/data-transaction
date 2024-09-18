@@ -10,7 +10,12 @@
 
       <div flex-1 w-full mt-10>
         <keep-alive :include="includePanels">
-          <component :is="currentPanel" @nextStep="nextStep" @prevStep="prevStep" />
+          <component
+            :is="currentPanel"
+            @nextStep="nextStep"
+            @prevStep="prevStep"
+            @complete="submitDemand"
+          />
         </keep-alive>
       </div>
     </div>
@@ -18,6 +23,8 @@
 </template>
 
 <script setup lang="ts">
+import { ElMessage } from 'element-plus'
+
 import StepGroup from '@/components/StepGroup.vue'
 import BaseInfo from './Step/BaseInfo.vue'
 import TradingModel from './Step/TradingModel.vue'
@@ -50,6 +57,11 @@ const prevStep = () => {
   if (currentStep.value > 0) {
     currentStep.value--
   }
+}
+
+const submitDemand = () => {
+  modelValue.value = false
+  ElMessage.success('创建需求申请提交成功')
 }
 </script>
 
