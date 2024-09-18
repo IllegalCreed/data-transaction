@@ -56,7 +56,7 @@ const prevStep = () => {
 <style lang="scss" scoped>
 .wrap {
   :global(.demand-create-dialog-container) {
-    @apply fixed left-20 right-20 top-20 bottom-20 m-0 w-[calc(100%-10rem)] flex flex-col;
+    @apply fixed left-20 right-20 top-20 bottom-20 my-0 mx-auto min-w-80 w-[calc(100%-10rem)] max-w-300 flex flex-col;
 
     @media (max-width: 40rem) {
       @apply left-0 right-0 top-auto bottom-0 w-full h-80%;

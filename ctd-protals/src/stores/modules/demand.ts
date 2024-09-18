@@ -4,6 +4,13 @@ import type { ISortItem } from '@/types/sorting'
 import { defineStore } from 'pinia'
 
 export const useDemandStore = defineStore('demand', () => {
+  const baseInfo = reactive({
+    title: '',
+    desc: '',
+    detail: '',
+    completionTime: ''
+  })
+
   const filterSource = ref<IFilter[]>([
     {
       id: 'transaction-mode',
@@ -202,6 +209,7 @@ export const useDemandStore = defineStore('demand', () => {
   return {
     filterSource,
     sortSource,
-    demands
+    demands,
+    baseInfo
   }
 })
