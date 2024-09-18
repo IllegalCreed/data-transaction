@@ -75,6 +75,56 @@ const router = createRouter({
           path: 'demand/:id',
           name: 'demand-detail',
           component: () => import('@/views/Demand/DemandDetail/DemandDetailView.vue')
+        },
+        {
+          path: 'mine',
+          name: 'mine',
+          redirect: '/mine/profile',
+          component: () => import('@/views/Mine/MineView.vue'),
+          children: [
+            {
+              path: 'profile',
+              name: 'my-profile',
+              component: () => import('@/views/Mine/Profile/ProfileView.vue')
+            },
+            {
+              path: 'orders',
+              name: 'my-orders',
+              component: () => import('@/views/Mine/Order/OrderView.vue'),
+              children: [
+                {
+                  path: 'products',
+                  name: 'order-products',
+                  component: () => import('@/views/Mine/Order/Product/OrderProduct.vue')
+                },
+                {
+                  path: 'services',
+                  name: 'order-services',
+                  component: () => import('@/views/Mine/Order/Service/OrderService.vue')
+                },
+                {
+                  path: 'consults',
+                  name: 'order-consults',
+                  component: () => import('@/views/Mine/Order/Consult/OrderConsult.vue')
+                }
+              ]
+            },
+            {
+              path: '/mine/demands',
+              name: 'my-demands',
+              component: () => import('@/views/Mine/Demand/DemandView.vue')
+            },
+            {
+              path: '/mine/favorites',
+              name: 'my-favorites',
+              component: () => import('@/views/Mine/Favorite/FavoriteView.vue')
+            },
+            {
+              path: '/mine/comments',
+              name: 'my-comments',
+              component: () => import('@/views/Mine/Comment/CommentView.vue')
+            }
+          ]
         }
       ]
     }

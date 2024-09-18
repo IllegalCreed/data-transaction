@@ -29,7 +29,7 @@
       <!-- 个人相关菜单 -->
       <div
         class="menu-item"
-        v-for="(item, index) in personalMenuItems"
+        v-for="(item, index) in personalMenuLinks"
         :key="index"
         @click="navigateTo(item.path)"
       >
@@ -75,18 +75,16 @@
 </template>
 
 <script setup lang="ts">
-import { useMenuStore } from '@/stores/modules/menu'
-import { useAccountStore } from '@/stores/modules/account'
 import SearchDialog from './SearchDialog.vue'
 import SettingDialog from './SettingDialog.vue'
-
+import { useAccountStore } from '@/stores/modules/account'
 const { logout: logoutAction } = useAccountStore()
+import { useMenuStore } from '@/stores/modules/menu'
+const { moduleMenuLinks, personalMenuLinks } = useMenuStore()
 
 const model = defineModel<boolean>({ required: true })
 const isSettingDialogVisible = ref(false)
 const isSearchDialogVisible = ref(false)
-
-const { moduleMenuLinks } = useMenuStore()
 
 // 用户信息模拟数据
 const user = {
@@ -94,15 +92,6 @@ const user = {
   name: '张三',
   role: '普通用户'
 }
-
-// 个人相关菜单
-const personalMenuItems = [
-  { path: '/profile', label: '个人资料', icon: 'i-vaadin:user' },
-  { path: '/orders', label: '我的订单', icon: 'i-mdi:clipboard-list-outline' },
-  { path: '/addresses', label: '我的需求', icon: 'i-mdi:map-marker-outline' },
-  { path: '/favorites', label: '我的收藏', icon: 'i-vaadin:star' },
-  { path: '/comments', label: '我的评论', icon: 'i-vaadin:comment' }
-]
 
 // 系统设置
 const systemSettings = [
