@@ -11,6 +11,12 @@ export const useDemandStore = defineStore('demand', () => {
     completionTime: ''
   })
 
+  const tradingModel = ref('')
+
+  const setTradingModel = (model: string) => {
+    tradingModel.value = model
+  }
+
   const filterSource = ref<IFilter[]>([
     {
       id: 'transaction-mode',
@@ -210,6 +216,8 @@ export const useDemandStore = defineStore('demand', () => {
     filterSource,
     sortSource,
     demands,
-    baseInfo
+    baseInfo,
+    tradingModel,
+    setTradingModel
   }
 })

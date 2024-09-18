@@ -21,22 +21,22 @@
 import StepGroup from '@/components/StepGroup.vue'
 import BaseInfo from './Step/BaseInfo.vue'
 import TradingModel from './Step/TradingModel.vue'
-import DetailInfo from './Step/DetailInfo.vue'
-import WaitingPublish from './Step/WaitingPublish.vue'
+import PaymentOption from './Step/PaymentOption.vue'
+import MoreInfo from './Step/MoreInfo.vue'
 
 const modelValue = defineModel<boolean>({ required: true })
 
 const steps = [
   { title: '基本信息' },
   { title: '交易模式' },
-  { title: '详细信息' },
-  { title: '审核发布' }
+  { title: '付款方式' },
+  { title: '其他信息' }
 ]
 
 const currentStep = ref(0)
 
-const panels = [BaseInfo, TradingModel, DetailInfo, WaitingPublish]
-const includePanels = ref(['RoleSelector', 'BaseInfo', 'EmailSended', 'EmailValidate'])
+const panels = [BaseInfo, TradingModel, PaymentOption, MoreInfo]
+const includePanels = ref(['BaseInfo', 'TradingModel', 'PaymentOption', 'MoreInfo'])
 
 const currentPanel = computed(() => panels[currentStep.value])
 

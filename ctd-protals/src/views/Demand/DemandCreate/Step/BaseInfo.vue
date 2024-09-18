@@ -40,10 +40,10 @@
 <script setup lang="ts">
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
-
-import { useDemandStore } from '@/stores/modules/demand'
 import type { FormInstance, FormRules } from 'element-plus'
 import { ElMessage } from 'element-plus'
+
+import { useDemandStore } from '@/stores/modules/demand'
 const demandStore = useDemandStore()
 const { baseInfo } = demandStore
 
