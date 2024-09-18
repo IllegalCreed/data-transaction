@@ -1,28 +1,28 @@
 <template>
-  <div class="tag-selector">
-    <!-- 已选择的标签 -->
+  <div class="moreinfo-root-container">
+    <span text-2xl font-bold mb-5>请选择您的标签</span>
+
+    <span text-lg font-bold mb-4>已选择的标签</span>
     <div class="selected-tags">
       <el-tag v-for="tag in selectedTags" :key="tag" closable @close="removeTag(tag)">
         {{ tag }}
       </el-tag>
     </div>
 
-    <!-- 热门标签选择 -->
-    <div class="popular-tags">
-      <span>热门标签：</span>
-      <el-checkbox-group v-model="checkedPopularTags" @change="updateSelectedTags">
-        <el-checkbox
-          v-for="tag in popularTags"
-          :key="tag"
-          :label="tag"
-          :disabled="isTagLimitReached && !checkedPopularTags.includes(tag)"
-        >
-          {{ tag }}
-        </el-checkbox>
-      </el-checkbox-group>
-    </div>
+    <span text-lg font-bold mb-4>热门标签</span>
 
-    <!-- 自定义标签添加 -->
+    <el-checkbox-group class="popular-tags" v-model="checkedPopularTags">
+      <el-checkbox
+        v-for="tag in popularTags"
+        :key="tag"
+        :label="tag"
+        :disabled="isTagLimitReached && !checkedPopularTags.includes(tag)"
+      >
+        {{ tag }}
+      </el-checkbox>
+    </el-checkbox-group>
+
+    <span text-lg font-bold mb-4>自定义标签</span>
     <div class="custom-tag-input">
       <el-input
         v-model="customTag"
@@ -40,67 +40,48 @@
 </template>
 
 <script setup lang="ts">
-import { ElTag, ElCheckboxGroup, ElCheckbox, ElInput } from 'element-plus'
+import { ElMessage } from 'element-plus'
+import { useDemandStore } from '@/stores/modules/demand'
+const demandStore = useDemandStore()
 
-// 热门标签列表
-const popularTags = [
-  'JavaScript',
-  'Vue.js',
-  'Element Plus',
-  'CSS',
-  'HTML',
-  'TypeScript',
-  'Node.js',
-  'Webpack'
-]
-
-// 已选择的标签
-const selectedTags = ref<string[]>([])
-
-// 选中的热门标签
-const checkedPopularTags = ref<string[]>([])
-
-// 自定义标签输入
+const popularTags = ['开发', '技术', '人工智能', '机器学习', '数据', '咨询', '营销', '培训']
 const customTag = ref('')
-
-// 标签数量限制
 const maxTags = 5
 
+const customTags = demandStore.customTags
+const checkedPopularTags = demandStore.checkedPopularTags
+const selectedTags = demandStore.selectedTags
+
 // 计算属性：是否达到标签数量限制
-const isTagLimitReached = computed(() => selectedTags.value.length >= maxTags)
-
-// 更新已选择的标签列表
-const updateSelectedTags = () => {
-  selectedTags.value = [...new Set([...checkedPopularTags.value, ...customTags.value])]
-}
-
-// 自定义标签列表
-const customTags = ref<string[]>([])
+const isTagLimitReached = computed(() => selectedTags.length >= maxTags)
 
 // 添加自定义标签
 const addCustomTag = () => {
   const tag = customTag.value.trim()
-  if (tag && !selectedTags.value.includes(tag)) {
-    if (selectedTags.value.length < maxTags) {
-      customTags.value.push(tag)
-      updateSelectedTags()
+  if (tag && !selectedTags.includes(tag)) {
+    if (selectedTags.length < maxTags) {
+      customTags.push(tag)
       customTag.value = ''
     }
   } else {
+    ElMessage.warning('该标签已存在')
     customTag.value = ''
   }
 }
 
 // 移除标签
 const removeTag = (tag: string) => {
-  // 从已选择的标签中移除
-  selectedTags.value = selectedTags.value.filter((t) => t !== tag)
-
-  // 更新热门标签的选择状态
-  checkedPopularTags.value = checkedPopularTags.value.filter((t) => t !== tag)
+  // 从热门标签中移除
+  const indexInPopular = checkedPopularTags.indexOf(tag)
+  if (indexInPopular !== -1) {
+    checkedPopularTags.splice(indexInPopular, 1)
+  }
 
   // 从自定义标签中移除
-  customTags.value = customTags.value.filter((t) => t !== tag)
+  const indexInCustom = customTags.indexOf(tag)
+  if (indexInCustom !== -1) {
+    customTags.splice(indexInCustom, 1)
+  }
 }
 
 const emit = defineEmits(['complete', 'prevStep'])
@@ -114,23 +95,19 @@ const handlePrevStep = () => {
 </script>
 
 <style lang="scss" scoped>
-.tag-selector {
+.moreinfo-root-container {
+  @apply flex flex-col;
+
   .selected-tags {
-    margin-bottom: 20px;
-    .el-tag {
-      margin-right: 5px;
-      margin-bottom: 5px;
-    }
+    @apply flex flex-row flex-wrap gap-2 mb-5 bg-gray-100 w-full min-h-14 p-4;
   }
+
   .popular-tags {
-    margin-bottom: 20px;
-    .el-checkbox {
-      margin-right: 10px;
-      margin-top: 10px;
-    }
+    @apply flex flex-row flex-wrap gap-4 mb-5;
   }
+
   .custom-tag-input {
-    max-width: 300px;
+    @apply max-w-60;
   }
 }
 

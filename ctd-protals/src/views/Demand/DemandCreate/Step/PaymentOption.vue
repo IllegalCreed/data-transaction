@@ -1,6 +1,7 @@
 <template>
   <div class="payment-option-root-container">
-    <!-- 付款方式选择 -->
+    <span text-2xl font-bold mb-5>请选择您的付款方式</span>
+
     <div class="payment-methods">
       <div
         class="payment-method"

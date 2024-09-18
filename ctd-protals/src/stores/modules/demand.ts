@@ -25,6 +25,12 @@ export const useDemandStore = defineStore('demand', () => {
     maxPrice: 0
   })
 
+  const customTags = ref<string[]>([])
+  const checkedPopularTags = ref<string[]>([])
+  const selectedTags = computed(() => {
+    return [...checkedPopularTags.value, ...customTags.value]
+  })
+
   const filterSource = ref<IFilter[]>([
     {
       id: 'transaction-mode',
@@ -227,6 +233,9 @@ export const useDemandStore = defineStore('demand', () => {
     baseInfo,
     tradingModel,
     setTradingModel,
-    paymentOption
+    paymentOption,
+    customTags,
+    checkedPopularTags,
+    selectedTags
   }
 })
