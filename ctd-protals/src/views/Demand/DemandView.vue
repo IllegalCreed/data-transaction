@@ -22,7 +22,7 @@
           </template>
         </el-input>
 
-        <el-button type="primary" size="large">
+        <el-button type="primary" size="large" @click="showCreateDialog = true">
           <span v-if="!isMobileDevice">发布新需求</span>
           <i-ic:baseline-plus v-else w-6 h-6></i-ic:baseline-plus>
         </el-button>
@@ -59,10 +59,12 @@
     </div>
 
     <filter-dialog v-model:show="showFilterDialog" v-model="filters" :source="filterSource" />
+    <create-dialog v-model="showCreateDialog" />
   </div>
 </template>
 
 <script setup lang="ts">
+import CreateDialog from './DemandCreate/CreateDialog.vue'
 import FilterListView from '@/components/FilterListView.vue'
 import SortListView from '@/components/SortListView.vue'
 import DemandItem from './DemandItem.vue'
@@ -102,6 +104,7 @@ const searchKey = ref('')
 const searchType = ref('1')
 
 const showFilterDialog = ref(false)
+const showCreateDialog = ref(false)
 
 const showSearchType = ref(true)
 const paginationLayout = ref('total, prev, pager, next')
