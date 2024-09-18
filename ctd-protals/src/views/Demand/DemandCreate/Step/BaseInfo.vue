@@ -100,11 +100,15 @@ const handleNextStep = async () => {
 
 <style lang="scss" scoped>
 .form {
-  @apply mt-4;
+  @apply mt-10;
 }
 
 :deep(.ql-toolbar) {
-  @apply w-full max-w-200 sticky top-0 bg-white z-10;
+  @apply w-full max-w-200 sticky top--10 bg-white z-10;
+
+  @media (max-width: 40rem) {
+    @apply top--5;
+  }
 }
 
 :deep(.ql-editor) {

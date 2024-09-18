@@ -64,7 +64,11 @@ const prevStep = () => {
   }
 
   :global(.demand-create-dialog-container .el-dialog__body) {
-    @apply h-full overflow-y-auto;
+    @apply h-full overflow-y-auto p-10;
+
+    @media (max-width: 40rem) {
+      @apply p-0 pt-5;
+    }
   }
 }
 </style>
