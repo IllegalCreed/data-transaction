@@ -42,6 +42,8 @@ declare module 'vue' {
     ElSkeletonItem: typeof import('element-plus/es')['ElSkeletonItem']
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
+    ElTable: typeof import('element-plus/es')['ElTable']
+    ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTag: typeof import('element-plus/es')['ElTag']
     ElWatermark: typeof import('element-plus/es')['ElWatermark']
     FilterDialog: typeof import('./src/components/FilterDialog.vue')['default']
