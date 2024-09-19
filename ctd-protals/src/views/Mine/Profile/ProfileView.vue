@@ -1,4 +1,4 @@
-<template><div h-1000 w-10 bg-black></div></template>
+<template><div h-1000 w-full bg-black></div></template>
 
 <script setup lang="ts"></script>
 

@@ -17,6 +17,7 @@ import FooterView from './FooterView.vue'
 
 <style scoped lang="scss">
 .master-root-container {
+  @apply flex flex-col;
   .router-view {
     @apply pt-20;
   }

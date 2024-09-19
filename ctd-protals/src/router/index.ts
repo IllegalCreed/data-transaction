@@ -90,6 +90,7 @@ const router = createRouter({
             {
               path: 'orders',
               name: 'my-orders',
+              redirect: '/mine/orders/products',
               component: () => import('@/views/Mine/Order/OrderView.vue'),
               children: [
                 {

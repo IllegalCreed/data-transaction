@@ -83,10 +83,6 @@ const resetSearch = () => {
   isLoading.value = false
 }
 
-const closeDialog = () => {
-  model.value = false
-}
-
 const isMobileDevice = useMediaQuery('(max-width: 40rem)')
 
 const dialogWidth = ref('30rem')

@@ -7,6 +7,7 @@
       class="menu-container"
       @select="handleMenuSelect"
       router
+      :collapse="isCollapsed"
     >
       <template v-for="item in personalMenuLinks">
         <!-- 有子菜单的项 -->
@@ -82,19 +83,37 @@ setActiveMenu()
 const handleMenuSelect = (path: string) => {
   router.push(path)
 }
+
+const isMobileDevice = useMediaQuery('(max-width: 60rem)')
+
+const isCollapsed = ref(false)
+// 监听窗口大小变化
+watchEffect(() => {
+  if (isMobileDevice.value) {
+    isCollapsed.value = true
+  } else {
+    isCollapsed.value = false
+  }
+})
 </script>
 <style scoped lang="scss">
 .mine-view-container {
-  @apply flex flex-row h-full min-h-200 mb--20;
+  @apply flex flex-row self-center h-full min-h-200 mb--20 max-w-300 w-full;
 
   .menu-container {
-    @apply self-start w-50 sticky top-1/2 transform translate-y-[calc(-50%+40px)];
+    @apply self-start sticky top-1/2 transform translate-y-[calc(-50%+40px)];
+
+    &:not(.el-menu--collapse) {
+      @apply w-50;
+    }
+
+    @media (max-width: 40rem) {
+      @apply hidden;
+    }
   }
 
   .content-container {
-    flex: 1;
-    padding: 20px;
-    overflow: auto;
+    @apply flex-1;
   }
 }
 </style>
