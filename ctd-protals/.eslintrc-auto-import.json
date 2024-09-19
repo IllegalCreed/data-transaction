@@ -327,6 +327,7 @@
     "useModel": true,
     "useTemplateRef": true,
     "getAdAPI": true,
-    "dayjs": true
+    "dayjs": true,
+    "useOrderProductStore": true
   }
 }
