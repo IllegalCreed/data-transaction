@@ -326,6 +326,7 @@
     "useId": true,
     "useModel": true,
     "useTemplateRef": true,
-    "getAdAPI": true
+    "getAdAPI": true,
+    "dayjs": true
   }
 }

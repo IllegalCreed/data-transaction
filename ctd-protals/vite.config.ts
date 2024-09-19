@@ -43,7 +43,7 @@ export default defineConfig({
             // 默认别名导入
             ['default', 'axios'] // import { default as axios } from 'axios',
           ],
-          moment: [['default', 'moment']]
+          dayjs: [['default', 'dayjs']]
         },
         {
           from: '.src/types',

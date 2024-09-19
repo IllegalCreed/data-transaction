@@ -105,7 +105,6 @@ const showPaginationBackground = ref(true)
 const pagerCount = ref(7)
 const isMobileDevice = useMediaQuery('(max-width: 40rem)')
 
-// 监听窗口大小变化
 watchEffect(() => {
   if (isMobileDevice.value) {
     searchType.value = '1'
