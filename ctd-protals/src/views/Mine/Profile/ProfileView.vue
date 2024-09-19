@@ -1,6 +1,11 @@
 <template>
   <div class="profile-root-container">
+    <el-button w-50 self-end type="primary" size="small" @click="isPersonal = !isPersonal"
+      >测试按钮，切换个人/企业</el-button
+    >
+
     <base-info />
+
     <personal-info v-if="isPersonal"></personal-info>
     <company-info v-else></company-info>
     <security-info />
@@ -15,7 +20,7 @@ import CompanyInfo from './CompanyInfo.vue'
 import SecurityInfo from './SecurityInfo.vue'
 import PaymentInfo from './PaymentInfo.vue'
 
-const isPersonal = ref(false)
+const isPersonal = ref(true)
 </script>
 
 <style lang="scss" scoped>
