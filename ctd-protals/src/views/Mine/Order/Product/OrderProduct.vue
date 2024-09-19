@@ -14,7 +14,7 @@
       </el-input>
 
       <div flex flex-row items-center>
-        <span>状态：</span>
+        <strong>状态：</strong>
         <el-select class="status-select" v-model="selectedStatus" placeholder="选择订单状态">
           <el-option
             v-for="status in orderStatuses"
