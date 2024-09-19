@@ -3,7 +3,7 @@
     <!-- 基本信息 -->
     <div class="basic-info">
       <span class="title">基本信息</span>
-      <div class="content">
+      <div class="content" mt-4>
         <div><strong>账号：</strong> {{ email }}</div>
         <div class="btn-container">
           <el-button type="primary" size="default" @click="handlePasswordChange"
@@ -16,33 +16,35 @@
       </div>
     </div>
 
-    <!-- <div v-if="isPersonal" class="personal-info">
-      <span class="title">个人信息</span>
-      <div grid grid-cols-2 gap-4>
+    <div v-if="isPersonal" class="personal-info">
+      <div flex flex-row justify-between mb-4>
+        <span class="title">个人信息</span>
+        <el-button type="primary" @click="openEditPersonalInfo">编辑个人信息</el-button>
+      </div>
+
+      <div class="content">
         <div><strong>姓名：</strong> {{ personalInfo.name }}</div>
         <div><strong>身份证号：</strong> {{ personalInfo.idCard }}</div>
         <div><strong>联系电话：</strong> {{ personalInfo.phone }}</div>
         <div><strong>性别：</strong> {{ personalInfo.gender }}</div>
         <div><strong>出生日期：</strong> {{ personalInfo.birthDate }}</div>
         <div><strong>住址：</strong> {{ personalInfo.address }}</div>
-        <div class="col-span-2">
+        <div flex flex-row>
           <strong>头像：</strong>
-          <img :src="personalInfo.avatar" alt="头像" class="w-24 h-24 rounded-full" />
+          <img :src="personalInfo.avatar" alt="头像" />
         </div>
-      </div>
-      <div class="mt-4">
-        <el-button type="primary" @click="openEditPersonalInfo">编辑个人信息</el-button>
       </div>
     </div>
     <div v-else class="company-info">
       <span class="title">企业信息</span>
       <p>
         您当前的账号为企业用户，请前往
-        <el-link href="/company/manage" type="primary">企业管理端</el-link> 进行信息编辑。
+        <el-link href="http://www.baidu.com" type="primary">企业管理端</el-link>
+        进行信息编辑。
       </p>
     </div>
 
-    <div class="security-info">
+    <div class="security-info" gap-4>
       <span class="title">安全信息</span>
       <div><strong>最后登录日期：</strong> {{ lastLoginDate }}</div>
       <div><strong>登录设备：</strong> {{ lastLoginDevice }}</div>
@@ -51,18 +53,22 @@
 
     <div class="payment-info">
       <span class="title">支付日志</span>
-      <el-table :data="paymentLogs" style="width: 100%">
-        <el-table-column prop="date" label="日期" width="180" />
-        <el-table-column prop="description" label="描述" />
-        <el-table-column prop="amount" label="金额" width="100" />
-      </el-table>
-    </div> -->
+      <div class="payment-list">
+        <div v-for="(log, index) in paymentLogs" :key="index" class="payment-item">
+          <div><strong>日期：</strong>{{ log.date }}</div>
+          <div class="item-content">
+            <div><strong>描述：</strong>{{ log.description }}</div>
+            <div><strong>金额：</strong>{{ log.amount }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const email = 'user@example.com'
-const isPersonal = true
+const email = ref('user@example.com')
+const isPersonal = ref(true)
 
 const personalInfo = reactive({
   name: '张三',
@@ -143,11 +149,39 @@ const openEditPersonalInfo = () => {
   }
 }
 
-.title {
-  @apply text-lg font-bold mb-4;
+.personal-info {
+  .content {
+    @apply grid grid-cols-2 gap-4;
+
+    img {
+      @apply ml-2 w-24 h-24 rounded-full object-cover;
+    }
+
+    @media (max-width: 40rem) {
+      @apply grid-cols-1;
+    }
+  }
 }
 
-.personal-info img {
-  @apply w-24 h-24 rounded-full;
+.payment-info {
+  .payment-list {
+    @apply flex flex-col gap-4 mt-4;
+  }
+
+  .payment-item {
+    @apply flex flex-col gap-2 p-4 border border-solid border-gray-200 rounded bg-gray-50;
+
+    .item-content {
+      @apply flex flex-row justify-between gap-2;
+
+      @media (max-width: 40rem) {
+        @apply flex-col;
+      }
+    }
+  }
+}
+
+.title {
+  @apply text-xl font-bold;
 }
 </style>
