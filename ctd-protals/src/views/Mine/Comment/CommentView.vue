@@ -23,7 +23,7 @@ const links = ref([
   @apply flex flex-col p-10;
 
   .tabbar {
-    @apply self-center;
+    @apply self-center w-50;
 
     @media (max-width: 40rem) {
       @apply self-start m--5 w-[calc(100%+40px)];
