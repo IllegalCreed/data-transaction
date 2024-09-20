@@ -1,6 +1,6 @@
 <template>
-  <div ref="root" flex flex-col h-full>
-    <div class="tab" :class="{ visible: tabIsVisible }">
+  <div flex flex-col h-full>
+    <div class="tab">
       <router-link
         v-for="(item, index) in personalMenuLinks.find((link) => link.path === '/mine/orders')
           ?.children || []"
@@ -27,24 +27,11 @@ import { useMenuStore } from '@/stores/modules/menu'
 const { personalMenuLinks } = useMenuStore()
 
 const route = useRoute()
-
-const root = useTemplateRef('root')
-const rootIsVisible = useElementVisibility(root)
-
-const isMobileDevice = useMediaQuery('(max-width: 40rem)')
-
-const tabIsVisible = computed(() => {
-  return isMobileDevice.value && rootIsVisible.value
-})
 </script>
 
 <style lang="scss" scoped>
 .tab {
-  @apply hidden flex-row items-center justify-around gap-4 h-15 min-w-80 fixed top-15 left-0 right-0 bg-white z-10 shadow-sm;
-
-  &.visible {
-    @apply flex;
-  }
+  @apply hidden flex-row items-center justify-around gap-4 h-15 min-w-80 sticky top-15 left-0 right-0 bg-white z-10 shadow-sm;
 
   .tab-item {
     @apply text-base no-underline text-gray-500 hover:opacity-60;
@@ -52,6 +39,10 @@ const tabIsVisible = computed(() => {
     &.active {
       @apply text-red-700;
     }
+  }
+
+  @media (max-width: 40rem) {
+    @apply flex;
   }
 }
 

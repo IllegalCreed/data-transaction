@@ -18,7 +18,7 @@
       <el-tag :type="getTagType(order.status)" size="large">{{
         formatStatus(order.status)
       }}</el-tag>
-      <div text-lg text-red-600 font-bold>{{ order.budget }}</div>
+      <div text-lg text-red-600 font-bold>￥{{ order.budget }}</div>
     </div>
     <div class="demand-item-actions">
       <el-button size="small" @click="viewDetails(order)">查看详情</el-button>
