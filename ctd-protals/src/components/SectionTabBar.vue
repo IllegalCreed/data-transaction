@@ -1,15 +1,13 @@
 <template>
   <div ref="tabBar" :class="['tab-bar-root-container', { 'sticky-active': isSticky }]">
-    <nav class="tab-bar-nav">
-      <span
-        v-for="link in links"
-        :key="link.id"
-        :class="['tab-item', { active: activeSection === link.id }]"
-        @click="scrollToSection(link.id)"
-      >
-        {{ link.label }}
-      </span>
-    </nav>
+    <span
+      v-for="link in links"
+      :key="link.id"
+      :class="['tab-item', { active: activeSection === link.id }]"
+      @click="scrollToSection(link.id)"
+    >
+      {{ link.label }}
+    </span>
   </div>
 </template>
 
@@ -63,8 +61,12 @@ onUnmounted(() => {
 
 <style scoped lang="scss">
 .tab-bar-root-container {
-  @apply sticky top-20 bg-white z-10 rounded-full;
+  @apply flex flex-row justify-start sticky top-20 bg-white z-10 rounded-full overflow-x-auto;
   box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
+
+  &::-webkit-scrollbar {
+    @apply hidden;
+  }
 
   @media (max-width: 40rem) {
     @apply top-15;
@@ -75,19 +77,12 @@ onUnmounted(() => {
   @apply rounded-t-0 rounded-b-6;
 
   @media (max-width: 40rem) {
-    @apply rounded-none ml--5 mr--5;
-  }
-}
-
-.tab-bar-nav {
-  @apply flex flex-row justify-around space-x-8 px-4 overflow-x-auto whitespace-nowrap;
-  &::-webkit-scrollbar {
-    display: none;
+    @apply rounded-none ml--5 w-[calc(100%+40px)];
   }
 }
 
 .tab-item {
-  @apply py-4 font-bold hover:opacity-60 cursor-pointer select-none;
+  @apply block p-4 font-bold hover:opacity-60 cursor-pointer select-none whitespace-nowrap mx-auto;
 
   @media (max-width: 40rem) {
     @apply text-base;

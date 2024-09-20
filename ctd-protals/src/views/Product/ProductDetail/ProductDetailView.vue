@@ -166,7 +166,7 @@ watch(
 
 <style scoped lang="scss">
 .product-detail-root-container {
-  @apply flex flex-row items-start max-w-300 mx-auto px-10;
+  @apply self-center flex flex-row items-start max-w-300 px-10;
 
   .product-detail-main {
     @apply flex-1 pr-8 mt-10 min-w-0;
@@ -177,6 +177,8 @@ watch(
   }
 
   @media (max-width: 75rem) {
+    @apply flex-col items-stretch w-full;
+
     .product-detail-main {
       @apply pr-0;
     }

@@ -57,12 +57,12 @@
 </template>
 
 <script setup lang="ts">
+import type { ISortValue } from '@/types/sorting'
 import FilterListView from '@/components/FilterListView.vue'
 import FilterDialog from '@/components/FilterDialog.vue'
 import SortListView from '@/components/SortListView.vue'
 import ProductItem from './ProductItem.vue'
 import { useProductStore } from '@/stores/modules/product'
-import type { ISortValue } from '@/types/sorting'
 const { filterSource, sortSource, products } = useProductStore()
 
 const sort = ref<ISortValue>({ sortType: 'comprehensive', order: 'desc' as const })

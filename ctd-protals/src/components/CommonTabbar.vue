@@ -34,7 +34,7 @@ const model = defineModel()
 .tab-bar-nav {
   @apply flex flex-row justify-around space-x-8 px-4 overflow-x-auto whitespace-nowrap;
   &::-webkit-scrollbar {
-    display: none;
+    @apply hidden;
   }
 }
 

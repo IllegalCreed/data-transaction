@@ -9,17 +9,7 @@
         mr-4
         @click="scrollThumbnails('prev')"
       ></i-icon-park-twotone:left-c>
-      <div
-        ref="thumbnailContainer"
-        class="thumbnail-container"
-        flex-1
-        flex
-        flex-row
-        items-center
-        space-x-2
-        overflow-x-auto
-        overflow-y-hidden
-      >
+      <div ref="thumbnailContainer" class="thumbnail-container">
         <div
           ref="thumbnails"
           v-for="(thumbnail, index) in images"
@@ -114,8 +104,12 @@ onMounted(() => {
 .thumbnail-root-container {
   @apply flex flex-row justify-stretch items-center py-2 px-4 bg-slate-100 mt-4;
 
-  .thumbnail-container::-webkit-scrollbar {
-    display: none;
+  .thumbnail-container {
+    @apply flex flex-row items-center space-x-2 overflow-x-auto overflow-y-hidden;
+
+    &::-webkit-scrollbar {
+      @apply hidden;
+    }
   }
 
   .thumbnail {
