@@ -2,13 +2,18 @@
   <div class="favorite-root-container">
     <common-tabbar v-model="currentPage" :links="links" class="tabbar" />
 
-    <div flex flex-row justify-center self-center flex-wrap mt-10>
-      <product-item
-        class="product-item"
-        v-for="(product, index) in products"
-        :key="index"
-        :product="product"
-      />
+    <div v-if="currentPage === 'product'" flex flex-row justify-center self-center flex-wrap mt-10>
+      <div v-for="(product, index) in products" :key="index" relative>
+        <el-button size="small" type="primary" absolute top-2 right-4>移除</el-button>
+        <product-item class="product-item" :product="product" />
+      </div>
+    </div>
+
+    <div v-else flex flex-row justify-center self-center flex-wrap mt-10>
+      <div v-for="(demand, index) in demands" :key="index" relative>
+        <el-button size="small" type="primary" absolute top-2 right-4>移除</el-button>
+        <demand-item class="demand-item" :demand="demand" />
+      </div>
     </div>
 
     <div class="pager-panel">
@@ -25,9 +30,13 @@
 <script setup lang="ts">
 import CommonTabbar from '@/components/CommonTabbar.vue'
 import ProductItem from '@/views/Product/ProductItem.vue'
+import DemandItem from '@/views/Demand/DemandItem.vue'
 
 import { useProductStore } from '@/stores/modules/product'
 const { products } = useProductStore()
+
+import { useDemandStore } from '@/stores/modules/demand'
+const { demands } = useDemandStore()
 
 const currentPage = ref('product')
 
@@ -59,10 +68,10 @@ watchEffect(() => {
 
 <style lang="scss" scoped>
 .favorite-root-container {
-  @apply flex flex-col p-10;
+  @apply flex flex-col pt-10 pb-20;
 
   .tabbar {
-    @apply self-center;
+    @apply self-center w-50;
 
     @media (max-width: 40rem) {
       @apply self-start m--5 w-[calc(100%+40px)];
@@ -70,17 +79,23 @@ watchEffect(() => {
   }
 
   @media (max-width: 40rem) {
-    @apply p-5;
+    @apply pt-5;
   }
 }
 
 .product-item {
-  @media (max-width: 75rem) {
-    @apply w-50;
+  @media (min-width: 40rem) {
+    @apply w-58;
+  }
+}
+
+.demand-item {
+  @media (min-width: 40rem) {
+    @apply w-78;
   }
 }
 
 .pager-panel {
-  @apply flex flex-row justify-end mt-10 px-10 max-w-280 w-full;
+  @apply flex flex-row justify-center mt-10 px-10 max-w-280 w-full;
 }
 </style>

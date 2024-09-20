@@ -64,12 +64,12 @@
 </template>
 
 <script setup lang="ts">
+import type { ISortValue } from '@/types/sorting'
 import CreateDialog from './DemandCreate/CreateDialog.vue'
 import FilterListView from '@/components/FilterListView.vue'
 import SortListView from '@/components/SortListView.vue'
 import DemandItem from './DemandItem.vue'
 import { useDemandStore } from '@/stores/modules/demand'
-import type { ISortValue } from '@/types/sorting'
 const { filterSource, sortSource, demands } = useDemandStore()
 
 const sort = ref<ISortValue>({ sortType: 'comprehensive', order: 'desc' as const })

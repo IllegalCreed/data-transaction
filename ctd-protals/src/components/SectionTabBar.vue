@@ -61,7 +61,7 @@ onUnmounted(() => {
 
 <style scoped lang="scss">
 .tab-bar-root-container {
-  @apply flex flex-row justify-start sticky top-20 bg-white z-10 rounded-full overflow-x-auto;
+  @apply flex flex-row justify-start px-5 sticky top-20 bg-white z-10 rounded-full overflow-x-auto;
   box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
 
   &::-webkit-scrollbar {
@@ -84,12 +84,12 @@ onUnmounted(() => {
 .tab-item {
   @apply block p-4 font-bold hover:opacity-60 cursor-pointer select-none whitespace-nowrap mx-auto;
 
+  &.isActive {
+    @apply text-blue-500;
+  }
+
   @media (max-width: 40rem) {
     @apply text-base;
   }
-}
-
-.tab-item.active {
-  @apply text-blue-600;
 }
 </style>
