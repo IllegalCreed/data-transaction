@@ -26,9 +26,9 @@
       <span text-xl font-bold mb-4>请输入项目预算</span>
       <!-- 预算类型选择 -->
       <el-radio-group v-model="paymentOption.budgetType">
-        <el-radio label="fixed">明确价格</el-radio>
-        <el-radio label="range">价格区间</el-radio>
-        <el-radio label="negotiable">面议</el-radio>
+        <el-radio value="fixed">明确价格</el-radio>
+        <el-radio value="range">价格区间</el-radio>
+        <el-radio value="negotiable">面议</el-radio>
       </el-radio-group>
 
       <!-- 明确价格输入 -->

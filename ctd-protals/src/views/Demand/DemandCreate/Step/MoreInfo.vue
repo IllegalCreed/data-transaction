@@ -15,7 +15,7 @@
       <el-checkbox
         v-for="tag in popularTags"
         :key="tag"
-        :label="tag"
+        :value="tag"
         :disabled="isTagLimitReached && !checkedPopularTags.includes(tag)"
       >
         {{ tag }}
@@ -42,25 +42,21 @@
 <script setup lang="ts">
 import { ElMessage } from 'element-plus'
 import { useDemandStore } from '@/stores/modules/demand'
-const demandStore = useDemandStore()
+const { customTags, checkedPopularTags, selectedTags } = storeToRefs(useDemandStore())
 
 const popularTags = ['开发', '技术', '人工智能', '机器学习', '数据', '咨询', '营销', '培训']
 const customTag = ref('')
 const maxTags = 5
 
-const customTags = demandStore.customTags
-const checkedPopularTags = demandStore.checkedPopularTags
-const selectedTags = demandStore.selectedTags
-
 // 计算属性：是否达到标签数量限制
-const isTagLimitReached = computed(() => selectedTags.length >= maxTags)
+const isTagLimitReached = computed(() => selectedTags.value.length >= maxTags)
 
 // 添加自定义标签
 const addCustomTag = () => {
   const tag = customTag.value.trim()
-  if (tag && !selectedTags.includes(tag)) {
-    if (selectedTags.length < maxTags) {
-      customTags.push(tag)
+  if (tag && !selectedTags.value.includes(tag)) {
+    if (selectedTags.value.length < maxTags) {
+      customTags.value.push(tag)
       customTag.value = ''
     }
   } else {
@@ -72,15 +68,15 @@ const addCustomTag = () => {
 // 移除标签
 const removeTag = (tag: string) => {
   // 从热门标签中移除
-  const indexInPopular = checkedPopularTags.indexOf(tag)
+  const indexInPopular = checkedPopularTags.value.indexOf(tag)
   if (indexInPopular !== -1) {
-    checkedPopularTags.splice(indexInPopular, 1)
+    checkedPopularTags.value.splice(indexInPopular, 1)
   }
 
   // 从自定义标签中移除
-  const indexInCustom = customTags.indexOf(tag)
+  const indexInCustom = customTags.value.indexOf(tag)
   if (indexInCustom !== -1) {
-    customTags.splice(indexInCustom, 1)
+    customTags.value.splice(indexInCustom, 1)
   }
 }
 

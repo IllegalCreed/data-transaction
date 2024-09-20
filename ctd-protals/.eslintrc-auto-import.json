@@ -328,6 +328,7 @@
     "useTemplateRef": true,
     "getAdAPI": true,
     "dayjs": true,
-    "useOrderProductStore": true
+    "useOrderProductStore": true,
+    "useOrderDemandStore": true
   }
 }
