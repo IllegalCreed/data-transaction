@@ -21,6 +21,7 @@
 
       <span class="company">服务商: {{ product.seller }}</span>
     </div>
+    <slot></slot>
   </el-card>
 </template>
 
@@ -52,7 +53,7 @@ watchEffect(() => {
 
 <style scoped lang="scss">
 .product-item-root-container {
-  @apply mb-5 mx-2 w-60 cursor-pointer;
+  @apply mb-5 mx-2 w-60 cursor-pointer relative;
 
   .img-container {
     @apply aspect-square m--5 rounded bg-slate-300 overflow-hidden;

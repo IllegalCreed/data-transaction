@@ -3,17 +3,25 @@
     <common-tabbar v-model="currentPage" :links="links" class="tabbar" />
 
     <div v-if="currentPage === 'product'" flex flex-row justify-center self-center flex-wrap mt-10>
-      <div v-for="(product, index) in products" :key="index" relative>
-        <el-button size="small" type="primary" absolute top-2 right-4>移除</el-button>
-        <product-item class="product-item" :product="product" />
-      </div>
+      <product-item
+        class="product-item"
+        v-for="(product, index) in products"
+        :key="index"
+        :product="product"
+      >
+        <el-button size="small" type="primary" absolute right-1 top-1>移除</el-button>
+      </product-item>
     </div>
 
     <div v-else flex flex-row justify-center self-center flex-wrap mt-10>
-      <div v-for="(demand, index) in demands" :key="index" relative>
-        <el-button size="small" type="primary" absolute top-2 right-4>移除</el-button>
-        <demand-item class="demand-item" :demand="demand" />
-      </div>
+      <demand-item
+        class="demand-item"
+        v-for="(demand, index) in demands"
+        :key="index"
+        :demand="demand"
+      >
+        <el-button size="small" type="primary" absolute right-1 top-1>移除</el-button>
+      </demand-item>
     </div>
 
     <div class="pager-panel">

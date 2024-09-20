@@ -35,6 +35,7 @@
       <el-tag type="success">{{ demand.status }}</el-tag>
       <span font-bold text-base text-white>{{ demand.transactionMode.type }}</span>
     </div>
+    <slot></slot>
   </el-card>
 </template>
 
@@ -66,13 +67,13 @@ watchEffect(() => {
 
 <style scoped lang="scss">
 .demand-item-root-container {
-  @apply mb-5 mx-2 w-82 cursor-pointer;
+  @apply mb-5 mx-2 w-82 cursor-pointer relative;
 
   .text-container {
     @apply flex flex-col flex-1;
 
     .title {
-      @apply font-bold text-lg;
+      @apply font-bold text-lg mr-10 line-clamp-1;
     }
 
     .tag-container {
