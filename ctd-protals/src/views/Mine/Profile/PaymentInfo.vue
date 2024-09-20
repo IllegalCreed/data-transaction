@@ -2,22 +2,80 @@
   <div class="payment-info-root-container">
     <span class="title">支付日志</span>
     <div class="payment-list">
-      <div v-for="(log, index) in paymentLogs" :key="index" class="payment-item">
-        <div><strong>日期：</strong>{{ log.date }}</div>
-        <div class="item-content">
-          <div><strong>描述：</strong>{{ log.description }}</div>
-          <div><strong>金额：</strong>{{ log.amount }}</div>
-        </div>
-      </div>
+      <payment-item v-for="item in paymentLogs" :key="item.id" :paymentLog="item"> </payment-item>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const paymentLogs = ref([
-  { date: '2024-09-18', description: '支付订单 #1234', amount: '¥200' },
-  { date: '2024-09-17', description: '支付订单 #1233', amount: '¥150' },
-  { date: '2024-09-16', description: '支付订单 #1232', amount: '¥300' }
+import type { IPaymentLog } from '@/types/payment'
+import PaymentItem from './PaymentItem.vue'
+
+const paymentLogs = ref<IPaymentLog[]>([
+  {
+    id: '1',
+    orderNumber: 'ORD202309180001',
+    amount: 500.0,
+    type: 1, // 充值
+    remark: '用户充值500元',
+    createTime: '2023-09-18 09:00:00'
+  },
+  {
+    id: '2',
+    orderNumber: 'ORD202309180002',
+    amount: -200.0,
+    type: 2, // 冻结
+    remark: '订单金额冻结200元',
+    createTime: '2023-09-18 10:00:00'
+  },
+  {
+    id: '3',
+    orderNumber: 'ORD202309180002',
+    amount: -200.0,
+    type: 3, // 支付
+    remark: '订单支付200元',
+    createTime: '2023-09-18 11:00:00'
+  },
+  {
+    id: '4',
+    orderNumber: 'ORD202309180003',
+    amount: 150.0,
+    type: 4, // 退款
+    remark: '订单退款150元',
+    createTime: '2023-09-18 12:00:00'
+  },
+  {
+    id: '5',
+    orderNumber: 'ORD202309180004',
+    amount: 300.0,
+    type: 1, // 充值
+    remark: '用户充值300元',
+    createTime: '2023-09-18 13:00:00'
+  },
+  {
+    id: '6',
+    orderNumber: 'ORD202309180005',
+    amount: -100.0,
+    type: 2, // 冻结
+    remark: '订单金额冻结100元',
+    createTime: '2023-09-18 14:00:00'
+  },
+  {
+    id: '7',
+    orderNumber: 'ORD202309180005',
+    amount: -100.0,
+    type: 3, // 支付
+    remark: '订单支付100元',
+    createTime: '2023-09-18 15:00:00'
+  },
+  {
+    id: '8',
+    orderNumber: 'ORD202309180006',
+    amount: 80.0,
+    type: 4, // 退款
+    remark: '订单退款80元',
+    createTime: '2023-09-18 16:00:00'
+  }
 ])
 </script>
 
@@ -31,18 +89,6 @@ const paymentLogs = ref([
 
   .payment-list {
     @apply flex flex-col gap-4 mt-4;
-
-    .payment-item {
-      @apply flex flex-col gap-2 p-4 border border-solid border-gray-200 rounded bg-gray-50;
-
-      .item-content {
-        @apply flex flex-row justify-between gap-2;
-
-        @media (max-width: 40rem) {
-          @apply flex-col;
-        }
-      }
-    }
   }
 
   @media (max-width: 40rem) {
