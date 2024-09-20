@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    CommonTabbar: typeof import('./src/components/CommonTabbar.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']
     ElCarousel: typeof import('element-plus/es')['ElCarousel']
@@ -75,7 +76,7 @@ declare module 'vue' {
     SortItem: typeof import('./src/components/SortItem.vue')['default']
     SortListView: typeof import('./src/components/SortListView.vue')['default']
     StepGroup: typeof import('./src/components/StepGroup.vue')['default']
-    StepItem: typeof import./src/components/SectionTabBar.vue.vue')['default']
+    StepItem: typeof import('./src/components/StepItem.vue')['default']
     TabBar: typeof import('./src/components/TabBar.vue')['default']
     UseImage: typeof import('@vueuse/components')['UseImage']
     VerificationCodeInput: typeof import('./src/components/VerificationCodeInput.vue')['default']
