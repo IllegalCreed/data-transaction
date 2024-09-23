@@ -42,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-import ProductPanel from './ProductPanel.vue'
+import ProductPanel from './ProductOrderPanel.vue'
 
 const searchQuery = ref('')
 const selectedStatus = ref('all')

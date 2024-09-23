@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import ProductItem from './ProductItem.vue'
+import ProductItem from './ProductOrderItem.vue'
 
 import { useOrderProductStore } from '@/stores/modules/orderProduct'
 const { orderProducts } = useOrderProductStore()

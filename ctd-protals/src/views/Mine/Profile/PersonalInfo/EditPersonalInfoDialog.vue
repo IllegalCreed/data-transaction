@@ -111,7 +111,7 @@ const rules = ref<FormRules>({
 
 async function handleSubmit() {
   if (!personForm.value) return
-  await personForm.value.validate((valid, fields) => {
+  await personForm.value.validate((valid) => {
     if (valid) {
       ElMessage.success('个人信息修改成功')
       model.value = false
