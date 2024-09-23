@@ -14,11 +14,11 @@
 </template>
 
 <script setup lang="ts">
-import BaseInfo from './BaseInfo.vue'
-import PersonalInfo from './PersonalInfo.vue'
-import CompanyInfo from './CompanyInfo.vue'
-import SecurityInfo from './SecurityInfo.vue'
-import PaymentInfo from './PaymentInfo.vue'
+import BaseInfo from './BaseInfo/BaseInfo.vue'
+import PersonalInfo from './PersonalInfo/PersonalInfo.vue'
+import CompanyInfo from './CompanyInfo/CompanyInfo.vue'
+import SecurityInfo from './SecurityInfo/SecurityInfo.vue'
+import PaymentInfo from './Payment/PaymentInfo.vue'
 
 const isPersonal = ref(true)
 </script>
