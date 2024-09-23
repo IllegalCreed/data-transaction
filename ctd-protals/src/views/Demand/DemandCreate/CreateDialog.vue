@@ -66,7 +66,7 @@ const submitDemand = () => {
 </script>
 
 <style lang="scss" scoped>
-:deep(.demand-create-dialog-container) {
+:global(.demand-create-dialog-container) {
   @apply fixed left-20 right-20 top-20 bottom-20 my-0 mx-auto min-w-80 w-[calc(100%-10rem)] max-w-300 flex flex-col;
 
   @media (max-width: 40rem) {
@@ -74,7 +74,7 @@ const submitDemand = () => {
   }
 }
 
-:deep(.demand-create-dialog-container .el-dialog__body) {
+:global(.demand-create-dialog-container .el-dialog__body) {
   @apply h-full overflow-y-auto p-10;
 
   @media (max-width: 40rem) {

@@ -143,7 +143,7 @@ const searchResults = [
 </script>
 
 <style lang="scss" scoped>
-:deep(.search-dialog-container) {
+:global(.search-dialog-container) {
   @media (max-width: 40rem) {
     @apply fixed left-0 right-0 bottom-0 mb-0 min-w-80;
   }

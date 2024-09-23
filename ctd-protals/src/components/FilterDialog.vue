@@ -66,11 +66,11 @@ watchEffect(() => {
 </script>
 
 <style lang="scss" scoped>
-:deep(.filter-dialog-container) {
+:global(.filter-dialog-container) {
   @apply flex flex-col fixed left-0 right-0 bottom-0 mb-0 h-80%;
 }
 
-:deep(.filter-dialog-container .el-dialog__body) {
+:global(.filter-dialog-container .el-dialog__body) {
   @apply flex flex-row h-full;
 }
 

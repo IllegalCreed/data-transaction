@@ -126,11 +126,11 @@ watchEffect(() => {
 </script>
 
 <style lang="scss" scoped>
-:deep(.order-dialog-container) {
+:global(.order-dialog-container) {
   @apply fixed left-0 right-0 bottom-0 mb-0 h-80% flex flex-col;
 }
 
-:deep(.order-dialog-container .el-dialog__body) {
+:global(.order-dialog-container .el-dialog__body) {
   @apply h-full overflow-y-auto;
 }
 
