@@ -6,64 +6,70 @@
     :close-on-click-modal="false"
     title="修改密码"
   >
-    <el-form
-      class="form"
-      :model="personalInfo"
-      :rules="rules"
-      ref="personForm"
-      label-width="auto"
-      label-position="top"
-      max-w-100
-    >
-      <!-- 头像上传 -->
-      <el-form-item label="头像" prop="avatar">
-        <el-upload
-          class="avatar-uploader"
-          action=""
-          :show-file-list="false"
-          :before-upload="beforeAvatarUpload"
-        >
-          <img v-if="personalInfo.avatar" :src="personalInfo.avatar" w-40 h-40 object-contain />
-          <div v-else class="avatar-uploader-icon">
-            <i-lets-icons:upload w-10 h-10></i-lets-icons:upload>
-          </div>
-        </el-upload>
-      </el-form-item>
+    <div>
+      <el-form
+        class="form"
+        :model="personalInfo"
+        :rules="rules"
+        ref="personForm"
+        label-width="auto"
+        label-position="top"
+        max-w-100
+      >
+        <!-- 头像上传 -->
+        <el-form-item label="头像" prop="avatar">
+          <el-upload
+            class="avatar-uploader"
+            action=""
+            :show-file-list="false"
+            :before-upload="beforeAvatarUpload"
+          >
+            <img v-if="personalInfo.avatar" :src="personalInfo.avatar" w-40 h-40 object-contain />
+            <div v-else class="avatar-uploader-icon">
+              <i-lets-icons:upload w-10 h-10></i-lets-icons:upload>
+            </div>
+          </el-upload>
+        </el-form-item>
 
-      <!-- 姓名 -->
-      <el-form-item label="姓名" prop="name">
-        <el-input v-model="personalInfo.name" placeholder="请输入姓名" />
-      </el-form-item>
+        <!-- 姓名 -->
+        <el-form-item label="姓名" prop="name">
+          <el-input v-model="personalInfo.name" placeholder="请输入姓名" />
+        </el-form-item>
 
-      <!-- 身份证号 -->
-      <el-form-item label="身份证号" prop="idNumber">
-        <el-input v-model="personalInfo.idNumber" placeholder="请输入身份证号" />
-      </el-form-item>
+        <!-- 身份证号 -->
+        <el-form-item label="身份证号" prop="idNumber">
+          <el-input v-model="personalInfo.idNumber" placeholder="请输入身份证号" />
+        </el-form-item>
 
-      <!-- 联系电话 -->
-      <el-form-item label="联系电话" prop="phone">
-        <el-input v-model="personalInfo.phone" placeholder="请输入联系电话" />
-      </el-form-item>
+        <!-- 联系电话 -->
+        <el-form-item label="联系电话" prop="phone">
+          <el-input v-model="personalInfo.phone" placeholder="请输入联系电话" />
+        </el-form-item>
 
-      <!-- 性别 -->
-      <el-form-item label="性别">
-        <el-select v-model="personalInfo.gender" placeholder="请选择性别">
-          <el-option label="男" value="male"></el-option>
-          <el-option label="女" value="female"></el-option>
-          <el-option label="其他" value="other"></el-option>
-        </el-select>
-      </el-form-item>
+        <!-- 性别 -->
+        <el-form-item label="性别">
+          <el-select v-model="personalInfo.gender" placeholder="请选择性别">
+            <el-option label="男" value="male"></el-option>
+            <el-option label="女" value="female"></el-option>
+            <el-option label="其他" value="other"></el-option>
+          </el-select>
+        </el-form-item>
 
-      <!-- 出生日期 -->
-      <el-form-item label="出生日期">
-        <el-date-picker v-model="personalInfo.birthDate" type="date" placeholder="请选择出生日期" />
-      </el-form-item>
+        <!-- 出生日期 -->
+        <el-form-item label="出生日期">
+          <el-date-picker
+            v-model="personalInfo.birthDate"
+            type="date"
+            placeholder="请选择出生日期"
+          />
+        </el-form-item>
 
-      <!-- 住址 -->
-      <el-form-item label="住址">
-        <el-input v-model="personalInfo.address" type="textarea" placeholder="请输入住址" />
-      </el-form-item>
-    </el-form>
+        <!-- 住址 -->
+        <el-form-item label="住址">
+          <el-input v-model="personalInfo.address" type="textarea" placeholder="请输入住址" />
+        </el-form-item>
+      </el-form>
+    </div>
     <template #footer>
       <div class="dialog-footer">
         <el-button class="btn" @click="model = false">取消</el-button>
@@ -135,11 +141,15 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
 
 <style lang="scss" scoped>
 :global(.edit-personal-dialog-container) {
-  @apply flex flex-col min-w-80 w-140;
+  @apply flex flex-col min-w-140;
 
   @media (max-width: 40rem) {
-    @apply fixed left-0 right-0 top-auto bottom-0 mb-0 w-full;
+    @apply min-w-80 fixed left-0 right-0 top-auto bottom-0 mb-0 w-full h-80%;
   }
+}
+
+:global(.edit-personal-dialog-container .el-dialog__body) {
+  @apply flex flex-col flex-1 min-h-0 overflow-y-auto;
 }
 
 .dialog-footer {
