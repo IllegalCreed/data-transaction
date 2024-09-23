@@ -15,7 +15,7 @@
             :is="currentPanel"
             @nextStep="nextStep"
             @prevStep="prevStep"
-            @complete="submitDemand"
+            @complete="changeEmailComplete"
           />
         </keep-alive>
       </div>
@@ -24,8 +24,6 @@
 </template>
 
 <script setup lang="ts">
-import { ElMessage } from 'element-plus'
-
 import StepGroup from '@/components/StepGroup.vue'
 import ValidateIdentify from './Step/ValidateIdentify.vue'
 import ChangeEmail from './Step/ChangeEmail.vue'
@@ -60,9 +58,8 @@ const prevStep = () => {
   }
 }
 
-const submitDemand = () => {
+const changeEmailComplete = () => {
   model.value = false
-  ElMessage.success('创建需求申请提交成功')
 }
 </script>
 
