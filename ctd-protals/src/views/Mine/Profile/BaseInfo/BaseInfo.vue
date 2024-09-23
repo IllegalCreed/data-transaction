@@ -4,28 +4,27 @@
     <div class="content" mt-4>
       <div><strong>账号：</strong> {{ email }}</div>
       <div class="btn-container">
-        <el-button type="primary" size="default" @click="handlePasswordChange">修改密码</el-button>
-        <el-button type="default" size="default" @click="handleManageEmail">管理验证邮箱</el-button>
+        <el-button type="primary" size="default" @click="changePasswordDialogVisiable = true"
+          >修改密码</el-button
+        >
+        <el-button type="default" size="default" @click="changeEmailDialogVisiable = true"
+          >修改验证邮箱</el-button
+        >
       </div>
     </div>
 
-    <change-password-dialog v-model="ChangePasswordDialogVisiable" />
+    <change-password-dialog v-model="changePasswordDialogVisiable" />
+    <change-email-dialog v-model="changeEmailDialogVisiable" />
   </div>
 </template>
 
 <script setup lang="ts">
 import ChangePasswordDialog from './ChangePasswordDialog.vue'
+import ChangeEmailDialog from './ChangeEmailDialog.vue'
 const email = ref('user@example.com')
 
-const ChangePasswordDialogVisiable = ref(false)
-
-const handlePasswordChange = () => {
-  ChangePasswordDialogVisiable.value = true
-}
-
-const handleManageEmail = () => {
-  console.log('管理验证邮箱')
-}
+const changePasswordDialogVisiable = ref(false)
+const changeEmailDialogVisiable = ref(false)
 </script>
 
 <style lang="scss" scoped>
