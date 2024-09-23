@@ -8,14 +8,19 @@
         <el-button type="default" size="default" @click="handleManageEmail">管理验证邮箱</el-button>
       </div>
     </div>
+
+    <change-password-dialog v-model="ChangePasswordDialogVisiable" />
   </div>
 </template>
 
 <script setup lang="ts">
+import ChangePasswordDialog from './ChangePasswordDialog.vue'
 const email = ref('user@example.com')
 
+const ChangePasswordDialogVisiable = ref(false)
+
 const handlePasswordChange = () => {
-  console.log('修改密码')
+  ChangePasswordDialogVisiable.value = true
 }
 
 const handleManageEmail = () => {
