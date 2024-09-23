@@ -92,13 +92,13 @@ watchEffect(() => {
 }
 
 .product-item {
-  @media (min-width: 40rem) {
+  @media (min-width: 41rem) {
     @apply w-58;
   }
 }
 
 .demand-item {
-  @media (min-width: 40rem) {
+  @media (min-width: 41rem) {
     @apply w-78;
   }
 }

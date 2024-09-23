@@ -10,7 +10,7 @@
       ></comment-item>
     </div>
 
-    <div v-else grid grid-cols-2 mt-10 gap-4>
+    <div v-else class="comment-list-container">
       <comment-item
         v-for="(item, index) in demandReviews"
         :key="index"

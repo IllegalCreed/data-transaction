@@ -48,7 +48,7 @@ const route = useRoute()
 
 .content {
   @media (max-width: 40rem) {
-    @apply mt-15;
+    @apply mt-5;
   }
 }
 </style>

@@ -3,6 +3,7 @@
     class="demand-create-dialog-container"
     v-model="modelValue"
     :lock-scroll="true"
+    :close-on-click-modal="false"
     title="创建需求"
   >
     <div flex flex-col justify-start min-h-full>

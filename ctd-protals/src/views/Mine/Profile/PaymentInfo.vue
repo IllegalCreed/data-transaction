@@ -4,6 +4,14 @@
     <div class="payment-list">
       <payment-item v-for="item in paymentLogs" :key="item.id" :paymentLog="item"> </payment-item>
     </div>
+    <div class="pager-panel">
+      <el-pagination
+        :pager-count="pagerCount"
+        :background="showPaginationBackground"
+        :total="1000"
+        :layout="paginationLayout"
+      />
+    </div>
   </div>
 </template>
 
@@ -77,6 +85,23 @@ const paymentLogs = ref<IPaymentLog[]>([
     createTime: '2023-09-18 16:00:00'
   }
 ])
+
+const paginationLayout = ref('total, prev, pager, next')
+const showPaginationBackground = ref(true)
+const pagerCount = ref(7)
+const isMobileDevice = useMediaQuery('(max-width: 40rem)')
+
+watchEffect(() => {
+  if (isMobileDevice.value) {
+    paginationLayout.value = 'prev, pager, next'
+    showPaginationBackground.value = false
+    pagerCount.value = 5
+  } else {
+    paginationLayout.value = 'total, prev, pager, next'
+    showPaginationBackground.value = true
+    pagerCount.value = 7
+  }
+})
 </script>
 
 <style scoped lang="scss">
@@ -94,5 +119,9 @@ const paymentLogs = ref<IPaymentLog[]>([
   @media (max-width: 40rem) {
     @apply p-0 pb-10 shadow-none border-0 border-b border-gray-200;
   }
+}
+
+.pager-panel {
+  @apply flex flex-row justify-center mt-10 max-w-280 w-full;
 }
 </style>
