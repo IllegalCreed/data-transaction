@@ -33,7 +33,7 @@
         签署合同
       </el-button>
       <el-button
-        v-else-if="order.status === 'to_deliver'"
+        v-else-if="order.status === 'to_check'"
         size="small"
         type="success"
         @click="confirmDelivery(order)"
