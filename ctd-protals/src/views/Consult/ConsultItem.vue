@@ -22,10 +22,8 @@ defineProps<{
 </script>
 
 <style lang="scss" scoped>
-.wrap {
-  :global(.service-item-body-container) {
-    @apply flex flex-row h-full items-center;
-  }
+:deep(.service-item-body-container) {
+  @apply flex flex-row h-full items-center;
 }
 
 .service-item-container {

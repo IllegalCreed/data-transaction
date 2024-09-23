@@ -83,9 +83,7 @@ const navigateToDetail = () => {
   }
 }
 
-.wrap {
-  :global(.search-record-item-body-container) {
-    @apply flex flex-row items-center py-2 px-6;
-  }
+:deep(.search-record-item-body-container) {
+  @apply flex flex-row items-center py-2 px-6;
 }
 </style>

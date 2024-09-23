@@ -27,10 +27,8 @@ const { disabled = false } = defineProps<{
 </script>
 
 <style scoped lang="scss">
-.wrap {
-  :global(.trading-item-body-container) {
-    @apply flex flex-col h-full;
-  }
+:deep(.trading-item-body-container) {
+  @apply flex flex-col h-full;
 }
 
 .trading-item {

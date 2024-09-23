@@ -34,9 +34,7 @@ defineProps<{
   }
 }
 
-.wrap {
-  :global(.step-item-body-container) {
-    @apply flex flex-col items-center bg-gray-100 px-5 pt-10 pb-5;
-  }
+:deep(.step-item-body-container) {
+  @apply flex flex-col items-center bg-gray-100 px-5 pt-10 pb-5;
 }
 </style>

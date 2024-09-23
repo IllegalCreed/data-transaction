@@ -126,17 +126,15 @@ watchEffect(() => {
   }
 }
 
-.wrap {
-  :global(.demand-item-body-container) {
-    @apply flex flex-col h-full relative;
+:deep(.demand-item-body-container) {
+  @apply flex flex-col h-full relative;
 
-    @media (max-width: 40rem) {
-      @apply p-3;
-    }
+  @media (max-width: 40rem) {
+    @apply p-3;
+  }
 
-    @media (max-width: 30rem) {
-      @apply p-2;
-    }
+  @media (max-width: 30rem) {
+    @apply p-2;
   }
 }
 </style>

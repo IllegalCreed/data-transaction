@@ -56,10 +56,8 @@ const metrics = [
 </script>
 
 <style lang="scss" scoped>
-.wrap {
-  :global(.quota-item-body-container) {
-    @apply flex flex-col h-full items-center bg-gray-100;
-  }
+:deep(.quota-item-body-container) {
+  @apply flex flex-col h-full items-center bg-gray-100;
 }
 
 .consult-ad-panel {

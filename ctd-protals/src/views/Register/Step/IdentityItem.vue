@@ -26,10 +26,8 @@ defineProps<{
 </script>
 
 <style scoped lang="scss">
-.wrap {
-  :global(.identity-item-body-container) {
-    @apply flex flex-col h-full;
-  }
+:deep(.identity-item-body-container) {
+  @apply flex flex-col h-full;
 }
 
 .identity-item {

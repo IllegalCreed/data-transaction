@@ -82,7 +82,7 @@ watchEffect(() => {
     @apply self-center w-50;
 
     @media (max-width: 40rem) {
-      @apply self-start m--5 w-[calc(100%+40px)];
+      @apply self-start m--5 w-[calc(100%+20px)];
     }
   }
 
@@ -104,6 +104,6 @@ watchEffect(() => {
 }
 
 .pager-panel {
-  @apply flex flex-row justify-center mt-10 px-10 max-w-280 w-full;
+  @apply flex flex-row justify-center mt-10 max-w-280 w-full;
 }
 </style>

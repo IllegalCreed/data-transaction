@@ -125,18 +125,15 @@ watchEffect(() => {
     }
   }
 }
+:deep(.product-item-body-container) {
+  @apply flex flex-col h-full;
 
-.wrap {
-  :global(.product-item-body-container) {
-    @apply flex flex-col h-full;
+  @media (max-width: 40rem) {
+    @apply p-2;
+  }
 
-    @media (max-width: 40rem) {
-      @apply p-2;
-    }
-
-    @media (max-width: 30rem) {
-      @apply p-1;
-    }
+  @media (max-width: 30rem) {
+    @apply p-1;
   }
 }
 </style>

@@ -130,10 +130,8 @@ onMounted(async () => {
   @apply sticky top-30 w-1/3 min-w-60;
 }
 
-.wrap {
-  :global(.control-panel-body-container) {
-    @apply flex flex-col;
-  }
+:deep(.control-panel-body-container) {
+  @apply flex flex-col;
 }
 
 .custom-radio-button {

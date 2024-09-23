@@ -58,9 +58,7 @@ const addToFav = () => {
   @apply sticky top-30 w-1/3;
 }
 
-.wrap {
-  :global(.control-panel-body-container) {
-    @apply flex flex-col;
-  }
+:deep(.control-panel-body-container) {
+  @apply flex flex-col;
 }
 </style>

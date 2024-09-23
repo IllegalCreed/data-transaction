@@ -177,9 +177,7 @@ const viewMoreReviews = () => {
   }
 }
 
-.wrap {
-  :global(.reviews-section-body-container) {
-    @apply flex flex-row items-center justify-between;
-  }
+:deep(.reviews-section-body-container) {
+  @apply flex flex-row items-center justify-between;
 }
 </style>

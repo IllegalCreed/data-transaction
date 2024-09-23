@@ -113,13 +113,11 @@ onMounted(() => {
   }
 }
 
-.wrap {
-  :global(.seller-body-container) {
-    @apply flex flex-row items-center;
+:deep(.seller-body-container) {
+  @apply flex flex-row items-center;
 
-    @media (max-width: 40rem) {
-      @apply cursor-pointer;
-    }
+  @media (max-width: 40rem) {
+    @apply cursor-pointer;
   }
 }
 </style>

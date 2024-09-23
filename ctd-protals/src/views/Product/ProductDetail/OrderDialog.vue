@@ -126,14 +126,12 @@ watchEffect(() => {
 </script>
 
 <style lang="scss" scoped>
-.wrap {
-  :global(.order-dialog-container) {
-    @apply fixed left-0 right-0 bottom-0 mb-0 h-80% flex flex-col;
-  }
+:deep(.order-dialog-container) {
+  @apply fixed left-0 right-0 bottom-0 mb-0 h-80% flex flex-col;
+}
 
-  :global(.order-dialog-container .el-dialog__body) {
-    @apply h-full overflow-y-auto;
-  }
+:deep(.order-dialog-container .el-dialog__body) {
+  @apply h-full overflow-y-auto;
 }
 
 .custom-radio-button {

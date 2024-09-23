@@ -88,11 +88,9 @@ watchEffect(() => {
 </script>
 
 <style scoped lang="scss">
-.wrap {
-  :global(.setting-dialog-container) {
-    @media (max-width: 40rem) {
-      @apply fixed left-0 right-0 bottom-0 mb-0 min-w-80;
-    }
+:deep(.setting-dialog-container) {
+  @media (max-width: 40rem) {
+    @apply fixed left-0 right-0 bottom-0 mb-0 min-w-80;
   }
 }
 

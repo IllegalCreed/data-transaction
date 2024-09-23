@@ -66,21 +66,19 @@ const submitDemand = () => {
 </script>
 
 <style lang="scss" scoped>
-.wrap {
-  :global(.demand-create-dialog-container) {
-    @apply fixed left-20 right-20 top-20 bottom-20 my-0 mx-auto min-w-80 w-[calc(100%-10rem)] max-w-300 flex flex-col;
+:deep(.demand-create-dialog-container) {
+  @apply fixed left-20 right-20 top-20 bottom-20 my-0 mx-auto min-w-80 w-[calc(100%-10rem)] max-w-300 flex flex-col;
 
-    @media (max-width: 40rem) {
-      @apply left-0 right-0 top-auto bottom-0 w-full h-80%;
-    }
+  @media (max-width: 40rem) {
+    @apply left-0 right-0 top-auto bottom-0 w-full h-80%;
   }
+}
 
-  :global(.demand-create-dialog-container .el-dialog__body) {
-    @apply h-full overflow-y-auto p-10;
+:deep(.demand-create-dialog-container .el-dialog__body) {
+  @apply h-full overflow-y-auto p-10;
 
-    @media (max-width: 40rem) {
-      @apply p-0 pt-5;
-    }
+  @media (max-width: 40rem) {
+    @apply p-0 pt-5;
   }
 }
 </style>
