@@ -2,7 +2,9 @@
   <div class="personal-info-root-container">
     <div flex flex-row justify-between mb-4>
       <span class="title">个人信息</span>
-      <el-button type="primary" @click="openEditPersonalInfo">编辑个人信息</el-button>
+      <el-button type="primary" @click="editPersonalInfoDialogVisible = true"
+        >编辑个人信息</el-button
+      >
     </div>
 
     <div class="content">
@@ -17,10 +19,16 @@
         <img :src="personalInfo.avatar" alt="头像" />
       </div>
     </div>
+
+    <edit-personal-info-dialog v-model="editPersonalInfoDialogVisible" />
   </div>
 </template>
 
 <script setup lang="ts">
+import EditPersonalInfoDialog from './EditPersonalInfoDialog.vue'
+
+const editPersonalInfoDialogVisible = ref(false)
+
 const personalInfo = reactive({
   name: '张三',
   idCard: '123456789012345678',
@@ -30,10 +38,6 @@ const personalInfo = reactive({
   address: '北京市朝阳区',
   avatar: 'https://via.placeholder.com/150'
 })
-
-const openEditPersonalInfo = () => {
-  console.log('编辑个人信息')
-}
 </script>
 
 <style scoped lang="scss">
