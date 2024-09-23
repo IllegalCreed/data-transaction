@@ -84,10 +84,14 @@ const getTagType = (status: string) => {
   return typeMap[status] || 'default'
 }
 
-// 操作按钮的方法
+const router = useRouter()
 const viewDetails = (order: IOrderProduct) => {
-  // 查看订单详情逻辑
-  console.log('查看详情', order)
+  router.push({
+    name: 'order-products-detail',
+    params: {
+      id: order.id
+    }
+  })
 }
 
 const signContract = (order: IOrderProduct) => {

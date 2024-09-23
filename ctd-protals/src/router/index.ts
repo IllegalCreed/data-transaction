@@ -99,6 +99,12 @@ const router = createRouter({
                   component: () => import('@/views/Mine/Order/Product/OrderProduct.vue')
                 },
                 {
+                  path: 'products/:id',
+                  name: 'order-products-detail',
+                  component: () =>
+                    import('@/views/Mine/Order/Product/ProductOrderDetail/ProductOrderDetail.vue')
+                },
+                {
                   path: 'services',
                   name: 'order-services',
                   component: () => import('@/views/Mine/Order/Service/OrderService.vue')
