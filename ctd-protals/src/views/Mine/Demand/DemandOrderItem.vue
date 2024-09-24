@@ -82,10 +82,15 @@ const mappedActiveStatus = computed(() => DEMAND_ACTIVE_STATUS_MAP[order.activeS
 const activeStatusTagType = computed(
   () => DEMAND_ACTIVE_STATUS_TAG_TYPE[order.activeStatus] || 'success'
 )
-// 操作按钮的方法
+
+const router = useRouter()
 const viewDetails = (order: IOrderDemand) => {
-  // 查看订单详情逻辑
-  console.log('查看详情', order)
+  router.push({
+    name: 'order-demands-detail',
+    params: {
+      id: order.id
+    }
+  })
 }
 
 const selectCompany = (order: IOrderDemand) => {

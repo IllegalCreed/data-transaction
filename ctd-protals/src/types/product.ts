@@ -39,7 +39,7 @@ export interface IOrderProduct {
   actualDeliveryDate?: string
 }
 
-export interface IOrderDetails {
+export interface IOrderProductDetails {
   orderId: number
   productName: string
   productImageUrl: string
@@ -50,6 +50,6 @@ export interface IOrderDetails {
   merchantName: string
   paymentAmount: number
   orderTime: string
-  expectedDeliveryTime?: string // 当状态为 '待交付' 时显示
-  actualDeliveryTime?: string // 当状态为 '待验查' 及之后的状态显示
+  expectedDeliveryDate?: string // 当状态为 '待交付' 时显示
+  actualDeliveryDate?: string // 当状态为 '待验查' 及之后的状态显示
 }

@@ -4,7 +4,7 @@ import { DemandOrderStatus, DemandActiveStatus } from '@/types/demand'
 // 状态映射
 export const DEMAND_ORDER_STATUS_MAP: { [key in DemandOrderStatus]: string } = {
   [DemandOrderStatus.Pending]: '待审核',
-  [DemandOrderStatus.Bidding]: '投标/竞标中',
+  [DemandOrderStatus.Bidding]: '投标中',
   [DemandOrderStatus.Contract]: '合同协商',
   [DemandOrderStatus.ToDeliver]: '待交付',
   [DemandOrderStatus.ToCheck]: '待验查',

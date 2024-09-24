@@ -38,11 +38,11 @@
           </div>
           <div v-if="showExpectedDeliveryTime" flex flex-row items-center text-slate-500 text-sm>
             <strong>预计交付时间：</strong>
-            <span>{{ orderDetails.expectedDeliveryTime }}</span>
+            <span>{{ orderDetails.expectedDeliveryDate }}</span>
           </div>
           <div v-if="showActualDeliveryTime" flex flex-row items-center text-slate-500 text-sm>
             <strong>实际交付时间：</strong>
-            <span>{{ orderDetails.actualDeliveryTime }}</span>
+            <span>{{ orderDetails.actualDeliveryDate }}</span>
           </div>
         </div>
       </div>
@@ -81,14 +81,14 @@
 </template>
 
 <script setup lang="ts">
-import type { IOrderDetails, ProductOrderStatus } from '@/types/product'
+import type { IOrderProductDetails, ProductOrderStatus } from '@/types/product'
 
 const { orderId, status } = defineProps<{
   orderId: number
   status: ProductOrderStatus
 }>()
 
-const orderDetails = ref<IOrderDetails>({
+const orderDetails = ref<IOrderProductDetails>({
   orderId: orderId,
   productName: '高级数据分析平台',
   productDescription: '一个功能全面的数据分析平台，适用于大规模数据处理。',
@@ -102,8 +102,8 @@ const orderDetails = ref<IOrderDetails>({
   merchantName: '数据科技有限公司',
   paymentAmount: 999.99,
   orderTime: '2024-03-15 09:00:00',
-  expectedDeliveryTime: '2024-03-25 17:00:00',
-  actualDeliveryTime: '2024-03-24 16:30:00' // 实际交付时间
+  expectedDeliveryDate: '2024-03-25 17:00:00',
+  actualDeliveryDate: '2024-03-24 16:30:00' // 实际交付时间
 })
 
 watchEffect(() => {

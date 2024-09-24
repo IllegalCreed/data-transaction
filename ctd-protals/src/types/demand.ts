@@ -37,12 +37,24 @@ export interface IDemand {
 export interface IOrderDemand {
   id: number
   title: string
+  budget: number
+  transactionMode: TransactionMode
+  createTime: string
+  status: DemandOrderStatus
+  activeStatus: DemandActiveStatus
+  expectedDeliveryDate: string
+  actualDeliveryDate?: string
+}
+
+export interface IOrderDemandDetails {
+  id: number
+  title: string
   shotDesc: string
   budget: number
   transactionMode: TransactionMode
   createTime: string
   status: DemandOrderStatus
   activeStatus: DemandActiveStatus
-  expectedDeliveryDate?: string
+  expectedDeliveryDate: string
   actualDeliveryDate?: string
 }

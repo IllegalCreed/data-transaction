@@ -8,9 +8,9 @@
 
     <product-order-base-info :status="currentStep" :orderId="1" />
 
-    <product-contract-info v-if="currentStep > 1" :orderId="1" mt-10 />
+    <product-order-contract-info v-if="currentStep > 1" :orderId="1" mt-10 />
 
-    <product-review-info v-if="currentStep === 5" :orderId="1" mt-10 />
+    <product-order-review-info v-if="currentStep === 5" :orderId="1" mt-10 />
 
     <div class="btn-container">
       <el-button class="btn" v-if="currentStep === 1" type="primary">签署合同</el-button>
@@ -22,8 +22,8 @@
 
 <script setup lang="ts">
 import ProductOrderBaseInfo from './ProductOrderBaseInfo.vue'
-import ProductContractInfo from './ProductContractInfo.vue'
-import ProductReviewInfo from './ProductReviewInfo.vue'
+import ProductOrderContractInfo from './ProductOrderContractInfo.vue'
+import ProductOrderReviewInfo from './ProductOrderReviewInfo.vue'
 
 const steps = [
   { title: '待审核' },
