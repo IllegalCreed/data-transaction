@@ -6,24 +6,29 @@
         <el-tag size="small" mt-1>{{ order.transactionMode.type }}</el-tag>
       </div>
       <span class="time" mt-2><strong>发布时间：</strong>{{ order.createTime }}</span>
-      <span class="time" v-if="order.status === 'to_deliver'">
+      <span class="time" v-if="order.status === DemandOrderStatus.ToDeliver">
         <strong>预计交付时间：</strong>{{ order.expectedDeliveryDate }}
       </span>
-      <span class="time" v-else-if="order.status === 'to_check'">
+      <span class="time" v-else-if="order.status === DemandOrderStatus.ToCheck">
         <strong>实际交付时间：</strong>{{ order.actualDeliveryDate }}
       </span>
     </div>
     <div flex-1></div>
     <div class="demand-item-content">
-      <el-tag :type="getTagType(order.status)" size="large">{{
-        formatStatus(order.status)
-      }}</el-tag>
+      <el-tag
+        :type="
+          order.activeStatus === DemandActiveStatus.Disabled ? activeStatusTagType : statusTagType
+        "
+        size="large"
+      >
+        {{ order.activeStatus === DemandActiveStatus.Disabled ? mappedActiveStatus : mappedStatus }}
+      </el-tag>
       <div text-lg text-red-600 font-bold>￥{{ order.budget }}</div>
     </div>
     <div class="demand-item-actions">
       <el-button size="small" @click="viewDetails(order)">查看详情</el-button>
       <el-button
-        v-if="order.status === 'bidding'"
+        v-if="order.status === DemandOrderStatus.Bidding"
         size="small"
         type="primary"
         @click="selectCompany(order)"
@@ -31,7 +36,7 @@
         选择商家
       </el-button>
       <el-button
-        v-if="order.status === 'contract'"
+        v-if="order.status === DemandOrderStatus.Contract"
         size="small"
         type="primary"
         @click="signContract(order)"
@@ -39,7 +44,7 @@
         签署合同
       </el-button>
       <el-button
-        v-else-if="order.status === 'to_check'"
+        v-else-if="order.status === DemandOrderStatus.ToCheck"
         size="small"
         type="success"
         @click="confirmDelivery(order)"
@@ -47,7 +52,7 @@
         确认交付
       </el-button>
       <el-button
-        v-else-if="order.status === 'pending_review'"
+        v-else-if="order.status === DemandOrderStatus.PendingReview"
         size="small"
         type="warning"
         @click="reviewOrder(order)"
@@ -59,39 +64,24 @@
 </template>
 
 <script setup lang="ts">
-import type { IOrderDemand } from '@/types/demand'
+import { DemandActiveStatus, DemandOrderStatus, type IOrderDemand } from '@/types/demand'
 
-defineProps<{
+const { order } = defineProps<{
   order: IOrderDemand
 }>()
 
-// 格式化状态
-const formatStatus = (status: string) => {
-  const statusMap: Record<string, string> = {
-    pending: '待审核',
-    bidding: '投标/竞标中',
-    contract: '合同协商',
-    to_deliver: '待交付',
-    to_check: '待验查',
-    pending_review: '待评价',
-    reviewed: '已评价'
-  }
-  return statusMap[status] || '未知状态'
-}
-
-const getTagType = (status: string) => {
-  const typeMap: Record<string, 'success' | 'warning' | 'info' | 'primary' | 'danger'> = {
-    pending: 'info',
-    bidding: 'primary',
-    contract: 'warning',
-    to_deliver: 'primary',
-    to_check: 'success',
-    pending_review: 'danger',
-    reviewed: 'success'
-  }
-  return typeMap[status] || 'default'
-}
-
+import {
+  DEMAND_ORDER_STATUS_MAP,
+  DEMAND_ORDER_STATUS_TAG_TYPE,
+  DEMAND_ACTIVE_STATUS_MAP,
+  DEMAND_ACTIVE_STATUS_TAG_TYPE
+} from '@/constants/demandOrder'
+const mappedStatus = computed(() => DEMAND_ORDER_STATUS_MAP[order.status] || '待审核')
+const statusTagType = computed(() => DEMAND_ORDER_STATUS_TAG_TYPE[order.status] || 'info')
+const mappedActiveStatus = computed(() => DEMAND_ACTIVE_STATUS_MAP[order.activeStatus] || '数据集')
+const activeStatusTagType = computed(
+  () => DEMAND_ACTIVE_STATUS_TAG_TYPE[order.activeStatus] || 'success'
+)
 // 操作按钮的方法
 const viewDetails = (order: IOrderDemand) => {
   // 查看订单详情逻辑

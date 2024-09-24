@@ -122,6 +122,11 @@ const router = createRouter({
               component: () => import('@/views/Mine/Demand/OrderDemand.vue')
             },
             {
+              path: '/mine/demands/:id',
+              name: 'order-demands-detail',
+              component: () => import('@/views/Mine/Demand/DemandOrderDetail/DemandOrderDetail.vue')
+            },
+            {
               path: '/mine/favorites',
               name: 'my-favorites',
               component: () => import('@/views/Mine/Favorite/FavoriteView.vue')
