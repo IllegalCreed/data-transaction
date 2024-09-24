@@ -2,21 +2,21 @@ import type { ElTagType } from '@/types/elplus'
 import { ProductOrderStatus, ProductType } from '@/types/product'
 
 export const PRODUCT_ORDER_STATUS_MAP: { [key in ProductOrderStatus]: string } = {
-  [ProductOrderStatus.PendingReview]: '待审核',
-  [ProductOrderStatus.ContractNegotiation]: '合同协商',
-  [ProductOrderStatus.PendingDelivery]: '待交付',
-  [ProductOrderStatus.PendingInspection]: '待验查',
-  [ProductOrderStatus.PendingEvaluation]: '待评价',
-  [ProductOrderStatus.Evaluated]: '已评价'
+  [ProductOrderStatus.Pending]: '待审核',
+  [ProductOrderStatus.Contract]: '合同协商',
+  [ProductOrderStatus.ToDeliver]: '待交付',
+  [ProductOrderStatus.ToCheck]: '待验查',
+  [ProductOrderStatus.ToReview]: '待评价',
+  [ProductOrderStatus.Reviewed]: '已评价'
 }
 
 export const PRODUCT_ORDER_STATUS_TAG_TYPE: { [key in ProductOrderStatus]: ElTagType } = {
-  [ProductOrderStatus.PendingReview]: 'info',
-  [ProductOrderStatus.ContractNegotiation]: 'warning',
-  [ProductOrderStatus.PendingDelivery]: 'primary',
-  [ProductOrderStatus.PendingInspection]: 'success',
-  [ProductOrderStatus.PendingEvaluation]: 'warning',
-  [ProductOrderStatus.Evaluated]: 'success'
+  [ProductOrderStatus.Pending]: 'info',
+  [ProductOrderStatus.Contract]: 'warning',
+  [ProductOrderStatus.ToDeliver]: 'primary',
+  [ProductOrderStatus.ToCheck]: 'success',
+  [ProductOrderStatus.ToReview]: 'warning',
+  [ProductOrderStatus.Reviewed]: 'success'
 }
 
 export const PRODUCT_TYPE_MAP: { [key in ProductType]: string } = {

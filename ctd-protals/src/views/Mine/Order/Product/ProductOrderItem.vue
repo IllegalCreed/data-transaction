@@ -8,24 +8,22 @@
         <el-tag size="small" mt-1>{{ order.type }}</el-tag>
         <div flex-1></div>
         <span class="time"><strong>下单时间：</strong>{{ order.purchaseDate }}</span>
-        <span class="time" v-if="order.status === 'to_deliver'">
+        <span class="time" v-if="order.status === ProductOrderStatus.ToDeliver">
           <strong>预计交付时间：</strong>{{ order.expectedDeliveryDate }}
         </span>
-        <span class="time" v-else-if="order.status === 'to_check'">
+        <span class="time" v-else-if="order.status === ProductOrderStatus.ToCheck">
           <strong>实际交付时间：</strong>{{ order.actualDeliveryDate }}
         </span>
       </div>
     </div>
     <div class="product-item-content">
-      <el-tag :type="getTagType(order.status)" size="large">{{
-        formatStatus(order.status)
-      }}</el-tag>
+      <el-tag :type="statusTagType" size="large">{{ mappedStatus }}</el-tag>
       <div text-lg text-red-600 font-bold>{{ order.price }}</div>
     </div>
     <div class="product-item-actions">
       <el-button size="small" @click="viewDetails(order)">查看详情</el-button>
       <el-button
-        v-if="order.status === 'contract'"
+        v-if="order.status === ProductOrderStatus.Contract"
         size="small"
         type="primary"
         @click="signContract(order)"
@@ -33,7 +31,7 @@
         签署合同
       </el-button>
       <el-button
-        v-else-if="order.status === 'to_check'"
+        v-else-if="order.status === ProductOrderStatus.ToCheck"
         size="small"
         type="success"
         @click="confirmDelivery(order)"
@@ -41,7 +39,7 @@
         确认交付
       </el-button>
       <el-button
-        v-else-if="order.status === 'pending_review'"
+        v-else-if="order.status === ProductOrderStatus.ToReview"
         size="small"
         type="warning"
         @click="reviewOrder(order)"
@@ -53,36 +51,16 @@
 </template>
 
 <script setup lang="ts">
-import type { IOrderProduct } from '@/types/product'
+import { ProductOrderStatus, type IOrderProduct } from '@/types/product'
 
-defineProps<{
+const { order } = defineProps<{
   order: IOrderProduct
 }>()
 
-// 格式化状态
-const formatStatus = (status: string) => {
-  const statusMap: Record<string, string> = {
-    pending: '待审核',
-    contract: '合同协商',
-    to_deliver: '待交付',
-    to_check: '待验查',
-    pending_review: '待评价',
-    reviewed: '已评价'
-  }
-  return statusMap[status] || '未知状态'
-}
+import { PRODUCT_ORDER_STATUS_MAP, PRODUCT_ORDER_STATUS_TAG_TYPE } from '@/constants/productOrder'
 
-const getTagType = (status: string) => {
-  const typeMap: Record<string, 'success' | 'warning' | 'info' | 'primary' | 'danger'> = {
-    pending: 'info',
-    contract: 'warning',
-    to_deliver: 'primary',
-    to_check: 'success',
-    pending_review: 'danger',
-    reviewed: 'success'
-  }
-  return typeMap[status] || 'default'
-}
+const mappedStatus = computed(() => PRODUCT_ORDER_STATUS_MAP[order.status] || '待审核')
+const statusTagType = computed(() => PRODUCT_ORDER_STATUS_TAG_TYPE[order.status] || 'info')
 
 const router = useRouter()
 const viewDetails = (order: IOrderProduct) => {

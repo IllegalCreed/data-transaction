@@ -52,7 +52,7 @@
         确认交付
       </el-button>
       <el-button
-        v-else-if="order.status === DemandOrderStatus.PendingReview"
+        v-else-if="order.status === DemandOrderStatus.ToReview"
         size="small"
         type="warning"
         @click="reviewOrder(order)"

@@ -1,4 +1,4 @@
-import type { IOrderProduct } from '@/types/product'
+import { ProductOrderStatus, type IOrderProduct } from '@/types/product'
 import { defineStore } from 'pinia'
 
 export const useOrderProductStore = defineStore('orderProduct', () => {
@@ -10,7 +10,7 @@ export const useOrderProductStore = defineStore('orderProduct', () => {
       type: '数据集',
       purchaseDate: '2023-09-18',
       price: '¥200',
-      status: 'pending', // 待审核
+      status: ProductOrderStatus.Pending, // 待审核
       expectedDeliveryDate: ''
     },
     {
@@ -20,7 +20,7 @@ export const useOrderProductStore = defineStore('orderProduct', () => {
       type: '数据集',
       purchaseDate: '2023-09-19',
       price: '¥300',
-      status: 'contract', // 合同协商
+      status: ProductOrderStatus.Contract, // 合同协商
       expectedDeliveryDate: '2023-09-26'
     },
     {
@@ -30,7 +30,7 @@ export const useOrderProductStore = defineStore('orderProduct', () => {
       type: '数据集',
       purchaseDate: '2023-09-20',
       price: '¥400',
-      status: 'to_deliver', // 待交付
+      status: ProductOrderStatus.ToDeliver, // 待交付
       expectedDeliveryDate: '2023-09-27'
     },
     {
@@ -40,7 +40,7 @@ export const useOrderProductStore = defineStore('orderProduct', () => {
       type: 'API',
       purchaseDate: '2023-09-21',
       price: '¥500',
-      status: 'to_check', // 待验查
+      status: ProductOrderStatus.ToCheck, // 待验查
       actualDeliveryDate: '2023-09-28'
     },
     {
@@ -50,7 +50,7 @@ export const useOrderProductStore = defineStore('orderProduct', () => {
       type: 'API',
       purchaseDate: '2023-09-22',
       price: '¥600',
-      status: 'pending_review', // 待评价
+      status: ProductOrderStatus.ToReview, // 待评价
       actualDeliveryDate: '2023-09-29'
     },
     {
@@ -60,7 +60,7 @@ export const useOrderProductStore = defineStore('orderProduct', () => {
       type: 'API',
       purchaseDate: '2023-09-23',
       price: '¥700',
-      status: 'reviewed', // 已评价
+      status: ProductOrderStatus.Reviewed, // 已评价
       actualDeliveryDate: '2023-09-30'
     }
   ])

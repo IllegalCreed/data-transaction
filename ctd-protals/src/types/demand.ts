@@ -12,7 +12,7 @@ export enum DemandOrderStatus {
   Contract = 2, // 合同协商
   ToDeliver = 3, // 待交付
   ToCheck = 4, // 待验查
-  PendingReview = 5, // 待评价
+  ToReview = 5, // 待评价
   Reviewed = 6 // 已评价
 }
 

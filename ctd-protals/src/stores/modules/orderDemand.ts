@@ -71,7 +71,7 @@ export const useOrderDemandStore = defineStore('orderDemand', () => {
       budget: 2500,
       transactionMode: { type: '比稿' } as TransactionMode, // 比稿类型
       createTime: '2023-09-23 13:00:00',
-      status: DemandOrderStatus.PendingReview, // 待评价
+      status: DemandOrderStatus.ToReview, // 待评价
       activeStatus: DemandActiveStatus.Enabled, // 停用
       actualDeliveryDate: '2023-09-28'
     },

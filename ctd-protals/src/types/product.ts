@@ -4,12 +4,12 @@ export interface IOrderSpecification {
 }
 
 export enum ProductOrderStatus {
-  PendingReview = 0,
-  ContractNegotiation = 1,
-  PendingDelivery = 2,
-  PendingInspection = 3,
-  PendingEvaluation = 4,
-  Evaluated = 5
+  Pending = 0,
+  Contract = 1,
+  ToDeliver = 2,
+  ToCheck = 3,
+  ToReview = 4,
+  Reviewed = 5
 }
 
 export enum ProductType {
@@ -34,7 +34,7 @@ export interface IOrderProduct {
   type: string
   purchaseDate: string
   price: string
-  status: string
+  status: ProductOrderStatus
   expectedDeliveryDate?: string
   actualDeliveryDate?: string
 }

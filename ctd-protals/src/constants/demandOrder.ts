@@ -8,7 +8,7 @@ export const DEMAND_ORDER_STATUS_MAP: { [key in DemandOrderStatus]: string } = {
   [DemandOrderStatus.Contract]: '合同协商',
   [DemandOrderStatus.ToDeliver]: '待交付',
   [DemandOrderStatus.ToCheck]: '待验查',
-  [DemandOrderStatus.PendingReview]: '待评价',
+  [DemandOrderStatus.ToReview]: '待评价',
   [DemandOrderStatus.Reviewed]: '已评价'
 }
 
@@ -19,7 +19,7 @@ export const DEMAND_ORDER_STATUS_TAG_TYPE: { [key in DemandOrderStatus]: ElTagTy
   [DemandOrderStatus.Contract]: 'warning',
   [DemandOrderStatus.ToDeliver]: 'primary',
   [DemandOrderStatus.ToCheck]: 'success',
-  [DemandOrderStatus.PendingReview]: 'warning',
+  [DemandOrderStatus.ToReview]: 'warning',
   [DemandOrderStatus.Reviewed]: 'success'
 }
 
