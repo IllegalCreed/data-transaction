@@ -119,7 +119,7 @@ const router = createRouter({
             {
               path: '/mine/demands',
               name: 'my-demands',
-              component: () => import('@/views/Mine/Demand/DemandView.vue')
+              component: () => import('@/views/Mine/Demand/OrderDemand.vue')
             },
             {
               path: '/mine/favorites',

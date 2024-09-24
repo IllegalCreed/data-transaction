@@ -42,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-import DemandPanel from './DemandPanel.vue'
+import DemandPanel from './DemandOrderPanel.vue'
 
 const searchQuery = ref('')
 const selectedStatus = ref('all')
