@@ -1,3 +1,22 @@
+export interface IOrderSpecification {
+  key: string
+  value: string | number
+}
+
+export enum ProductOrderStatus {
+  PendingReview = 0,
+  ContractNegotiation = 1,
+  PendingDelivery = 2,
+  PendingInspection = 3,
+  PendingEvaluation = 4,
+  Evaluated = 5
+}
+
+export enum ProductType {
+  Dataset = 0,
+  API = 1
+}
+
 export interface IProduct {
   id: number
   name: string
@@ -20,23 +39,6 @@ export interface IOrderProduct {
   actualDeliveryDate?: string
 }
 
-export interface IOrderSpecification {
-  key: string
-  value: string | number
-}
-
-export type OrderStatus =
-  | 0 // 待审核
-  | 1 // 合同协商
-  | 2 // 待交付
-  | 3 // 待验查
-  | 4 // 待评价
-  | 5 // 已评价
-
-export type ProductType =
-  | 0 // 数据集
-  | 1 // API
-
 export interface IOrderDetails {
   orderId: number
   productName: string
@@ -44,7 +46,7 @@ export interface IOrderDetails {
   productDescription: string
   productType: ProductType
   specifications: IOrderSpecification[]
-  status: OrderStatus
+  status: ProductOrderStatus
   merchantName: string
   paymentAmount: number
   orderTime: string

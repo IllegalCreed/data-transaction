@@ -6,16 +6,24 @@
 
     <step-group class="step" :steps="steps" :currentStep="currentStep" self-stretch />
 
-    <product-order-base-info
-      :status="currentStep as OrderStatus"
-      :order-id="1"
-    ></product-order-base-info>
+    <product-order-base-info :status="currentStep" :orderId="1" />
+
+    <product-contract-info v-if="currentStep > 1" :orderId="1" mt-10 />
+
+    <product-review-info v-if="currentStep === 5" :orderId="1" mt-10 />
+
+    <div class="btn-container">
+      <el-button class="btn" v-if="currentStep === 1" type="primary">签署合同</el-button>
+      <el-button class="btn" v-if="currentStep === 3" type="primary">确认交付</el-button>
+      <el-button class="btn" v-if="currentStep === 4" type="primary">评价订单</el-button>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { OrderStatus } from '@/types/product'
 import ProductOrderBaseInfo from './ProductOrderBaseInfo.vue'
+import ProductContractInfo from './ProductContractInfo.vue'
+import ProductReviewInfo from './ProductReviewInfo.vue'
 
 const steps = [
   { title: '待审核' },
@@ -41,11 +49,21 @@ const changeCurrentStep = () => {
     @apply mb-10;
   }
 
+  .btn-container {
+    @apply flex flex-row justify-center items-center mt-10;
+  }
+
   @media (max-width: 40rem) {
     @apply p-5;
 
     .step {
       @apply hidden;
+    }
+
+    .btn-container {
+      .btn {
+        @apply flex-1;
+      }
     }
   }
 }

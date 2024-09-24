@@ -1,15 +1,12 @@
-<!-- src/components/ProductOrderDetail.vue -->
 <template>
   <div class="product-order-detail-baseinfo-root-container">
     <div class="header-container">
       <el-image
         :src="orderDetails.productImageUrl"
-        fit="cover"
+        fit="contain"
         :preview-src-list="[orderDetails.productImageUrl]"
         lazy
-        rounded
-        max-w-50
-        max-h-50
+        class="product-image"
       >
         <template #error>
           <div bg-gray-300 w-50 h-50 rounded flex justify-center items-center>
@@ -18,7 +15,7 @@
         </template>
       </el-image>
 
-      <div flex flex-col gap-2>
+      <div flex-1 flex flex-col gap-2>
         <span text-2xl font-bold>{{ orderDetails.productName }}</span>
 
         <div flex flex-row gap-2>
@@ -84,11 +81,11 @@
 </template>
 
 <script setup lang="ts">
-import type { IOrderDetails, OrderStatus, ProductType } from '@/types/product'
+import type { IOrderDetails, ProductOrderStatus } from '@/types/product'
 
 const { orderId, status } = defineProps<{
   orderId: number
-  status: OrderStatus
+  status: ProductOrderStatus
 }>()
 
 const orderDetails = ref<IOrderDetails>({
@@ -118,64 +115,23 @@ const showActualDeliveryTime = computed(
   () => [3, 4, 5].includes(orderDetails.value.status) // 待验查、待评价、已评价
 )
 
-const statusMapString = (status: OrderStatus): string => {
-  const map: { [key in OrderStatus]: string } = {
-    0: '待审核',
-    1: '合同协商',
-    2: '待交付',
-    3: '待验查',
-    4: '待评价',
-    5: '已评价'
-  }
-  return map[status] || '待审核'
-}
+import {
+  PRODUCT_ORDER_STATUS_MAP,
+  PRODUCT_ORDER_STATUS_TAG_TYPE,
+  PRODUCT_TYPE_MAP,
+  PRODUCT_TYPE_TAG_TYPE
+} from '@/constants/productOrder'
 
-// 映射 status 数字到 el-tag 类型
-const statusMapTagType = (
-  status: OrderStatus
-): 'primary' | 'success' | 'info' | 'warning' | 'danger' => {
-  const map: { [key in OrderStatus]: 'primary' | 'success' | 'info' | 'warning' | 'danger' } = {
-    0: 'info', // 待审核 - 信息
-    1: 'warning', // 合同协商 - 警告
-    2: 'primary', // 待交付 - 主要
-    3: 'success', // 待验查 - 成功
-    4: 'warning', // 待评价 - 警告
-    5: 'success' // 已评价 - 成功
-  }
-  return map[status] || 'info'
-}
-
-// 计算属性：映射后的状态字符串
-const mappedStatus = computed(() => statusMapString(orderDetails.value.status))
-
-// 计算属性：状态对应的 el-tag 类型
-const statusTagType = computed(() => statusMapTagType(orderDetails.value.status))
-
-// 映射 productType 数字到中文字符串
-const productTypeMapString = (type: ProductType): string => {
-  const map: { [key in ProductType]: string } = {
-    0: '数据集',
-    1: 'API'
-  }
-  return map[type] || '数据集'
-}
-
-// 映射 productType 数字到 el-tag 类型
-const productTypeMapTagType = (
-  type: ProductType
-): 'primary' | 'success' | 'info' | 'warning' | 'danger' => {
-  const map: { [key in ProductType]: 'primary' | 'success' | 'info' | 'warning' | 'danger' } = {
-    0: 'success', // 数据集 - 成功
-    1: 'warning' // API - 警告
-  }
-  return map[type] || 'success'
-}
-
-// 计算属性：映射后的产品形态字符串
-const mappedProductType = computed(() => productTypeMapString(orderDetails.value.productType))
-
-// 计算属性：产品形态对应的 el-tag 类型
-const productTypeTagType = computed(() => productTypeMapTagType(orderDetails.value.productType))
+const mappedStatus = computed(() => PRODUCT_ORDER_STATUS_MAP[orderDetails.value.status] || '待审核')
+const statusTagType = computed(
+  () => PRODUCT_ORDER_STATUS_TAG_TYPE[orderDetails.value.status] || 'info'
+)
+const mappedProductType = computed(
+  () => PRODUCT_TYPE_MAP[orderDetails.value.productType] || '数据集'
+)
+const productTypeTagType = computed(
+  () => PRODUCT_TYPE_TAG_TYPE[orderDetails.value.productType] || 'success'
+)
 </script>
 
 <style scoped lang="scss">
@@ -184,6 +140,10 @@ const productTypeTagType = computed(() => productTypeMapTagType(orderDetails.val
 
   .header-container {
     @apply flex flex-row gap-4;
+
+    .product-image {
+      @apply rounded max-w-50 h-50 bg-gray-100;
+    }
   }
 
   .specifications-container {
@@ -199,6 +159,10 @@ const productTypeTagType = computed(() => productTypeMapTagType(orderDetails.val
 
     .header-container {
       @apply flex-col;
+
+      .product-image {
+        @apply max-w-full;
+      }
     }
 
     .specifications-container {
