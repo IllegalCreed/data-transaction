@@ -6,7 +6,7 @@
       :class="{ 'cursor-pointer': item.route }"
       @click="item.route ? navigateTo(item.route) : null"
     >
-      <img :src="item.imageUrl" alt="Banner" class="banner-image" />
+      <img :src="item.imageUrl" alt="Banner" class="home-carousel-banner-image" />
     </el-carousel-item>
   </el-carousel>
 </template>
@@ -46,7 +46,7 @@ onMounted(() => {
       @apply flex flex-col items-center justify-center bg-[var(--color-background-dark)];
     }
 
-    .banner-image {
+    .home-carousel-banner-image {
       @apply max-w-300 w-full object-contain;
 
       @media (min-width: 75rem) {
