@@ -143,6 +143,10 @@ const ActiveStatusTagType = computed(
 
     .btn-container {
       @apply flex-col;
+
+      .btn {
+        @apply max-w-80;
+      }
     }
   }
 }
