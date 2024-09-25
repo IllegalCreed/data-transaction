@@ -330,6 +330,7 @@
     "dayjs": true,
     "useOrderProductStore": true,
     "useOrderDemandStore": true,
-    "useCommentStore": true
+    "useCommentStore": true,
+    "useNewsStore": true
   }
 }

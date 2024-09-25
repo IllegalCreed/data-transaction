@@ -1,18 +1,28 @@
 <template>
-  <div class="news-item-container">
+  <div class="news-item-container" @click="goNewsDetail">
     <span class="title">{{ data.title }}</span>
     <span class="time">{{ data.createTime }}</span>
   </div>
 </template>
 
 <script setup lang="ts">
-defineProps<{
+const { data } = defineProps<{
   data: {
     id: string
     title: string
     createTime: string
   }
 }>()
+
+const router = useRouter()
+const goNewsDetail = () => {
+  router.push({
+    name: 'news-detail',
+    params: {
+      id: data.id
+    }
+  })
+}
 </script>
 
 <style scoped lang="scss">

@@ -16,7 +16,15 @@
       </div>
     </div>
 
-    <span self-center text-base text-slate-400 mt-10 cursor-pointer select-none hover:opacity-60
+    <span
+      self-center
+      text-base
+      text-slate-400
+      mt-10
+      cursor-pointer
+      select-none
+      hover:opacity-60
+      @click="goNews"
       >更多</span
     >
   </div>
@@ -26,6 +34,13 @@
 import NewsItem from './NewsItem.vue'
 
 const newsList = ref<{ title: string; createTime: string; id: string }[]>([])
+
+const router = useRouter()
+const goNews = () => {
+  router.push({
+    name: 'news'
+  })
+}
 
 const fetchNews = async () => {
   newsList.value = Array.from({ length: 10 }, (_, i) => ({
