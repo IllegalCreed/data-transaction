@@ -39,11 +39,13 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .home-carousel-root-container {
+  @apply bg-[var(--color-background-dark)];
+
   :deep(.el-carousel__container) {
     @apply h-120;
 
     .el-carousel__item {
-      @apply flex flex-col items-center justify-center bg-[var(--color-background-dark)];
+      @apply flex flex-col items-center justify-center;
     }
 
     .home-carousel-banner-image {

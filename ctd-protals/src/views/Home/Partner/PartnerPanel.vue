@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import TopPartner from './TopPartner.vue'
+import TopPartner from './PartnerTopItem.vue'
 import PartnerItem from './PartnerItem.vue'
 
 const partner = [

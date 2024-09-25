@@ -333,6 +333,8 @@
     "useCommentStore": true,
     "useNewsStore": true,
     "useHomeStore": true,
-    "getBanners": true
+    "getBanners": true,
+    "createWaveCanvas": true,
+    "useWave": true
   }
 }

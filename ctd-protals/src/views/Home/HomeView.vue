@@ -32,9 +32,11 @@
 
 <script setup lang="ts">
 import HomeCarousel from './HomeCarousel.vue'
-import ModulePanel from './ModulePanel.vue'
-import NewsPanel from './NewsPanel.vue'
-import PartnerPanel from './PartnerPanel.vue'
+import ModulePanel from './Module/ModulePanel.vue'
+import NewsPanel from './News/NewsPanel.vue'
+import PartnerPanel from './Partner/PartnerPanel.vue'
+
+onMounted(() => {})
 </script>
 
 <style scoped lang="scss">
