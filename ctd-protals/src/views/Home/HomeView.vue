@@ -1,10 +1,6 @@
 <template>
   <div class="home-root-container">
-    <el-carousel class="home-carousel" :arrow="carouselArrow">
-      <el-carousel-item v-for="(item, index) in banners" :key="index">
-        <img :src="item" alt="Banner" class="banner-image" />
-      </el-carousel-item>
-    </el-carousel>
+    <home-carousel />
 
     <module-panel mt-20 self-center></module-panel>
 
@@ -35,54 +31,14 @@
 </template>
 
 <script setup lang="ts">
+import HomeCarousel from './HomeCarousel.vue'
 import ModulePanel from './ModulePanel.vue'
 import NewsPanel from './NewsPanel.vue'
 import PartnerPanel from './PartnerPanel.vue'
-
-const banners = [
-  new URL('@/assets/banner1.jpg', import.meta.url).href,
-  new URL('@/assets/banner2.jpg', import.meta.url).href
-]
-
-const carouselArrow = ref<'always' | 'hover' | 'never'>('hover')
-const isMobileDevice = useMediaQuery('(max-width: 40rem)')
-
-// 监听窗口大小变化
-watchEffect(() => {
-  if (isMobileDevice.value) {
-    carouselArrow.value = 'never'
-  } else {
-    carouselArrow.value = 'hover'
-  }
-})
 </script>
 
 <style scoped lang="scss">
 .home-root-container {
   @apply flex flex-col;
-}
-
-.banner-image {
-  @apply w-full h-full object-contain;
-}
-
-:deep(.el-carousel__container) {
-  @apply h-120;
-
-  @media (max-width: 40rem) {
-    @apply h-70;
-  }
-
-  @media (max-width: 30rem) {
-    @apply h-50;
-  }
-}
-
-.el-carousel__item:nth-child(2n) {
-  @apply bg-#114064;
-}
-
-.el-carousel__item:nth-child(2n + 1) {
-  @apply bg-#053A89;
 }
 </style>

@@ -331,6 +331,8 @@
     "useOrderProductStore": true,
     "useOrderDemandStore": true,
     "useCommentStore": true,
-    "useNewsStore": true
+    "useNewsStore": true,
+    "useHomeStore": true,
+    "getBanners": true
   }
 }
