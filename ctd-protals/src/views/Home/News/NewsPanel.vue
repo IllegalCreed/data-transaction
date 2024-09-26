@@ -1,6 +1,6 @@
 <template>
   <div class="news-panel-container" data-aos="fade-up">
-    <span text-4xl font-bold self-center>政策与资讯</span>
+    <span class="page-title" self-center>政策与资讯</span>
 
     <div flex flex-row mt-10 space-x-20>
       <div flex-1 flex flex-col space-y-4>
@@ -57,11 +57,9 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .news-panel-container {
-  @apply flex flex-col w-full w-260;
+  @apply flex flex-col w-full max-w-320 px-10;
 
-  @media (max-width: 75rem) {
-    @apply w-136;
-
+  @media (max-width: 60rem) {
     .right-col {
       @apply hidden;
     }

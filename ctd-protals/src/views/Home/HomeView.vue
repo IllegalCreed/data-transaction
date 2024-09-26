@@ -41,7 +41,7 @@ onMounted(() => {})
 
 <style scoped lang="scss">
 .home-root-container {
-  @apply flex flex-col;
+  @apply flex flex-col items-center;
 
   .module {
     @apply mt-20 self-center;

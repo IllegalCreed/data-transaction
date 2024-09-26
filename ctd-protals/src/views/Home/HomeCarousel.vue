@@ -39,7 +39,7 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .home-carousel-root-container {
-  @apply bg-[var(--color-background-dark)];
+  @apply w-full bg-[var(--color-background-dark)];
 
   :deep(.el-carousel__container) {
     @apply h-120;
