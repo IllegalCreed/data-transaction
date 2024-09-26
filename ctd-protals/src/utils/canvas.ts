@@ -87,7 +87,7 @@ export function useWave(
     containerRef.value.appendChild(canvas)
 
     setCanvasSize(canvas) // 初始设置大小
-    window.addEventListener('resize', () => setCanvasSize(canvas)) // 监听窗口调整大小
+    window.addEventListener('resize', setCanvasSize(canvas)) // 监听窗口调整大小
     draw() // 开始绘制
   })
 
@@ -95,6 +95,6 @@ export function useWave(
     if (animationFrameId) {
       cancelAnimationFrame(animationFrameId)
     }
-    window.removeEventListener('resize', () => setCanvasSize(canvas)) // 卸载事件
+    window.removeEventListener('resize', setCanvasSize()) // 卸载事件
   })
 }
