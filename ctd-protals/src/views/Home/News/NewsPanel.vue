@@ -2,20 +2,32 @@
   <div class="news-panel-container" data-aos="fade-up">
     <span class="page-title" self-center>政策与资讯</span>
 
-    <div flex flex-row mt-10 space-x-20>
-      <div flex-1 flex flex-col space-y-4>
-        <news-item
-          class="left-col"
-          v-for="news in newsList.slice(0, 5)"
-          :key="news.id"
-          :data="news"
-        />
+    <div class="main-container">
+      <div class="left-news-container">
+        <el-skeleton :loading="getNewsListActionLoading" animated>
+          <template #template>
+            <el-skeleton-item variant="rect" class="!h-70"></el-skeleton-item>
+          </template>
+          <template #default> </template>
+        </el-skeleton>
       </div>
-      <div class="right-col" flex-1 flex flex-col space-y-4>
-        <news-item v-for="news in newsList.slice(5, 10)" :key="news.id" :data="news" />
+      <div class="right-news-container">
+        <el-skeleton :loading="getNewsListActionLoading" animated>
+          <template #template>
+            <div flex flex-col>
+              <el-skeleton-item variant="h1"></el-skeleton-item>
+              <el-skeleton-item variant="h1" mt-10></el-skeleton-item>
+              <el-skeleton-item variant="h1" mt-10></el-skeleton-item>
+              <el-skeleton-item variant="h1" mt-10></el-skeleton-item>
+              <el-skeleton-item variant="h1" mt-10></el-skeleton-item>
+            </div>
+          </template>
+          <template #default>
+            <news-item v-for="item in newsList?.slice(1, 6)" :key="item.id" :news="item" />
+          </template>
+        </el-skeleton>
       </div>
     </div>
-
     <span
       self-center
       text-base
@@ -33,7 +45,10 @@
 <script setup lang="ts">
 import NewsItem from './NewsItem.vue'
 
-const newsList = ref<{ title: string; createTime: string; id: string }[]>([])
+import { useNewsStore } from '@/stores/modules/news'
+const newStore = useNewsStore()
+const { newsList } = storeToRefs(newStore)
+const { getNewsList: getNewsListAction } = newStore
 
 const router = useRouter()
 const goNews = () => {
@@ -42,16 +57,17 @@ const goNews = () => {
   })
 }
 
-const fetchNews = async () => {
-  newsList.value = Array.from({ length: 10 }, (_, i) => ({
-    id: (i + 1).toString(),
-    title: `新闻标题 ${i + 1}`,
-    createTime: new Date().toISOString().split('T')[0]
-  }))
-}
+const { isLoading: getNewsListActionLoading, execute: executeGetNewsListAction } = useAsyncState(
+  getNewsListAction(1, 10),
+  undefined
+)
 
 onMounted(() => {
-  fetchNews()
+  try {
+    executeGetNewsListAction()
+  } catch (error: unknown) {
+    console.error(error)
+  }
 })
 </script>
 
@@ -59,17 +75,28 @@ onMounted(() => {
 .news-panel-container {
   @apply flex flex-col w-full max-w-320 px-10;
 
+  .main-container {
+    @apply grid grid-cols-2 gap-10 mt-20;
+
+    .left-news-container {
+    }
+
+    .right-news-container {
+      @apply flex flex-col space-y-4;
+    }
+  }
+
   @media (max-width: 60rem) {
-    .right-col {
-      @apply hidden;
+    .main-container {
+      @apply grid-cols-1;
     }
   }
 
   @media (max-width: 40rem) {
-    @apply w-full px-10;
+    @apply px-5;
 
-    .right-col {
-      @apply hidden;
+    .main-container {
+      @apply grid-cols-1;
     }
   }
 }

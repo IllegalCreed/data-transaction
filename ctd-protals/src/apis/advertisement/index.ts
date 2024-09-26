@@ -1,11 +1,11 @@
 import request from '@/axios'
 
 export const getBanners = (): Promise<void> => {
-  const data = {}
-  return request.post(
+  const params = {}
+  return request.get(
     {
       url: '/getBanners',
-      data
+      params
     },
     false
   )

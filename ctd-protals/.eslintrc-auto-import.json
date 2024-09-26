@@ -335,6 +335,9 @@
     "useHomeStore": true,
     "getBanners": true,
     "createWaveCanvas": true,
-    "useWave": true
+    "useWave": true,
+    "getNewsList": true,
+    "useAsyncAction": true,
+    "useAsyncActio": true
   }
 }
