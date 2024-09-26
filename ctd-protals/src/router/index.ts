@@ -92,6 +92,11 @@ const router = createRouter({
           component: () => import('@/views/Scene/SceneView.vue')
         },
         {
+          path: 'scene/:id',
+          name: 'scene-detail',
+          component: () => import('@/views/Scene/SceneDetail/SceneDetailView.vue')
+        },
+        {
           path: 'mine',
           name: 'mine',
           redirect: '/mine/profile',

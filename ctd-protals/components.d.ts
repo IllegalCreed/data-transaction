@@ -69,6 +69,7 @@ declare module 'vue' {
     'IMdi:mapMarker': typeof import('~icons/mdi/map-marker')['default']
     'IMdi:phone': typeof import('~icons/mdi/phone')['default']
     'IPh:package': typeof import('~icons/ph/package')['default']
+    'ISolar:roundArrowRightBroken': typeof import('~icons/solar/round-arrow-right-broken')['default']
     'IVaadin:menu': typeof import('~icons/vaadin/menu')['default']
     'IVaadin:search': typeof import('~icons/vaadin/search')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
