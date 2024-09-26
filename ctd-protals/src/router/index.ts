@@ -87,6 +87,11 @@ const router = createRouter({
           component: () => import('@/views/Demand/DemandDetail/DemandDetailView.vue')
         },
         {
+          path: 'scene',
+          name: 'scene',
+          component: () => import('@/views/Scene/SceneView.vue')
+        },
+        {
           path: 'mine',
           name: 'mine',
           redirect: '/mine/profile',

@@ -6,6 +6,7 @@
   'i-mdi:database',
   'i-vaadin:info-circle',
   'i-system-uicons:paper-plane',
+  'i-vaadin:workplace',
   'i-vaadin:user',
   'i-mdi:clipboard-list-outline',
   'i-basil:document-outline',
