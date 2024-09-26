@@ -20,11 +20,17 @@ defineProps<{
 
 const root = useTemplateRef('root')
 
+const numberOfLines = 5
+const amplitudes = Array.from({ length: numberOfLines }, (_, index) => 15 + index * 2)
+const frequencies = Array.from({ length: numberOfLines }, (_, index) => 0.01 + index * 0.005)
+const opacities = Array.from({ length: numberOfLines }, (_, index) => 0 + index * 0.3)
+const speeds = Array.from({ length: numberOfLines }, (_, index) => 2 - index * 0.2)
 useWave(root, {
-  numberOfLines: 7,
-  amplitudeStep: 2,
-  startFrequency: 0.01,
-  frequencyStep: 0.002,
+  numberOfLines,
+  amplitude: amplitudes,
+  frequency: frequencies,
+  opacity: opacities,
+  speed: speeds,
   style: 'position: absolute; bottom: -20px; left: 0;',
   setCanvasSize: (canvasElement: HTMLCanvasElement) => {
     if (canvasElement) {
