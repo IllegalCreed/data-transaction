@@ -28,10 +28,10 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .home-module-panel-root-container {
-  @apply grid grid-cols-2 gap-8 w-full max-w-300;
+  @apply grid grid-cols-2 gap-8 w-full max-w-320 px-10;
 
-  @media (max-width: 75rem) {
-    @apply grid-cols-1 gap-2 px-10;
+  @media (max-width: 40rem) {
+    @apply grid-cols-1 gap-4 px-4;
   }
 }
 </style>

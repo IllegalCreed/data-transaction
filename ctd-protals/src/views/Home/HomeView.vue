@@ -2,7 +2,7 @@
   <div class="home-root-container">
     <home-carousel />
 
-    <module-panel mt-20 self-center></module-panel>
+    <module-panel class="module"></module-panel>
 
     <news-panel mt-20 self-center></news-panel>
 
@@ -42,5 +42,15 @@ onMounted(() => {})
 <style scoped lang="scss">
 .home-root-container {
   @apply flex flex-col;
+
+  .module {
+    @apply mt-20 self-center;
+  }
+
+  @media (max-width: 40rem) {
+    .module {
+      @apply mt-10;
+    }
+  }
 }
 </style>
