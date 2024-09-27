@@ -7,9 +7,9 @@
 </template>
 
 <script setup lang="ts">
-import type { INews } from '@/types/news'
+import type { INewsItem } from '@/types/news'
 
-const { news } = defineProps<{ news: INews }>()
+const { news } = defineProps<{ news: INewsItem }>()
 
 const router = useRouter()
 const goNewsDetail = () => {
