@@ -76,5 +76,23 @@ const goNewsDetail = () => {
   .desc {
     @apply text-xs text-[var(--color-text-light)] line-clamp-2 leading-relaxed tracking-wider;
   }
+
+  @media (max-width: 30rem) {
+    .time-container {
+      @apply w-16 h-16 p-1;
+
+      .day {
+        @apply text-xl;
+      }
+    }
+
+    .title {
+      @apply text-base line-clamp-1;
+    }
+
+    .desc {
+      @apply text-xs text-[var(--color-text-light)] line-clamp-2 tracking-wider;
+    }
+  }
 }
 </style>

@@ -3,7 +3,7 @@
     <span class="page-title" self-center>政策与资讯</span>
 
     <div class="main-container">
-      <div class="left-news-container">
+      <div>
         <el-skeleton :loading="getNewsListActionLoading" animated>
           <template #template>
             <el-skeleton-item variant="rect" class="!h-100"></el-skeleton-item>
@@ -72,9 +72,6 @@ onMounted(() => {
 
   .main-container {
     @apply grid grid-cols-2 gap-10 mt-20;
-
-    .left-news-container {
-    }
 
     .right-news-container {
       @apply flex flex-col gap-4;

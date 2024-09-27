@@ -40,5 +40,25 @@ defineProps<{ news: INewsItem }>()
       @apply text-xs self-end tabular-nums font-mono font-italic;
     }
   }
+
+  @media (max-width: 30rem) {
+    @apply h-60;
+
+    .main-container {
+      @apply p-3 gap-1;
+
+      .title {
+        @apply text-base line-clamp-1;
+      }
+
+      .desc {
+        @apply text-xs line-clamp-1;
+      }
+
+      .time {
+        @apply text-xs self-end tabular-nums font-mono font-italic;
+      }
+    }
+  }
 }
 </style>
