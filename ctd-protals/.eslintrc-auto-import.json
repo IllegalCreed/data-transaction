@@ -341,6 +341,9 @@
     "useAsyncActio": true,
     "useBanners": true,
     "useModules": true,
-    "useAds": true
+    "useAds": true,
+    "getPartner": true,
+    "getTopPartner": true,
+    "usePartners": true
   }
 }

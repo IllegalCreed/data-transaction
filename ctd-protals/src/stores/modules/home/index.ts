@@ -1,12 +1,10 @@
 import { defineStore } from 'pinia'
-import { useBanners } from './banner'
-import { useModules } from './modules'
-import { useAds } from './advertisement'
 
 export const useHomeStore = defineStore('home', () => {
   const { banners, getBanners } = useBanners()
   const { modules, getModules } = useModules()
   const { ads, getAds } = useAds()
+  const { partners, getPartners, topPartners, getTopPartners } = usePartners()
 
   return {
     banners,
@@ -14,6 +12,10 @@ export const useHomeStore = defineStore('home', () => {
     modules,
     getModules,
     ads,
-    getAds
+    getAds,
+    partners,
+    getPartners,
+    topPartners,
+    getTopPartners
   }
 })

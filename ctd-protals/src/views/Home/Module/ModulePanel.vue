@@ -18,7 +18,7 @@ const { modules } = storeToRefs(homeStore)
 
 const isMobileDevice = useMediaQuery('(max-width: 40rem)')
 const aosDelay = (index: number) => {
-  return isMobileDevice ? 0 : index * 100
+  return isMobileDevice.value ? 0 : index * 100
 }
 
 onMounted(() => {

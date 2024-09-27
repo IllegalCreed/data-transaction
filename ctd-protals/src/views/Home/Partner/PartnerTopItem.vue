@@ -1,63 +1,78 @@
 <template>
-  <div class="top-partner-container">
-    <div class="partner-item" data-aos="fade-up">
-      <img :src="partner[0].img" />
-      <div flex flex-col>
-        <span class="title">{{ partner[0].name }}</span>
-        <span class="desc">{{ partner[0].description }}</span>
-      </div>
-    </div>
-    <div class="partner-item" data-aos="fade-up" data-aos-delay="100">
-      <img :src="partner[1].img" />
-      <div flex flex-col>
-        <span class="title">{{ partner[1].name }}</span>
-        <span class="desc">{{ partner[1].description }}</span>
-      </div>
+  <div class="partner-top-item-root-container" @click="goPartner">
+    <img :src="partner.imageUrl" />
+    <div class="main-container">
+      <span class="title">{{ partner.title }}</span>
+      <div flex-1></div>
+      <span class="desc">{{ partner.description }}</span>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const partner = [
-  {
-    img: 'https://via.placeholder.com/200x100',
-    name: 'XXXX有限公司',
-    description: 'XXXX是一家全球领先的ICT（信息与通信）基础设施和智能终端提供商'
-  },
-  {
-    img: 'https://via.placeholder.com/200x100',
-    name: 'XXXX集团',
-    description: 'XXXX集团是一家中国跨国科技公司，专注于电子商务、零售、互联网技术'
-  }
-]
+import type { IPartner } from '@/types/partner'
+
+const { partner } = defineProps<{ partner: IPartner }>()
+
+const goPartner = () => {
+  window.location.href = partner.link
+}
 </script>
 
 <style lang="scss" scoped>
-.top-partner-container {
-  @apply flex flex-row justify-between;
+.partner-top-item-root-container {
+  @apply flex flex-row items-center gap-10 px-10 py-6 bg-[var(--color-background-light)] shadow-md cursor-pointer;
 
-  .partner-item {
-    @apply flex flex-row items-center space-x-6 w-125 bg-gray-100 p-4;
+  img {
+    @apply w-40 h-20 object-contain;
+  }
+
+  .main-container {
+    @apply flex flex-col;
 
     .title {
-      @apply text-2xl font-bold;
+      @apply text-2xl font-bold line-clamp-1 tracking-widest;
     }
 
     .desc {
-      @apply text-sm text-gray-400 mt-4;
-    }
-
-    @media (max-width: 40rem) {
-      @apply flex flex-col w-full space-x-0 space-y-6;
-
-      .title {
-        @apply self-center;
-      }
+      @apply text-sm line-clamp-1 mt-4 text-[var(--color-text-light)];
     }
   }
 
   @media (max-width: 75rem) {
-    @apply flex-col space-y-10 items-center;
+    @apply flex-col gap-4;
+
+    .main-container {
+      @apply items-center;
+
+      .desc {
+        @apply mt-2;
+      }
+    }
+  }
+
+  @media (max-width: 50rem) {
+    @apply flex-row gap-10;
+
+    .main-container {
+      @apply items-start;
+
+      .desc {
+        @apply mt-4;
+      }
+    }
+  }
+
+  @media (max-width: 30rem) {
+    @apply flex-col gap-4;
+
+    .main-container {
+      @apply items-center;
+
+      .desc {
+        @apply mt-2;
+      }
+    }
   }
 }
 </style>

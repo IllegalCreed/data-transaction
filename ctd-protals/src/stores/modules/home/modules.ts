@@ -1,4 +1,3 @@
-import { ref } from 'vue'
 import type { IModule } from '@/types/home'
 import { moduleList as mockModules } from '@/constants/mockData/home/module'
 

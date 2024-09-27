@@ -1,4 +1,3 @@
-import { ref } from 'vue'
 import type { IBanner } from '@/types/banner'
 import { getBanners as getBannersAPI } from '@/apis/advertisement'
 import { bannerList as mockBanners } from '@/constants/mockData/home/banner'

@@ -1,4 +1,3 @@
-import { ref } from 'vue'
 import type { IHomeAd } from '@/types/advertisement'
 import { ads as mockAds } from '@/constants/mockData/home/advertisement'
 
