@@ -1,24 +1,44 @@
 <template>
   <div class="partner-panel-root-container">
     <span class="page-title" self-center>合作伙伴</span>
-    <div class="partner-top-list-container">
-      <partner-top-item
-        v-for="(item, index) of topPartners"
-        :key="item.id"
-        :partner="item"
-        data-aos="fade-up"
-        :data-aos-delay="aosDelay(index)"
-      />
-    </div>
-    <div class="partner-list-container">
-      <partner-item
-        v-for="(item, index) of partners"
-        :key="item.id"
-        :partner="item"
-        data-aos="fade-up"
-        :data-aos-delay="aosDelay(index)"
-      />
-    </div>
+    <el-skeleton :loading="getPartnersActionLoading || getTopPartnersActionLoading" animated>
+      <template #template>
+        <div class="partner-top-list-container">
+          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
+        </div>
+        <div class="partner-list-container">
+          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
+        </div>
+      </template>
+      <template #default>
+        <div class="partner-top-list-container">
+          <partner-top-item
+            v-for="(item, index) of topPartners"
+            :key="item.id"
+            :partner="item"
+            data-aos="fade-up"
+            :data-aos-delay="aosDelay(index)"
+          />
+        </div>
+        <div class="partner-list-container">
+          <partner-item
+            v-for="(item, index) of partners"
+            :key="item.id"
+            :partner="item"
+            data-aos="fade-up"
+            :data-aos-delay="aosDelay(index)"
+          />
+        </div>
+      </template>
+    </el-skeleton>
   </div>
 </template>
 

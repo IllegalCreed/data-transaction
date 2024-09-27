@@ -2,9 +2,7 @@
   <div
     class="news-primary-item-root-container"
     :style="{
-      backgroundImage: news.imageUrl
-        ? `url(${news.imageUrl})`
-        : 'url(/src/assets/newsItemDefault.png)'
+      backgroundImage: news.imageUrl ? `url(${news.imageUrl})` : `url('${bg}')`
     }"
   >
     <div class="main-container">
@@ -17,6 +15,7 @@
 
 <script setup lang="ts">
 import type { INewsItem } from '@/types/news'
+const bg = ref(new URL('@/assets/newsItemDefault.png', import.meta.url).href)
 
 defineProps<{ news: INewsItem }>()
 </script>

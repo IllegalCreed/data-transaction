@@ -1,5 +1,5 @@
 <template>
-  <div class="advertisement-panel-root-container">
+  <div class="advertisement-panel-root-container" :style="{ backgroundImage: `url('${bg}')` }">
     <div class="inner-container" data-aos="fade-up">
       <div class="header-container">
         <span class="pre-title">我们的</span>
@@ -15,6 +15,7 @@
 
 <script setup lang="ts">
 import AdItem from './AdItem.vue'
+const bg = ref(new URL('@/assets/homeAdBackground.png', import.meta.url).href)
 
 const homeStore = useHomeStore()
 const { ads } = storeToRefs(homeStore)
@@ -26,7 +27,7 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .advertisement-panel-root-container {
-  @apply flex flex-col items-center w-full py-20 bg-[url('/src/assets/homeAdBackground.png')] bg-cover bg-bottom;
+  @apply flex flex-col items-center w-full py-20 bg-cover bg-bottom;
 
   .inner-container {
     @apply flex flex-row gap-35 items-center w-full max-w-320 px-10;
