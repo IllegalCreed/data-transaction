@@ -22,6 +22,8 @@
   --color-background-light: var(--color-white);
   --color-background-dark: var(--color-blue-dark);
 
+  --color-background-primary-light: var(--color-blue-light);
+
   --color-text: var(--color-gray-dark);
   --color-text-light: var(--color-gray);
   --color-text-lighter: var(--color-gray-light);

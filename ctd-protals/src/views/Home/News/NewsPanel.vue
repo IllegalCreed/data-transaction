@@ -6,9 +6,11 @@
       <div class="left-news-container">
         <el-skeleton :loading="getNewsListActionLoading" animated>
           <template #template>
-            <el-skeleton-item variant="rect" class="!h-70"></el-skeleton-item>
+            <el-skeleton-item variant="rect" class="!h-100"></el-skeleton-item>
           </template>
-          <template #default> </template>
+          <template #default>
+            <news-primary-item v-if="newsList?.[0]" :news="newsList?.[0]" />
+          </template>
         </el-skeleton>
       </div>
       <div class="right-news-container">
@@ -16,10 +18,10 @@
           <template #template>
             <div flex flex-col>
               <el-skeleton-item variant="h1"></el-skeleton-item>
-              <el-skeleton-item variant="h1" mt-10></el-skeleton-item>
-              <el-skeleton-item variant="h1" mt-10></el-skeleton-item>
-              <el-skeleton-item variant="h1" mt-10></el-skeleton-item>
-              <el-skeleton-item variant="h1" mt-10></el-skeleton-item>
+              <el-skeleton-item variant="h1" mt-16></el-skeleton-item>
+              <el-skeleton-item variant="h1" mt-16></el-skeleton-item>
+              <el-skeleton-item variant="h1" mt-16></el-skeleton-item>
+              <el-skeleton-item variant="h1" mt-16></el-skeleton-item>
             </div>
           </template>
           <template #default>
@@ -28,21 +30,14 @@
         </el-skeleton>
       </div>
     </div>
-    <span
-      self-center
-      text-base
-      text-slate-400
-      mt-10
-      cursor-pointer
-      select-none
-      hover:opacity-60
-      @click="goNews"
-      >更多</span
+    <el-button class="default-btn" self-center mt-10 round size="large" @click="goNews"
+      >查看更多</el-button
     >
   </div>
 </template>
 
 <script setup lang="ts">
+import NewsPrimaryItem from './NewsPrimaryItem.vue'
 import NewsItem from './NewsItem.vue'
 
 import { useNewsStore } from '@/stores/modules/news'
@@ -82,7 +77,7 @@ onMounted(() => {
     }
 
     .right-news-container {
-      @apply flex flex-col space-y-4;
+      @apply flex flex-col gap-4;
     }
   }
 

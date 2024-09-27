@@ -1,7 +1,13 @@
 <template>
-  <div class="news-item-container" @click="goNewsDetail">
-    <span class="title">{{ news.title }}</span>
-    <span class="time">{{ news.createTime }}</span>
+  <div class="news-item-root-container" @click="goNewsDetail">
+    <div :class="{ today: isToday }" class="time-container">
+      <span class="day">{{ formattedDay }}</span>
+      <span class="month">{{ formattedYearMonth }}</span>
+    </div>
+    <div self-stretch flex flex-col justify-between hover:opacity-60>
+      <span class="title">{{ news.title }}</span>
+      <span class="desc">{{ news.summary }}</span>
+    </div>
   </div>
 </template>
 
@@ -11,6 +17,18 @@ import type { INewsItem } from '@/types/news'
 const { news } = defineProps<{
   news: INewsItem
 }>()
+
+const isToday = computed(() => {
+  return dayjs(news.createTime).isSame(dayjs(), 'day')
+})
+
+const formattedDay = computed(() => {
+  return dayjs(news.createTime).format('DD')
+})
+
+const formattedYearMonth = computed(() => {
+  return dayjs(news.createTime).format('YYYY/MM')
+})
 
 const router = useRouter()
 const goNewsDetail = () => {
@@ -24,15 +42,39 @@ const goNewsDetail = () => {
 </script>
 
 <style scoped lang="scss">
-.news-item-container {
-  @apply flex flex-row items-center border-b-1 border-b-dashed cursor-pointer select-none pb-4;
+.news-item-root-container {
+  @apply flex flex-row gap-4 items-center cursor-pointer select-none;
 
-  .title {
-    @apply flex-1 text-base border-gray-500 overflow-hidden whitespace-nowrap text-ellipsis hover:opacity-60;
+  .time-container {
+    @apply flex-shrink-0 flex flex-col items-end justify-center gap-1 w-18 h-18 p-2 rounded border-1 border-solid border-[var(--color-primary)] bg-[var(--color-background-primary-light)];
+
+    .day {
+      @apply text-2xl text-[var(--color-primary)];
+    }
+
+    .month {
+      @apply text-xs text-[var(--color-text-light)] tabular-nums font-mono font-italic;
+    }
+
+    &.today {
+      @apply bg-[var(--color-primary)];
+
+      .day {
+        @apply text-white;
+      }
+
+      .month {
+        @apply text-white;
+      }
+    }
   }
 
-  .time {
-    @apply text-sm text-gray-300 ml-4 font-mono tabular-nums;
+  .title {
+    @apply text-lg line-clamp-1;
+  }
+
+  .desc {
+    @apply text-xs text-[var(--color-text-light)] line-clamp-2 leading-relaxed tracking-wider;
   }
 }
 </style>

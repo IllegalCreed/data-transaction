@@ -3,7 +3,7 @@ export interface INews {
   title: string
   summary: string
   content: string
-  image?: string
+  imageUrl?: string
   createTime: string
 }
 

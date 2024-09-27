@@ -1,6 +1,6 @@
 <template>
   <div class="news-detail-root-container">
-    <img class="img" :src="news.image" alt="新闻图片" v-if="news.image" />
+    <img class="img" :src="news.imageUrl" alt="新闻图片" v-if="news.imageUrl" />
 
     <div class="news-detail-main-container">
       <span class="title">{{ news.title }}</span>
@@ -32,7 +32,7 @@ const news = ref<INews>({
         <p>人工智能正在各个行业中发挥着重要作用，从医疗到金融。</p>
         <p>点击上面的链接，了解更多关于人工智能的最新动态。</p>
       `,
-  image: 'https://via.placeholder.com/1000',
+  imageUrl: 'https://via.placeholder.com/1000',
   createTime: '2024-09-25'
 })
 
