@@ -338,6 +338,9 @@
     "useWave": true,
     "getNewsList": true,
     "useAsyncAction": true,
-    "useAsyncActio": true
+    "useAsyncActio": true,
+    "useBanners": true,
+    "useModules": true,
+    "useAds": true
   }
 }

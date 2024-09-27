@@ -6,7 +6,9 @@
 
     <news-panel mt-20 self-center></news-panel>
 
-    <div
+    <ad-panel mt-20 self-center></ad-panel>
+
+    <!-- <div
       flex
       flex-col
       justify-center
@@ -24,7 +26,7 @@
       <span text-lg>资金安全：多重安全保障，每笔交易可追溯，让您更放心</span>
       <span text-lg>国资背书：国资企业背书，政府信用保证，品质无忧 </span>
       <span text-lg>全程保障：从签约到交付，平台全程护航，安全无忧</span>
-    </div>
+    </div> -->
 
     <partner-panel mt-20 self-center />
   </div>
@@ -34,6 +36,7 @@
 import HomeCarousel from './HomeCarousel.vue'
 import ModulePanel from './Module/ModulePanel.vue'
 import NewsPanel from './News/NewsPanel.vue'
+import AdPanel from './Advertisement/AdPanel.vue'
 import PartnerPanel from './Partner/PartnerPanel.vue'
 
 onMounted(() => {})

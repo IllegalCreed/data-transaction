@@ -3,7 +3,7 @@ import { logoutAPI, loginAPI, getCodeAPI, resetPwdAPI, getAdAPI } from '@/apis/a
 import type { ILogin, ILoginCode } from '@/types/login'
 import { useTokenStore } from './token'
 import { useSettingsStore } from './settings'
-import type { ILoginAd } from '@/types/ad'
+import type { ILoginAd } from '@/types/advertisement'
 
 export const useAccountStore = defineStore('account', () => {
   const tokenStore = useTokenStore()

@@ -44,7 +44,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { ILoginAd } from '@/types/ad'
+import type { ILoginAd } from '@/types/advertisement'
 import AdCarouselItem from './AdCarouselItem.vue'
 import { useAccountStore } from '@/stores/modules/account'
 const { getAd: getAdAction } = useAccountStore()

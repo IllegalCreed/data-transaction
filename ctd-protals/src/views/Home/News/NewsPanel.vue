@@ -6,7 +6,7 @@
       <div>
         <el-skeleton :loading="getNewsListActionLoading" animated>
           <template #template>
-            <el-skeleton-item variant="rect" class="!h-100"></el-skeleton-item>
+            <el-skeleton-item variant="rect" class="!h-106"></el-skeleton-item>
           </template>
           <template #default>
             <news-primary-item v-if="newsList?.[0]" :news="newsList?.[0]" />
@@ -16,12 +16,12 @@
       <div class="right-news-container">
         <el-skeleton :loading="getNewsListActionLoading" animated>
           <template #template>
-            <div flex flex-col>
-              <el-skeleton-item variant="h1"></el-skeleton-item>
-              <el-skeleton-item variant="h1" mt-16></el-skeleton-item>
-              <el-skeleton-item variant="h1" mt-16></el-skeleton-item>
-              <el-skeleton-item variant="h1" mt-16></el-skeleton-item>
-              <el-skeleton-item variant="h1" mt-16></el-skeleton-item>
+            <div flex flex-col gap-4>
+              <el-skeleton-item variant="rect" class="!h-18"></el-skeleton-item>
+              <el-skeleton-item variant="rect" class="!h-18"></el-skeleton-item>
+              <el-skeleton-item variant="rect" class="!h-18"></el-skeleton-item>
+              <el-skeleton-item variant="rect" class="!h-18"></el-skeleton-item>
+              <el-skeleton-item variant="rect" class="!h-18"></el-skeleton-item>
             </div>
           </template>
           <template #default>
