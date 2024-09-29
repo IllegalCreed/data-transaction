@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 import type { INewsItem } from '@/types/news'
-const bg = ref(new URL('@/assets/newsItemDefault.png', import.meta.url).href)
+const bg = ref(new URL('@/assets/placeholder/newsItemDefault.png', import.meta.url).href)
 
 defineProps<{ news: INewsItem }>()
 </script>

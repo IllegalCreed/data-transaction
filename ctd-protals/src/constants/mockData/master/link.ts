@@ -42,3 +42,36 @@ export const links: ILink[] = [
     link: 'https://www.baidu.com'
   }
 ]
+
+export const abouts: ILink[] = [
+  {
+    id: 1,
+    title: '隐私政策',
+    link: 'privacy-policy'
+  },
+  {
+    id: 2,
+    title: '建议反馈',
+    link: 'feedback'
+  },
+  {
+    id: 3,
+    title: '法律声明',
+    link: 'legal'
+  },
+  {
+    id: 4,
+    title: '知识产权',
+    link: 'intellectual'
+  },
+  {
+    id: 5,
+    title: '关于平台',
+    link: 'about'
+  },
+  {
+    id: 6,
+    title: '招聘信息',
+    link: 'recruitment'
+  }
+]

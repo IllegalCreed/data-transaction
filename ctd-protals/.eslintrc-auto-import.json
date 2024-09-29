@@ -347,6 +347,13 @@
     "usePartners": true,
     "useMasterStore": true,
     "getLinks": true,
-    "useLinks": true
+    "useLinks": true,
+    "getAbouts": true,
+    "getContact": true,
+    "useContact": true,
+    "getRecords": true,
+    "getCopyright": true,
+    "useCopyright": true,
+    "useRecord": true
   }
 }

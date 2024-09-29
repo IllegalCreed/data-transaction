@@ -97,6 +97,36 @@ const router = createRouter({
           component: () => import('@/views/Scene/SceneDetail/SceneDetailView.vue')
         },
         {
+          path: 'about',
+          name: 'about',
+          component: () => import('@/views/About/AboutView.vue')
+        },
+        {
+          path: 'feedback',
+          name: 'feedback',
+          component: () => import('@/views/About/FeedbackView.vue')
+        },
+        {
+          path: 'intellectual',
+          name: 'intellectual',
+          component: () => import('@/views/About/IntellectualView.vue')
+        },
+        {
+          path: 'legal',
+          name: 'legal',
+          component: () => import('@/views/About/LegalStatementView.vue')
+        },
+        {
+          path: 'privacy-policy',
+          name: 'privacy-policy',
+          component: () => import('@/views/About/PrivacyPolicyView.vue')
+        },
+        {
+          path: 'recruitment',
+          name: 'recruitment',
+          component: () => import('@/views/About/RecruitmentView.vue')
+        },
+        {
           path: 'mine',
           name: 'mine',
           redirect: '/mine/profile',

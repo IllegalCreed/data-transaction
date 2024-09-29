@@ -1,19 +1,9 @@
 <template>
   <div class="partner-panel-root-container">
     <span class="page-title" self-center>合作伙伴</span>
-    <el-skeleton :loading="getPartnersActionLoading || getTopPartnersActionLoading" animated>
+    <el-skeleton :loading="getTopPartnersActionLoading" animated>
       <template #template>
         <div class="partner-top-list-container">
-          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
-          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
-        </div>
-        <div class="partner-list-container">
-          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
-          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
-          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
-          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
-          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
-          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
           <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
           <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
         </div>
@@ -28,6 +18,22 @@
             :data-aos-delay="aosDelay(index)"
           />
         </div>
+      </template>
+    </el-skeleton>
+    <el-skeleton :loading="getPartnersActionLoading" animated>
+      <template #template>
+        <div class="partner-list-container">
+          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
+        </div>
+      </template>
+      <template #default>
         <div class="partner-list-container">
           <partner-item
             v-for="(item, index) of partners"

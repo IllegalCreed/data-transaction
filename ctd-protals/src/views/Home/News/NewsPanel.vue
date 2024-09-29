@@ -41,9 +41,9 @@ import NewsPrimaryItem from './NewsPrimaryItem.vue'
 import NewsItem from './NewsItem.vue'
 
 import { useNewsStore } from '@/stores/modules/news'
-const newStore = useNewsStore()
-const { newsList } = storeToRefs(newStore)
-const { getNewsList: getNewsListAction } = newStore
+const newsStore = useNewsStore()
+const { newsList } = storeToRefs(newsStore)
+const { getNewsList: getNewsListAction } = newsStore
 
 const router = useRouter()
 const goNews = () => {

@@ -1,5 +1,5 @@
 import type { IBanner } from '@/types/home'
-import { getBanners as getBannersAPI } from '@/apis/banner'
+import { getBanners as getBannersAPI } from '@/apis/home/banner'
 import { bannerList as mockBanners } from '@/constants/mockData/home/banner'
 
 export const useBanners = () => {

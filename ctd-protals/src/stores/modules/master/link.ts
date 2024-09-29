@@ -1,6 +1,6 @@
 import type { ILink } from '@/types/master'
-import { getLinks as getLinksAPI } from '@/apis/link'
-import { links as mockLinks } from '@/constants/mockData/master/link'
+import { getLinks as getLinksAPI } from '@/apis/master/link'
+import { links as mockLinks, abouts as mockAbout } from '@/constants/mockData/master/link'
 
 export const useLinks = () => {
   const settingsStore = useSettingsStore()
@@ -27,8 +27,19 @@ export const useLinks = () => {
     })
   }
 
+  const abouts = ref<ILink[]>()
+
+  const getAbouts = (): Promise<void> => {
+    return new Promise<void>((resolve) => {
+      abouts.value = mockAbout
+      resolve()
+    })
+  }
+
   return {
     links,
-    getLinks
+    getLinks,
+    abouts,
+    getAbouts
   }
 }

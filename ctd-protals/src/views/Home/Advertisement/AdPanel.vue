@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 import AdItem from './AdItem.vue'
-const bg = ref(new URL('@/assets/homeAdBackground.png', import.meta.url).href)
+const bg = ref(new URL('@/assets/background/homeAdBackground.png', import.meta.url).href)
 
 const homeStore = useHomeStore()
 const { ads } = storeToRefs(homeStore)

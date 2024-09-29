@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import HeaderView from './HeaderView.vue'
-import FooterView from './FooterView.vue'
+import FooterView from './Footer/FooterView.vue'
 </script>
 
 <style scoped lang="scss">

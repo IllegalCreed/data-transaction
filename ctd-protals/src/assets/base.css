@@ -27,6 +27,7 @@
   --color-text: var(--color-gray-dark);
   --color-text-light: var(--color-gray);
   --color-text-lighter: var(--color-gray-light);
+  --color-text-reverse: var(--color-white);
 }
 
 .dark {

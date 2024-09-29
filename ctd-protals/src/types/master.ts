@@ -3,3 +3,10 @@ export interface ILink {
   title: string
   link: string
 }
+
+export interface IContact {
+  address: string
+  email: string
+  phone: string
+  wechatUrl: string
+}
