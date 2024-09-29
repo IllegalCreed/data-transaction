@@ -344,6 +344,9 @@
     "useAds": true,
     "getPartner": true,
     "getTopPartner": true,
-    "usePartners": true
+    "usePartners": true,
+    "useMasterStore": true,
+    "getLinks": true,
+    "useLinks": true
   }
 }

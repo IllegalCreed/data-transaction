@@ -24,5 +24,3 @@ export interface IPartner {
   imageUrl: string
   link: string
 }
-
-export interface ILink {}
