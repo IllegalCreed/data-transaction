@@ -75,7 +75,7 @@
 </template>
 
 <script setup lang="ts">
-import SearchDialog from './SearchDialog.vue'
+import SearchDialog from './Search/SearchDialog.vue'
 import SettingDialog from './SettingDialog.vue'
 import { useAccountStore } from '@/stores/modules/account'
 const { logout: logoutAction } = useAccountStore()

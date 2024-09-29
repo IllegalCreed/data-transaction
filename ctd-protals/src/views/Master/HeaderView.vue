@@ -62,7 +62,7 @@
 import { useMenuStore } from '@/stores/modules/menu'
 import type { INavMenu } from '@/types/navMenu'
 import LogoView from './LogoView.vue'
-import SearchDialog from './SearchDialog.vue'
+import SearchDialog from './Search/SearchDialog.vue'
 import DrawerMenu from './DrawerMenu.vue'
 
 const route = useRoute()
