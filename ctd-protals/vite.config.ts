@@ -10,6 +10,7 @@ import Components from 'unplugin-vue-components/vite'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 import { ElementPlusResolver, VueUseComponentsResolver } from 'unplugin-vue-components/resolvers'
+import { visualizer } from 'rollup-plugin-visualizer'
 
 Object.assign(process.env, loadEnv(process.env.NODE_ENV as string, process.cwd()))
 // https://vitejs.dev/config/
@@ -27,6 +28,10 @@ export default defineConfig({
   },
   plugins: [
     vue(),
+    visualizer({
+      open: true, // 构建后自动打开分析结果
+      filename: 'dist/stats.html' // 输出文件
+    }),
     vueDevTools(),
     VueI18nPlugin({}),
     UnoCSS(),
@@ -82,5 +87,8 @@ export default defineConfig({
         additionalData: `@use "@/styles/element/index.scss" as *;`
       }
     }
+  },
+  build: {
+    chunkSizeWarningLimit: 1000
   }
 })
