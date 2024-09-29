@@ -1,4 +1,4 @@
-import type { IPartner } from '@/types/partner'
+import type { IPartner } from '@/types/home'
 import { getTopPartner as getTopPartnerAPI, getPartner as getPartnerAPI } from '@/apis/partner'
 import { partners as mockPartners } from '@/constants/mockData/home/partner'
 

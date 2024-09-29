@@ -1,4 +1,4 @@
-import type { IHomeAd } from '@/types/advertisement'
+import type { IHomeAd } from '@/types/home'
 import { ads as mockAds } from '@/constants/mockData/home/advertisement'
 
 export const useAds = () => {

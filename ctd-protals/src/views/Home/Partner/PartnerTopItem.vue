@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import type { IPartner } from '@/types/partner'
+import type { IPartner } from '@/types/home'
 
 const { partner } = defineProps<{ partner: IPartner }>()
 

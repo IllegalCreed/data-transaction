@@ -1,4 +1,4 @@
-import type { IHomeAd } from '@/types/advertisement'
+import type { IHomeAd } from '@/types/home'
 
 export const ads: IHomeAd[] = [
   {

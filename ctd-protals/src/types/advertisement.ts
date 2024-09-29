@@ -11,9 +11,3 @@ export interface ILoginAdCarouselItem {
   comment: string
   avatar: string
 }
-
-export interface IHomeAd {
-  id: number | string
-  title: string
-  desc: string
-}

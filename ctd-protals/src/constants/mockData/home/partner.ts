@@ -1,4 +1,4 @@
-import type { IPartner } from '@/types/partner'
+import type { IPartner } from '@/types/home'
 
 export const partners: IPartner[] = [
   {

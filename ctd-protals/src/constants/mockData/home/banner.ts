@@ -1,4 +1,4 @@
-import type { IBanner } from '@/types/banner'
+import type { IBanner } from '@/types/home'
 
 export const bannerList: IBanner[] = [
   {

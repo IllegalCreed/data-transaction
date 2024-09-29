@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import type { IHomeAd } from '@/types/advertisement'
+import type { IHomeAd } from '@/types/home'
 
 defineProps<{ advertisement: IHomeAd }>()
 </script>

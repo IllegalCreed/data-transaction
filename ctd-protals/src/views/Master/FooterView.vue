@@ -2,7 +2,7 @@
   <div class="footer-root-container">
     <div class="footer-link-container">
       <div class="responsive-container">
-        <div flex flex-col w-60>
+        <div flex flex-col>
           <span class="link-title">友情链接</span>
           <a class="link-item" v-for="item of friendLinks" :key="item.id" :href="item.link">{{
             item.label
@@ -14,7 +14,7 @@
             item.label
           }}</a>
         </div>
-        <div flex flex-col w-50>
+        <div flex flex-col>
           <span class="link-title">联系我们</span>
           <div flex flex-row>
             <i-mdi:map-marker class="link-icon" />
@@ -127,11 +127,11 @@ const aboutLinks = [
   @apply flex flex-col mt-20;
 
   .footer-link-container {
-    @apply flex justify-center items-center min-w-full bg-blueGray min-h-100;
+    @apply flex justify-center items-center min-w-full bg-[var(--color-background-light)] py-10;
   }
 
   .responsive-container {
-    @apply flex flex-row space-x-10;
+    @apply grid grid-cols-4 gap-10 max-w-320 w-full px-10;
   }
 
   .link-title {
@@ -208,7 +208,7 @@ const aboutLinks = [
 }
 
 .filings-root-container {
-  @apply flex justify-between items-center h-10 px-20 bg-dark text-white;
+  @apply flex justify-between items-center h-10 px-20 bg-[var(--color-background-dark)] text-white;
 
   @media (max-width: 75rem) {
     @apply h-20;

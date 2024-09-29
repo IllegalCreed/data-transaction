@@ -1,4 +1,4 @@
-import type { IBanner } from '@/types/banner'
+import type { IBanner } from '@/types/home'
 import { getBanners as getBannersAPI } from '@/apis/advertisement'
 import { bannerList as mockBanners } from '@/constants/mockData/home/banner'
 
