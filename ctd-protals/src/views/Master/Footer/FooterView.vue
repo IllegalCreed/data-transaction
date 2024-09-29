@@ -41,11 +41,5 @@ import RecordPanel from './RecordPanel.vue'
       @apply px-5 gap-5;
     }
   }
-
-  @media (max-width: 30rem) {
-    .responsive-container {
-      @apply p-5;
-    }
-  }
 }
 </style>
