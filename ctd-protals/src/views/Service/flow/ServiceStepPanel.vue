@@ -1,4 +1,8 @@
 <template>
+  <span mt-20 text-4xl>服务流程</span>
+  <span text-center mt-4 mb-10 mx-10 text-gray-500
+    >以下是我们为您提供的数据处理服务的完整流程，确保每一步都精准有效。</span
+  >
   <div class="step-panel-container">
     <service-step-item
       v-for="(step, index) in steps"

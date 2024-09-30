@@ -19,9 +19,10 @@ const bg = ref(new URL('@/assets/background/homeAdBackground.png', import.meta.u
 
 const homeStore = useHomeStore()
 const { ads } = storeToRefs(homeStore)
+const { getAds: getAdsAction } = homeStore
 
 onMounted(() => {
-  homeStore.getAds()
+  getAdsAction()
 })
 </script>
 

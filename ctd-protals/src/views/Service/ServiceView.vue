@@ -2,17 +2,7 @@
   <div class="service-root-container">
     <service-banner></service-banner>
 
-    <service-item
-      v-for="(item, index) in services"
-      :key="item.id"
-      :service="item"
-      :imagePosition="index % 2 === 0 ? 'left' : 'right'"
-    ></service-item>
-
-    <span mt-20 text-4xl>服务流程</span>
-    <span text-center mt-4 mb-10 mx-10 text-gray-500
-      >以下是我们为您提供的数据处理服务的完整流程，确保每一步都精准有效。</span
-    >
+    <service-panel></service-panel>
 
     <service-step-panel></service-step-panel>
   </div>
@@ -20,12 +10,8 @@
 
 <script setup lang="ts">
 import ServiceBanner from './ServiceBanner.vue'
-import ServiceItem from './ServiceItem.vue'
-import ServiceStepPanel from './ServiceStepPanel.vue'
-
-import { useServiceStore } from '@/stores/modules/service'
-
-const { services } = useServiceStore()
+import ServicePanel from './service/ServicePanel.vue'
+import ServiceStepPanel from './flow/ServiceStepPanel.vue'
 </script>
 
 <style scoped lang="scss">
