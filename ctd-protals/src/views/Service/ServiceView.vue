@@ -3,14 +3,10 @@
     <service-banner></service-banner>
 
     <service-item
-      v-for="service in services"
-      :key="service.id"
-      :title="service.title"
-      :description="service.description"
-      :sellingPoints="service.sellingPoints"
-      :imageUrl="service.imageUrl"
-      :showBackground="service.showBackground"
-      :imagePosition="service.imagePosition"
+      v-for="(item, index) in services"
+      :key="item.id"
+      :service="item"
+      :imagePosition="index % 2 === 0 ? 'left' : 'right'"
     ></service-item>
 
     <span mt-20 text-4xl>服务流程</span>

@@ -6,15 +6,15 @@
     items-center
     min-w-full
     py-20
-    :class="[showBackground ? 'bg-slate-300' : 'bg-transparent']"
+    :class="[imagePosition ? 'bg-slate-300' : 'bg-transparent']"
     data-aos="fade-up"
   >
     <div class="inner-wrap-container" :class="[imagePosition === 'right' ? '' : 'right']">
       <div class="text-container" :class="[imagePosition === 'right' ? '' : 'right']">
-        <span class="title">{{ title }}</span>
-        <span class="desc">{{ description }}</span>
+        <span class="title">{{ service.title }}</span>
+        <span class="desc">{{ service.description }}</span>
 
-        <div v-for="(sellingPoint, index) in sellingPoints" :key="index" class="slogan">
+        <div v-for="(sellingPoint, index) in service.sellingPoints" :key="index" class="slogan">
           <i-iconamoon:shield-yes-fill text-green-500 mr-2></i-iconamoon:shield-yes-fill>
           {{ sellingPoint }}
         </div>
@@ -23,20 +23,18 @@
       </div>
 
       <!-- 图片部分 -->
-      <img :src="imageUrl" />
+      <img :src="service.imageUrl" />
     </div>
     <el-button class="outer-btn" type="primary" size="large" w-25 mt-10>立即咨询</el-button>
   </div>
 </template>
 
 <script setup lang="ts">
+import type { IService } from '@/types/service'
+
 defineProps<{
-  title: string
-  description: string
-  sellingPoints: string[]
-  imageUrl: string
-  showBackground?: boolean
-  imagePosition?: 'left' | 'right'
+  service: IService
+  imagePosition: 'left' | 'right'
 }>()
 </script>
 

@@ -356,6 +356,8 @@
     "useCopyright": true,
     "useRecord": true,
     "useResponsiveMenu": true,
-    "useMenu": true
+    "useMenu": true,
+    "useBanner": true,
+    "useServices": true
   }
 }

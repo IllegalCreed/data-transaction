@@ -1,42 +1,111 @@
 <template>
   <div class="service-banner-root-container">
     <div class="inner-container">
-      <div flex flex-col items-start>
-        <span class="title">数据服务</span>
+      <div class="text-container">
+        <span class="title">{{ banner?.title }}</span>
         <span class="desc">
-          为了满足企业的需求，我们提供了一系列数据处理服务，包括数据清洗、数据集成、数据建模、数据可视化等。
-          我们的团队拥有丰富的经验和技术能力，能够帮助企业实现数据驱动的决策和业务增长。
+          {{ banner?.description }}
         </span>
       </div>
-      <img />
+      <img class="icon" :src="banner?.iconUrl" />
     </div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useServiceStore } from '@/stores/modules/service'
+const serviceStore = useServiceStore()
+const { banner } = storeToRefs(serviceStore)
+const { getBanner: getBannerAction } = serviceStore
+
+onMounted(() => {
+  getBannerAction()
+})
+</script>
 
 <style scoped lang="scss">
 .service-banner-root-container {
   @apply flex flex-col items-center justify-center w-full h-120 bg-gradient-to-r from-[var(--color-background-primary-darker)] to-[var(--color-background-primary-lighter)];
 
   .inner-container {
-    @apply flex flex-row items-center w-full max-w-320 px-10;
+    @apply flex flex-row items-center w-full max-w-320 px-10 py-10 gap-20;
 
-    .title {
-      @apply relative text-5xl font-bold text-[var(--color-text-reverse)];
+    .text-container {
+      @apply flex flex-col items-start;
 
-      &::before {
-        @apply content-[''] absolute bottom--5 left-1/2 translate-x--1/2 w-full h-1 rounded bg-[var(--color-text-reverse)];
+      .title {
+        @apply relative text-5xl font-bold text-[var(--color-text-reverse)];
+
+        &::before {
+          @apply content-[''] absolute bottom--5 left-1/2 translate-x--1/2 w-full h-1 rounded bg-[var(--color-text-reverse)];
+        }
+      }
+
+      .desc {
+        @apply mt-15 text-lg text-[var(--color-text-reverse)] line-clamp-5;
       }
     }
 
-    .desc {
-      @apply mt-10 text-lg text-[var(--color-text-reverse)];
+    .icon {
+      @apply w-50% h-auto object-contain;
     }
   }
 
   @media (max-width: 75rem) {
     @apply h-auto aspect-[5/2];
+  }
+
+  @media (max-width: 60rem) {
+    .inner-container {
+      .text-container {
+        .title {
+          @apply text-4xl;
+        }
+
+        .desc {
+          @apply text-base mt-10;
+        }
+      }
+
+      .icon {
+        @apply w-40%;
+      }
+    }
+  }
+
+  @media (max-width: 50rem) {
+    .inner-container {
+      .text-container {
+        .title {
+          @apply text-3xl;
+        }
+
+        .desc {
+          @apply text-sm;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .inner-container {
+      @apply px-5;
+
+      .text-container {
+        @apply items-center;
+        .title {
+          @apply text-3xl;
+        }
+
+        .desc {
+          @apply text-sm text-justify;
+        }
+      }
+
+      .icon {
+        @apply hidden;
+      }
+    }
   }
 }
 </style>

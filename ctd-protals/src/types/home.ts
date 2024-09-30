@@ -1,11 +1,11 @@
 export interface IBanner {
-  id: number
+  id: number | string
   imageUrl: string
   route?: string
 }
 
 export interface IModule {
-  id: number
+  id: number | string
   title: string
   description: string
   iconUrl: string
