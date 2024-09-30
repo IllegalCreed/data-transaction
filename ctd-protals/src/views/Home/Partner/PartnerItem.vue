@@ -16,7 +16,7 @@ const goPartner = () => {
 
 <style scoped lang="scss">
 .partner-item-container {
-  @apply flex items-center justify-center bg-[var(--color-background-light)] p-4 shadow-md cursor-pointer;
+  @apply flex items-center justify-center bg-[var(--color-background-alternating)] p-4 shadow-md cursor-pointer;
 
   img {
     @apply h-20 object-contain;

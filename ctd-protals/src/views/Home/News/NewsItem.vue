@@ -46,7 +46,7 @@ const goNewsDetail = () => {
   @apply flex flex-row gap-4 items-center cursor-pointer select-none;
 
   .time-container {
-    @apply flex-shrink-0 flex flex-col items-end justify-center gap-1 w-18 h-18 p-2 rounded border-1 border-solid border-[var(--color-primary)] bg-[var(--color-background-primary-light)];
+    @apply flex-shrink-0 flex flex-col items-end justify-center gap-1 w-18 h-18 p-2 rounded border-1 border-solid border-[var(--color-primary)] bg-[var(--color-background-primary-lightest)];
 
     .day {
       @apply text-2xl text-[var(--color-primary)];

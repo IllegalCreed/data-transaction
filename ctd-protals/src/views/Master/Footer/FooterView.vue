@@ -23,7 +23,7 @@ import RecordPanel from './RecordPanel.vue'
   @apply flex flex-col mt-20;
 
   .footer-link-container {
-    @apply flex justify-center items-center min-w-full bg-[var(--color-background-light)] py-10;
+    @apply flex justify-center items-center min-w-full bg-[var(--color-background-alternating)] py-10;
   }
 
   .responsive-container {

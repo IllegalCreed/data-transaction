@@ -21,7 +21,7 @@ const goPartner = () => {
 
 <style lang="scss" scoped>
 .partner-top-item-root-container {
-  @apply flex flex-row items-center gap-10 px-10 py-6 bg-[var(--color-background-light)] shadow-md cursor-pointer;
+  @apply flex flex-row items-center gap-10 px-10 py-6 bg-[var(--color-background-alternating)] shadow-md cursor-pointer;
 
   img {
     @apply w-40 h-20 object-contain;

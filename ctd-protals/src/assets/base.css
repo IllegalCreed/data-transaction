@@ -2,8 +2,10 @@
   --color-light-primary: #386ce1;
   --color-dark-primary: #386ce1;
 
-  --color-blue-light: #eff4ff;
-  --color-blue-dark: #10234f;
+  --color-blue-lightest: #eff4ff;
+  --color-blue-lighter: #427eca;
+  --color-blue-darker: #3135b2;
+  --color-blue-darkest: #10234f;
 
   --color-white: #fff;
   --color-light-white: #f5f8fa;
@@ -19,10 +21,12 @@
   --color-primary: var(--color-light-primary);
 
   --color-background: var(--color-light-white);
-  --color-background-light: var(--color-white);
-  --color-background-dark: var(--color-blue-dark);
+  --color-background-alternating: var(--color-white);
 
-  --color-background-primary-light: var(--color-blue-light);
+  --color-background-primary-lighter: var(--color-blue-lighter);
+  --color-background-primary-lightest: var(--color-blue-lightest);
+  --color-background-primary-darker: var(--color-blue-darker);
+  --color-background-primary-darkest: var(--color-blue-darkest);
 
   --color-text: var(--color-gray-dark);
   --color-text-light: var(--color-gray);

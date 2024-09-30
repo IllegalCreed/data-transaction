@@ -40,7 +40,7 @@ useWave(root, {
 
 <style scoped lang="scss">
 .home-module-item-root-container {
-  @apply relative flex flex-col w-full py-10 px-10 shadow rounded overflow-hidden bg-gradient-to-b from-[var(--color-background-light)] to-[var(--color-blue-light)];
+  @apply relative flex flex-col w-full py-10 px-10 shadow rounded overflow-hidden bg-gradient-to-b from-[var(--color-background-alternating)] to-[var(--color-background-primary-lightest)];
 
   .header {
     @apply flex flex-row items-center gap-8;

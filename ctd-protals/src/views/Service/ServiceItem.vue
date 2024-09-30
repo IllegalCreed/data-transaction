@@ -42,7 +42,7 @@ defineProps<{
 
 <style scoped lang="scss">
 .inner-wrap-container {
-  @apply flex flex-row items-center w-260;
+  @apply flex flex-row items-center w-300;
 
   &.right {
     @apply flex-row-reverse;
