@@ -66,6 +66,7 @@ export function useWave(
   let canvas: HTMLCanvasElement | null = null
   let ctx: CanvasRenderingContext2D | null = null
   let animationFrameId: number | null = null
+  let isReady: boolean = false
 
   let currentTime = 0
   let opacityTime = 0
@@ -104,6 +105,18 @@ export function useWave(
     animationFrameId = requestAnimationFrame(draw)
   }
 
+  const init = () => {
+    if (containerRef.value && !isReady) {
+      isReady = true
+      canvas = document.createElement('canvas')
+      canvas.style.cssText = style
+      ctx = canvas.getContext('2d')
+      containerRef.value.appendChild(canvas)
+      setCanvasSize(canvas)
+      draw()
+    }
+  }
+
   function createArray<T>(input: T | T[], numberOfLines: number, defaultValue: T): T[] {
     if (Array.isArray(input)) {
       return [
@@ -121,22 +134,15 @@ export function useWave(
     return `rgba(${r}, ${g}, ${b}, ${alpha})`
   }
 
+  watch(containerRef, init)
+
   onMounted(() => {
-    if (!containerRef.value) {
-      console.error('Container reference is not available.')
-      return
+    if (containerRef.value) {
+      init()
     }
-
-    canvas = document.createElement('canvas')
-    canvas.style.cssText = style
-    ctx = canvas.getContext('2d')
-    containerRef.value.appendChild(canvas)
-
-    setCanvasSize(canvas)
     useEventListener(window, 'resize', () => {
       setCanvasSize(canvas)
     })
-    draw()
   })
 
   onUnmounted(() => {

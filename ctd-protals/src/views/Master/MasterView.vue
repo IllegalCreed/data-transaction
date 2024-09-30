@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import HeaderView from './HeaderView.vue'
+import HeaderView from './Header/HeaderView.vue'
 import FooterView from './Footer/FooterView.vue'
 </script>
 

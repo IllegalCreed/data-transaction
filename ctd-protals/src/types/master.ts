@@ -10,3 +10,10 @@ export interface IContact {
   phone: string
   wechatUrl: string
 }
+
+export interface IMenu {
+  path: string
+  label: string
+  icon: string
+  children?: IMenu[]
+}

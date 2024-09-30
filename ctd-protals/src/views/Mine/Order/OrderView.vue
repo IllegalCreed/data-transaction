@@ -2,8 +2,8 @@
   <div flex flex-col h-full>
     <div class="tab">
       <router-link
-        v-for="(item, index) in personalMenuLinks.find((link) => link.path === '/mine/orders')
-          ?.children || []"
+        v-for="(item, index) in mineMenus?.find((link) => link.path === '/mine/orders')?.children ||
+        []"
         :key="index"
         :to="item.path"
         class="tab-item"
@@ -24,9 +24,15 @@
 
 <script setup lang="ts">
 import { useMenuStore } from '@/stores/modules/menu'
-const { personalMenuLinks } = useMenuStore()
+const menuStore = useMenuStore()
+const { mineMenus } = storeToRefs(menuStore)
+const { getMineMenus: getMineMenusAction } = menuStore
 
 const route = useRoute()
+
+onMounted(() => {
+  getMineMenusAction()
+})
 </script>
 
 <style lang="scss" scoped>

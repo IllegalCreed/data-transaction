@@ -29,7 +29,7 @@
       <!-- 个人相关菜单 -->
       <div
         class="menu-item"
-        v-for="(item, index) in personalMenuLinks"
+        v-for="(item, index) in mineMenus"
         :key="index"
         @click="navigateTo(item.path)"
       >
@@ -42,7 +42,7 @@
       <!-- 导航菜单 -->
       <div
         class="menu-item"
-        v-for="(item, index) in moduleMenuLinks"
+        v-for="(item, index) in mainMenus"
         :key="index"
         @click="navigateTo(item.path)"
       >
@@ -80,7 +80,9 @@ import SettingDialog from './SettingDialog.vue'
 import { useAccountStore } from '@/stores/modules/account'
 const { logout: logoutAction } = useAccountStore()
 import { useMenuStore } from '@/stores/modules/menu'
-const { moduleMenuLinks, personalMenuLinks } = useMenuStore()
+const menuStore = useMenuStore()
+const { mainMenus, mineMenus } = storeToRefs(menuStore)
+const { getMainMenus: getMainMenusAction, getMineMenus: getMineMenusAction } = menuStore
 
 const model = defineModel<boolean>({ required: true })
 const isSettingDialogVisible = ref(false)
@@ -145,6 +147,11 @@ watchEffect(() => {
     drawerDirection.value = 'rtl'
     drawerLockScroll.value = false
   }
+})
+
+onMounted(() => {
+  getMainMenusAction()
+  getMineMenusAction()
 })
 </script>
 
