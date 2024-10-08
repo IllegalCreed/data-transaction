@@ -1,3 +1,4 @@
+import { useSettingsStore } from '@/stores/modules/settings'
 import type { IBanner } from '@/types/home'
 import { getBanners as getBannersAPI } from '@/apis/home/banner'
 import { bannerList as mockBanners } from '@/constants/mockData/home/banner'

@@ -1,8 +1,8 @@
 <template>
   <div class="consult-root-container">
-    <div class="banner">咨询服务宣传图</div>
+    <consult-banner></consult-banner>
 
-    <ad-panel mt-20></ad-panel>
+    <indicator-panel mt-20></indicator-panel>
 
     <consult-item-panel mt-20></consult-item-panel>
 
@@ -11,9 +11,10 @@
 </template>
 
 <script setup lang="ts">
-import AdPanel from './AdPanel.vue'
-import ConsultItemPanel from './ConsultItemPanel.vue'
-import ConsultTeamPanel from './ConsultTeamPanel.vue'
+import ConsultBanner from './ConsultBanner.vue'
+import IndicatorPanel from './Indicator/IndicatorPanel.vue'
+import ConsultItemPanel from './Service/ConsultServicePanel.vue'
+import ConsultTeamPanel from './Team/ConsultTeamPanel.vue'
 </script>
 
 <style scoped lang="scss">

@@ -12,6 +12,7 @@
 
 <script setup lang="ts">
 import ModuleItem from './ModuleItem.vue'
+import { useHomeStore } from '@/stores/modules/home'
 
 const homeStore = useHomeStore()
 const { modules } = storeToRefs(homeStore)

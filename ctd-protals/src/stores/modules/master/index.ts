@@ -1,4 +1,8 @@
 import { defineStore } from 'pinia'
+import { useLinks } from './link'
+import { useContact } from './contact'
+import { useRecord } from './record'
+import { useCopyright } from './copyright'
 
 export const useMasterStore = defineStore('master', () => {
   const { links, getLinks, abouts, getAbouts } = useLinks()

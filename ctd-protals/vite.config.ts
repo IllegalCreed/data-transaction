@@ -56,7 +56,7 @@ export default defineConfig({
           imports: ['ISort']
         }
       ],
-      dirs: ['./src/utils', './src/composables', './src/apis/**', './src/stores/**'],
+      dirs: ['./src/utils', './src/composables', './src/apis/**'],
       dts: true,
       eslintrc: {
         enabled: true

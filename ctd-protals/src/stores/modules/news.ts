@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { useSettingsStore } from '@/stores/modules/settings'
 import type { INewsItem } from '@/types/news'
 import { getNewsList as getNewsListAPI } from '@/apis/news'
 import { newsList as mockNewsList } from '@/constants/mockData/home/news'

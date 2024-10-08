@@ -1,3 +1,4 @@
+import { useSettingsStore } from '@/stores/modules/settings'
 import type { ILink } from '@/types/master'
 import { getLinks as getLinksAPI } from '@/apis/master/link'
 import { links as mockLinks, abouts as mockAbout } from '@/constants/mockData/master/link'

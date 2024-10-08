@@ -1,3 +1,4 @@
+import { useSettingsStore } from '@/stores/modules/settings'
 import { getRecords as getRecordsAPI } from '@/apis/master/records'
 import { records as mockRecords } from '@/constants/mockData/master/record'
 

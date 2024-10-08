@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import ConsultItem from './ConsultItem.vue'
+import ConsultItem from './ConsultServieItem.vue'
 
 const services = [
   {

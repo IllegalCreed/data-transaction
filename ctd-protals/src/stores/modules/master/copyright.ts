@@ -1,3 +1,4 @@
+import { useSettingsStore } from '@/stores/modules/settings'
 import { getCopyright as getCopyrightAPI } from '@/apis/master/copyright'
 import { copyright as mockCopyright } from '@/constants/mockData/master/copyright'
 

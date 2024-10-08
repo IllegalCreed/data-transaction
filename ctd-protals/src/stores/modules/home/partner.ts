@@ -1,3 +1,4 @@
+import { useSettingsStore } from '@/stores/modules/settings'
 import type { IPartner } from '@/types/home'
 import { getTopPartner as getTopPartnerAPI, getPartner as getPartnerAPI } from '@/apis/home/partner'
 import { partners as mockPartners } from '@/constants/mockData/home/partner'

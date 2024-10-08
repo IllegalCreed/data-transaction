@@ -1,25 +1,24 @@
 import { useSettingsStore } from '@/stores/modules/settings'
-import type { IContact } from '@/types/master'
-import { getContact as getContactAPI } from '@/apis/master/contact'
+import type { ITeam } from '@/types/consult'
+import { getTeams as getTeamsAPI } from '@/apis/consult/team'
+import { teams as mockTeams } from '@/constants/mockData/consult/team'
 
-import { contact as mockContact } from '@/constants/mockData/master/contact'
-
-export const useContact = () => {
+export const useTeams = () => {
   const settingsStore = useSettingsStore()
 
-  const contact = ref<IContact>()
+  const teams = ref<ITeam[]>()
 
-  const getContact = (): Promise<void> => {
+  const getTeams = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => {
-          contact.value = mockContact
+          teams.value = mockTeams
           resolve()
         }, 1000)
       } else {
-        getContactAPI()
+        getTeamsAPI()
           .then((res: unknown) => {
-            contact.value = res as IContact
+            teams.value = res as ITeam[]
             resolve()
           })
           .catch((error: unknown) => {
@@ -30,7 +29,7 @@ export const useContact = () => {
   }
 
   return {
-    contact,
-    getContact
+    teams,
+    getTeams
   }
 }
