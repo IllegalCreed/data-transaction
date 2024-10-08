@@ -89,7 +89,7 @@ onMounted(() => {
   @apply text-[var(--color-primary)];
 
   &::before {
-    @apply content-[''] absolute bottom--2 left-1/2 translate-x--1/2 w-full h-1 rounded bg-[var(--color-primary)];
+    @apply content-[''] absolute bottom--3 left-1/2 translate-x--1/2 w-full h-1 rounded bg-[var(--color-primary)];
   }
 }
 

@@ -1,14 +1,16 @@
 <template>
-  <div flex flex-row>
-    <label flex flex-row items-center w-25 h-12 font-bold>{{ data.label }}：</label>
+  <div class="filter-item-root-container">
+    <label class="title">{{ data.label }}：</label>
     <div class="content" ref="contentRef">
       <div v-for="item in data.items" :key="item.id" @click="selectItem(item.id)">
         <span :class="{ selected: model === item.id }">{{ item.label }}</span>
       </div>
     </div>
-    <el-button v-if="isToggleVisible" @click="toggle" class="toggle-button">
+    <el-link v-if="isToggleVisible" @click="toggle" :underline="false" class="toggle-button">
       {{ isCollapsed ? '收起' : '展开' }}
-    </el-button>
+      <i-mingcute:down-line v-if="!isCollapsed" ml-2></i-mingcute:down-line>
+      <i-mingcute:up-line v-else ml-2></i-mingcute:up-line>
+    </el-link>
   </div>
 </template>
 
@@ -59,24 +61,32 @@ watch(width, checkToggleVisibility)
 </script>
 
 <style scoped lang="scss">
-.content {
-  @apply flex flex-row flex-1 flex-wrap items-center overflow-hidden transition-[max-height] duration-300 ease-in-out;
-  max-height: 3rem;
+.filter-item-root-container {
+  @apply flex flex-row;
 
-  div {
-    @apply flex justify-center items-center h-12 p-2 cursor-pointer;
+  .title {
+    @apply flex flex-row items-center w-25 h-12 text-[var(--color-text-lighter)];
+  }
 
-    span {
-      @apply px-3 py-1 border-2 border-solid border-transparent;
-    }
+  .content {
+    @apply flex flex-row flex-1 flex-wrap items-center overflow-hidden transition-[max-height] duration-300 ease-in-out;
+    max-height: 3rem;
 
-    .selected {
-      @apply border-2 border-solid border-red-500 rounded;
+    div {
+      @apply flex justify-center items-center h-12 p-2 cursor-pointer;
+
+      span {
+        @apply px-3 py-1 border-2 border-solid border-transparent;
+      }
+
+      .selected {
+        @apply text-[var(--color-primary)] font-bold;
+      }
     }
   }
-}
 
-.toggle-button {
-  @apply mt-2 self-start;
+  .toggle-button {
+    @apply mt-4 pl-4 self-start;
+  }
 }
 </style>

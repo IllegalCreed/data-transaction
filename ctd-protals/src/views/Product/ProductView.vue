@@ -1,31 +1,6 @@
 <template>
   <div class="product-root-container">
-    <div class="product-header-container">
-      <el-input
-        class="search-input"
-        v-model="searchKey"
-        size="large"
-        :placeholder="searchPlaceholder"
-      >
-        <template v-if="showSearchType" #prepend>
-          <el-select v-model="searchType" placeholder="Select" size="large" style="width: 115px">
-            <el-option label="产品名称" value="1" />
-            <el-option label="商家名称" value="2" />
-          </el-select>
-        </template>
-        <template #append>
-          <el-button>
-            <template v-slot:icon>
-              <i-vaadin:search></i-vaadin:search>
-            </template>
-          </el-button>
-        </template>
-      </el-input>
-
-      <div class="filter-panel">
-        <filter-list-view v-model="filters" :source="filterSource"></filter-list-view>
-      </div>
-    </div>
+    <product-header></product-header>
 
     <div class="sort-panel">
       <sort-list-view v-model="sort" :source="sortSource"></sort-list-view>
@@ -57,23 +32,14 @@
 </template>
 
 <script setup lang="ts">
+import ProductHeader from './ProductHeader/ProductHeader.vue'
+
 import type { ISortValue } from '@/types/sorting'
-import FilterListView from '@/components/FilterListView.vue'
 import FilterDialog from '@/components/FilterDialog.vue'
 import SortListView from '@/components/SortListView.vue'
 import ProductItem from './ProductItem.vue'
 import { useProductStore } from '@/stores/modules/product'
 const { filterSource, sortSource, products } = useProductStore()
-
-const sort = ref<ISortValue>({ sortType: 'comprehensive', order: 'desc' as const })
-watch(
-  sort,
-  (newValue) => {
-    console.log(`Searching with sort: ${JSON.stringify(newValue, null, 2)}`)
-    // 在这里触发搜索逻辑
-  },
-  { deep: true }
-)
 
 const filters = ref<Record<string, string>>(
   filterSource.reduce(
@@ -86,20 +52,25 @@ const filters = ref<Record<string, string>>(
 )
 watch(
   filters,
-  (newValue) => {
+  (newValue: string) => {
     console.log(`Searching with filters: ${JSON.stringify(newValue, null, 2)}`)
     // 在这里触发搜索逻辑
   },
   { deep: true }
 )
 
-const searchKey = ref('')
-const searchType = ref('1')
+const sort = ref<ISortValue>({ sortType: 'comprehensive', order: 'desc' as const })
+watch(
+  sort,
+  (newValue: string) => {
+    console.log(`Searching with sort: ${JSON.stringify(newValue, null, 2)}`)
+    // 在这里触发搜索逻辑
+  },
+  { deep: true }
+)
 
 const showFilterDialog = ref(false)
 
-const searchPlaceholder = ref('')
-const showSearchType = ref(true)
 const paginationLayout = ref('total, prev, pager, next')
 const showPaginationBackground = ref(true)
 const pagerCount = ref(7)
@@ -107,15 +78,10 @@ const isMobileDevice = useMediaQuery('(max-width: 40rem)')
 
 watchEffect(() => {
   if (isMobileDevice.value) {
-    searchType.value = '1'
-    showSearchType.value = false
-    searchPlaceholder.value = '请输入商品名称'
     paginationLayout.value = 'prev, pager, next'
     showPaginationBackground.value = false
     pagerCount.value = 5
   } else {
-    showSearchType.value = true
-    searchPlaceholder.value = '请输入'
     paginationLayout.value = 'total, prev, pager, next'
     showPaginationBackground.value = true
     pagerCount.value = 7
@@ -126,18 +92,6 @@ watchEffect(() => {
 <style scoped lang="scss">
 .product-root-container {
   @apply flex flex-col items-center;
-
-  .product-header-container {
-    @apply flex flex-col items-center bg-blueGray p-10 w-full;
-  }
-
-  .search-input {
-    @apply max-w-160;
-  }
-
-  .filter-panel {
-    @apply mt-10 max-w-260 w-full;
-  }
 
   .sort-panel {
     @apply flex flex-row items-center justify-between mt-10 max-w-280 w-full px-10;
@@ -154,12 +108,6 @@ watchEffect(() => {
   }
 
   @media (max-width: 40rem) {
-    .product-header-container {
-      @apply p-4;
-    }
-    .filter-panel {
-      @apply hidden;
-    }
     .sort-panel {
       @apply px-4 mt-2;
       .filter-icon {

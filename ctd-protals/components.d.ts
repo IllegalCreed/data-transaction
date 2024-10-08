@@ -68,6 +68,8 @@ declare module 'vue' {
     'IMdi:filterOutline': typeof import('~icons/mdi/filter-outline')['default']
     'IMdi:mapMarker': typeof import('~icons/mdi/map-marker')['default']
     'IMdi:phone': typeof import('~icons/mdi/phone')['default']
+    'IMingcute:downLine': typeof import('~icons/mingcute/down-line')['default']
+    'IMingcute:upLine': typeof import('~icons/mingcute/up-line')['default']
     'INoto:buildingConstruction': typeof import('~icons/noto/building-construction')['default']
     'IPh:package': typeof import('~icons/ph/package')['default']
     'ISolar:roundArrowRightBroken': typeof import('~icons/solar/round-arrow-right-broken')['default']

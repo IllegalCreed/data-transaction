@@ -2,6 +2,18 @@
   --color-light-primary: #386ce1;
   --color-dark-primary: #386ce1;
 
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+  --color-gray-950: #090c0e;
+
   --color-blue-50: #eff6ff;
   --color-blue-100: #dbeafe;
   --color-blue-200: #bfdbfe;
@@ -18,10 +30,6 @@
   --color-light-white: #f5f8fa;
 
   --color-black: #000;
-
-  --color-gray-dark: #333;
-  --color-gray: #666;
-  --color-gray-light: #999;
 }
 
 :root {
@@ -39,15 +47,33 @@
   --color-shadow-primary-lightest: var(--color-blue-200);
   --color-step-icon-primary: var(--color-blue-200);
 
-  --color-text: var(--color-gray-dark);
-  --color-text-light: var(--color-gray);
-  --color-text-lighter: var(--color-gray-light);
+  --color-border: var(--color-gray-300);
+  --color-text: var(--color-gray-700);
+  --color-text-light: var(--color-gray-500);
+  --color-text-lighter: var(--color-gray-400);
   --color-text-reverse: var(--color-white);
 }
 
 .dark {
-  --color-background: var(--vt-c-black);
-  --color-text: var(--vt-c-text-dark-2);
+  --color-primary: var(--color-light-primary);
+
+  --color-background: var(--color-light-white);
+  --color-background-alternating: var(--color-white);
+  --color-background-darkest: var(--color-blue-950);
+
+  --color-news-data-background: var(--color-blue-50);
+  --color-module-gradient-from: var(--color-white);
+  --color-module-gradient-to: var(--color-blue-50);
+  --color-service-banner-gradient-from: var(--color-blue-700);
+  --color-service-banner-gradient-to: var(--color-blue-500);
+  --color-shadow-primary-lightest: var(--color-blue-200);
+  --color-step-icon-primary: var(--color-blue-200);
+
+  --color-border: var(--color-gray-300);
+  --color-text: var(--color-gray-700);
+  --color-text-light: var(--color-gray-500);
+  --color-text-lighter: var(--color-gray-400);
+  --color-text-reverse: var(--color-white);
 }
 
 *,
