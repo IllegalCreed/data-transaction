@@ -19,7 +19,7 @@ defineProps<{ scene: IScene }>()
 
 <style scoped lang="scss">
 .scene-primary-item-root-container {
-  @apply relative flex flex-col py-10 px-10 shadow-lg rounded-lg bg-gradient-to-br from-[var(--color-background-alternating)] to-[var(--color-background-primary-lightest)];
+  @apply relative flex flex-col py-10 px-10 shadow-lg rounded-lg bg-gradient-to-br from-[var(--color-module-gradient-from)] to-[var(--color-module-gradient-to)];
 
   .company {
     @apply text-sm font-bold tracking-widest font-sans text-gray-500;

@@ -54,7 +54,7 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .record-panel-root-container {
-  @apply flex flex-col items-center w-full bg-[var(--color-background-primary-darkest)] text-[var(--color-text-reverse)];
+  @apply flex flex-col items-center w-full bg-[var(--color-background-darkest)] text-[var(--color-text-reverse)];
 
   .main-panel {
     @apply flex flex-row flex-wrap gap-4 justify-between items-center w-full px-10 py-4;

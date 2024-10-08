@@ -22,7 +22,7 @@ defineProps<{ news: INewsItem }>()
 
 <style scoped lang="scss">
 .news-primary-item-root-container {
-  @apply relative flex flex-col justify-end w-full h-106 shadow rounded-lg overflow-hidden bg-[var(--color-background-primary-darkest)] bg-cover bg-center cursor-pointer select-none;
+  @apply relative flex flex-col justify-end w-full h-106 shadow rounded-lg overflow-hidden bg-[var(--color-background-darkest)] bg-cover bg-center cursor-pointer select-none;
 
   .main-container {
     @apply flex flex-col gap-2 w-full py-4 px-6 rounded-lg backdrop-blur bg-gray-500 bg-opacity-50 text-white;

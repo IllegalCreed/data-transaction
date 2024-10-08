@@ -358,6 +358,7 @@
     "useResponsiveMenu": true,
     "useMenu": true,
     "useBanner": true,
-    "useServices": true
+    "useServices": true,
+    "useSteps": true
   }
 }

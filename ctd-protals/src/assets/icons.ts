@@ -16,3 +16,11 @@
   'i-mdi:account-tie'
 ]
 // search
+
+//serviceStep
+;[
+  'i-mdi:file-chart-outline',
+  'i-ic:round-design-services',
+  'i-eos-icons:hardware-circuit',
+  'i-icon-park-outline:delivery'
+]

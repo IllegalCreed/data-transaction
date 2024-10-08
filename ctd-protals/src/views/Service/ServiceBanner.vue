@@ -25,7 +25,7 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .service-banner-root-container {
-  @apply flex flex-col items-center justify-center w-full h-120 bg-gradient-to-r from-[var(--color-background-primary-darker)] to-[var(--color-background-primary-lighter)];
+  @apply flex flex-col items-center justify-center w-full h-120 bg-gradient-to-r from-[var(--color-service-banner-gradient-from)] to-[var(--color-service-banner-gradient-to)];
 
   .inner-container {
     @apply flex flex-row items-center w-full max-w-320 px-10 py-10 gap-20;
