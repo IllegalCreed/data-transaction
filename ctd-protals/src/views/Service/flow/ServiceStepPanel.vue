@@ -1,18 +1,18 @@
 <template>
-  <span mt-20 text-4xl>服务流程</span>
-  <span text-center mt-4 mb-10 mx-10 text-gray-500
-    >以下是我们为您提供的数据处理服务的完整流程，确保每一步都精准有效。</span
-  >
-  <div class="step-panel-container">
-    <service-step-item
-      v-for="(step, index) in steps"
-      :key="index"
-      data-aos="fade-up"
-      :data-aos-delay="index * 100"
-      :stepNumber="step.stepNumber"
-      :title="step.title"
-      :description="step.description"
-    ></service-step-item>
+  <div class="service-step-panel-root-container">
+    <span class="page-title">服务流程</span>
+    <span class="desc">以下是我们为您提供的数据处理服务的完整流程，确保每一步都精准有效。</span>
+    <div class="step-panel-container">
+      <service-step-item
+        v-for="(step, index) in steps"
+        :key="index"
+        data-aos="fade-up"
+        :data-aos-delay="index * 100"
+        :stepNumber="step.stepNumber"
+        :title="step.title"
+        :description="step.description"
+      ></service-step-item>
+    </div>
   </div>
 </template>
 
@@ -44,15 +44,27 @@ const steps = [
 </script>
 
 <style lang="scss" scoped>
-.step-panel-container {
-  @apply grid grid-cols-4 gap-6 max-w-260;
+.service-step-panel-root-container {
+  @apply flex flex-col items-center w-full max-w-320 px-10 mt-20;
 
-  @media (max-width: 75rem) {
-    @apply grid-cols-2 gap-x-10 px-20;
+  .desc {
+    @apply text-center mt-10 mb-10 mx-10 text-[var(--color-text-light)];
+  }
+
+  .step-panel-container {
+    @apply grid grid-cols-4 gap-10;
+
+    @media (max-width: 75rem) {
+      @apply grid-cols-2;
+    }
+
+    @media (max-width: 30rem) {
+      @apply grid-cols-1;
+    }
   }
 
   @media (max-width: 40rem) {
-    @apply grid-cols-1 px-10;
+    @apply px-5;
   }
 }
 </style>

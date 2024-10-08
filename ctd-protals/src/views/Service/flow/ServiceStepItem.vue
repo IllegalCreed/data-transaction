@@ -1,5 +1,5 @@
 <template>
-  <div flex flex-col items-center>
+  <div flex flex-col items-center max-w-60>
     <div class="step-label">
       {{ stepNumber }}
     </div>

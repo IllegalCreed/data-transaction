@@ -57,7 +57,7 @@ onMounted(() => {
   @apply flex flex-col items-center w-full bg-[var(--color-background-primary-darkest)] text-[var(--color-text-reverse)];
 
   .main-panel {
-    @apply flex flex-row flex-wrap gap-4 justify-between items-center max-w-320 w-full px-10 py-4;
+    @apply flex flex-row flex-wrap gap-4 justify-between items-center w-full px-10 py-4;
 
     .left-list {
       @apply flex flex-row flex-wrap gap-4;
