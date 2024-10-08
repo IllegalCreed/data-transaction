@@ -5,7 +5,7 @@
       :key="filter.id"
       :data="filter"
       :modelValue="model[filter.id] || 'all'"
-      @update:modelValue="(selectedId) => (model[filter.id] = selectedId)"
+      @update:modelValue="(selectedId: string) => (model[filter.id] = selectedId)"
     ></filter-item>
   </div>
 </template>

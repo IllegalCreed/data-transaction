@@ -1,77 +1,76 @@
 <template>
-  <div class="consult-item-panel">
-    <span class="title">我们提供哪些咨询服务</span>
-    <div class="grid-panel">
-      <consult-item
-        v-for="(service, index) in services"
-        :key="index"
-        :data="service"
-        data-aos="fade-up"
-        :data-aos-delay="index * 100"
-      >
-      </consult-item>
+  <div class="consult-service-panel">
+    <div class="consult-service-inner-panel" :style="{ backgroundImage: `url('${bg}')` }">
+      <span class="title">我们提供哪些咨询服务</span>
+      <div class="grid-panel">
+        <consult-service-item
+          v-for="(item, index) in services"
+          :key="index"
+          :service="item"
+          data-aos="fade-up"
+          :data-aos-delay="aosDelay(index)"
+        >
+        </consult-service-item>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import ConsultItem from './ConsultServieItem.vue'
+import ConsultServiceItem from './ConsultServiceItem.vue'
+import { useConsultStore } from '@/stores/modules/consult'
 
-const services = [
-  {
-    icon: 'https://via.placeholder.com/80',
-    title: '数据治理咨询',
-    description: '提供全面的数据治理策略，帮助企业有效管理和利用数据资产。'
-  },
-  {
-    icon: 'https://via.placeholder.com/80',
-    title: '数据合规性审查',
-    description: '确保数据处理过程符合法律法规和行业标准，保障数据安全与隐私。'
-  },
-  {
-    icon: 'https://via.placeholder.com/80',
-    title: '数据资产价值评估',
-    description: '评估数据资产的商业价值，帮助企业制定数据投资策略。'
-  },
-  {
-    icon: 'https://via.placeholder.com/80',
-    title: '数据安全审计',
-    description: '审查数据安全性，识别潜在风险，制定安全增强措施。'
-  }
-]
+const bg = ref(new URL('@/assets/background/consultBackground.png', import.meta.url).href)
+
+const consultStore = useConsultStore()
+const { services } = storeToRefs(consultStore)
+const { getServices: getServicesAction } = consultStore
+
+const isMobileDevice = useMediaQuery('(max-width: 40rem)')
+const aosDelay = (index: number) => {
+  return isMobileDevice.value ? 0 : index * 100
+}
+
+onMounted(() => {
+  getServicesAction()
+})
 </script>
 
 <style lang="scss" scoped>
-.consult-item-panel {
-  @apply flex flex-col items-center min-w-full bg-slate-300 py-20;
+.consult-service-panel {
+  @apply min-w-full bg-[var(--color-background-darker)];
+
+  .consult-service-inner-panel {
+    @apply flex flex-col items-center min-w-full bg-cover bg-center py-20;
+  }
 
   .title {
-    @apply text-4xl font-bold;
+    @apply relative text-4xl font-bold text-[var(--color-text-reverse)];
+
+    &::before {
+      @apply content-[''] absolute bottom--5 left-1/2 translate-x--1/2 w-40 h-1 rounded bg-[var(--color-text-reverse)];
+    }
   }
 
   .grid-panel {
-    @apply grid grid-cols-2 gap-10 mt-10 w-260;
+    @apply grid grid-cols-2 gap-6 mt-20 max-w-300 w-full px-10;
   }
 
-  @media (max-width: 75rem) {
-    @apply px-20;
-
+  @media (max-width: 60rem) {
     .grid-panel {
-      @apply grid-cols-1 gap-4 max-w-220 w-full;
+      @apply grid-cols-1 gap-4 w-auto;
     }
   }
 
   @media (max-width: 40rem) {
-    @apply px-10;
-
-    .title {
-      @apply text-3xl;
+    .grid-panel {
+      @apply px-5;
     }
   }
 
-  @media (max-width: 30rem) {
+  @media (max-width: 25rem) {
     .title {
-      @apply text-2xl;
+      @apply text-3xl;
     }
   }
 }

@@ -38,6 +38,7 @@
   --color-background: var(--color-light-white);
   --color-background-alternating: var(--color-white);
   --color-background-darkest: var(--color-blue-950);
+  --color-background-darker: var(--color-gray-800);
 
   --color-news-data-background: var(--color-blue-50);
   --color-module-gradient-from: var(--color-white);
@@ -46,6 +47,7 @@
   --color-service-banner-gradient-to: var(--color-blue-500);
   --color-shadow-primary-lightest: var(--color-blue-200);
   --color-step-icon-primary: var(--color-blue-200);
+  --color-consult-icon-bg-primary: var(--color-blue-100);
 
   --color-border: var(--color-gray-300);
   --color-text: var(--color-gray-700);
@@ -60,6 +62,7 @@
   --color-background: var(--color-light-white);
   --color-background-alternating: var(--color-white);
   --color-background-darkest: var(--color-blue-950);
+  --color-background-darker: var(--color-gray-800);
 
   --color-news-data-background: var(--color-blue-50);
   --color-module-gradient-from: var(--color-white);

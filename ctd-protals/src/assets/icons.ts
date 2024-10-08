@@ -24,3 +24,11 @@
   'i-eos-icons:hardware-circuit',
   'i-icon-park-outline:delivery'
 ]
+
+//consult
+;[
+  'i-bi:database-fill-gear',
+  'i-fa6-solid:stamp',
+  'i-ant-design:property-safety-filled',
+  'i-cib:f-secure'
+]
