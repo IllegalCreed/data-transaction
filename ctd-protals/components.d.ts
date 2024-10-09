@@ -52,7 +52,6 @@ declare module 'vue' {
     'ICarbon:checkmarkOutline': typeof import('~icons/carbon/checkmark-outline')['default']
     'ICarbon:warning': typeof import('~icons/carbon/warning')['default']
     'IEosIcons:loading': typeof import('~icons/eos-icons/loading')['default']
-    'IEp:topRight': typeof import('~icons/ep/top-right')['default']
     'IHeroiconsOutline:arrowRight': typeof import('~icons/heroicons-outline/arrow-right')['default']
     'IIc:baselinePlus': typeof import('~icons/ic/baseline-plus')['default']
     'IIc:baselineWechat': typeof import('~icons/ic/baseline-wechat')['default']

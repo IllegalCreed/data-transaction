@@ -1,44 +1,55 @@
 <template>
   <div class="consult-team-item-container">
-    <img :src="data.logo" alt="公司logo" rounded-xl />
+    <div class="image-container">
+      <img :src="data.imageUrl" />
+    </div>
 
-    <span class="title" text-lg font-bold my-4>{{ data.name }}</span>
-    <span class="desc">{{ data.description }}</span>
-    <div flex-1></div>
-    <el-divider type="dashed" />
-    <el-button self-end type="primary" text>了解更多</el-button>
+    <div class="text-container">
+      <span class="title">{{ data.title }}</span>
+      <span class="desc">{{ data.description }}</span>
+      <div flex-1></div>
+      <el-button self-center mt-5 type="primary" text>了解更多</el-button>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import type { ITeam } from '@/types/consult'
+
 defineProps<{
-  data: {
-    logo: string
-    name: string
-    description: string
-  }
+  data: ITeam
 }>()
 </script>
 
 <style lang="scss" scoped>
 .consult-team-item-container {
-  @apply flex flex-col items-center;
+  @apply flex flex-col items-center bg-[var(--color-background-alternating)] max-w-70 rounded;
 
-  img {
-    @apply w-50 h-50;
+  .image-container {
+    @apply flex items-center justify-center p-10;
+
+    img {
+      @apply w-full object-contain;
+    }
   }
 
-  .title {
-    @apply line-clamp-1;
-  }
+  .text-container {
+    @apply flex-1 flex flex-col items-center p-5 pt-0;
 
-  .desc {
-    @apply text-gray-400;
+    .title {
+      @apply text-lg font-bold mb-4 line-clamp-1;
+    }
+
+    .desc {
+      @apply text-[var(--color-text-light)] leading-relaxed line-clamp-3;
+    }
   }
 
   @media (max-width: 40rem) {
+    @apply max-w-100;
+
     .desc {
-      @apply text-gray-400 h-auto;
+      @apply h-auto;
     }
   }
 }

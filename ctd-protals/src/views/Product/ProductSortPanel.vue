@@ -18,12 +18,30 @@
 import FilterDialog from '@/components/FilterDialog.vue'
 import type { ISortValue } from '@/types/sorting'
 import { useProductStore } from '@/stores/modules/product'
-const { filterSource, sortSource, products } = useProductStore()
+const { filterSource, sortSource } = useProductStore()
+
+const filters = ref<Record<string, string>>(
+  filterSource.reduce(
+    (acc, filter) => {
+      acc[filter.id] = 'all'
+      return acc
+    },
+    {} as Record<string, string>
+  )
+)
+watch(
+  filters,
+  (newValue: Record<string, string>) => {
+    console.log(`Searching with filters: ${JSON.stringify(newValue, null, 2)}`)
+    // 在这里触发搜索逻辑
+  },
+  { deep: true }
+)
 
 const sort = ref<ISortValue>({ sortType: 'comprehensive', order: 'desc' as const })
 watch(
   sort,
-  (newValue: string) => {
+  (newValue: ISortValue) => {
     console.log(`Searching with sort: ${JSON.stringify(newValue, null, 2)}`)
     // 在这里触发搜索逻辑
   },

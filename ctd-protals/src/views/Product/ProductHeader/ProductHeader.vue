@@ -29,7 +29,7 @@ const filters = ref<Record<string, string>>(
 )
 watch(
   filters,
-  (newValue: string) => {
+  (newValue: Record<string, string>) => {
     console.log(`Searching with filters: ${JSON.stringify(newValue, null, 2)}`)
     // 在这里触发搜索逻辑
   },
