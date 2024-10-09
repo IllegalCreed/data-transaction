@@ -97,13 +97,11 @@ watchEffect(() => {
     @apply w-[calc(50%-10px)] m-1;
 
     .text-container {
-      .desc {
-        @apply text-sm mt-2;
-      }
+      @apply p-6;
+    }
 
-      .company {
-        @apply text-sm;
-      }
+    .bottom-container {
+      @apply px-6;
     }
   }
 
@@ -111,7 +109,11 @@ watchEffect(() => {
     @apply w-full;
 
     .text-container {
-      @apply p-2;
+      @apply p-4;
+    }
+
+    .bottom-container {
+      @apply px-4;
     }
   }
 }
