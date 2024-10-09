@@ -63,6 +63,7 @@
   --color-background-alternating: var(--color-white);
   --color-background-darkest: var(--color-blue-950);
   --color-background-darker: var(--color-gray-800);
+  --color-background-dialog-sider: var(--color-gray-100);
 
   --color-news-data-background: var(--color-blue-50);
   --color-module-gradient-from: var(--color-white);

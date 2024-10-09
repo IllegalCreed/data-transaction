@@ -67,15 +67,19 @@ watchEffect(() => {
 
 <style lang="scss" scoped>
 :global(.filter-dialog-container) {
-  @apply flex flex-col fixed left-0 right-0 bottom-0 mb-0 h-80%;
+  @apply flex flex-col p-0 fixed left-0 right-0 bottom-0 mb-0 h-70%;
 }
 
 :global(.filter-dialog-container .el-dialog__body) {
-  @apply flex flex-row h-full;
+  @apply flex flex-row h-full border-t-1 border-t-solid border-t-[var(--color-border)];
+}
+
+:global(.filter-dialog-container .el-dialog__header) {
+  @apply p-4;
 }
 
 .tab-container {
-  @apply flex flex-col w-25 ml--4 bg-gray-100;
+  @apply flex flex-col w-25 bg-[var(--color-background-dialog-sider)];
 }
 
 .tab-item {
@@ -83,18 +87,18 @@ watchEffect(() => {
 }
 
 .tab-item.active {
-  @apply bg-red-500 text-white;
+  @apply bg-[var(--color-primary)] text-white;
 }
 
 .filter-items-container {
-  @apply flex-1 self-start flex flex-row items-start justify-start flex-wrap gap-2 pl-4 overflow-y-auto;
+  @apply flex-1 self-start flex flex-row items-start justify-start flex-wrap gap-2 p-4 overflow-y-auto;
 }
 
 .filter-item {
-  @apply px-3 py-1 border-1 border-solid border-gray-300 rounded cursor-pointer text-sm;
+  @apply p-2 cursor-pointer text-sm;
 }
 
 .filter-item.selected {
-  @apply bg-red-500 text-white;
+  @apply text-[var(--color-primary)];
 }
 </style>
