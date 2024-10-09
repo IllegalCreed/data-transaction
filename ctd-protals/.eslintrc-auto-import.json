@@ -364,6 +364,7 @@
     "getTeams": true,
     "useTeams": true,
     "useIndicators": true,
-    "getFilterSource": true
+    "getFilterSource": true,
+    "getProducts": true
   }
 }

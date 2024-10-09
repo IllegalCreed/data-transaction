@@ -31,10 +31,10 @@ const isActive = (id: string) => {
 
 <style scoped lang="scss">
 .sort-container {
-  @apply flex space-x-4;
+  @apply flex gap-4;
 
   @media (max-width: 40rem) {
-    @apply space-x-1;
+    @apply gap-1;
   }
 }
 </style>

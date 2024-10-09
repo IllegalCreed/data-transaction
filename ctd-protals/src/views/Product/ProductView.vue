@@ -26,7 +26,8 @@ import ProductItem from './ProductItem.vue'
 
 import { useProductStore } from '@/stores/modules/product'
 const productStore = useProductStore()
-const { filters, products } = storeToRefs(productStore)
+const { filters, sortings, products } = storeToRefs(productStore)
+const { getProducts: getProductsAction } = productStore
 
 const paginationLayout = ref('total, prev, pager, next')
 const showPaginationBackground = ref(true)
@@ -53,6 +54,19 @@ watch(
   },
   { deep: true }
 )
+
+watch(
+  sortings,
+  (newValue) => {
+    console.log(`Searching with sort: ${JSON.stringify(newValue, null, 2)}`)
+    // 在这里触发搜索逻辑
+  },
+  { deep: true }
+)
+
+onMounted(() => {
+  getProductsAction()
+})
 </script>
 
 <style scoped lang="scss">

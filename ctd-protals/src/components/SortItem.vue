@@ -42,14 +42,14 @@ const handleClick = () => {
   @apply flex flex-row items-center p-2 cursor-pointer select-none;
 
   &.active {
-    @apply font-bold text-5 text-red-500;
+    @apply font-bold text-5 text-[var(--color-primary)];
   }
 
   @media (max-width: 40rem) {
     @apply text-base;
 
     &.active {
-      @apply font-bold text-base text-red-500;
+      @apply text-base;
     }
   }
 
@@ -57,7 +57,7 @@ const handleClick = () => {
     @apply text-sm;
 
     &.active {
-      @apply font-normal text-sm text-red-500;
+      @apply font-normal text-sm;
     }
   }
 }
