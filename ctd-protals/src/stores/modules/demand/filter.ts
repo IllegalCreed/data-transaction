@@ -1,6 +1,6 @@
 import { useSettingsStore } from '@/stores/modules/settings'
 import type { IFilter } from '@/types/filter'
-import { getFilterSource as getFilterSourceAPI } from '@/apis/demand/filter'
+import { getDemandFilterSource as getFilterSourceAPI } from '@/apis/demand/filter'
 import { filterSource as mockFilterSource } from '@/constants/mockData/demand/filter'
 
 export const useFilter = () => {

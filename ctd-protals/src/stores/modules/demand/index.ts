@@ -2,12 +2,21 @@ import { defineStore } from 'pinia'
 import { useFilter } from './filter'
 import { useSorting } from './sorting'
 import { useDemand } from './demand'
+import { useCreate } from './create'
 
 export const useDemandStore = defineStore('demand', () => {
   const { filterSource, getFilterSource, filters } = useFilter()
   const { sortingSource, getSortingSource, sortings } = useSorting()
   const { demands, getDemands } = useDemand()
-
+  const {
+    baseInfo,
+    tradingModel,
+    setTradingModel,
+    paymentOption,
+    customTags,
+    checkedPopularTags,
+    selectedTags
+  } = useCreate()
   return {
     filterSource,
     getFilterSource,
@@ -16,6 +25,13 @@ export const useDemandStore = defineStore('demand', () => {
     getSortingSource,
     sortings,
     demands,
-    getDemands
+    getDemands,
+    baseInfo,
+    tradingModel,
+    setTradingModel,
+    paymentOption,
+    customTags,
+    checkedPopularTags,
+    selectedTags
   }
 })

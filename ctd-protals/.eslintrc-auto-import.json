@@ -366,6 +366,8 @@
     "useIndicators": true,
     "getFilterSource": true,
     "getProducts": true,
-    "getDemands": true
+    "getDemands": true,
+    "getDemandFilterSource": true,
+    "getProductFilterSource": true
   }
 }
