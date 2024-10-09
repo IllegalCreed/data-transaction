@@ -2,9 +2,9 @@
   <div class="product-root-container">
     <product-header></product-header>
 
-    <product-sort-panel></product-sort-panel>
+    <product-sort-panel mt-5></product-sort-panel>
 
-    <div flex flex-row justify-center self-center flex-wrap mt-4 max-w-260>
+    <div class="products-container">
       <product-item v-for="(product, index) in products" :key="index" :product="product" />
     </div>
 
@@ -73,6 +73,10 @@ onMounted(() => {
 .product-root-container {
   @apply flex flex-col items-center;
 
+  .products-container {
+    @apply flex flex-row justify-center self-center flex-wrap mt-5 max-w-320 px-10;
+  }
+
   .pager-panel {
     @apply flex flex-row justify-end mt-10 px-10 max-w-280 w-full;
   }
@@ -81,6 +85,10 @@ onMounted(() => {
   }
 
   @media (max-width: 40rem) {
+    .products-container {
+      @apply px-5;
+    }
+
     .pager-panel {
       @apply justify-center;
     }

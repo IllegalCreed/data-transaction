@@ -6,19 +6,20 @@
     @click="goToProductDetail"
   >
     <div class="img-container">
-      <img :src="product.imageUrl" object-contain h-full w-full />
+      <img :src="product.imageUrl" object-contain w-full />
     </div>
     <div class="text-container">
       <span class="title">{{ product.name }}</span>
       <div class="tag-container">
-        <el-tag v-for="(tag, index) in product.tags" :key="index" type="danger" size="small">
+        <el-tag v-for="(tag, index) in product.tags" :key="index" type="primary" size="small">
           {{ tag }}
         </el-tag>
       </div>
       <span class="desc">{{ product.description }}</span>
       <div flex-1></div>
-      <span mt-2 font-bold text-red-600>￥{{ product.price }}</span>
-
+      <span class="price">￥{{ product.price }}</span>
+    </div>
+    <div class="bottom-container">
       <span class="company">服务商: {{ product.seller }}</span>
     </div>
     <slot></slot>
@@ -53,38 +54,42 @@ watchEffect(() => {
 
 <style scoped lang="scss">
 .product-item-root-container {
-  @apply mb-5 mx-2 w-60 cursor-pointer relative;
+  @apply m-2 w-71 cursor-pointer relative;
 
   .img-container {
-    @apply aspect-square m--5 rounded bg-slate-300 overflow-hidden;
+    @apply aspect-square rounded bg-slate-300 overflow-hidden;
   }
 
   .text-container {
-    @apply flex flex-col flex-1 pt-2 mt-4;
+    @apply flex flex-col items-center flex-1 px-5 pb-5;
 
     .title {
-      @apply font-bold text-lg mt-2;
+      @apply font-bold text-lg line-clamp-1 mt-4;
     }
 
     .tag-container {
-      @apply flex flex-row flex-wrap gap-2 mt-2;
+      @apply flex flex-row flex-wrap gap-2 mt-4;
     }
 
     .desc {
-      @apply mt-6 text-sm text-gray-700 line-clamp-2 text-ellipsis;
+      @apply mt-4 text-sm text-[var(--color-text-light)] line-clamp-2 text-center;
     }
 
+    .price {
+      @apply mt-6 font-bold text-[var(--color-price)];
+    }
+  }
+
+  .bottom-container {
+    @apply flex justify-center items-center p-2 border-t-1 border-t-solid border-t-[var(--color-border)];
+
     .company {
-      @apply mt-2 text-sm text-gray-400 line-clamp-1 text-ellipsis;
+      @apply text-sm text-[var(--color-text-lighter)] line-clamp-1;
     }
   }
 
   @media (max-width: 40rem) {
-    @apply w-[calc(50%-20px)] mx-1 mb-2 border-0;
-
-    .img-container {
-      @apply m--1;
-    }
+    @apply w-[calc(50%-10px)] mx-1 mb-2 border-0;
 
     .text-container {
       @apply pt-0 mt-4;
@@ -126,14 +131,6 @@ watchEffect(() => {
   }
 }
 :deep(.product-item-body-container) {
-  @apply flex flex-col h-full;
-
-  @media (max-width: 40rem) {
-    @apply p-2;
-  }
-
-  @media (max-width: 30rem) {
-    @apply p-1;
-  }
+  @apply flex flex-col h-full p-0;
 }
 </style>

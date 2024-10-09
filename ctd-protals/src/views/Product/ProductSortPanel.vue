@@ -32,7 +32,7 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .sort-panel-root-container {
-  @apply flex flex-row items-center justify-between mt-10 max-w-320 w-full px-10;
+  @apply flex flex-row items-center justify-between max-w-320 w-full px-10;
   .filter-icon {
     @apply hidden text-[var(--color-text-light)];
   }

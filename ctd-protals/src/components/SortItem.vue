@@ -71,12 +71,12 @@ const handleClick = () => {
 }
 
 .arrow-up {
-  @apply text-green-500;
+  @apply text-[var(--color-up-arrow)];
   /* 升序时箭头的样式 */
 }
 
 .arrow-down {
-  @apply text-red-500;
+  @apply text-[var(--color-down-arrow)];
   /* 降序时箭头的样式 */
 }
 </style>

@@ -38,7 +38,7 @@ watchEffect(() => {
 
 <style lang="scss" scoped>
 .search-input {
-  @apply flex flex-row max-w-280 h-15 rounded-full;
+  @apply flex flex-row max-w-220 h-15 rounded-full;
 
   :deep(.el-input-group__prepend) {
     @apply pl-5 pr-10 border-none shadow-none bg-[var(--color-background-alternating)] rounded-l-full;
