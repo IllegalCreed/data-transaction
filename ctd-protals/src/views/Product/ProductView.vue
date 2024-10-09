@@ -86,7 +86,7 @@ onMounted(() => {
 
   @media (max-width: 40rem) {
     .products-container {
-      @apply px-5;
+      @apply px-2.5 mt-2;
     }
 
     .pager-panel {

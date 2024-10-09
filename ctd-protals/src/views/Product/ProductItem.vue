@@ -76,7 +76,7 @@ watchEffect(() => {
     }
 
     .price {
-      @apply mt-6 font-bold text-[var(--color-price)];
+      @apply mt-6 font-bold text-lg text-[var(--color-price)];
     }
   }
 
@@ -89,44 +89,38 @@ watchEffect(() => {
   }
 
   @media (max-width: 40rem) {
-    @apply w-[calc(50%-10px)] mx-1 mb-2 border-0;
+    @apply w-[calc(50%-10px)] m-1 border-0;
 
     .text-container {
-      @apply pt-0 mt-4;
+      @apply items-start;
 
       .title {
-        @apply mt-0;
+        @apply mt-2 text-base;
+      }
+
+      .tag-container {
+        @apply mt-2;
       }
 
       .desc {
-        @apply text-sm mt-2;
+        @apply mt-2 text-left text-xs;
       }
 
+      .price {
+        @apply mt-4 text-xl;
+      }
+    }
+
+    .bottom-container {
       .company {
-        @apply text-sm;
+        @apply text-xs;
       }
     }
   }
 
   @media (max-width: 30rem) {
     .text-container {
-      @apply pt-0 mt-4;
-
-      .title {
-        @apply font-bold text-base mt-0;
-      }
-
-      .tag-container {
-        @apply gap-1 mt-1;
-      }
-
-      .desc {
-        @apply text-xs mt-2;
-      }
-
-      .company {
-        @apply text-xs;
-      }
+      @apply p-2;
     }
   }
 }
