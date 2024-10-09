@@ -25,7 +25,8 @@ import ProductSortPanel from './ProductSortPanel.vue'
 import ProductItem from './ProductItem.vue'
 
 import { useProductStore } from '@/stores/modules/product'
-const { products } = useProductStore()
+const productStore = useProductStore()
+const { filters, products } = storeToRefs(productStore)
 
 const paginationLayout = ref('total, prev, pager, next')
 const showPaginationBackground = ref(true)
@@ -43,6 +44,15 @@ watchEffect(() => {
     pagerCount.value = 7
   }
 })
+
+watch(
+  filters,
+  (newValue) => {
+    console.log(`Searching with filters: ${JSON.stringify(newValue, null, 2)}`)
+    // 在这里触发搜索逻辑
+  },
+  { deep: true }
+)
 </script>
 
 <style scoped lang="scss">

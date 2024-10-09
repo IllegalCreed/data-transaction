@@ -5,6 +5,8 @@
       class="filter-panel"
       v-model="filters"
       :source="filterSource"
+      :loading="getFilterSourceActionLoading"
+      :placeholderLines="5"
     ></filter-list-view>
   </div>
 </template>
@@ -12,29 +14,24 @@
 <script setup lang="ts">
 import ProductSearchInput from './ProductSearchInput.vue'
 import FilterListView from '@/components/FilterListView.vue'
-
 import { useProductStore } from '@/stores/modules/product'
-const { filterSource } = useProductStore()
 
 const bg = ref(new URL('@/assets/background/productBackground.png', import.meta.url).href)
 
-const filters = ref<Record<string, string>>(
-  filterSource.reduce(
-    (acc, filter) => {
-      acc[filter.id] = 'all'
-      return acc
-    },
-    {} as Record<string, string>
-  )
-)
-watch(
-  filters,
-  (newValue: Record<string, string>) => {
-    console.log(`Searching with filters: ${JSON.stringify(newValue, null, 2)}`)
-    // 在这里触发搜索逻辑
-  },
-  { deep: true }
-)
+const productStore = useProductStore()
+const { filters, filterSource } = storeToRefs(productStore)
+const { getFilterSource: getFilterSourceAction } = productStore
+
+const { isLoading: getFilterSourceActionLoading, execute: executeGetFilterSourceAction } =
+  useAsyncState(getFilterSourceAction(), undefined)
+
+onMounted(() => {
+  try {
+    executeGetFilterSourceAction()
+  } catch (error: unknown) {
+    console.error(error)
+  }
+})
 </script>
 
 <style lang="scss" scoped>

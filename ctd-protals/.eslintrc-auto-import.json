@@ -363,6 +363,7 @@
     "useConsultStore": true,
     "getTeams": true,
     "useTeams": true,
-    "useIndicators": true
+    "useIndicators": true,
+    "getFilterSource": true
   }
 }

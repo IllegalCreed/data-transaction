@@ -48,6 +48,7 @@ declare global {
   const getCopyright: typeof import('./src/apis/master/copyright')['getCopyright']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
+  const getFilterSource: typeof import('./src/apis/product/filter')['getFilterSource']
   const getLinks: typeof import('./src/apis/master/link')['getLinks']
   const getNewsList: typeof import('./src/apis/news/index')['getNewsList']
   const getPartner: typeof import('./src/apis/home/partner')['getPartner']
