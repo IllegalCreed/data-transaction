@@ -51,7 +51,7 @@ const route = useRoute()
 const router = useRouter()
 
 const isActive = (path: string) => {
-  return route.path === path
+  return route.meta.belong === path
 }
 
 const navigateTo = (path: string) => {

@@ -44,12 +44,18 @@ const router = createRouter({
         {
           path: 'product',
           name: 'product',
-          component: () => import('@/views/Product/ProductView.vue')
+          component: () => import('@/views/Product/ProductView.vue'),
+          meta: {
+            belong: '/product'
+          }
         },
         {
           path: 'product/:id',
           name: 'product-detail',
-          component: () => import('@/views/Product/ProductDetail/ProductDetailView.vue')
+          component: () => import('@/views/Product/ProductDetail/ProductDetailView.vue'),
+          meta: {
+            belong: '/product'
+          }
         },
         {
           path: 'catalog',
@@ -79,22 +85,34 @@ const router = createRouter({
         {
           path: 'demand',
           name: 'demand',
-          component: () => import('@/views/Demand/DemandView.vue')
+          component: () => import('@/views/Demand/DemandView.vue'),
+          meta: {
+            belong: '/demand'
+          }
         },
         {
           path: 'demand/:id',
           name: 'demand-detail',
-          component: () => import('@/views/Demand/DemandDetail/DemandDetailView.vue')
+          component: () => import('@/views/Demand/DemandDetail/DemandDetailView.vue'),
+          meta: {
+            belong: '/demand'
+          }
         },
         {
           path: 'scene',
           name: 'scene',
-          component: () => import('@/views/Scene/SceneView.vue')
+          component: () => import('@/views/Scene/SceneView.vue'),
+          meta: {
+            belong: '/scene'
+          }
         },
         {
           path: 'scene/:id',
           name: 'scene-detail',
-          component: () => import('@/views/Scene/SceneDetail/SceneDetailView.vue')
+          component: () => import('@/views/Scene/SceneDetail/SceneDetailView.vue'),
+          meta: {
+            belong: '/scene'
+          }
         },
         {
           path: 'about',
