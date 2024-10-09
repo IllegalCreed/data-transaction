@@ -17,7 +17,7 @@
       v-model="filters"
       :source="filterSource"
       :loading="getFilterSourceActionLoading"
-      :placeholderLines="5"
+      :placeholderLines="4"
     ></filter-list-view>
 
     <create-dialog v-model="showCreateDialog" />
