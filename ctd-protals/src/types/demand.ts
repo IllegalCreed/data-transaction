@@ -24,13 +24,13 @@ export enum DemandActiveStatus {
 
 export interface IDemand {
   id: number
-  name: string
+  title: string
   description: string
   publisher: string
   budget: number
   transactionMode: TransactionMode
   createTime: string
-  status: string
+  status: DemandOrderStatus
   tags: string[]
 }
 

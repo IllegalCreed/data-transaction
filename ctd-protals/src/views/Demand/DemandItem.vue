@@ -6,34 +6,22 @@
     @click="goToDemandDetail"
   >
     <div class="text-container">
-      <span class="title" font-bold text-lg>{{ demand.name }}</span>
+      <span class="title">{{ demand.title }}</span>
       <div class="tag-container">
-        <el-tag v-for="(tag, index) in demand.tags" :key="index" type="danger" size="small">
+        <el-tag v-for="(tag, index) in demand.tags" :key="index" type="primary" size="small">
           {{ tag }}
         </el-tag>
       </div>
       <span class="desc">{{ demand.description }}</span>
       <div flex-1></div>
-      <div flex flex-row justify-between items-center mt-4 mb-10>
-        <span text-sm text-gray-500>{{ demand.createTime }}</span>
-        <span font-bold text-red-600 self-end>￥{{ demand.budget }}</span>
+      <div flex flex-row justify-between items-center mt-4>
+        <span class="time">{{ demand.createTime }}</span>
+        <span class="price">￥{{ demand.budget }}</span>
       </div>
     </div>
-    <div
-      absolute
-      flex
-      flex-row
-      items-center
-      justify-between
-      px-4
-      left-0
-      bottom-0
-      right-0
-      h-10
-      bg-blueGray
-    >
-      <el-tag type="success">{{ demand.status }}</el-tag>
-      <span font-bold text-base text-white>{{ demand.transactionMode.type }}</span>
+    <div class="bottom-container">
+      <el-tag :type="statusTagType">{{ mappedStatus }}</el-tag>
+      <span class="mode">{{ demand.transactionMode.type }}</span>
     </div>
     <slot></slot>
   </el-card>
@@ -43,14 +31,18 @@
 import type { IDemand } from '@/types/demand'
 import { useRouter } from 'vue-router'
 
-const props = defineProps<{
+const { demand } = defineProps<{
   demand: IDemand
 }>()
+
+import { DEMAND_ORDER_STATUS_MAP, DEMAND_ORDER_STATUS_TAG_TYPE } from '@/constants/demandOrder'
+const mappedStatus = computed(() => DEMAND_ORDER_STATUS_MAP[demand.status] || '待审核')
+const statusTagType = computed(() => DEMAND_ORDER_STATUS_TAG_TYPE[demand.status] || 'info')
 
 const router = useRouter()
 
 const goToDemandDetail = () => {
-  router.push(`/demand/${props.demand.id}`)
+  router.push(`/demand/${demand.id}`)
 }
 
 const cardShadow = ref<'always' | 'never' | 'hover'>('hover')
@@ -67,10 +59,10 @@ watchEffect(() => {
 
 <style scoped lang="scss">
 .demand-item-root-container {
-  @apply mb-5 mx-2 w-82 cursor-pointer relative;
+  @apply m-2 w-96 cursor-pointer relative border-0;
 
   .text-container {
-    @apply flex flex-col flex-1;
+    @apply flex flex-col flex-1 p-8;
 
     .title {
       @apply font-bold text-lg mr-10 line-clamp-1;
@@ -81,16 +73,28 @@ watchEffect(() => {
     }
 
     .desc {
-      @apply mt-6 text-sm text-gray-700 line-clamp-2 text-ellipsis;
+      @apply mt-6 text-sm text-[var(--color-text-light)] line-clamp-2 leading-loose;
     }
 
-    .company {
-      @apply mt-2 text-sm text-gray-400 line-clamp-1 text-ellipsis;
+    .time {
+      @apply text-sm text-[var(--color-text-lighter)];
+    }
+
+    .price {
+      @apply font-bold text-lg text-[var(--color-price)];
+    }
+  }
+
+  .bottom-container {
+    @apply flex justify-between items-center px-8 py-2 border-t-1 border-t-solid border-t-[var(--color-border)];
+
+    .mode {
+      @apply font-bold text-base text-[var(--color-primary)];
     }
   }
 
   @media (max-width: 40rem) {
-    @apply w-[calc(50%-20px)] mx-1 mb-2;
+    @apply w-[calc(50%-10px)] m-1;
 
     .text-container {
       .desc {
@@ -104,37 +108,15 @@ watchEffect(() => {
   }
 
   @media (max-width: 30rem) {
-    @apply w-[calc(100%-20px)] mx-1 mb-2;
+    @apply w-full;
 
     .text-container {
-      .title {
-        @apply font-bold text-base mt-0;
-      }
-
-      .tag-container {
-        @apply gap-1 mt-1;
-      }
-
-      .desc {
-        @apply text-xs mt-2;
-      }
-
-      .company {
-        @apply text-xs;
-      }
+      @apply p-2;
     }
   }
 }
 
 :deep(.demand-item-body-container) {
-  @apply flex flex-col h-full relative;
-
-  @media (max-width: 40rem) {
-    @apply p-3;
-  }
-
-  @media (max-width: 30rem) {
-    @apply p-2;
-  }
+  @apply flex flex-col h-full p-0;
 }
 </style>

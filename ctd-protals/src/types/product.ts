@@ -19,7 +19,7 @@ export enum ProductType {
 
 export interface IProduct {
   id: number
-  name: string
+  title: string
   description: string
   seller: string
   price: number

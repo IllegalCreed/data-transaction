@@ -9,7 +9,7 @@
       <img :src="product.imageUrl" object-contain w-full />
     </div>
     <div class="text-container">
-      <span class="title">{{ product.name }}</span>
+      <span class="title">{{ product.title }}</span>
       <div class="tag-container">
         <el-tag v-for="(tag, index) in product.tags" :key="index" type="primary" size="small">
           {{ tag }}
@@ -54,7 +54,7 @@ watchEffect(() => {
 
 <style scoped lang="scss">
 .product-item-root-container {
-  @apply m-2 w-71 cursor-pointer relative;
+  @apply m-2 w-71 cursor-pointer relative border-0;
 
   .img-container {
     @apply aspect-square rounded bg-slate-300 overflow-hidden;
@@ -89,7 +89,7 @@ watchEffect(() => {
   }
 
   @media (max-width: 40rem) {
-    @apply w-[calc(50%-10px)] m-1 border-0;
+    @apply w-[calc(50%-10px)] m-1;
 
     .text-container {
       @apply items-start;

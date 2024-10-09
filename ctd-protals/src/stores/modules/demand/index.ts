@@ -1,12 +1,12 @@
 import { defineStore } from 'pinia'
 import { useFilter } from './filter'
 import { useSorting } from './sorting'
-import { useProduct } from './product'
+import { useDemand } from './demand'
 
-export const useProductStore = defineStore('product', () => {
+export const useDemandStore = defineStore('demand', () => {
   const { filterSource, getFilterSource, filters } = useFilter()
   const { sortingSource, getSortingSource, sortings } = useSorting()
-  const { products, getProducts } = useProduct()
+  const { demands, getDemands } = useDemand()
 
   return {
     filterSource,
@@ -15,7 +15,7 @@ export const useProductStore = defineStore('product', () => {
     sortingSource,
     getSortingSource,
     sortings,
-    products,
-    getProducts
+    demands,
+    getDemands
   }
 })
