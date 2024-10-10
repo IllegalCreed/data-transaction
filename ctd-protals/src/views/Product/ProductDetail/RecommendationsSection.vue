@@ -21,7 +21,7 @@ const props = defineProps<{
 const recommendedProducts = ref<IProduct[]>([])
 
 const fetchRecommendedProducts = async (id: string) => {
-  console.log('mock get recommendations for productId:', id)
+  // console.log('mock get recommendations for productId:', id)
   // 模拟 API 请求，根据 productId 获取推荐商品
   recommendedProducts.value = [
     {

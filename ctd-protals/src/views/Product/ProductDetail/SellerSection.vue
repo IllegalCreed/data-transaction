@@ -46,7 +46,7 @@ const sellerStats = ref<{ title: string; value: string }[] | null>(null)
 const richTextContent = ref<string | null>(null)
 
 const fetchSellerInfo = async (id: string) => {
-  console.log('mock get sellerInfo:', id)
+  // console.log('mock get sellerInfo:', id)
   // 模拟 API 请求
   sellerInfo.value = {
     logo: 'https://via.placeholder.com/100',
@@ -56,7 +56,7 @@ const fetchSellerInfo = async (id: string) => {
 }
 
 const fetchSellerStats = async (id: string) => {
-  console.log('mock get sellerStats:', id)
+  // console.log('mock get sellerStats:', id)
   // 模拟 API 请求
   sellerStats.value = [
     { title: '评分', value: '4.9/5' },
@@ -67,7 +67,7 @@ const fetchSellerStats = async (id: string) => {
 }
 
 const fetchRichTextContent = async (id: string) => {
-  console.log('mock get sellerRichText:', id)
+  // console.log('mock get sellerRichText:', id)
   // 模拟 API 请求
   const rawContent = `
     <p>智能科技有限公司是一家专注于大数据和人工智能领域的创新企业，致力于为客户提供高效的解决方案。</p>

@@ -14,7 +14,7 @@ const props = defineProps<{
 const productDetails = ref<string | null>(null)
 
 const fetchProductDetails = async (id: string) => {
-  console.log('mock get productDetails for productId:', id)
+  // console.log('mock get productDetails for productId:', id)
   const rawContent = `
   <h3>数据产品介绍</h3>
   <p>我们的最新数据产品 <strong>“智能城市数据包”</strong> 提供了广泛的城市数据，包括交通、天气、人口统计等，适用于各类智能城市项目。</p>

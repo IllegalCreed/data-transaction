@@ -10,3 +10,27 @@ export const getProducts = (): Promise<void> => {
     false
   )
 }
+
+export const getProduct = (id: string | number): Promise<void> => {
+  const params = {
+    id
+  }
+  return request.post(
+    {
+      url: `/getProduct/${id}`
+    },
+    false
+  )
+}
+
+export const getPrice = (specs: Record<string, string>): Promise<void> => {
+  const params = {
+    specs
+  }
+  return request.post(
+    {
+      url: `/getPrice`
+    },
+    false
+  )
+}

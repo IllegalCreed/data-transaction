@@ -368,6 +368,8 @@
     "getProducts": true,
     "getDemands": true,
     "getDemandFilterSource": true,
-    "getProductFilterSource": true
+    "getProductFilterSource": true,
+    "getProduct": true,
+    "getPrice": true
   }
 }

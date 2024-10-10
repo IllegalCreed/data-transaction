@@ -1,4 +1,5 @@
-import type { IProduct } from '@/types/product'
+import type { IProduct, IProductBaseInfo } from '@/types/product'
+import { v4 as uuidv4 } from 'uuid'
 
 export const products: IProduct[] = [
   {
@@ -108,5 +109,56 @@ export const products: IProduct[] = [
     seller: '智能科技有限公司',
     price: 6999,
     imageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href
+  }
+]
+
+export const productDetails: {
+  id: string | number
+  baseInfo: IProductBaseInfo
+}[] = [
+  {
+    id: 1,
+    baseInfo: {
+      title: '文化产品',
+      soldCount: 100,
+      tags: ['热门', '推荐'],
+      description: '全屋智能家居解决方案，便捷、安全,全屋智能家居解决方案，便捷、安全',
+      sellerId: 1,
+      hasCount: true,
+      specGroups: [
+        {
+          key: uuidv4(),
+          label: '数据完整度',
+          specs: [
+            {
+              key: uuidv4(),
+              label: '完整'
+            },
+            {
+              key: uuidv4(),
+              label: '精简'
+            }
+          ]
+        },
+        {
+          key: uuidv4(),
+          label: '购买方式',
+          specs: [
+            {
+              key: uuidv4(),
+              label: '包月'
+            },
+            {
+              key: uuidv4(),
+              label: '包年'
+            },
+            {
+              key: uuidv4(),
+              label: '永久'
+            }
+          ]
+        }
+      ]
+    }
   }
 ]

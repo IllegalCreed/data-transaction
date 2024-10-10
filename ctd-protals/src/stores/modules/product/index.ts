@@ -6,7 +6,7 @@ import { useProduct } from './product'
 export const useProductStore = defineStore('product', () => {
   const { filterSource, getFilterSource, filters } = useFilter()
   const { sortingSource, getSortingSource, sortings } = useSorting()
-  const { products, getProducts } = useProduct()
+  const { products, getProducts, getProduct, getPrice } = useProduct()
 
   return {
     filterSource,
@@ -16,6 +16,8 @@ export const useProductStore = defineStore('product', () => {
     getSortingSource,
     sortings,
     products,
-    getProducts
+    getProducts,
+    getProduct,
+    getPrice
   }
 })

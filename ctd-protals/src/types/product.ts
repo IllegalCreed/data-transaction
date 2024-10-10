@@ -27,6 +27,25 @@ export interface IProduct {
   imageUrl: string
 }
 
+export interface IProductSpecification {
+  key: string
+  label: string
+  specs: {
+    key: string
+    label: string
+  }[]
+}
+
+export interface IProductBaseInfo {
+  title: string
+  soldCount: number
+  description: string
+  tags: string[]
+  sellerId: string | number
+  hasCount: boolean
+  specGroups: IProductSpecification[]
+}
+
 export interface IOrderProduct {
   id: number
   productName: string

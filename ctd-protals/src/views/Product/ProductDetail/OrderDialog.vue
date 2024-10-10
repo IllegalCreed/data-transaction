@@ -63,7 +63,7 @@ const isLoading = ref(false)
 
 // 模拟接口调用获取商品信息
 const fetchProductInfo = async () => {
-  console.log(`Fetching product info for ID: ${props.productId}`)
+  // console.log(`Fetching product info for ID: ${props.productId}`)
   await new Promise((resolve) => setTimeout(resolve, 1000))
 
   // 模拟返回的数据
@@ -89,7 +89,7 @@ const fetchProductInfo = async () => {
 
 // 模拟获取价格的接口调用
 const fetchPrice = async () => {
-  console.log('Fetching new price for specs:', selectedSpecs.value)
+  // console.log('Fetching new price for specs:', selectedSpecs.value)
 
   await new Promise((resolve) => setTimeout(resolve, 1000))
 

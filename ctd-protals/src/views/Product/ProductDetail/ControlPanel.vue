@@ -1,160 +1,199 @@
 <template>
-  <el-card class="control-panel-root-container" body-class="control-panel-body-container">
-    <span text-2xl font-bold>{{ productName }}</span>
-    <span text-sm text-gray-400 mt-1>已售{{ productSelledCount }}</span>
-    <div flex flex-row flex-wrap gap-2 mt-4>
-      <el-tag v-for="(tag, index) in productTags" :key="index" type="danger" size="default">
-        {{ tag }}
-      </el-tag>
-    </div>
-    <span text-sm mt-2 text-gray-500>{{ productShotDesc }}</span>
+  <div class="control-panel-root-container">
+    <el-skeleton :loading="loading" animated>
+      <template #template>
+        <div flex flex-col gap-6 mt-2>
+          <el-skeleton-item variant="p" class="!w-50"></el-skeleton-item>
+          <el-skeleton-item variant="p" class="!w-30"></el-skeleton-item>
+          <div flex flex-row gap-4>
+            <el-skeleton-item variant="p" class="!w-10"></el-skeleton-item>
+            <el-skeleton-item variant="p" class="!w-10"></el-skeleton-item>
+            <el-skeleton-item variant="p" class="!w-10"></el-skeleton-item>
+          </div>
+          <el-skeleton-item variant="p" mt-5></el-skeleton-item>
+          <el-skeleton-item variant="p" class="!w-50"></el-skeleton-item>
+          <el-skeleton-item variant="p" class="!w-30" mt-10></el-skeleton-item>
+          <div flex flex-row gap-4>
+            <el-skeleton-item variant="p" class="!w-10"></el-skeleton-item>
+            <el-skeleton-item variant="p" class="!w-10"></el-skeleton-item>
+            <el-skeleton-item variant="p" class="!w-10"></el-skeleton-item>
+          </div>
+          <el-skeleton-item variant="p" class="!w-30" mt-4></el-skeleton-item>
+          <div flex flex-row gap-4>
+            <el-skeleton-item variant="p" class="!w-10"></el-skeleton-item>
+            <el-skeleton-item variant="p" class="!w-10"></el-skeleton-item>
+            <el-skeleton-item variant="p" class="!w-10"></el-skeleton-item>
+          </div>
 
-    <label class="text-lg font-bold mt-5">规格</label>
+          <el-skeleton-item variant="p" class="!w-40" mt-8 self-end></el-skeleton-item>
 
-    <!-- 规格选择 -->
-    <div mt-4>
-      <div
-        flex
-        flex-row
-        items-start
-        space-x-4
-        mb-2
-        v-for="(group, groupIndex) in specGroups"
-        :key="groupIndex"
-      >
-        <label mt-3 text-sm min-w-18>{{ group.name }}</label>
-        <div flex flex-row items-center flex-wrap>
-          <div
-            v-for="(spec, specIndex) in group.specs"
-            :key="specIndex"
-            :class="['custom-radio-button', { selected: selectedSpecs[groupIndex] === spec }]"
-            @click="selectSpec(groupIndex, spec)"
-          >
-            {{ spec }}
+          <div flex flex-row gap-4 mt-4>
+            <el-skeleton-item variant="rect" class="!h-10" flex-1></el-skeleton-item>
+            <el-skeleton-item variant="rect" class="!h-10" flex-1></el-skeleton-item>
           </div>
         </div>
-      </div>
-    </div>
+      </template>
+      <template #default>
+        <span class="title">{{ baseInfo.title }}</span>
+        <span class="sold-count">已售 {{ baseInfo.soldCount }}</span>
+        <div class="tag-container">
+          <el-tag v-for="(tag, index) in baseInfo.tags" :key="index" type="primary" size="default">
+            {{ tag }}
+          </el-tag>
+        </div>
+        <span class="desc">{{ baseInfo.description }}</span>
 
-    <!-- 实际价格 -->
-    <div mt-4 h-10>
-      <span v-if="!isLoading" font-bold text-red-500 text-4xl>￥{{ calculatedPrice }}</span>
-      <i-eos-icons:loading v-else></i-eos-icons:loading>
-    </div>
+        <div class="spec-groups-container">
+          <div class="spec-group" v-for="group in baseInfo.specGroups" :key="group.key">
+            <label class="spec-group-label">{{ group.label }}</label>
+            <div class="spec-props-container">
+              <div
+                v-for="prop in group.specs"
+                :key="prop.key"
+                :class="[
+                  'custom-radio-button',
+                  { selected: selectedSpecs[group.key] === prop.key }
+                ]"
+                @click="selectSpec(group.key, prop.key)"
+              >
+                {{ prop.label }}
+              </div>
+            </div>
+          </div>
+        </div>
 
-    <!-- 按钮 -->
-    <div flex flex-row justify-stretch space-x-4 mt-6>
-      <el-button flex-1 type="default" size="large" @click="addToFav">收藏产品</el-button>
-      <el-button flex-1 type="primary" size="large" @click="placeOrder">立即下单</el-button>
-    </div>
-  </el-card>
+        <div flex flex-row justify-between mt-10>
+          <number-input v-model="count" :min="1" v-if="baseInfo.hasCount"></number-input>
+          <span v-if="!getPriceActionLoading" class="price">￥{{ price }}</span>
+          <i-eos-icons:loading self-end text-3xl mr-8 v-else></i-eos-icons:loading>
+        </div>
+
+        <div class="actions-container">
+          <el-button flex-1 type="default" size="large" @click="addToFav">收藏产品</el-button>
+          <el-button flex-1 type="primary" size="large" @click="placeOrder">立即下单</el-button>
+        </div>
+      </template>
+    </el-skeleton>
+  </div>
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
+import NumberInput from '@/components/NumberInput.vue'
+import type { IProductBaseInfo } from '@/types/product'
+import { useProductStore } from '@/stores/modules/product'
+const productStore = useProductStore()
+const { getPrice: getPriceAction } = productStore
+
+const { baseInfo } = defineProps<{
   productId: string
+  baseInfo: IProductBaseInfo
+  loading: boolean
 }>()
 
-const productName = ref('')
-const productShotDesc = ref('')
-const productSelledCount = ref(0)
-const productTags = ref(['Tag 1', 'Tag 2', 'Tag 3'])
-const specGroups = ref<{ name: string; specs: string[] }[]>([])
-const selectedSpecs = ref<string[]>([])
-
-// 计算价格
-const calculatedPrice = ref(0.0) // 假设这是基础价格
-const isLoading = ref(false)
-
-// 模拟接口调用获取商品信息
-const fetchProductInfo = async () => {
-  console.log(`Fetching product info for ID: ${props.productId}`)
-  await new Promise((resolve) => setTimeout(resolve, 1000))
-
-  // 模拟返回的数据
-  productName.value = '示例商品'
-  productShotDesc.value = '这是一个示例商品的简短描述'
-  productSelledCount.value = 100
-  productTags.value = ['Tag 1', 'Tag 2', 'Tag 3']
-
-  specGroups.value = [
-    {
-      name: '数据完整度',
-      specs: ['完整', '精简']
-    },
-    {
-      name: '购买方式',
-      specs: ['包月', '包年', '永久']
-    }
-  ]
-
-  // 初始化选中的规格
-  selectedSpecs.value = specGroups.value.map((group) => group.specs[0])
-}
-
-// 模拟获取价格的接口调用
-const fetchPrice = async () => {
-  console.log('Fetching new price for specs:', selectedSpecs.value)
-
-  await new Promise((resolve) => setTimeout(resolve, 1000))
-
-  calculatedPrice.value = Math.floor(Math.random() * 200) + 100
-  isLoading.value = false
-}
-
-// 防抖处理
-const debouncedFetchPrice = useDebounceFn(fetchPrice, 1000)
-
-const selectSpec = (groupIndex: number, spec: string) => {
-  selectedSpecs.value[groupIndex] = spec
-  isLoading.value = true
-  debouncedFetchPrice()
-}
-
-const addToFav = () => {
-  console.log(`将 ${productName.value} 添加到收藏夹`)
-}
-
-const placeOrder = () => {
-  console.log(`下单 ${productName.value}，规格: ${selectedSpecs.value.join(', ')}`)
-}
-
-onMounted(async () => {
-  await fetchProductInfo()
-  fetchPrice()
+const count = ref(1)
+const price = computed(() => {
+  if (priceRaw.value) {
+    return priceRaw.value * count.value
+  } else {
+    return 0
+  }
 })
+
+const selectedSpecs = ref<Record<string, string>>({})
+watch(
+  () => baseInfo,
+  (newValue: IProductBaseInfo) => {
+    selectedSpecs.value = newValue.specGroups.reduce(
+      (acc, group) => {
+        acc[group.key] = group.specs[0].key
+        return acc
+      },
+      {} as Record<string, string>
+    )
+  }
+)
+
+const {
+  state: priceRaw,
+  isLoading: getPriceActionLoading,
+  execute: executeGetPriceActionRaw
+} = useAsyncState(() => getPriceAction(selectedSpecs.value), undefined)
+const executeGetPriceAction = useDebounceFn(executeGetPriceActionRaw, 1000)
+
+watch(
+  () => selectedSpecs.value,
+  () => {
+    getPriceActionLoading.value = true
+    executeGetPriceAction()
+  },
+  {
+    deep: true
+  }
+)
+
+const selectSpec = (groupKey: string, propKey: string) => {
+  selectedSpecs.value[groupKey] = propKey
+}
+
+const addToFav = () => {}
+
+const placeOrder = () => {}
 </script>
 
 <style scoped lang="scss">
 .control-panel-root-container {
-  @apply sticky top-30 w-1/3 min-w-60;
-}
+  @apply sticky top-30 w-100 flex flex-col gap-2 p-8 rounded shadow bg-[var(--color-background-alternating)];
 
-:deep(.control-panel-body-container) {
-  @apply flex flex-col;
+  .title {
+    @apply text-2xl font-bold;
+  }
+
+  .sold-count {
+    @apply text-base text-[var(--color-text-lighter)];
+  }
+
+  .tag-container {
+    @apply flex flex-row flex-wrap gap-2 mt-2;
+  }
+
+  .desc {
+    @apply mt-6 text-[var(--color-text-light)] text-base leading-loose;
+  }
+
+  .spec-groups-container {
+    @apply mt-10;
+
+    .spec-group {
+      @apply flex flex-col mb-4;
+
+      .spec-group-label {
+        @apply text-lg;
+      }
+
+      .spec-props-container {
+        @apply flex flex-row items-center flex-wrap gap-2 my-2;
+      }
+    }
+  }
+
+  .number-label {
+    @apply text-lg;
+  }
+
+  .price {
+    @apply self-end font-bold text-[var(--color-price)] text-3xl select-none;
+  }
+
+  .actions-container {
+    @apply flex flex-row justify-stretch gap-4 mt-4;
+  }
 }
 
 .custom-radio-button {
-  @apply px-3 py-1 mx-2 my-1 border-2 border-solid border-gray-300 rounded-md cursor-pointer text-gray-700 text-center;
-}
-
-.custom-radio-button:hover {
-  @apply border-gray-500;
+  @apply px-4 py-1 border-2 border-solid border-[var(--color-border)] rounded-md cursor-pointer text-center hover:opacity-60;
 }
 
 .custom-radio-button.selected {
-  @apply border-blue-500 text-blue-500 font-bold;
-}
-
-.actions {
-  @apply mt-6 flex;
-}
-
-.actions .el-button {
-  @apply flex-1;
-}
-
-.loading-spinner {
-  @apply text-xl text-red-500;
+  @apply border-[var(--color-primary)] text-[var(--color-primary)];
 }
 </style>

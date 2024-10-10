@@ -27,7 +27,12 @@
       </div>
     </div>
 
-    <control-panel :product-id="productId" class="control-panel" />
+    <control-panel
+      :productId="productId"
+      :baseInfo="productBaseInfo"
+      :loading="getProductActionLoading"
+      class="control-panel"
+    />
 
     <div v-show="isFooterVisible" class="product-detail-footer">
       <el-button flex-1 type="default" size="large" @click="addToFav">收藏产品</el-button>
@@ -52,14 +57,40 @@ import SellerSection from './SellerSection.vue'
 import RecommendationsSection from './RecommendationsSection.vue'
 import type { ISection } from '@/types/section'
 
+const route = useRoute()
+let productId = route.params.id ? (route.params.id as string) : ''
+
+import { useProductStore } from '@/stores/modules/product'
+const productStore = useProductStore()
+const { getProduct: getProductAction } = productStore
+
+const {
+  state: productBaseInfo,
+  isLoading: getProductActionLoading,
+  execute: executeGetProductAction
+} = useAsyncState(() => getProductAction(productId), {
+  title: '',
+  soldCount: 0,
+  description: '',
+  tags: [],
+  sellerId: 0,
+  hasCount: false,
+  specGroups: []
+})
+
+onMounted(() => {
+  try {
+    executeGetProductAction()
+  } catch (error: unknown) {
+    console.error(error)
+  }
+})
+
 const isOrderDialogVisiable = ref(false)
 
 const addToFav = () => {
   console.log(`将 ${productId} 添加到收藏夹`)
 }
-
-const route = useRoute()
-const productId = ref(route.params.id ? (route.params.id as string) : '')
 
 const productImages = ref([
   'https://via.placeholder.com/600x400',
@@ -81,26 +112,26 @@ const sections = ref<ISection[]>([
     id: 'details',
     label: '产品详情',
     component: markRaw(DetailsSection),
-    props: { productId: productId.value }
+    props: { productId: productId }
   },
   { id: 'safety', label: '安全保障', component: markRaw(SafetySection), props: {} },
   {
     id: 'reviews',
     label: '客户评价',
     component: markRaw(ReviewsSection),
-    props: { productId: productId.value }
+    props: { productId: productId }
   },
   {
     id: 'seller',
     label: '关于商家',
     component: markRaw(SellerSection),
-    props: { sellerId: productId.value }
+    props: { sellerId: productId }
   },
   {
     id: 'recommendations',
     label: '为您推荐',
     component: markRaw(RecommendationsSection),
-    props: { productId: productId.value }
+    props: { productId: productId }
   }
 ])
 
@@ -113,7 +144,7 @@ const product = ref({
 
 const fetchData = () => {
   // 这里放置获取数据的逻辑
-  console.log(`Fetching data for product ID: ${productId.value}`)
+  // console.log(`Fetching data for product ID: ${productId}`)
 }
 
 let observer: IntersectionObserver | null = null
@@ -158,7 +189,7 @@ onUnmounted(() => {
 watch(
   () => route.params.id,
   (newId) => {
-    productId.value = newId as string
+    productId = newId as string
     fetchData() // 每当ID变化时重新获取数据
   }
 )
@@ -166,7 +197,7 @@ watch(
 
 <style scoped lang="scss">
 .product-detail-root-container {
-  @apply self-center flex flex-row items-start max-w-300 px-10;
+  @apply self-center flex flex-row items-start max-w-320 px-10;
 
   .product-detail-main {
     @apply flex-1 pr-8 mt-10 min-w-0;
@@ -176,7 +207,11 @@ watch(
     @apply hidden;
   }
 
-  @media (max-width: 75rem) {
+  @media (max-width: 82rem) {
+    @apply self-stretch;
+  }
+
+  @media (max-width: 65rem) {
     @apply flex-col items-stretch w-full;
 
     .product-detail-main {
@@ -210,7 +245,7 @@ watch(
 }
 
 .control-panel {
-  @media (max-width: 75rem) {
+  @media (max-width: 65rem) {
     @apply hidden;
   }
 }
@@ -218,7 +253,7 @@ watch(
 .product-detail-footer {
   @apply hidden flex-row items-center px-10 fixed bottom-0 left-0 right-0 h-15 min-w-80 bg-white border-t-1 border-t-solid border-t-gray-200 z-20;
 
-  @media (max-width: 75rem) {
+  @media (max-width: 65rem) {
     @apply flex;
   }
 

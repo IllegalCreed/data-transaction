@@ -102,6 +102,9 @@ importers:
       eslint:
         specifier: ^9.12.0
         version: 9.12.0(jiti@2.0.0)
+      eslint-define-config:
+        specifier: ^2.1.0
+        version: 2.1.0
       eslint-plugin-cypress:
         specifier: ^3.5.0
         version: 3.5.0(eslint@9.12.0(jiti@2.0.0))
@@ -1831,6 +1834,10 @@ packages:
     hasBin: true
     peerDependencies:
       eslint: '>=7.0.0'
+
+  eslint-define-config@2.1.0:
+    resolution: {integrity: sha512-QUp6pM9pjKEVannNAbSJNeRuYwW3LshejfyBBpjeMGaJjaDUpVps4C6KVR8R7dWZnD3i0synmrE36znjTkJvdQ==}
+    engines: {node: '>=18.0.0', npm: '>=9.0.0', pnpm: '>=8.6.0'}
 
   eslint-plugin-cypress@3.5.0:
     resolution: {integrity: sha512-JZQ6XnBTNI8h1B9M7wJSFzc48SYbh7VMMKaNTQOFa3BQlnmXPrVc4PKen8R+fpv6VleiPeej6VxloGb42zdRvw==}
@@ -4685,7 +4692,7 @@ snapshots:
       '@vue/shared': 3.5.4
       entities: 4.5.0
       estree-walker: 2.0.2
-      source-map-js: 1.2.0
+      source-map-js: 1.2.1
 
   '@vue/compiler-dom@3.5.10':
     dependencies:
@@ -5434,6 +5441,8 @@ snapshots:
   eslint-config-prettier@9.1.0(eslint@9.12.0(jiti@2.0.0)):
     dependencies:
       eslint: 9.12.0(jiti@2.0.0)
+
+  eslint-define-config@2.1.0: {}
 
   eslint-plugin-cypress@3.5.0(eslint@9.12.0(jiti@2.0.0)):
     dependencies:
