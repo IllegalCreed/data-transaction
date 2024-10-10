@@ -15,7 +15,13 @@
       </template>
       <template #default>
         <div class="scene-list">
-          <scene-item v-for="item in cases" :key="item.id" :scene="item" />
+          <scene-item
+            v-for="(item, index) in cases"
+            :key="item.id"
+            :scene="item"
+            data-aos="fade-up"
+            :data-aos-delay="aosDelay(index)"
+          />
         </div>
       </template>
     </el-skeleton>
@@ -34,6 +40,11 @@ const { isLoading: getCasesActionLoading, execute: executeGetCasesAction } = use
   () => getCasesAction(),
   undefined
 )
+
+const isMobileDevice = useMediaQuery('(max-width: 40rem)')
+const aosDelay = (index: number) => {
+  return isMobileDevice.value ? 0 : index * 100
+}
 
 onMounted(() => {
   try {

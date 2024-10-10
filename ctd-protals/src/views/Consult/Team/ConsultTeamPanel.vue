@@ -16,7 +16,7 @@
         <div class="grid-panel">
           <consult-team-item
             v-for="(item, index) in teams"
-            :key="index"
+            :key="item.id"
             :data="item"
             data-aos="fade-up"
             :data-aos-delay="aosDelay(index)"

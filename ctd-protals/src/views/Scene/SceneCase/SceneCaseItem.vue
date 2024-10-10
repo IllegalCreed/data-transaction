@@ -1,10 +1,5 @@
 <template>
-  <el-card
-    :shadow="cardShadow"
-    class="scene-item-root-container"
-    body-class="scene-item-body-container"
-    @click="goToProductDetail"
-  >
+  <div class="scene-item-root-container" @click="goToProductDetail">
     <div class="img-container">
       <img :src="scene.imageUrl" object-contain h-full w-full />
     </div>
@@ -15,7 +10,7 @@
       <span class="company">{{ scene.companyName }}</span>
     </div>
     <slot></slot>
-  </el-card>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -31,22 +26,11 @@ const router = useRouter()
 const goToProductDetail = () => {
   router.push(`/scene/${scene.id}`)
 }
-
-const cardShadow = ref<'always' | 'never' | 'hover'>('hover')
-const isMobileDevice = useMediaQuery('(max-width: 40rem)')
-
-watchEffect(() => {
-  if (isMobileDevice.value) {
-    cardShadow.value = 'never'
-  } else {
-    cardShadow.value = 'hover'
-  }
-})
 </script>
 
 <style scoped lang="scss">
 .scene-item-root-container {
-  @apply m-2 w-71 cursor-pointer relative border-0;
+  @apply m-2 w-71 cursor-pointer relative border-0 flex flex-col h-full p-0 bg-[var(--color-background-alternating)];
 
   .img-container {
     @apply aspect-square rounded bg-slate-300 overflow-hidden;
@@ -105,8 +89,5 @@ watchEffect(() => {
       }
     }
   }
-}
-:deep(.scene-item-body-container) {
-  @apply flex flex-col h-full p-0;
 }
 </style>
