@@ -7,7 +7,7 @@ export const cases: IScene[] = [
     companyName: '测试公司名称',
     description:
       '测试场景描述，测试场景描述，测试场景描述，测试场景描述,测试场景描述，测试场景描述，测试场景描述，测试场景描述',
-    imageUrl: 'https://via.placeholder.com/300',
+    imageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
     link: 'https://www.baidu.com'
   },
   {
@@ -15,7 +15,7 @@ export const cases: IScene[] = [
     title: '测试场景名称',
     companyName: '测试公司名称',
     description: '测试场景描述，测试场景描述，测试场景描述，测试场景描述',
-    imageUrl: 'https://via.placeholder.com/300',
+    imageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
     link: 'https://www.baidu.com'
   },
   {
@@ -24,7 +24,7 @@ export const cases: IScene[] = [
     companyName: '测试公司名称',
     description:
       '测试场景描述，测试场景描述，测试场景描述，测试场景描述,测试场景描述，测试场景描述，测试场景描述，测试场景描述',
-    imageUrl: 'https://via.placeholder.com/300',
+    imageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
     link: 'https://www.baidu.com'
   },
   {
@@ -32,7 +32,7 @@ export const cases: IScene[] = [
     title: '测试场景名称',
     companyName: '测试公司名称',
     description: '测试场景描述，测试场景描述，测试场景描述，测试场景描述',
-    imageUrl: 'https://via.placeholder.com/300',
+    imageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
     link: 'https://www.baidu.com'
   },
   {
@@ -41,7 +41,7 @@ export const cases: IScene[] = [
     companyName: '测试公司名称',
     description:
       '测试场景描述，测试场景描述，测试场景描述，测试场景描述,测试场景描述，测试场景描述，测试场景描述，测试场景描述',
-    imageUrl: 'https://via.placeholder.com/300',
+    imageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
     link: 'https://www.baidu.com'
   },
   {
@@ -49,7 +49,7 @@ export const cases: IScene[] = [
     title: '测试场景名称',
     companyName: '测试公司名称',
     description: '测试场景描述，测试场景描述，测试场景描述，测试场景描述',
-    imageUrl: 'https://via.placeholder.com/300',
+    imageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
     link: 'https://www.baidu.com'
   },
   {
@@ -58,7 +58,7 @@ export const cases: IScene[] = [
     companyName: '测试公司名称',
     description:
       '测试场景描述，测试场景描述，测试场景描述，测试场景描述,测试场景描述，测试场景描述，测试场景描述，测试场景描述',
-    imageUrl: 'https://via.placeholder.com/300',
+    imageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
     link: 'https://www.baidu.com'
   },
   {
@@ -66,7 +66,7 @@ export const cases: IScene[] = [
     title: '测试场景名称',
     companyName: '测试公司名称',
     description: '测试场景描述，测试场景描述，测试场景描述，测试场景描述',
-    imageUrl: 'https://via.placeholder.com/300',
+    imageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
     link: 'https://www.baidu.com'
   }
 ]

@@ -46,44 +46,40 @@ watchEffect(() => {
 
 <style scoped lang="scss">
 .scene-item-root-container {
-  @apply mb-5 mx-2 w-60 cursor-pointer relative;
+  @apply m-2 w-71 cursor-pointer relative border-0;
 
   .img-container {
-    @apply aspect-square m--5 rounded bg-slate-300 overflow-hidden;
+    @apply aspect-square rounded bg-slate-300 overflow-hidden;
   }
 
   .text-container {
-    @apply flex flex-col flex-1 pt-2 mt-4;
+    @apply flex flex-col items-start flex-1 px-8 pb-5;
 
     .title {
-      @apply font-bold text-lg mt-2;
+      @apply font-bold text-2xl line-clamp-1 mt-6;
     }
 
     .desc {
-      @apply mt-6 text-sm text-gray-700 line-clamp-3 text-ellipsis;
+      @apply mt-6 text-base text-[var(--color-text-light)] line-clamp-3 leading-loose;
     }
 
     .company {
-      @apply mt-2 text-sm text-gray-400 line-clamp-1 text-ellipsis;
+      @apply mt-6 text-base text-[var(--color-text-lighter)] line-clamp-1;
     }
   }
 
   @media (max-width: 40rem) {
-    @apply w-[calc(50%-20px)] mx-1 mb-2 border-0;
-
-    .img-container {
-      @apply m--1;
-    }
+    @apply w-[calc(50%-8px)] m-1;
 
     .text-container {
-      @apply pt-0 mt-4;
+      @apply items-start px-4;
 
       .title {
-        @apply mt-0;
+        @apply mt-4 text-lg;
       }
 
       .desc {
-        @apply text-sm mt-2;
+        @apply mt-4 text-sm;
       }
 
       .company {
@@ -94,25 +90,23 @@ watchEffect(() => {
 
   @media (max-width: 30rem) {
     .text-container {
+      @apply p-2;
+
       .title {
-        @apply font-bold text-base mt-0;
+        @apply mt-2 text-lg;
       }
 
       .desc {
-        @apply text-xs mt-2;
+        @apply mt-2 text-sm;
       }
 
       .company {
-        @apply text-xs;
+        @apply text-sm;
       }
     }
   }
 }
 :deep(.scene-item-body-container) {
-  @apply flex flex-col h-full;
-
-  @media (max-width: 40rem) {
-    @apply p-2;
-  }
+  @apply flex flex-col h-full p-0;
 }
 </style>
