@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import SceneItem from './SceneItem.vue'
+import SceneItem from './SceneCaseItem.vue'
 import type { IScene } from '@/types/scene'
 
 const scenes = ref<IScene[]>([

@@ -7,3 +7,12 @@ export interface IScene {
   link?: string
   content?: string
 }
+
+export interface ISolicit {
+  content: string
+  link: string
+  companys: string[]
+  undertakes: string[]
+  email: string
+  phone: string
+}

@@ -20,15 +20,5 @@ import ConsultTeamPanel from './Team/ConsultTeamPanel.vue'
 <style scoped lang="scss">
 .consult-root-container {
   @apply flex flex-col items-center;
-
-  .banner {
-    @apply flex justify-center items-center min-w-full bg-blueGray min-h-100 text-8;
-  }
-
-  @media (max-width: 40rem) {
-    .banner {
-      @apply hidden;
-    }
-  }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="scene-root-container">
-    <div class="banner">应用场景宣传图</div>
+    <scene-banner></scene-banner>
 
     <scene-primary-panel mt-20></scene-primary-panel>
 
@@ -11,23 +11,14 @@
 </template>
 
 <script setup lang="ts">
-import ScenePrimaryPanel from './ScenePrimaryPanel.vue'
+import SceneBanner from './SceneBanner.vue'
+import ScenePrimaryPanel from './ScnenPrimary/ScenePrimaryPanel.vue'
 import SceneSolicitPanel from './SceneSolicitPanel.vue'
-import ScenePanel from './ScenePanel.vue'
+import ScenePanel from './SceneCase/SceneCasePanel.vue'
 </script>
 
 <style scoped lang="scss">
 .scene-root-container {
   @apply flex flex-col items-center;
-
-  .banner {
-    @apply flex justify-center items-center min-w-full bg-blueGray min-h-100 text-8;
-  }
-
-  @media (max-width: 40rem) {
-    .banner {
-      @apply hidden;
-    }
-  }
 }
 </style>

@@ -29,17 +29,26 @@ const router = createRouter({
         {
           path: 'home',
           name: 'home',
-          component: HomeView
+          component: HomeView,
+          meta: {
+            belong: '/home'
+          }
         },
         {
           path: 'news',
           name: 'news',
-          component: () => import('@/views/News/NewsView.vue')
+          component: () => import('@/views/News/NewsView.vue'),
+          meta: {
+            belong: '/home'
+          }
         },
         {
           path: 'news/:id',
           name: 'news-detail',
-          component: () => import('@/views/News/NewsDetailView.vue')
+          component: () => import('@/views/News/NewsDetailView.vue'),
+          meta: {
+            belong: '/home'
+          }
         },
         {
           path: 'product',
@@ -58,29 +67,20 @@ const router = createRouter({
           }
         },
         {
-          path: 'catalog',
-          name: 'catalog',
-          component: () => import('@/views/Catalog/CatalogView.vue')
-        },
-        {
           path: 'service',
           name: 'service',
-          component: () => import('@/views/Service/ServiceView.vue')
+          component: () => import('@/views/Service/ServiceView.vue'),
+          meta: {
+            belong: '/service'
+          }
         },
         {
           path: 'consult',
           name: 'consult',
-          component: () => import('@/views/Consult/ConsultView.vue')
-        },
-        {
-          path: 'company',
-          name: 'company',
-          component: () => import('@/views/Company/CompanyView.vue')
-        },
-        {
-          path: 'community',
-          name: 'community',
-          component: () => import('@/views/Community/CommunityView.vue')
+          component: () => import('@/views/Consult/ConsultView.vue'),
+          meta: {
+            belong: '/consult'
+          }
         },
         {
           path: 'demand',
@@ -117,32 +117,50 @@ const router = createRouter({
         {
           path: 'about',
           name: 'about',
-          component: () => import('@/views/About/AboutView.vue')
+          component: () => import('@/views/About/AboutView.vue'),
+          meta: {
+            belong: '/home'
+          }
         },
         {
           path: 'feedback',
           name: 'feedback',
-          component: () => import('@/views/About/FeedbackView.vue')
+          component: () => import('@/views/About/FeedbackView.vue'),
+          meta: {
+            belong: '/home'
+          }
         },
         {
           path: 'intellectual',
           name: 'intellectual',
-          component: () => import('@/views/About/IntellectualView.vue')
+          component: () => import('@/views/About/IntellectualView.vue'),
+          meta: {
+            belong: '/home'
+          }
         },
         {
           path: 'legal',
           name: 'legal',
-          component: () => import('@/views/About/LegalStatementView.vue')
+          component: () => import('@/views/About/LegalStatementView.vue'),
+          meta: {
+            belong: '/home'
+          }
         },
         {
           path: 'privacy-policy',
           name: 'privacy-policy',
-          component: () => import('@/views/About/PrivacyPolicyView.vue')
+          component: () => import('@/views/About/PrivacyPolicyView.vue'),
+          meta: {
+            belong: '/home'
+          }
         },
         {
           path: 'recruitment',
           name: 'recruitment',
-          component: () => import('@/views/About/RecruitmentView.vue')
+          component: () => import('@/views/About/RecruitmentView.vue'),
+          meta: {
+            belong: '/home'
+          }
         },
         {
           path: 'mine',
