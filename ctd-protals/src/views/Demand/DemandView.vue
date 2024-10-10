@@ -4,9 +4,36 @@
 
     <demand-sort-panel mt-5></demand-sort-panel>
 
-    <div class="demands-container">
-      <demand-item v-for="(demand, index) in demands" :key="index" :demand="demand" />
-    </div>
+    <el-skeleton
+      :loading="getDemandsActionLoading"
+      animated
+      self-center
+      flex
+      flex-col
+      justify-center
+    >
+      <template #template>
+        <div class="demands-container" gap-4>
+          <el-skeleton-item variant="rect" class="!w-96 !h-71"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!w-96 !h-71"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!w-96 !h-71"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!w-96 !h-71"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!w-96 !h-71"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!w-96 !h-71"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!w-96 !h-71"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!w-96 !h-71"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!w-96 !h-71"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!w-96 !h-71"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!w-96 !h-71"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!w-96 !h-71"></el-skeleton-item>
+        </div>
+      </template>
+      <template #default>
+        <div class="demands-container">
+          <demand-item v-for="(demand, index) in demands" :key="index" :demand="demand" />
+        </div>
+      </template>
+    </el-skeleton>
 
     <div class="pager-panel">
       <el-pagination
@@ -64,8 +91,17 @@ watch(
   { deep: true }
 )
 
+const { isLoading: getDemandsActionLoading, execute: executeGetDemandsAction } = useAsyncState(
+  () => getDemandsAction(),
+  undefined
+)
+
 onMounted(() => {
-  getDemandsAction()
+  try {
+    executeGetDemandsAction()
+  } catch (error: unknown) {
+    console.error(error)
+  }
 })
 </script>
 

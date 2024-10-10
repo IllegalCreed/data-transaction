@@ -4,9 +4,36 @@
 
     <product-sort-panel mt-5></product-sort-panel>
 
-    <div class="products-container">
-      <product-item v-for="(product, index) in products" :key="index" :product="product" />
-    </div>
+    <el-skeleton
+      :loading="getProductsActionLoading"
+      animated
+      self-center
+      flex
+      flex-col
+      justify-center
+    >
+      <template #template>
+        <div class="products-container" gap-4>
+          <el-skeleton-item variant="rect" class="!w-71 !h-131"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!w-71 !h-131"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!w-71 !h-131"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!w-71 !h-131"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!w-71 !h-131"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!w-71 !h-131"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!w-71 !h-131"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!w-71 !h-131"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!w-71 !h-131"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!w-71 !h-131"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!w-71 !h-131"></el-skeleton-item>
+          <el-skeleton-item variant="rect" class="!w-71 !h-131"></el-skeleton-item>
+        </div>
+      </template>
+      <template #default>
+        <div class="products-container">
+          <product-item v-for="(product, index) in products" :key="index" :product="product" />
+        </div>
+      </template>
+    </el-skeleton>
 
     <div class="pager-panel">
       <el-pagination
@@ -64,8 +91,17 @@ watch(
   { deep: true }
 )
 
+const { isLoading: getProductsActionLoading, execute: executeGetProductsAction } = useAsyncState(
+  () => getProductsAction(),
+  undefined
+)
+
 onMounted(() => {
-  getProductsAction()
+  try {
+    executeGetProductsAction()
+  } catch (error: unknown) {
+    console.error(error)
+  }
 })
 </script>
 
