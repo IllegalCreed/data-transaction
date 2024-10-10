@@ -4,10 +4,12 @@
     <el-skeleton :loading="getTeamsActionLoading" animated>
       <template #template>
         <div class="grid-panel" mx-auto>
-          <el-skeleton-item variant="rect" class="!w-full !h-90"></el-skeleton-item>
-          <el-skeleton-item variant="rect" class="!w-full !h-90"></el-skeleton-item>
-          <el-skeleton-item variant="rect" class="!w-full !h-90"></el-skeleton-item>
-          <el-skeleton-item variant="rect" class="!w-full !h-90"></el-skeleton-item>
+          <el-skeleton-item
+            v-for="n in 4"
+            :key="n"
+            variant="rect"
+            class="!w-full !h-90"
+          ></el-skeleton-item>
         </div>
       </template>
       <template #default>

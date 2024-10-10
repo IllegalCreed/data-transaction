@@ -6,9 +6,7 @@
           <el-skeleton-item variant="p" class="!w-50"></el-skeleton-item>
           <el-skeleton-item variant="p" class="!w-30"></el-skeleton-item>
           <div flex flex-row gap-4>
-            <el-skeleton-item variant="p" class="!w-10"></el-skeleton-item>
-            <el-skeleton-item variant="p" class="!w-10"></el-skeleton-item>
-            <el-skeleton-item variant="p" class="!w-10"></el-skeleton-item>
+            <el-skeleton-item v-for="n in 3" :key="n" variant="p" class="!w-10"></el-skeleton-item>
           </div>
           <el-skeleton-item variant="p" mt-5></el-skeleton-item>
           <el-skeleton-item variant="p" class="!w-50"></el-skeleton-item>

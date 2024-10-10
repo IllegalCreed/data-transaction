@@ -4,8 +4,7 @@
       <el-skeleton :loading="getRecordsActionLoading" animated class="!w-auto">
         <template #template>
           <div class="left-list">
-            <el-skeleton-item variant="p" class="!w-50"></el-skeleton-item>
-            <el-skeleton-item variant="p" class="!w-50"></el-skeleton-item>
+            <el-skeleton-item v-for="n in 2" :key="n" variant="p" class="!w-50"></el-skeleton-item>
           </div>
         </template>
         <template #default>

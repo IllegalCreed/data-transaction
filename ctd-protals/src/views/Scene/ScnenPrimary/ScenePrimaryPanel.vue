@@ -4,8 +4,7 @@
     <el-skeleton :loading="getPrimaryCasesActionLoading" animated>
       <template #template>
         <div class="scene-list">
-          <el-skeleton-item variant="rect" class="!h-75"></el-skeleton-item>
-          <el-skeleton-item variant="rect" class="!h-75"></el-skeleton-item>
+          <el-skeleton-item v-for="n in 2" :key="n" variant="rect" class="!h-75"></el-skeleton-item>
         </div>
       </template>
       <template #default>

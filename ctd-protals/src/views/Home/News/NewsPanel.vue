@@ -17,11 +17,12 @@
         <el-skeleton :loading="getNewsListActionLoading" animated>
           <template #template>
             <div flex flex-col gap-4>
-              <el-skeleton-item variant="rect" class="!h-18"></el-skeleton-item>
-              <el-skeleton-item variant="rect" class="!h-18"></el-skeleton-item>
-              <el-skeleton-item variant="rect" class="!h-18"></el-skeleton-item>
-              <el-skeleton-item variant="rect" class="!h-18"></el-skeleton-item>
-              <el-skeleton-item variant="rect" class="!h-18"></el-skeleton-item>
+              <el-skeleton-item
+                v-for="n in 5"
+                :key="n"
+                variant="rect"
+                class="!h-18"
+              ></el-skeleton-item>
             </div>
           </template>
           <template #default>

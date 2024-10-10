@@ -4,8 +4,7 @@
     <el-skeleton :loading="getTopPartnersActionLoading" animated>
       <template #template>
         <div class="partner-top-list-container">
-          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
-          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
+          <el-skeleton-item v-for="n in 2" :key="n" variant="rect" class="!h-32"></el-skeleton-item>
         </div>
       </template>
       <template #default>
@@ -23,14 +22,7 @@
     <el-skeleton :loading="getPartnersActionLoading" animated>
       <template #template>
         <div class="partner-list-container">
-          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
-          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
-          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
-          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
-          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
-          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
-          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
-          <el-skeleton-item variant="rect" class="!h-32"></el-skeleton-item>
+          <el-skeleton-item v-for="n in 8" :key="n" variant="rect" class="!h-32"></el-skeleton-item>
         </div>
       </template>
       <template #default>

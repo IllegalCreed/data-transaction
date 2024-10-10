@@ -14,18 +14,12 @@
     >
       <template #template>
         <div class="products-container" gap-4>
-          <el-skeleton-item variant="rect" class="!w-71 !h-131"></el-skeleton-item>
-          <el-skeleton-item variant="rect" class="!w-71 !h-131"></el-skeleton-item>
-          <el-skeleton-item variant="rect" class="!w-71 !h-131"></el-skeleton-item>
-          <el-skeleton-item variant="rect" class="!w-71 !h-131"></el-skeleton-item>
-          <el-skeleton-item variant="rect" class="!w-71 !h-131"></el-skeleton-item>
-          <el-skeleton-item variant="rect" class="!w-71 !h-131"></el-skeleton-item>
-          <el-skeleton-item variant="rect" class="!w-71 !h-131"></el-skeleton-item>
-          <el-skeleton-item variant="rect" class="!w-71 !h-131"></el-skeleton-item>
-          <el-skeleton-item variant="rect" class="!w-71 !h-131"></el-skeleton-item>
-          <el-skeleton-item variant="rect" class="!w-71 !h-131"></el-skeleton-item>
-          <el-skeleton-item variant="rect" class="!w-71 !h-131"></el-skeleton-item>
-          <el-skeleton-item variant="rect" class="!w-71 !h-131"></el-skeleton-item>
+          <el-skeleton-item
+            v-for="n in 12"
+            :key="n"
+            variant="rect"
+            class="!w-71 !h-131"
+          ></el-skeleton-item>
         </div>
       </template>
       <template #default>

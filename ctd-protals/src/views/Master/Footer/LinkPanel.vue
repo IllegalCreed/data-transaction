@@ -4,14 +4,13 @@
     <el-skeleton :loading="getLinksActionLoading" animated>
       <template #template>
         <div flex flex-col>
-          <el-skeleton-item variant="p" mt-2 class="!max-w-50"></el-skeleton-item>
-          <el-skeleton-item variant="p" mt-3 class="!max-w-50"></el-skeleton-item>
-          <el-skeleton-item variant="p" mt-3 class="!max-w-50"></el-skeleton-item>
-          <el-skeleton-item variant="p" mt-3 class="!max-w-50"></el-skeleton-item>
-          <el-skeleton-item variant="p" mt-3 class="!max-w-50"></el-skeleton-item>
-          <el-skeleton-item variant="p" mt-3 class="!max-w-50"></el-skeleton-item>
-          <el-skeleton-item variant="p" mt-3 class="!max-w-50"></el-skeleton-item>
-          <el-skeleton-item variant="p" mt-3 class="!max-w-50"></el-skeleton-item>
+          <el-skeleton-item
+            v-for="n in 8"
+            :key="n"
+            variant="p"
+            mt-2
+            class="!max-w-50"
+          ></el-skeleton-item>
         </div>
       </template>
       <template #default>
