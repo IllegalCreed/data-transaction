@@ -1,10 +1,5 @@
 <template>
-  <el-card
-    :shadow="cardShadow"
-    class="demand-item-root-container"
-    body-class="demand-item-body-container"
-    @click="goToDemandDetail"
-  >
+  <div class="demand-item-root-container" @click="goToDemandDetail">
     <div class="text-container">
       <span class="title">{{ demand.title }}</span>
       <div class="tag-container">
@@ -24,7 +19,7 @@
       <span class="mode">{{ demand.transactionMode.type }}</span>
     </div>
     <slot></slot>
-  </el-card>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -44,22 +39,11 @@ const router = useRouter()
 const goToDemandDetail = () => {
   router.push(`/demand/${demand.id}`)
 }
-
-const cardShadow = ref<'always' | 'never' | 'hover'>('hover')
-const isMobileDevice = useMediaQuery('(max-width: 40rem)')
-
-watchEffect(() => {
-  if (isMobileDevice.value) {
-    cardShadow.value = 'never'
-  } else {
-    cardShadow.value = 'hover'
-  }
-})
 </script>
 
 <style scoped lang="scss">
 .demand-item-root-container {
-  @apply m-2 w-96 cursor-pointer relative border-0;
+  @apply m-2 w-96 cursor-pointer relative shadow flex flex-col p-0 bg-[var(--color-background-alternating)];
 
   .text-container {
     @apply flex flex-col flex-1 p-8;
@@ -119,6 +103,6 @@ watchEffect(() => {
 }
 
 :deep(.demand-item-body-container) {
-  @apply flex flex-col h-full p-0;
+  @apply;
 }
 </style>

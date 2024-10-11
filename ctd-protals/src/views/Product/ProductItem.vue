@@ -41,7 +41,7 @@ const goToProductDetail = () => {
   @apply m-2 w-71 cursor-pointer relative shadow rounded flex flex-col p-0 bg-[var(--color-background-alternating)];
 
   .img-container {
-    @apply aspect-square rounded bg-slate-300 overflow-hidden;
+    @apply aspect-square rounded bg-[var(--color-background-alternating)] overflow-hidden;
   }
 
   .text-container {
