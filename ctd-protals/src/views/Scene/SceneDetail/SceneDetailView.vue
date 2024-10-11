@@ -22,7 +22,7 @@
 
           <div class="description">
             <span font-bold text-lg>简介</span>
-            <p text-sm leading-relaxed>{{ scene.description }}</p>
+            <p text-sm leading-loose>{{ scene.description }}</p>
           </div>
 
           <div class="content" v-html="sanitizedContent"></div>
@@ -100,7 +100,7 @@ onMounted(() => {
       @apply w-full overflow-hidden;
 
       :deep(p) {
-        @apply text-base leading-loose;
+        @apply text-base leading-relaxed indent-lg;
       }
 
       :deep(img) {
