@@ -18,10 +18,10 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .safety-section-root-container {
-  @apply p-5 bg-[var(--color-background-alternating)] shadow;
+  @apply px-5 py-20 bg-[var(--color-background-alternating)] shadow bg-gradient-to-b from-[var(--color-module-gradient-from)] to-[var(--color-module-gradient-to)];
 
   @media (max-width: 40rem) {
-    @apply p-2.5;
+    @apply px-2.5;
   }
 }
 </style>

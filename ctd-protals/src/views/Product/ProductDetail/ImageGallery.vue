@@ -115,7 +115,7 @@ onMounted(() => {
 }
 
 .thumbnail-root-container {
-  @apply flex flex-row justify-stretch items-center py-4 bg-[var(--color-background-alternating)] shadow;
+  @apply flex flex-row justify-stretch items-center py-4 mt-4 bg-[var(--color-background-alternating)] shadow bg-gradient-to-b from-[var(--color-module-gradient-from)] to-[var(--color-module-gradient-to)];
 
   .thumbnail-container {
     @apply flex-1 flex flex-row items-center space-x-2 overflow-x-auto overflow-y-hidden;
