@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import ProductItem from '../ProductItem.vue'
+import ProductItem from '../../ProductItem.vue'
 import type { IProduct } from '@/types/product'
 
 const props = defineProps<{
