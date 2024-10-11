@@ -8,6 +8,7 @@ export const primaryCases: IScene[] = [
     description:
       '测试场景描述，测试场景描述，测试场景描述，测试场景描述,测试场景描述，测试场景描述，测试场景描述，测试场景描述',
     imageUrl: 'https://via.placeholder.com/300',
+    bannerUrl: new URL('@/assets/mock/newsBanner.png', import.meta.url).href,
     link: 'https://www.baidu.com'
   },
   {
@@ -16,6 +17,7 @@ export const primaryCases: IScene[] = [
     companyName: '测试公司名称',
     description: '测试场景描述，测试场景描述，测试场景描述，测试场景描述',
     imageUrl: 'https://via.placeholder.com/300',
+    bannerUrl: new URL('@/assets/mock/newsBanner.png', import.meta.url).href,
     link: 'https://www.baidu.com'
   }
 ]

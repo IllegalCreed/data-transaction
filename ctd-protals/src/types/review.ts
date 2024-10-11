@@ -1,6 +1,6 @@
 export interface IReview {
   id: string | number
-  avatar: string
+  avatar?: string
   name: string
   content: string
   reply?: string

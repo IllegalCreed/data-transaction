@@ -6,6 +6,7 @@ export const useCommentStore = defineStore('comment', () => {
   const reviews = ref<IMyReview[]>([
     // 产品评论
     {
+      id: 1,
       type: 'product',
       name: 'Alice',
       content: '这款产品非常实用，质量很好！',
@@ -21,6 +22,7 @@ export const useCommentStore = defineStore('comment', () => {
       }
     },
     {
+      id: 2,
       type: 'product',
       name: 'Bob',
       content: '性价比高，推荐购买。',
@@ -35,6 +37,7 @@ export const useCommentStore = defineStore('comment', () => {
       }
     },
     {
+      id: 3,
       type: 'product',
       name: 'Cathy',
       content: '外观时尚，但功能有待提升。',
@@ -51,6 +54,7 @@ export const useCommentStore = defineStore('comment', () => {
     },
     // 需求评论
     {
+      id: 4,
       type: 'demand',
       name: 'David',
       content: '需要一位熟悉Vue.js的开发者。',
@@ -64,6 +68,7 @@ export const useCommentStore = defineStore('comment', () => {
       }
     },
     {
+      id: 5,
       type: 'demand',
       name: 'Emma',
       content: '寻找擅长UI设计的自由职业者。',
@@ -78,6 +83,7 @@ export const useCommentStore = defineStore('comment', () => {
       }
     },
     {
+      id: 6,
       type: 'demand',
       name: 'Frank',
       content: '需要一名摄影师，拍摄产品照片。',
@@ -92,6 +98,7 @@ export const useCommentStore = defineStore('comment', () => {
     },
     // 更多产品评论
     {
+      id: 7,
       type: 'product',
       name: 'Grace',
       content: '包装精美，送人很合适。',
@@ -106,6 +113,7 @@ export const useCommentStore = defineStore('comment', () => {
       }
     },
     {
+      id: 8,
       type: 'product',
       name: 'Henry',
       content: '物流很快，服务态度好。',
@@ -120,6 +128,7 @@ export const useCommentStore = defineStore('comment', () => {
       }
     },
     {
+      id: 9,
       type: 'product',
       name: 'Ivy',
       content: '功能简单易用，老人也能轻松上手。',
@@ -134,6 +143,7 @@ export const useCommentStore = defineStore('comment', () => {
       }
     },
     {
+      id: 10,
       type: 'product',
       name: 'Jack',
       content: '质量不错，就是价格有点高。',
@@ -149,6 +159,7 @@ export const useCommentStore = defineStore('comment', () => {
     },
     // 更多需求评论
     {
+      id: 11,
       type: 'demand',
       name: 'Karen',
       content: '需要一位熟练使用Python的后端开发。',
@@ -162,6 +173,7 @@ export const useCommentStore = defineStore('comment', () => {
       }
     },
     {
+      id: 12,
       type: 'demand',
       name: 'Leo',
       content: '需要翻译服务，将文件翻译成英语。',
@@ -175,6 +187,7 @@ export const useCommentStore = defineStore('comment', () => {
       }
     },
     {
+      id: 13,
       type: 'demand',
       name: 'Mia',
       content: '寻找擅长市场调研的专业人士。',
@@ -188,6 +201,7 @@ export const useCommentStore = defineStore('comment', () => {
       }
     },
     {
+      id: 14,
       type: 'demand',
       name: 'Nathan',
       content: '需要UI/UX设计师，优化我们的App界面。',
