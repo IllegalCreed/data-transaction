@@ -39,7 +39,7 @@ const updateActiveSection = () => {
     const section = document.getElementById(link.id)
     if (section) {
       const rect = section.getBoundingClientRect()
-      if (rect.top <= 151) {
+      if (rect.top <= offset) {
         activeSection.value = link.id
       }
     }
@@ -51,18 +51,13 @@ const updateActiveSection = () => {
 }
 
 onMounted(() => {
-  window.addEventListener('scroll', updateActiveSection)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', updateActiveSection)
+  useEventListener(window, 'scroll', updateActiveSection)
 })
 </script>
 
 <style scoped lang="scss">
 .tab-bar-root-container {
-  @apply flex flex-row justify-start px-5 sticky top-20 bg-white z-10 rounded-full overflow-x-auto;
-  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
+  @apply flex flex-row justify-start px-5 sticky top-20 bg-[var(--color-background-alternating)] z-10 rounded shadow overflow-x-auto;
 
   &::-webkit-scrollbar {
     @apply hidden;
@@ -74,7 +69,7 @@ onUnmounted(() => {
 }
 
 .sticky-active {
-  @apply rounded-t-0 rounded-b-6;
+  @apply rounded-t-0 rounded-b-1;
 
   @media (max-width: 40rem) {
     @apply rounded-none ml--5 w-[calc(100%+40px)];
@@ -84,12 +79,8 @@ onUnmounted(() => {
 .tab-item {
   @apply block p-4 font-bold hover:opacity-60 cursor-pointer select-none whitespace-nowrap mx-auto;
 
-  &.isActive {
-    @apply text-blue-500;
-  }
-
-  @media (max-width: 40rem) {
-    @apply text-base;
+  &.active {
+    @apply text-[var(--color-primary)];
   }
 }
 </style>

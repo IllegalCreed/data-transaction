@@ -27,7 +27,7 @@ export function useWave(
     opacitySpeed?: number | number[]
     lineWidth?: number | number[]
     speed?: number | number[]
-    setCanvasSize?: Function
+    setCanvasSize?: (canvasElement: HTMLCanvasElement) => void
     style?: string
   } = {}
 ) {
@@ -141,7 +141,9 @@ export function useWave(
       init()
     }
     useEventListener(window, 'resize', () => {
-      setCanvasSize(canvas)
+      if (canvas) {
+        setCanvasSize(canvas)
+      }
     })
   })
 

@@ -4,7 +4,7 @@
       v-for="link in links"
       :key="link.id"
       class="tab-item"
-      :class="{ isActive: model === link.id }"
+      :class="{ active: model === link.id }"
       @click="model = link.id"
     >
       {{ link.label }}
@@ -36,7 +36,7 @@ const model = defineModel()
 .tab-item {
   @apply block p-4 font-bold hover:opacity-60 cursor-pointer select-none whitespace-nowrap mx-auto;
 
-  &.isActive {
+  &.active {
     @apply text-blue-500;
   }
 
