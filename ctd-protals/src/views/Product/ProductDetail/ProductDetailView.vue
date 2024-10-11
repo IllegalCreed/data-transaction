@@ -1,7 +1,7 @@
 <template>
   <div class="product-detail-root-container">
     <div class="product-detail-main">
-      <image-gallery :images="productImages" />
+      <image-gallery :images="productImages" :loading="getProductImagesActionLoading" />
 
       <div class="product-info">
         <span text-2xl font-bold>{{ product.name }}</span>
@@ -66,7 +66,7 @@ watch(
 
 import { useProductStore } from '@/stores/modules/product'
 const productStore = useProductStore()
-const { getProduct: getProductAction } = productStore
+const { getProduct: getProductAction, getProductImages: getProductImagesAction } = productStore
 
 const {
   state: productBaseInfo,
@@ -82,28 +82,20 @@ const {
   specGroups: []
 })
 
+const {
+  state: productImages,
+  isLoading: getProductImagesActionLoading,
+  execute: executeGetProductImagesAction
+} = useAsyncState(() => getProductImagesAction(productId), [])
+
 onMounted(() => {
   try {
     executeGetProductAction()
+    executeGetProductImagesAction()
   } catch (error: unknown) {
     console.error(error)
   }
 })
-
-const productImages = ref([
-  'https://via.placeholder.com/600x400',
-  'https://via.placeholder.com/600x400',
-  'https://via.placeholder.com/600x400',
-  'https://via.placeholder.com/600x400',
-  'https://via.placeholder.com/600x400',
-  'https://via.placeholder.com/600x400',
-  'https://via.placeholder.com/600x400',
-  'https://via.placeholder.com/600x400',
-  'https://via.placeholder.com/600x400',
-  'https://via.placeholder.com/600x400',
-  'https://via.placeholder.com/600x400',
-  'https://via.placeholder.com/600x400'
-])
 
 const sections = ref<ISection[]>([
   {

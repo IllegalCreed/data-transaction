@@ -115,6 +115,7 @@ export const products: IProduct[] = [
 export const productDetails: {
   id: string | number
   baseInfo: IProductBaseInfo
+  imageUrls: string[]
 }[] = [
   {
     id: 1,
@@ -159,6 +160,20 @@ export const productDetails: {
           ]
         }
       ]
-    }
+    },
+    imageUrls: [
+      'https://via.placeholder.com/600x400',
+      'https://via.placeholder.com/600x400',
+      'https://via.placeholder.com/600x400',
+      'https://via.placeholder.com/600x400',
+      'https://via.placeholder.com/600x400',
+      'https://via.placeholder.com/600x400',
+      'https://via.placeholder.com/600x400',
+      'https://via.placeholder.com/600x400',
+      'https://via.placeholder.com/600x400',
+      'https://via.placeholder.com/600x400',
+      'https://via.placeholder.com/600x400',
+      'https://via.placeholder.com/600x400'
+    ]
   }
 ]

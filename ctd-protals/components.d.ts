@@ -71,6 +71,8 @@ declare module 'vue' {
     'IMdi:mapMarker': typeof import('~icons/mdi/map-marker')['default']
     'IMdi:phone': typeof import('~icons/mdi/phone')['default']
     'IMingcute:downLine': typeof import('~icons/mingcute/down-line')['default']
+    'IMingcute:leftLine': typeof import('~icons/mingcute/left-line')['default']
+    'IMingcute:rightLine': typeof import('~icons/mingcute/right-line')['default']
     'IMingcute:upLine': typeof import('~icons/mingcute/up-line')['default']
     'INoto:buildingConstruction': typeof import('~icons/noto/building-construction')['default']
     'IPh:package': typeof import('~icons/ph/package')['default']

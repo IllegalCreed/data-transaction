@@ -1,37 +1,46 @@
 <template>
   <div class="image-gallery-root-container">
-    <div class="image-container">
-      <img :src="currentImage" object-contain h-full w-full />
-    </div>
-    <div class="thumbnail-root-container">
-      <i-icon-park-twotone:left-c
-        class="thumbnail-control"
-        mr-4
-        @click="scrollThumbnails('prev')"
-      ></i-icon-park-twotone:left-c>
-      <div ref="thumbnailContainer" class="thumbnail-container">
-        <div
-          ref="thumbnails"
-          v-for="(thumbnail, index) in images"
-          :key="index"
-          :class="['thumbnail', { selected: currentImageIndex === index }]"
-          @click="selectImage(index)"
-        >
-          <img :src="thumbnail" object-cover h-full w-full />
+    <el-skeleton :loading="loading" animated>
+      <template #template>
+        <el-skeleton-item variant="rect" class="!h-96"></el-skeleton-item>
+        <el-skeleton-item variant="rect" class="!h-36"></el-skeleton-item>
+      </template>
+      <template #default>
+        <div class="image-container">
+          <img :src="currentImage" object-contain h-full w-full />
+          <div class="image-count">{{ `${currentImageIndex + 1} / ${images.length}` }}</div>
         </div>
-      </div>
-      <i-icon-park-twotone:right-c
-        class="thumbnail-control"
-        ml-4
-        @click="scrollThumbnails('next')"
-      ></i-icon-park-twotone:right-c>
-    </div>
+
+        <div class="thumbnail-root-container">
+          <i-mingcute:left-line
+            class="thumbnail-control"
+            @click="scrollThumbnails('prev')"
+          ></i-mingcute:left-line>
+          <div ref="thumbnailContainer" class="thumbnail-container">
+            <div
+              ref="thumbnails"
+              v-for="(thumbnail, index) in images"
+              :key="index"
+              :class="['thumbnail', { selected: currentImageIndex === index }]"
+              @click="selectImage(index)"
+            >
+              <img :src="thumbnail" object-cover h-full w-full />
+            </div>
+          </div>
+          <i-mingcute:right-line
+            class="thumbnail-control"
+            @click="scrollThumbnails('next')"
+          ></i-mingcute:right-line>
+        </div>
+      </template>
+    </el-skeleton>
   </div>
 </template>
 
 <script setup lang="ts">
 const props = defineProps<{
   images: string[]
+  loading: boolean
 }>()
 
 const currentImageIndex = ref(0)
@@ -89,7 +98,11 @@ onMounted(() => {
   @apply flex flex-col items-stretch;
 
   .image-container {
-    @apply bg-gray-200 h-96 flex items-center justify-center;
+    @apply relative bg-[var(--color-background-alternating)] h-96 flex items-center justify-center shadow;
+
+    .image-count {
+      @apply absolute bottom-2 right-2 rounded-full bg-[var(--color-scene-solicit-background)] px-2 py-1 text-xs text-[var(--color-text-reverse)];
+    }
   }
 
   @media (max-width: 40rem) {
@@ -102,10 +115,10 @@ onMounted(() => {
 }
 
 .thumbnail-root-container {
-  @apply flex flex-row justify-stretch items-center py-2 px-4 bg-slate-100 mt-4;
+  @apply flex flex-row justify-stretch items-center pt-10 pb-2 bg-[var(--color-background-alternating)] shadow;
 
   .thumbnail-container {
-    @apply flex flex-row items-center space-x-2 overflow-x-auto overflow-y-hidden;
+    @apply flex-1 flex flex-row items-center space-x-2 overflow-x-auto overflow-y-hidden;
 
     &::-webkit-scrollbar {
       @apply hidden;
@@ -121,11 +134,11 @@ onMounted(() => {
   }
 
   .thumbnail-control {
-    @apply w-10 h-10 cursor-pointer select-none transition-opacity duration-300 ease-in-out hover:opacity-60;
+    @apply flex-shrink-0 w-10 h-20 py-5 cursor-pointer select-none transition-opacity duration-300 ease-in-out hover:opacity-60;
   }
 
   @media (max-width: 40rem) {
-    @apply mt-0 py-4;
+    @apply mt-0 py-4 px-2;
 
     .thumbnail-control {
       @apply hidden;

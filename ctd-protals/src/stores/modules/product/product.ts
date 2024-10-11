@@ -4,7 +4,8 @@ import {
   getProducts as getProductsAPI,
   getProduct as getProductAPI,
   getPrice as getPriceAPI,
-  getRecommendProducts as getRecommendProductsAPI
+  getRecommendProducts as getRecommendProductsAPI,
+  getProductImages as getProductImagesAPI
 } from '@/apis/product/product'
 import {
   products as mockProducts,
@@ -104,11 +105,36 @@ export const useProduct = () => {
     })
   }
 
+  const getProductImages = (id: string | number): Promise<string[]> => {
+    return new Promise<string[]>((resolve, reject) => {
+      if (settingsStore.mockEnabled) {
+        window.setTimeout(() => {
+          const productDetail = mockProductDetails.find((item) => item.id === Number(id))
+          if (productDetail) {
+            resolve(productDetail?.imageUrls)
+          } else {
+            reject(new Error('Product not found'))
+          }
+        }, 1000)
+      } else {
+        getProductImagesAPI(id)
+          .then((res: unknown) => {
+            const images = res as string[]
+            resolve(images)
+          })
+          .catch((error: unknown) => {
+            reject(error)
+          })
+      }
+    })
+  }
+
   return {
     products,
     getProducts,
     getProduct,
     getPrice,
-    getRecommendProducts
+    getRecommendProducts,
+    getProductImages
   }
 }

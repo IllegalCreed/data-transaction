@@ -49,3 +49,16 @@ export const getRecommendProducts = (id: string | number): Promise<void> => {
     false
   )
 }
+
+export const getProductImages = (id: string | number): Promise<void> => {
+  const params = {
+    id
+  }
+  return request.post(
+    {
+      url: `/getProductImages/${id}`,
+      params
+    },
+    false
+  )
+}
