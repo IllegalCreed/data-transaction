@@ -1,90 +1,83 @@
 <template>
-  <div class="seller-section-root-container">
-    <el-card body-class="seller-body-container" v-if="sellerInfo">
-      <img :src="sellerInfo.logo" />
-      <div flex flex-col flex-1 min-w-0>
-        <span text-lg font-bold mb-2>{{ sellerInfo.name }}</span>
-        <div flex flex-row flex-wrap items-center gap-2>
-          <el-tag v-for="(tag, index) in sellerInfo.tags" :key="index" type="info">{{
-            tag
-          }}</el-tag>
+  <el-skeleton :loading="getSellerActionLoading" animated flex flex-col gap-10>
+    <template #template>
+      <el-skeleton-item variant="rect" class="!h-25"></el-skeleton-item>
+      <el-skeleton-item variant="rect" class="!h-30"></el-skeleton-item>
+      <div flex flex-col gap-4>
+        <el-skeleton-item v-for="n in 10" :key="n" variant="p"></el-skeleton-item>
+      </div>
+    </template>
+
+    <template #default>
+      <div class="seller-section-root-container">
+        <div class="seller-body-container">
+          <img :src="seller.avatar" />
+          <div flex flex-col flex-1 min-w-0>
+            <span text-lg font-bold mb-2>{{ seller.title }}</span>
+            <div flex flex-row flex-wrap items-center gap-2>
+              <el-tag v-for="(tag, index) in seller.tags" :key="index" type="info">{{
+                tag
+              }}</el-tag>
+            </div>
+          </div>
+          <el-button class="detail-btn" type="primary" @click="viewSellerDetails"
+            >查看详情</el-button
+          >
         </div>
-      </div>
-      <el-button class="detail-btn" type="primary" @click="viewSellerDetails">查看详情</el-button>
-    </el-card>
 
-    <!-- 商家统计信息 -->
-    <div v-if="sellerStats" class="stats-container">
-      <div v-for="(stat, index) in sellerStats" :key="index" flex flex-col items-center>
-        <span text-orange-500 block text-2xl font-bold mb-4>{{ stat.value }}</span>
-        <span text-gray-500 text-sm>{{ stat.title }}</span>
-      </div>
-    </div>
+        <div class="stats-container">
+          <div v-for="(stat, index) in seller.stats" :key="index" flex flex-col items-center>
+            <span class="value">{{ stat.value }}</span>
+            <span class="label">{{ stat.title }}</span>
+          </div>
+        </div>
 
-    <!-- 商家富文本展示 -->
-    <div v-if="sellerInfo" v-html="richTextContent" overflow-hidden></div>
-  </div>
+        <div v-html="sanitizedContent" overflow-hidden></div>
+      </div>
+    </template>
+  </el-skeleton>
 </template>
 
 <script setup lang="ts">
 import DOMPurify from 'dompurify'
 
-const props = defineProps<{
+const { sellerId } = defineProps<{
   sellerId: string
 }>()
 
+import { useProductStore } from '@/stores/modules/product'
+const productStore = useProductStore()
+const { getSeller: getSellerAction } = productStore
+
+const {
+  state: seller,
+  isLoading: getSellerActionLoading,
+  execute: executeGetSellerAction
+} = useAsyncState(() => getSellerAction(sellerId), {
+  id: '',
+  title: '',
+  avatar: '',
+  tags: [],
+  content: '',
+  stats: []
+})
+
+const sanitizedContent = computed(() => {
+  return seller.value.content ? DOMPurify.sanitize(seller.value.content) : ''
+})
+
 const router = useRouter()
 
-const sellerInfo = ref<{
-  logo: string
-  name: string
-  tags: string[]
-} | null>(null)
-
-const sellerStats = ref<{ title: string; value: string }[] | null>(null)
-
-const richTextContent = ref<string | null>(null)
-
-const fetchSellerInfo = async (id: string) => {
-  // console.log('mock get sellerInfo:', id)
-  // 模拟 API 请求
-  sellerInfo.value = {
-    logo: 'https://via.placeholder.com/100',
-    name: '智能科技有限公司',
-    tags: ['五星商家', '企业', '1万保证金', '生态创新Top10']
-  }
-}
-
-const fetchSellerStats = async (id: string) => {
-  // console.log('mock get sellerStats:', id)
-  // 模拟 API 请求
-  sellerStats.value = [
-    { title: '评分', value: '4.9/5' },
-    { title: '成交量', value: '1500+' },
-    { title: '入驻时间', value: '5年' },
-    { title: '服务完成率', value: '98%' }
-  ]
-}
-
-const fetchRichTextContent = async (id: string) => {
-  // console.log('mock get sellerRichText:', id)
-  // 模拟 API 请求
-  const rawContent = `
-    <p>智能科技有限公司是一家专注于大数据和人工智能领域的创新企业，致力于为客户提供高效的解决方案。</p>
-    <img src="https://via.placeholder.com/600x400" alt="关于商家的图片" style="width:100%">
-    <p>公司成立于2010年，已累计服务超过1000家企业，覆盖多个行业，包括金融、医疗、零售等。</p>
-  `
-  richTextContent.value = DOMPurify.sanitize(rawContent)
-}
-
 const viewSellerDetails = () => {
-  router.push(`/seller/${props.sellerId}`)
+  router.push(`/seller/${sellerId}`)
 }
 
 onMounted(() => {
-  fetchSellerInfo(props.sellerId)
-  fetchSellerStats(props.sellerId)
-  fetchRichTextContent(props.sellerId)
+  try {
+    executeGetSellerAction()
+  } catch (error: unknown) {
+    console.error(error)
+  }
 })
 </script>
 
@@ -92,32 +85,41 @@ onMounted(() => {
 .seller-section-root-container {
   @apply flex flex-col;
 
-  img {
-    @apply w-16 h-16 rounded-full mr-4;
+  .seller-body-container {
+    @apply flex flex-row items-center p-5 shadow bg-[var(--color-background-alternating)];
+
+    img {
+      @apply w-16 h-16 object-contain rounded-full mr-4;
+    }
   }
 
   .stats-container {
-    @apply grid grid-cols-4 gap-4 my-10;
+    @apply grid grid-cols-4 gap-6 my-10;
+
+    .value {
+      @apply text-[var(--color-price)] block text-2xl font-bold mb-4;
+    }
+
+    .label {
+      @apply text-[var(--color-text-lighter)] text-sm;
+    }
   }
 
   @media (max-width: 40rem) {
-    img {
-      @apply hidden;
+    .seller-body-container {
+      @apply cursor-pointer;
+
+      img {
+        @apply hidden;
+      }
+      .detail-btn {
+        @apply hidden;
+      }
     }
-    .detail-btn {
-      @apply hidden;
-    }
+
     .stats-container {
       @apply grid-cols-2;
     }
-  }
-}
-
-:deep(.seller-body-container) {
-  @apply flex flex-row items-center;
-
-  @media (max-width: 40rem) {
-    @apply cursor-pointer;
   }
 }
 </style>
