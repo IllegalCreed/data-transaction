@@ -335,6 +335,7 @@
     "getcases": true,
     "getCases": true,
     "getPrimaryCases": true,
-    "getScene": true
+    "getScene": true,
+    "getRecommendProducts": true
   }
 }

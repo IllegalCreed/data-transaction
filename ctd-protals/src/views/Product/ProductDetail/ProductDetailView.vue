@@ -34,19 +34,11 @@
       class="control-panel"
     />
 
-    <div v-show="isFooterVisible" class="product-detail-footer">
-      <el-button flex-1 type="default" size="large" @click="addToFav">收藏产品</el-button>
-      <el-button flex-1 type="primary" size="large" @click="isOrderDialogVisiable = true"
-        >立即下单</el-button
-      >
-    </div>
-
-    <order-dialog v-model="isOrderDialogVisiable" :product-id="productId" />
+    <product-detail-footer :productId="productId"></product-detail-footer>
   </div>
 </template>
 
 <script setup lang="ts">
-import OrderDialog from './OrderDialog.vue'
 import ControlPanel from './ControlPanel.vue'
 import ImageGallery from './ImageGallery.vue'
 import TabBar from '@/components/SectionTabBar.vue'
@@ -55,10 +47,18 @@ import SafetySection from './Section/SafetySection.vue'
 import ReviewsSection from './Section/ReviewsSection.vue'
 import SellerSection from './Section/SellerSection.vue'
 import RecommendationsSection from './Section/RecommendationsSection.vue'
+import ProductDetailFooter from './ProductDetailFooter.vue'
 import type { ISection } from '@/types/section'
 
 const route = useRoute()
 let productId = route.params.id ? (route.params.id as string) : ''
+watch(
+  () => route.params.id,
+  (newId) => {
+    productId = newId as string
+    executeGetProductAction()
+  }
+)
 
 import { useProductStore } from '@/stores/modules/product'
 const productStore = useProductStore()
@@ -85,12 +85,6 @@ onMounted(() => {
     console.error(error)
   }
 })
-
-const isOrderDialogVisiable = ref(false)
-
-const addToFav = () => {
-  console.log(`将 ${productId} 添加到收藏夹`)
-}
 
 const productImages = ref([
   'https://via.placeholder.com/600x400',
@@ -141,58 +135,6 @@ const product = ref({
   tags: ['Tag 1', 'Tag 2', 'Tag 3'],
   selledCount: 100
 })
-
-const fetchData = () => {
-  // 这里放置获取数据的逻辑
-  // console.log(`Fetching data for product ID: ${productId}`)
-}
-
-let observer: IntersectionObserver | null = null
-const isFooterVisible = ref(true)
-
-onMounted(() => {
-  fetchData()
-
-  const footerElement = document.querySelector('.footer-root-container')
-
-  if (footerElement) {
-    const options = {
-      root: null, // 以视口为根
-      threshold: 0 // 元素可见部分超过 0% 时触发回调
-    }
-
-    observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          // footer 进入视口，隐藏 product-detail-footer
-          isFooterVisible.value = false
-        } else {
-          // footer 离开视口，显示 product-detail-footer
-          isFooterVisible.value = true
-        }
-      })
-    }, options)
-
-    observer.observe(footerElement)
-  } else {
-    console.warn('无法找到 .footer-root-container 元素')
-  }
-})
-
-onUnmounted(() => {
-  // 在组件卸载时停止观察
-  if (observer) {
-    observer.disconnect()
-  }
-})
-
-watch(
-  () => route.params.id,
-  (newId) => {
-    productId = newId as string
-    fetchData() // 每当ID变化时重新获取数据
-  }
-)
 </script>
 
 <style scoped lang="scss">
@@ -247,18 +189,6 @@ watch(
 .control-panel {
   @media (max-width: 65rem) {
     @apply hidden;
-  }
-}
-
-.product-detail-footer {
-  @apply hidden flex-row items-center px-10 fixed bottom-0 left-0 right-0 h-15 min-w-80 bg-white border-t-1 border-t-solid border-t-gray-200 z-20;
-
-  @media (max-width: 65rem) {
-    @apply flex;
-  }
-
-  @media (max-width: 40rem) {
-    @apply px-5;
   }
 }
 </style>

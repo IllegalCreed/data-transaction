@@ -36,3 +36,16 @@ export const getPrice = (specs: Record<string, string>): Promise<void> => {
     false
   )
 }
+
+export const getRecommendProducts = (id: string | number): Promise<void> => {
+  const params = {
+    id
+  }
+  return request.post(
+    {
+      url: `/getRecommendProducts/${id}`,
+      params
+    },
+    false
+  )
+}

@@ -8,7 +8,7 @@ export const cases: IScene[] = [
     description:
       '虽然市场对 AI 的应用还在不断增长，不过各种数据也显示，5 月份后，直接访问 OpenAI 网站的流量一直在下降，Similarweb 的流量统计截至 7 月份下降了 21%。而 Datos 最新的一个统计显示下降幅度达到了 29%，不过要说明的是这里只是统计了 openai.com 网站的流量，那些通过 API 的第三方和移动端数据没有做统计。',
     imageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
-    bannerUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
+    bannerUrl: new URL('@/assets/mock/newsBanner.png', import.meta.url).href,
     link: 'https://www.baidu.com',
     content: `
       <div>
@@ -56,7 +56,7 @@ export const cases: IScene[] = [
     companyName: '测试公司名称',
     description: '测试场景描述，测试场景描述，测试场景描述，测试场景描述',
     imageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
-    bannerUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
+    bannerUrl: new URL('@/assets/mock/newsBanner.png', import.meta.url).href,
     link: 'https://www.baidu.com'
   },
   {
@@ -66,7 +66,7 @@ export const cases: IScene[] = [
     description:
       '测试场景描述，测试场景描述，测试场景描述，测试场景描述,测试场景描述，测试场景描述，测试场景描述，测试场景描述',
     imageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
-    bannerUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
+    bannerUrl: new URL('@/assets/mock/newsBanner.png', import.meta.url).href,
     link: 'https://www.baidu.com'
   },
   {
@@ -75,7 +75,7 @@ export const cases: IScene[] = [
     companyName: '测试公司名称',
     description: '测试场景描述，测试场景描述，测试场景描述，测试场景描述',
     imageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
-    bannerUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
+    bannerUrl: new URL('@/assets/mock/newsBanner.png', import.meta.url).href,
     link: 'https://www.baidu.com'
   },
   {
@@ -85,7 +85,7 @@ export const cases: IScene[] = [
     description:
       '测试场景描述，测试场景描述，测试场景描述，测试场景描述,测试场景描述，测试场景描述，测试场景描述，测试场景描述',
     imageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
-    bannerUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
+    bannerUrl: new URL('@/assets/mock/newsBanner.png', import.meta.url).href,
     link: 'https://www.baidu.com'
   },
   {
@@ -94,7 +94,7 @@ export const cases: IScene[] = [
     companyName: '测试公司名称',
     description: '测试场景描述，测试场景描述，测试场景描述，测试场景描述',
     imageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
-    bannerUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
+    bannerUrl: new URL('@/assets/mock/newsBanner.png', import.meta.url).href,
     link: 'https://www.baidu.com'
   },
   {
@@ -104,7 +104,7 @@ export const cases: IScene[] = [
     description:
       '测试场景描述，测试场景描述，测试场景描述，测试场景描述,测试场景描述，测试场景描述，测试场景描述，测试场景描述',
     imageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
-    bannerUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
+    bannerUrl: new URL('@/assets/mock/newsBanner.png', import.meta.url).href,
     link: 'https://www.baidu.com'
   },
   {
@@ -113,7 +113,7 @@ export const cases: IScene[] = [
     companyName: '测试公司名称',
     description: '测试场景描述，测试场景描述，测试场景描述，测试场景描述',
     imageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
-    bannerUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
+    bannerUrl: new URL('@/assets/mock/newsBanner.png', import.meta.url).href,
     link: 'https://www.baidu.com'
   }
 ]

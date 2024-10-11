@@ -3,7 +3,8 @@ import type { IProduct, IProductBaseInfo } from '@/types/product'
 import {
   getProducts as getProductsAPI,
   getProduct as getProductAPI,
-  getPrice as getPriceAPI
+  getPrice as getPriceAPI,
+  getRecommendProducts as getRecommendProductsAPI
 } from '@/apis/product/product'
 import {
   products as mockProducts,
@@ -78,10 +79,36 @@ export const useProduct = () => {
     })
   }
 
+  const getRecommendProducts = (id: string | number): Promise<IProduct[]> => {
+    return new Promise<IProduct[]>((resolve, reject) => {
+      if (settingsStore.mockEnabled) {
+        window.setTimeout(() => {
+          const recommendProducts =
+            mockProducts.length >= 6 ? mockProducts.slice(0, 6) : [...mockProducts]
+          if (recommendProducts) {
+            resolve(recommendProducts)
+          } else {
+            reject(new Error('Products not found'))
+          }
+        }, 1000)
+      } else {
+        getRecommendProductsAPI(id)
+          .then((res: unknown) => {
+            const recommendProducts = res as IProduct[]
+            resolve(recommendProducts)
+          })
+          .catch((error: unknown) => {
+            reject(error)
+          })
+      }
+    })
+  }
+
   return {
     products,
     getProducts,
     getProduct,
-    getPrice
+    getPrice,
+    getRecommendProducts
   }
 }
