@@ -1,17 +1,26 @@
 export interface IReview {
-  avatar?: string
+  id: string | number
+  avatar: string
   name: string
   content: string
   reply?: string
   usefulCount: number
   rating: number
-  createdAt?: string
+  createdAt: string
+}
+
+export enum ReviewType {
+  All = 0,
+  Positive = 1,
+  Neutral = 2,
+  Negative = 3,
+  Replied = 4
 }
 
 export interface IReviewInfo {
   rating: number
   filters: {
-    key: string
+    key: ReviewType
     count: number
   }[]
 }

@@ -42,7 +42,7 @@
 import DOMPurify from 'dompurify'
 
 const { sellerId } = defineProps<{
-  sellerId: string
+  sellerId: string | number
 }>()
 watch(
   () => sellerId,

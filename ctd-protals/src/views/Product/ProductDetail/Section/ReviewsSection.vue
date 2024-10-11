@@ -1,118 +1,128 @@
 <template>
   <div class="reviews-section-root-container">
-    <div class="reviews-section-body-container">
-      <div class="star-level-container">
-        <span text-orange-500 block text-2xl font-bold mb-4>{{ overallRating }}</span>
-        <span text-gray-500 text-sm>综合星级评价</span>
-      </div>
-      <div flex flex-col items-start gap-4>
-        <div class="filter-container">
-          <div
-            v-for="filter in filters"
-            :key="filter.value"
-            :class="['filter-item', { selected: selectedFilter === filter.value }]"
-            @click="selectFilter(filter.value)"
-          >
-            {{ filter.label }} ({{ filter.count }})
+    <el-skeleton :loading="getProductReviewInfoActionLoading" animated>
+      <template #template>
+        <el-skeleton-item variant="rect" class="!h-30"></el-skeleton-item>
+      </template>
+      <template #default>
+        <div class="reviews-section-body-container">
+          <div class="star-level-container">
+            <span class="rating-value">{{ rating }}</span>
+            <span class="rating-label">综合星级评价</span>
+          </div>
+          <div flex flex-col items-start gap-4>
+            <div class="filter-container">
+              <div
+                v-for="filter in reviewInfo.filters"
+                :key="filter.key"
+                :class="['filter-item', { selected: selectedFilter === filter.key }]"
+                @click="selectFilter(filter.key)"
+              >
+                {{ getFilterLabel(filter.key) }} ({{ filter.count }})
+              </div>
+            </div>
+            <span class="star-level-span">
+              <span mr-4>综合星级评价:</span>
+              <el-rate
+                :model-value="rating"
+                size="small"
+                disabled
+                show-score
+                text-color="#ff9900"
+              ></el-rate
+            ></span>
           </div>
         </div>
-        <span class="star-level-span">
-          <span mr-4>综合星级评价:</span>
-          <el-rate :model-value="5" size="small" disabled text-color="#ff9900"></el-rate
-        ></span>
-      </div>
-    </div>
+      </template>
+    </el-skeleton>
 
-    <div flex flex-col mt-4>
-      <ReviewItem v-for="(review, index) in reviews" :key="index" :review="review" />
-    </div>
-    <div v-if="reviews.length >= 5" mt-4 text-center>
-      <el-button class="default-btn" self-center round size="large" @click="viewMoreReviews"
-        >查看更多</el-button
-      >
-    </div>
+    <el-skeleton :loading="getProductReviewsActionLoading" animated flex flex-col mt-10 gap-4>
+      <template #template>
+        <el-skeleton-item v-for="n in 5" :key="n" variant="rect" class="!h-40"></el-skeleton-item>
+      </template>
+      <template #default>
+        <div flex flex-col mt-10>
+          <ReviewItem v-for="item in reviews" :key="item.id" :review="item" />
+        </div>
+        <div v-if="reviews.length >= 5" mt-4 text-center>
+          <el-button class="default-btn" self-center round size="large" @click="viewMoreReviews"
+            >查看更多</el-button
+          >
+        </div>
+      </template>
+    </el-skeleton>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ReviewType } from '@/types/review'
 import ReviewItem from './ReviewItem.vue'
 
-defineProps<{
+const { productId } = defineProps<{
   productId: string
 }>()
 
-const overallRating = ref(4.8)
-const selectedFilter = ref('all')
+import { useProductStore } from '@/stores/modules/product'
+const productStore = useProductStore()
+const {
+  getProductReviews: getProductReviewsAction,
+  getProductReviewInfo: getProductReviewInfoAction
+} = productStore
 
-const filters = ref([
-  { label: '全部', value: 'all', count: 20 },
-  { label: '好评', value: 'positive', count: 15 },
-  { label: '中评', value: 'neutral', count: 3 },
-  { label: '差评', value: 'negative', count: 2 },
-  { label: '商家回复', value: 'replied', count: 5 }
-])
+const {
+  state: reviewInfo,
+  isLoading: getProductReviewInfoActionLoading,
+  execute: executeGetProductReviewInfoAction
+} = useAsyncState(() => getProductReviewInfoAction(productId), {
+  rating: 5,
+  filters: [
+    {
+      key: ReviewType.All,
+      count: 0
+    },
+    {
+      key: ReviewType.Positive,
+      count: 0
+    },
+    {
+      key: ReviewType.Neutral,
+      count: 0
+    },
+    {
+      key: ReviewType.Negative,
+      count: 0
+    },
+    {
+      key: ReviewType.Replied,
+      count: 0
+    }
+  ]
+})
 
-const selectFilter = (value: string) => {
-  selectedFilter.value = value
-  // 在此处根据 selectedFilter 进行评论的筛选逻辑
-}
+import { REVIEW_TYPE_MAP } from '@/constants/reviewType'
+const getFilterLabel = (key: ReviewType) => REVIEW_TYPE_MAP[key]
 
-const reviews = ref<
-  Array<{
-    avatar: string
-    name: string
-    content: string
-    reply?: string
-    usefulCount: number
-    rating: number
-  }>
->([
-  {
-    avatar: 'https://via.placeholder.com/50',
-    name: '张三',
-    content: '这款产品非常好用，推荐购买！',
-    reply: '感谢您的好评！我们会继续努力。',
-    usefulCount: 10,
-    rating: 3.5
-  },
-  {
-    avatar: 'https://via.placeholder.com/50',
-    name: '李四',
-    content: '质量不错，但是价格偏高。',
-    usefulCount: 5,
-    rating: 5
-  },
-  {
-    avatar: 'https://via.placeholder.com/50',
-    name: '张三',
-    content: '这款产品非常好用，推荐购买！',
-    reply: '感谢您的好评！我们会继续努力。',
-    usefulCount: 10,
-    rating: 3.5
-  },
-  {
-    avatar: 'https://via.placeholder.com/50',
-    name: '李四',
-    content: '质量不错，但是价格偏高。',
-    usefulCount: 5,
-    rating: 5
-  },
-  {
-    avatar: 'https://via.placeholder.com/50',
-    name: '张三',
-    content: '这款产品非常好用，推荐购买！',
-    reply: '感谢您的好评！我们会继续努力。',
-    usefulCount: 10,
-    rating: 3.5
-  },
-  {
-    avatar: 'https://via.placeholder.com/50',
-    name: '李四',
-    content: '质量不错，但是价格偏高。',
-    usefulCount: 5,
-    rating: 5
+const {
+  state: reviews,
+  isLoading: getProductReviewsActionLoading,
+  execute: executeGetProductReviewsAction
+} = useAsyncState(() => getProductReviewsAction(productId), [])
+
+const rating = computed(() => reviewInfo.value.rating)
+const selectedFilter = ref(ReviewType.All)
+
+onMounted(() => {
+  try {
+    executeGetProductReviewInfoAction()
+    executeGetProductReviewsAction()
+  } catch (error: unknown) {
+    console.error(error)
   }
-])
+})
+
+const selectFilter = (key: ReviewType) => {
+  selectedFilter.value = key
+}
 
 const viewMoreReviews = () => {}
 </script>
@@ -127,6 +137,14 @@ const viewMoreReviews = () => {}
 
   .star-level-container {
     @apply flex flex-col items-center pl-5;
+
+    .rating-value {
+      @apply text-[var(--color-price)] block text-2xl font-bold mb-4;
+    }
+
+    .rating-label {
+      @apply text-[var(--color-text-light)] text-sm;
+    }
   }
 
   .star-level-span {

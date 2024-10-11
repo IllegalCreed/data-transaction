@@ -3,7 +3,7 @@
     <div flex flex-row items-center mb-4>
       <img class="avatar" :src="props.review.avatar" />
       <div flex flex-col>
-        <span class="title">{{ review.name }}</span>
+        <span class="name">{{ review.name }}</span>
         <el-rate :model-value="review.rating" size="small" disabled text-color="#ff9900"></el-rate>
       </div>
       <div flex-1></div>
@@ -14,10 +14,14 @@
         <span>有用（{{ review.usefulCount }}）</span>
       </el-link>
     </div>
-    <div class="content">{{ review.content }}</div>
-    <div v-if="review.reply" class="reply">
-      <span font-semibold mr-2>商家回复：</span>
-      <span>{{ review.reply }}</span>
+
+    <div class="main-container">
+      <div class="content">{{ review.content }}</div>
+      <div class="time">{{ review.createdAt }}</div>
+      <div v-if="review.reply" class="reply">
+        <span class="reply-label">商家回复：</span>
+        <span>{{ review.reply }}</span>
+      </div>
     </div>
   </div>
 </template>
@@ -34,39 +38,55 @@ const markAsUseful = () => {}
 
 <style scoped lang="scss">
 .review-item-root-container {
-  @apply flex flex-col border-b border-b-dashed border-b-gray-200 pb-4 mb-6;
+  @apply flex flex-col border-b-1 border-b-dashed border-b-[var(--color-border)] mb-5;
 
   .avatar {
     @apply w-12 h-12 rounded-full mr-4;
   }
 
-  .title {
+  .name {
     @apply block text-lg font-bold;
   }
 
-  .content {
-    @apply text-gray-800 line-height-relaxed;
-  }
+  .main-container {
+    @apply ml-16;
 
-  .reply {
-    @apply p-4 bg-gray-100 rounded-md mt-4;
+    .content {
+      @apply text-[var(--color-text-light)] line-height-relaxed mb-6;
+    }
+
+    .time {
+      @apply text-sm text-[var(--color-text-lighter)] mb-4;
+    }
+
+    .reply {
+      @apply flex flex-col gap-4 py-4 text-[var(--color-text-light)] border-t-1 border-t-dashed border-t-[var(--color-border)];
+
+      .reply-label {
+        @apply text-[var(--color-text)];
+      }
+    }
   }
 
   @media (max-width: 30rem) {
     .avatar {
-      @apply w-10 h-10 rounded-full mr-2;
+      @apply w-10 h-10;
     }
 
-    .title {
+    .name {
       @apply text-base;
     }
 
-    .content {
-      @apply text-sm line-height-normal;
-    }
+    .main-container {
+      @apply ml-0;
 
-    .reply {
-      @apply p-2 text-sm;
+      .content {
+        @apply text-sm line-height-normal mb-4;
+      }
+
+      .reply {
+        @apply text-sm;
+      }
     }
   }
 }

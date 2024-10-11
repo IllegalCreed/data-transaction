@@ -9,7 +9,7 @@ import {
   reviews as mockReviews
 } from '@/constants/mockData/product/review'
 
-export const useSeller = () => {
+export const useReview = () => {
   const settingsStore = useSettingsStore()
 
   const getProductReviewInfo = (id: string | number): Promise<IReviewInfo> => {
