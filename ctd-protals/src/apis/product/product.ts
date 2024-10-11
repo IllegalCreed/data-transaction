@@ -17,7 +17,8 @@ export const getProduct = (id: string | number): Promise<void> => {
   }
   return request.post(
     {
-      url: `/getProduct/${id}`
+      url: `/getProduct/${id}`,
+      params
     },
     false
   )
@@ -29,7 +30,8 @@ export const getPrice = (specs: Record<string, string>): Promise<void> => {
   }
   return request.post(
     {
-      url: `/getPrice`
+      url: `/getPrice`,
+      params
     },
     false
   )

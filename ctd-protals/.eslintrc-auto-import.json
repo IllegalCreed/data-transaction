@@ -334,6 +334,7 @@
     "whenever": true,
     "getcases": true,
     "getCases": true,
-    "getPrimaryCases": true
+    "getPrimaryCases": true,
+    "getScene": true
   }
 }

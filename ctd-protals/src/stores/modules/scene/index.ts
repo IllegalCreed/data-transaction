@@ -6,7 +6,7 @@ import { useSolicit } from './solicit'
 
 export const useSceneStore = defineStore('scene', () => {
   const { banner, getBanner } = useBanner()
-  const { cases, getCases } = useCases()
+  const { cases, getCases, getScene } = useCases()
   const { primaryCases, getPrimaryCases } = usePrimaryCases()
   const { solicit, getSolicit } = useSolicit()
 
@@ -15,6 +15,7 @@ export const useSceneStore = defineStore('scene', () => {
     getBanner,
     cases,
     getCases,
+    getScene,
     primaryCases,
     getPrimaryCases,
     solicit,

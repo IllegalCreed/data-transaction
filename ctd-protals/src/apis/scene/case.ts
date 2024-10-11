@@ -10,3 +10,16 @@ export const getCases = (): Promise<void> => {
     false
   )
 }
+
+export const getScene = (id: number | string): Promise<void> => {
+  const params = {
+    id
+  }
+  return request.post(
+    {
+      url: `/getScene/${id}`,
+      params
+    },
+    false
+  )
+}

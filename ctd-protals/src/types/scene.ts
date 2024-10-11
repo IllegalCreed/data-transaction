@@ -1,9 +1,10 @@
 export interface IScene {
-  id: number
+  id: number | string
   title: string
   companyName: string
   description: string
   imageUrl: string
+  bannerUrl: string
   link?: string
   content?: string
 }

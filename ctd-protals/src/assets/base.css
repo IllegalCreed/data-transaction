@@ -67,6 +67,7 @@
   --color-background-dialog-sider: var(--color-gray-100);
 
   --color-news-data-background: var(--color-blue-50);
+  --color-news-detail-desc-background: var(--color-gray-200);
   --color-module-gradient-from: var(--color-white);
   --color-module-gradient-to: var(--color-blue-50);
   --color-service-banner-gradient-from: var(--color-blue-700);

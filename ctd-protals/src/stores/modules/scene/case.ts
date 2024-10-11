@@ -1,6 +1,6 @@
 import { useSettingsStore } from '@/stores/modules/settings'
 import type { IScene } from '@/types/scene'
-import { getCases as getCasesAPI } from '@/apis/scene/case'
+import { getCases as getCasesAPI, getScene as getSceneAPI } from '@/apis/scene/case'
 import { cases as mockCases } from '@/constants/mockData/scene/case'
 
 export const useCases = () => {
@@ -28,8 +28,33 @@ export const useCases = () => {
     })
   }
 
+  const getScene = (id: string | number): Promise<IScene> => {
+    return new Promise<IScene>((resolve, reject) => {
+      if (settingsStore.mockEnabled) {
+        window.setTimeout(() => {
+          const sceneDetail = mockCases.find((item) => item.id === Number(id))
+          if (sceneDetail) {
+            resolve(sceneDetail)
+          } else {
+            reject(new Error('Scene not found'))
+          }
+        }, 1000)
+      } else {
+        getSceneAPI(id)
+          .then((res: unknown) => {
+            const result = res as IScene
+            resolve(result)
+          })
+          .catch((error: unknown) => {
+            reject(error)
+          })
+      }
+    })
+  }
+
   return {
     cases,
-    getCases
+    getCases,
+    getScene
   }
 }
