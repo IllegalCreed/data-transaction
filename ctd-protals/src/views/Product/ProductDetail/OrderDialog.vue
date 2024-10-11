@@ -1,123 +1,102 @@
 <template>
-  <el-dialog
-    class="order-dialog-container"
-    v-model="modelValue"
-    width="100%"
-    :lock-scroll="true"
-    title="立即下单"
-  >
-    <div flex flex-col justify-start min-h-full>
-      <span text-2xl font-bold>{{ productName }}</span>
+  <el-dialog class="order-dialog-container" v-model="modelValue" width="100%" title="立即下单">
+    <div class="order-content-root-container">
+      <span class="title">{{ baseInfo.title }}</span>
+      <span class="desc">{{ baseInfo.description }}</span>
 
-      <div mt-4>
-        <div
-          flex
-          flex-col
-          items-start
-          mb-4
-          v-for="(group, groupIndex) in specGroups"
-          :key="groupIndex"
-        >
-          <label text-base>{{ group.name }}</label>
-          <div flex flex-row items-center flex-wrap gap-2 mt-2>
+      <div class="spec-groups-container">
+        <div class="spec-group" v-for="group in baseInfo.specGroups" :key="group.key">
+          <label class="spec-group-label">{{ group.label }}</label>
+          <div class="spec-props-container">
             <div
-              v-for="(spec, specIndex) in group.specs"
-              :key="specIndex"
-              :class="['custom-radio-button', { selected: selectedSpecs[groupIndex] === spec }]"
-              @click="selectSpec(groupIndex, spec)"
+              v-for="prop in group.specs"
+              :key="prop.key"
+              :class="['custom-radio-button', { selected: selectedSpecs[group.key] === prop.key }]"
+              @click="selectSpec(group.key, prop.key)"
             >
-              {{ spec }}
+              {{ prop.label }}
             </div>
           </div>
         </div>
       </div>
 
-      <div flex-1></div>
+      <span class="number-label">数量</span>
+      <number-input mt-2 v-model="count" :min="1" v-if="baseInfo.hasCount"></number-input>
 
-      <div mt-4 h-10>
-        <span v-if="!isLoading" font-bold text-red-500 text-4xl>￥{{ calculatedPrice }}</span>
-        <i-eos-icons:loading v-else></i-eos-icons:loading>
+      <div class="bottom-container">
+        <span v-if="!getPriceActionLoading" class="price">￥{{ price }}</span>
+        <i-eos-icons:loading self-end text-3xl mr-8 v-else></i-eos-icons:loading>
+        <el-button class="action-button" type="primary" size="large" @click="placeOrder"
+          >立即下单</el-button
+        >
       </div>
-
-      <el-button mt-4 type="primary" size="large" @click="placeOrder">立即下单</el-button>
     </div>
   </el-dialog>
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
+import NumberInput from '@/components/NumberInput.vue'
+import type { IProductBaseInfo } from '@/types/product'
+import { useProductStore } from '@/stores/modules/product'
+const productStore = useProductStore()
+const { getPrice: getPriceAction } = productStore
+
+const { baseInfo } = defineProps<{
   productId: string
+  baseInfo: IProductBaseInfo
 }>()
+
 const modelValue = defineModel<boolean>({ required: true })
 
-const productName = ref('')
-const productShotDesc = ref('')
-const productSelledCount = ref(0)
-const productTags = ref(['Tag 1', 'Tag 2', 'Tag 3'])
-const specGroups = ref<{ name: string; specs: string[] }[]>([])
-const selectedSpecs = ref<string[]>([])
-
-// 计算价格
-const calculatedPrice = ref(0.0) // 假设这是基础价格
-const isLoading = ref(false)
-
-// 模拟接口调用获取商品信息
-const fetchProductInfo = async () => {
-  // console.log(`Fetching product info for ID: ${props.productId}`)
-  await new Promise((resolve) => setTimeout(resolve, 1000))
-
-  // 模拟返回的数据
-  productName.value = '示例商品'
-  productShotDesc.value = '这是一个示例商品的简短描述'
-  productSelledCount.value = 100
-  productTags.value = ['Tag 1', 'Tag 2', 'Tag 3']
-
-  specGroups.value = [
-    {
-      name: '数据完整度',
-      specs: ['完整', '精简']
-    },
-    {
-      name: '购买方式',
-      specs: ['包月', '包年', '永久']
-    }
-  ]
-
-  // 初始化选中的规格
-  selectedSpecs.value = specGroups.value.map((group) => group.specs[0])
-}
-
-// 模拟获取价格的接口调用
-const fetchPrice = async () => {
-  // console.log('Fetching new price for specs:', selectedSpecs.value)
-
-  await new Promise((resolve) => setTimeout(resolve, 1000))
-
-  calculatedPrice.value = Math.floor(Math.random() * 200) + 100
-  isLoading.value = false
-}
-
-// 防抖处理
-const debouncedFetchPrice = useDebounceFn(fetchPrice, 1000)
-
-const selectSpec = (groupIndex: number, spec: string) => {
-  selectedSpecs.value[groupIndex] = spec
-  isLoading.value = true
-  debouncedFetchPrice()
-}
-
-const placeOrder = () => {
-  console.log(`下单 ${productName.value}，规格: ${selectedSpecs.value.join(', ')}`)
-}
-
-onMounted(async () => {
-  await fetchProductInfo()
-  fetchPrice()
+const count = ref(1)
+const price = computed(() => {
+  if (priceRaw.value) {
+    return priceRaw.value * count.value
+  } else {
+    return 0
+  }
 })
 
-const isMobileDevice = useMediaQuery('(max-width: 75rem)')
+const selectedSpecs = ref<Record<string, string>>({})
+watch(
+  () => baseInfo,
+  (newValue: IProductBaseInfo) => {
+    selectedSpecs.value = newValue.specGroups.reduce(
+      (acc, group) => {
+        acc[group.key] = group.specs[0].key
+        return acc
+      },
+      {} as Record<string, string>
+    )
+  }
+)
 
-// 监听窗口大小变化
+const {
+  state: priceRaw,
+  isLoading: getPriceActionLoading,
+  execute: executeGetPriceActionRaw
+} = useAsyncState(() => getPriceAction(selectedSpecs.value), undefined)
+const executeGetPriceAction = useDebounceFn(executeGetPriceActionRaw, 1000)
+
+watch(
+  () => selectedSpecs.value,
+  () => {
+    getPriceActionLoading.value = true
+    executeGetPriceAction()
+  },
+  {
+    deep: true
+  }
+)
+
+const selectSpec = (groupKey: string, propKey: string) => {
+  selectedSpecs.value[groupKey] = propKey
+}
+
+const placeOrder = () => {}
+
+const isMobileDevice = useMediaQuery('(max-width: 65rem)')
+
 watchEffect(() => {
   if (!isMobileDevice.value) {
     modelValue.value = false
@@ -134,27 +113,55 @@ watchEffect(() => {
   @apply h-full overflow-y-auto;
 }
 
-.custom-radio-button {
-  @apply px-3 py-1 border-2 border-solid border-gray-300 rounded-md cursor-pointer text-gray-700 text-center;
+.order-content-root-container {
+  @apply flex flex-col justify-start min-h-full pb-20;
+
+  .title {
+    @apply text-2xl font-bold;
+  }
+
+  .desc {
+    @apply text-sm mt-4 text-[var(--color-text-light)] text-base leading-relaxed line-clamp-2;
+  }
+
+  .spec-groups-container {
+    @apply mt-10;
+
+    .spec-group {
+      @apply flex flex-col mb-4;
+
+      .spec-group-label {
+        @apply text-lg;
+      }
+
+      .spec-props-container {
+        @apply flex flex-row items-center flex-wrap gap-2 my-2;
+      }
+    }
+  }
+
+  .number-label {
+    @apply text-lg;
+  }
+
+  .bottom-container {
+    @apply fixed bottom-0 left-0 right-0 p-5 flex flex-row justify-end items-center mt-10 bg-[var(--color-background-alternating)];
+
+    .price {
+      @apply font-bold text-[var(--color-price)] text-3xl select-none;
+    }
+
+    .action-button {
+      @apply self-center w-60 ml-10;
+    }
+  }
 }
 
-.custom-radio-button:hover {
-  @apply border-gray-500;
+.custom-radio-button {
+  @apply px-4 py-1 border-2 border-solid border-[var(--color-border)] rounded-md cursor-pointer text-center hover:opacity-60;
 }
 
 .custom-radio-button.selected {
-  @apply border-blue-500 text-blue-500 font-bold;
-}
-
-.actions {
-  @apply mt-6 flex;
-}
-
-.actions .el-button {
-  @apply flex-1;
-}
-
-.loading-spinner {
-  @apply text-xl text-red-500;
+  @apply border-[var(--color-primary)] text-[var(--color-primary)];
 }
 </style>

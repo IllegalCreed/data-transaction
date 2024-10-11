@@ -1,19 +1,27 @@
 <template>
   <div v-show="isFooterVisible" class="product-detail-footer-root-container">
     <el-button flex-1 type="default" size="large" @click="addToFav">收藏产品</el-button>
-    <el-button flex-1 type="primary" size="large" @click="isOrderDialogVisiable = true"
-      >立即下单</el-button
+    <el-button
+      flex-1
+      type="primary"
+      size="large"
+      :loading="loading"
+      @click="isOrderDialogVisiable = true"
+      >选择规格</el-button
     >
   </div>
 
-  <order-dialog v-model="isOrderDialogVisiable" :product-id="productId" />
+  <order-dialog v-model="isOrderDialogVisiable" :productId="productId" :baseInfo="baseInfo" />
 </template>
 
 <script setup lang="ts">
+import type { IProductBaseInfo } from '@/types/product'
 import OrderDialog from './OrderDialog.vue'
 
 defineProps<{
   productId: string
+  baseInfo: IProductBaseInfo
+  loading: boolean
 }>()
 
 const isOrderDialogVisiable = ref(false)

@@ -34,7 +34,11 @@
       class="control-panel"
     />
 
-    <product-detail-footer :productId="productId"></product-detail-footer>
+    <product-detail-footer
+      :productId="productId"
+      :baseInfo="productBaseInfo"
+      :loading="getProductActionLoading"
+    ></product-detail-footer>
   </div>
 </template>
 
