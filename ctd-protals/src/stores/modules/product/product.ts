@@ -129,12 +129,37 @@ export const useProduct = () => {
     })
   }
 
+  const getProductContent = (id: string | number): Promise<string> => {
+    return new Promise<string>((resolve, reject) => {
+      if (settingsStore.mockEnabled) {
+        window.setTimeout(() => {
+          const productDetail = mockProductDetails.find((item) => item.id === Number(id))
+          if (productDetail) {
+            resolve(productDetail?.content)
+          } else {
+            reject(new Error('Product not found'))
+          }
+        }, 1000)
+      } else {
+        getProductImagesAPI(id)
+          .then((res: unknown) => {
+            const content = res as string
+            resolve(content)
+          })
+          .catch((error: unknown) => {
+            reject(error)
+          })
+      }
+    })
+  }
+
   return {
     products,
     getProducts,
     getProduct,
     getPrice,
     getRecommendProducts,
-    getProductImages
+    getProductImages,
+    getProductContent
   }
 }

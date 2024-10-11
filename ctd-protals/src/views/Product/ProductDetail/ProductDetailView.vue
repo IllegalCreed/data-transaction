@@ -15,12 +15,7 @@
         :links="sections.map((section: ISection) => ({ id: section.id, label: section.label }))"
       />
 
-      <div class="content-sections">
-        <section v-for="section in sections" :id="section.id" :key="section.id">
-          <span>{{ section.label }}</span>
-          <component :is="section.component" v-bind="section.props" />
-        </section>
-      </div>
+      <section-panel mt-10 :sections="sections" />
     </div>
 
     <control-panel
@@ -43,14 +38,10 @@ import ControlPanel from './ControlPanel.vue'
 import ProductDetailInfo from './ProductDetailInfo.vue'
 import ImageGallery from './ImageGallery.vue'
 import TabBar from '@/components/SectionTabBar.vue'
-import DetailsSection from './Section/DetailsSection.vue'
-import SafetySection from './Section/SafetySection.vue'
-import ReviewsSection from './Section/ReviewsSection.vue'
-import SellerSection from './Section/SellerSection.vue'
-import RecommendationsSection from './Section/RecommendationsSection.vue'
+import SectionPanel from './Section/SectionPanel.vue'
 import ProductDetailFooter from './ProductDetailFooter.vue'
-import type { ISection } from '@/types/section'
 
+// 处理同路由跳转
 const route = useRoute()
 let productId = route.params.id ? (route.params.id as string) : ''
 watch(
@@ -61,6 +52,7 @@ watch(
   }
 )
 
+// 加载数据
 import { useProductStore } from '@/stores/modules/product'
 const productStore = useProductStore()
 const { getProduct: getProductAction, getProductImages: getProductImagesAction } = productStore
@@ -93,6 +85,14 @@ onMounted(() => {
     console.error(error)
   }
 })
+
+// 配置章节
+import DetailsSection from './Section/DetailsSection.vue'
+import SafetySection from './Section/SafetySection.vue'
+import ReviewsSection from './Section/ReviewsSection.vue'
+import SellerSection from './Section/SellerSection.vue'
+import RecommendationsSection from './Section/RecommendationsSection.vue'
+import type { ISection } from '@/types/section'
 
 const sections = ref<ISection[]>([
   {
@@ -132,22 +132,6 @@ const sections = ref<ISection[]>([
 
     .info-panel {
       @apply hidden;
-    }
-  }
-
-  .content-sections {
-    @apply pt-10;
-
-    section {
-      @apply mb-16;
-    }
-
-    section > span {
-      @apply block relative h-10 text-5 leading-10 font-bold text-dark mb-4 pl-4 bg-slate-100 rounded-r;
-
-      &::before {
-        @apply absolute bg-orange-500 h-10 top-0 left-0 w-1 content-[''];
-      }
     }
   }
 

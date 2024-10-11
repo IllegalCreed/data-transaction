@@ -1,13 +1,23 @@
 <template>
-  <div>
-    <div flex justify-center items-center text-6 p-8 bg-blueGray h-100>展示从下单到交付整个闭环流程，在中间体现平台如何保障卖家和卖家的合法权益。</div>
+  <div class="safety-section-root-container">
+    <PhaseFlow :steps="safes" />
   </div>
 </template>
 
 <script setup lang="ts">
-// 相关的逻辑和数据定义
+import PhaseFlow from '@/components/PhaseFlow.vue'
+import { useProductStore } from '@/stores/modules/product'
+const productStore = useProductStore()
+const { safes } = storeToRefs(productStore)
+const { getSafes: getSafesAction } = productStore
+
+onMounted(() => {
+  getSafesAction()
+})
 </script>
 
 <style lang="scss" scoped>
-/* 特定样式 */
+.safety-section-root-container {
+  @apply p-5 bg-[var(--color-background-alternating)] shadow;
+}
 </style>

@@ -80,6 +80,7 @@ declare module 'vue' {
     'IVaadin:menu': typeof import('~icons/vaadin/menu')['default']
     'IVaadin:search': typeof import('~icons/vaadin/search')['default']
     NumberInput: typeof import('./src/components/NumberInput.vue')['default']
+    PhaseFlow: typeof import('./src/components/PhaseFlow.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SectionTabBar: typeof import('./src/components/SectionTabBar.vue')['default']

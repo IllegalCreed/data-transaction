@@ -76,6 +76,7 @@
   --color-step-icon-primary: var(--color-blue-200);
   --color-consult-icon-bg-primary: var(--color-blue-100);
   --color-scene-solicit-background: var(--color-black-50);
+  --color-detail-section-background: var(--color-blue-100);
 
   --color-border: var(--color-gray-200);
   --color-text: var(--color-gray-700);

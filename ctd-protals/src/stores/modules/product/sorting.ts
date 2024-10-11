@@ -5,7 +5,7 @@ export const useSorting = () => {
   const sortingSource = ref<ISortItem[]>([])
 
   const getSortingSource = (): Promise<void> => {
-    return new Promise<void>((resolve, reject) => {
+    return new Promise<void>((resolve) => {
       sortingSource.value = mockSortingSource
       resolve()
     })
