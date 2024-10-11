@@ -1,11 +1,11 @@
 <template>
   <div class="reviews-section-root-container">
-    <el-card body-class="reviews-section-body-container">
+    <div class="reviews-section-body-container">
       <div class="star-level-container">
         <span text-orange-500 block text-2xl font-bold mb-4>{{ overallRating }}</span>
         <span text-gray-500 text-sm>综合星级评价</span>
       </div>
-      <div flex-1 flex flex-col justify-between>
+      <div flex flex-col items-start gap-4>
         <div class="filter-container">
           <div
             v-for="filter in filters"
@@ -16,24 +16,20 @@
             {{ filter.label }} ({{ filter.count }})
           </div>
         </div>
-        <div flex flex-row justify-between items-center mt-2>
-          <span class="star-level-span">
-            <span mr-4>综合星级评价:</span>
-            <el-rate :model-value="5" size="small" disabled text-color="#ff9900"></el-rate
-          ></span>
-          <el-select v-model="selectedSort" placeholder="排序方式" max-w-30>
-            <el-option label="热度排序" value="popularity"></el-option>
-            <el-option label="时间排序" value="time"></el-option>
-          </el-select>
-        </div>
+        <span class="star-level-span">
+          <span mr-4>综合星级评价:</span>
+          <el-rate :model-value="5" size="small" disabled text-color="#ff9900"></el-rate
+        ></span>
       </div>
-    </el-card>
+    </div>
 
     <div flex flex-col mt-4>
       <ReviewItem v-for="(review, index) in reviews" :key="index" :review="review" />
     </div>
     <div v-if="reviews.length >= 5" mt-4 text-center>
-      <el-button type="primary" @click="viewMoreReviews">查看更多</el-button>
+      <el-button class="default-btn" self-center round size="large" @click="viewMoreReviews"
+        >查看更多</el-button
+      >
     </div>
   </div>
 </template>
@@ -41,13 +37,12 @@
 <script setup lang="ts">
 import ReviewItem from './ReviewItem.vue'
 
-const props = defineProps<{
+defineProps<{
   productId: string
 }>()
 
 const overallRating = ref(4.8)
 const selectedFilter = ref('all')
-const selectedSort = ref('popularity')
 
 const filters = ref([
   { label: '全部', value: 'all', count: 20 },
@@ -119,23 +114,23 @@ const reviews = ref<
   }
 ])
 
-const viewMoreReviews = () => {
-  console.log(`Navigate to more reviews for productId: ${props.productId}`)
-  // 导航到更多评论的页面
-  // 这里可以使用 router.push 或其他导航方式
-}
+const viewMoreReviews = () => {}
 </script>
 
 <style scoped lang="scss">
 .reviews-section-root-container {
   @apply flex flex-col;
 
+  .reviews-section-body-container {
+    @apply flex flex-row items-center justify-between p-5 shadow bg-[var(--color-background-alternating)];
+  }
+
   .star-level-container {
     @apply flex flex-col items-center pl-5;
   }
 
   .star-level-span {
-    @apply invisible;
+    @apply hidden;
   }
 
   @media (max-width: 40rem) {
@@ -144,40 +139,20 @@ const viewMoreReviews = () => {
     }
 
     .star-level-span {
-      @apply visible text-sm;
-    }
-  }
-
-  @media (max-width: 30rem) {
-    .star-level-span {
-      span {
-        @apply hidden;
-      }
+      @apply block text-sm;
     }
   }
 }
 
 .filter-container {
-  @apply flex flex-row flex-wrap items-center self-end gap-1;
+  @apply flex flex-row flex-wrap items-center gap-4;
 
   .filter-item {
-    @apply cursor-pointer select-none p-2 border-2 border-solid border-transparent rounded text-gray-700 text-xs whitespace-nowrap;
+    @apply cursor-pointer select-none rounded text-gray-700 text-sm whitespace-nowrap hover:opacity-60;
 
     &.selected {
-      @apply border-red-500 text-red-500;
-    }
-
-    &:hover {
-      @apply border-gray-300;
+      @apply text-[var(--color-primary)];
     }
   }
-
-  @media (max-width: 40rem) {
-    @apply self-stretch justify-between;
-  }
-}
-
-:deep(.reviews-section-body-container) {
-  @apply flex flex-row items-center justify-between;
 }
 </style>

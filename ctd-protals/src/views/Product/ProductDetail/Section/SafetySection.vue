@@ -19,5 +19,9 @@ onMounted(() => {
 <style lang="scss" scoped>
 .safety-section-root-container {
   @apply p-5 bg-[var(--color-background-alternating)] shadow;
+
+  @media (max-width: 40rem) {
+    @apply p-2.5;
+  }
 }
 </style>

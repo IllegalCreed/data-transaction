@@ -338,6 +338,10 @@
     "getScene": true,
     "getRecommendProducts": true,
     "getProductImages": true,
-    "getSeller": true
+    "getSeller": true,
+    "reviewInfo": true,
+    "reviews": true,
+    "getProductReviews": true,
+    "getProductReviewInfo": true
   }
 }

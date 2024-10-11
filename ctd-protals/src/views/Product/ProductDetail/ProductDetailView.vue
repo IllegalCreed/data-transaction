@@ -94,6 +94,8 @@ import SellerSection from './Section/SellerSection.vue'
 import RecommendationsSection from './Section/RecommendationsSection.vue'
 import type { ISection } from '@/types/section'
 
+const sellerId = computed(() => productBaseInfo.value.sellerId)
+
 const sections = ref<ISection[]>([
   {
     id: 'details',
@@ -112,7 +114,7 @@ const sections = ref<ISection[]>([
     id: 'seller',
     label: '关于商家',
     component: markRaw(SellerSection),
-    props: { sellerId: productId }
+    props: { sellerId: sellerId }
   },
   {
     id: 'recommendations',

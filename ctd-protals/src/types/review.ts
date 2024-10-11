@@ -8,6 +8,14 @@ export interface IReview {
   createdAt?: string
 }
 
+export interface IReviewInfo {
+  rating: number
+  filters: {
+    key: string
+    count: number
+  }[]
+}
+
 // 当 type 为 'product' 时的接口
 export interface IProductReview extends IReview {
   type: 'product'

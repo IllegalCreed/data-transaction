@@ -44,6 +44,12 @@ import DOMPurify from 'dompurify'
 const { sellerId } = defineProps<{
   sellerId: string
 }>()
+watch(
+  () => sellerId,
+  () => {
+    executeGetSellerAction()
+  }
+)
 
 import { useProductStore } from '@/stores/modules/product'
 const productStore = useProductStore()

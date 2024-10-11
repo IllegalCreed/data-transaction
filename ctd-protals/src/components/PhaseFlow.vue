@@ -21,7 +21,7 @@ defineProps<{ steps: ISafe[] }>()
 
 <style lang="scss" scoped>
 .phase-flow-root-container {
-  @apply flex flex-row flex-wrap items-center;
+  @apply flex flex-row flex-wrap items-center gap-y-4;
 
   .step-wrapper {
     @apply flex flex-row items-start;
