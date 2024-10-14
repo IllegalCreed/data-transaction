@@ -342,6 +342,9 @@
     "reviewInfo": true,
     "reviews": true,
     "getProductReviews": true,
-    "getProductReviewInfo": true
+    "getProductReviewInfo": true,
+    "DirectiveBinding": true,
+    "MaybeRef": true,
+    "MaybeRefOrGetter": true
   }
 }
