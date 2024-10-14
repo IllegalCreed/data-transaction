@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="bottom-container">
-      <span class="mode">{{ demand.transactionType.mode }}</span>
+      <span class="mode">{{ mappedTransactionMode }}</span>
     </div>
     <slot></slot>
   </div>
@@ -23,7 +23,10 @@
 
 <script setup lang="ts">
 import type { IDemand } from '@/types/demand'
-import { useRouter } from 'vue-router'
+import { DEMAND_TRANSACTION_MODE_MAP } from '@/constants/demandOrder'
+const mappedTransactionMode = computed(
+  () => DEMAND_TRANSACTION_MODE_MAP[demand.transactionType.mode] || '招标'
+)
 
 const { demand } = defineProps<{
   demand: IDemand
