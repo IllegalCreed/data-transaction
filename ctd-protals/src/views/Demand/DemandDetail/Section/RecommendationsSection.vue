@@ -1,34 +1,57 @@
 <template>
-  <div class="recommendations-section-root-container">
-    <demand-item
-      class="recommend-demand-item"
-      v-for="(demand, index) in recommendedDemands"
-      :key="index"
-      :demand="demand"
-    />
-  </div>
+  <el-skeleton :loading="getRecommendDemandsActionLoading" animated>
+    <template #template>
+      <div class="recommendations-section-root-container" gap-4>
+        <el-skeleton-item
+          v-for="n in 4"
+          :key="n"
+          variant="rect"
+          class="!w-92 !h-61"
+        ></el-skeleton-item>
+      </div>
+    </template>
+    <template #default>
+      <div class="recommendations-section-root-container">
+        <demand-item
+          class="recommend-demand-item"
+          v-for="(demand, index) in recommendedDemands"
+          :key="index"
+          :demand="demand"
+        />
+      </div>
+    </template>
+  </el-skeleton>
 </template>
 
 <script setup lang="ts">
 import DemandItem from '../../DemandItem.vue'
-import type { IDemand } from '@/types/demand'
-import { useDemandStore } from '@/stores/modules/demand'
-const { demands } = useDemandStore()
 
-const props = defineProps<{
+const { demandId } = defineProps<{
   demandId: string
 }>()
+watch(
+  () => demandId,
+  () => {
+    executeGetRecommendDemandsAction()
+  }
+)
 
-const recommendedDemands = ref<IDemand[]>([])
+import { useDemandStore } from '@/stores/modules/demand'
+const demandStore = useDemandStore()
+const { getRecommendDemands: getRecommendDemandsAction } = demandStore
 
-const fetchRecommendedProducts = async (id: string) => {
-  console.log('mock get recommendations for demandId:', id)
-  // 模拟 API 请求，根据 productId 获取推荐商品
-  recommendedDemands.value = demands.slice(0, 4)
-}
+const {
+  state: recommendedDemands,
+  isLoading: getRecommendDemandsActionLoading,
+  execute: executeGetRecommendDemandsAction
+} = useAsyncState(() => getRecommendDemandsAction(demandId), undefined)
 
 onMounted(() => {
-  fetchRecommendedProducts(props.demandId)
+  try {
+    executeGetRecommendDemandsAction()
+  } catch (error: unknown) {
+    console.error(error)
+  }
 })
 </script>
 
@@ -38,7 +61,7 @@ onMounted(() => {
 
   @media (min-width: 75rem) {
     .recommend-demand-item {
-      @apply w-85;
+      @apply w-92;
     }
   }
 }

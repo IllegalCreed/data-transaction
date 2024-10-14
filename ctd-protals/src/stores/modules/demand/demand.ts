@@ -89,7 +89,7 @@ export const useDemand = () => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => {
           const recommendProducts =
-            mockDemands.length >= 6 ? mockDemands.slice(0, 6) : [...mockDemands]
+            mockDemands.length >= 4 ? mockDemands.slice(0, 4) : [...mockDemands]
           if (recommendProducts) {
             resolve(recommendProducts)
           } else {

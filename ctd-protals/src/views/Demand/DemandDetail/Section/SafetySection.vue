@@ -1,15 +1,27 @@
 <template>
-  <div>
-    <div flex justify-center items-center text-6 p-8 bg-blueGray h-100>
-      展示从承接到交付整个闭环流程，在中间体现平台如何保障需求方和服务方的合法权益。
-    </div>
+  <div class="safety-section-root-container">
+    <PhaseFlow :steps="safes" />
   </div>
 </template>
 
 <script setup lang="ts">
-// 相关的逻辑和数据定义
+import PhaseFlow from '@/components/PhaseFlow.vue'
+import { useDemandStore } from '@/stores/modules/demand'
+const demandStore = useDemandStore()
+const { safes } = storeToRefs(demandStore)
+const { getSafes: getSafesAction } = demandStore
+
+onMounted(() => {
+  getSafesAction()
+})
 </script>
 
 <style lang="scss" scoped>
-/* 特定样式 */
+.safety-section-root-container {
+  @apply px-5 py-20 bg-[var(--color-background-alternating)] shadow bg-gradient-to-b from-[var(--color-module-gradient-from)] to-[var(--color-module-gradient-to)];
+
+  @media (max-width: 40rem) {
+    @apply px-2.5;
+  }
+}
 </style>

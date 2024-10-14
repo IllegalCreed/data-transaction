@@ -99,8 +99,4 @@ const goToDemandDetail = () => {
     }
   }
 }
-
-:deep(.demand-item-body-container) {
-  @apply;
-}
 </style>
