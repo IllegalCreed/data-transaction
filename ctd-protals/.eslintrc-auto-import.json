@@ -343,6 +343,9 @@
     "reviews": true,
     "getProductReviews": true,
     "getProductReviewInfo": true,
+    "DirectiveBinding": true,
+    "MaybeRef": true,
+    "MaybeRefOrGetter": true,
     "getDemand": true,
     "getRecommendDemands": true
   }
