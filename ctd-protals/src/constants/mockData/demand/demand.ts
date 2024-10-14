@@ -3,7 +3,8 @@ import {
   PayType,
   TransactionMode,
   type IDemand,
-  type IDemandBaseInfo
+  type IDemandBaseInfo,
+  type IDemandDetails
 } from '@/types/demand'
 
 export const demands: IDemand[] = [
@@ -132,7 +133,7 @@ export const demands: IDemand[] = [
 export const demandDetails: {
   id: string | number
   baseInfo: IDemandBaseInfo
-  content: string
+  detail: IDemandDetails
 }[] = [
   {
     id: 1,
@@ -148,16 +149,27 @@ export const demandDetails: {
       expectedDeliveryDate: '2024-01-30',
       status: DemandOrderStatus.Bidding
     },
-    content: `
-      <h2>项目背景</h2>
-      <p>我们正在寻求一个专业开发团队来建立一个具有以下特点的企业级网站：</p>
-      <ul>
-        <li>高性能，能够支持大规模用户访问</li>
-        <li>现代化设计，符合当前用户体验标准</li>
-        <li>可扩展性强，能够随着业务增长快速扩展功能</li>
-        <li>需要集成第三方服务，例如支付网关和CRM系统</li>
-      </ul>
-      <p>我们的目标是打造一个不仅仅是展示信息的平台，而是一个可以有效提升客户体验和公司运营效率的工具。</p>
-    `
+    detail: {
+      content: `
+        <h2>项目背景</h2>
+        <p>我们正在寻求一个专业开发团队来建立一个具有以下特点的企业级网站：</p>
+        <ul>
+          <li>高性能，能够支持大规模用户访问</li>
+          <li>现代化设计，符合当前用户体验标准</li>
+          <li>可扩展性强，能够随着业务增长快速扩展功能</li>
+          <li>需要集成第三方服务，例如支付网关和CRM系统</li>
+        </ul>
+        <p>我们的目标是打造一个不仅仅是展示信息的平台，而是一个可以有效提升客户体验和公司运营效率的工具。</p>
+      `,
+      attachments: [
+        { name: '项目需求文档.pdf', url: 'https://example.com/files/需求文档.pdf' },
+        { name: '技术规格说明.docx', url: 'https://example.com/files/技术规格说明.docx' },
+        { name: '技术规格说明.xlsx', url: 'https://example.com/files/技术规格说明.xlsx' },
+        { name: '技术规格说明.pptx', url: 'https://example.com/files/技术规格说明.pptx' },
+        { name: '技术规格说明.txt', url: 'https://example.com/files/技术规格说明.txt' },
+        { name: '设计草图.zip', url: 'https://example.com/files/设计草图.zip' },
+        { name: '设计草图.abc', url: 'https://example.com/files/设计草图.abc' }
+      ]
+    }
   }
 ]

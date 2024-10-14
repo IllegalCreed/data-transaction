@@ -1,8 +1,9 @@
 import { useSettingsStore } from '@/stores/modules/settings'
-import type { IDemand, IDemandBaseInfo } from '@/types/demand'
+import type { IDemand, IDemandBaseInfo, IDemandDetails } from '@/types/demand'
 import {
   getDemands as getDemandsAPI,
   getDemand as getDemandAPI,
+  getDemandDetail as getDemandDetailAPI,
   getRecommendDemands as getRecommendDemandsAPI
 } from '@/apis/demand/demand'
 import {
@@ -59,6 +60,30 @@ export const useDemand = () => {
     })
   }
 
+  const getDemandDetail = (id: string | number): Promise<IDemandDetails> => {
+    return new Promise<IDemandDetails>((resolve, reject) => {
+      if (settingsStore.mockEnabled) {
+        window.setTimeout(() => {
+          const demandDetail = mockDemandDetails.find((item) => item.id === Number(id))
+          if (demandDetail) {
+            resolve(demandDetail?.detail)
+          } else {
+            reject(new Error('Demand not found'))
+          }
+        }, 1000)
+      } else {
+        getDemandDetailAPI(id)
+          .then((res: unknown) => {
+            const product = res as IDemandDetails
+            resolve(product)
+          })
+          .catch((error: unknown) => {
+            reject(error)
+          })
+      }
+    })
+  }
+
   const getRecommendDemands = (id: string | number): Promise<IDemand[]> => {
     return new Promise<IDemand[]>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
@@ -88,6 +113,7 @@ export const useDemand = () => {
     demands,
     getDemands,
     getDemand,
+    getDemandDetail,
     getRecommendDemands
   }
 }

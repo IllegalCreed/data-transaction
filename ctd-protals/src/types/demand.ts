@@ -51,6 +51,11 @@ export interface IDemandBaseInfo {
   tags: string[]
 }
 
+export interface IDemandDetails {
+  content: string
+  attachments: { name: string; url: string }[]
+}
+
 export interface IOrderDemand {
   id: number
   title: string

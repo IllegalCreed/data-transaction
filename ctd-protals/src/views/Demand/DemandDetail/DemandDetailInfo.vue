@@ -94,7 +94,7 @@ watchEffect(() => {
 
 <style lang="scss" scoped>
 .demand-info-root-container {
-  @apply flex flex-col bg-[var(--color-background-alternating)] p-10 rounded;
+  @apply flex flex-col bg-[var(--color-background-alternating)] p-10 rounded shadow;
 
   .title {
     @apply text-2xl font-bold;

@@ -50,6 +50,7 @@ declare global {
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
   const getDemand: typeof import('./src/apis/demand/demand')['getDemand']
+  const getDemandDetail: typeof import('./src/apis/demand/demand')['getDemandDetail']
   const getDemandFilterSource: typeof import('./src/apis/demand/filter')['getDemandFilterSource']
   const getDemands: typeof import('./src/apis/demand/demand')['getDemands']
   const getFilterSource: (typeof import('./src/apis/product/filter'))['getFilterSource']

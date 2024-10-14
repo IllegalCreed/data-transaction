@@ -24,6 +24,19 @@ export const getDemand = (id: string | number): Promise<void> => {
   )
 }
 
+export const getDemandDetail = (id: string | number): Promise<void> => {
+  const params = {
+    id
+  }
+  return request.post(
+    {
+      url: `/getDemandDetail/${id}`,
+      params
+    },
+    false
+  )
+}
+
 export const getRecommendDemands = (id: string | number): Promise<void> => {
   const params = {
     id

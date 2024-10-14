@@ -7,7 +7,7 @@ import { useCreate } from './create'
 export const useDemandStore = defineStore('demand', () => {
   const { filterSource, getFilterSource, filters } = useFilter()
   const { sortingSource, getSortingSource, sortings } = useSorting()
-  const { demands, getDemands, getDemand, getRecommendDemands } = useDemand()
+  const { demands, getDemands, getDemand, getDemandDetail, getRecommendDemands } = useDemand()
   const {
     baseInfo,
     tradingModel,
@@ -27,6 +27,7 @@ export const useDemandStore = defineStore('demand', () => {
     demands,
     getDemands,
     getDemand,
+    getDemandDetail,
     getRecommendDemands,
     baseInfo,
     tradingModel,
