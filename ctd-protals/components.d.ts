@@ -81,6 +81,7 @@ declare module 'vue' {
     PhaseFlow: typeof import('./src/components/PhaseFlow.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SectionPanel: typeof import('./src/components/SectionPanel.vue')['default']
     SectionTabBar: typeof import('./src/components/SectionTabBar.vue')['default']
     SortItem: typeof import('./src/components/SortItem.vue')['default']
     SortListView: typeof import('./src/components/SortListView.vue')['default']

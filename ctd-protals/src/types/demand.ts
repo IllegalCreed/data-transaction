@@ -1,10 +1,16 @@
-// 定义招标类型
-export type TenderType = '按项目' | '按时间'
+export enum TransactionMode {
+  Pitch = 0, // 比稿类型
+  Tender = 1 // 招标类型
+}
+export enum PayType {
+  ByWorkTime = 0, // 按工时
+  ByFixedPrice = 1 // 一口价
+}
 
 // 定义交易模式类型
-export type TransactionMode =
-  | { type: '比稿' } // 比稿类型
-  | { type: '招标'; tenderType: TenderType } // 招标类型
+export type TransactionType =
+  | { mode: TransactionMode.Pitch } // 比稿类型
+  | { mode: TransactionMode.Tender; payType: PayType } // 招标类型
 
 export enum DemandOrderStatus {
   Pending = 0, // 待审核
@@ -28,9 +34,20 @@ export interface IDemand {
   description: string
   publisher: string
   budget: number
-  transactionMode: TransactionMode
+  transactionType: TransactionType
   createTime: string
-  status: DemandOrderStatus
+  tags: string[]
+}
+
+export interface IDemandBaseInfo {
+  title: string
+  description: string
+  publisher: string
+  budget: number
+  transactionType: TransactionType
+  createTime: string
+  expectedDeliveryDate: string
+  status: DemandOrderStatus // 收藏之后可能需要该属性
   tags: string[]
 }
 
@@ -38,7 +55,7 @@ export interface IOrderDemand {
   id: number
   title: string
   budget: number
-  transactionMode: TransactionMode
+  transactionType: TransactionType
   createTime: string
   status: DemandOrderStatus
   activeStatus: DemandActiveStatus
@@ -51,7 +68,7 @@ export interface IOrderDemandDetails {
   title: string
   shotDesc: string
   budget: number
-  transactionMode: TransactionMode
+  transactionType: TransactionType
   createTime: string
   status: DemandOrderStatus
   activeStatus: DemandActiveStatus

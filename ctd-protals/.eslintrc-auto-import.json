@@ -342,6 +342,8 @@
     "reviewInfo": true,
     "reviews": true,
     "getProductReviews": true,
-    "getProductReviewInfo": true
+    "getProductReviewInfo": true,
+    "getDemand": true,
+    "getRecommendDemands": true
   }
 }

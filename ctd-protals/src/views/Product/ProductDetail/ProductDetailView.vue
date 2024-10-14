@@ -38,7 +38,7 @@ import ControlPanel from './ControlPanel.vue'
 import ProductDetailInfo from './ProductDetailInfo.vue'
 import ImageGallery from './ImageGallery.vue'
 import TabBar from '@/components/SectionTabBar.vue'
-import SectionPanel from './Section/SectionPanel.vue'
+import SectionPanel from '@/components/SectionPanel.vue'
 import ProductDetailFooter from './ProductDetailFooter.vue'
 
 // 处理同路由跳转
@@ -138,6 +138,7 @@ const sections = ref<ISection[]>([
   }
 
   .control-panel {
+    @apply flex-shrink-0;
     @media (max-width: 65rem) {
       @apply hidden;
     }
@@ -154,7 +155,7 @@ const sections = ref<ISection[]>([
       @apply pr-0;
 
       .info-panel {
-        @apply flex flex-col mt-10;
+        @apply flex mt-10;
       }
     }
   }

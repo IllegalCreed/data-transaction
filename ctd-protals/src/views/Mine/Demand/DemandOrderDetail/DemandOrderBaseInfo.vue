@@ -35,12 +35,12 @@
     </div>
 
     <div class="base-info-container">
-      <div><strong>交易类型：</strong> {{ orderDetails.transactionMode.type }}</div>
+      <div><strong>交易类型：</strong> {{ orderDetails.transactionType.mode }}</div>
       <div>
         <strong>付款方式：</strong>
         {{
-          orderDetails.transactionMode.type === '招标'
-            ? orderDetails.transactionMode.tenderType
+          orderDetails.transactionType.mode === TransactionMode.Tender
+            ? orderDetails.transactionType.payType
             : ''
         }}
       </div>
@@ -60,6 +60,8 @@
 <script setup lang="ts">
 import {
   DemandActiveStatus,
+  PayType,
+  TransactionMode,
   type DemandOrderStatus,
   type IOrderDemandDetails
 } from '@/types/demand'
@@ -74,7 +76,7 @@ const orderDetails = ref<IOrderDemandDetails>({
   title: '高级数据分析平台',
   shotDesc: '一个功能全面的数据分析平台，适用于大规模数据处理。',
   status: status,
-  transactionMode: { type: '招标', tenderType: '按项目' },
+  transactionType: { mode: TransactionMode.Tender, payType: PayType.ByFixedPrice },
   activeStatus: DemandActiveStatus.Enabled,
   budget: 999.99,
   createTime: '2024-03-15 09:00:00',

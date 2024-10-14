@@ -15,8 +15,7 @@
       </div>
     </div>
     <div class="bottom-container">
-      <el-tag :type="statusTagType">{{ mappedStatus }}</el-tag>
-      <span class="mode">{{ demand.transactionMode.type }}</span>
+      <span class="mode">{{ demand.transactionType.mode }}</span>
     </div>
     <slot></slot>
   </div>
@@ -29,10 +28,6 @@ import { useRouter } from 'vue-router'
 const { demand } = defineProps<{
   demand: IDemand
 }>()
-
-import { DEMAND_ORDER_STATUS_MAP, DEMAND_ORDER_STATUS_TAG_TYPE } from '@/constants/demandOrder'
-const mappedStatus = computed(() => DEMAND_ORDER_STATUS_MAP[demand.status] || '待审核')
-const statusTagType = computed(() => DEMAND_ORDER_STATUS_TAG_TYPE[demand.status] || 'info')
 
 const router = useRouter()
 
@@ -70,7 +65,7 @@ const goToDemandDetail = () => {
   }
 
   .bottom-container {
-    @apply flex justify-between items-center px-8 py-2 border-t-1 border-t-solid border-t-[var(--color-border)];
+    @apply flex justify-end items-center px-8 py-2 border-t-1 border-t-solid border-t-[var(--color-border)];
 
     .mode {
       @apply font-bold text-base text-[var(--color-primary)];
