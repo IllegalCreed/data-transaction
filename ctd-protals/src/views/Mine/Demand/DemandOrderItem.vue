@@ -3,7 +3,7 @@
     <div flex flex-col items-stretch>
       <div flex flex-row justify-between gap-2>
         <span class="title">{{ order.title }}</span>
-        <el-tag size="small" mt-1>{{ order.transactionMode.type }}</el-tag>
+        <el-tag size="small" mt-1>{{ order.transactionType.mode }}</el-tag>
       </div>
       <span class="time" mt-2><strong>发布时间：</strong>{{ order.createTime }}</span>
       <span class="time" v-if="order.status === DemandOrderStatus.ToDeliver">

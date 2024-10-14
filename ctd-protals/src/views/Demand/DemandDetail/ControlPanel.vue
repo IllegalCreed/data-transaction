@@ -1,64 +1,90 @@
 <template>
-  <el-card class="control-panel-root-container" body-class="control-panel-body-container">
-    <span text-2xl font-bold>{{ demandName }}</span>
-    <span text-sm mt-2 text-gray-500>{{ demandShotDesc }}</span>
+  <div class="control-panel-root-container">
+    <el-skeleton :loading="loading" animated>
+      <template #template>
+        <div flex flex-col gap-4 mt-2>
+          <el-skeleton-item variant="p" class="!w-50"></el-skeleton-item>
+          <el-skeleton-item variant="p" class="!w-30" mt-10></el-skeleton-item>
+          <el-skeleton-item variant="p" class="!w-20"></el-skeleton-item>
+          <el-skeleton-item variant="p" class="!w-30"></el-skeleton-item>
+          <el-skeleton-item variant="p" class="!w-20"></el-skeleton-item>
 
-    <label text-lg font-bold mt-5>交易模式：{{ transactionMode?.type }}</label>
+          <el-skeleton-item variant="p" class="!w-30" mt-6></el-skeleton-item>
+          <el-skeleton-item variant="h1" class="!w-40"></el-skeleton-item>
 
-    <label text-lg font-bold mt-5>预算</label>
+          <div flex flex-row gap-4 mt-6>
+            <el-skeleton-item variant="rect" class="!h-10" flex-1></el-skeleton-item>
+            <el-skeleton-item variant="rect" class="!h-10" flex-1></el-skeleton-item>
+          </div>
+        </div>
+      </template>
+      <template #default>
+        <span class="title">{{ baseInfo.title }}</span>
 
-    <div mt-4 h-10>
-      <span font-bold text-red-500 text-4xl>￥{{ budget }}</span>
-    </div>
+        <label class="label" mt-10>交易模式</label>
+        <span class="value">{{ mappedTransactionMode }}</span>
+        <label class="label" v-if="baseInfo.transactionType.mode === TransactionMode.Tender"
+          >付款方式</label
+        >
+        <span class="value">{{ mappedPayType }}</span>
 
-    <div flex flex-row justify-stretch space-x-4 mt-6>
-      <el-button flex-1 type="default" size="large" @click="addToFav">收藏需求</el-button>
-      <el-button flex-1 type="primary" size="large" @click="placeOrder">承接需求</el-button>
-    </div>
-  </el-card>
+        <label class="label" mt-6>预算</label>
+        <span class="price">￥{{ baseInfo.budget }}</span>
+
+        <div class="actions-container">
+          <el-button flex-1 type="default" size="large" @click="addToFav">收藏需求</el-button>
+          <el-button flex-1 type="primary" size="large" @click="placeOrder">承接需求</el-button>
+        </div>
+      </template>
+    </el-skeleton>
+  </div>
 </template>
 
 <script setup lang="ts">
-import type { TransactionMode } from '@/types/demand'
-const props = defineProps<{
-  demandId: string
-}>()
+import { TransactionMode, type IDemandBaseInfo } from '@/types/demand'
+import { DEMAND_TRANSACTION_MODE_MAP, DEMAND_PAY_TYPE_MAP } from '@/constants/demandOrder'
 
-const demandName = ref('')
-const demandShotDesc = ref('')
-const transactionMode = ref<TransactionMode>()
-const budget = ref(10000.0)
-
-// 模拟接口调用获取商品信息
-const fetchProductInfo = async () => {
-  console.log(`Fetching demand info for ID: ${props.demandId}`)
-  await new Promise((resolve) => setTimeout(resolve, 1000))
-
-  // 模拟返回的数据
-  demandName.value = '示例需求'
-  demandShotDesc.value = '这是一个示例需求的简短描述'
-  transactionMode.value = { type: '招标', tenderType: '按时间' }
-}
-
-const placeOrder = () => {
-  console.log(`承接需求 ${demandName.value}`)
-}
-
-onMounted(async () => {
-  fetchProductInfo()
+const mappedTransactionMode = computed(
+  () => DEMAND_TRANSACTION_MODE_MAP[baseInfo.transactionType.mode] || '招标'
+)
+const mappedPayType = computed(() => {
+  if (baseInfo.transactionType.mode === TransactionMode.Tender)
+    return DEMAND_PAY_TYPE_MAP[baseInfo.transactionType.payType] || '按项目'
 })
 
-const addToFav = () => {
-  console.log(`将 ${demandName.value} 添加到收藏夹`)
-}
+const { baseInfo } = defineProps<{
+  productId: string
+  baseInfo: IDemandBaseInfo
+  loading: boolean
+}>()
+
+const placeOrder = () => {}
+
+const addToFav = () => {}
 </script>
 
 <style scoped lang="scss">
 .control-panel-root-container {
-  @apply sticky top-30 w-1/3;
-}
+  @apply sticky top-30 w-100 flex flex-col gap-2 p-8 rounded shadow bg-[var(--color-background-alternating)];
 
-:deep(.control-panel-body-container) {
-  @apply flex flex-col;
+  .title {
+    @apply text-2xl font-bold;
+  }
+
+  .label {
+    @apply text-lg;
+  }
+
+  .value {
+    @apply text-base text-[var(--color-primary)];
+  }
+
+  .price {
+    @apply font-bold text-[var(--color-price)] text-3xl select-none;
+  }
+
+  .actions-container {
+    @apply flex flex-row justify-stretch gap-4 mt-4;
+  }
 }
 </style>

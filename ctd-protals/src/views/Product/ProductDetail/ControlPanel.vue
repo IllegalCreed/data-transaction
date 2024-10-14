@@ -12,15 +12,11 @@
           <el-skeleton-item variant="p" class="!w-50"></el-skeleton-item>
           <el-skeleton-item variant="p" class="!w-30" mt-10></el-skeleton-item>
           <div flex flex-row gap-4>
-            <el-skeleton-item variant="p" class="!w-10"></el-skeleton-item>
-            <el-skeleton-item variant="p" class="!w-10"></el-skeleton-item>
-            <el-skeleton-item variant="p" class="!w-10"></el-skeleton-item>
+            <el-skeleton-item v-for="n in 3" :key="n" variant="p" class="!w-10"></el-skeleton-item>
           </div>
           <el-skeleton-item variant="p" class="!w-30" mt-4></el-skeleton-item>
           <div flex flex-row gap-4>
-            <el-skeleton-item variant="p" class="!w-10"></el-skeleton-item>
-            <el-skeleton-item variant="p" class="!w-10"></el-skeleton-item>
-            <el-skeleton-item variant="p" class="!w-10"></el-skeleton-item>
+            <el-skeleton-item v-for="n in 3" :key="n" variant="p" class="!w-10"></el-skeleton-item>
           </div>
 
           <el-skeleton-item variant="p" class="!w-40" mt-8 self-end></el-skeleton-item>

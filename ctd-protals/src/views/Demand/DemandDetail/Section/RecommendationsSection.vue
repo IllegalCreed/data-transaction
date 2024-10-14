@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import DemandItem from '../DemandItem.vue'
+import DemandItem from '../../DemandItem.vue'
 import type { IDemand } from '@/types/demand'
 import { useDemandStore } from '@/stores/modules/demand'
 const { demands } = useDemandStore()

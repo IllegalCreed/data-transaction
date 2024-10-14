@@ -52,6 +52,7 @@ const { getAd: getAdAction } = useAccountStore()
 const {
   state: adData,
   isLoading: GetAdActionLoading,
+
   execute: executeGetAdAction
 } = useAsyncState<ILoginAd | undefined>(getAdAction(), undefined)
 
