@@ -14,9 +14,7 @@
     </div>
 
     <span text-xs my-4
-      >没有收到邮件？点击<span @click="reSendEmail" text-red-500 cursor-pointer select-none
-        >重新发送邮件</span
-      ></span
+      >没有收到邮件？点击<span @click="reSendEmail" class="resend-email">重新发送邮件</span></span
     >
   </div>
 </template>
@@ -42,6 +40,10 @@ const reSendEmail = () => {
 </script>
 
 <style scoped lang="scss">
+.resend-email {
+  @apply text-[var(--color-primary)] cursor-pointer select-none;
+}
+
 .step-btn-container {
   @apply flex flex-row items-center mt-10;
   .step-btn {

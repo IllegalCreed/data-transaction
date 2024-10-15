@@ -49,8 +49,7 @@ const carouselItems = [
 </script>
 <style lang="scss" scoped>
 .forgot-ad-panel {
-  @apply flex flex-col justify-center w-100 mr-20 bg-gray-200 rounded-3xl p-10 sticky top-20;
-  height: calc(100vh - 10rem);
+  @apply flex flex-col justify-center w-120 h-100vh p-20 sticky top-0 bg-[var(--color-primary)];
 
   @media (max-width: 75rem) {
     @apply hidden;
