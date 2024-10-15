@@ -34,11 +34,7 @@
         </el-form>
 
         <span w-full text-xs text-right mb-4
-          >已经注册过但未激活？点击<span
-            @click="reSendEmail"
-            text-red-500
-            cursor-pointer
-            select-none
+          >已经注册过但未激活？点击<span @click="reSendEmail" class="resend-email"
             >重新发送激活邮件</span
           ></span
         >
@@ -166,6 +162,10 @@ const handlePrevStep = () => {
 
   .form {
     @apply w-80 mt-4;
+  }
+
+  .resend-email {
+    @apply text-[var(--color-primary)] cursor-pointer select-none;
   }
 
   @media (max-width: 100rem) {

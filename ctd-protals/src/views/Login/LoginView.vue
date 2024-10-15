@@ -1,7 +1,7 @@
 <template>
   <div class="login-root-container">
     <vue-particles id="tsparticles" @particles-loaded="particlesLoaded" :options="options" />
-    <control-panel />
+    <control-panel z-10 />
     <ad-panel z-10 />
   </div>
 </template>

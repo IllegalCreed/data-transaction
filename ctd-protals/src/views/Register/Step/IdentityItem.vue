@@ -34,7 +34,7 @@ defineProps<{
   @apply w-120 cursor-pointer;
 
   &.selected {
-    @apply border border-red-500 bg-red-100;
+    @apply border border-[var(--color-primary)] bg-[var(--color-register-role-background)];
   }
 
   .icon {

@@ -1,6 +1,6 @@
 <template>
   <div class="login-control-panel-root-container">
-    <span absolute top-10 left-10 text-2xl font-bold z-10>LOGO</span>
+    <span class="logo">LOGO</span>
     <div class="login-control-panel">
       <span class="title">欢迎</span>
       <span class="desc">输入用户名密码以继续</span>
@@ -21,7 +21,7 @@
       </div>
 
       <el-button class="login-button" type="primary" @click="goHome">登录</el-button>
-      <div flex flex-row items-center self-stretch gap-4>
+      <div flex flex-row items-center gap-4 w-60>
         <el-divider></el-divider>
         <span text-xs flex-shrink-0>其他登录方式</span>
         <el-divider></el-divider>
@@ -59,6 +59,10 @@ const goForgot = () => {
 .login-control-panel-root-container {
   @apply flex-1 flex flex-col items-center justify-center;
 
+  .logo {
+    @apply absolute top-10 left-10 text-2xl font-bold z-10;
+  }
+
   .login-control-panel {
     @apply flex flex-col items-center justify-center p-20 rounded relative shadow backdrop-blur-sm;
 
@@ -89,8 +93,13 @@ const goForgot = () => {
 
   @media (max-width: 40rem) {
     @apply items-stretch justify-stretch;
+
+    .logo {
+      @apply top-5 left-5;
+    }
+
     .login-control-panel {
-      @apply rounded-none min-h-100vh;
+      @apply rounded-none min-h-100vh px-5;
     }
   }
 }

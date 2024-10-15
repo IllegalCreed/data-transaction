@@ -1,8 +1,8 @@
 <template>
   <div class="ad-carousel-item">
-    <img :src="img" w-80 h-100 rounded />
-    <span text-2xl font-bold mt-10>{{ title }}</span>
-    <p text-sm text-gray-400 mt-4>{{ comment }}</p>
+    <img :src="img" />
+    <span class="title">{{ title }}</span>
+    <p class="desc">{{ comment }}</p>
   </div>
 </template>
 
@@ -17,5 +17,17 @@ defineProps<{
 <style scoped lang="scss">
 .ad-carousel-item {
   @apply flex flex-col items-stretch rounded-lg;
+
+  img {
+    @apply w-80 h-100 rounded;
+  }
+
+  .title {
+    @apply text-2xl font-bold mt-10 text-[var(--color-text-reverse)];
+  }
+
+  .desc {
+    @apply text-sm text-[var(--color-text-reverse)] mt-4;
+  }
 }
 </style>

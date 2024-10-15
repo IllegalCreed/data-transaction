@@ -3,6 +3,7 @@
     <step-item
       v-for="(step, index) in steps"
       :key="index"
+      :index="index"
       :title="step.title"
       :isActive="currentStep >= index"
     ></step-item>
