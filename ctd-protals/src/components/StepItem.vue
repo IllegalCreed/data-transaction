@@ -20,7 +20,7 @@ defineProps<{
   @apply flex-1 flex flex-col items-stretch;
 
   .step-item-title {
-    @apply text-sm mt-4 transition-colors text-center text-[var(--color-primary)] opacity-60;
+    @apply text-sm mt-4 transition-colors text-center text-[var(--color-primary)] opacity-50;
 
     &.active {
       @apply opacity-100;
@@ -28,7 +28,7 @@ defineProps<{
   }
 
   .step-item-bar {
-    @apply relative h-1 rounded-full bg-[var(--color-primary)] transition-colors opacity-60;
+    @apply relative h-1 rounded-full bg-[var(--color-primary)] transition-colors opacity-50;
 
     &.active {
       @apply opacity-100;
