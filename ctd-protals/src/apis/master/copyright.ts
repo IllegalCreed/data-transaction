@@ -1,6 +1,6 @@
 import request from '@/axios'
 
-export const getCopyright = (): Promise<void> => {
+export const getCopyright = (): Promise<unknown> => {
   const params = {}
   return request.get(
     {

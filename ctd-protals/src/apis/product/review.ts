@@ -1,6 +1,6 @@
 import request from '@/axios'
 
-export const getProductReviews = (id: string | number): Promise<void> => {
+export const getProductReviews = (id: string | number): Promise<unknown> => {
   const params = {
     id
   }
@@ -13,7 +13,7 @@ export const getProductReviews = (id: string | number): Promise<void> => {
   )
 }
 
-export const getProductReviewInfo = (id: string | number): Promise<void> => {
+export const getProductReviewInfo = (id: string | number): Promise<unknown> => {
   const params = {
     id
   }

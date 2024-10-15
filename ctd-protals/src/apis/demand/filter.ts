@@ -1,6 +1,6 @@
 import request from '@/axios'
 
-export const getDemandFilterSource = (): Promise<void> => {
+export const getDemandFilterSource = (): Promise<unknown> => {
   const params = {}
   return request.post(
     {

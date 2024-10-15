@@ -1,6 +1,6 @@
 import request from '@/axios'
 
-export const getPrimaryCases = (): Promise<void> => {
+export const getPrimaryCases = (): Promise<unknown> => {
   const params = {}
   return request.post(
     {

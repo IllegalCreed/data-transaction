@@ -30,7 +30,7 @@
       <el-switch v-model="isDarkMode" @change="toggleDarkMode"></el-switch>
     </div>
 
-    <!-- 深色模式开关 -->
+    <!-- 模拟数据开关 -->
     <div class="setting-item">
       <span>模拟数据</span>
       <el-switch v-model="isMock" @change="toggleMock"></el-switch>

@@ -1,6 +1,6 @@
 import request from '@/axios'
 
-export const getCases = (): Promise<void> => {
+export const getCases = (): Promise<unknown> => {
   const params = {}
   return request.post(
     {
@@ -11,7 +11,7 @@ export const getCases = (): Promise<void> => {
   )
 }
 
-export const getScene = (id: number | string): Promise<void> => {
+export const getScene = (id: number | string): Promise<unknown> => {
   const params = {
     id
   }

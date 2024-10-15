@@ -17,7 +17,8 @@ export const useAccount = () => {
       } else {
         loginAPI(login)
           .then((res: unknown) => {
-            tokenStore.setToken(res.token)
+            const result = res as { token: string }
+            tokenStore.setToken(result.token)
             resolve()
           })
           .catch((error: unknown) => {

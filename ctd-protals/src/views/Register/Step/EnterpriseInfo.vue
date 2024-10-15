@@ -73,14 +73,14 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRegisterStore } from '@/stores/modules/register'
+import { useAccountStore } from '@/stores/modules/account'
 import type { FormInstance, FormRules } from 'element-plus'
 
 // 获取企业信息的 Pinia store
-const registerStore = useRegisterStore()
+const accountStore = useAccountStore()
 
 // 绑定 store 的企业信息数据
-const enterpriseInfo = registerStore.enterpriseInfo
+const enterpriseInfo = accountStore.enterpriseInfo
 
 // 表单实例引用
 const enterpriseForm = ref<FormInstance | null>(null)

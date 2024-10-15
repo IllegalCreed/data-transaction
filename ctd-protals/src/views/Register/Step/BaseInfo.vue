@@ -46,11 +46,11 @@
 
       <person-info
         ref="personFormRef"
-        v-if="registerStore.userIdentity === 'personal'"
+        v-if="accountStore.userIdentity === 'personal'"
       ></person-info>
       <enterprise-info
         ref="enterpriseFormRef"
-        v-else-if="registerStore.userIdentity === 'enterprise'"
+        v-else-if="accountStore.userIdentity === 'enterprise'"
       ></enterprise-info>
     </div>
 
@@ -63,11 +63,11 @@
 <script setup lang="ts">
 import PersonInfo from './PersonInfo.vue'
 import EnterpriseInfo from './EnterpriseInfo.vue'
-import { useRegisterStore } from '@/stores/modules/register'
+import { useAccountStore } from '@/stores/modules/account'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 
-const registerStore = useRegisterStore()
-const { baseInfo } = registerStore
+const accountStore = useAccountStore()
+const { baseInfo } = accountStore
 
 const baseForm = ref<FormInstance>()
 const personFormRef = ref<{ validateForm: () => Promise<boolean> } | null>(null)
@@ -125,9 +125,9 @@ const handleSubmit = async (): Promise<boolean> => {
   if (!baseFormValid) return Promise.resolve(false)
 
   let subFormValid = true
-  if (registerStore.userIdentity === 'personal' && personFormRef.value) {
+  if (accountStore.userIdentity === 'personal' && personFormRef.value) {
     subFormValid = await personFormRef.value.validateForm()
-  } else if (registerStore.userIdentity === 'enterprise' && enterpriseFormRef.value) {
+  } else if (accountStore.userIdentity === 'enterprise' && enterpriseFormRef.value) {
     subFormValid = await enterpriseFormRef.value.validateForm()
   }
 
@@ -136,7 +136,7 @@ const handleSubmit = async (): Promise<boolean> => {
 
 const reSendEmail = () => {
   if (baseInfo.email) {
-    registerStore.reSendEmail(baseInfo.email)
+    accountStore.reSendEmail(baseInfo.email)
     emit('nextStep')
   } else {
     ElMessage.error('请输入邮箱地址')

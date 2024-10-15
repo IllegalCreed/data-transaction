@@ -10,7 +10,7 @@
       title="个人用户"
       description="如果您是个人用户，可以在平台上浏览、发布个人数据需求，享受数据交易和服务"
       tag="适合个人数据消费者和数据分析师"
-      :isSelected="registerStore.userIdentity === 'personal'"
+      :isSelected="accountStore.userIdentity === 'personal'"
       @click="selectIdentity('personal')"
       mb-4
     ></identity-item>
@@ -21,7 +21,7 @@
       title="企业用户"
       description="企业用户可以利用平台进行数据服务交易，管理企业数据资产，发布企业级数据需求"
       tag="适合数据供应商、服务商和需求承接方"
-      :isSelected="registerStore.userIdentity === 'enterprise'"
+      :isSelected="accountStore.userIdentity === 'enterprise'"
       @click="selectIdentity('enterprise')"
     ></identity-item>
 
@@ -31,21 +31,21 @@
 <script setup lang="ts">
 import { ElMessage } from 'element-plus'
 import IdentityItem from './IdentityItem.vue'
-import { useRegisterStore } from '@/stores/modules/register'
+import { useAccountStore } from '@/stores/modules/account'
 
 const emit = defineEmits(['nextStep'])
 const handleNextStep = () => {
-  if (registerStore.userIdentity) {
+  if (accountStore.userIdentity) {
     emit('nextStep')
   } else {
     ElMessage.error('请选择一个身份')
   }
 }
 
-const registerStore = useRegisterStore()
+const accountStore = useAccountStore()
 
 const selectIdentity = (identity: string) => {
-  registerStore.setUserIdentity(identity)
+  accountStore.setUserIdentity(identity)
 }
 </script>
 <style lang="scss" scoped>

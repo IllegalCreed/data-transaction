@@ -4,7 +4,7 @@
     <h2>验证邮件已发送</h2>
     <p text-sm text-center text-gray-500 max-w-120>
       我们已经向您的注册邮箱
-      <strong>{{ registerStore.baseInfo.email }}</strong> 发送了一封验证邮件。
+      <strong>{{ accountStore.baseInfo.email }}</strong> 发送了一封验证邮件。
       请前往您的邮箱，找到我们的邮件，并点击邮件中的链接以激活您的账号。
     </p>
     <p text-sm text-center text-gray-500>
@@ -16,8 +16,8 @@
 </template>
 
 <script setup lang="ts">
-import { useRegisterStore } from '@/stores/modules/register'
-const registerStore = useRegisterStore()
+import { useAccountStore } from '@/stores/modules/account'
+const accountStore = useAccountStore()
 
 const router = useRouter()
 

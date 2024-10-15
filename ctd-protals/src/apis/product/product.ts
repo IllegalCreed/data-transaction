@@ -1,6 +1,6 @@
 import request from '@/axios'
 
-export const getProducts = (): Promise<void> => {
+export const getProducts = (): Promise<unknown> => {
   const params = {}
   return request.post(
     {
@@ -11,7 +11,7 @@ export const getProducts = (): Promise<void> => {
   )
 }
 
-export const getProduct = (id: string | number): Promise<void> => {
+export const getProduct = (id: string | number): Promise<unknown> => {
   const params = {
     id
   }
@@ -24,7 +24,7 @@ export const getProduct = (id: string | number): Promise<void> => {
   )
 }
 
-export const getPrice = (specs: Record<string, string>): Promise<void> => {
+export const getPrice = (specs: Record<string, string>): Promise<unknown> => {
   const params = {
     specs
   }
@@ -37,7 +37,7 @@ export const getPrice = (specs: Record<string, string>): Promise<void> => {
   )
 }
 
-export const getRecommendProducts = (id: string | number): Promise<void> => {
+export const getRecommendProducts = (id: string | number): Promise<unknown> => {
   const params = {
     id
   }
@@ -50,7 +50,7 @@ export const getRecommendProducts = (id: string | number): Promise<void> => {
   )
 }
 
-export const getProductImages = (id: string | number): Promise<void> => {
+export const getProductImages = (id: string | number): Promise<unknown> => {
   const params = {
     id
   }

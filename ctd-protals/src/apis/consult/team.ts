@@ -1,6 +1,6 @@
 import request from '@/axios'
 
-export const getTeams = (): Promise<void> => {
+export const getTeams = (): Promise<unknown> => {
   const params = {}
   return request.post(
     {

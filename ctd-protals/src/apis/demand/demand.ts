@@ -1,6 +1,6 @@
 import request from '@/axios'
 
-export const getDemands = (): Promise<void> => {
+export const getDemands = (): Promise<unknown> => {
   const params = {}
   return request.post(
     {
@@ -11,7 +11,7 @@ export const getDemands = (): Promise<void> => {
   )
 }
 
-export const getDemand = (id: string | number): Promise<void> => {
+export const getDemand = (id: string | number): Promise<unknown> => {
   const params = {
     id
   }
@@ -24,7 +24,7 @@ export const getDemand = (id: string | number): Promise<void> => {
   )
 }
 
-export const getDemandDetail = (id: string | number): Promise<void> => {
+export const getDemandDetail = (id: string | number): Promise<unknown> => {
   const params = {
     id
   }
@@ -37,7 +37,7 @@ export const getDemandDetail = (id: string | number): Promise<void> => {
   )
 }
 
-export const getRecommendDemands = (id: string | number): Promise<void> => {
+export const getRecommendDemands = (id: string | number): Promise<unknown> => {
   const params = {
     id
   }
