@@ -64,27 +64,27 @@ const getFileIcon = (fileName: string) => {
   const extension = fileName.split('.').pop()?.toLowerCase()
   switch (extension) {
     case 'pdf':
-      return 'https://cdn-icons-png.flaticon.com/512/337/337946.png' // PDF 图标
+      return new URL('@/assets/icon/demand/pdf.png', import.meta.url).href // PDF 图标
     case 'doc':
     case 'docx':
-      return 'https://cdn-icons-png.flaticon.com/512/337/337932.png' // Word 文档图标
+      return new URL('@/assets/icon/demand/word.png', import.meta.url).href // Word 文档图标
     case 'xls':
     case 'xlsx':
-      return 'https://cdn-icons-png.flaticon.com/512/337/337946.png' // Excel 文档图标
+      return new URL('@/assets/icon/demand/excel.png', import.meta.url).href // Excel 文档图标
     case 'ppt':
     case 'pptx':
-      return 'https://cdn-icons-png.flaticon.com/512/337/337949.png' // PPT 文档图标
+      return new URL('@/assets/icon/demand/ppt.png', import.meta.url).href // PPT 文档图标
     case 'txt':
-      return 'https://cdn-icons-png.flaticon.com/512/136/136538.png' // 文本文件图标
+      return new URL('@/assets/icon/demand/txt.png', import.meta.url).href // 文本文件图标
     case 'jpg':
     case 'jpeg':
     case 'png':
-      return 'https://cdn-icons-png.flaticon.com/512/136/136524.png' // 图片文件图标
+      return new URL('@/assets/icon/demand/pic.png', import.meta.url).href // 图片文件图标
     case 'rar':
     case 'zip':
-      return 'https://cdn-icons-png.flaticon.com/512/136/136524.png' // 压缩文件图标
+      return new URL('@/assets/icon/demand/zip.png', import.meta.url).href // 压缩文件图标
     default:
-      return 'https://cdn-icons-png.flaticon.com/512/136/136544.png' // 通用文件图标
+      return new URL('@/assets/icon/demand/common.png', import.meta.url).href // 通用文件图标
   }
 }
 </script>

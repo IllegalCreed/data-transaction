@@ -1,6 +1,4 @@
-import { defineStore } from 'pinia'
-
-export const useRegisterStore = defineStore('register', () => {
+export const useRegister = () => {
   const userIdentity = ref<string>('')
 
   const setUserIdentity = (identity: string) => {
@@ -46,4 +44,4 @@ export const useRegisterStore = defineStore('register', () => {
     baseInfo,
     reSendEmail
   }
-})
+}

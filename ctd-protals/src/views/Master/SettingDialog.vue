@@ -30,6 +30,12 @@
       <el-switch v-model="isDarkMode" @change="toggleDarkMode"></el-switch>
     </div>
 
+    <!-- 深色模式开关 -->
+    <div class="setting-item">
+      <span>模拟数据</span>
+      <el-switch v-model="isMock" @change="toggleMock"></el-switch>
+    </div>
+
     <!-- 水印开关 -->
     <div class="setting-item">
       <span>测试水印(debug)</span>
@@ -47,7 +53,9 @@ const {
   darkModeEnabled,
   setDarkMode,
   watermarkEnabled,
-  setWatermark
+  setWatermark,
+  mockEnabled,
+  setMock
 } = useSettingsStore()
 
 const model = defineModel<boolean>({ required: true })
@@ -55,9 +63,15 @@ const model = defineModel<boolean>({ required: true })
 // 获取语言列表
 const languages = getLanguageArray()
 
+const isMock = ref(mockEnabled)
 const isDarkMode = ref(darkModeEnabled)
 const isWatermark = ref(watermarkEnabled)
 const selectedLanguage = ref(currentLanguage)
+
+// 切换深色模式
+const toggleMock = (val: unknown) => {
+  setMock(val as boolean)
+}
 
 // 切换深色模式
 const toggleDarkMode = (val: unknown) => {

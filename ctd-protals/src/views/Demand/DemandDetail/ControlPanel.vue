@@ -53,7 +53,7 @@ const mappedPayType = computed(() => {
 })
 
 const { baseInfo } = defineProps<{
-  productId: string
+  demandId: string
   baseInfo: IDemandBaseInfo
   loading: boolean
 }>()

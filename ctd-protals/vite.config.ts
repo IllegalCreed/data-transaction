@@ -20,7 +20,7 @@ export default defineConfig({
     port: 9001,
     proxy: {
       '/dev-api': {
-        target: 'http://localhost:9001',
+        target: 'http://10.105.21.63:8080',
         changeOrigin: true,
         rewrite: (p) => p.replace(/^\/dev-api/, '')
       }

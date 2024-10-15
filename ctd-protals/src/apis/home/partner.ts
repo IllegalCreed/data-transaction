@@ -1,10 +1,14 @@
 import request from '@/axios'
 
 export const getTopPartner = (): Promise<void> => {
-  const params = {}
-  return request.post(
+  const params = {
+    pageNum: 1,
+    pageSize: 0,
+    noticeType: 5
+  }
+  return request.get(
     {
-      url: '/getTopPartner',
+      url: '/api/t/common/listNotice',
       params
     },
     false
@@ -12,10 +16,14 @@ export const getTopPartner = (): Promise<void> => {
 }
 
 export const getPartner = (): Promise<void> => {
-  const params = {}
-  return request.post(
+  const params = {
+    pageNum: 1,
+    pageSize: 8,
+    noticeType: 4
+  }
+  return request.get(
     {
-      url: '/getPartner',
+      url: '/api/t/common/listNotice',
       params
     },
     false

@@ -41,10 +41,10 @@ declare global {
   const extendRef: typeof import('@vueuse/core')['extendRef']
   const getAbouts: (typeof import('./src/apis/link/index'))['getAbouts']
   const getActivePinia: typeof import('pinia')['getActivePinia']
-  const getAdAPI: typeof import('./src/apis/account/index')['getAdAPI']
+  const getAdAPI: typeof import('./src/apis/account/login')['getAdAPI']
   const getBanners: typeof import('./src/apis/home/banner')['getBanners']
   const getCases: typeof import('./src/apis/scene/case')['getCases']
-  const getCodeAPI: typeof import('./src/apis/account/index')['getCodeAPI']
+  const getCodeAPI: typeof import('./src/apis/account/account')['getCodeAPI']
   const getContact: typeof import('./src/apis/master/contact')['getContact']
   const getCopyright: typeof import('./src/apis/master/copyright')['getCopyright']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
@@ -72,7 +72,7 @@ declare global {
   const getSeller: typeof import('./src/apis/product/seller')['getSeller']
   const getTeams: typeof import('./src/apis/consult/team')['getTeams']
   const getTopPartner: typeof import('./src/apis/home/partner')['getTopPartner']
-  const getcases: typeof import('./src/apis/scene/case')['getcases']
+  const getcases: (typeof import('./src/apis/scene/case'))['getcases']
   const h: typeof import('vue')['h']
   const ignorableWatch: typeof import('@vueuse/core')['ignorableWatch']
   const inject: typeof import('vue')['inject']
@@ -83,8 +83,8 @@ declare global {
   const isReactive: typeof import('vue')['isReactive']
   const isReadonly: typeof import('vue')['isReadonly']
   const isRef: typeof import('vue')['isRef']
-  const loginAPI: typeof import('./src/apis/account/index')['loginAPI']
-  const logoutAPI: typeof import('./src/apis/account/index')['logoutAPI']
+  const loginAPI: typeof import('./src/apis/account/account')['loginAPI']
+  const logoutAPI: typeof import('./src/apis/account/account')['logoutAPI']
   const makeDestructurable: typeof import('@vueuse/core')['makeDestructurable']
   const mapActions: typeof import('pinia')['mapActions']
   const mapGetters: typeof import('pinia')['mapGetters']
@@ -132,12 +132,12 @@ declare global {
   const refThrottled: typeof import('@vueuse/core')['refThrottled']
   const refWithControl: typeof import('@vueuse/core')['refWithControl']
   const remToPx: typeof import('./src/utils/unitConversion')['remToPx']
-  const resetPwdAPI: typeof import('./src/apis/account/index')['resetPwdAPI']
+  const resetPwdAPI: typeof import('./src/apis/account/account')['resetPwdAPI']
   const resolveComponent: typeof import('vue')['resolveComponent']
   const resolveRef: typeof import('@vueuse/core')['resolveRef']
   const resolveUnref: typeof import('@vueuse/core')['resolveUnref']
-  const reviewInfo: typeof import('./src/apis/product/review')['reviewInfo']
-  const reviews: typeof import('./src/apis/product/review')['reviews']
+  const reviewInfo: (typeof import('./src/apis/product/review'))['reviewInfo']
+  const reviews: (typeof import('./src/apis/product/review'))['reviews']
   const setActivePinia: typeof import('pinia')['setActivePinia']
   const setMapStoreSuffix: typeof import('pinia')['setMapStoreSuffix']
   const shallowReactive: typeof import('vue')['shallowReactive']
@@ -382,7 +382,7 @@ declare global {
 // for type re-export
 declare global {
   // @ts-ignore
-  export type { Component, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef } from 'vue'
+  export type { Component, ComponentPublicInstance, ComputedRef, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, VNode, WritableComputedRef } from 'vue'
   import('vue')
   // @ts-ignore
   export type { ISort } from '.src/types'

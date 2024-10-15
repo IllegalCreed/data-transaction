@@ -2,6 +2,7 @@ import { useSettingsStore } from '@/stores/modules/settings'
 import type { IPartner } from '@/types/home'
 import { getTopPartner as getTopPartnerAPI, getPartner as getPartnerAPI } from '@/apis/home/partner'
 import { partners as mockPartners } from '@/constants/mockData/home/partner'
+import { partnerConvert } from '@/apiConvert/home/partner'
 
 export const usePartners = () => {
   const settingsStore = useSettingsStore()
@@ -12,13 +13,13 @@ export const usePartners = () => {
     return new Promise<void>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => {
-          partners.value = mockPartners.slice(2, 10)
+          partners.value = mockPartners.slice(0, 10)
           resolve()
         }, 1000)
       } else {
         getPartnerAPI()
           .then((res: unknown) => {
-            partners.value = res as IPartner[]
+            partners.value = partnerConvert(res)
             resolve()
           })
           .catch((error: unknown) => {
@@ -34,7 +35,7 @@ export const usePartners = () => {
     return new Promise<void>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => {
-          topPartners.value = mockPartners.slice(0, 2)
+          // topPartners.value = mockPartners.slice(0, 2)
           resolve()
         }, 1000)
       } else {

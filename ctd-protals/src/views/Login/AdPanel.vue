@@ -1,26 +1,23 @@
 <template>
   <div class="login-ad-panel">
-    <el-skeleton :loading="GetAdActionLoading" animated>
+    <el-skeleton :loading="GetAdActionLoading" animated h-full>
       <template #template>
-        <div flex flex-col>
-          <el-skeleton-item variant="h1" mt-15 class="!w-20"></el-skeleton-item>
-          <el-skeleton-item variant="h1" mt-10 class="!w-40"></el-skeleton-item>
+        <div flex flex-col h-full pb-7.5>
+          <el-skeleton-item variant="h1" mt-15 class="!w-30"></el-skeleton-item>
+          <el-skeleton-item variant="h1" mt-10 class="!w-70"></el-skeleton-item>
 
           <el-skeleton-item variant="p" mt-15></el-skeleton-item>
           <el-skeleton-item variant="p" mt-5></el-skeleton-item>
           <el-skeleton-item variant="p" mt-5></el-skeleton-item>
-          <el-skeleton-item variant="p" mt-5></el-skeleton-item>
-          <el-skeleton-item variant="p" mt-5 class="!w-40"></el-skeleton-item>
-
-          <el-skeleton-item variant="rect" mt-25 class="!h-50"></el-skeleton-item>
+          <el-skeleton-item variant="p" mt-5 class="!w-30"></el-skeleton-item>
+          <div flex-1></div>
+          <el-skeleton-item variant="rect" class="!h-48"></el-skeleton-item>
         </div>
       </template>
       <template #default>
-        <span text-4xl leading-relaxed font-bold mt-10 whitespace-pre-line>{{
-          adData?.title
-        }}</span>
-        <p text-lg text-gray-400 mt-10 line-height-loose>
-          {{ adData?.desc }}
+        <span class="title">{{ adData.title }}</span>
+        <p class="desc">
+          {{ adData.desc }}
         </p>
         <div flex-1></div>
         <el-carousel
@@ -30,7 +27,7 @@
           height="12rem"
           autoplay
         >
-          <el-carousel-item v-for="item in adData?.carousels" :key="item.id">
+          <el-carousel-item v-for="item in adData.carousels" :key="item.id">
             <ad-carousel-item
               :title="item.title"
               :comment="item.comment"
@@ -47,14 +44,18 @@
 import type { ILoginAd } from '@/types/advertisement'
 import AdCarouselItem from './AdCarouselItem.vue'
 import { useAccountStore } from '@/stores/modules/account'
-const { getAd: getAdAction } = useAccountStore()
+const accountStore = useAccountStore()
+const { getAd: getAdAction } = accountStore
 
 const {
   state: adData,
   isLoading: GetAdActionLoading,
-
   execute: executeGetAdAction
-} = useAsyncState<ILoginAd | undefined>(getAdAction(), undefined)
+} = useAsyncState<ILoginAd>(getAdAction(), {
+  title: '',
+  desc: '',
+  carousels: []
+})
 
 onMounted(async () => {
   try {
@@ -66,7 +67,15 @@ onMounted(async () => {
 </script>
 <style lang="scss" scoped>
 .login-ad-panel {
-  @apply flex flex-col w-120 ml-20 bg-gray-200 rounded-3xl p-10;
+  @apply flex flex-col justify-stretch w-140 bg-[var(--color-primary)] p-20;
+
+  .title {
+    @apply text-4xl text-[var(--color-text-reverse)] leading-relaxed font-bold mt-10 whitespace-pre-line;
+  }
+
+  .desc {
+    @apply text-base text-[var(--color-text-reverse)] mt-10 line-height-loose;
+  }
 
   @media (max-width: 75rem) {
     @apply hidden;

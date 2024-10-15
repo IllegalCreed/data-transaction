@@ -19,7 +19,7 @@ const goPartner = () => {
   @apply flex items-center justify-center bg-[var(--color-background-alternating)] p-4 shadow-md cursor-pointer;
 
   img {
-    @apply h-20 object-contain;
+    @apply h-20 max-w-full max-h-full object-contain;
   }
 }
 </style>

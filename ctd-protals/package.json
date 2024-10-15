@@ -16,6 +16,9 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@tsparticles/engine": "^3.5.0",
+    "@tsparticles/slim": "^3.5.0",
+    "@tsparticles/vue3": "^3.0.1",
     "@vueup/vue-quill": "^1.2.0",
     "@vueuse/components": "^11.1.0",
     "@vueuse/core": "^11.1.0",

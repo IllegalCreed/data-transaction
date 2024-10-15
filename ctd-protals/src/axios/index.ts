@@ -68,8 +68,8 @@ axiosInstance.interceptors.response.use(
     }
 
     if (code === 401) {
-      const tokenStore = useTokenStore()
-      tokenStore.clearToken()
+      // const tokenStore = useTokenStore()
+      // tokenStore.clearToken()
       return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
     } else if (!/^2\d{2}$/.test(code)) {
       // 如果不是2开头的三位数
@@ -93,20 +93,20 @@ axiosInstance.interceptors.response.use(
   }
 )
 
-const request = (config: AxiosRequestConfig): Promise<any> => {
+const request = (config: AxiosRequestConfig): Promise<unknown> => {
   return new Promise((resolve, reject) => {
     axiosInstance
       .request(config)
       .then((res) => {
         resolve(res)
       })
-      .catch((err: any) => {
+      .catch((err: unknown) => {
         reject(err)
       })
   })
 }
 
-const mixConfig = (option: any, hasToken: boolean): any => {
+const mixConfig = (option: AxiosRequestConfig, hasToken: boolean): AxiosRequestConfig => {
   const headers = {
     'Content-Type': 'application/json;charset=utf-8',
     ...option.headers
@@ -146,16 +146,16 @@ export function tansParams(params: any) {
 }
 
 export default {
-  get: (option: any, hasToken: boolean = true) => {
+  get: (option: AxiosRequestConfig, hasToken: boolean = true) => {
     return request({ method: 'get', ...mixConfig(option, hasToken) })
   },
-  post: (option: any, hasToken: boolean = true) => {
+  post: (option: AxiosRequestConfig, hasToken: boolean = true) => {
     return request({ method: 'post', ...mixConfig(option, hasToken) })
   },
-  delete: (option: any, hasToken: boolean = true) => {
+  delete: (option: AxiosRequestConfig, hasToken: boolean = true) => {
     return request({ method: 'delete', ...mixConfig(option, hasToken) })
   },
-  put: (option: any, hasToken: boolean = true) => {
+  put: (option: AxiosRequestConfig, hasToken: boolean = true) => {
     return request({ method: 'put', ...mixConfig(option, hasToken) })
   },
   cancelRequest: (url: string | string[]) => {
