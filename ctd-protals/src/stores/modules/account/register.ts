@@ -1,6 +1,6 @@
 import type { IRegisterAdCarouselItem } from '@/types/advertisement'
 import { useSettingsStore } from '../settings'
-import { getAdsAPI } from '@/apis/account/register'
+import { getRegisterAdsAPI } from '@/apis/account/register'
 import { ads as mockAds } from '@/constants/mockData/account/register'
 
 export const useRegister = () => {
@@ -11,7 +11,7 @@ export const useRegister = () => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => resolve(mockAds), 1000)
       } else {
-        getAdsAPI()
+        getRegisterAdsAPI()
           .then((res) => {
             resolve(res as IRegisterAdCarouselItem[])
           })

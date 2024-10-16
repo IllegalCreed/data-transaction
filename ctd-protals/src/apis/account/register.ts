@@ -1,5 +1,5 @@
 import request from '@/axios'
-export const getAdsAPI = (): Promise<unknown> => {
+export const getRegisterAdsAPI = (): Promise<unknown> => {
   const params = {}
   return request.get(
     {
