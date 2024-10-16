@@ -1,6 +1,6 @@
 <template>
   <div class="news-root-container">
-    <div class="news-header-container">
+    <div class="news-header-container" :style="{ backgroundImage: `url('${bg}')` }">
       <span class="title">政策与资讯</span>
 
       <el-input v-model="searchKey" class="search-input" size="large" placeholder="请输入文章名称">
@@ -46,6 +46,9 @@
 <script setup lang="ts">
 import NewsItem from './NewsItem.vue'
 import { useNewsStore } from '@/stores/modules/news'
+
+const bg = ref(new URL('@/assets/background/newsBackground.png', import.meta.url).href)
+
 const newsStore = useNewsStore()
 const { newsList } = storeToRefs(newsStore)
 const { getNewsList: getNewsListAction } = newsStore
@@ -88,10 +91,10 @@ watchEffect(() => {
   @apply flex flex-col items-center;
 
   .news-header-container {
-    @apply flex flex-col items-center bg-blueGray py-15 px-10 w-full;
+    @apply flex flex-col items-center bg-cover bg-center py-15 px-10 w-full;
 
     .title {
-      @apply text-4xl font-bold text-[var(--color-text-reverse)];
+      @apply text-4xl font-bold text-[var(--color-text-reverse)] drop-shadow;
     }
 
     .search-input {

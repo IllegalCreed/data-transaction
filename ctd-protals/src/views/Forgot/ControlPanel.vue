@@ -1,5 +1,5 @@
 <template>
-  <div class="forgot-control-panel-root-container">
+  <div class="forgot-control-panel-root-container" :style="{ backgroundImage: `url('${bg}')` }">
     <span class="logo">LOGO</span>
     <span class="back" @click="goLogin">返回登录</span>
     <div class="forgot-control-panel">
@@ -25,6 +25,8 @@ import SendEmail from './Step/SendEmail.vue'
 import ValidateCode from './Step/ValidateCode.vue'
 import ResetPassword from './Step/ResetPassword.vue'
 import ResetComplete from './Step/ResetComplete.vue'
+
+const bg = ref(new URL('@/assets/background/registerBackground.png', import.meta.url).href)
 
 const steps = [
   { title: '发送邮件' },
@@ -67,7 +69,7 @@ const goLogin = () => {
 
 <style lang="scss" scoped>
 .forgot-control-panel-root-container {
-  @apply relative flex-1 flex flex-col items-stretch justify-start p-20 pt-40 backdrop-blur-xl;
+  @apply relative flex-1 flex flex-col items-stretch justify-start p-20 pt-40 bg-center bg-cover;
 
   .logo {
     @apply absolute top-10 left-10 text-2xl font-bold z-10;

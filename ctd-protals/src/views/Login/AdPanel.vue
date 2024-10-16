@@ -15,6 +15,7 @@
         </div>
       </template>
       <template #default>
+        <img :src="bg" absolute bottom-30 right-0 />
         <span class="title">{{ adData.title }}</span>
         <p class="desc">
           {{ adData.desc }}
@@ -41,6 +42,8 @@
   </div>
 </template>
 <script setup lang="ts">
+const bg = ref(new URL('@/assets/background/loginAdBackground.png', import.meta.url).href)
+
 import type { ILoginAd } from '@/types/advertisement'
 import AdCarouselItem from './AdCarouselItem.vue'
 import { useAccountStore } from '@/stores/modules/account'

@@ -1,5 +1,5 @@
 <template>
-  <div class="register-control-panel-root-container">
+  <div class="register-control-panel-root-container" :style="{ backgroundImage: `url('${bg}')` }">
     <span class="logo">LOGO</span>
     <span class="back" @click="goLogin">返回登录</span>
     <div class="register-control-panel">
@@ -20,6 +20,8 @@ import RoleSelector from './Step/RoleSelector.vue'
 import BaseInfo from './Step/BaseInfo.vue'
 import EmailSended from './Step/EmailSended.vue'
 import EmailValidate from './Step/EmailValidate.vue'
+
+const bg = ref(new URL('@/assets/background/registerBackground.png', import.meta.url).href)
 
 const steps = [
   { title: '选择身份' },
@@ -64,7 +66,7 @@ const goLogin = () => {
 
 <style lang="scss" scoped>
 .register-control-panel-root-container {
-  @apply relative flex-1 flex flex-col items-stretch justify-start p-20 pt-40 backdrop-blur-xl;
+  @apply relative flex-1 flex flex-col items-stretch justify-start p-20 pt-40 bg-center bg-cover;
 
   .logo {
     @apply absolute top-10 left-10 text-2xl font-bold z-10;
