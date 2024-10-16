@@ -4,7 +4,7 @@
       <span class="day">{{ formattedDay }}</span>
       <span class="month">{{ formattedYearMonth }}</span>
     </div>
-    <div self-stretch flex flex-col justify-between hover:opacity-60>
+    <div self-stretch flex flex-col justify-start hover:opacity-60>
       <span class="title">{{ news.title }}</span>
       <span class="desc">{{ news.summary }}</span>
     </div>
@@ -70,11 +70,11 @@ const goNewsDetail = () => {
   }
 
   .title {
-    @apply text-lg line-clamp-1;
+    @apply text-lg leading-none line-clamp-1;
   }
 
   .desc {
-    @apply text-xs text-[var(--color-text-light)] line-clamp-2 leading-relaxed tracking-wider;
+    @apply mt-3 text-xs text-[var(--color-text-light)] line-clamp-2 leading-relaxed tracking-wider;
   }
 
   @media (max-width: 30rem) {
@@ -87,7 +87,7 @@ const goNewsDetail = () => {
     }
 
     .title {
-      @apply text-base line-clamp-1;
+      @apply text-base leading-none line-clamp-1;
     }
 
     .desc {

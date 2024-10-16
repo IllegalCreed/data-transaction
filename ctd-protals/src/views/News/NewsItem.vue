@@ -1,8 +1,13 @@
 <template>
   <div class="news-item-root-container" @click="goNewsDetail">
-    <span font-bold text-2xl>{{ news.title }}</span>
-    <span line-clamp-2 text-base text-gray-500>{{ news.summary }}</span>
-    <span text-sm text-gray-300 self-end>{{ news.createTime }}</span>
+    <div :class="{ today: isToday }" class="time-container">
+      <span class="day">{{ formattedDay }}</span>
+      <span class="month">{{ formattedYearMonth }}</span>
+    </div>
+    <div self-stretch flex flex-col justify-start hover:opacity-60>
+      <span class="title">{{ news.title }}</span>
+      <span class="desc">{{ news.summary }}</span>
+    </div>
   </div>
 </template>
 
@@ -10,6 +15,18 @@
 import type { INewsItem } from '@/types/news'
 
 const { news } = defineProps<{ news: INewsItem }>()
+
+const isToday = computed(() => {
+  return dayjs(news.createTime).isSame(dayjs(), 'day')
+})
+
+const formattedDay = computed(() => {
+  return dayjs(news.createTime).format('DD')
+})
+
+const formattedYearMonth = computed(() => {
+  return dayjs(news.createTime).format('YYYY/MM')
+})
 
 const router = useRouter()
 const goNewsDetail = () => {
@@ -24,6 +41,58 @@ const goNewsDetail = () => {
 
 <style scoped lang="scss">
 .news-item-root-container {
-  @apply flex flex-col gap-2 border-b border-b-dashed border-b-gray-300 pb-4 cursor-pointer hover:opacity-80;
+  @apply flex flex-row gap-10 border-b border-b-dashed border-b-[var(--color-border)] pb-4 cursor-pointer hover:opacity-80;
+
+  .time-container {
+    @apply flex-shrink-0 flex flex-col items-end justify-center gap-1 w-18 h-18 p-2 rounded border-1 border-solid border-[var(--color-primary)] bg-[var(--color-news-data-background)];
+
+    .day {
+      @apply text-2xl text-[var(--color-primary)];
+    }
+
+    .month {
+      @apply text-xs text-[var(--color-text-light)] tabular-nums font-mono font-italic;
+    }
+
+    &.today {
+      @apply bg-[var(--color-primary)];
+
+      .day {
+        @apply text-white;
+      }
+
+      .month {
+        @apply text-white;
+      }
+    }
+  }
+
+  .title {
+    @apply text-lg leading-none line-clamp-1;
+  }
+
+  .desc {
+    @apply mt-3 text-xs text-[var(--color-text-light)] line-clamp-2 leading-relaxed tracking-wider;
+  }
+
+  @media (max-width: 30rem) {
+    @apply gap-5;
+
+    .time-container {
+      @apply w-16 h-16 p-1;
+
+      .day {
+        @apply text-xl;
+      }
+    }
+
+    .title {
+      @apply text-base leading-none line-clamp-1;
+    }
+
+    .desc {
+      @apply text-xs text-[var(--color-text-light)] line-clamp-2 tracking-wider;
+    }
+  }
 }
 </style>

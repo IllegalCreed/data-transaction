@@ -12,6 +12,11 @@ export const mainMenus: IMenu[] = [
     icon: 'i-vaadin:workplace'
   },
   {
+    path: '/product',
+    label: '数据交易',
+    icon: 'i-vaadin:money'
+  },
+  {
     path: '/service',
     label: '数据服务',
     icon: 'i-mdi:database'
@@ -20,11 +25,6 @@ export const mainMenus: IMenu[] = [
     path: '/consult',
     label: '咨询与代办',
     icon: 'i-vaadin:info-circle'
-  },
-  {
-    path: '/product',
-    label: '数据交易',
-    icon: 'i-vaadin:money'
   },
   {
     path: '/demand',
