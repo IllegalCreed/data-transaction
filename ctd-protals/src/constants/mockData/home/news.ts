@@ -1,94 +1,144 @@
-import type { INews, INewsItem } from '@/types/news'
+import type {INews, INewsItem} from '@/types/news'
 
 export const newsList: INewsItem[] = [
-  {
-    id: 1,
-    title: 'AI摄影师首次亮相大运河音乐节',
-    summary: '文旅数据专区再添新场景',
-    // imageUrl: 'https://via.placeholder.com/300',
-    createTime: '2024-09-20'
-  },
-  {
-    id: 2,
-    title: '带您玩转“三庙一塔”！“数字科普剧本游”上线实测',
-    summary:
-      '近日，全球数字经济大会副中心论坛成功举办，北京数据基础制度先行区文旅数据专区场景在会上首次亮相，受到社会各界广泛关注。会后，文旅数据专区创新联合体快速推进相关场景的实地应用进程。8月22日，文旅数据专区应用场景三庙一塔“数字科普剧本游”研学产品发布会在通州区文庙大成殿前成功举办。',
-    imageUrl: 'https://via.placeholder.com/300',
-    createTime: '2024-08-22'
-  },
-  {
-    id: 4,
-    title: '北京城市副中心文旅数据专区创新联合体成立 首批数字文旅场景发布',
-    summary:
-      '在北京市通州区经信局指导下，北京北投智慧城市科技有限公司积极推进文旅数据专区建设，形成北京市文旅数据专区创建方案并完成首批数字文旅场景的征集发布。',
-    imageUrl: 'https://via.placeholder.com/300',
-    createTime: '2024-07-09'
-  },
-  {
-    id: 5,
-    title: '副中心文旅数据专区创新联合体成立！第一批数字文旅场景已发布',
-    summary:
-      '在区经信局指导下，北京北投智慧城市科技有限公司积极推进文旅数据专区建设，形成北京市文旅数据专区创建方案并完成首批数字文旅场景的征集发布。',
-    imageUrl: 'https://via.placeholder.com/300',
-    createTime: '2024-07-07'
-  },
-  {
-    id: 6,
-    title: '以“数”赋能，文旅数据专区创新联合体成立',
-    summary:
-      '记者今天获悉，在区经信局指导下，北京北投智慧城市科技有限公司积极推进文旅数据专区建设，形成北京市文旅数据专区创建方案并完成首批数字文旅场景的征集发布。',
-    imageUrl: 'https://via.placeholder.com/300',
-    createTime: '2024-07-02'
-  },
-  {
-    id: 7,
-    title: '《关于北京城市副中心促进文旅产业高质量发展实施细则》',
-    summary: '政策背景、申报主体、支持标准、附则、说明',
-    imageUrl: 'https://via.placeholder.com/300',
-    createTime: '2024-09-26'
-  },
-  {
-    id: 8,
-    title: '环保与可持续发展：行动在于每一个人',
-    summary:
-      '面对气候变化的挑战，个人和企业都需要采取行动。本文将讨论可持续发展的重要性及如何在日常生活中做出改变。',
-    imageUrl: 'https://via.placeholder.com/300',
-    createTime: '2024-09-27'
-  },
-  {
-    id: 9,
-    title: '个人理财技巧：智慧消费与投资规划',
-    summary:
-      '有效的个人理财不仅仅是节省开支，还包括合理投资。本文将分享一些理财技巧，帮助你更好地管理财务，实现财富增值。',
-    imageUrl: 'https://via.placeholder.com/300',
-    createTime: '2024-09-28'
-  },
-  {
-    id: 10,
-    title: '科技与未来：数字化转型的关键趋势',
-    summary:
-      '科技正在以惊人的速度推动社会各领域的变革。本文将探讨数字化转型的趋势及其对未来生活的影响。',
-    imageUrl: 'https://via.placeholder.com/300',
-    createTime: '2024-09-29'
-  }
+    {
+        id: 1,
+        title: 'AI摄影师首次亮相大运河音乐节',
+        summary: '文旅数据专区再添新场景',
+        // imageUrl: 'https://via.placeholder.com/300',
+        createTime: '2024-09-20'
+    },
+    {
+        id: 2,
+        title: '带您玩转“三庙一塔”！“数字科普剧本游”上线实测',
+        summary:
+            '近日，全球数字经济大会副中心论坛成功举办，北京数据基础制度先行区文旅数据专区场景在会上首次亮相，受到社会各界广泛关注。会后，文旅数据专区创新联合体快速推进相关场景的实地应用进程。8月22日，文旅数据专区应用场景三庙一塔“数字科普剧本游”研学产品发布会在通州区文庙大成殿前成功举办。',
+        imageUrl: 'https://via.placeholder.com/300',
+        createTime: '2024-08-22'
+    },
+    {
+        id: 4,
+        title: '北京城市副中心文旅数据专区创新联合体成立 首批数字文旅场景发布',
+        summary:
+            '在北京市通州区经信局指导下，北京北投智慧城市科技有限公司积极推进文旅数据专区建设，形成北京市文旅数据专区创建方案并完成首批数字文旅场景的征集发布。',
+        imageUrl: 'https://via.placeholder.com/300',
+        createTime: '2024-07-09'
+    },
+    {
+        id: 5,
+        title: '副中心文旅数据专区创新联合体成立！第一批数字文旅场景已发布',
+        summary:
+            '在区经信局指导下，北京北投智慧城市科技有限公司积极推进文旅数据专区建设，形成北京市文旅数据专区创建方案并完成首批数字文旅场景的征集发布。',
+        imageUrl: 'https://via.placeholder.com/300',
+        createTime: '2024-07-07'
+    },
+    {
+        id: 6,
+        title: '以“数”赋能，文旅数据专区创新联合体成立',
+        summary:
+            '记者今天获悉，在区经信局指导下，北京北投智慧城市科技有限公司积极推进文旅数据专区建设，形成北京市文旅数据专区创建方案并完成首批数字文旅场景的征集发布。',
+        imageUrl: 'https://via.placeholder.com/300',
+        createTime: '2024-07-02'
+    },
+    {
+        id: 7,
+        title: '《关于北京城市副中心促进文旅产业高质量发展实施细则》',
+        summary: '政策背景、申报主体、支持标准、附则、说明',
+        imageUrl: 'https://via.placeholder.com/300',
+        createTime: '2024-09-26'
+    },
+    {
+        id: 8,
+        title: '环保与可持续发展：行动在于每一个人',
+        summary:
+            '面对气候变化的挑战，个人和企业都需要采取行动。本文将讨论可持续发展的重要性及如何在日常生活中做出改变。',
+        imageUrl: 'https://via.placeholder.com/300',
+        createTime: '2024-09-27'
+    },
+    {
+        id: 9,
+        title: '个人理财技巧：智慧消费与投资规划',
+        summary:
+            '有效的个人理财不仅仅是节省开支，还包括合理投资。本文将分享一些理财技巧，帮助你更好地管理财务，实现财富增值。',
+        imageUrl: 'https://via.placeholder.com/300',
+        createTime: '2024-09-28'
+    },
+    {
+        id: 10,
+        title: '科技与未来：数字化转型的关键趋势',
+        summary:
+            '科技正在以惊人的速度推动社会各领域的变革。本文将探讨数字化转型的趋势及其对未来生活的影响。',
+        imageUrl: 'https://via.placeholder.com/300',
+        createTime: '2024-09-29'
+    }
 ]
 
 export const newsDetails: INews[] = [
-  {
-    id: 1,
-    title: '最新科技动态',
-    summary:
-      '探索最新的科技创新和趋势。探索最新的科技创新和趋势。探索最新的科技创新和趋势。探索最新的科技创新和趋势。探索最新的科技创新和趋势。探索最新的科技创新和趋势。探索最新的科技创新和趋势。',
-    content: `
-        <p>在这篇文章中，我们将探讨最新的科技动态，包括人工智能、区块链等。在这篇文章中，我们将探讨最新的科技动态，包括人工智能、区块链等。在这篇文章中，我们将探讨最新的科技动态，包括人工智能、区块链等。在这篇文章中，我们将探讨最新的科技动态，包括人工智能、区块链等。在这篇文章中，我们将探讨最新的科技动态，包括人工智能、区块链等。在这篇文章中，我们将探讨最新的科技动态，包括人工智能、区块链等。</p>
-        <img src="https://via.placeholder.com/300" alt="科技动态" style="display:block;width:80%;height:300px;margin:0 auto"/>
-        <p>随着科技的不断发展，许多新兴技术正在改变我们的生活。随着科技的不断发展，许多新兴技术正在改变我们的生活。随着科技的不断发展，许多新兴技术正在改变我们的生活。随着科技的不断发展，许多新兴技术正在改变我们的生活。随着科技的不断发展，许多新兴技术正在改变我们的生活。随着科技的不断发展，许多新兴技术正在改变我们的生活。随着科技的不断发展，许多新兴技术正在改变我们的生活。随着科技的不断发展，许多新兴技术正在改变我们的生活。</p>
-        <h3>人工智能的应用</h3>
-        <p>人工智能正在各个行业中发挥着重要作用，从医疗到金融。</p>
-        <p>点击上面的链接，了解更多关于人工智能的最新动态。</p>
+    {
+        id: 1,
+        title: 'AI摄影师首次亮相大运河音乐节',
+        summary:
+            '本报讯（记者 赵鹏）记者昨日从通州区经信局获悉，北京数据基础制度先行区文旅数据专区新场景——AI摄影师落地。该场景在区经信局指导下，由北投智慧公司牵头，在2024北京大运河音乐节上首次亮相即大受欢迎。',
+        content: `
+     <p>　　本报讯（记者 赵鹏）记者昨日从通州区经信局获悉，北京数据基础制度先行区文旅数据专区新场景——AI摄影师落地。该场景在区经信局指导下，由北投智慧公司牵头，在2024北京大运河音乐节上首次亮相即大受欢迎。</p>
+<p>　　AI摄影师由海百川科技公司研发，这款融合了最前沿人工智能技术的智能摄影产品，利用深度学习算法，能精准识别拍摄者的最佳表情，并一键生成照片。市民只需简单操作，即可获得创意满满的拍摄效果，并即时分享至社交媒体平台，这一创新功能不仅满足了大家对于多样化摄影风格的需求，更让每个人都能演绎出不一样的自己，享受独特的摄影乐趣。在本次活动上，AI摄影师更融合绿心元素为音乐节打造专门拍照模板，让音乐节精彩瞬间得以永恒定格。</p>
+<p>　　据了解，AI摄影师的一键换装、即时分享等创新功能，让每位参与者都能轻松成为朋友圈中的焦点，极大丰富了音乐节的趣味性和参与感，让市民共同见证了这场文化与科技融合的盛事。</p>
+<p>　　北京文旅数据专区作为北京数据基础制度先行区的重要组成部分，是专门针对文化旅游业相关数据进行流通交易、融合创新的平台载体，也是将科技引领、产业实践、市场运作相融合的重要“试验田”，为数字时代文旅行业高质量发展提供了优质的数据基础、强力的技术支持和健全的制度保障。</p>
+<p>　　本次AI摄影师场景在大运河音乐节的落地，为市民带来了高科技互动体验，是AI赋能文旅消费新场景的一次生动实践，体现了文旅数据专区在推动数字文旅产业高质量发展中的关键作用。接下来，AI绘画师场景、XR非遗文创场景、亲子乐园互动场景、运河游船科技升级场景等也将陆续发布。</p>
       `,
-    imageUrl: 'https://via.placeholder.com/1000',
-    bannerUrl: new URL('@/assets/mock/newsBanner.png', import.meta.url).href,
-    createTime: '2024-09-25'
-  }
+        imageUrl: 'https://via.placeholder.com/1000',
+        bannerUrl: new URL('@/assets/mock/newsBanner.png', import.meta.url).href,
+        createTime: '2024-09-20'
+    },
+    {
+        id: 2,
+        title: '带您玩转“三庙一塔”！“数字科普剧本游”上线实测',
+        summary:
+            '近日，全球数字经济大会副中心论坛成功举办，北京数据基础制度先行区文旅数据专区场景在会上首次亮相，受到社会各界广泛关注。会后，文旅数据专区创新联合体快速推进相关场景的实地应用进程。8月22日，文旅数据专区应用场景三庙一塔“数字科普剧本游”研学产品发布会在通州区文庙大成殿前成功举办。',
+        content: `<img src="http://10.105.31.40:9001/img/2.jpg" alt="">`,
+        imageUrl: 'https://via.placeholder.com/1000',
+        bannerUrl: new URL('@/assets/mock/newsBanner.png', import.meta.url).href,
+        createTime: '2024-08-22'
+    },
+    {
+        id: 4,
+        title: '北京城市副中心文旅数据专区创新联合体成立 首批数字文旅场景发布',
+        summary:
+            '在北京市通州区经信局指导下，北京北投智慧城市科技有限公司积极推进文旅数据专区建设，形成北京市文旅数据专区创建方案并完成首批数字文旅场景的征集发布。',
+        content: `<img src="http://10.105.31.40:9001/img/4.jpg" alt="">`,
+        imageUrl: 'https://via.placeholder.com/1000',
+        bannerUrl: new URL('@/assets/mock/newsBanner.png', import.meta.url).href,
+        createTime: '2024-07-09'
+    },
+    {
+        id: 5,
+        title: '副中心文旅数据专区创新联合体成立！第一批数字文旅场景已发布',
+        summary:
+            '在区经信局指导下，北京北投智慧城市科技有限公司积极推进文旅数据专区建设，形成北京市文旅数据专区创建方案并完成首批数字文旅场景的征集发布。',
+        content: `<img src="http://10.105.31.40:9001/img/5.jpg" alt="">`,
+        imageUrl: 'https://via.placeholder.com/1000',
+        bannerUrl: new URL('@/assets/mock/newsBanner.png', import.meta.url).href,
+        createTime: '2024-07-07'
+    },
+    {
+        id: 6,
+        title: '以“数”赋能，文旅数据专区创新联合体成立',
+        summary:
+            '记者今天获悉，在区经信局指导下，北京北投智慧城市科技有限公司积极推进文旅数据专区建设，形成北京市文旅数据专区创建方案并完成首批数字文旅场景的征集发布。',
+        content: `<img src="http://10.105.31.40:9001/img/6.jpg" alt="">`,
+        imageUrl: 'https://via.placeholder.com/1000',
+        bannerUrl: new URL('@/assets/mock/newsBanner.png', import.meta.url).href,
+        createTime: '2024-7-02'
+    },
+    {
+        id: 7,
+        title: '《关于北京城市副中心促进文旅产业高质量发展实施细则》',
+        summary: '政策背景、申报主体、支持标准、附则、说明',
+        content: `
+         <img src="http://10.105.31.40:9001/img/7.jpg" alt="">
+      `,
+        imageUrl: 'https://via.placeholder.com/1000',
+        bannerUrl: new URL('@/assets/mock/newsBanner.png', import.meta.url).href,
+        createTime: '2024-09-26'
+    }
 ]
