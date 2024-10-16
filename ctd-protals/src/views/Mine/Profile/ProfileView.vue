@@ -1,0 +1,34 @@
+<template>
+  <div class="profile-root-container">
+    <el-button w-50 self-end type="primary" size="small" @click="isPersonal = !isPersonal"
+      >测试按钮，切换个人/企业</el-button
+    >
+
+    <base-info />
+
+    <personal-info v-if="isPersonal"></personal-info>
+    <company-info v-else></company-info>
+    <security-info />
+    <payment-info />
+  </div>
+</template>
+
+<script setup lang="ts">
+import BaseInfo from './BaseInfo/BaseInfo.vue'
+import PersonalInfo from './PersonalInfo/PersonalInfo.vue'
+import CompanyInfo from './CompanyInfo/CompanyInfo.vue'
+import SecurityInfo from './SecurityInfo/SecurityInfo.vue'
+import PaymentInfo from './Payment/PaymentInfo.vue'
+
+const isPersonal = ref(true)
+</script>
+
+<style lang="scss" scoped>
+.profile-root-container {
+  @apply flex flex-col p-10 gap-10;
+
+  @media (max-width: 40rem) {
+    @apply p-5;
+  }
+}
+</style>

@@ -1,0 +1,17 @@
+@import './base.css';
+
+#app {
+}
+
+.page-title {
+  @apply relative text-4xl font-bold;
+
+  &::before {
+    @apply content-[''] absolute bottom--5 left-1/2 translate-x--1/2 w-20 h-1 rounded bg-[var(--color-primary)];
+  }
+}
+
+.default-btn {
+  --el-button-border-color: var(--color-primary) !important;
+  --el-button-text-color: var(--color-primary) !important;
+}
