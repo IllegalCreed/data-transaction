@@ -348,6 +348,7 @@
     "MaybeRefOrGetter": true,
     "getDemand": true,
     "getRecommendDemands": true,
-    "getDemandDetail": true
+    "getDemandDetail": true,
+    "getNews": true
   }
 }

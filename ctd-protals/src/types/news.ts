@@ -1,9 +1,10 @@
 export interface INews {
-  id: number
+  id: number | string
   title: string
   summary: string
   content: string
   imageUrl?: string
+  bannerUrl?: string
   createTime: string
 }
 

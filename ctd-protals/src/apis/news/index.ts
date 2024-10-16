@@ -13,3 +13,16 @@ export const getNewsList = (pageNum: number, pageSize: number): Promise<unknown>
     false
   )
 }
+
+export const getNews = (id: string | number): Promise<unknown> => {
+  const params = {
+    id
+  }
+  return request.post(
+    {
+      url: '/getNews',
+      params
+    },
+    false
+  )
+}
