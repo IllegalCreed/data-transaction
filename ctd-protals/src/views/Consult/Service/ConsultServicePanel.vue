@@ -1,6 +1,9 @@
 <template>
   <div class="consult-service-panel">
-    <div class="consult-service-inner-panel" :style="{ backgroundImage: `url('${bg}')` }">
+    <div
+      class="consult-service-inner-panel"
+      :style="{ backgroundImage: `url('${bg}')` }"
+    >
       <span class="title">我们提供哪些咨询与代办服务</span>
       <div class="grid-panel">
         <consult-service-item
@@ -20,7 +23,9 @@
 import ConsultServiceItem from './ConsultServiceItem.vue'
 import { useConsultStore } from '@/stores/modules/consult'
 
-const bg = ref(new URL('@/assets/background/consultBackground.png', import.meta.url).href)
+const bg = ref(
+  new URL('@/assets/background/consultBackground.png', import.meta.url).href,
+)
 
 const consultStore = useConsultStore()
 const { services } = storeToRefs(consultStore)
@@ -68,9 +73,9 @@ onMounted(() => {
     }
   }
 
-  @media (max-width: 25rem) {
+  @media (max-width: 30rem) {
     .title {
-      @apply text-3xl;
+      @apply text-2xl;
     }
   }
 }
