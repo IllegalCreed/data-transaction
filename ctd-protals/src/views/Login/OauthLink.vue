@@ -1,7 +1,5 @@
 <template>
-  <el-button circle size="large" @click="redirectToOauth">
-    <i :class="icon" text-2xl></i>
-  </el-button>
+  <img :src="icon" @click="redirectToOauth" cursor-pointer />
 </template>
 
 <script setup lang="ts">

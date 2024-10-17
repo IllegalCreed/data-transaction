@@ -1,4 +1,5 @@
 import type { ILoginAd } from '@/types/advertisement'
+import type { IAuthLink } from '@/types/login'
 import { v4 as uuidv4 } from 'uuid'
 
 export const ads: ILoginAd = {
@@ -39,3 +40,18 @@ export const ads: ILoginAd = {
     }
   ]
 }
+
+export const oauthLinks: IAuthLink[] = [
+  {
+    icon: new URL('@/assets/icon/login/alipay.png', import.meta.url).href,
+    url: 'https://example.com/oauth2/weixin'
+  },
+  {
+    icon: new URL('@/assets/icon/login/QQ.png', import.meta.url).href,
+    url: 'https://example.com/oauth2/qq'
+  },
+  {
+    icon: new URL('@/assets/icon/login/wechat.png', import.meta.url).href,
+    url: 'https://example.com/oauth2/alipay'
+  }
+]

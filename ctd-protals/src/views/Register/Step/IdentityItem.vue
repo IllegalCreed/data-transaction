@@ -38,7 +38,7 @@ defineProps<{
   }
 
   .icon {
-    @apply mr-4 h-6 w-6;
+    @apply mr-4 h-6 w-6 text-[var(--color-primary)];
   }
 
   .title {

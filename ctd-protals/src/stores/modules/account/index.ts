@@ -6,7 +6,7 @@ import { useForgot } from './forgot'
 
 export const useAccountStore = defineStore('account', () => {
   const { login, logout, getCode, resetPwd } = useAccount()
-  const { getAd } = useLogin()
+  const { getAd, links, getLinks } = useLogin()
   const {
     getAds: getRegisterAds,
     userIdentity,
@@ -24,6 +24,8 @@ export const useAccountStore = defineStore('account', () => {
     getCode,
     resetPwd,
     getAd,
+    links,
+    getLinks,
     getRegisterAds,
     userIdentity,
     setUserIdentity,

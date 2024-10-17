@@ -1,7 +1,8 @@
 import type { ILoginAd } from '@/types/advertisement'
 import { useSettingsStore } from '../settings'
-import { ads as mockAds } from '@/constants/mockData/account/login'
+import { ads as mockAds, oauthLinks as mockLinks } from '@/constants/mockData/account/login'
 import { getAdAPI } from '@/apis/account/login'
+import type { IAuthLink } from '@/types/login'
 
 export const useLogin = () => {
   const settingsStore = useSettingsStore()
@@ -23,5 +24,16 @@ export const useLogin = () => {
     })
   }
 
-  return { getAd }
+  const links = ref<IAuthLink[]>([])
+
+  const getLinks = (): Promise<void> => {
+    return new Promise<void>((resolve) => {
+      window.setTimeout(() => {
+        links.value = mockLinks
+        resolve()
+      }, 1000)
+    })
+  }
+
+  return { getAd, links, getLinks }
 }

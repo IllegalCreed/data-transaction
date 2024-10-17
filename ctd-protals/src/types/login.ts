@@ -9,3 +9,8 @@ export interface ILoginCode {
   uuid: string
   img: string
 }
+
+export interface IAuthLink {
+  icon: string
+  url: string
+}
