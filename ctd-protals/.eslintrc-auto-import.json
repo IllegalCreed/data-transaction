@@ -352,6 +352,10 @@
     "getNews": true,
     "getAdsAPI": true,
     "getRegisterAdsAPI": true,
-    "getForgotAdsAPI": true
+    "getForgotAdsAPI": true,
+    "useRouteParams": true,
+    "useRouteQuery": true,
+    "useRouterHash": true,
+    "useRouteHash": true
   }
 }

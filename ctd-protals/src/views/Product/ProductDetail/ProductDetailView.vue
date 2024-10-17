@@ -1,7 +1,10 @@
 <template>
   <div class="product-detail-root-container">
     <div class="product-detail-main">
-      <image-gallery :images="productImages" :loading="getProductImagesActionLoading" />
+      <image-gallery
+        :images="productImages"
+        :loading="getProductImagesActionLoading"
+      />
 
       <product-detail-info
         class="info-panel"
@@ -12,7 +15,12 @@
 
       <tab-bar
         mt-10
-        :links="sections.map((section: ISection) => ({ id: section.id, label: section.label }))"
+        :links="
+          sections.map((section: ISection) => ({
+            id: section.id,
+            label: section.label,
+          }))
+        "
       />
 
       <section-panel mt-10 :sections="sections" />
@@ -43,39 +51,42 @@ import ProductDetailFooter from './ProductDetailFooter.vue'
 
 // 处理同路由跳转
 const route = useRoute()
-let productId = route.params.id ? (route.params.id as string) : ''
+const productId = useRouteParams<string>('id', '')
 watch(
   () => route.params.id,
-  (newId) => {
-    productId = newId as string
+  newId => {
+    productId.value = newId as string
     executeGetProductAction()
-  }
+  },
 )
 
 // 加载数据
 import { useProductStore } from '@/stores/modules/product'
 const productStore = useProductStore()
-const { getProduct: getProductAction, getProductImages: getProductImagesAction } = productStore
+const {
+  getProduct: getProductAction,
+  getProductImages: getProductImagesAction,
+} = productStore
 
 const {
   state: productBaseInfo,
   isLoading: getProductActionLoading,
-  execute: executeGetProductAction
-} = useAsyncState(() => getProductAction(productId), {
+  execute: executeGetProductAction,
+} = useAsyncState(() => getProductAction(productId.value), {
   title: '',
   soldCount: 0,
   description: '',
   tags: [],
   sellerId: 0,
   hasCount: false,
-  specGroups: []
+  specGroups: [],
 })
 
 const {
   state: productImages,
   isLoading: getProductImagesActionLoading,
-  execute: executeGetProductImagesAction
-} = useAsyncState(() => getProductImagesAction(productId), [])
+  execute: executeGetProductImagesAction,
+} = useAsyncState(() => getProductImagesAction(productId.value), [])
 
 onMounted(() => {
   try {
@@ -101,27 +112,32 @@ const sections = ref<ISection[]>([
     id: 'details',
     label: '产品详情',
     component: markRaw(DetailsSection),
-    props: { productId: productId }
+    props: { productId: productId },
   },
-  { id: 'safety', label: '安全保障', component: markRaw(SafetySection), props: {} },
+  {
+    id: 'safety',
+    label: '安全保障',
+    component: markRaw(SafetySection),
+    props: {},
+  },
   {
     id: 'reviews',
     label: '客户评价',
     component: markRaw(ReviewsSection),
-    props: { productId: productId }
+    props: { productId: productId },
   },
   {
     id: 'seller',
     label: '关于商家',
     component: markRaw(SellerSection),
-    props: { sellerId: sellerId }
+    props: { sellerId: sellerId },
   },
   {
     id: 'recommendations',
     label: '为您推荐',
     component: markRaw(RecommendationsSection),
-    props: { productId: productId }
-  }
+    props: { productId: productId },
+  },
 ])
 </script>
 
