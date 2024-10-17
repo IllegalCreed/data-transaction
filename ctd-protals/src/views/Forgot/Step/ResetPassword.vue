@@ -1,7 +1,7 @@
 <template>
-  <div flex flex-col items-center>
-    <span text-3xl font-bold mt-10>设置新密码</span>
-    <p text-sm text-gray-400>我们将会更新您的密码</p>
+  <div class="reset-root-container">
+    <span class="title">设置新密码</span>
+    <p class="desc">我们将会更新您的密码</p>
 
     <el-form
       class="form"
@@ -10,8 +10,6 @@
       ref="baseForm"
       label-width="auto"
       label-position="top"
-      mt-10
-      w-60
     >
       <el-form-item label="密码" prop="password">
         <el-input
@@ -26,11 +24,13 @@
       </el-form-item>
     </el-form>
 
-    <el-button w-60 mt-4 type="primary" @click="handleNextStep">下一步</el-button>
+    <el-button class="btn" type="primary" @click="handleNextStep">下一步</el-button>
   </div>
 </template>
 
 <script setup lang="ts">
+import type { IPassword } from '@/types/forgot'
+import type { InternalRuleItem } from 'async-validator'
 import type { FormInstance, FormRules } from 'element-plus'
 import { ElMessage } from 'element-plus'
 
@@ -40,7 +40,11 @@ const baseInfo = ref({
   confirmPassword: ''
 })
 
-const validateNewPwd = (rule: any, value: any, callback: any) => {
+const validateNewPwd = (
+  rule: InternalRuleItem,
+  value: string,
+  callback: (error?: string | Error) => void
+) => {
   const regex =
     /^(?![A-Za-z0-9]+$)(?![a-z0-9\W]+$)(?![A-Za-z\W]+$)(?![A-Z0-9\W]+$)[a-zA-Z0-9\W]{8,20}$/
   if (!regex.test(baseInfo.value.password)) {
@@ -50,7 +54,11 @@ const validateNewPwd = (rule: any, value: any, callback: any) => {
   }
 }
 
-const validateRepeatPwd = (rule: any, value: any, callback: any) => {
+const validateRepeatPwd = (
+  rule: InternalRuleItem,
+  value: string,
+  callback: (error?: string | Error) => void
+) => {
   if (baseInfo.value.password !== baseInfo.value.confirmPassword) {
     callback(new Error('请保证两次输入的密码一致'))
   } else {
@@ -58,7 +66,7 @@ const validateRepeatPwd = (rule: any, value: any, callback: any) => {
   }
 }
 
-const rules = reactive<FormRules<any>>({
+const rules = reactive<FormRules<IPassword>>({
   password: [
     { required: true, message: '请输入密码', trigger: 'blur' },
     {
@@ -104,4 +112,34 @@ const handleNextStep = async () => {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.reset-root-container {
+  @apply flex flex-col items-center;
+
+  .title {
+    @apply text-2xl font-bold;
+  }
+
+  .desc {
+    @apply text-sm text-[var(--color-text-lighter)] mb-20;
+  }
+
+  .form {
+    @apply w-80;
+  }
+
+  .btn {
+    @apply mt-5 w-80;
+  }
+
+  @media (max-width: 30rem) {
+    .form {
+      @apply w-70;
+    }
+
+    .btn {
+      @apply w-70;
+    }
+  }
+}
+</style>

@@ -1,7 +1,7 @@
 <template>
-  <div flex flex-col items-center>
-    <span text-3xl font-bold mt-10>忘记密码？</span>
-    <p text-sm text-gray-400>别担心，跟随我们的引导重置密码</p>
+  <div class="send-email-root-container">
+    <span class="title">忘记密码？</span>
+    <p class="desc">别担心，跟随我们的引导重置密码</p>
 
     <el-form
       class="form"
@@ -10,15 +10,13 @@
       ref="baseForm"
       label-width="auto"
       label-position="top"
-      mt-10
-      w-60
     >
       <el-form-item label="邮箱" prop="email">
         <el-input v-model="baseInfo.email" placeholder="您注册时填写的邮箱地址" />
       </el-form-item>
     </el-form>
 
-    <el-button w-60 mt-4 type="primary" @click="handleNextStep">下一步</el-button>
+    <el-button class="btn" type="primary" @click="handleNextStep">下一步</el-button>
   </div>
 </template>
 
@@ -30,7 +28,7 @@ const baseInfo = ref({
 })
 
 const baseForm = useTemplateRef<FormInstance>('baseForm')
-const rules = reactive<FormRules<any>>({
+const rules = reactive<FormRules<{ email: string }>>({
   email: [
     { required: true, message: '请输入邮箱地址', trigger: 'blur' },
     { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur'] }
@@ -66,4 +64,34 @@ const handleNextStep = async () => {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.send-email-root-container {
+  @apply flex flex-col items-center;
+
+  .title {
+    @apply text-2xl font-bold;
+  }
+
+  .desc {
+    @apply text-sm text-[var(--color-text-lighter)] mb-20;
+  }
+
+  .form {
+    @apply w-80;
+  }
+
+  .btn {
+    @apply mt-5 w-80;
+  }
+
+  @media (max-width: 30rem) {
+    .form {
+      @apply w-70;
+    }
+
+    .btn {
+      @apply w-70;
+    }
+  }
+}
+</style>

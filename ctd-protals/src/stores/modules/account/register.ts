@@ -63,7 +63,6 @@ export const useRegister = () => {
 
   return {
     getAds,
-
     userIdentity,
     setUserIdentity,
     personalInfo,
