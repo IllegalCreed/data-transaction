@@ -46,27 +46,15 @@ defineProps<{
   }
 
   .description {
-    @apply text-sm text-slate-500;
+    @apply text-sm text-[var(--color-text)] leading-loose;
   }
 
   .tag {
-    @apply text-xs text-right text-slate-400;
-  }
-
-  @media (max-width: 80rem) {
-    @apply w-100;
-  }
-
-  @media (max-width: 50rem) {
-    @apply w-80;
+    @apply text-xs text-[var(--color-register-roleselect-text)];
   }
 
   @media (max-width: 40rem) {
-    @apply self-center;
-  }
-
-  @media (max-width: 30rem) {
-    @apply w-70;
+    @apply self-center w-full;
   }
 }
 </style>

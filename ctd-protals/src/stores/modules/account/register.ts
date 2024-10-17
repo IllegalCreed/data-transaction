@@ -2,6 +2,7 @@ import type { IRegisterAdCarouselItem } from '@/types/advertisement'
 import { useSettingsStore } from '../settings'
 import { getRegisterAdsAPI } from '@/apis/account/register'
 import { ads as mockAds } from '@/constants/mockData/account/register'
+import type { IBaseInfo, IEnterpriseInfo, IPersonalInfo } from '@/types/register'
 
 export const useRegister = () => {
   const settingsStore = useSettingsStore()
@@ -29,7 +30,7 @@ export const useRegister = () => {
     userIdentity.value = identity
   }
 
-  const personalInfo = reactive({
+  const personalInfo = reactive<IPersonalInfo>({
     name: '',
     idNumber: '',
     phone: '',
@@ -38,7 +39,7 @@ export const useRegister = () => {
     address: ''
   })
 
-  const enterpriseInfo = reactive({
+  const enterpriseInfo = reactive<IEnterpriseInfo>({
     companyName: '',
     companyDescription: '',
     companyCode: '',
@@ -50,7 +51,7 @@ export const useRegister = () => {
     companySize: ''
   })
 
-  const baseInfo = reactive({
+  const baseInfo = reactive<IBaseInfo>({
     email: '',
     password: '',
     confirmPassword: ''

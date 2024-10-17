@@ -23,6 +23,7 @@
     "@vueuse/components": "^11.1.0",
     "@vueuse/core": "^11.1.0",
     "aos": "3.0.0-beta.6",
+    "async-validator": "^4.2.5",
     "axios": "^1.7.7",
     "dayjs": "^1.11.13",
     "dompurify": "^3.1.7",

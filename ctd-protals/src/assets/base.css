@@ -86,6 +86,7 @@
   --color-text-lighter: var(--color-gray-400);
   --color-text-reverse: var(--color-white);
   --color-text-primary-light: var(--color-blue-200);
+  --color-register-roleselect-text: var(--color-blue-400);
 
   --color-price: var(--color-orange-600);
   --color-down-arrow: var(--color-orange-600);
