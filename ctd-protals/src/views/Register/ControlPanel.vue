@@ -1,13 +1,20 @@
 <template>
-  <div class="register-control-panel-root-container" :style="{ backgroundImage: `url('${bg}')` }">
-    <span class="logo">LOGO</span>
+  <div
+    class="register-control-panel-root-container"
+    :style="{ backgroundImage: `url('${bg}')` }"
+  >
+    <img :src="icon" class="logo" h-10 w-10 object-contain />
     <span class="back" @click="goLogin">返回登录</span>
     <div class="register-control-panel">
       <step-group :steps="steps" :currentStep="currentStep" self-stretch />
 
       <div flex-1 w-full mt-10>
         <keep-alive :include="includePanels">
-          <component :is="currentPanel" @nextStep="nextStep" @prevStep="prevStep" />
+          <component
+            :is="currentPanel"
+            @nextStep="nextStep"
+            @prevStep="prevStep"
+          />
         </keep-alive>
       </div>
     </div>
@@ -21,13 +28,16 @@ import BaseInfo from './Step/BaseInfo.vue'
 import EmailSended from './Step/EmailSended.vue'
 import EmailValidate from './Step/EmailValidate.vue'
 
-const bg = ref(new URL('@/assets/background/registerBackground.png', import.meta.url).href)
+const icon = new URL('@/assets/icon/logo.png', import.meta.url).href
+const bg = ref(
+  new URL('@/assets/background/registerBackground.png', import.meta.url).href,
+)
 
 const steps = [
   { title: '选择身份' },
   { title: '基本信息' },
   { title: '发送邮件' },
-  { title: '注册完成' }
+  { title: '注册完成' },
 ]
 
 const currentStep = ref(0)
@@ -41,7 +51,12 @@ if (token) {
 }
 
 const panels = [RoleSelector, BaseInfo, EmailSended, EmailValidate]
-const includePanels = ref(['RoleSelector', 'BaseInfo', 'EmailSended', 'EmailValidate'])
+const includePanels = ref([
+  'RoleSelector',
+  'BaseInfo',
+  'EmailSended',
+  'EmailValidate',
+])
 
 const currentPanel = computed(() => panels[currentStep.value])
 

@@ -1,6 +1,9 @@
 <template>
-  <div class="forgot-control-panel-root-container" :style="{ backgroundImage: `url('${bg}')` }">
-    <span class="logo">LOGO</span>
+  <div
+    class="forgot-control-panel-root-container"
+    :style="{ backgroundImage: `url('${bg}')` }"
+  >
+    <img :src="icon" class="logo" h-10 w-10 object-contain />
     <span class="back" @click="goLogin">返回登录</span>
     <div class="forgot-control-panel">
       <step-group :steps="steps" :currentStep="currentStep" self-stretch />
@@ -26,19 +29,27 @@ import ValidateCode from './Step/ValidateCode.vue'
 import ResetPassword from './Step/ResetPassword.vue'
 import ResetComplete from './Step/ResetComplete.vue'
 
-const bg = ref(new URL('@/assets/background/registerBackground.png', import.meta.url).href)
+const icon = new URL('@/assets/icon/logo.png', import.meta.url).href
+const bg = ref(
+  new URL('@/assets/background/registerBackground.png', import.meta.url).href,
+)
 
 const steps = [
   { title: '发送邮件' },
   { title: '邮件验证' },
   { title: '设置密码' },
-  { title: '修改完成' }
+  { title: '修改完成' },
 ]
 
 const currentStep = ref(0)
 
 const panels = [SendEmail, ValidateCode, ResetPassword, ResetComplete]
-const includePanels = ref(['SendEmail', 'ValidateCode', 'ResetPassword', 'ResetComplete'])
+const includePanels = ref([
+  'SendEmail',
+  'ValidateCode',
+  'ResetPassword',
+  'ResetComplete',
+])
 
 const currentPanel = computed(() => panels[currentStep.value])
 

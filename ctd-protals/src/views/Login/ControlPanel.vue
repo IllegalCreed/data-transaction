@@ -1,6 +1,6 @@
 <template>
   <div class="login-control-panel-root-container">
-    <span class="logo">LOGO</span>
+    <img :src="icon" class="logo" h-10 w-10 object-contain />
     <div class="login-control-panel">
       <span class="title">欢迎</span>
       <span class="desc">输入用户名密码以继续</span>
@@ -12,7 +12,11 @@
 
       <div class="login-input-container" mt-4>
         <span ml-1 text-sm>密码</span>
-        <el-input v-model="password" type="password" placeholder="请输入您的密码" />
+        <el-input
+          v-model="password"
+          type="password"
+          placeholder="请输入您的密码"
+        />
       </div>
 
       <div flex flex-row justify-between items-center w-60 mt-2>
@@ -20,7 +24,9 @@
         <span class="forgot" @click="goForgot">忘记密码</span>
       </div>
 
-      <el-button class="login-button" type="primary" @click="goHome">登录</el-button>
+      <el-button class="login-button" type="primary" @click="goHome"
+        >登录</el-button
+      >
       <div flex flex-row items-center gap-4 w-60>
         <el-divider></el-divider>
         <span text-xs flex-shrink-0>其他登录方式</span>
@@ -29,13 +35,19 @@
 
       <oauth-link-group />
 
-      <span text-xs mt-4>还没有账号？<span @click="goRegister" class="register">注册</span></span>
+      <span text-xs mt-4
+        >还没有账号？<span @click="goRegister" class="register"
+          >注册</span
+        ></span
+      >
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import OauthLinkGroup from './OauthLinkGroup.vue'
+
+const icon = new URL('@/assets/icon/logo.png', import.meta.url).href
 
 const email = ref('')
 const password = ref('')
