@@ -1,8 +1,8 @@
 <template>
-  <div flex flex-col>
+  <div flex flex-col items-center>
     <span text-2xl font-bold>请您填写基本信息</span>
     <div class="form-container">
-      <div flex flex-col>
+      <div flex flex-col mb-4>
         <span text-lg font-bold>基本信息</span>
         <el-form
           class="form"
@@ -61,6 +61,8 @@ import PersonInfo from './PersonInfo.vue'
 import EnterpriseInfo from './EnterpriseInfo.vue'
 import { useAccountStore } from '@/stores/modules/account'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
+import type { IBaseInfo } from '@/types/register'
+import type { InternalRuleItem } from 'async-validator'
 
 const accountStore = useAccountStore()
 const { baseInfo } = accountStore
@@ -70,7 +72,11 @@ const personFormRef = ref<{ validateForm: () => Promise<boolean> } | null>(null)
 const enterpriseFormRef = ref<{ validateForm: () => Promise<boolean> } | null>(null)
 const validateOnSubmit = false
 
-const validateNewPwd = (rule: any, value: any, callback: any) => {
+const validateNewPwd = (
+  rule: InternalRuleItem,
+  value: string,
+  callback: (error?: string | Error) => void
+) => {
   const regex =
     /^(?![A-Za-z0-9]+$)(?![a-z0-9\W]+$)(?![A-Za-z\W]+$)(?![A-Z0-9\W]+$)[a-zA-Z0-9\W]{8,20}$/
   if (!regex.test(baseInfo.password)) {
@@ -80,7 +86,11 @@ const validateNewPwd = (rule: any, value: any, callback: any) => {
   }
 }
 
-const validateRepeatPwd = (rule: any, value: any, callback: any) => {
+const validateRepeatPwd = (
+  rule: InternalRuleItem,
+  value: string,
+  callback: (error?: string | Error) => void
+) => {
   if (baseInfo.password !== baseInfo.confirmPassword) {
     callback(new Error('请保证两次输入的密码一致'))
   } else {
@@ -88,7 +98,7 @@ const validateRepeatPwd = (rule: any, value: any, callback: any) => {
   }
 }
 
-const rules = reactive<FormRules<any>>({
+const rules = reactive<FormRules<IBaseInfo>>({
   email: [
     { required: true, message: '请输入邮箱地址', trigger: 'blur' },
     { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur'] }
@@ -158,7 +168,7 @@ const handlePrevStep = () => {
 </script>
 <style lang="scss" scoped>
 .form-container {
-  @apply flex flex-row mt-4 space-x-20;
+  @apply flex flex-row mt-10 space-x-20;
 
   .form {
     @apply w-80 mt-4;

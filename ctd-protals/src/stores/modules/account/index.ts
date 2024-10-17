@@ -6,10 +6,17 @@ import { useForgot } from './forgot'
 
 export const useAccountStore = defineStore('account', () => {
   const { login, logout, getCode, resetPwd } = useAccount()
-  const { getAd } = useLogin()
-  const { userIdentity, setUserIdentity, personalInfo, enterpriseInfo, baseInfo, reSendEmail } =
-    useRegister()
-  const {} = useForgot()
+  const { getAd, links, getLinks } = useLogin()
+  const {
+    getAds: getRegisterAds,
+    userIdentity,
+    setUserIdentity,
+    personalInfo,
+    enterpriseInfo,
+    baseInfo,
+    reSendEmail
+  } = useRegister()
+  const { getAds: getForgotAds } = useForgot()
 
   return {
     login,
@@ -17,11 +24,15 @@ export const useAccountStore = defineStore('account', () => {
     getCode,
     resetPwd,
     getAd,
+    links,
+    getLinks,
+    getRegisterAds,
     userIdentity,
     setUserIdentity,
     personalInfo,
     enterpriseInfo,
     baseInfo,
-    reSendEmail
+    reSendEmail,
+    getForgotAds
   }
 })

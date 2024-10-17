@@ -2,9 +2,9 @@
   <div class="service-root-container">
     <service-banner></service-banner>
 
-    <service-panel></service-panel>
+    <service-step-panel mb-20></service-step-panel>
 
-    <service-step-panel></service-step-panel>
+    <service-panel></service-panel>
   </div>
 </template>
 

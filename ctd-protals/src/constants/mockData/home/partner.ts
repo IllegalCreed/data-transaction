@@ -21,6 +21,13 @@ export const partners: IPartner[] = [
     description: '',
     imageUrl: new URL('@/assets/mock/logo3.png', import.meta.url).href,
     link: 'https://www.chinaunicom.com.cn/'
+  },
+  {
+    id: 4,
+    title: '中国电信',
+    description: '',
+    imageUrl: new URL('@/assets/mock/logo4.png', import.meta.url).href,
+    link: 'http://www.chinatelecom.com.cn/'
   }
 ]
 

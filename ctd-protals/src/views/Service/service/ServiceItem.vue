@@ -3,8 +3,8 @@
     class="service-item-root-container"
     :class="[
       imagePosition === 'right'
-        ? 'bg-[var(--color-background)]'
-        : 'bg-[var(--color-background-alternating)]'
+        ? 'bg-[var(--color-background-alternating)]'
+        : 'bg-[var(--color-background)]'
     ]"
     data-aos="fade-up"
   >
