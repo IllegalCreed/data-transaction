@@ -1,7 +1,7 @@
 <template>
   <div class="consult-service-panel">
     <div class="consult-service-inner-panel" :style="{ backgroundImage: `url('${bg}')` }">
-      <span class="title">我们提供哪些咨询服务</span>
+      <span class="title">我们提供哪些咨询与代办服务</span>
       <div class="grid-panel">
         <consult-service-item
           v-for="(item, index) in services"
