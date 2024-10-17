@@ -12,7 +12,7 @@
 
       <div class="login-input-container" mt-4>
         <span ml-1 text-sm>密码</span>
-        <el-input v-model="email" placeholder="请输入您的密码" />
+        <el-input v-model="password" type="password" placeholder="请输入您的密码" />
       </div>
 
       <div flex flex-row justify-between items-center w-60 mt-2>
@@ -38,6 +38,7 @@
 import OauthLinkGroup from './OauthLinkGroup.vue'
 
 const email = ref('')
+const password = ref('')
 const isRemember = ref(false)
 
 const router = useRouter()
