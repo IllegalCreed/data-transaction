@@ -1,18 +1,22 @@
 // @unocss-include
 export const NavMenu = [
-  'i-vaadin:home',
-  'i-vaadin:money',
+  'i-ant-design:home-outlined',
+  'i-carbon:application-web',
+  'i-tabler:database-dollar',
+  'i-carbon:data-vis-1',
+  'i-lineicons:consulting',
+  'i-carbon:document-requirements',
+  'i-proicons:person-circle',
+  'i-lsicon:work-order-info-filled',
   'i-mdi:database',
-  'i-vaadin:info-circle',
-  'i-system-uicons:paper-plane',
-  'i-vaadin:workplace',
-  'i-vaadin:user',
-  'i-mdi:clipboard-list-outline',
-  'i-basil:document-outline',
-  'i-vaadin:star',
-  'i-vaadin:comment',
   'i-mdi:cloud',
   'i-mdi:account-tie',
+  'i-f7:doc-text',
+  'i-mynaui:star',
+  'i-uil:comment-lines',
+  'i-carbon:settings',
+  'i-ic:round-search',
+  'i-mingcute:exit-line',
 ]
 
 export const serviceStep = [

@@ -55,9 +55,9 @@
       <!-- 系统设置 -->
       <div
         class="menu-item"
-        v-for="(item, index) in systemSettings"
+        v-for="(item, index) in systemSettingMenus"
         :key="index"
-        @click="handleSetting(item.action)"
+        @click="handleSetting(item.path)"
       >
         <i :class="item.icon"></i>
         <span>{{ item.label }}</span>
@@ -66,7 +66,10 @@
       <el-divider />
 
       <!-- 登出 -->
-      <el-button type="danger" min-w-30 @click="logout">登出</el-button>
+      <div class="menu-item logout" @click="logout">
+        <i :class="logoutMenu.icon"></i>
+        <span>{{ logoutMenu.label }}</span>
+      </div>
     </div>
 
     <setting-dialog v-model="isSettingDialogVisible" />
@@ -81,8 +84,14 @@ import { useAccountStore } from '@/stores/modules/account'
 const { logout: logoutAction } = useAccountStore()
 import { useMenuStore } from '@/stores/modules/menu'
 const menuStore = useMenuStore()
-const { mainMenus, mineMenus } = storeToRefs(menuStore)
-const { getMainMenus: getMainMenusAction, getMineMenus: getMineMenusAction } = menuStore
+const { mainMenus, mineMenus, systemSettingMenus, logoutMenu } =
+  storeToRefs(menuStore)
+const {
+  getMainMenus: getMainMenusAction,
+  getMineMenus: getMineMenusAction,
+  getSystemSettingMenus: getSystemSettingMenusAction,
+  getLogoutMenu: getLogoutMenuAction,
+} = menuStore
 
 const model = defineModel<boolean>({ required: true })
 const isSettingDialogVisible = ref(false)
@@ -92,14 +101,8 @@ const isSearchDialogVisible = ref(false)
 const user = {
   avatar: 'https://via.placeholder.com/100',
   name: '张三',
-  role: '普通用户'
+  role: '普通用户',
 }
-
-// 系统设置
-const systemSettings = [
-  { label: '系统设置', icon: 'i-vaadin:cog', action: 'settings' },
-  { label: '全局搜索', icon: 'i-vaadin:search', action: 'search' }
-]
 
 const router = useRouter()
 
@@ -152,6 +155,8 @@ watchEffect(() => {
 onMounted(() => {
   getMainMenusAction()
   getMineMenusAction()
+  getSystemSettingMenusAction()
+  getLogoutMenuAction()
 })
 </script>
 
@@ -168,11 +173,11 @@ onMounted(() => {
   @apply flex flex-row items-center my-2 cursor-pointer select-none hover:opacity-60;
 
   i {
-    @apply w-3 h-3 mx-4;
+    @apply w-5 h-5 mx-4;
   }
 
   span {
-    @apply text-sm;
+    @apply text-base;
   }
 
   @media (max-width: 40rem) {
@@ -186,5 +191,9 @@ onMounted(() => {
       @apply text-base;
     }
   }
+}
+
+.logout {
+  @apply text-[var(--color-logout-text)];
 }
 </style>
