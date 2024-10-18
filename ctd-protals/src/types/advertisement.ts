@@ -12,6 +12,13 @@ export interface ILoginAdCarouselItem {
   avatar: string
 }
 
+export interface IRegisterAdCarouselItem {
+  id: string | number
+  title: string
+  comment: string
+  imageUrl: string
+}
+
 export interface IAdFetchData {
   createBy: ''
   createTime: ''

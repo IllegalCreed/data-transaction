@@ -4,6 +4,7 @@
     :style="{
       backgroundImage: news.imageUrl ? `url(${news.imageUrl})` : `url('${bg}')`
     }"
+    @click="goNewsDetail"
   >
     <div class="main-container">
       <span class="title">{{ news.title }}</span>
@@ -17,7 +18,17 @@
 import type { INewsItem } from '@/types/news'
 const bg = ref(new URL('@/assets/placeholder/newsItemDefault.png', import.meta.url).href)
 
-defineProps<{ news: INewsItem }>()
+const { news } = defineProps<{ news: INewsItem }>()
+
+const router = useRouter()
+const goNewsDetail = () => {
+  router.push({
+    name: 'news-detail',
+    params: {
+      id: news.id
+    }
+  })
+}
 </script>
 
 <style scoped lang="scss">

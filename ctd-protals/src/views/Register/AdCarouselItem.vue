@@ -1,17 +1,15 @@
 <template>
   <div class="ad-carousel-item">
-    <img :src="img" />
-    <span class="title">{{ title }}</span>
-    <p class="desc">{{ comment }}</p>
+    <img :src="carousel.imageUrl" />
+    <span class="title">{{ carousel.title }}</span>
+    <p class="desc">{{ carousel.comment }}</p>
   </div>
 </template>
 
 <script setup lang="ts">
-defineProps<{
-  title: string
-  comment: string
-  img: string
-}>()
+import type { IRegisterAdCarouselItem } from '@/types/advertisement'
+
+defineProps<{ carousel: IRegisterAdCarouselItem }>()
 </script>
 
 <style scoped lang="scss">
@@ -19,7 +17,7 @@ defineProps<{
   @apply flex flex-col items-stretch rounded-lg;
 
   img {
-    @apply w-80 h-100 rounded;
+    @apply w-80 h-80 rounded object-contain;
   }
 
   .title {

@@ -1,51 +1,45 @@
 <template>
   <div class="register-ad-panel">
-    <el-carousel
-      :interval="5000"
-      arrow="never"
-      indicator-position="outside"
-      height="35rem"
-      autoplay
-    >
-      <el-carousel-item v-for="item in carouselItems" :key="item.id">
-        <ad-carousel-item :title="item.title" :comment="item.comment" :img="item.img" />
-      </el-carousel-item>
-    </el-carousel>
+    <el-skeleton :loading="getRegisterAdsActionLoading" animated>
+      <template #template>
+        <el-skeleton-item variant="rect" class="!h-120"></el-skeleton-item>
+      </template>
+      <template #default>
+        <el-carousel
+          :interval="5000"
+          arrow="never"
+          indicator-position="outside"
+          height="35rem"
+          autoplay
+        >
+          <el-carousel-item v-for="item in carouselItems" :key="item.id">
+            <ad-carousel-item :carousel="item" />
+          </el-carousel-item>
+        </el-carousel>
+      </template>
+    </el-skeleton>
   </div>
 </template>
 <script setup lang="ts">
 import AdCarouselItem from './AdCarouselItem.vue'
 
-const carouselItems = [
-  {
-    id: 1,
-    title: '成为产品供应商',
-    comment:
-      '作为产品供应商，您可以通过平台提供优质的数据产品，帮助更多企业和用户解决数据需求，充分发挥数据资源的商业价值。',
-    img: 'https://via.placeholder.com/320x400'
-  },
-  {
-    id: 2,
-    title: '成为需求承接商',
-    comment:
-      '需求承接商通过承接平台上的各类数据需求，提供相应的技术或服务支持，帮助企业高效完成数据项目，获得丰厚回报。',
-    img: 'https://via.placeholder.com/320x400'
-  },
-  {
-    id: 3,
-    title: '成为数据处理服务商',
-    comment:
-      '作为数据处理服务商，您可以利用先进的技术帮助企业进行数据清洗、分析、挖掘等处理服务，提升数据的使用价值和效率。',
-    img: 'https://via.placeholder.com/320x400'
-  },
-  {
-    id: 4,
-    title: '成为数据服务消费者',
-    comment:
-      '数据服务消费者可以通过平台获取优质的数据资源和服务，满足企业业务发展的多样化数据需求，推动数字化转型。',
-    img: 'https://via.placeholder.com/320x400'
+import { useAccountStore } from '@/stores/modules/account'
+const accountStore = useAccountStore()
+const { getRegisterAds: getRegisterAdsAction } = accountStore
+
+const {
+  state: carouselItems,
+  isLoading: getRegisterAdsActionLoading,
+  execute: executeGetRegisterAdsAction
+} = useAsyncState(getRegisterAdsAction(), undefined)
+
+onMounted(() => {
+  try {
+    executeGetRegisterAdsAction()
+  } catch (error: unknown) {
+    console.error(error)
   }
-]
+})
 </script>
 <style lang="scss" scoped>
 .register-ad-panel {

@@ -5,7 +5,7 @@
   </div>
 
   <div v-else-if="isActivationSuccess" class="activation-success">
-    <i-carbon:checkmark-outline h-12 w-12 text-green-600></i-carbon:checkmark-outline>
+    <i-carbon:checkmark-outline h-16 w-16 text-green-600></i-carbon:checkmark-outline>
     <h2>账号激活成功</h2>
     <p text-sm text-center text-gray-500 max-w-120>
       您的账号已成功激活，您现在可以使用您的邮箱和密码登录。
@@ -15,7 +15,7 @@
   </div>
 
   <div v-else class="activation-failed">
-    <i-carbon:warning h-12 w-12 text-red-600></i-carbon:warning>
+    <i-carbon:warning h-16 w-16 text-red-600></i-carbon:warning>
     <h2>激活失败</h2>
     <p text-sm text-center text-gray-500 max-w-120>激活链接已过期或无效，无法完成激活。</p>
     <p text-sm text-center text-gray-500 max-w-120>
@@ -51,7 +51,7 @@ const verifyActivation = async (token: string) => {
       isActivationSuccess.value = false
       email.value = response.email
     }
-  } catch (error) {
+  } catch {
     isActivationSuccess.value = false
     ElMessage.error('激活失败，请稍后再试。')
   } finally {
@@ -92,7 +92,7 @@ const resendActivationEmail = async () => {
   try {
     emit('prevStep')
     ElMessage.success('激活邮件已重新发送，请检查您的邮箱。')
-  } catch (error) {
+  } catch {
     ElMessage.error('重新发送激活邮件失败，请稍后重试。')
   }
 }

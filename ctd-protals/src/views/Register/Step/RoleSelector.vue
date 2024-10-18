@@ -1,7 +1,7 @@
 <template>
-  <div flex flex-col>
-    <span text-2xl font-bold>请选择您的注册身份</span>
-    <p text-sm text-slate-500 mb-10>
+  <div class="role-selector-root-container">
+    <span class="title">请选择您的注册身份</span>
+    <p class="desc">
       为了更好地为您提供定制化的服务，请选择您的身份。不同的身份将影响您在平台上的使用体验
     </p>
 
@@ -49,23 +49,19 @@ const selectIdentity = (identity: string) => {
 }
 </script>
 <style lang="scss" scoped>
+.role-selector-root-container {
+  @apply flex flex-col items-center;
+
+  .title {
+    @apply text-2xl font-bold;
+  }
+
+  .desc {
+    @apply text-sm text-[var(--color-text-lighter)] mb-10;
+  }
+}
+
 .step-btn {
-  @apply self-start ml-90 w-30 mb-10;
-
-  @media (max-width: 80rem) {
-    @apply ml-70;
-  }
-
-  @media (max-width: 50rem) {
-    @apply ml-50;
-  }
-
-  @media (max-width: 40rem) {
-    @apply self-center w-80 ml-0 mt-10;
-  }
-
-  @media (max-width: 30rem) {
-    @apply w-70;
-  }
+  @apply w-70 my-10;
 }
 </style>

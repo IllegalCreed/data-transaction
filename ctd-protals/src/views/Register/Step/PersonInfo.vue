@@ -35,7 +35,12 @@
 
       <!-- 出生日期 -->
       <el-form-item label="出生日期">
-        <el-date-picker v-model="personalInfo.birthDate" type="date" placeholder="请选择出生日期" />
+        <el-date-picker
+          v-model="personalInfo.birthDate"
+          type="date"
+          placeholder="请选择出生日期"
+          class="!w-full"
+        />
       </el-form-item>
 
       <!-- 住址 -->

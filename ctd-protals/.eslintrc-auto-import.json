@@ -349,6 +349,9 @@
     "getDemand": true,
     "getRecommendDemands": true,
     "getDemandDetail": true,
-    "getNews": true
+    "getNews": true,
+    "getAdsAPI": true,
+    "getRegisterAdsAPI": true,
+    "getForgotAdsAPI": true
   }
 }
