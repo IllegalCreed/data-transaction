@@ -9,7 +9,12 @@
 
       <tab-bar
         mt-10
-        :links="sections.map((section: ISection) => ({ id: section.id, label: section.label }))"
+        :links="
+          sections.map((section: ISection) => ({
+            id: section.id,
+            label: section.label,
+          }))
+        "
       />
 
       <section-panel mt-10 :sections="sections" />
@@ -39,13 +44,13 @@ import DemandDetailFooter from './DemandDetailFooter.vue'
 
 // 处理同路由跳转
 const route = useRoute()
-let demandId = route.params.id ? (route.params.id as string) : ''
+const demandId = useRouteParams<string>('id', '')
 watch(
   () => route.params.id,
-  (newId) => {
-    demandId = newId as string
+  newId => {
+    demandId.value = newId as string
     executeGetDemandAction()
-  }
+  },
 )
 
 // 加载数据
@@ -56,17 +61,20 @@ const { getDemand: getDemandAction } = demandStore
 const {
   state: demandBaseInfo,
   isLoading: getDemandActionLoading,
-  execute: executeGetDemandAction
-} = useAsyncState(() => getDemandAction(demandId), {
+  execute: executeGetDemandAction,
+} = useAsyncState(() => getDemandAction(demandId.value), {
   title: '',
   description: '',
   publisher: '',
   budget: 0,
-  transactionType: { mode: TransactionMode.Tender, payType: PayType.ByFixedPrice },
+  transactionType: {
+    mode: TransactionMode.Tender,
+    payType: PayType.ByFixedPrice,
+  },
   createTime: '',
   expectedDeliveryDate: '',
   status: DemandOrderStatus.Bidding,
-  tags: []
+  tags: [],
 })
 
 onMounted(() => {
@@ -88,15 +96,20 @@ const sections = ref<ISection[]>([
     id: 'details',
     label: '产品详情',
     component: markRaw(DetailsSection),
-    props: { demandId: demandId }
+    props: { demandId: demandId },
   },
-  { id: 'safety', label: '安全保障', component: markRaw(SafetySection), props: {} },
+  {
+    id: 'safety',
+    label: '安全保障',
+    component: markRaw(SafetySection),
+    props: {},
+  },
   {
     id: 'recommendations',
     label: '相似需求',
     component: markRaw(RecommendationsSection),
-    props: { demandId: demandId }
-  }
+    props: { demandId: demandId },
+  },
 ])
 </script>
 

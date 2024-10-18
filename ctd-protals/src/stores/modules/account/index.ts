@@ -5,7 +5,8 @@ import { useRegister } from './register'
 import { useForgot } from './forgot'
 
 export const useAccountStore = defineStore('account', () => {
-  const { login, logout, getCode, resetPwd } = useAccount()
+  const { login, logout, getCode, resetPwd, userinfo, getUserInfo } =
+    useAccount()
   const { getAd, links, getLinks } = useLogin()
   const {
     getAds: getRegisterAds,
@@ -14,7 +15,7 @@ export const useAccountStore = defineStore('account', () => {
     personalInfo,
     enterpriseInfo,
     baseInfo,
-    reSendEmail
+    reSendEmail,
   } = useRegister()
   const { getAds: getForgotAds } = useForgot()
 
@@ -23,6 +24,8 @@ export const useAccountStore = defineStore('account', () => {
     logout,
     getCode,
     resetPwd,
+    userinfo,
+    getUserInfo,
     getAd,
     links,
     getLinks,
@@ -33,6 +36,6 @@ export const useAccountStore = defineStore('account', () => {
     enterpriseInfo,
     baseInfo,
     reSendEmail,
-    getForgotAds
+    getForgotAds,
   }
 })

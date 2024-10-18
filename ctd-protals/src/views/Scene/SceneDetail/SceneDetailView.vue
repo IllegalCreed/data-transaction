@@ -1,14 +1,29 @@
 <template>
   <div class="scene-detail-root-container">
-    <el-skeleton :loading="getSceneActionLoading" animated flex flex-col items-center gap-10>
+    <el-skeleton
+      :loading="getSceneActionLoading"
+      animated
+      flex
+      flex-col
+      items-center
+      gap-10
+    >
       <template #template>
         <el-skeleton-item variant="rect" class="!h-100"></el-skeleton-item>
         <el-skeleton-item variant="h1" class="!w-100"></el-skeleton-item>
         <el-skeleton-item variant="p" class="!w-30"></el-skeleton-item>
 
         <div class="scene-detail-main-container" gap-4>
-          <el-skeleton-item variant="rect" class="!h-50" mb-10></el-skeleton-item>
-          <el-skeleton-item v-for="n in 20" :key="n" variant="p"></el-skeleton-item>
+          <el-skeleton-item
+            variant="rect"
+            class="!h-50"
+            mb-10
+          ></el-skeleton-item>
+          <el-skeleton-item
+            v-for="n in 20"
+            :key="n"
+            variant="p"
+          ></el-skeleton-item>
         </div>
       </template>
       <template #default>
@@ -35,8 +50,7 @@
 <script setup lang="ts">
 import DOMPurify from 'dompurify'
 
-const route = useRoute()
-const sceneId = route.params.id ? (route.params.id as string) : ''
+const sceneId = useRouteParams<string>('id', '')
 
 import { useSceneStore } from '@/stores/modules/scene'
 const sceneStore = useSceneStore()
@@ -45,15 +59,15 @@ const { getScene: getSceneAction } = sceneStore
 const {
   state: scene,
   isLoading: getSceneActionLoading,
-  execute: executeGetSceneAction
-} = useAsyncState(() => getSceneAction(sceneId), {
+  execute: executeGetSceneAction,
+} = useAsyncState(() => getSceneAction(sceneId.value), {
   id: '',
   title: '',
   companyName: '',
   description: '',
   imageUrl: '',
   bannerUrl: '',
-  content: ''
+  content: '',
 })
 
 const sanitizedContent = computed(() => {

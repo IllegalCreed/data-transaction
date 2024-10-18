@@ -8,15 +8,51 @@
     append-to-body
   >
     <!-- 用户信息部分 -->
-    <div flex flex-row items-center mb-4>
-      <img w-14 h-14 rounded-full :src="user.avatar" />
-      <div flex flex-col ml-4 space-y-2>
-        <span text-lg font-bold>{{ user.name }}</span>
-        <el-tag>{{ user.role }}</el-tag>
-      </div>
-      <div flex-1></div>
+    <div relative mb-4>
+      <el-skeleton :loading="getUserInfoActionLoading" animated>
+        <template #template>
+          <div flex flex-row gap-4>
+            <el-skeleton-item
+              variant="circle"
+              class="!w-14 !h-14"
+            ></el-skeleton-item>
+            <div flex flex-col gap-5>
+              <el-skeleton-item variant="h1" class="!w-30"></el-skeleton-item>
+              <el-skeleton-item variant="p" class="!w-15"></el-skeleton-item>
+            </div>
+          </div>
+        </template>
+        <template #default>
+          <div v-if="userinfo" flex flex-row items-center>
+            <img w-14 h-14 rounded-full :src="userinfo.avatar" />
+            <div flex flex-col ml-4 space-y-2>
+              <span text-lg font-bold>{{ userinfo.name }}</span>
+              <el-tag>{{ userinfo.role }}</el-tag>
+            </div>
+          </div>
+          <div v-else>
+            <el-button
+              mt-5
+              class="default-btn"
+              type="default"
+              size="large"
+              round
+              @click="navigateTo('/login')"
+              >登录
+              <i-solar:round-arrow-right-broken
+                ml-2
+                w-8
+                h-8
+              ></i-solar:round-arrow-right-broken
+            ></el-button>
+          </div>
+        </template>
+      </el-skeleton>
+
       <i-material-symbols-light:close
-        self-start
+        absolute
+        top-0
+        right-0
         cursor-pointer
         select-none
         @click="closeDialog"
@@ -55,9 +91,9 @@
       <!-- 系统设置 -->
       <div
         class="menu-item"
-        v-for="(item, index) in systemSettings"
+        v-for="(item, index) in systemSettingMenus"
         :key="index"
-        @click="handleSetting(item.action)"
+        @click="handleSetting(item.path)"
       >
         <i :class="item.icon"></i>
         <span>{{ item.label }}</span>
@@ -66,7 +102,10 @@
       <el-divider />
 
       <!-- 登出 -->
-      <el-button type="danger" min-w-30 @click="logout">登出</el-button>
+      <div class="menu-item logout" @click="handleSetting(logoutMenu.path)">
+        <i :class="logoutMenu.icon"></i>
+        <span>{{ logoutMenu.label }}</span>
+      </div>
     </div>
 
     <setting-dialog v-model="isSettingDialogVisible" />
@@ -78,31 +117,31 @@
 import SearchDialog from './Search/SearchDialog.vue'
 import SettingDialog from './SettingDialog.vue'
 import { useAccountStore } from '@/stores/modules/account'
-const { logout: logoutAction } = useAccountStore()
+const accountStore = useAccountStore()
+const { userinfo } = storeToRefs(accountStore)
+const { logout: logoutAction, getUserInfo: getUserInfoAction } = accountStore
+
 import { useMenuStore } from '@/stores/modules/menu'
 const menuStore = useMenuStore()
-const { mainMenus, mineMenus } = storeToRefs(menuStore)
-const { getMainMenus: getMainMenusAction, getMineMenus: getMineMenusAction } = menuStore
+const { mainMenus, mineMenus, systemSettingMenus, logoutMenu } =
+  storeToRefs(menuStore)
+const {
+  getMainMenus: getMainMenusAction,
+  getMineMenus: getMineMenusAction,
+  getSystemSettingMenus: getSystemSettingMenusAction,
+  getLogoutMenu: getLogoutMenuAction,
+} = menuStore
+
+const {
+  isLoading: getUserInfoActionLoading,
+  execute: executeGetUserInfoAction,
+} = useAsyncState(() => getUserInfoAction(), undefined, { immediate: false })
 
 const model = defineModel<boolean>({ required: true })
 const isSettingDialogVisible = ref(false)
 const isSearchDialogVisible = ref(false)
 
-// 用户信息模拟数据
-const user = {
-  avatar: 'https://via.placeholder.com/100',
-  name: '张三',
-  role: '普通用户'
-}
-
-// 系统设置
-const systemSettings = [
-  { label: '系统设置', icon: 'i-vaadin:cog', action: 'settings' },
-  { label: '全局搜索', icon: 'i-vaadin:search', action: 'search' }
-]
-
 const router = useRouter()
-
 const navigateTo = (path: string) => {
   router.push(path)
   closeDialog()
@@ -116,6 +155,9 @@ const handleSetting = (action: string) => {
     case 'search':
       isSearchDialogVisible.value = true
       break
+    case 'logout':
+      closeDialog()
+      logoutAction()
     default:
       break
   }
@@ -123,11 +165,6 @@ const handleSetting = (action: string) => {
 
 const closeDialog = () => {
   model.value = false
-}
-
-const logout = () => {
-  closeDialog()
-  logoutAction()
 }
 
 const drawerSize = ref('300px')
@@ -152,6 +189,14 @@ watchEffect(() => {
 onMounted(() => {
   getMainMenusAction()
   getMineMenusAction()
+  getSystemSettingMenusAction()
+  getLogoutMenuAction()
+
+  try {
+    executeGetUserInfoAction()
+  } catch (error: unknown) {
+    console.error(error)
+  }
 })
 </script>
 
@@ -168,11 +213,11 @@ onMounted(() => {
   @apply flex flex-row items-center my-2 cursor-pointer select-none hover:opacity-60;
 
   i {
-    @apply w-3 h-3 mx-4;
+    @apply w-5 h-5 mx-4;
   }
 
   span {
-    @apply text-sm;
+    @apply text-base;
   }
 
   @media (max-width: 40rem) {
@@ -186,5 +231,9 @@ onMounted(() => {
       @apply text-base;
     }
   }
+}
+
+.logout {
+  @apply text-[var(--color-logout-text)];
 }
 </style>

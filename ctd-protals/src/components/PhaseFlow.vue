@@ -57,5 +57,45 @@ defineProps<{ steps: ISafe[] }>()
       }
     }
   }
+
+  @media (max-width: 40rem) {
+    @apply flex-col;
+
+    .step-wrapper {
+      @apply flex-col items-center;
+
+      .step-container {
+        @apply w-25;
+
+        .step-icon {
+          @apply w-25 h-25;
+
+          img {
+            @apply w-25 h-25 object-contain;
+          }
+
+          .step-index {
+            @apply bottom--2.5 w-8 h-8 text-base;
+          }
+        }
+
+        .step-title {
+          @apply text-xl mt-5;
+        }
+      }
+
+      .connector {
+        @apply h-12 w-1px mt-4;
+
+        &::after {
+          @apply top-auto bottom--1;
+          border-bottom: 0px solid transparent;
+          border-left: 6px solid transparent;
+          border-right: 6px solid transparent;
+          border-top: 6px solid var(--color-primary);
+        }
+      }
+    }
+  }
 }
 </style>

@@ -17,3 +17,9 @@ export interface IMenu {
   icon: string
   children?: IMenu[]
 }
+
+export interface IUserInfo {
+  avatar: string
+  name: string
+  role: string
+}

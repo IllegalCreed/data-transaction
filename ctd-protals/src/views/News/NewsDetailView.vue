@@ -1,14 +1,29 @@
 <template>
   <div class="news-detail-root-container">
-    <el-skeleton :loading="getNewsActionLoading" animated flex flex-col items-center gap-10>
+    <el-skeleton
+      :loading="getNewsActionLoading"
+      animated
+      flex
+      flex-col
+      items-center
+      gap-10
+    >
       <template #template>
         <el-skeleton-item variant="rect" class="!h-100"></el-skeleton-item>
         <el-skeleton-item variant="h1" class="!w-100"></el-skeleton-item>
         <el-skeleton-item variant="p" class="!w-30"></el-skeleton-item>
 
         <div class="scene-detail-main-container" gap-4>
-          <el-skeleton-item variant="rect" class="!h-50" mb-10></el-skeleton-item>
-          <el-skeleton-item v-for="n in 20" :key="n" variant="p"></el-skeleton-item>
+          <el-skeleton-item
+            variant="rect"
+            class="!h-50"
+            mb-10
+          ></el-skeleton-item>
+          <el-skeleton-item
+            v-for="n in 20"
+            :key="n"
+            variant="p"
+          ></el-skeleton-item>
         </div>
       </template>
       <template #default>
@@ -35,8 +50,7 @@
 <script setup lang="ts">
 import DOMPurify from 'dompurify'
 
-const route = useRoute()
-const newsId = route.params.id ? (route.params.id as string) : ''
+const newsId = useRouteParams<string>('id', '')
 
 import { useNewsStore } from '@/stores/modules/news'
 const newsStore = useNewsStore()
@@ -45,15 +59,15 @@ const { getNews: getNewsAction } = newsStore
 const {
   state: news,
   isLoading: getNewsActionLoading,
-  execute: executeGetNewsAction
-} = useAsyncState(() => getNewsAction(newsId), {
+  execute: executeGetNewsAction,
+} = useAsyncState(() => getNewsAction(newsId.value), {
   id: '',
   title: '',
   summary: '',
   imageUrl: '',
   bannerUrl: '',
   content: '',
-  createTime: ''
+  createTime: '',
 })
 
 const sanitizedContent = computed(() => {
@@ -61,7 +75,9 @@ const sanitizedContent = computed(() => {
 })
 
 const formattedCreateTime = computed(() => {
-  return news.value ? dayjs(news.value.createTime).format('YYYY年MM月DD日 HH:mm:ss') : ''
+  return news.value
+    ? dayjs(news.value.createTime).format('YYYY年MM月DD日 HH:mm:ss')
+    : ''
 })
 
 onMounted(() => {

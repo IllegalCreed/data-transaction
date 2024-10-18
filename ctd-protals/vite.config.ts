@@ -9,10 +9,16 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
-import { ElementPlusResolver, VueUseComponentsResolver } from 'unplugin-vue-components/resolvers'
+import {
+  ElementPlusResolver,
+  VueUseComponentsResolver,
+} from 'unplugin-vue-components/resolvers'
 import { visualizer } from 'rollup-plugin-visualizer'
 
-Object.assign(process.env, loadEnv(process.env.NODE_ENV as string, process.cwd()))
+Object.assign(
+  process.env,
+  loadEnv(process.env.NODE_ENV as string, process.cwd()),
+)
 // https://vitejs.dev/config/
 export default defineConfig({
   base: process.env.VITE_BASE_URL || '/',
@@ -22,15 +28,15 @@ export default defineConfig({
       '/dev-api': {
         target: 'http://10.105.21.63:8080',
         changeOrigin: true,
-        rewrite: (p) => p.replace(/^\/dev-api/, '')
-      }
-    }
+        rewrite: p => p.replace(/^\/dev-api/, ''),
+      },
+    },
   },
   plugins: [
     vue(),
     visualizer({
       open: true, // 构建后自动打开分析结果
-      filename: 'dist/stats.html' // 输出文件
+      filename: 'dist/stats.html', // 输出文件
     }),
     vueDevTools(),
     VueI18nPlugin({}),
@@ -46,50 +52,55 @@ export default defineConfig({
           // 包导入
           axios: [
             // 默认别名导入
-            ['default', 'axios'] // import { default as axios } from 'axios',
+            ['default', 'axios'], // import { default as axios } from 'axios',
           ],
-          dayjs: [['default', 'dayjs']]
+          dayjs: [['default', 'dayjs']],
+          '@vueuse/router': [
+            ['useRouteHash', 'useRouteHash'],
+            ['useRouteParams', 'useRouteParams'],
+            ['useRouteQuery', 'useRouteQuery'],
+          ],
         },
         {
           from: '.src/types',
           type: true,
-          imports: ['ISort']
-        }
+          imports: ['ISort'],
+        },
       ],
       dirs: ['./src/utils', './src/composables', './src/apis/**'],
       dts: true,
       eslintrc: {
-        enabled: true
+        enabled: true,
       },
-      resolvers: [ElementPlusResolver()]
+      resolvers: [ElementPlusResolver()],
     }),
     Components({
       dts: true,
       resolvers: [
         VueUseComponentsResolver(),
         IconsResolver(),
-        ElementPlusResolver({ importStyle: 'sass' })
-      ]
+        ElementPlusResolver({ importStyle: 'sass' }),
+      ],
     }),
     Icons({
-      compiler: 'vue3'
-    })
+      compiler: 'vue3',
+    }),
   ],
   resolve: {
     alias: {
       '~': fileURLToPath(new URL('./', import.meta.url)),
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+    },
   },
   css: {
     preprocessorOptions: {
       scss: {
         api: 'modern-compiler',
-        additionalData: `@use "@/styles/element/index.scss" as *;`
-      }
-    }
+        additionalData: `@use "@/styles/element/index.scss" as *;`,
+      },
+    },
   },
   build: {
-    chunkSizeWarningLimit: 1000
-  }
+    chunkSizeWarningLimit: 1000,
+  },
 })
