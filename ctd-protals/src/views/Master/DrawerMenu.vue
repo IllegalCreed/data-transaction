@@ -8,15 +8,51 @@
     append-to-body
   >
     <!-- 用户信息部分 -->
-    <div flex flex-row items-center mb-4>
-      <img w-14 h-14 rounded-full :src="user.avatar" />
-      <div flex flex-col ml-4 space-y-2>
-        <span text-lg font-bold>{{ user.name }}</span>
-        <el-tag>{{ user.role }}</el-tag>
-      </div>
-      <div flex-1></div>
+    <div relative mb-4>
+      <el-skeleton :loading="getUserInfoActionLoading" animated>
+        <template #template>
+          <div flex flex-row gap-4>
+            <el-skeleton-item
+              variant="circle"
+              class="!w-14 !h-14"
+            ></el-skeleton-item>
+            <div flex flex-col gap-5>
+              <el-skeleton-item variant="h1" class="!w-30"></el-skeleton-item>
+              <el-skeleton-item variant="p" class="!w-15"></el-skeleton-item>
+            </div>
+          </div>
+        </template>
+        <template #default>
+          <div v-if="userinfo" flex flex-row items-center>
+            <img w-14 h-14 rounded-full :src="userinfo.avatar" />
+            <div flex flex-col ml-4 space-y-2>
+              <span text-lg font-bold>{{ userinfo.name }}</span>
+              <el-tag>{{ userinfo.role }}</el-tag>
+            </div>
+          </div>
+          <div v-else>
+            <el-button
+              mt-5
+              class="default-btn"
+              type="default"
+              size="large"
+              round
+              @click="navigateTo('/login')"
+              >登录
+              <i-solar:round-arrow-right-broken
+                ml-2
+                w-8
+                h-8
+              ></i-solar:round-arrow-right-broken
+            ></el-button>
+          </div>
+        </template>
+      </el-skeleton>
+
       <i-material-symbols-light:close
-        self-start
+        absolute
+        top-0
+        right-0
         cursor-pointer
         select-none
         @click="closeDialog"
@@ -66,7 +102,7 @@
       <el-divider />
 
       <!-- 登出 -->
-      <div class="menu-item logout" @click="logout">
+      <div class="menu-item logout" @click="handleSetting(logoutMenu.path)">
         <i :class="logoutMenu.icon"></i>
         <span>{{ logoutMenu.label }}</span>
       </div>
@@ -81,7 +117,10 @@
 import SearchDialog from './Search/SearchDialog.vue'
 import SettingDialog from './SettingDialog.vue'
 import { useAccountStore } from '@/stores/modules/account'
-const { logout: logoutAction } = useAccountStore()
+const accountStore = useAccountStore()
+const { userinfo } = storeToRefs(accountStore)
+const { logout: logoutAction, getUserInfo: getUserInfoAction } = accountStore
+
 import { useMenuStore } from '@/stores/modules/menu'
 const menuStore = useMenuStore()
 const { mainMenus, mineMenus, systemSettingMenus, logoutMenu } =
@@ -93,19 +132,16 @@ const {
   getLogoutMenu: getLogoutMenuAction,
 } = menuStore
 
+const {
+  isLoading: getUserInfoActionLoading,
+  execute: executeGetUserInfoAction,
+} = useAsyncState(() => getUserInfoAction(), undefined, { immediate: false })
+
 const model = defineModel<boolean>({ required: true })
 const isSettingDialogVisible = ref(false)
 const isSearchDialogVisible = ref(false)
 
-// 用户信息模拟数据
-const user = {
-  avatar: 'https://via.placeholder.com/100',
-  name: '张三',
-  role: '普通用户',
-}
-
 const router = useRouter()
-
 const navigateTo = (path: string) => {
   router.push(path)
   closeDialog()
@@ -119,6 +155,9 @@ const handleSetting = (action: string) => {
     case 'search':
       isSearchDialogVisible.value = true
       break
+    case 'logout':
+      closeDialog()
+      logoutAction()
     default:
       break
   }
@@ -126,11 +165,6 @@ const handleSetting = (action: string) => {
 
 const closeDialog = () => {
   model.value = false
-}
-
-const logout = () => {
-  closeDialog()
-  logoutAction()
 }
 
 const drawerSize = ref('300px')
@@ -157,6 +191,12 @@ onMounted(() => {
   getMineMenusAction()
   getSystemSettingMenusAction()
   getLogoutMenuAction()
+
+  try {
+    executeGetUserInfoAction()
+  } catch (error: unknown) {
+    console.error(error)
+  }
 })
 </script>
 

@@ -2,8 +2,18 @@ import { v4 as uuidv4 } from 'uuid'
 import type { ILogin, ILoginCode } from '@/types/login'
 import { useTokenStore } from '../token'
 import { useSettingsStore } from '../settings'
-import { logoutAPI, loginAPI, getCodeAPI, resetPwdAPI } from '@/apis/account/account'
-import { code as mockCode } from '@/constants/mockData/account/account'
+import {
+  logoutAPI,
+  loginAPI,
+  getCodeAPI,
+  resetPwdAPI,
+  getInfoAPI,
+} from '@/apis/account/account'
+import {
+  code as mockCode,
+  userInfo as mockUserInfo,
+} from '@/constants/mockData/account/account'
+import type { IUserInfo } from '@/types/master'
 
 export const useAccount = () => {
   const tokenStore = useTokenStore()
@@ -38,7 +48,7 @@ export const useAccount = () => {
           .then(() => {
             resolve()
           })
-          .catch((error) => {
+          .catch(error => {
             reject(error)
           })
           .finally(() => {
@@ -53,14 +63,14 @@ export const useAccount = () => {
       if (settingsStore.mockEnabled) {
         resolve({
           uuid: uuidv4(),
-          img: mockCode
+          img: mockCode,
         })
       } else {
         getCodeAPI()
           .then((res: unknown) => {
             resolve(res as ILoginCode)
           })
-          .catch((error) => {
+          .catch(error => {
             reject(error)
           })
           .finally(() => {})
@@ -87,5 +97,25 @@ export const useAccount = () => {
     })
   }
 
-  return { login, logout, getCode, resetPwd }
+  const userinfo = ref<IUserInfo>()
+  const getUserInfo = (): Promise<void> => {
+    return new Promise<void>((resolve, reject) => {
+      if (settingsStore.mockEnabled) {
+        userinfo.value = mockUserInfo
+        resolve()
+      } else {
+        getInfoAPI()
+          .then(res => {
+            userinfo.value = res as IUserInfo
+            resolve()
+          })
+          .catch((error: Error) => {
+            reject(error)
+          })
+          .finally(() => {})
+      }
+    })
+  }
+
+  return { login, logout, getCode, resetPwd, userinfo, getUserInfo }
 }

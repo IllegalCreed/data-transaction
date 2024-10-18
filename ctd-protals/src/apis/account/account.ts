@@ -6,14 +6,14 @@ export const loginAPI = (login: ILogin): Promise<unknown> => {
     username: login.account,
     password: login.password,
     code: login.code,
-    uuid: login.uuid
+    uuid: login.uuid,
   }
   return request.post(
     {
       url: '/login',
-      data
+      data,
     },
-    false
+    false,
   )
 }
 
@@ -25,17 +25,23 @@ export const getCodeAPI = (): Promise<unknown> => {
   return request.get({ url: '/captchaImage' })
 }
 
-// 修改管理员密码
-export const resetPwdAPI = (oldPwd: string, newPwd: string): Promise<unknown> => {
+export const resetPwdAPI = (
+  oldPwd: string,
+  newPwd: string,
+): Promise<unknown> => {
   const params = {
     oldPassword: oldPwd,
-    newPassword: newPwd
+    newPassword: newPwd,
   }
   return request.get(
     {
       url: '/user/resetPwd',
-      params
+      params,
     },
-    true
+    true,
   )
+}
+
+export const getInfoAPI = (): Promise<unknown> => {
+  return request.get({ url: '/getInfoAPI' })
 }

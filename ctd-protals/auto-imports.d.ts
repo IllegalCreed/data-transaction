@@ -56,6 +56,7 @@ declare global {
   const getDemands: typeof import('./src/apis/demand/demand')['getDemands']
   const getFilterSource: (typeof import('./src/apis/product/filter'))['getFilterSource']
   const getForgotAdsAPI: typeof import('./src/apis/account/forgot')['getForgotAdsAPI']
+  const getInfoAPI: typeof import('./src/apis/account/account')['getInfoAPI']
   const getLinks: typeof import('./src/apis/master/link')['getLinks']
   const getNews: typeof import('./src/apis/news/index')['getNews']
   const getNewsList: typeof import('./src/apis/news/index')['getNewsList']

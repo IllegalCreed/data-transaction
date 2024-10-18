@@ -356,6 +356,7 @@
     "useRouteParams": true,
     "useRouteQuery": true,
     "useRouterHash": true,
-    "useRouteHash": true
+    "useRouteHash": true,
+    "getInfoAPI": true
   }
 }
