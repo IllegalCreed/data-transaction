@@ -42,9 +42,11 @@
   </div>
 </template>
 <script setup lang="ts">
-const bg = ref(new URL('@/assets/background/loginAdBackground.png', import.meta.url).href)
+const bg = ref(
+  new URL('@/assets/background/loginAdBackground.png', import.meta.url).href,
+)
 
-import type { ILoginAd } from '@/types/advertisement'
+import type { ILoginAd } from '@/types/login'
 import AdCarouselItem from './AdCarouselItem.vue'
 import { useAccountStore } from '@/stores/modules/account'
 const accountStore = useAccountStore()
@@ -53,11 +55,11 @@ const { getAd: getAdAction } = accountStore
 const {
   state: adData,
   isLoading: GetAdActionLoading,
-  execute: executeGetAdAction
+  execute: executeGetAdAction,
 } = useAsyncState<ILoginAd>(getAdAction(), {
   title: '',
   desc: '',
-  carousels: []
+  carousels: [],
 })
 
 onMounted(async () => {

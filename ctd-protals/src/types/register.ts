@@ -24,3 +24,9 @@ export interface IBaseInfo {
   password: string
   confirmPassword: string
 }
+
+export type RegistRoleType = 'personal' | 'enterprise' | undefined
+
+export type RegistInfoType =
+  | (IBaseInfo & IPersonalInfo & { userIdentity: 'personal' })
+  | (IBaseInfo & IEnterpriseInfo & { userIdentity: 'enterprise' })

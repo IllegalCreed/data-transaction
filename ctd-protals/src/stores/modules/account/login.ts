@@ -1,14 +1,56 @@
-import type { ILoginAd } from '@/types/advertisement'
+import { v4 as uuidv4 } from 'uuid'
+import { useTokenStore } from '../token'
 import { useSettingsStore } from '../settings'
+import type { ILogin, ILoginCode, ILoginAd, IAuthLink } from '@/types/login'
 import {
+  code as mockCode,
   ads as mockAds,
   oauthLinks as mockLinks,
 } from '@/constants/mockData/account/login'
-import { getAdAPI } from '@/apis/account/login'
-import type { IAuthLink } from '@/types/login'
+import { loginAPI, getCodeAPI, getAdAPI } from '@/apis/account/login'
 
 export const useLogin = () => {
+  const tokenStore = useTokenStore()
   const settingsStore = useSettingsStore()
+
+  const login = (login: ILogin): Promise<void> => {
+    return new Promise<void>((resolve, reject) => {
+      if (settingsStore.mockEnabled) {
+        tokenStore.setToken('testToken')
+        resolve()
+      } else {
+        loginAPI(login)
+          .then((res: unknown) => {
+            const result = res as { token: string }
+            tokenStore.setToken(result.token)
+            resolve()
+          })
+          .catch((error: unknown) => {
+            reject(error)
+          })
+      }
+    })
+  }
+
+  const getCode = (): Promise<ILoginCode> => {
+    return new Promise<ILoginCode>((resolve, reject) => {
+      if (settingsStore.mockEnabled) {
+        resolve({
+          uuid: uuidv4(),
+          img: mockCode,
+        })
+      } else {
+        getCodeAPI()
+          .then((res: unknown) => {
+            resolve(res as ILoginCode)
+          })
+          .catch(error => {
+            reject(error)
+          })
+          .finally(() => {})
+      }
+    })
+  }
 
   const getAd = (): Promise<ILoginAd> => {
     return new Promise<ILoginAd>((resolve, reject) => {
@@ -36,5 +78,5 @@ export const useLogin = () => {
     })
   }
 
-  return { getAd, links, getLinks }
+  return { login, getCode, getAd, links, getLinks }
 }

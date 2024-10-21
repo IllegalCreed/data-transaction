@@ -3,7 +3,7 @@
     class="register-control-panel-root-container"
     :style="{ backgroundImage: `url('${bg}')` }"
   >
-    <img :src="icon" class="logo" h-10 w-10 object-contain />
+    <img :src="icon" class="logo" h-15 w-15 object-contain />
     <span class="back" @click="goLogin">返回登录</span>
     <div class="register-control-panel">
       <step-group :steps="steps" :currentStep="currentStep" self-stretch />
@@ -84,7 +84,7 @@ const goLogin = () => {
   @apply relative flex-1 flex flex-col items-stretch justify-start p-20 pt-40 bg-center bg-cover;
 
   .logo {
-    @apply absolute top-10 left-10 text-2xl font-bold z-10;
+    @apply absolute top-8 left-10 text-2xl font-bold z-10;
   }
 
   .back {
@@ -96,10 +96,10 @@ const goLogin = () => {
   }
 
   @media (max-width: 40rem) {
-    @apply px-5 pt-20;
+    @apply px-5 pt-25;
 
     .logo {
-      @apply top-5 left-5;
+      @apply top-3 left-3;
     }
 
     .back {

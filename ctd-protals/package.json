@@ -7,7 +7,7 @@
     "dev": "vite --host",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview --host --port 9001",
-    "test:unit": "vitest",
+    "test:unit": "vitest --ui",
     "test:e2e": "start-server-and-test preview http://localhost:9001 'cypress run --e2e --record --key 67d45e64-e1fc-45f4-8bd9-0381b1ff89b6'",
     "test:e2e:dev": "start-server-and-test 'vite dev --host --port 9001' http://localhost:9001 'cypress open --e2e'",
     "build-only": "vite build",

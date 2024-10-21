@@ -1,42 +1,12 @@
-import { v4 as uuidv4 } from 'uuid'
-import type { ILogin, ILoginCode } from '@/types/login'
 import { useTokenStore } from '../token'
 import { useSettingsStore } from '../settings'
-import {
-  logoutAPI,
-  loginAPI,
-  getCodeAPI,
-  resetPwdAPI,
-  getInfoAPI,
-} from '@/apis/account/account'
-import {
-  code as mockCode,
-  userInfo as mockUserInfo,
-} from '@/constants/mockData/account/account'
+import { logoutAPI, resetPwdAPI, getInfoAPI } from '@/apis/account/account'
+import { userInfo as mockUserInfo } from '@/constants/mockData/account/account'
 import type { IUserInfo } from '@/types/master'
 
 export const useAccount = () => {
   const tokenStore = useTokenStore()
   const settingsStore = useSettingsStore()
-
-  const login = (login: ILogin): Promise<void> => {
-    return new Promise<void>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
-        tokenStore.setToken('testToken')
-        resolve()
-      } else {
-        loginAPI(login)
-          .then((res: unknown) => {
-            const result = res as { token: string }
-            tokenStore.setToken(result.token)
-            resolve()
-          })
-          .catch((error: unknown) => {
-            reject(error)
-          })
-      }
-    })
-  }
 
   const logout = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
@@ -54,26 +24,6 @@ export const useAccount = () => {
           .finally(() => {
             tokenStore.clearToken()
           })
-      }
-    })
-  }
-
-  const getCode = (): Promise<ILoginCode> => {
-    return new Promise<ILoginCode>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
-        resolve({
-          uuid: uuidv4(),
-          img: mockCode,
-        })
-      } else {
-        getCodeAPI()
-          .then((res: unknown) => {
-            resolve(res as ILoginCode)
-          })
-          .catch(error => {
-            reject(error)
-          })
-          .finally(() => {})
       }
     })
   }
@@ -117,5 +67,5 @@ export const useAccount = () => {
     })
   }
 
-  return { login, logout, getCode, resetPwd, userinfo, getUserInfo }
+  return { logout, resetPwd, userinfo, getUserInfo }
 }
