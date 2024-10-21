@@ -1,28 +1,7 @@
 import request from '@/axios'
-import type { ILogin } from '@/types/login'
-
-export const loginAPI = (login: ILogin): Promise<unknown> => {
-  const data = {
-    username: login.account,
-    password: login.password,
-    code: login.code,
-    uuid: login.uuid,
-  }
-  return request.post(
-    {
-      url: '/login',
-      data,
-    },
-    false,
-  )
-}
 
 export const logoutAPI = (): Promise<unknown> => {
   return request.post({ url: '/logout' })
-}
-
-export const getCodeAPI = (): Promise<unknown> => {
-  return request.get({ url: '/captchaImage' })
 }
 
 export const resetPwdAPI = (

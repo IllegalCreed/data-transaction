@@ -1,6 +1,6 @@
 <template>
   <div class="login-control-panel-root-container">
-    <img :src="icon" class="logo" h-10 w-10 object-contain />
+    <img :src="icon" class="logo" h-15 w-15 object-contain />
     <div class="login-control-panel">
       <span class="title">欢迎</span>
       <span class="desc">输入用户名密码以继续</span>
@@ -73,7 +73,7 @@ const goForgot = () => {
   @apply flex-1 flex flex-col items-center justify-center;
 
   .logo {
-    @apply absolute top-10 left-10 text-2xl font-bold z-10;
+    @apply absolute top-8 left-10 text-2xl font-bold z-10;
   }
 
   .login-control-panel {

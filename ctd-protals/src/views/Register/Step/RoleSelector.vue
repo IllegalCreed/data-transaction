@@ -25,13 +25,16 @@
       @click="selectIdentity('enterprise')"
     ></identity-item>
 
-    <el-button class="step-btn" type="primary" @click="handleNextStep">下一步</el-button>
+    <el-button class="step-btn" type="primary" @click="handleNextStep"
+      >下一步</el-button
+    >
   </div>
 </template>
 <script setup lang="ts">
 import { ElMessage } from 'element-plus'
 import IdentityItem from './IdentityItem.vue'
 import { useAccountStore } from '@/stores/modules/account'
+import type { RegistRoleType } from '@/types/register'
 
 const emit = defineEmits(['nextStep'])
 const handleNextStep = () => {
@@ -44,7 +47,7 @@ const handleNextStep = () => {
 
 const accountStore = useAccountStore()
 
-const selectIdentity = (identity: string) => {
+const selectIdentity = (identity: RegistRoleType) => {
   accountStore.setUserIdentity(identity)
 }
 </script>
