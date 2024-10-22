@@ -14,19 +14,22 @@ export const registerAPI = (registerInfo: RegistInfoType): Promise<unknown> => {
 }
 
 export const activationAccountAPI = (token: string): Promise<unknown> => {
-  const params = { token }
+  const params = { token: decodeURIComponent(token) }
 
   return request.get(
     {
       url: '/register/activation',
       params,
+      // headers: {
+      //   'Content-Type': 'multipart/form-data',
+      // },
     },
     false,
   )
 }
 
 export const tokenExchangeEmailAPI = (token: string): Promise<unknown> => {
-  const params = { token }
+  const params = { token: decodeURIComponent(token) }
 
   return request.get(
     {
