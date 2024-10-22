@@ -37,7 +37,7 @@ export const useSettingsStore = defineStore('settings', () => {
   }
 
   // Mock 相关
-  const mockEnabled = useLocalStorage('app-mock', true)
+  const mockEnabled = useLocalStorage('app-mock', false)
 
   const setMock = (value: boolean) => {
     mockEnabled.value = value

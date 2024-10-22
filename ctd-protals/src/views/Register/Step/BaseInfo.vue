@@ -14,6 +14,7 @@
         >
           <el-form-item label="邮箱" prop="email">
             <el-input
+              data-testid="email-input"
               v-model="baseInfo.email"
               placeholder="邮箱地址将作为您的登录账号"
             />
@@ -21,6 +22,7 @@
 
           <el-form-item label="密码" prop="password">
             <el-input
+              data-testid="password-input"
               v-model="baseInfo.password"
               type="password"
               placeholder="至少8位包含大小写字母数字及特殊符号"
@@ -29,6 +31,7 @@
 
           <el-form-item label="确认密码" prop="confirmPassword">
             <el-input
+              data-testid="confirm-password-input"
               v-model="baseInfo.confirmPassword"
               type="password"
               placeholder="请再次输入密码"
@@ -60,6 +63,7 @@
         >上一步</el-button
       >
       <el-button
+        data-testid="next-button"
         class="step-btn"
         type="primary"
         :loading="registerActionLoading"

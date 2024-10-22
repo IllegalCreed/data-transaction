@@ -21,14 +21,16 @@ export const registInfoConverter = (info: RegistInfoType) => {
       username: info.email,
       password: info.password,
       address: info.companyAddress,
-      code: info.companyCode,
-      entRemark: info.companyDescription,
-      nickName: info.companyName,
-      entScale: info.companySize,
-      contactsName: info.contactName,
-      contactsPhone: info.contactPhone,
-      contactsPosition: info.contactPosition,
-      industryCategory: info.industryCategory,
+      sysEnterprise: {
+        code: info.companyCode,
+        entRemark: info.companyDescription,
+        nickName: info.companyName,
+        entScale: info.companySize,
+        contactsName: info.contactName,
+        contactsPhone: info.contactPhone,
+        contactsPosition: info.contactPosition,
+        industryCategory: info.industryCategory,
+      },
     }
   }
 }
