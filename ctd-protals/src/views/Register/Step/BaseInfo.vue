@@ -13,7 +13,10 @@
           label-position="top"
         >
           <el-form-item label="邮箱" prop="email">
-            <el-input v-model="baseInfo.email" placeholder="邮箱地址将作为您的登录账号" />
+            <el-input
+              v-model="baseInfo.email"
+              placeholder="邮箱地址将作为您的登录账号"
+            />
           </el-form-item>
 
           <el-form-item label="密码" prop="password">
@@ -34,7 +37,9 @@
         </el-form>
 
         <span w-full text-xs text-right mb-4
-          >已经注册过但未激活？点击<span @click="reSendEmail" class="resend-email"
+          >已经注册过但未激活？点击<span
+            @click="reSendEmail"
+            class="resend-email"
             >重新发送激活邮件</span
           ></span
         >
@@ -51,8 +56,16 @@
     </div>
 
     <div class="step-btn-container">
-      <el-button class="step-btn" type="primary" @click="handlePrevStep">上一步</el-button>
-      <el-button class="step-btn" type="primary" @click="handleNextStep">下一步</el-button>
+      <el-button class="step-btn" type="primary" @click="handlePrevStep"
+        >上一步</el-button
+      >
+      <el-button
+        class="step-btn"
+        type="primary"
+        :loading="registerActionLoading"
+        @click="handleNextStep"
+        >下一步</el-button
+      >
     </div>
   </div>
 </template>
@@ -65,17 +78,19 @@ import type { IBaseInfo } from '@/types/register'
 import type { InternalRuleItem } from 'async-validator'
 
 const accountStore = useAccountStore()
-const { baseInfo } = accountStore
+const { baseInfo, register: registerAction } = accountStore
 
 const baseForm = ref<FormInstance>()
 const personFormRef = ref<{ validateForm: () => Promise<boolean> } | null>(null)
-const enterpriseFormRef = ref<{ validateForm: () => Promise<boolean> } | null>(null)
-const validateOnSubmit = false
+const enterpriseFormRef = ref<{ validateForm: () => Promise<boolean> } | null>(
+  null,
+)
+const validateOnSubmit = true
 
 const validateNewPwd = (
   rule: InternalRuleItem,
   value: string,
-  callback: (error?: string | Error) => void
+  callback: (error?: string | Error) => void,
 ) => {
   const regex =
     /^(?![A-Za-z0-9]+$)(?![a-z0-9\W]+$)(?![A-Za-z\W]+$)(?![A-Z0-9\W]+$)[a-zA-Z0-9\W]{8,20}$/
@@ -89,7 +104,7 @@ const validateNewPwd = (
 const validateRepeatPwd = (
   rule: InternalRuleItem,
   value: string,
-  callback: (error?: string | Error) => void
+  callback: (error?: string | Error) => void,
 ) => {
   if (baseInfo.password !== baseInfo.confirmPassword) {
     callback(new Error('请保证两次输入的密码一致'))
@@ -101,29 +116,29 @@ const validateRepeatPwd = (
 const rules = reactive<FormRules<IBaseInfo>>({
   email: [
     { required: true, message: '请输入邮箱地址', trigger: 'blur' },
-    { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur'] }
+    { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur'] },
   ],
   password: [
     { required: true, message: '请输入密码', trigger: 'blur' },
     {
       validator: validateNewPwd,
-      trigger: ['blur']
-    }
+      trigger: ['blur'],
+    },
   ],
   confirmPassword: [
     { required: true, message: '请再次确认密码', trigger: 'blur' },
     {
       validator: validateRepeatPwd,
-      trigger: ['blur']
-    }
-  ]
+      trigger: ['blur'],
+    },
+  ],
 })
 
 const handleSubmit = async (): Promise<boolean> => {
   if (!baseForm.value) return Promise.resolve(false)
 
-  const baseFormValid = await new Promise<boolean>((resolve) => {
-    baseForm.value?.validate((valid) => {
+  const baseFormValid = await new Promise<boolean>(resolve => {
+    baseForm.value?.validate(valid => {
       resolve(valid)
     })
   })
@@ -133,7 +148,10 @@ const handleSubmit = async (): Promise<boolean> => {
   let subFormValid = true
   if (accountStore.userIdentity === 'personal' && personFormRef.value) {
     subFormValid = await personFormRef.value.validateForm()
-  } else if (accountStore.userIdentity === 'enterprise' && enterpriseFormRef.value) {
+  } else if (
+    accountStore.userIdentity === 'enterprise' &&
+    enterpriseFormRef.value
+  ) {
     subFormValid = await enterpriseFormRef.value.validateForm()
   }
 
@@ -149,11 +167,19 @@ const reSendEmail = () => {
   }
 }
 
+const { isLoading: registerActionLoading, execute: executeRegisterAction } =
+  useAsyncState(registerAction, undefined, { immediate: false })
+
 const emit = defineEmits(['nextStep', 'prevStep'])
 const handleNextStep = async () => {
   if (validateOnSubmit) {
     if (await handleSubmit()) {
-      emit('nextStep')
+      try {
+        await executeRegisterAction()
+        emit('nextStep')
+      } catch (error) {
+        ElMessage.error(error as string)
+      }
     } else {
       ElMessage.error('请检查填写的信息是否正确')
     }

@@ -19,16 +19,16 @@ export const useSettingsStore = defineStore('settings', () => {
   const currentLanguage = useLocalStorage('app-locale', 'zh-CN')
   watch(
     currentLanguage,
-    (newLang) => {
+    newLang => {
       locale.value = newLang
     },
-    { immediate: true }
+    { immediate: true },
   )
 
   const getLanguageArray = () => {
     return Object.entries(messages.value).map(([key, value]) => ({
       key,
-      content: value.language as string
+      content: value.language as string,
     }))
   }
 
@@ -56,6 +56,6 @@ export const useSettingsStore = defineStore('settings', () => {
     setLanguage,
 
     mockEnabled,
-    setMock
+    setMock,
   }
 })

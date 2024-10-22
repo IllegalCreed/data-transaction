@@ -1,6 +1,6 @@
 import type { IRegisterAdCarouselItem } from '@/types/advertisement'
 import { useSettingsStore } from '../settings'
-import { getRegisterAdsAPI, getRegisterAPI } from '@/apis/account/register'
+import { registerAPI } from '@/apis/account/register'
 import { ads as mockAds } from '@/constants/mockData/account/register'
 import type {
   IBaseInfo,
@@ -14,19 +14,8 @@ export const useRegister = () => {
   const settingsStore = useSettingsStore()
 
   const getAds = (): Promise<IRegisterAdCarouselItem[]> => {
-    return new Promise<IRegisterAdCarouselItem[]>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
-        window.setTimeout(() => resolve(mockAds), 1000)
-      } else {
-        getRegisterAdsAPI()
-          .then(res => {
-            resolve(res as IRegisterAdCarouselItem[])
-          })
-          .catch(error => {
-            reject(error)
-          })
-          .finally(() => {})
-      }
+    return new Promise<IRegisterAdCarouselItem[]>(resolve => {
+      resolve(mockAds)
     })
   }
 
@@ -82,9 +71,10 @@ export const useRegister = () => {
   const register = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
+        console.log(registerInfo.value)
         window.setTimeout(() => resolve(), 1000)
       } else {
-        getRegisterAPI(registerInfo.value)
+        registerAPI(registerInfo.value)
           .then(() => {
             resolve()
           })

@@ -1,12 +1,34 @@
-// {
-//   "userType":"00",
-//   "email":"13935080970@163.com",
-//   "password":"Admin@123",
-//   "nickName":"梦见风",
-//   "idCard":"12345678900987654321",
-//   "phonenumber":"13935080970",
-//   "username":"13935080970@163.com",
-//   "address":"北京市通州区",
-//   "birthday":"1900-01-01",
-//   "sex":"0"
-// }
+import type { RegistInfoType } from '@/types/register'
+
+export const registInfoConverter = (info: RegistInfoType) => {
+  if (info.userIdentity === 'personal') {
+    return {
+      userType: '00',
+      email: info.email,
+      password: info.password,
+      nickName: info.name,
+      idCard: info.idNumber,
+      phonenumber: info.phone,
+      username: info.email,
+      address: info.address,
+      birthday: info.birthDate,
+      sex: info.gender === 'male' ? '0' : '1',
+    }
+  } else if (info.userIdentity === 'enterprise') {
+    return {
+      userType: '11',
+      email: info.email,
+      username: info.email,
+      password: info.password,
+      address: info.companyAddress,
+      code: info.companyCode,
+      entRemark: info.companyDescription,
+      nickName: info.companyName,
+      entScale: info.companySize,
+      contactsName: info.contactName,
+      contactsPhone: info.contactPhone,
+      contactsPosition: info.contactPosition,
+      industryCategory: info.industryCategory,
+    }
+  }
+}

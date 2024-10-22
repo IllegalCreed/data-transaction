@@ -11,51 +11,75 @@
     >
       <!-- 企业名称 -->
       <el-form-item label="企业名称*" prop="companyName">
-        <el-input v-model="enterpriseInfo.companyName" placeholder="请输入企业名称" />
+        <el-input
+          v-model="enterpriseInfo.companyName"
+          placeholder="请输入企业名称"
+        />
       </el-form-item>
 
       <!-- 统一社会信用代码 -->
       <el-form-item label="统一社会信用代码*" prop="companyCode">
-        <el-input v-model="enterpriseInfo.companyCode" placeholder="请输入统一社会信用代码" />
+        <el-input
+          v-model="enterpriseInfo.companyCode"
+          placeholder="请输入统一社会信用代码"
+        />
       </el-form-item>
 
       <!-- 联系人姓名 -->
       <el-form-item label="联系人姓名*" prop="contactName">
-        <el-input v-model="enterpriseInfo.contactName" placeholder="请输入联系人姓名" />
+        <el-input
+          v-model="enterpriseInfo.contactName"
+          placeholder="请输入联系人姓名"
+        />
       </el-form-item>
 
       <!-- 联系人职位 -->
       <el-form-item label="联系人职位" prop="contactPosition">
-        <el-input v-model="enterpriseInfo.contactPosition" placeholder="请输入联系人职位" />
+        <el-input
+          v-model="enterpriseInfo.contactPosition"
+          placeholder="请输入联系人职位"
+        />
       </el-form-item>
 
       <!-- 联系人电话 -->
       <el-form-item label="联系人电话*" prop="contactPhone">
-        <el-input v-model="enterpriseInfo.contactPhone" placeholder="请输入联系人电话" />
+        <el-input
+          v-model="enterpriseInfo.contactPhone"
+          placeholder="请输入联系人电话"
+        />
       </el-form-item>
 
       <!-- 企业地址 -->
       <el-form-item label="企业地址*" prop="companyAddress">
-        <el-input v-model="enterpriseInfo.companyAddress" placeholder="请输入企业地址" />
+        <el-input
+          v-model="enterpriseInfo.companyAddress"
+          placeholder="请输入企业地址"
+        />
       </el-form-item>
 
       <!-- 行业类别 -->
       <el-form-item label="行业类别*" prop="industryCategory">
-        <el-select v-model="enterpriseInfo.industryCategory" placeholder="请选择行业类别">
-          <el-option label="信息技术" value="IT"></el-option>
-          <el-option label="制造业" value="Manufacturing"></el-option>
-          <el-option label="服务业" value="Services"></el-option>
-          <el-option label="金融" value="Finance"></el-option>
+        <el-select
+          v-model="enterpriseInfo.industryCategory"
+          placeholder="请选择行业类别"
+        >
+          <el-option label="信息技术" value="信息技术"></el-option>
+          <el-option label="制造业" value="制造业"></el-option>
+          <el-option label="服务业" value="服务业"></el-option>
+          <el-option label="金融" value="金融"></el-option>
           <!-- 其他类别 -->
         </el-select>
       </el-form-item>
 
       <!-- 企业规模 -->
       <el-form-item label="企业规模" prop="companySize">
-        <el-select v-model="enterpriseInfo.companySize" placeholder="请选择企业规模">
-          <el-option label="小型企业" value="small"></el-option>
-          <el-option label="中型企业" value="medium"></el-option>
-          <el-option label="大型企业" value="large"></el-option>
+        <el-select
+          v-model="enterpriseInfo.companySize"
+          placeholder="请选择企业规模"
+        >
+          <el-option label="小型企业" value="小型企业"></el-option>
+          <el-option label="中型企业" value="中型企业"></el-option>
+          <el-option label="大型企业" value="大型企业"></el-option>
         </el-select>
       </el-form-item>
 
@@ -93,23 +117,33 @@ const rules = ref<FormRules>({
     {
       pattern: /^[A-Z0-9]{18}$/,
       message: '统一社会信用代码格式不正确，必须是18位大写字母或数字',
-      trigger: 'blur'
-    }
+      trigger: 'blur',
+    },
   ],
-  contactName: [{ required: true, message: '请输入联系人姓名', trigger: 'blur' }],
+  contactName: [
+    { required: true, message: '请输入联系人姓名', trigger: 'blur' },
+  ],
   contactPhone: [
     { required: true, message: '请输入联系人电话', trigger: 'blur' },
-    { pattern: /^[1-9]\d{10}$/, message: '联系电话格式不正确', trigger: 'blur' }
+    {
+      pattern: /^[1-9]\d{10}$/,
+      message: '联系电话格式不正确',
+      trigger: 'blur',
+    },
   ],
-  companyAddress: [{ required: true, message: '请输入企业地址', trigger: 'blur' }],
-  industryCategory: [{ required: true, message: '请选择行业类别', trigger: 'change' }]
+  companyAddress: [
+    { required: true, message: '请输入企业地址', trigger: 'blur' },
+  ],
+  industryCategory: [
+    { required: true, message: '请选择行业类别', trigger: 'change' },
+  ],
 })
 
 // 定义暴露的验证函数
 const validateForm = (): Promise<boolean> => {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     if (enterpriseForm.value) {
-      enterpriseForm.value.validate((valid) => {
+      enterpriseForm.value.validate(valid => {
         if (valid) {
           resolve(true)
         } else {
@@ -124,7 +158,7 @@ const validateForm = (): Promise<boolean> => {
 
 // 使用 defineExpose 暴露验证函数给父组件
 defineExpose({
-  validateForm
+  validateForm,
 })
 </script>
 

@@ -1,16 +1,51 @@
 import request from '@/axios'
+import { registInfoConverter } from '@/apiConvert/account/register'
 import type { RegistInfoType } from '@/types/register'
 
-export const getRegisterAPI = (
-  registerInfo: RegistInfoType,
-): Promise<unknown> => {
-  const params = { ...registerInfo }
+export const registerAPI = (registerInfo: RegistInfoType): Promise<unknown> => {
+  const data = { ...registInfoConverter(registerInfo) }
+  return request.post(
+    {
+      url: '/register/register',
+      data,
+    },
+    false,
+  )
+}
+
+export const activationAccountAPI = (token: string): Promise<unknown> => {
+  const params = { token }
+
   return request.get(
     {
-      url: '/getRegisterAdsAPI',
+      url: '/register/activation',
       params,
     },
-    true,
+    false,
+  )
+}
+
+export const tokenExchangeEmailAPI = (token: string): Promise<unknown> => {
+  const params = { token }
+
+  return request.get(
+    {
+      url: '/register/getEmail',
+      params,
+    },
+    false,
+  )
+}
+
+export const reSendActivationEmailAPI = (email: string): Promise<unknown> => {
+  const params = { email }
+
+  return request.get(
+    {
+      url: '/register/refreshActivation',
+      params,
+    },
+    false,
   )
 }
 
@@ -21,6 +56,6 @@ export const getRegisterAdsAPI = (): Promise<unknown> => {
       url: '/getRegisterAdsAPI',
       params,
     },
-    true,
+    false,
   )
 }
