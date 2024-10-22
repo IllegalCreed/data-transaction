@@ -41,12 +41,9 @@ const steps = [
 ]
 
 const currentStep = ref(0)
-
-const route = useRoute()
-const token = route.query.token
-if (token) {
-  console.log('激活 token 存在:', token)
-  provide('token', token)
+const token = useRouteQuery('token')
+if (token.value) {
+  provide('token', token.value)
   currentStep.value = 3
 }
 

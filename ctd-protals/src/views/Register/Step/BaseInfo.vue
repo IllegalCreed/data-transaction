@@ -47,11 +47,11 @@
 
       <person-info
         ref="personFormRef"
-        v-if="accountStore.userIdentity === 'personal'"
+        v-if="userIdentity === 'personal'"
       ></person-info>
       <enterprise-info
         ref="enterpriseFormRef"
-        v-else-if="accountStore.userIdentity === 'enterprise'"
+        v-else-if="userIdentity === 'enterprise'"
       ></enterprise-info>
     </div>
 
@@ -78,7 +78,12 @@ import type { IBaseInfo } from '@/types/register'
 import type { InternalRuleItem } from 'async-validator'
 
 const accountStore = useAccountStore()
-const { baseInfo, register: registerAction } = accountStore
+const {
+  userIdentity,
+  baseInfo,
+  register: registerAction,
+  reSendActivationEmail: reSendActivationEmailAction,
+} = accountStore
 
 const baseForm = ref<FormInstance>()
 const personFormRef = ref<{ validateForm: () => Promise<boolean> } | null>(null)
@@ -146,12 +151,9 @@ const handleSubmit = async (): Promise<boolean> => {
   if (!baseFormValid) return Promise.resolve(false)
 
   let subFormValid = true
-  if (accountStore.userIdentity === 'personal' && personFormRef.value) {
+  if (userIdentity === 'personal' && personFormRef.value) {
     subFormValid = await personFormRef.value.validateForm()
-  } else if (
-    accountStore.userIdentity === 'enterprise' &&
-    enterpriseFormRef.value
-  ) {
+  } else if (userIdentity === 'enterprise' && enterpriseFormRef.value) {
     subFormValid = await enterpriseFormRef.value.validateForm()
   }
 
@@ -160,7 +162,7 @@ const handleSubmit = async (): Promise<boolean> => {
 
 const reSendEmail = () => {
   if (baseInfo.email) {
-    accountStore.reSendEmail(baseInfo.email)
+    reSendActivationEmailAction(baseInfo.email)
     emit('nextStep')
   } else {
     ElMessage.error('请输入邮箱地址')

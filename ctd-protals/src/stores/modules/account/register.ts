@@ -1,6 +1,11 @@
 import type { IRegisterAdCarouselItem } from '@/types/advertisement'
 import { useSettingsStore } from '../settings'
-import { registerAPI } from '@/apis/account/register'
+import {
+  registerAPI,
+  activationAccountAPI,
+  tokenExchangeEmailAPI,
+  reSendActivationEmailAPI,
+} from '@/apis/account/register'
 import { ads as mockAds } from '@/constants/mockData/account/register'
 import type {
   IBaseInfo,
@@ -86,18 +91,68 @@ export const useRegister = () => {
     })
   }
 
-  const reSendEmail = (email: string) => {
-    console.log('重新发送邮件', email)
+  const activationAccount = (token: string): Promise<void> => {
+    return new Promise<void>((resolve, reject) => {
+      if (settingsStore.mockEnabled) {
+        window.setTimeout(() => resolve(), 1000)
+      } else {
+        activationAccountAPI(token)
+          .then(() => {
+            resolve()
+          })
+          .catch(error => {
+            reject(error)
+          })
+          .finally(() => {})
+      }
+    })
+  }
+
+  const tokenExchangeEmail = (token: string): Promise<string> => {
+    return new Promise<string>((resolve, reject) => {
+      if (settingsStore.mockEnabled) {
+        window.setTimeout(() => resolve('test@test.com'), 1000)
+      } else {
+        tokenExchangeEmailAPI(token)
+          .then((res: any) => {
+            console.log(res)
+            resolve(res.data.email)
+          })
+          .catch(error => {
+            reject(error)
+          })
+          .finally(() => {})
+      }
+    })
+  }
+
+  const reSendActivationEmail = (email: string): Promise<void> => {
+    return new Promise<void>((resolve, reject) => {
+      if (settingsStore.mockEnabled) {
+        window.setTimeout(() => resolve(), 1000)
+      } else {
+        reSendActivationEmailAPI(email)
+          .then(() => {
+            resolve()
+          })
+          .catch(error => {
+            reject(error)
+          })
+          .finally(() => {})
+      }
+    })
   }
 
   return {
     register,
+    activationAccount,
+    tokenExchangeEmail,
+    reSendActivationEmail,
     getAds,
     userIdentity,
     setUserIdentity,
     personalInfo,
     enterpriseInfo,
     baseInfo,
-    reSendEmail,
   }
 }
