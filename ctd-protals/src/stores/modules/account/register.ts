@@ -84,6 +84,7 @@ export const useRegister = () => {
             resolve()
           })
           .catch(error => {
+            console.log(error)
             reject(error)
           })
           .finally(() => {})

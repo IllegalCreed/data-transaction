@@ -174,7 +174,10 @@ const reSendEmail = () => {
 }
 
 const { isLoading: registerActionLoading, execute: executeRegisterAction } =
-  useAsyncState(registerAction, undefined, { immediate: false })
+  useAsyncState(registerAction, undefined, {
+    immediate: false,
+    throwError: true,
+  })
 
 const emit = defineEmits(['nextStep', 'prevStep'])
 const handleNextStep = async () => {
@@ -183,8 +186,9 @@ const handleNextStep = async () => {
       try {
         await executeRegisterAction()
         emit('nextStep')
-      } catch (error) {
-        ElMessage.error(error as string)
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : '注册失败'
+        ElMessage.error(errorMessage)
       }
     } else {
       ElMessage.error('请检查填写的信息是否正确')
