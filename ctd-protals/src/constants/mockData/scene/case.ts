@@ -15,7 +15,7 @@ export const cases: IScene[] = [
 <p style="border-style:none;margin-bottom:0pt;margin-top:0pt;mso-border-between:none;mso-border-bottom-alt:none;mso-border-left-alt:none;mso-border-right-alt:none;mso-border-top-alt:none;mso-pagination:none;text-align:justify;text-indent:32pt;"><span style="color:#000000;font-family:'仿宋';font-size:16pt;"><span style="mso-style-textfill-fill-color:#000000;">实景数字剧游融入了剧情、游戏、解谜、实景和互动五个关键元素，孩子通过完成一系列任务，挑战自己的智慧和勇气，不仅让他们感受到冒险的刺激，还可以帮助他们提升解决问题的能力，增强团队合作的精神。实景数字剧游不仅仅是一款游戏，更是一款教育工具，旨在通过趣味的方式，引导孩子们走出家门探索真实的世界，锻炼他们的独立性和适应能力。</span></span></p>
 <p style="border-style:none;margin-bottom:0pt;margin-top:0pt;mso-border-between:none;mso-pagination:none;text-align:justify;text-indent:32pt;"><span style="color:#000000;font-family:'仿宋';font-size:16pt;"><span style="mso-style-textfill-fill-color:#000000;">数字剧游场景将游玩和游戏结合起来，通过解谜、探索等方式，为游客提供一种全新的旅游体验，在游玩过程中提高用户的思维能力、团队协作能力和创新能力。通过提供多样化的剧本和故事情节，满足不同类型用户的需求，多样化的故事情节和游戏玩法代表着不同地域、不同民族的文化特色和精华，具有较高的社会价值和文化价值。</span></span></p>
 <div style="display:flex;justify-content: center">
-  <img style="width: 750px;" src="http://10.105.31.40:9001/img/1-2.png" alt="">
+  <img style="max-width: 750px;" src="http://10.105.31.40:9001/img/1-2.png" alt="">
 </div>
 <p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</p>
 <p class="docData;DOCY;v5;3880;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" style="border-style:none;margin-bottom:0pt;margin-top:0pt;mso-border-between:none;mso-border-bottom-alt:none;mso-border-left-alt:none;mso-border-right-alt:none;mso-border-top-alt:none;mso-pagination:none;text-align:justify;text-indent:48.00000000000001pt;"><span style="color:#000000;font-family:'仿宋';font-size:16pt;"><span style="mso-style-textfill-fill-color:#000000;">三教庙数字剧游场景以微信小程序作为入口，将线上游戏机制与线下实景中的人、物、场等元素相结合，围绕景区文化、历史、传说展开自己的剧本创意，通过简单的配置一键生成属于自己的数字剧本游小程序。</span></span></p>
@@ -23,7 +23,7 @@ export const cases: IScene[] = [
 <p style="border-style:none;margin-bottom:0pt;margin-top:0pt;mso-border-between:none;mso-border-bottom-alt:none;mso-border-left-alt:none;mso-border-right-alt:none;mso-border-top-alt:none;mso-pagination:none;text-align:justify;text-indent:32pt;"><span style="color:#000000;font-family:'仿宋';font-size:16pt;"><span style="mso-style-textfill-fill-color:#000000;">未来，围绕大运河文旅景区将持续开发十部实景数字剧本，覆盖大运河文旅景区北区、中区、南区，让游客无论走在哪个区域，都可以通过微信小程序进入实景数字剧本，在真实的场景中探索、解谜、社交互动，感悟大运河历史的深邃、文化的厚重、传说的神奇。</span></span></p>
 <p style="border-style:none;margin-bottom:0pt;margin-top:0pt;mso-border-between:none;mso-pagination:none;text-align:justify;text-indent:32pt;"><span style="color:#000000;font-family:'仿宋';font-size:16pt;"><span style="mso-style-textfill-fill-color:#000000;">已上线的2个剧本随时可以在三教庙随时扫码体验，还有1个正在制作，预计9月8日前上线。此外，围绕运河沿岸还有三个户外剧本，位置分别在大运河森林公园、大运河北区中区人行步道和张家湾古镇，预计十一前上线。</span></span></p>
 <div style="display:flex;justify-content: center">
-  <img style="width: 750px;" src="http://10.105.31.40:9001/img/1-3.png" alt="">
+  <img style="max-width: 750px;" src="http://10.105.31.40:9001/img/1-3.png" alt="">
 </div>
 <p style="border-style:none;margin-bottom:0pt;margin-top:0pt;mso-border-between:none;mso-pagination:none;text-align:justify;text-indent:32pt;">&nbsp;</p>
     `
@@ -40,16 +40,16 @@ export const cases: IScene[] = [
     <p class="docData;DOCY;v5;1970;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" style="border-style:none;margin-bottom:0pt;margin-top:0pt;mso-border-between:none;mso-pagination:none;text-align:justify;text-indent:32pt;"><span style="color:#000000;font-family:'仿宋';font-size:16pt;"><span style="mso-style-textfill-fill-color:#000000;">该场景基于5G+MEC、AR/VR等技术，依据卫星开源数据，形成了大运河北京段从昆明湖到张家湾82千米、元明清最繁盛八百年期间的历史文化信息点知识图谱，打造了大运河全景交互三维数字地图，并利用XR技术复现了大运河明初“万舟骈集”盛景，游客可沉浸式体验VR游览，AR拓展大运河信息，穿越历史时间轴，直观感受大运河古今文化对比与变迁。本项目不仅提升了数字经济与实体经济的融合，具有广泛的产业联动效应，最重要的是，场景通过数字化手段深入挖掘大运河历史文化，使文化传承更生动直观，通过沉浸式体验，增强公众对中华民族精神的认同感，实现了对大运河历史文化资源更广泛的理解与传承，具有重要的社会效益</span></span></p>
 <p>&nbsp;</p>
 <div style="display:flex;justify-content: center">
-  <img style="width: 750px;" src="http://10.105.31.40:9001/img/2-1.png" alt="">
+  <img style="max-width: 750px;" src="http://10.105.31.40:9001/img/2-1.png" alt="">
 </div>
 <div style="display:flex;justify-content: center">
-  <img style="width: 750px;" src="http://10.105.31.40:9001/img/2-2.png" alt="">
+  <img style="max-width: 750px;" src="http://10.105.31.40:9001/img/2-2.png" alt="">
 </div>
 <div style="display:flex;justify-content: center">
-  <img style="width: 750px;" src="http://10.105.31.40:9001/img/2-3.png" alt="">
+  <img style="max-width: 750px;" src="http://10.105.31.40:9001/img/2-3.png" alt="">
 </div>
 <div style="display:flex;justify-content: center">
-  <img style="width: 750px;" src="http://10.105.31.40:9001/img/2-4.png" alt="">
+  <img style="max-width: 750px;" src="http://10.105.31.40:9001/img/2-4.png" alt="">
 </div>
     `
   },
@@ -87,29 +87,29 @@ export const cases: IScene[] = [
 <p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;整体设计灵感来源于盒式磁带(cassette tape)中卷带盘的形象，在磁带收卷过程中淋漓尽致的展现艺术与时代的觥筹交错。场景包括三个部分，经典磁带黑胶唱片展览展示区、数字化修复区、互动体验区。</p>
 <p>&nbsp;</p>
 <div style="display:flex;justify-content: center">
-  <img style="width: 750px;" src="http://10.105.31.40:9001/img/4-2.png" alt="">
+  <img style="max-width: 750px;" src="http://10.105.31.40:9001/img/4-2.png" alt="">
 </div>
 <p><span style="color:#000000;font-family:'Arial';font-size:18pt;"><span style="mso-style-textfill-fill-color:#000000;">展览展示</span></span></p>
 <p>&nbsp; &nbsp; &nbsp; &nbsp; 经典磁带黑胶唱片展览展示区，陈列了大量中国数字文化集团自有的黑胶唱片 以及播放器其中部分磁盘可以进行试听。</p>
 <p>&nbsp;</p>
 <div style="display:flex;justify-content: center">
-  <img style="width: 750px;" src="http://10.105.31.40:9001/img/4-3.png" alt="">
+  <img style="max-width: 750px;" src="http://10.105.31.40:9001/img/4-3.png" alt="">
 </div>
 <p><span style="color:#000000;font-family:'Arial';font-size:18pt;"><span style="mso-style-textfill-fill-color:#000000;">展览展示</span></span></p>
 <p>该区域打造的是融合盒式录像带、录音带的数字化修复技术，与展示播放为一体的体验空间，在践行国家文化数字化战略的同时，也让参观者深切体会到科技与文化相结合的魅力所在。</p>
 <p>&nbsp;</p>
 <div style="display:flex;justify-content: center">
-  <img style="width: 750px;" src="http://10.105.31.40:9001/img/4-4.png" alt="">
+  <img style="max-width: 750px;" src="http://10.105.31.40:9001/img/4-4.png" alt="">
 </div>
 <p>通过磁带数字化技术把收集、整理、编辑好的语音资料，再利用数字图书馆数据库制作工具建成语音数据库，读者在检索项中输入简单的检索词进行检索，就可以获得想要的语音数据。磁带数字化也正是满足读者需求的自然做法，它同时也有利于语音资料的保存及利用，提高了语音资料利用效率，达到了为广大读者服务的最终目的。</p>
 <p>&nbsp;</p>
 <div style="display:flex;justify-content: center">
-  <img style="width: 750px;" src="http://10.105.31.40:9001/img/4-5.png" alt="">
+  <img style="max-width: 750px;" src="http://10.105.31.40:9001/img/4-5.png" alt="">
 </div>
 <p><span style="color:#000000;font-family:'Arial';font-size:18pt;"><span style="mso-style-textfill-fill-color:#000000;">互动体验</span></span></p>
 <p>互动体验区域，游客可以亲身体验古典放映设备所带来的文化价值和艺术体验，在感受时代氛围的同时，展现出怀旧黑胶唱片和磁带的经济价值。</p>
 <div style="display:flex;justify-content: center">
-  <img style="width: 750px;" src="http://10.105.31.40:9001/img/4-6.png" alt="">
+  <img style="max-width: 750px;" src="http://10.105.31.40:9001/img/4-6.png" alt="">
 </div>
 `
   },
@@ -264,7 +264,7 @@ export const cases: IScene[] = [
 <p style="border-style:none;margin-bottom:0pt;margin-top:0pt;mso-border-between:none;mso-border-bottom-alt:none;mso-border-left-alt:none;mso-border-right-alt:none;mso-border-top-alt:none;mso-pagination:none;text-align:justify;"><span style="color:#000000;font-family:'微软雅黑';font-size:10.5pt;"><span style="mso-style-textfill-fill-color:#000000;">亲子美食、新鲜、安全</span></span></p>
 <p style="border-style:none;line-height:120%;margin-bottom:6.000000000000001pt;margin-top:6.000000000000001pt;mso-border-between:none;mso-pagination:none;">&nbsp;</p>
   <div style="display:flex;justify-content: center">
-       <video src="http://10.105.31.40:9001/img/5-2.mp4" autoplay controls style="width: 750px;"></video>
+       <video src="http://10.105.31.40:9001/img/5-2.mp4" autoplay controls style="max-width: 750px;"></video>
   </div>
 
     `
@@ -289,21 +289,21 @@ export const cases: IScene[] = [
 <div>设计说明:<br>一层窗户:设计可以卷起的幕布，外部呈现喷绘的繁华运河画卷，内部可以进行投影。一层灯光秀:大运河发光字，LED广告牌<br>呈现方式:<br>投影灯光秀、LED屏<br>呈现内容参考:古代繁华城市夜景</div>
 <div>&nbsp;</div>
 <div style="display:flex;justify-content: center">
-  <img style="width: 750px;" src="http://10.105.31.40:9001/img/7-1.png" alt="">
+  <img style="max-width: 750px;" src="http://10.105.31.40:9001/img/7-1.png" alt="">
 </div>
 <div>设计说明:<br>客船夜景，二层增加挡<br>雨棚<br>雨棚顶部采用双层透明<br>亚克力发光音符作为装饰。<br>扶手、栏杆、雨棚边缘<br>采用了防雨红色的LED发<br>光条。<br>红+黄的外观，醒目安全给人以警示的作用。类<br>似皇家游船的视觉感受</div>
 <div style="display:flex;justify-content: center">
-  <img style="width: 750px;" src="http://10.105.31.40:9001/img/7-2.png" alt="">
+  <img style="max-width: 750px;" src="http://10.105.31.40:9001/img/7-2.png" alt="">
 </div>
 <div><strong>游船升级方案（内部）&nbsp;</strong></div>
 <div>设计说明:<br>设计可以卷起的幕布，窗户封闭状态时，进行沉浸式投影秀表演，客船座椅采用简单的较沉的的长凳、圆凳，或方便灵活移动的凳子(由工作人员收发)<br>呈现方式:投影</div>
 <div style="display:flex;justify-content: center">
-  <img style="width: 750px;" src="http://10.105.31.40:9001/img/7-3.png" alt="">
+  <img style="max-width: 750px;" src="http://10.105.31.40:9001/img/7-3.png" alt="">
 </div>
 <div>&nbsp;</div>
 <div>设计说明:<br>设计可以卷起的幕布，窗户封闭状态时，进行沉浸式投影秀表演，客船座椅采用简单的较沉的的长凳、圆凳，或方便灵活移动的凳子(由工作人员收发)<br>呈现方式:<br>投影</div>
 <div style="display:flex;justify-content: center">
-  <img style="width: 750px;" src="http://10.105.31.40:9001/img/7-4.png" alt="">
+  <img style="max-width: 750px;" src="http://10.105.31.40:9001/img/7-4.png" alt="">
 </div>
 <div>&nbsp;</div>
 <div><strong>数字科技赋能方案&nbsp;</strong></div>
@@ -360,10 +360,10 @@ export const cases: IScene[] = [
 <p>&nbsp;</p>
 <p>EDCC王府井还融合艺术、科技、文化、娱乐、消费，集合文创消费、轻餐饮、亲子活动和公教研学等多种功能，为公众提供丰富的数字时代文化新享受，EDCC致力于成为北京现象级数字文化新地标，也将打造一个&ldquo;文商旅&rdquo;融合的数字体验新场景。</p>
 <div style="display:flex;justify-content: center">
-  <img style="width: 750px;" src="http://10.105.31.40:9001/img/10-1.png" alt="">
+  <img style="max-width: 750px;" src="http://10.105.31.40:9001/img/10-1.png" alt="">
 </div>
 <div style="display:flex;justify-content: center">
-  <img style="width: 750px;" src="http://10.105.31.40:9001/img/10-2.png" alt="">
+  <img style="max-width: 750px;" src="http://10.105.31.40:9001/img/10-2.png" alt="">
 </div>
 `
   }
