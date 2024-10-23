@@ -6,6 +6,7 @@
     </p>
 
     <identity-item
+      data-testid="individual-user-button"
       icon="i-carbon:user"
       title="个人用户"
       description="如果您是个人用户，可以在平台上浏览、发布个人数据需求，享受数据交易和服务"
@@ -16,6 +17,7 @@
     ></identity-item>
 
     <identity-item
+      data-testid="corporate-user-button"
       mb-8
       icon="i-carbon:enterprise"
       title="企业用户"
@@ -25,7 +27,11 @@
       @click="selectIdentity('enterprise')"
     ></identity-item>
 
-    <el-button class="step-btn" type="primary" @click="handleNextStep"
+    <el-button
+      data-testid="next-button"
+      class="step-btn"
+      type="primary"
+      @click="handleNextStep"
       >下一步</el-button
     >
   </div>

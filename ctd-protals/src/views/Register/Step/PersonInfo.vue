@@ -11,31 +11,60 @@
     >
       <!-- 姓名 -->
       <el-form-item label="姓名" prop="name">
-        <el-input v-model="personalInfo.name" placeholder="请输入姓名" />
+        <el-input
+          data-testid="name-input"
+          v-model="personalInfo.name"
+          placeholder="请输入姓名"
+        />
       </el-form-item>
 
       <!-- 身份证号 -->
       <el-form-item label="身份证号" prop="idNumber">
-        <el-input v-model="personalInfo.idNumber" placeholder="请输入身份证号" />
+        <el-input
+          data-testid="idNumber-input"
+          v-model="personalInfo.idNumber"
+          placeholder="请输入身份证号"
+        />
       </el-form-item>
 
       <!-- 联系电话 -->
       <el-form-item label="联系电话" prop="phone">
-        <el-input v-model="personalInfo.phone" placeholder="请输入联系电话" />
+        <el-input
+          data-testid="phone-input"
+          v-model="personalInfo.phone"
+          placeholder="请输入联系电话"
+        />
       </el-form-item>
 
       <!-- 性别 -->
       <el-form-item label="性别">
-        <el-select v-model="personalInfo.gender" placeholder="请选择性别">
-          <el-option label="男" value="male"></el-option>
-          <el-option label="女" value="female"></el-option>
-          <el-option label="其他" value="other"></el-option>
+        <el-select
+          data-testid="gender-select"
+          v-model="personalInfo.gender"
+          placeholder="请选择性别"
+        >
+          <el-option
+            data-testid="gender-option-male"
+            label="男"
+            value="male"
+          ></el-option>
+          <el-option
+            data-testid="gender-option-famale"
+            label="女"
+            value="female"
+          ></el-option>
+          <el-option
+            data-testid="gender-option-other"
+            label="其他"
+            value="other"
+          ></el-option>
         </el-select>
       </el-form-item>
 
       <!-- 出生日期 -->
       <el-form-item label="出生日期">
         <el-date-picker
+          id="birthday-picker"
           v-model="personalInfo.birthDate"
           type="date"
           placeholder="请选择出生日期"
@@ -45,7 +74,12 @@
 
       <!-- 住址 -->
       <el-form-item label="住址">
-        <el-input v-model="personalInfo.address" type="textarea" placeholder="请输入住址" />
+        <el-input
+          data-testid="address-input"
+          v-model="personalInfo.address"
+          type="textarea"
+          placeholder="请输入住址"
+        />
       </el-form-item>
     </el-form>
   </div>
@@ -70,19 +104,23 @@ const rules = ref<FormRules>({
   name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
   idNumber: [
     { required: true, message: '请输入身份证号', trigger: 'blur' },
-    { pattern: /^[1-9]\d{14}(\d{2}[0-9xX])?$/, message: '身份证号格式不正确', trigger: 'blur' }
+    {
+      pattern: /^[1-9]\d{14}(\d{2}[0-9xX])?$/,
+      message: '身份证号格式不正确',
+      trigger: 'blur',
+    },
   ],
   phone: [
     { required: true, message: '请输入联系电话', trigger: 'blur' },
-    { pattern: /^[1-9]\d{10}$/, message: '手机号格式不正确', trigger: 'blur' }
-  ]
+    { pattern: /^[1-9]\d{10}$/, message: '手机号格式不正确', trigger: 'blur' },
+  ],
 })
 
 // 定义暴露的验证函数
 const validateForm = (): Promise<boolean> => {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     if (personForm.value) {
-      personForm.value.validate((valid) => {
+      personForm.value.validate(valid => {
         if (valid) {
           resolve(true)
         } else {
@@ -96,7 +134,7 @@ const validateForm = (): Promise<boolean> => {
 }
 
 defineExpose({
-  validateForm
+  validateForm,
 })
 </script>
 

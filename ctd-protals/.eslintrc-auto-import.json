@@ -358,6 +358,10 @@
     "useRouterHash": true,
     "useRouteHash": true,
     "getInfoAPI": true,
-    "getRegisterAPI": true
+    "getRegisterAPI": true,
+    "registerAPI": true,
+    "activationAccountAPI": true,
+    "tokenExchangeEmailAPI": true,
+    "reSendActivationEmailAPI": true
   }
 }

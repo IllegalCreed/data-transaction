@@ -2,7 +2,7 @@ import type {
   InternalAxiosRequestConfig,
   AxiosResponse,
   AxiosInstance,
-  AxiosRequestConfig
+  AxiosRequestConfig,
 } from 'axios'
 
 import axios, { AxiosError } from 'axios'
@@ -14,7 +14,7 @@ const abortControllerMap: Map<string, AbortController> = new Map()
 
 const axiosInstance: AxiosInstance = axios.create({
   timeout: 60000,
-  baseURL: PATH_URL
+  baseURL: PATH_URL,
 })
 
 // 中断逻辑
@@ -35,7 +35,7 @@ axiosInstance.interceptors.response.use(
   },
   (error: AxiosError) => {
     return Promise.reject(error)
-  }
+  },
 )
 
 // 数据转换逻辑
@@ -48,15 +48,36 @@ axiosInstance.interceptors.request.use(
       config.params = {}
       config.url = url
     }
+
+    const contentType = config.headers['Content-Type'] as string
+    if (contentType) {
+      if (contentType.includes('multipart/form-data')) {
+        const formData = new FormData()
+        Object.keys(config.data).forEach(key => {
+          formData.append(key, config.data[key])
+        })
+        config.data = formData
+        delete config.headers['Content-Type']
+      } else if (contentType.includes('application/x-www-form-urlencoded')) {
+        const params = new URLSearchParams()
+        Object.keys(config.data).forEach(key => {
+          params.append(key, config.data[key])
+        })
+        config.data = params
+      }
+    }
+
     return config
   },
-  (error) => {
+  error => {
     Promise.reject(error)
-  }
+  },
 )
 
 axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => {
+    const url = response.config.url || ''
+    abortControllerMap.delete(url)
     const code = response.data.code || 200
 
     // 二进制数据则直接返回
@@ -90,27 +111,21 @@ axiosInstance.interceptors.response.use(
     }
     ElMessage.error(message)
     return Promise.reject(error)
-  }
+  },
 )
 
 const request = (config: AxiosRequestConfig): Promise<unknown> => {
-  return new Promise((resolve, reject) => {
-    axiosInstance
-      .request(config)
-      .then((res) => {
-        resolve(res)
-      })
-      .catch((err: unknown) => {
-        reject(err)
-      })
-  })
+  return axiosInstance.request(config)
 }
 
-const mixConfig = (option: AxiosRequestConfig, hasToken: boolean): AxiosRequestConfig => {
+const mixConfig = (
+  option: AxiosRequestConfig,
+  hasToken: boolean,
+): AxiosRequestConfig => {
   const headers = {
     'Content-Type': 'application/json;charset=utf-8',
     Authorization: hasToken ? useTokenStore().token : '',
-    ...option.headers
+    ...option.headers,
   }
   return { ...option, headers }
 }
@@ -127,7 +142,11 @@ export function tansParams(params: any) {
     if (value !== null && value !== '' && typeof value !== 'undefined') {
       if (typeof value === 'object') {
         for (const key of Object.keys(value)) {
-          if (value[key] !== null && value[key] !== '' && typeof value[key] !== 'undefined') {
+          if (
+            value[key] !== null &&
+            value[key] !== '' &&
+            typeof value[key] !== 'undefined'
+          ) {
             const params = propName + '[' + key + ']'
             const subPart = encodeURIComponent(params) + '='
             result += subPart + encodeURIComponent(value[key]) + '&'
@@ -166,5 +185,5 @@ export default {
       controller.abort()
     }
     abortControllerMap.clear()
-  }
+  },
 }
