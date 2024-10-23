@@ -14,15 +14,10 @@ import type {
   RegistInfoType,
   RegistRoleType,
 } from '@/types/register'
+import type { ICommonReturn } from '@/axios/type'
 
 export const useRegister = () => {
   const settingsStore = useSettingsStore()
-
-  const getAds = (): Promise<IRegisterAdCarouselItem[]> => {
-    return new Promise<IRegisterAdCarouselItem[]>(resolve => {
-      resolve(mockAds)
-    })
-  }
 
   const userIdentity = ref<RegistRoleType>()
 
@@ -84,6 +79,7 @@ export const useRegister = () => {
             resolve()
           })
           .catch(error => {
+            console.log(error)
             reject(error)
           })
           .finally(() => {})
@@ -114,9 +110,9 @@ export const useRegister = () => {
         window.setTimeout(() => resolve('test@test.com'), 1000)
       } else {
         tokenExchangeEmailAPI(token)
-          .then((res: any) => {
-            console.log(res)
-            resolve(res.data.email)
+          .then((res: unknown) => {
+            const resData = res as ICommonReturn<string>
+            resolve(resData.data)
           })
           .catch(error => {
             reject(error)
@@ -140,6 +136,12 @@ export const useRegister = () => {
           })
           .finally(() => {})
       }
+    })
+  }
+
+  const getAds = (): Promise<IRegisterAdCarouselItem[]> => {
+    return new Promise<IRegisterAdCarouselItem[]>(resolve => {
+      resolve(mockAds)
     })
   }
 

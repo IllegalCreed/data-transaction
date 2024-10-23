@@ -14,7 +14,7 @@ export const registerAPI = (registerInfo: RegistInfoType): Promise<unknown> => {
 }
 
 export const activationAccountAPI = (token: string): Promise<unknown> => {
-  const params = { token: decodeURIComponent(token) }
+  const params = { token }
 
   return request.get(
     {
@@ -29,7 +29,7 @@ export const activationAccountAPI = (token: string): Promise<unknown> => {
 }
 
 export const tokenExchangeEmailAPI = (token: string): Promise<unknown> => {
-  const params = { token: decodeURIComponent(token) }
+  const params = { token }
 
   return request.get(
     {
