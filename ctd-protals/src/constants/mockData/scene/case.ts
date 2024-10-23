@@ -340,5 +340,31 @@ export const cases: IScene[] = [
 方案组网简单，落地便捷。端云结合，景区只需要部署摄像机系统即可上线。
 游客只要摆个POSE就能一键获取专属旅拍Vlog，视频自带航拍、滤镜、特效等时髦要素，无需P图剪辑，立马就能美美地发圈。
 `
+  },
+  {
+    id: 10,
+    title: '艺云数字艺术中心',
+    companyName: '王府井',
+    description: 'EDCC艺云数字艺术中心（王府井）坐落于北京市“文化金三角”区域的王府井大街，位于北京市百货大楼南馆4-5层，总面积达4000平方米。EDCC王府井由艺云科技策划建设，苏州创艺文化投资并负责运营，项目将于10月15日正式开业，对公众全面开放。',
+    imageUrl:'http://10.105.31.40:9001/img/20.png',
+    bannerUrl: new URL('@/assets/mock/newsBanner.png', import.meta.url).href,
+    link: 'https://www.baidu.com',
+    content:`
+    <p><strong>EDCC王府井项目介绍</strong></p>
+<p>&nbsp;</p>
+<p><strong>EDCC艺云数字艺术中心（王府井）项目背景</strong></p>
+<p>&nbsp;</p>
+<p>EDCC艺云数字艺术中心（王府井）坐落于北京市&ldquo;文化金三角&rdquo;区域的王府井大街，位于北京市百货大楼南馆4-5层，总面积达4000平方米。EDCC王府井由艺云科技策划建设，苏州创艺文化投资并负责运营，项目将于10月15日正式开业，对公众全面开放。</p>
+<p>&nbsp;</p>
+<p>无论是感受传统文化的新表达，还是探索未来的无限可能，EDCC正在提供一个全新的视角。EDCC王府井开馆即推出《灵境&middot;未来灵感世界》沉浸式光影艺术展、《敦煌超宇宙》数字艺术展，通过AIGC、8K超高清、交互传感、VR、裸眼3D等数字技术，融合中国传统文化和西方优秀文化IP，打造沉浸式、参与式的数字艺术馆。</p>
+<p>&nbsp;</p>
+<p>EDCC王府井还融合艺术、科技、文化、娱乐、消费，集合文创消费、轻餐饮、亲子活动和公教研学等多种功能，为公众提供丰富的数字时代文化新享受，EDCC致力于成为北京现象级数字文化新地标，也将打造一个&ldquo;文商旅&rdquo;融合的数字体验新场景。</p>
+<div style="display:flex;justify-content: center">
+  <img style="width: 750px;" src="http://10.105.31.40:9001/img/10-1.png" alt="">
+</div>
+<div style="display:flex;justify-content: center">
+  <img style="width: 750px;" src="http://10.105.31.40:9001/img/10-2.png" alt="">
+</div>
+`
   }
 ]
