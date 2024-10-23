@@ -5,7 +5,7 @@
   </div>
 
   <div v-else-if="isActivationSuccess" class="activation-success">
-    <i-carbon:checkmark-outline h-16 w-16 text-green-600></i-carbon:checkmark-outline>
+    <i-carbon:checkmark-outline h-16 w-16 text-green-600 />
     <h2>账号激活成功</h2>
     <p text-sm text-center text-gray-500 max-w-120>
       您的账号已成功激活，您现在可以使用您的邮箱和密码登录。
@@ -15,24 +15,40 @@
   </div>
 
   <div v-else class="activation-failed">
-    <i-carbon:warning h-16 w-16 text-red-600></i-carbon:warning>
+    <i-carbon:warning h-16 w-16 text-red-600 />
     <h2>激活失败</h2>
-    <p text-sm text-center text-gray-500 max-w-120>激活链接已过期或无效，无法完成激活。</p>
+    <p text-sm text-center text-gray-500 max-w-120>
+      激活链接已过期或无效，无法完成激活。
+    </p>
     <p text-sm text-center text-gray-500 max-w-120>
       您可以点击下方按钮重新发送激活邮件到 <strong>{{ email }}</strong
       >。
     </p>
     <!-- 重新发送激活邮件按钮 -->
-    <el-button type="primary" @click="resendActivationEmail" mt-4>重新发送激活邮件</el-button>
+    <el-button
+      type="primary"
+      :loading="isLoading"
+      @click="resendActivationEmail"
+      mt-4
+      >重新发送激活邮件</el-button
+    >
   </div>
 </template>
 
 <script setup lang="ts">
 import { ElMessage } from 'element-plus'
+import { useAccountStore } from '@/stores/modules/account'
+
+const accountStore = useAccountStore()
+const {
+  activationAccount: activationAccountAction,
+  reSendActivationEmail: reSendActivationEmailAction,
+  tokenExchangeEmail: tokenExchangeEmailAction,
+} = accountStore
 
 // 定义状态
 const isActivationSuccess = ref(false)
-const isLoading = ref(true) // 激活中的状态
+const isLoading = ref(true)
 const email = ref('')
 
 // 获取 token
@@ -44,31 +60,13 @@ const router = useRouter()
 // 模拟 API 调用验证激活链接
 const verifyActivation = async (token: string) => {
   try {
-    const response = await fakeApiVerifyToken(token)
-    if (response.success) {
-      isActivationSuccess.value = true
-    } else {
-      isActivationSuccess.value = false
-      email.value = response.email
-    }
+    await activationAccountAction(token)
+    isActivationSuccess.value = true
   } catch {
     isActivationSuccess.value = false
-    ElMessage.error('激活失败，请稍后再试。')
   } finally {
-    isLoading.value = false // 无论成功或失败，都切换加载状态
+    isLoading.value = false
   }
-}
-
-// 模拟 API 请求
-const fakeApiVerifyToken = (token: string): Promise<{ success: boolean; email: string }> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        success: token === '123', // 模拟成功或失败
-        email: 'user@example.com' // 当失败时返回 email
-      })
-    }, 2000) // 模拟 2 秒的延迟
-  })
 }
 
 // 获取 token 并验证
@@ -89,12 +87,20 @@ const goToLogin = () => {
 const emit = defineEmits(['prevStep'])
 // 模拟重新发送激活邮件的函数
 const resendActivationEmail = async () => {
+  if (!token) {
+    ElMessage.error('无法获取邮件地址。')
+    return
+  }
+  isLoading.value = true
   try {
+    email.value = await tokenExchangeEmailAction(token)
+    await reSendActivationEmailAction(email.value)
     emit('prevStep')
     ElMessage.success('激活邮件已重新发送，请检查您的邮箱。')
   } catch {
-    ElMessage.error('重新发送激活邮件失败，请稍后重试。')
+    ElMessage.error('重新发送激活邮件失败')
   }
+  isLoading.value = false
 }
 </script>
 
