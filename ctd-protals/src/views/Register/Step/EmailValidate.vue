@@ -25,7 +25,11 @@
       >。
     </p>
     <!-- 重新发送激活邮件按钮 -->
-    <el-button type="primary" @click="resendActivationEmail" mt-4
+    <el-button
+      type="primary"
+      :loading="isLoading"
+      @click="resendActivationEmail"
+      mt-4
       >重新发送激活邮件</el-button
     >
   </div>
@@ -60,7 +64,6 @@ const verifyActivation = async (token: string) => {
     isActivationSuccess.value = true
   } catch {
     isActivationSuccess.value = false
-    email.value = await tokenExchangeEmailAction(token)
   } finally {
     isLoading.value = false
   }
@@ -84,13 +87,20 @@ const goToLogin = () => {
 const emit = defineEmits(['prevStep'])
 // 模拟重新发送激活邮件的函数
 const resendActivationEmail = async () => {
+  if (!token) {
+    ElMessage.error('无法获取邮件地址。')
+    return
+  }
+  isLoading.value = true
   try {
+    email.value = await tokenExchangeEmailAction(token)
     await reSendActivationEmailAction(email.value)
     emit('prevStep')
     ElMessage.success('激活邮件已重新发送，请检查您的邮箱。')
   } catch {
-    ElMessage.error('重新发送激活邮件失败，请稍后重试。')
+    ElMessage.error('重新发送激活邮件失败')
   }
+  isLoading.value = false
 }
 </script>
 
