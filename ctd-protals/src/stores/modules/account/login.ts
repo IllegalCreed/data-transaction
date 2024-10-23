@@ -7,7 +7,7 @@ import {
   ads as mockAds,
   oauthLinks as mockLinks,
 } from '@/constants/mockData/account/login'
-import { loginAPI, getCodeAPI, getAdAPI } from '@/apis/account/login'
+import { loginAPI, getCodeAPI } from '@/apis/account/login'
 
 export const useLogin = () => {
   const tokenStore = useTokenStore()
@@ -53,19 +53,8 @@ export const useLogin = () => {
   }
 
   const getAd = (): Promise<ILoginAd> => {
-    return new Promise<ILoginAd>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
-        window.setTimeout(() => resolve(mockAds), 1000)
-      } else {
-        getAdAPI()
-          .then(res => {
-            resolve(res as ILoginAd)
-          })
-          .catch(error => {
-            reject(error)
-          })
-          .finally(() => {})
-      }
+    return new Promise<ILoginAd>(resolve => {
+      resolve(mockAds)
     })
   }
 

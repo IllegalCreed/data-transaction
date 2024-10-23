@@ -14,7 +14,10 @@ export const useAccountStore = defineStore('account', () => {
     personalInfo,
     enterpriseInfo,
     baseInfo,
-    reSendEmail,
+    register,
+    activationAccount,
+    tokenExchangeEmail,
+    reSendActivationEmail,
   } = useRegister()
   const { getAds: getForgotAds } = useForgot()
 
@@ -34,7 +37,10 @@ export const useAccountStore = defineStore('account', () => {
     personalInfo,
     enterpriseInfo,
     baseInfo,
-    reSendEmail,
+    register,
+    activationAccount,
+    tokenExchangeEmail,
+    reSendActivationEmail,
     getForgotAds,
   }
 })
