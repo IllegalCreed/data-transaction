@@ -134,26 +134,28 @@ const mixConfig = (
  * 参数处理
  * @param {*} params  参数
  */
-export function tansParams(params: any) {
+export function tansParams(params: Record<string, unknown>): string {
   let result = ''
   for (const propName of Object.keys(params)) {
     const value = params[propName]
     const part = encodeURIComponent(propName) + '='
+
     if (value !== null && value !== '' && typeof value !== 'undefined') {
-      if (typeof value === 'object') {
-        for (const key of Object.keys(value)) {
+      if (typeof value === 'object' && !Array.isArray(value)) {
+        for (const key of Object.keys(value as Record<string, unknown>)) {
+          const subValue = (value as Record<string, unknown>)[key]
           if (
-            value[key] !== null &&
-            value[key] !== '' &&
-            typeof value[key] !== 'undefined'
+            subValue !== null &&
+            subValue !== '' &&
+            typeof subValue !== 'undefined'
           ) {
-            const params = propName + '[' + key + ']'
-            const subPart = encodeURIComponent(params) + '='
-            result += subPart + encodeURIComponent(value[key]) + '&'
+            const paramKey = `${propName}[${key}]`
+            const subPart = encodeURIComponent(paramKey) + '='
+            result += subPart + encodeURIComponent(String(subValue)) + '&'
           }
         }
       } else {
-        result += part + encodeURIComponent(value) + '&'
+        result += part + encodeURIComponent(String(value)) + '&'
       }
     }
   }
@@ -181,7 +183,7 @@ export default {
     }
   },
   cancelAllRequest: () => {
-    for (const [_, controller] of abortControllerMap) {
+    for (const controller of abortControllerMap.values()) {
       controller.abort()
     }
     abortControllerMap.clear()

@@ -26,8 +26,11 @@
     </p>
     <!-- 重新发送激活邮件按钮 -->
     <el-button
+      data-testid="resend-activation-button"
       type="primary"
-      :loading="isLoading"
+      :loading="
+        tokenExchangeEmailActionLoading || reSendActivationEmailActionLoading
+      "
       @click="resendActivationEmail"
       mt-4
       >重新发送激活邮件</el-button
@@ -41,6 +44,7 @@ import { useAccountStore } from '@/stores/modules/account'
 
 const accountStore = useAccountStore()
 const {
+  baseInfo,
   activationAccount: activationAccountAction,
   reSendActivationEmail: reSendActivationEmailAction,
   tokenExchangeEmail: tokenExchangeEmailAction,
@@ -49,7 +53,6 @@ const {
 // 定义状态
 const isActivationSuccess = ref(false)
 const isLoading = ref(true)
-const email = ref('')
 
 // 获取 token
 const token = inject<string>('token')
@@ -64,6 +67,7 @@ const verifyActivation = async (token: string) => {
     isActivationSuccess.value = true
   } catch {
     isActivationSuccess.value = false
+    await executeTokenExchangeEmailAction(0, token)
   } finally {
     isLoading.value = false
   }
@@ -84,23 +88,37 @@ const goToLogin = () => {
   router.push('/login')
 }
 
+const {
+  state: email,
+  isLoading: tokenExchangeEmailActionLoading,
+  execute: executeTokenExchangeEmailAction,
+} = useAsyncState(tokenExchangeEmailAction, undefined, {
+  immediate: false,
+  throwError: true,
+})
+
+const {
+  isLoading: reSendActivationEmailActionLoading,
+  execute: executeReSendActivationEmailAction,
+} = useAsyncState(reSendActivationEmailAction, undefined, {
+  immediate: false,
+  throwError: true,
+})
+
 const emit = defineEmits(['prevStep'])
-// 模拟重新发送激活邮件的函数
 const resendActivationEmail = async () => {
-  if (!token) {
-    ElMessage.error('无法获取邮件地址。')
-    return
-  }
-  isLoading.value = true
   try {
-    email.value = await tokenExchangeEmailAction(token)
-    await reSendActivationEmailAction(email.value)
+    if (!email.value) {
+      ElMessage.error('无法获取邮件地址。')
+      return
+    }
+    baseInfo.email = email.value
+    await executeReSendActivationEmailAction(0, email.value)
     emit('prevStep')
     ElMessage.success('激活邮件已重新发送，请检查您的邮箱。')
   } catch {
     ElMessage.error('重新发送激活邮件失败')
   }
-  isLoading.value = false
 }
 </script>
 

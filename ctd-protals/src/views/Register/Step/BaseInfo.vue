@@ -41,6 +41,7 @@
 
         <span w-full text-xs text-right mb-4
           >已经注册过但未激活？点击<span
+            data-testid="resend-activation-button"
             @click="reSendEmail"
             class="resend-email"
             >重新发送激活邮件</span
@@ -174,7 +175,10 @@ const reSendEmail = () => {
 }
 
 const { isLoading: registerActionLoading, execute: executeRegisterAction } =
-  useAsyncState(registerAction, undefined, { immediate: false })
+  useAsyncState(registerAction, undefined, {
+    immediate: false,
+    throwError: true,
+  })
 
 const emit = defineEmits(['nextStep', 'prevStep'])
 const handleNextStep = async () => {
@@ -183,8 +187,9 @@ const handleNextStep = async () => {
       try {
         await executeRegisterAction()
         emit('nextStep')
-      } catch (error) {
-        ElMessage.error(error as string)
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : '注册失败'
+        ElMessage.error(errorMessage)
       }
     } else {
       ElMessage.error('请检查填写的信息是否正确')
