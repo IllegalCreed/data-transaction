@@ -43,8 +43,14 @@ import type { IIndividualUserData, ICorporateUserData } from './types'
 declare global {
   namespace Cypress {
     interface Chainable {
-      registerIndividualUser(userData: IIndividualUserData): Chainable<void>
-      registerCorporateUser(userData: ICorporateUserData): Chainable<void>
+      registerIndividualUser(
+        userData: IIndividualUserData,
+        expectMessage?: string,
+      ): Chainable<void>
+      registerCorporateUser(
+        userData: ICorporateUserData,
+        expectMessage?: string,
+      ): Chainable<void>
       getActivationToken(baseUrl: string, email: string): Chainable<void>
     }
   }
@@ -52,7 +58,7 @@ declare global {
 
 Cypress.Commands.add(
   'registerIndividualUser',
-  (userData: IIndividualUserData) => {
+  (userData: IIndividualUserData, expectMessage: string = '验证邮件已发送') => {
     cy.visit('/register')
 
     cy.get('[data-testid="individual-user-button"]').click()
@@ -77,13 +83,15 @@ Cypress.Commands.add(
     cy.get('[data-testid="address-input"]').type(userData.address)
 
     cy.get('[data-testid="next-button"]').click()
-    cy.contains('验证邮件已发送').should('be.visible')
+
+    // 验证期望的消息
+    cy.contains(expectMessage).should('be.visible')
   },
 )
 
 Cypress.Commands.add(
   'registerCorporateUser',
-  (userData: ICorporateUserData) => {
+  (userData: ICorporateUserData, expectMessage: string = '验证邮件已发送') => {
     cy.visit('/register')
 
     // 选择企业用户角色
@@ -128,8 +136,8 @@ Cypress.Commands.add(
     // 点击下一步，提交注册
     cy.get('[data-testid="next-button"]').click()
 
-    // 确认验证邮件已发送
-    cy.contains('验证邮件已发送').should('be.visible')
+    // 验证期望的消息
+    cy.contains(expectMessage).should('be.visible')
   },
 )
 

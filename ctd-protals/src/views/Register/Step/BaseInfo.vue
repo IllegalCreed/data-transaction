@@ -41,6 +41,7 @@
 
         <span w-full text-xs text-right mb-4
           >已经注册过但未激活？点击<span
+            data-testid="resend-activation-button"
             @click="reSendEmail"
             class="resend-email"
             >重新发送激活邮件</span
