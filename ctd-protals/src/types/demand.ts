@@ -1,10 +1,10 @@
 export enum TransactionMode {
   Pitch = 0, // 比稿类型
-  Tender = 1 // 招标类型
+  Tender = 1, // 招标类型
 }
 export enum PayType {
   ByWorkTime = 0, // 按工时
-  ByFixedPrice = 1 // 一口价
+  ByFixedPrice = 1, // 一口价
 }
 
 // 定义交易模式类型
@@ -19,13 +19,13 @@ export enum DemandOrderStatus {
   ToDeliver = 3, // 待交付
   ToCheck = 4, // 待验查
   ToReview = 5, // 待评价
-  Reviewed = 6 // 已评价
+  Reviewed = 6, // 已评价
 }
 
 // 定义启用状态枚举
 export enum DemandActiveStatus {
   Enabled = 0, // 启用
-  Disabled = 1 // 停用
+  Disabled = 1, // 停用
 }
 
 export interface IDemand {
@@ -33,7 +33,7 @@ export interface IDemand {
   title: string
   description: string
   publisher: string
-  budget: number
+  budget: number | null
   transactionType: TransactionType
   createTime: string
   tags: string[]
@@ -43,7 +43,7 @@ export interface IDemandBaseInfo {
   title: string
   description: string
   publisher: string
-  budget: number
+  budget: number | null
   transactionType: TransactionType
   createTime: string
   expectedDeliveryDate: string
