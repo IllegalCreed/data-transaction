@@ -4,112 +4,150 @@ import { v4 as uuidv4 } from 'uuid'
 export const products: IProduct[] = [
   {
     id: 1,
-    title: '中数资源数据库目录',
-    tags: ['动画', '短片', '动画图片'],
-    description: '中国大学生优秀动漫作品库',
+    title: '中国京剧像音像资源数据',
+    tags: ['京剧', '短片', '音像'],
+    description: '包含视频图片音频等不同类型的数据',
     seller: '-----',
     price: null,
-    imageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href
+    imageUrl: new URL(
+      '@/assets/placeholder/productDefault.png',
+      import.meta.url,
+    ).href,
   },
   {
     id: 2,
-    title: '微班进京200周年影像库',
-    tags: ['京剧', '神话京剧','现代京剧'],
-    description: '《战洪州》《火凤凰》《五台山》',
+    title: '微班进京200周年影像',
+    tags: ['京剧', '神话京剧', '现代京剧'],
+    description: '《战洪州》《火凤凰》《五台山》等',
     seller: '-----',
     price: null,
-    imageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href
+    imageUrl: new URL(
+      '@/assets/placeholder/productDefault.png',
+      import.meta.url,
+    ).href,
   },
   {
     id: 3,
-    title: 'LBS数据魔方洞察分析-标签体系',
-    tags: ['财富', '旅行','到访'],
-    description: '人群画像标签介绍',
+    title: '少儿京剧影像',
+    tags: ['少儿', '京剧'],
+    description: '《沉香习舞》、《乌盆记》、《探阴山》等',
     seller: '-----',
     price: null,
-    imageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href
+    imageUrl: new URL(
+      '@/assets/placeholder/productDefault.png',
+      import.meta.url,
+    ).href,
   },
   {
     id: 4,
-    title: 'LBS文旅客情-景区版客情',
-    tags: ['web', 'API','小程序'],
-    description: '实时数据、游客趋势、游客趋势、游客画像',
+    title: '北京三维数字地图',
+    tags: ['web', 'API', '小程序'],
+    description: '包含北京地形以及元、明、清等不同时期的三维数字地图',
     seller: '-----',
     price: null,
-    imageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href
+    imageUrl: new URL(
+      '@/assets/placeholder/productDefault.png',
+      import.meta.url,
+    ).href,
   },
   {
     id: 5,
-    title: 'LBS文旅客情-景区画像字典',
-    tags: ['基础', '财富','设备'],
-    description: '总体样本中能够识别到本标签的人数作为分母，有标各项值特征的人数作为分子，分子除以分母得到占比，各项值加起来等于100%，人群画像分析结果只计算能够识别到的样本，不同标签的识别覆盖率各自不同。',
+    title: '大运河历史遗迹遗址模型',
+    tags: ['三维', '模型', '文化'],
+    description: '大运河北京段河道、水源、桥梁、古建筑等三维模型',
     seller: '-----',
     price: null,
-    imageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href
+    imageUrl: new URL(
+      '@/assets/placeholder/productDefault.png',
+      import.meta.url,
+    ).href,
   },
   {
     id: 6,
-    title: 'LBS文旅客情-区划版客情',
-    tags: ['web', 'API','小程序'],
-    description: '实时数据、游客趋势、游客趋势、游客画像',
+    title: '景区画像数据',
+    tags: ['旅游', '画像', '数据'],
+    description: '景区到访人员旅行偏好等分析数据',
     seller: '-----',
     price: null,
-    imageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href
+    imageUrl: new URL(
+      '@/assets/placeholder/productDefault.png',
+      import.meta.url,
+    ).href,
   },
   {
     id: 7,
-    title: 'LBS文旅客情-区划画像字典',
-    tags: ['基础画像', '消费画像','偏好画像'],
-    description: '总体样本中能够识别到本标签的人数作为分母，有标签各项值特征的人数作为分子，分子除以分母得到占比，各项值加起来等于100%。',
+    title: '客流态势检测数据',
+    tags: ['画像', '消费', '数据'],
+    description: '旅游目的地的游客来源、游客数量走势、游客男女和性别画像等数据',
     seller: '-----',
     price: null,
-    imageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href
+    imageUrl: new URL(
+      '@/assets/placeholder/productDefault.png',
+      import.meta.url,
+    ).href,
   },
   {
     id: 8,
-    title: '名目整理',
-    tags: ['玄幻小说', '现代言情','穿越小说'],
-    description: '引妻入婚豪门暗斗:弃妇不可欺重生弃妃、侯爷放肆宠',
+    title: '游客画像数据集',
+    tags: ['画像', '数据', '模型'],
+    description: '游客属性、游客消费、游客偏好等类型数据',
     seller: '-----',
     price: null,
-    imageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href
+    imageUrl: new URL(
+      '@/assets/placeholder/productDefault.png',
+      import.meta.url,
+    ).href,
   },
-  {
-    id: 9,
-    title: '电信数据基础接口指标',
-    tags: ['客流量', '游客来源','首访区域'],
-    description: '假日文旅报告维度——以报告服务和平台开发服务对外销售',
-    seller: '-----',
-    price: null,
-    imageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href
-  },
-  {
-    id: 10,
-    title: '景区经济外溢效应分析数据指标--报告+平台',
-    tags: ['日度游客规模统计', '客流驻留时长','月度游客规模趋势'],
-    description: '大景区-经济外溢效应分析数据指标——以报告/平台对外服务已为北京市提供环球影城分析',
-    seller: '-----',
-    price: null,
-    imageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href
-  },
-  {
-    id: 11,
-    title: '北京数据基础制度先行区 数据落地与应用',
-    tags: ['客流态势监测', '国内客流数据集','游客画像数据集'],
-    description: '依托职住模型对全国联通用户进行统计并结合国家文化和旅游部发布的扩样算法进行全网反推，为旅游目的地提供全域游客情从游客来源、游客数量走势、游客男女和性别画像等方面进行游客特征分析，帮助客户实时监测客流情况',
-    seller: '联通数字科技有限公司',
-    price: null,
-    imageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href
-  },
-  {
-    id: 12,
-    title: '北京文化资源数据清单',
-    tags: ['三维地图', '主题信息','地理信息'],
-    description: '建设北京地形、元、明、清、现代五套三维数字地图。',
-    seller: '中国电信股份有限公司北京分公司',
-    price: null,
-    imageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href
-  }
+  // {
+  //   id: 9,
+  //   title: '电信数据基础接口指标',
+  //   tags: ['客流量', '游客来源', '首访区域'],
+  //   description: '假日文旅报告维度——以报告服务和平台开发服务对外销售',
+  //   seller: '-----',
+  //   price: null,
+  //   imageUrl: new URL(
+  //     '@/assets/placeholder/productDefault.png',
+  //     import.meta.url,
+  //   ).href,
+  // },
+  // {
+  //   id: 10,
+  //   title: '景区经济外溢效应分析数据指标--报告+平台',
+  //   tags: ['日度游客规模统计', '客流驻留时长', '月度游客规模趋势'],
+  //   description:
+  //     '大景区-经济外溢效应分析数据指标——以报告/平台对外服务已为北京市提供环球影城分析',
+  //   seller: '-----',
+  //   price: null,
+  //   imageUrl: new URL(
+  //     '@/assets/placeholder/productDefault.png',
+  //     import.meta.url,
+  //   ).href,
+  // },
+  // {
+  //   id: 11,
+  //   title: '北京数据基础制度先行区 数据落地与应用',
+  //   tags: ['客流态势监测', '国内客流数据集', '游客画像数据集'],
+  //   description:
+  //     '依托职住模型对全国联通用户进行统计并结合国家文化和旅游部发布的扩样算法进行全网反推，为旅游目的地提供全域游客情从游客来源、游客数量走势、游客男女和性别画像等方面进行游客特征分析，帮助客户实时监测客流情况',
+  //   seller: '联通数字科技有限公司',
+  //   price: null,
+  //   imageUrl: new URL(
+  //     '@/assets/placeholder/productDefault.png',
+  //     import.meta.url,
+  //   ).href,
+  // },
+  // {
+  //   id: 12,
+  //   title: '北京文化资源数据清单',
+  //   tags: ['三维地图', '主题信息', '地理信息'],
+  //   description: '建设北京地形、元、明、清、现代五套三维数字地图。',
+  //   seller: '中国电信股份有限公司北京分公司',
+  //   price: null,
+  //   imageUrl: new URL(
+  //     '@/assets/placeholder/productDefault.png',
+  //     import.meta.url,
+  //   ).href,
+  // },
 ]
 
 export const productDetails: {
@@ -124,7 +162,8 @@ export const productDetails: {
       title: '文化产品',
       soldCount: 100,
       tags: ['热门', '推荐'],
-      description: '全屋智能家居解决方案，便捷、安全,全屋智能家居解决方案，便捷、安全',
+      description:
+        '全屋智能家居解决方案，便捷、安全,全屋智能家居解决方案，便捷、安全',
       sellerId: 1,
       hasCount: true,
       specGroups: [
@@ -134,13 +173,13 @@ export const productDetails: {
           specs: [
             {
               key: uuidv4(),
-              label: '完整'
+              label: '完整',
             },
             {
               key: uuidv4(),
-              label: '精简'
-            }
-          ]
+              label: '精简',
+            },
+          ],
         },
         {
           key: uuidv4(),
@@ -148,19 +187,19 @@ export const productDetails: {
           specs: [
             {
               key: uuidv4(),
-              label: '包月'
+              label: '包月',
             },
             {
               key: uuidv4(),
-              label: '包年'
+              label: '包年',
             },
             {
               key: uuidv4(),
-              label: '永久'
-            }
-          ]
-        }
-      ]
+              label: '永久',
+            },
+          ],
+        },
+      ],
     },
     imageUrls: [
       'https://via.placeholder.com/600x400',
@@ -174,7 +213,7 @@ export const productDetails: {
       'https://via.placeholder.com/600x400',
       'https://via.placeholder.com/600x400',
       'https://via.placeholder.com/600x400',
-      'https://via.placeholder.com/600x400'
+      'https://via.placeholder.com/600x400',
     ],
     content: `
       <h3>数据产品介绍</h3>
@@ -209,6 +248,6 @@ export const productDetails: {
 
       <p>更多详情，请访问我们的官方网站。</p>
       <a href="https://example.com" target="_blank">点击这里了解更多</a>
-    `
-  }
+    `,
+  },
 ]
