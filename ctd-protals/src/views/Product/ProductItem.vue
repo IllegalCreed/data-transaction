@@ -6,13 +6,18 @@
     <div class="text-container">
       <span class="title">{{ product.title }}</span>
       <div class="tag-container">
-        <el-tag v-for="(tag, index) in product.tags" :key="index" type="primary" size="small">
+        <el-tag
+          v-for="(tag, index) in product.tags"
+          :key="index"
+          type="primary"
+          size="small"
+        >
           {{ tag }}
         </el-tag>
       </div>
       <span class="desc">{{ product.description }}</span>
       <div flex-1></div>
-      <span class="price">￥{{ product.price }}</span>
+      <span class="price">￥{{ product.price ? product.price : '--' }}</span>
     </div>
     <div class="bottom-container">
       <span class="company">服务商: {{ product.seller }}</span>
