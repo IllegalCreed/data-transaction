@@ -9,12 +9,12 @@ export enum ProductOrderStatus {
   ToDeliver = 2,
   ToCheck = 3,
   ToReview = 4,
-  Reviewed = 5
+  Reviewed = 5,
 }
 
 export enum ProductType {
   Dataset = 0,
-  API = 1
+  API = 1,
 }
 
 export interface IProduct {
@@ -22,7 +22,7 @@ export interface IProduct {
   title: string
   description: string
   seller: string
-  price: number
+  price: number | null
   tags: string[]
   imageUrl: string
 }
