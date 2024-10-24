@@ -362,6 +362,10 @@
     "registerAPI": true,
     "activationAccountAPI": true,
     "tokenExchangeEmailAPI": true,
-    "reSendActivationEmailAPI": true
+    "reSendActivationEmailAPI": true,
+    "forgotPwdSendEmailAPI": true,
+    "forgotSendEmailAPI": true,
+    "forgotVerifyCodeAPI": true,
+    "forgotResetPasswordAPI": true
   }
 }

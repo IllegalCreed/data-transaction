@@ -8,7 +8,6 @@ export const useAccountStore = defineStore('account', () => {
   const { logout, resetPwd, userinfo, getUserInfo } = useAccount()
   const { login, getCode, getAd, links, getLinks } = useLogin()
   const {
-    getAds: getRegisterAds,
     userIdentity,
     setUserIdentity,
     personalInfo,
@@ -18,29 +17,52 @@ export const useAccountStore = defineStore('account', () => {
     activationAccount,
     tokenExchangeEmail,
     reSendActivationEmail,
+    getAds: getRegisterAds,
   } = useRegister()
-  const { getAds: getForgotAds } = useForgot()
+  const {
+    email: forgotEmail,
+    setEmail: setForgotEmail,
+    token: forgotToken,
+    setToken: setForgotToken,
+    sendEmail: forgotSendEmail,
+    verifyCode: forgotVerifyCode,
+    resetPassword: forgotResetPassword,
+    getAds: getForgotAds,
+  } = useForgot()
 
   return {
-    login,
-    logout,
-    getCode,
-    resetPwd,
-    userinfo,
-    getUserInfo,
-    getAd,
-    links,
-    getLinks,
-    getRegisterAds,
-    userIdentity,
-    setUserIdentity,
-    personalInfo,
-    enterpriseInfo,
-    baseInfo,
-    register,
-    activationAccount,
-    tokenExchangeEmail,
-    reSendActivationEmail,
-    getForgotAds,
+    ...{
+      login,
+      logout,
+      getCode,
+      resetPwd,
+      userinfo,
+      getUserInfo,
+      links,
+      getLinks,
+      getAd,
+    },
+    ...{
+      getRegisterAds,
+      userIdentity,
+      setUserIdentity,
+      personalInfo,
+      enterpriseInfo,
+      baseInfo,
+      register,
+      activationAccount,
+      tokenExchangeEmail,
+      reSendActivationEmail,
+    },
+    ...{
+      forgotEmail,
+      setForgotEmail,
+      forgotToken,
+      setForgotToken,
+      forgotSendEmail,
+      forgotVerifyCode,
+      forgotResetPassword,
+      getForgotAds,
+    },
   }
 })

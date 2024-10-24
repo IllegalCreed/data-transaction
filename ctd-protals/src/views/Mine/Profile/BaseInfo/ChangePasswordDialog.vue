@@ -6,21 +6,38 @@
     :close-on-click-modal="false"
     title="修改密码"
   >
-    <el-form :model="userPwd" :rules="rules" ref="formRef" label-width="auto" max-w-100>
+    <el-form
+      @submit.prevent
+      :model="userPwd"
+      :rules="rules"
+      ref="formRef"
+      label-width="auto"
+      max-w-100
+    >
       <el-form-item label="旧密码" prop="oldPwd">
         <el-input v-model="userPwd.oldPwd" placeholder="请输入" />
       </el-form-item>
       <el-form-item label="新密码" prop="newPwd">
-        <el-input v-model="userPwd.newPwd" type="password" placeholder="请输入" />
+        <el-input
+          v-model="userPwd.newPwd"
+          type="password"
+          placeholder="请输入"
+        />
       </el-form-item>
       <el-form-item label="重复密码" prop="repeatPwd">
-        <el-input v-model="userPwd.repeatPwd" type="password" placeholder="请输入" />
+        <el-input
+          v-model="userPwd.repeatPwd"
+          type="password"
+          placeholder="请输入"
+        />
       </el-form-item>
     </el-form>
     <template #footer>
       <div class="dialog-footer">
         <el-button class="btn" @click="model = false">取消</el-button>
-        <el-button class="btn" type="primary" @click="handleResetPwd"> 确认 </el-button>
+        <el-button class="btn" type="primary" @click="handleResetPwd">
+          确认
+        </el-button>
       </div>
     </template>
   </el-dialog>
@@ -38,7 +55,7 @@ const model = defineModel<boolean>({ required: true })
 const userPwd = ref({
   oldPwd: '',
   newPwd: '',
-  repeatPwd: ''
+  repeatPwd: '',
 })
 
 const formRef = useTemplateRef<FormInstance>('formRef')
@@ -64,12 +81,12 @@ const rules = reactive<FormRules<any>>({
   oldPwd: [{ required: true, message: '密码不能为空', trigger: 'blur' }],
   newPwd: [
     { required: true, message: '密码不能为空', trigger: 'blur' },
-    { validator: validateNewPwd, trigger: 'blur' }
+    { validator: validateNewPwd, trigger: 'blur' },
   ],
   repeatPwd: [
     { required: true, message: '重复密码不能为空', trigger: 'blur' },
-    { validator: validateRepeatPwd, trigger: 'blur' }
-  ]
+    { validator: validateRepeatPwd, trigger: 'blur' },
+  ],
 })
 
 async function handleResetPwd() {
