@@ -4,6 +4,7 @@
     <p text-sm text-gray-400>我们将会更新您的验证邮箱</p>
 
     <el-form
+      @submit.prevent
       class="form"
       :model="baseInfo"
       :rules="rules"
@@ -14,11 +15,17 @@
       w-60
     >
       <el-form-item label="新邮箱" prop="email">
-        <el-input v-model="baseInfo.email" type="email" placeholder="请输入邮箱地址" />
+        <el-input
+          v-model="baseInfo.email"
+          type="email"
+          placeholder="请输入邮箱地址"
+        />
       </el-form-item>
     </el-form>
 
-    <el-button w-60 mt-4 type="primary" @click="handleNextStep">下一步</el-button>
+    <el-button w-60 mt-4 type="primary" @click="handleNextStep"
+      >下一步</el-button
+    >
   </div>
 </template>
 
@@ -28,19 +35,19 @@ import { ElMessage } from 'element-plus'
 
 const baseForm = useTemplateRef<FormInstance>('baseForm')
 const baseInfo = ref({
-  email: ''
+  email: '',
 })
 
 const rules = reactive<FormRules<any>>({
-  email: [{ required: true, message: '请输入邮箱', trigger: 'blur' }]
+  email: [{ required: true, message: '请输入邮箱', trigger: 'blur' }],
 })
 
 const validateOnSubmit = false
 const handleSubmit = async (): Promise<boolean> => {
   if (!baseForm.value) return Promise.resolve(false)
 
-  const baseFormValid = await new Promise<boolean>((resolve) => {
-    baseForm.value?.validate((valid) => {
+  const baseFormValid = await new Promise<boolean>(resolve => {
+    baseForm.value?.validate(valid => {
       resolve(valid)
     })
   })

@@ -2,6 +2,7 @@
   <div flex flex-col>
     <span text-lg font-bold>个人信息</span>
     <el-form
+      @submit.prevent
       class="form"
       :model="personalInfo"
       :rules="rules"
