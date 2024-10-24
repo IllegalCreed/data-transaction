@@ -4,6 +4,7 @@
     <p class="desc">我们将会更新您的密码</p>
 
     <el-form
+      @submit.prevent
       class="form"
       :model="baseInfo"
       :rules="rules"
@@ -20,11 +21,21 @@
       </el-form-item>
 
       <el-form-item label="确认密码" prop="confirmPassword">
-        <el-input v-model="baseInfo.confirmPassword" type="password" placeholder="请再次输入密码" />
+        <el-input
+          v-model="baseInfo.confirmPassword"
+          type="password"
+          placeholder="请再次输入密码"
+        />
       </el-form-item>
     </el-form>
 
-    <el-button class="btn" type="primary" @click="handleNextStep">下一步</el-button>
+    <el-button
+      :loading="forgotResetPasswordActionLoading"
+      class="btn"
+      type="primary"
+      @click="handleNextStep"
+      >下一步</el-button
+    >
   </div>
 </template>
 
@@ -34,16 +45,21 @@ import type { InternalRuleItem } from 'async-validator'
 import type { FormInstance, FormRules } from 'element-plus'
 import { ElMessage } from 'element-plus'
 
+import { useAccountStore } from '@/stores/modules/account'
+const accountStore = useAccountStore()
+const { forgotToken: token } = storeToRefs(accountStore)
+const { forgotResetPassword: forgotResetPasswordAction } = accountStore
+
 const baseForm = useTemplateRef<FormInstance>('baseForm')
 const baseInfo = ref({
   password: '',
-  confirmPassword: ''
+  confirmPassword: '',
 })
 
 const validateNewPwd = (
   rule: InternalRuleItem,
   value: string,
-  callback: (error?: string | Error) => void
+  callback: (error?: string | Error) => void,
 ) => {
   const regex =
     /^(?![A-Za-z0-9]+$)(?![a-z0-9\W]+$)(?![A-Za-z\W]+$)(?![A-Z0-9\W]+$)[a-zA-Z0-9\W]{8,20}$/
@@ -57,7 +73,7 @@ const validateNewPwd = (
 const validateRepeatPwd = (
   rule: InternalRuleItem,
   value: string,
-  callback: (error?: string | Error) => void
+  callback: (error?: string | Error) => void,
 ) => {
   if (baseInfo.value.password !== baseInfo.value.confirmPassword) {
     callback(new Error('请保证两次输入的密码一致'))
@@ -71,24 +87,24 @@ const rules = reactive<FormRules<IPassword>>({
     { required: true, message: '请输入密码', trigger: 'blur' },
     {
       validator: validateNewPwd,
-      trigger: ['blur']
-    }
+      trigger: ['blur'],
+    },
   ],
   confirmPassword: [
     { required: true, message: '请再次确认密码', trigger: 'blur' },
     {
       validator: validateRepeatPwd,
-      trigger: ['blur']
-    }
-  ]
+      trigger: ['blur'],
+    },
+  ],
 })
 
-const validateOnSubmit = false
+const validateOnSubmit = true
 const handleSubmit = async (): Promise<boolean> => {
   if (!baseForm.value) return Promise.resolve(false)
 
-  const baseFormValid = await new Promise<boolean>((resolve) => {
-    baseForm.value?.validate((valid) => {
+  const baseFormValid = await new Promise<boolean>(resolve => {
+    baseForm.value?.validate(valid => {
       resolve(valid)
     })
   })
@@ -98,10 +114,27 @@ const handleSubmit = async (): Promise<boolean> => {
   return Promise.resolve(true)
 }
 
+const {
+  isLoading: forgotResetPasswordActionLoading,
+  execute: executeForgotResetPasswordAction,
+} = useAsyncState(forgotResetPasswordAction, undefined, {
+  immediate: false,
+  throwError: true,
+})
+
 const emit = defineEmits(['nextStep'])
 const handleNextStep = async () => {
   if (validateOnSubmit) {
     if (await handleSubmit()) {
+      if (!token.value) {
+        ElMessage.error('系统错误，请刷新后重试')
+        return
+      }
+      await executeForgotResetPasswordAction(
+        0,
+        token.value,
+        baseInfo.value.password,
+      )
       emit('nextStep')
     } else {
       ElMessage.error('请检查填写的信息是否正确')

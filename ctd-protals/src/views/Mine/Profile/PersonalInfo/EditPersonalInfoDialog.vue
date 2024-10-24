@@ -8,6 +8,7 @@
   >
     <div>
       <el-form
+        @submit.prevent
         class="form"
         :model="personalInfo"
         :rules="rules"
@@ -24,7 +25,13 @@
             :show-file-list="false"
             :before-upload="beforeAvatarUpload"
           >
-            <img v-if="personalInfo.avatar" :src="personalInfo.avatar" w-40 h-40 object-contain />
+            <img
+              v-if="personalInfo.avatar"
+              :src="personalInfo.avatar"
+              w-40
+              h-40
+              object-contain
+            />
             <div v-else class="avatar-uploader-icon">
               <i-lets-icons:upload w-10 h-10></i-lets-icons:upload>
             </div>
@@ -38,7 +45,10 @@
 
         <!-- 身份证号 -->
         <el-form-item label="身份证号" prop="idNumber">
-          <el-input v-model="personalInfo.idNumber" placeholder="请输入身份证号" />
+          <el-input
+            v-model="personalInfo.idNumber"
+            placeholder="请输入身份证号"
+          />
         </el-form-item>
 
         <!-- 联系电话 -->
@@ -66,14 +76,20 @@
 
         <!-- 住址 -->
         <el-form-item label="住址">
-          <el-input v-model="personalInfo.address" type="textarea" placeholder="请输入住址" />
+          <el-input
+            v-model="personalInfo.address"
+            type="textarea"
+            placeholder="请输入住址"
+          />
         </el-form-item>
       </el-form>
     </div>
     <template #footer>
       <div class="dialog-footer">
         <el-button class="btn" @click="model = false">取消</el-button>
-        <el-button class="btn" type="primary" @click="handleSubmit"> 提交 </el-button>
+        <el-button class="btn" type="primary" @click="handleSubmit">
+          提交
+        </el-button>
       </div>
     </template>
   </el-dialog>
@@ -92,7 +108,7 @@ const personalInfo = reactive({
   gender: '',
   birthDate: '',
   address: '',
-  avatar: ''
+  avatar: '',
 })
 
 const personForm = ref<FormInstance | null>(null)
@@ -101,17 +117,21 @@ const rules = ref<FormRules>({
   name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
   idNumber: [
     { required: true, message: '请输入身份证号', trigger: 'blur' },
-    { pattern: /^[1-9]\d{14}(\d{2}[0-9xX])?$/, message: '身份证号格式不正确', trigger: 'blur' }
+    {
+      pattern: /^[1-9]\d{14}(\d{2}[0-9xX])?$/,
+      message: '身份证号格式不正确',
+      trigger: 'blur',
+    },
   ],
   phone: [
     { required: true, message: '请输入联系电话', trigger: 'blur' },
-    { pattern: /^[1-9]\d{10}$/, message: '手机号格式不正确', trigger: 'blur' }
-  ]
+    { pattern: /^[1-9]\d{10}$/, message: '手机号格式不正确', trigger: 'blur' },
+  ],
 })
 
 async function handleSubmit() {
   if (!personForm.value) return
-  await personForm.value.validate((valid) => {
+  await personForm.value.validate(valid => {
     if (valid) {
       ElMessage.success('个人信息修改成功')
       model.value = false
@@ -119,8 +139,14 @@ async function handleSubmit() {
   })
 }
 
-const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
-  const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/webp']
+const beforeAvatarUpload: UploadProps['beforeUpload'] = rawFile => {
+  const allowedTypes = [
+    'image/jpeg',
+    'image/png',
+    'image/gif',
+    'image/bmp',
+    'image/webp',
+  ]
   const isAllowedType = allowedTypes.includes(rawFile.type)
   if (!isAllowedType) {
     ElMessage.error('头像图片必须是 JPG、PNG、GIF、BMP 或 WEBP 格式！')

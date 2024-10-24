@@ -9,12 +9,25 @@
     <verification-code-input mt-4 v-model="code"></verification-code-input>
 
     <div class="step-btn-container">
-      <el-button class="step-btn" type="primary" @click="handlePrevStep">上一步</el-button>
-      <el-button class="step-btn" type="primary" @click="handleNextStep">下一步</el-button>
+      <el-button class="step-btn" type="primary" @click="handlePrevStep"
+        >上一步</el-button
+      >
+      <el-button
+        class="step-btn"
+        :loading="forgotVerifyCodeActionLoading"
+        type="primary"
+        @click="handleNextStep"
+        >下一步</el-button
+      >
     </div>
 
     <span text-xs my-5
-      >没有收到邮件？点击<span @click="reSendEmail" class="resend-email">重新发送邮件</span></span
+      >没有收到邮件？点击<span
+        :loading="forgotSendEmailActionLoading"
+        @click="reSendEmail"
+        class="resend-email"
+        >重新发送邮件</span
+      ></span
     >
   </div>
 </template>
@@ -22,20 +35,65 @@
 <script setup lang="ts">
 import { ElMessage } from 'element-plus'
 import VerificationCodeInput from '@/components/VerificationCodeInput.vue'
+import { useAccountStore } from '@/stores/modules/account'
+
+const accountStore = useAccountStore()
+const { forgotEmail: email } = storeToRefs(accountStore)
+const {
+  forgotVerifyCode: forgotVerifyCodeAction,
+  setForgotToken: setForgotTokenAction,
+  forgotSendEmail: forgotSendEmailAction,
+} = accountStore
 
 const code = ref('')
-const email = ref('someone@email.com')
+
+const {
+  state: token,
+  isLoading: forgotVerifyCodeActionLoading,
+  execute: executeForgotVerifyCodeAction,
+} = useAsyncState(forgotVerifyCodeAction, '', {
+  immediate: false,
+  throwError: true,
+})
 
 const emit = defineEmits(['nextStep', 'prevStep'])
 const handleNextStep = async () => {
-  emit('nextStep')
+  if (!email.value || !code.value) {
+    ElMessage.error('请输入邮箱和验证码')
+    return
+  }
+  try {
+    await executeForgotVerifyCodeAction(0, email.value, code.value)
+    ElMessage.success('验证成功')
+    setForgotTokenAction(token.value)
+    emit('nextStep')
+  } catch {
+    ElMessage.error('验证失败')
+  }
 }
 const handlePrevStep = () => {
   emit('prevStep')
 }
 
-const reSendEmail = () => {
-  ElMessage.success('重新发送成功')
+const {
+  isLoading: forgotSendEmailActionLoading,
+  execute: executeForgotSendEmailAction,
+} = useAsyncState(forgotSendEmailAction, undefined, {
+  immediate: false,
+  throwError: true,
+})
+
+const reSendEmail = async () => {
+  if (!email.value) {
+    ElMessage.error('请输入邮箱')
+    return
+  }
+  try {
+    await executeForgotSendEmailAction(0, email.value)
+    ElMessage.success('邮件发送成功')
+  } catch {
+    ElMessage.error('邮件发送失败')
+  }
 }
 </script>
 

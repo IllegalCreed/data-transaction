@@ -2,6 +2,7 @@
   <div flex flex-col>
     <span text-lg font-bold>企业信息</span>
     <el-form
+      @submit.prevent
       class="form"
       :model="enterpriseInfo"
       :rules="rules"

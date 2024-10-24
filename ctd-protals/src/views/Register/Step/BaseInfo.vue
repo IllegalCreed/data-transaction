@@ -5,6 +5,7 @@
       <div flex flex-col mb-4>
         <span text-lg font-bold>基本信息</span>
         <el-form
+          @submit.prevent
           class="form"
           :model="baseInfo"
           :rules="rules"
@@ -90,7 +91,7 @@ const {
   reSendActivationEmail: reSendActivationEmailAction,
 } = accountStore
 
-const baseForm = ref<FormInstance>()
+const baseForm = useTemplateRef<FormInstance>('baseForm')
 const personFormRef = ref<{ validateForm: () => Promise<boolean> } | null>(null)
 const enterpriseFormRef = ref<{ validateForm: () => Promise<boolean> } | null>(
   null,

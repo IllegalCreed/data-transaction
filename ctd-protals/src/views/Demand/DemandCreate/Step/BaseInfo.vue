@@ -2,6 +2,7 @@
   <div flex flex-col>
     <span text-2xl font-bold>请您填写基本信息</span>
     <el-form
+      @submit.prevent
       class="form"
       :model="baseInfo"
       :rules="rules"
@@ -14,7 +15,11 @@
       </el-form-item>
 
       <el-form-item label="预计完成日期" prop="completionTime">
-        <el-date-picker v-model="baseInfo.completionTime" type="date" class="!w-80" />
+        <el-date-picker
+          v-model="baseInfo.completionTime"
+          type="date"
+          class="!w-80"
+        />
       </el-form-item>
 
       <el-form-item label="需求描述" prop="desc">
@@ -33,7 +38,9 @@
       </el-form-item>
     </el-form>
 
-    <el-button class="step-btn" type="primary" @click="handleNextStep">下一步</el-button>
+    <el-button class="step-btn" type="primary" @click="handleNextStep"
+      >下一步</el-button
+    >
   </div>
 </template>
 
@@ -49,7 +56,7 @@ const { baseInfo } = demandStore
 
 const rules = reactive<FormRules<any>>({
   title: [{ required: true, message: '请输入需求名称', trigger: 'blur' }],
-  desc: [{ required: true, message: '请输入需求描述', trigger: 'blur' }]
+  desc: [{ required: true, message: '请输入需求描述', trigger: 'blur' }],
 })
 
 const toolbar = [
@@ -65,7 +72,7 @@ const toolbar = [
 
   ['link', 'video', 'image'],
 
-  ['clean']
+  ['clean'],
 ]
 
 const baseForm = useTemplateRef<FormInstance>('baseForm')
@@ -73,8 +80,8 @@ const validateOnSubmit = false
 const handleSubmit = async (): Promise<boolean> => {
   if (!baseForm.value) return Promise.resolve(false)
 
-  const baseFormValid = await new Promise<boolean>((resolve) => {
-    baseForm.value?.validate((valid) => {
+  const baseFormValid = await new Promise<boolean>(resolve => {
+    baseForm.value?.validate(valid => {
       resolve(valid)
     })
   })
