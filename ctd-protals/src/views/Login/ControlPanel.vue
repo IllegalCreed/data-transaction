@@ -7,24 +7,31 @@
 
       <div class="login-input-container" mt-10>
         <span ml-1 text-sm>邮箱</span>
-        <el-input v-model="email" placeholder="请输入您的邮箱地址" />
+        <el-input
+          v-model="loginForm.account"
+          placeholder="请输入您的邮箱地址"
+        />
       </div>
 
       <div class="login-input-container" mt-4>
         <span ml-1 text-sm>密码</span>
         <el-input
-          v-model="password"
+          v-model="loginForm.password"
           type="password"
           placeholder="请输入您的密码"
         />
       </div>
 
       <div flex flex-row justify-between items-center w-60 mt-2>
-        <el-checkbox label="记住登录状态" v-model="isRemember" />
+        <el-checkbox label="记住登录状态" v-model="remeberMe" />
         <span class="forgot" @click="goForgot">忘记密码</span>
       </div>
 
-      <el-button class="login-button" type="primary" @click="goHome"
+      <el-button
+        class="login-button"
+        type="primary"
+        :loading="loginActionLoading"
+        @click="goHome"
         >登录</el-button
       >
       <div flex flex-row items-center gap-4 w-60>
@@ -45,18 +52,42 @@
 </template>
 
 <script setup lang="ts">
+import type { ILogin } from '@/types/login'
 import OauthLinkGroup from './OauthLinkGroup.vue'
+import { useTokenStore } from '@/stores/modules/token'
+import { useAccountStore } from '@/stores/modules/account'
+const accountStore = useAccountStore()
+const { login: loginAction } = accountStore
+const tokenStore = useTokenStore()
+const { remeberMe } = storeToRefs(tokenStore)
 
 const icon = new URL('@/assets/icon/logo.png', import.meta.url).href
 
-const email = ref('')
-const password = ref('')
-const isRemember = ref(false)
+const loginForm = ref<ILogin>({
+  account: '',
+  password: '',
+})
 
 const router = useRouter()
 
-const goHome = () => {
-  router.push('/home')
+const { isLoading: loginActionLoading, execute: executeLoginAction } =
+  useAsyncState(loginAction, undefined, {
+    immediate: false,
+    throwError: true,
+  })
+
+const goHome = async () => {
+  if (!loginForm.value.account || !loginForm.value.password) {
+    ElMessage.error('请完成填写登录信息')
+    return
+  }
+
+  try {
+    await executeLoginAction(0, loginForm.value)
+    router.push('/home')
+  } catch {
+    ElMessage.error('登录失败')
+  }
 }
 
 const goRegister = () => {

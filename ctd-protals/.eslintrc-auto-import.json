@@ -366,6 +366,7 @@
     "forgotPwdSendEmailAPI": true,
     "forgotSendEmailAPI": true,
     "forgotVerifyCodeAPI": true,
-    "forgotResetPasswordAPI": true
+    "forgotResetPasswordAPI": true,
+    "ElMessage": true
   }
 }

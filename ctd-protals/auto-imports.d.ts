@@ -7,7 +7,7 @@
 export {}
 declare global {
   const EffectScope: typeof import('vue')['EffectScope']
-  const ElMessage: (typeof import('element-plus/es'))['ElMessage']
+  const ElMessage: typeof import('element-plus/es')['ElMessage']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
   const activationAccountAPI: typeof import('./src/apis/account/register')['activationAccountAPI']
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']

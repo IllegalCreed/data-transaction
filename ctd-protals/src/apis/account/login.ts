@@ -5,8 +5,6 @@ export const loginAPI = (login: ILogin): Promise<unknown> => {
   const data = {
     username: login.account,
     password: login.password,
-    code: login.code,
-    uuid: login.uuid,
   }
   return request.post(
     {
