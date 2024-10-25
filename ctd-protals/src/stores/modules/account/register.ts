@@ -7,22 +7,22 @@ import {
   reSendActivationEmailAPI,
 } from '@/apis/account/register'
 import { ads as mockAds } from '@/constants/mockData/account/register'
-import type {
-  IBaseInfo,
-  IEnterpriseInfo,
-  IIndividualUserInfo,
-  RegistInfoType,
-  RegistRoleType,
+import {
+  UserType,
+  type IBaseInfo,
+  type IEnterpriseInfo,
+  type IIndividualUserInfo,
+  type RegistrationInfo,
 } from '@/types/register'
 import type { ICommonReturn } from '@/axios/type'
 
 export const useRegister = () => {
   const settingsStore = useSettingsStore()
 
-  const userIdentity = ref<RegistRoleType>()
+  const userType = ref<UserType>()
 
-  const setUserIdentity = (identity: RegistRoleType) => {
-    userIdentity.value = identity
+  const setUserType = (value: UserType) => {
+    userType.value = value
   }
 
   const personalInfo = reactive<IIndividualUserInfo>({
@@ -52,18 +52,18 @@ export const useRegister = () => {
     confirmPassword: '',
   })
 
-  const registerInfo = computed((): RegistInfoType => {
-    if (userIdentity.value === 'enterprise') {
+  const registerInfo = computed((): RegistrationInfo => {
+    if (userType.value === UserType.Enterprise) {
       return {
         ...baseInfo,
         ...enterpriseInfo,
-        userIdentity: 'enterprise',
+        userType: UserType.Enterprise,
       }
     } else {
       return {
         ...baseInfo,
         ...personalInfo,
-        userIdentity: 'personal',
+        userType: UserType.Individual,
       }
     }
   })
@@ -151,8 +151,8 @@ export const useRegister = () => {
     tokenExchangeEmail,
     reSendActivationEmail,
     getAds,
-    userIdentity,
-    setUserIdentity,
+    userType,
+    setUserType,
     personalInfo,
     enterpriseInfo,
     baseInfo,

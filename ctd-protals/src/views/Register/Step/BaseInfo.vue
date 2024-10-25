@@ -52,11 +52,11 @@
 
       <person-info
         ref="personFormRef"
-        v-if="userIdentity === 'personal'"
+        v-if="userType === UserType.Individual"
       ></person-info>
       <enterprise-info
         ref="enterpriseFormRef"
-        v-else-if="userIdentity === 'enterprise'"
+        v-else-if="userType === UserType.Enterprise"
       ></enterprise-info>
     </div>
 
@@ -81,11 +81,12 @@ import EnterpriseInfo from './EnterpriseInfo.vue'
 import { useAccountStore } from '@/stores/modules/account'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 import type { IBaseInfo } from '@/types/register'
+import { UserType } from '@/types/register'
 import type { InternalRuleItem } from 'async-validator'
 
 const accountStore = useAccountStore()
 const {
-  userIdentity,
+  userType,
   baseInfo,
   register: registerAction,
   reSendActivationEmail: reSendActivationEmailAction,
@@ -157,9 +158,9 @@ const handleSubmit = async (): Promise<boolean> => {
   if (!baseFormValid) return Promise.resolve(false)
 
   let subFormValid = true
-  if (userIdentity === 'personal' && personFormRef.value) {
+  if (userType === UserType.Individual && personFormRef.value) {
     subFormValid = await personFormRef.value.validateForm()
-  } else if (userIdentity === 'enterprise' && enterpriseFormRef.value) {
+  } else if (userType === UserType.Enterprise && enterpriseFormRef.value) {
     subFormValid = await enterpriseFormRef.value.validateForm()
   }
 

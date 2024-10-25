@@ -8,8 +8,8 @@ export const useAccountStore = defineStore('account', () => {
   const { logout, resetPwd, userinfo, getUserInfo } = useAccount()
   const { login, getCode, getAd, links, getLinks } = useLogin()
   const {
-    userIdentity,
-    setUserIdentity,
+    userType,
+    setUserType,
     personalInfo,
     enterpriseInfo,
     baseInfo,
@@ -44,8 +44,8 @@ export const useAccountStore = defineStore('account', () => {
     },
     ...{
       getRegisterAds,
-      userIdentity,
-      setUserIdentity,
+      userType,
+      setUserType,
       personalInfo,
       enterpriseInfo,
       baseInfo,

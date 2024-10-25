@@ -11,7 +11,7 @@
       label-position="top"
     >
       <!-- 企业名称 -->
-      <el-form-item label="企业名称*" prop="companyName">
+      <el-form-item label="企业名称*" prop="enterpriseName">
         <el-input
           data-testid="companyName-input"
           v-model="enterpriseInfo.enterpriseName"
@@ -20,7 +20,7 @@
       </el-form-item>
 
       <!-- 统一社会信用代码 -->
-      <el-form-item label="统一社会信用代码*" prop="companyCode">
+      <el-form-item label="统一社会信用代码*" prop="registrationNumber">
         <el-input
           data-testid="companyCode-input"
           v-model="enterpriseInfo.registrationNumber"
@@ -29,7 +29,7 @@
       </el-form-item>
 
       <!-- 联系人姓名 -->
-      <el-form-item label="联系人姓名*" prop="contactName">
+      <el-form-item label="联系人姓名*" prop="contactPersonName">
         <el-input
           data-testid="contactName-input"
           v-model="enterpriseInfo.contactPersonName"
@@ -38,7 +38,7 @@
       </el-form-item>
 
       <!-- 联系人职位 -->
-      <el-form-item label="联系人职位" prop="contactPosition">
+      <el-form-item label="联系人职位" prop="contactPersonTitle">
         <el-input
           data-testid="contactPosition-input"
           v-model="enterpriseInfo.contactPersonTitle"
@@ -47,7 +47,7 @@
       </el-form-item>
 
       <!-- 联系人电话 -->
-      <el-form-item label="联系人电话*" prop="contactPhone">
+      <el-form-item label="联系人电话*" prop="contactPhoneNumber">
         <el-input
           data-testid="contactPhone-input"
           v-model="enterpriseInfo.contactPhoneNumber"
@@ -56,7 +56,7 @@
       </el-form-item>
 
       <!-- 企业地址 -->
-      <el-form-item label="企业地址*" prop="companyAddress">
+      <el-form-item label="企业地址*" prop="enterpriseAddress">
         <el-input
           data-testid="companyAddress-input"
           v-model="enterpriseInfo.enterpriseAddress"
@@ -65,7 +65,7 @@
       </el-form-item>
 
       <!-- 行业类别 -->
-      <el-form-item label="行业类别*" prop="industryCategory">
+      <el-form-item label="行业类别*" prop="industryType">
         <el-select
           data-testid="industryCategory-select"
           v-model="enterpriseInfo.industryType"
@@ -84,7 +84,7 @@
       </el-form-item>
 
       <!-- 企业规模 -->
-      <el-form-item label="企业规模" prop="companySize">
+      <el-form-item label="企业规模" prop="numberOfEmployees">
         <el-select
           data-testid="companySize-select"
           v-model="enterpriseInfo.numberOfEmployees"
@@ -101,7 +101,7 @@
       </el-form-item>
 
       <!-- 企业简介 -->
-      <el-form-item label="企业简介" prop="companyDescription">
+      <el-form-item label="企业简介" prop="enterpriseDescription">
         <el-input
           data-testid="companyDescription-input"
           v-model="enterpriseInfo.enterpriseDescription"
@@ -129,8 +129,10 @@ const enterpriseForm = ref<FormInstance | null>(null)
 
 // 表单验证规则
 const rules = ref<FormRules>({
-  companyName: [{ required: true, message: '请输入企业名称', trigger: 'blur' }],
-  companyCode: [
+  enterpriseName: [
+    { required: true, message: '请输入企业名称', trigger: 'blur' },
+  ],
+  registrationNumber: [
     { required: true, message: '请输入统一社会信用代码', trigger: 'blur' },
     {
       pattern: /^[A-Z0-9]{18}$/,
@@ -138,10 +140,10 @@ const rules = ref<FormRules>({
       trigger: 'blur',
     },
   ],
-  contactName: [
+  contactPersonName: [
     { required: true, message: '请输入联系人姓名', trigger: 'blur' },
   ],
-  contactPhone: [
+  contactPhoneNumber: [
     { required: true, message: '请输入联系人电话', trigger: 'blur' },
     {
       pattern: /^[1-9]\d{10}$/,
@@ -149,10 +151,10 @@ const rules = ref<FormRules>({
       trigger: 'blur',
     },
   ],
-  companyAddress: [
+  enterpriseAddress: [
     { required: true, message: '请输入企业地址', trigger: 'blur' },
   ],
-  industryCategory: [
+  industryType: [
     { required: true, message: '请选择行业类别', trigger: 'change' },
   ],
 })

@@ -28,8 +28,19 @@ export interface IEnterpriseInfo {
   numberOfEmployees: string
 }
 
-export type RegistRoleType = 'personal' | 'enterprise' | undefined
+// 用户类型
+export enum UserType {
+  Individual = 'individual',
+  Enterprise = 'enterprise',
+}
 
-export type RegistInfoType =
-  | (IBaseInfo & IIndividualUserInfo & { userIdentity: 'personal' })
-  | (IBaseInfo & IEnterpriseInfo & { userIdentity: 'enterprise' })
+// 自然语言映射
+export const UserTypeLabels: Record<UserType, string> = {
+  [UserType.Individual]: '个人用户',
+  [UserType.Enterprise]: '企业用户',
+}
+
+// 注册信息类型
+export type RegistrationInfo =
+  | (IBaseInfo & IIndividualUserInfo & { userType: UserType.Individual })
+  | (IBaseInfo & IEnterpriseInfo & { userType: UserType.Enterprise })

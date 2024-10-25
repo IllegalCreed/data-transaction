@@ -1,8 +1,10 @@
 import request from '@/axios'
 import { registInfoConverter } from '@/apiConvert/account/register'
-import type { RegistInfoType } from '@/types/register'
+import type { RegistrationInfo } from '@/types/register'
 
-export const registerAPI = (registerInfo: RegistInfoType): Promise<unknown> => {
+export const registerAPI = (
+  registerInfo: RegistrationInfo,
+): Promise<unknown> => {
   const data = { ...registInfoConverter(registerInfo) }
   return request.post(
     {

@@ -11,7 +11,7 @@
       label-position="top"
     >
       <!-- 姓名 -->
-      <el-form-item label="姓名" prop="name">
+      <el-form-item label="姓名" prop="fullName">
         <el-input
           data-testid="name-input"
           v-model="personalInfo.fullName"
@@ -20,7 +20,7 @@
       </el-form-item>
 
       <!-- 身份证号 -->
-      <el-form-item label="身份证号" prop="idNumber">
+      <el-form-item label="身份证号" prop="identificationNumber">
         <el-input
           data-testid="idNumber-input"
           v-model="personalInfo.identificationNumber"
@@ -29,7 +29,7 @@
       </el-form-item>
 
       <!-- 联系电话 -->
-      <el-form-item label="联系电话" prop="phone">
+      <el-form-item label="联系电话" prop="phoneNumber">
         <el-input
           data-testid="phone-input"
           v-model="personalInfo.phoneNumber"
@@ -102,8 +102,8 @@ const personForm = ref<FormInstance | null>(null)
 
 // 表单验证规则
 const rules = ref<FormRules>({
-  name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
-  idNumber: [
+  fullName: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+  identificationNumber: [
     { required: true, message: '请输入身份证号', trigger: 'blur' },
     {
       pattern: /^[1-9]\d{14}(\d{2}[0-9xX])?$/,
@@ -111,7 +111,7 @@ const rules = ref<FormRules>({
       trigger: 'blur',
     },
   ],
-  phone: [
+  phoneNumber: [
     { required: true, message: '请输入联系电话', trigger: 'blur' },
     { pattern: /^[1-9]\d{10}$/, message: '手机号格式不正确', trigger: 'blur' },
   ],
