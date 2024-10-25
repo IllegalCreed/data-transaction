@@ -1,4 +1,4 @@
-export interface IPersonalInfo {
+export interface IIndividualUserInfo {
   name: string
   idNumber: string
   phone: string
@@ -28,5 +28,5 @@ export interface IBaseInfo {
 export type RegistRoleType = 'personal' | 'enterprise' | undefined
 
 export type RegistInfoType =
-  | (IBaseInfo & IPersonalInfo & { userIdentity: 'personal' })
+  | (IBaseInfo & IIndividualUserInfo & { userIdentity: 'personal' })
   | (IBaseInfo & IEnterpriseInfo & { userIdentity: 'enterprise' })

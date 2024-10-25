@@ -10,7 +10,7 @@ import { ads as mockAds } from '@/constants/mockData/account/register'
 import type {
   IBaseInfo,
   IEnterpriseInfo,
-  IPersonalInfo,
+  IIndividualUserInfo,
   RegistInfoType,
   RegistRoleType,
 } from '@/types/register'
@@ -25,7 +25,7 @@ export const useRegister = () => {
     userIdentity.value = identity
   }
 
-  const personalInfo = reactive<IPersonalInfo>({
+  const personalInfo = reactive<IIndividualUserInfo>({
     name: '',
     idNumber: '',
     phone: '',
