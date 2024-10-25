@@ -12,6 +12,7 @@ declare module 'vue' {
     ElCard: typeof import('element-plus/es')['ElCard']
     ElCarousel: typeof import('element-plus/es')['ElCarousel']
     ElCarouselItem: typeof import('element-plus/es')['ElCarouselItem']
+    ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
     ElDialog: typeof import('element-plus/es')['ElDialog']
     ElDivider: typeof import('element-plus/es')['ElDivider']
@@ -21,6 +22,7 @@ declare module 'vue' {
     ElDropdownMenu: typeof import('element-plus/es')['ElDropdownMenu']
     ElInput: typeof import('element-plus/es')['ElInput']
     ElOption: typeof import('element-plus/es')['ElOption']
+    ElRate: typeof import('element-plus/es')['ElRate']
     ElSelect: typeof import('element-plus/es')['ElSelect']
     ElSkeleton: typeof import('element-plus/es')['ElSkeleton']
     ElSkeletonItem: typeof import('element-plus/es')['ElSkeletonItem']
@@ -49,6 +51,7 @@ declare module 'vue' {
     SortListView: typeof import('./src/components/SortListView.vue')['default']
     StepGroup: typeof import('./src/components/StepGroup.vue')['default']
     StepItem: typeof import('./src/components/StepItem.vue')['default']
+    UseImage: typeof import('@vueuse/components')['UseImage']
     VerificationCodeInput: typeof import('./src/components/VerificationCodeInput.vue')['default']
   }
 }
