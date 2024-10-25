@@ -26,24 +26,24 @@ export const useRegister = () => {
   }
 
   const personalInfo = reactive<IIndividualUserInfo>({
-    name: '',
-    idNumber: '',
-    phone: '',
+    fullName: '',
+    identificationNumber: '',
+    phoneNumber: '',
     gender: '',
-    birthDate: '',
-    address: '',
+    dateOfBirth: '',
+    residentialAddress: '',
   })
 
   const enterpriseInfo = reactive<IEnterpriseInfo>({
-    companyName: '',
-    companyDescription: '',
-    companyCode: '',
-    contactName: '',
-    contactPosition: '',
-    contactPhone: '',
-    companyAddress: '',
-    industryCategory: '',
-    companySize: '',
+    enterpriseName: '',
+    enterpriseDescription: '',
+    registrationNumber: '',
+    contactPersonName: '',
+    contactPersonTitle: '',
+    contactPhoneNumber: '',
+    enterpriseAddress: '',
+    industryType: '',
+    numberOfEmployees: '',
   })
 
   const baseInfo = reactive<IBaseInfo>({

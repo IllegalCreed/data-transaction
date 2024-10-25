@@ -14,7 +14,7 @@
       <el-form-item label="企业名称*" prop="companyName">
         <el-input
           data-testid="companyName-input"
-          v-model="enterpriseInfo.companyName"
+          v-model="enterpriseInfo.enterpriseName"
           placeholder="请输入企业名称"
         />
       </el-form-item>
@@ -23,7 +23,7 @@
       <el-form-item label="统一社会信用代码*" prop="companyCode">
         <el-input
           data-testid="companyCode-input"
-          v-model="enterpriseInfo.companyCode"
+          v-model="enterpriseInfo.registrationNumber"
           placeholder="请输入统一社会信用代码"
         />
       </el-form-item>
@@ -32,7 +32,7 @@
       <el-form-item label="联系人姓名*" prop="contactName">
         <el-input
           data-testid="contactName-input"
-          v-model="enterpriseInfo.contactName"
+          v-model="enterpriseInfo.contactPersonName"
           placeholder="请输入联系人姓名"
         />
       </el-form-item>
@@ -41,7 +41,7 @@
       <el-form-item label="联系人职位" prop="contactPosition">
         <el-input
           data-testid="contactPosition-input"
-          v-model="enterpriseInfo.contactPosition"
+          v-model="enterpriseInfo.contactPersonTitle"
           placeholder="请输入联系人职位"
         />
       </el-form-item>
@@ -50,7 +50,7 @@
       <el-form-item label="联系人电话*" prop="contactPhone">
         <el-input
           data-testid="contactPhone-input"
-          v-model="enterpriseInfo.contactPhone"
+          v-model="enterpriseInfo.contactPhoneNumber"
           placeholder="请输入联系人电话"
         />
       </el-form-item>
@@ -59,7 +59,7 @@
       <el-form-item label="企业地址*" prop="companyAddress">
         <el-input
           data-testid="companyAddress-input"
-          v-model="enterpriseInfo.companyAddress"
+          v-model="enterpriseInfo.enterpriseAddress"
           placeholder="请输入企业地址"
         />
       </el-form-item>
@@ -68,7 +68,7 @@
       <el-form-item label="行业类别*" prop="industryCategory">
         <el-select
           data-testid="industryCategory-select"
-          v-model="enterpriseInfo.industryCategory"
+          v-model="enterpriseInfo.industryType"
           placeholder="请选择行业类别"
         >
           <el-option
@@ -87,7 +87,7 @@
       <el-form-item label="企业规模" prop="companySize">
         <el-select
           data-testid="companySize-select"
-          v-model="enterpriseInfo.companySize"
+          v-model="enterpriseInfo.numberOfEmployees"
           placeholder="请选择企业规模"
         >
           <el-option
@@ -104,7 +104,7 @@
       <el-form-item label="企业简介" prop="companyDescription">
         <el-input
           data-testid="companyDescription-input"
-          v-model="enterpriseInfo.companyDescription"
+          v-model="enterpriseInfo.enterpriseDescription"
           type="textarea"
           placeholder="请输入企业简介"
         />

@@ -14,7 +14,7 @@
       <el-form-item label="姓名" prop="name">
         <el-input
           data-testid="name-input"
-          v-model="personalInfo.name"
+          v-model="personalInfo.fullName"
           placeholder="请输入姓名"
         />
       </el-form-item>
@@ -23,7 +23,7 @@
       <el-form-item label="身份证号" prop="idNumber">
         <el-input
           data-testid="idNumber-input"
-          v-model="personalInfo.idNumber"
+          v-model="personalInfo.identificationNumber"
           placeholder="请输入身份证号"
         />
       </el-form-item>
@@ -32,7 +32,7 @@
       <el-form-item label="联系电话" prop="phone">
         <el-input
           data-testid="phone-input"
-          v-model="personalInfo.phone"
+          v-model="personalInfo.phoneNumber"
           placeholder="请输入联系电话"
         />
       </el-form-item>
@@ -66,7 +66,7 @@
       <el-form-item label="出生日期">
         <el-date-picker
           id="birthday-picker"
-          v-model="personalInfo.birthDate"
+          v-model="personalInfo.dateOfBirth"
           type="date"
           placeholder="请选择出生日期"
           class="!w-full"
@@ -77,7 +77,7 @@
       <el-form-item label="住址">
         <el-input
           data-testid="address-input"
-          v-model="personalInfo.address"
+          v-model="personalInfo.residentialAddress"
           type="textarea"
           placeholder="请输入住址"
         />
