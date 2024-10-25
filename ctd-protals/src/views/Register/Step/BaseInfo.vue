@@ -85,8 +85,8 @@ import { UserType } from '@/types/register'
 import type { InternalRuleItem } from 'async-validator'
 
 const accountStore = useAccountStore()
+const { userType } = storeToRefs(accountStore)
 const {
-  userType,
   baseInfo,
   register: registerAction,
   reSendActivationEmail: reSendActivationEmailAction,
@@ -158,9 +158,12 @@ const handleSubmit = async (): Promise<boolean> => {
   if (!baseFormValid) return Promise.resolve(false)
 
   let subFormValid = true
-  if (userType === UserType.Individual && personFormRef.value) {
+  if (userType.value === UserType.Individual && personFormRef.value) {
     subFormValid = await personFormRef.value.validateForm()
-  } else if (userType === UserType.Enterprise && enterpriseFormRef.value) {
+  } else if (
+    userType.value === UserType.Enterprise &&
+    enterpriseFormRef.value
+  ) {
     subFormValid = await enterpriseFormRef.value.validateForm()
   }
 

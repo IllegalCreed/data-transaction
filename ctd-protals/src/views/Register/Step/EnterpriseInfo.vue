@@ -67,19 +67,17 @@
       <!-- 行业类别 -->
       <el-form-item label="行业类别*" prop="industryType">
         <el-select
-          data-testid="industryCategory-select"
+          data-testid="industryType-select"
           v-model="enterpriseInfo.industryType"
           placeholder="请选择行业类别"
         >
           <el-option
-            data-testid="industryCategory-option-IT"
-            label="信息技术"
-            value="信息技术"
+            v-for="item in industryTypeOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+            :data-testid="`industryType-option-${item.value}`"
           ></el-option>
-          <el-option label="制造业" value="制造业"></el-option>
-          <el-option label="服务业" value="服务业"></el-option>
-          <el-option label="金融" value="金融"></el-option>
-          <!-- 其他类别 -->
         </el-select>
       </el-form-item>
 
@@ -87,16 +85,16 @@
       <el-form-item label="企业规模" prop="numberOfEmployees">
         <el-select
           data-testid="companySize-select"
-          v-model="enterpriseInfo.numberOfEmployees"
+          v-model="enterpriseInfo.companySize"
           placeholder="请选择企业规模"
         >
           <el-option
-            data-testid="companySize-option-large"
-            label="小型企业"
-            value="小型企业"
+            v-for="item in companySizeOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+            :data-testid="`companySize-option-${item.value}`"
           ></el-option>
-          <el-option label="中型企业" value="中型企业"></el-option>
-          <el-option label="大型企业" value="大型企业"></el-option>
         </el-select>
       </el-form-item>
 
@@ -117,12 +115,29 @@
 import { ref } from 'vue'
 import { useAccountStore } from '@/stores/modules/account'
 import type { FormInstance, FormRules } from 'element-plus'
+import {
+  CompanySize,
+  CompanySizeLabels,
+  IndustryType,
+  IndustryTypeLabels,
+} from '@/types/register'
 
 // 获取企业信息的 Pinia store
 const accountStore = useAccountStore()
-
 // 绑定 store 的企业信息数据
 const enterpriseInfo = accountStore.enterpriseInfo
+
+// 生成行业类型的 select 选项
+const industryTypeOptions = Object.values(IndustryType).map(value => ({
+  value,
+  label: IndustryTypeLabels[value],
+}))
+
+// 生成企业规模的 select 选项
+const companySizeOptions = Object.values(CompanySize).map(value => ({
+  value,
+  label: CompanySizeLabels[value],
+}))
 
 // 表单实例引用
 const enterpriseForm = ref<FormInstance | null>(null)

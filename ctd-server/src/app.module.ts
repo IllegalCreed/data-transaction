@@ -27,8 +27,9 @@ const nodeEnv = process.env.NODE_ENV || 'development';
           username: configService.get('DATABASE_USERNAME'),
           password: configService.get('DATABASE_PASSWORD'),
           database: configService.get('DATABASE_NAME'),
-          entities: [],
+          // entities: [], // autoLoadEntities为true则无需手动维护entities
           synchronize: configService.get('TYPEORM_SYNC'),
+          autoLoadEntities: true,
         };
       },
       inject: [ConfigService],

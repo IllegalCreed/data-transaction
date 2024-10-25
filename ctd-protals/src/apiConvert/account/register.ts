@@ -25,7 +25,7 @@ export const registInfoConverter = (info: RegistrationInfo) => {
       sysEnterprise: {
         code: info.registrationNumber,
         entRemark: info.enterpriseDescription,
-        entScale: info.numberOfEmployees,
+        entScale: info.companySize,
         contactsName: info.contactPersonName,
         contactsPhone: info.contactPhoneNumber,
         contactsPosition: info.contactPersonTitle,

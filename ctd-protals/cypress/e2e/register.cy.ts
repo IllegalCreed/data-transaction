@@ -34,7 +34,7 @@ describe('User Registration Flow', () => {
       contactPosition: 'test position',
       contactPhone: '18888888888',
       companyAddress: 'test address',
-      industryCategory: 'IT',
+      industryCategory: 'information_technology',
       companySize: 'large',
       companyDescription: 'test description',
     }
@@ -93,7 +93,7 @@ describe('User Registration Flow', () => {
       contactPosition: 'test position',
       contactPhone: '18888888888',
       companyAddress: 'test address',
-      industryCategory: 'IT',
+      industryCategory: 'information_technology',
       companySize: 'large',
       companyDescription: 'test description',
     }

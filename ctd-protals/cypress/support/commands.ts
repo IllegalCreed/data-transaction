@@ -119,9 +119,9 @@ Cypress.Commands.add(
     cy.get('[data-testid="companyAddress-input"]').type(userData.companyAddress)
 
     // 选择行业类别
-    cy.get('[data-testid="industryCategory-select"]').click()
+    cy.get('[data-testid="industryType-select"]').click()
     cy.get(
-      `[data-testid="industryCategory-option-${userData.industryCategory}"]`,
+      `[data-testid="industryType-option-${userData.industryCategory}"]`,
     ).click()
 
     // 选择公司规模

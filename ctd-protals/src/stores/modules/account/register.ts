@@ -8,6 +8,7 @@ import {
 } from '@/apis/account/register'
 import { ads as mockAds } from '@/constants/mockData/account/register'
 import {
+  IndustryType,
   UserType,
   type IBaseInfo,
   type IEnterpriseInfo,
@@ -42,8 +43,8 @@ export const useRegister = () => {
     contactPersonTitle: '',
     contactPhoneNumber: '',
     enterpriseAddress: '',
-    industryType: '',
-    numberOfEmployees: '',
+    industryType: IndustryType.Other,
+    companySize: undefined,
   })
 
   const baseInfo = reactive<IBaseInfo>({
