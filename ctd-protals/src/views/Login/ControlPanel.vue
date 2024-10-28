@@ -8,6 +8,7 @@
       <div class="login-input-container" mt-10>
         <span ml-1 text-sm>邮箱</span>
         <el-input
+          data-testid="email-input"
           v-model="loginForm.account"
           placeholder="请输入您的邮箱地址"
         />
@@ -16,6 +17,7 @@
       <div class="login-input-container" mt-4>
         <span ml-1 text-sm>密码</span>
         <el-input
+          data-testid="password-input"
           v-model="loginForm.password"
           type="password"
           placeholder="请输入您的密码"
@@ -23,11 +25,16 @@
       </div>
 
       <div flex flex-row justify-between items-center w-60 mt-2>
-        <el-checkbox label="记住登录状态" v-model="remeberMe" />
+        <el-checkbox
+          data-testid="remember-me-checkbox"
+          label="记住登录状态"
+          v-model="remeberMe"
+        />
         <span class="forgot" @click="goForgot">忘记密码</span>
       </div>
 
       <el-button
+        data-testid="login-button"
         class="login-button"
         type="primary"
         :loading="loginActionLoading"
