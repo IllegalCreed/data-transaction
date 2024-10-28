@@ -31,6 +31,7 @@
         :loading="forgotSendEmailActionLoading"
         @click="reSendEmail"
         class="resend-email"
+        data-testid="resend-email-button"
         >重新发送邮件</span
       ></span
     >

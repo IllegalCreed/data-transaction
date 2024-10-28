@@ -1,5 +1,10 @@
 import type { ICorporateUserData, IIndividualUserData } from '../support/types'
-import { generateUniqueEmail } from '../support/utils'
+import {
+  activateUser,
+  generateUniqueEmail,
+  registerCorporateUser,
+  registerIndividualUser,
+} from '../support/utils'
 
 describe('User Registration Flow', () => {
   it('should register as an individual user', () => {
@@ -14,14 +19,8 @@ describe('User Registration Flow', () => {
       address: 'test address',
     }
 
-    cy.registerIndividualUser(testUser)
-
-    cy.getActivationToken(Cypress.env('serverUrl'), testUser.email)
-
-    cy.get('@activationToken').then(token => {
-      cy.visit(`/register?token=${token}`)
-      cy.contains('账号激活成功').should('be.visible')
-    })
+    registerIndividualUser(testUser)
+    activateUser(testUser.email)
   })
 
   it('should register as a corporate user', () => {
@@ -39,14 +38,8 @@ describe('User Registration Flow', () => {
       companyDescription: 'test description',
     }
 
-    cy.registerCorporateUser(testUser)
-
-    cy.getActivationToken(Cypress.env('serverUrl'), testUser.email)
-
-    cy.get('@activationToken').then(token => {
-      cy.visit(`/register?token=${token}`)
-      cy.contains('账号激活成功').should('be.visible')
-    })
+    registerCorporateUser(testUser)
+    activateUser(testUser.email)
   })
 
   it('should register as an individual user and handle activation failure with resend', () => {
@@ -61,7 +54,7 @@ describe('User Registration Flow', () => {
       address: 'test address',
     }
 
-    cy.registerIndividualUser(testUser)
+    registerIndividualUser(testUser)
 
     cy.getActivationToken(Cypress.env('serverUrl'), testUser.email)
 
@@ -98,9 +91,9 @@ describe('User Registration Flow', () => {
       companyDescription: 'test description',
     }
 
-    cy.registerCorporateUser(testUser)
+    registerCorporateUser(testUser)
 
-    cy.registerCorporateUser(testUser, '注册账号已存在')
+    registerCorporateUser(testUser, '注册账号已存在')
 
     cy.get('[data-testid="resend-activation-button"]').click()
 
