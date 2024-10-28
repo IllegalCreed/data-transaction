@@ -14,6 +14,7 @@
     >
       <el-form-item label="邮箱" prop="email">
         <el-input
+          data-testid="email-input"
           v-model="baseInfo.email"
           placeholder="您注册时填写的邮箱地址"
         />
@@ -21,6 +22,7 @@
     </el-form>
 
     <el-button
+      data-testid="next-button"
       class="btn"
       type="primary"
       :loading="forgotSendEmailActionLoading"

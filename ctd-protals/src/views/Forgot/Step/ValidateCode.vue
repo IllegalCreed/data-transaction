@@ -6,13 +6,18 @@
       >发送了一封邮件
     </p>
 
-    <verification-code-input mt-4 v-model="code"></verification-code-input>
+    <verification-code-input
+      data-testid="verification-code-input"
+      mt-4
+      v-model="code"
+    ></verification-code-input>
 
     <div class="step-btn-container">
       <el-button class="step-btn" type="primary" @click="handlePrevStep"
         >上一步</el-button
       >
       <el-button
+        data-testid="next-button"
         class="step-btn"
         :loading="forgotVerifyCodeActionLoading"
         type="primary"

@@ -52,6 +52,7 @@ declare global {
         expectMessage?: string,
       ): Chainable<void>
       getActivationToken(baseUrl: string, email: string): Chainable<void>
+      getVerificationCode(baseUrl: string, email: string): Chainable<void>
     }
   }
 }
@@ -155,5 +156,23 @@ Cypress.Commands.add('getActivationToken', (baseUrl: string, email: string) => {
     },
   )
 })
+
+/**
+ * 获取验证码
+ * @param baseUrl 服务器 URL
+ * @param email 用户邮箱
+ */
+Cypress.Commands.add(
+  'getVerificationCode',
+  (baseUrl: string, email: string) => {
+    cy.request('GET', `${baseUrl}/register/test/getCode?email=${email}`).then(
+      response => {
+        expect(response.status).to.eq(200)
+        const verificationCode = response.body
+        cy.wrap(verificationCode).as('verificationCode')
+      },
+    )
+  },
+)
 
 export {}

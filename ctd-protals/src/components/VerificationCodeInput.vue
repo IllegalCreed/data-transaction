@@ -11,6 +11,7 @@
       @focus="handleFocus(index, $event)"
       maxlength="1"
       class="verification-input"
+      :data-testid="`verification-input-${index}`"
     />
   </div>
 </template>
@@ -35,18 +36,18 @@ const verificationCodes = ref(padArray(modelValue.value.split(''), codeLength))
 // 当 verificationCodes 改变时，自动更新父组件的字符串值
 watch(
   verificationCodes,
-  (newCodes) => {
+  newCodes => {
     modelValue.value = newCodes.join('')
   },
-  { deep: true }
+  { deep: true },
 )
 
 // 监听 codeLength 的变化，当长度改变时，重新生成字符数组
 watch(
   () => codeLength,
-  (newLength) => {
+  newLength => {
     verificationCodes.value = padArray(modelValue.value.split(''), newLength)
-  }
+  },
 )
 
 // 标记是否正在处理粘贴事件
@@ -101,7 +102,8 @@ const handlePaste = (event: ClipboardEvent) => {
   })
 
   // 在粘贴之后，自动聚焦到最后一个已填的输入框的下一个
-  const nextInputIndex = validData.length >= codeLength ? codeLength - 1 : validData.length
+  const nextInputIndex =
+    validData.length >= codeLength ? codeLength - 1 : validData.length
   focusNextInput(nextInputIndex - 1)
 
   // 延时解除粘贴标记
