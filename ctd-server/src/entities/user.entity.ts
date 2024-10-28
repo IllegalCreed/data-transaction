@@ -4,10 +4,12 @@ import {
   Column,
   OneToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import { UserType } from '../types/enums/user-type.enum';
 import { IndividualUserInfo } from './individual-user-info.entity';
 import { EnterpriseUserInfo } from './enterprise-user-info.entity';
+import { UserActivation } from './user-activation.entity';
 
 @Entity()
 export class User {
@@ -39,4 +41,7 @@ export class User {
   })
   @JoinColumn()
   enterpriseInfo?: EnterpriseUserInfo;
+
+  @OneToMany(() => UserActivation, (activation) => activation.user)
+  activations: UserActivation[];
 }
