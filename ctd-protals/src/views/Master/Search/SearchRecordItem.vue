@@ -44,12 +44,16 @@ const { iconClass, moduleTag, tagType, navigateToDetail } = useSearchResult(
   }
 
   &:hover .description {
-    @apply text-white;
+    @apply text-[var(--color-text-reverse)];
   }
 
   @media (max-width: 40rem) {
     .icon-container {
       @apply hidden;
+    }
+
+    .description {
+      @apply line-clamp-3;
     }
   }
 }
