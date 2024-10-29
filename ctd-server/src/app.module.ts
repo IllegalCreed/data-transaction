@@ -22,6 +22,18 @@ const nodeEnv = process.env.NODE_ENV || 'development';
       useFactory: (configService: ConfigService) => {
         // 可以在此处编写调试代码
         console.log('DATABASE_HOST', configService.get('DATABASE_HOST'));
+        console.log('DATABASE_PORT', configService.get('DATABASE_PORT'));
+        console.log(
+          'DATABASE_USERNAME',
+          configService.get('DATABASE_USERNAME'),
+        );
+        console.log(
+          'DATABASE_PASSWORD',
+          configService.get('DATABASE_PASSWORD') ? '****' : 'undefined',
+        );
+        console.log('DATABASE_NAME', configService.get('DATABASE_NAME'));
+        console.log('TYPEORM_SYNC', configService.get('TYPEORM_SYNC'));
+
         return {
           type: 'mysql',
           host: configService.get('DATABASE_HOST'),

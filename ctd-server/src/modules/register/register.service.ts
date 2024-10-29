@@ -101,7 +101,7 @@ export class RegisterService {
     } catch (error) {
       await queryRunner.rollbackTransaction();
       console.error('注册失败：', error);
-      return createErrorResponse(ErrorCode.RESEND_ACTIVATION_EMAIL_FAILED);
+      return createErrorResponse(ErrorCode.REGISTRATION_FAILED);
     } finally {
       await queryRunner.release();
     }

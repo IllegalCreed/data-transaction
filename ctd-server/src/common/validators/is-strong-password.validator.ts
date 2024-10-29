@@ -8,6 +8,10 @@ export class IsStrongPasswordConstraint
   implements ValidatorConstraintInterface
 {
   validate(value: string) {
+    if (typeof value !== 'string') {
+      return false;
+    }
+
     const hasNumber = /\d/.test(value);
     const hasUpper = /[A-Z]/.test(value);
     const hasLower = /[a-z]/.test(value);

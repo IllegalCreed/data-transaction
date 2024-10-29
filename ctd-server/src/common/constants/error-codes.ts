@@ -5,6 +5,7 @@ export enum ErrorCode {
   WEAK_PASSWORD = 1003,
   INVALID_EMAIL_FORMAT = 1004,
   REGISTRATION_FAILED = 1005,
+  SEND_EMAIL_FAILED = 1006,
   // 激活相关
   RESEND_ACTIVATION_EMAIL_FAILED = 2001,
   ALREADY_ACTIVATED = 2002,
@@ -23,6 +24,7 @@ export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
   [ErrorCode.INVALID_EMAIL_FORMAT]: 'Invalid email format.',
   [ErrorCode.REGISTRATION_FAILED]:
     'Registration failed due to unexpected error.',
+  [ErrorCode.SEND_EMAIL_FAILED]: 'Failed to send activation email.',
   // 激活相关
   [ErrorCode.RESEND_ACTIVATION_EMAIL_FAILED]:
     'Failed to resend activation email due to an unexpected error.',
