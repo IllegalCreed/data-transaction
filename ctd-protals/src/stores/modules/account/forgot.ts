@@ -1,9 +1,9 @@
 import type { IRegisterAdCarouselItem } from '@/types/advertisement'
 import { useSettingsStore } from '../settings'
 import {
-  forgotSendEmailAPI,
-  forgotVerifyCodeAPI,
-  forgotResetPasswordAPI,
+  forgotSendEmail as forgotSendEmailAPI,
+  forgotVerifyCode as forgotVerifyCodeAPI,
+  forgotResetPassword as forgotResetPasswordAPI,
 } from '@/apis/account/forgot'
 import { ads as mockAds } from '@/constants/mockData/account/forgot'
 import type { ICommonReturn } from '@/axios/type'

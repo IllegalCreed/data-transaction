@@ -367,6 +367,24 @@
     "forgotSendEmailAPI": true,
     "forgotVerifyCodeAPI": true,
     "forgotResetPasswordAPI": true,
-    "ElMessage": true
+    "ElMessage": true,
+    "getHistoryRecordsAPI": true,
+    "getHistoryRecords": true,
+    "getInfo": true,
+    "logout": true,
+    "resetPwd": true,
+    "forgotResetPassword": true,
+    "forgotSendEmail": true,
+    "forgotVerifyCode": true,
+    "getForgotAds": true,
+    "getAd": true,
+    "getCode": true,
+    "login": true,
+    "activationAccount": true,
+    "getRegisterAds": true,
+    "reSendActivationEmail": true,
+    "register": true,
+    "tokenExchangeEmail": true,
+    "getSearchResults": true
   }
 }

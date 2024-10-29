@@ -1,7 +1,7 @@
 import request from '@/axios'
 import type { ILogin } from '@/types/login'
 
-export const loginAPI = (login: ILogin): Promise<unknown> => {
+export const login = (login: ILogin): Promise<unknown> => {
   const data = {
     username: login.account,
     password: login.password,
@@ -15,11 +15,11 @@ export const loginAPI = (login: ILogin): Promise<unknown> => {
   )
 }
 
-export const getCodeAPI = (): Promise<unknown> => {
+export const getCode = (): Promise<unknown> => {
   return request.get({ url: '/captchaImage' })
 }
 
-export const getAdAPI = (): Promise<unknown> => {
+export const getAd = (): Promise<unknown> => {
   const params = {}
   return request.get(
     {

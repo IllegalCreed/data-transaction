@@ -1,6 +1,10 @@
 import { useTokenStore } from '../token'
 import { useSettingsStore } from '../settings'
-import { logoutAPI, resetPwdAPI, getInfoAPI } from '@/apis/account/account'
+import {
+  logout as logoutAPI,
+  resetPwd as resetPwdAPI,
+  getInfo as getInfoAPI,
+} from '@/apis/account/account'
 import { userInfo as mockUserInfo } from '@/constants/mockData/account/account'
 import type { IUserInfo } from '@/types/master'
 

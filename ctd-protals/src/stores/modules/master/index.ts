@@ -3,12 +3,15 @@ import { useLinks } from './link'
 import { useContact } from './contact'
 import { useRecord } from './record'
 import { useCopyright } from './copyright'
+import { useSearch } from './search'
 
 export const useMasterStore = defineStore('master', () => {
   const { links, getLinks, abouts, getAbouts } = useLinks()
   const { contact, getContact } = useContact()
   const { records, getRecords } = useRecord()
   const { copyright, getCopyright } = useCopyright()
+  const { historyRecords, getHistoryRecords, searchResults, getSearchResults } =
+    useSearch()
 
   return {
     links,
@@ -20,6 +23,10 @@ export const useMasterStore = defineStore('master', () => {
     records,
     getRecords,
     copyright,
-    getCopyright
+    getCopyright,
+    historyRecords,
+    getHistoryRecords,
+    searchResults,
+    getSearchResults,
   }
 })

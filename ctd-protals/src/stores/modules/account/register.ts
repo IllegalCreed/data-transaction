@@ -1,10 +1,10 @@
 import type { IRegisterAdCarouselItem } from '@/types/advertisement'
 import { useSettingsStore } from '../settings'
 import {
-  registerAPI,
-  activationAccountAPI,
-  tokenExchangeEmailAPI,
-  reSendActivationEmailAPI,
+  register as registerAPI,
+  activationAccount as activationAccountAPI,
+  tokenExchangeEmail as tokenExchangeEmailAPI,
+  reSendActivationEmail as reSendActivationEmailAPI,
 } from '@/apis/account/register'
 import { ads as mockAds } from '@/constants/mockData/account/register'
 import {

@@ -7,7 +7,7 @@ import {
   ads as mockAds,
   oauthLinks as mockLinks,
 } from '@/constants/mockData/account/login'
-import { loginAPI, getCodeAPI } from '@/apis/account/login'
+import { login as loginAPI, getCode as getCodeAPI } from '@/apis/account/login'
 
 export const useLogin = () => {
   const tokenStore = useTokenStore()
