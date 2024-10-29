@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsString, IsOptional, IsEnum } from 'class-validator';
-import { IndustryType } from 'src/types/enums/industry-type.enum';
-import { CompanySize } from 'src/types/enums/company-size.enum';
+import { IndustryType } from 'src/enums/industry-type.enum';
+import { CompanySize } from 'src/enums/company-size.enum';
 
 export class EnterpriseUserInfoDto {
   @IsString({ message: '企业名称必须为字符串' })

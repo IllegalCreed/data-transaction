@@ -4,6 +4,7 @@ import {
   Column,
   ManyToOne,
   CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { User } from './user.entity';
 
@@ -23,4 +24,10 @@ export class UserActivation {
 
   @Column()
   expireAt: Date;
+
+  @Column({ default: false })
+  isActivated: boolean;
+
+  @UpdateDateColumn({ type: 'timestamp', nullable: true })
+  activatedAt?: Date;
 }

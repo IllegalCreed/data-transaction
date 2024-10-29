@@ -1,21 +1,13 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  OneToOne,
-  JoinColumn,
-  OneToMany,
-} from 'typeorm';
-import { UserType } from '../types/enums/user-type.enum';
+import { Entity, Column, OneToOne, JoinColumn, OneToMany } from 'typeorm';
+import { UserType } from '../enums/user-type.enum';
 import { IndividualUserInfo } from './individual-user-info.entity';
 import { EnterpriseUserInfo } from './enterprise-user-info.entity';
 import { UserActivation } from './user-activation.entity';
+import { UserStatus } from 'src/enums/user-status.enum';
+import { BaseEntity } from './base.entity';
 
 @Entity()
-export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class User extends BaseEntity {
   @Column({ unique: true })
   email: string;
 
@@ -44,4 +36,11 @@ export class User {
 
   @OneToMany(() => UserActivation, (activation) => activation.user)
   activations: UserActivation[];
+
+  @Column({
+    type: 'enum',
+    enum: UserStatus,
+    default: UserStatus.PENDING,
+  })
+  status: UserStatus;
 }

@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
 import { User } from './user.entity';
-import { IndustryType } from '../types/enums/industry-type.enum';
-import { CompanySize } from '../types/enums/company-size.enum';
+import { IndustryType } from '../enums/industry-type.enum';
+import { CompanySize } from '../enums/company-size.enum';
 
 @Entity()
 export class EnterpriseUserInfo {

@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { RegisterModule } from './modules/register/register.module';
 
 const nodeEnv = process.env.NODE_ENV || 'development';
 
@@ -20,6 +21,7 @@ const nodeEnv = process.env.NODE_ENV || 'development';
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => {
         // 可以在此处编写调试代码
+        console.log('DATABASE_HOST', configService.get('DATABASE_HOST'));
         return {
           type: 'mysql',
           host: configService.get('DATABASE_HOST'),
@@ -34,6 +36,7 @@ const nodeEnv = process.env.NODE_ENV || 'development';
       },
       inject: [ConfigService],
     }),
+    RegisterModule,
   ],
   controllers: [],
   providers: [],

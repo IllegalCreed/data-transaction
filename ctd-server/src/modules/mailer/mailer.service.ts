@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
 import { mailerConfig } from './mailer.config';
-import { createSuccessResponse } from 'src/utils/response';
-import { ApiResponse } from 'src/types/interfaces/api-response.interface';
+import { createSuccessResponse } from 'src/common/utils/response';
+import { ApiResponse } from 'src/common/interfaces/api-response.interface';
 
 @Injectable()
 export class MailerService {

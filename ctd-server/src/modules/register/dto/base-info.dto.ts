@@ -1,6 +1,6 @@
 import { IsEmail, IsNotEmpty, IsString, IsEnum } from 'class-validator';
-import { UserType } from 'src/types/enums/user-type.enum';
-import { IsStrongPassword } from 'src/decorators/is-strong-password.decorator';
+import { UserType } from 'src/enums/user-type.enum';
+import { IsStrongPassword } from 'src/common/decorators/is-strong-password.decorator';
 
 export class BaseInfoDto {
   @IsEmail({}, { message: '请输入有效的邮箱地址' })

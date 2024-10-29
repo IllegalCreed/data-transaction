@@ -1,5 +1,5 @@
-import { ApiResponse } from 'src/types/interfaces/api-response.interface';
-import { ErrorCodeMessages, ErrorCode } from 'src/constants/error-codes';
+import { ApiResponse } from 'src/common/interfaces/api-response.interface';
+import { ErrorCodeMessages, ErrorCode } from 'src/common/constants/error-codes';
 
 export function createErrorResponse<T = any>(
   errorCode: ErrorCode,
