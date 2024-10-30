@@ -47,17 +47,17 @@ export const mineMenus: IMenu[] = [
       {
         path: '/mine/orders/products',
         label: '数据产品',
-        icon: 'i-mdi:database',
+        icon: 'i-tabler:database-dollar',
       },
       {
         path: '/mine/orders/services',
         label: '数据服务',
-        icon: 'i-mdi:cloud',
+        icon: 'i-carbon:data-vis-1',
       },
       {
         path: '/mine/orders/consults',
         label: '咨询代办',
-        icon: 'i-mdi:account-tie',
+        icon: 'i-lineicons:consulting',
       },
     ],
   },
