@@ -1,13 +1,19 @@
 <template>
   <div class="basic-info-root-container">
     <span class="title">基本信息</span>
-    <div class="content" mt-4>
-      <div><strong>账号：</strong> {{ email }}</div>
+    <div class="content" mt-6>
+      <div flex><span class="label">账号：</span> {{ email }}</div>
       <div class="btn-container">
-        <el-button type="primary" size="default" @click="changePasswordDialogVisiable = true"
+        <el-button
+          type="primary"
+          size="default"
+          @click="changePasswordDialogVisiable = true"
           >修改密码</el-button
         >
-        <el-button type="default" size="default" @click="changeEmailDialogVisiable = true"
+        <el-button
+          type="default"
+          size="default"
+          @click="changeEmailDialogVisiable = true"
           >修改验证邮箱</el-button
         >
       </div>
@@ -29,10 +35,14 @@ const changeEmailDialogVisiable = ref(false)
 
 <style lang="scss" scoped>
 .basic-info-root-container {
-  @apply flex flex-col border-solid border border-gray-100 rounded px-10 py-6 bg-white shadow-md;
+  @apply flex flex-col;
 
   .title {
-    @apply text-xl font-bold;
+    @apply text-lg font-bold;
+  }
+
+  .label {
+    @apply text-[--color-text-lighter] min-w-30;
   }
 
   .content {
@@ -46,17 +56,13 @@ const changeEmailDialogVisiable = ref(false)
       @apply flex-col items-start;
 
       .btn-container {
-        @apply flex-col gap-x-0 gap-y-2;
+        @apply self-end flex-col mt-4 gap-x-0 gap-y-2;
 
         button {
-          @apply ml-0 w-40;
+          @apply ml-0 w-30;
         }
       }
     }
-  }
-
-  @media (max-width: 40rem) {
-    @apply p-0 pb-10 shadow-none border-0 border-b border-gray-200;
   }
 }
 </style>

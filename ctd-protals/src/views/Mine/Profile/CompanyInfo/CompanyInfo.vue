@@ -2,19 +2,42 @@
   <div class="company-info-root-container">
     <div flex flex-row justify-between mb-4>
       <span class="title">企业信息</span>
-      <el-button type="primary" @click="openEditCompanyInfo">编辑企业信息</el-button>
+      <el-button type="primary" w-30 @click="openEditCompanyInfo"
+        >编辑企业信息</el-button
+      >
     </div>
 
     <div class="content">
-      <div><strong>企业名称：</strong> {{ companyInfo.companyName }}</div>
-      <div><strong>统一社会信用代码：</strong> {{ companyInfo.companyCode }}</div>
-      <div><strong>联系人姓名：</strong> {{ companyInfo.contactName }}</div>
-      <div><strong>联系人职位：</strong> {{ companyInfo.contactPosition }}</div>
-      <div><strong>联系人电话：</strong> {{ companyInfo.contactPhone }}</div>
-      <div><strong>企业地址：</strong> {{ companyInfo.companyAddress }}</div>
-      <div><strong>行业类别：</strong> {{ companyInfo.industryCategory }}</div>
-      <div><strong>企业规模：</strong> {{ companyInfo.companySize }}</div>
-      <div><strong>企业简介：</strong> {{ companyInfo.companyDescription }}</div>
+      <div flex>
+        <span class="label">企业名称：</span> {{ companyInfo.companyName }}
+      </div>
+      <div flex>
+        <span class="label">统一社会信用代码：</span>
+        {{ companyInfo.companyCode }}
+      </div>
+      <div flex>
+        <span class="label">联系人姓名：</span> {{ companyInfo.contactName }}
+      </div>
+      <div flex>
+        <span class="label">联系人职位：</span>
+        {{ companyInfo.contactPosition }}
+      </div>
+      <div flex>
+        <span class="label">联系人电话：</span> {{ companyInfo.contactPhone }}
+      </div>
+      <div flex>
+        <span class="label">企业地址：</span> {{ companyInfo.companyAddress }}
+      </div>
+      <div flex>
+        <span class="label">行业类别：</span> {{ companyInfo.industryCategory }}
+      </div>
+      <div flex>
+        <span class="label">企业规模：</span> {{ companyInfo.companySize }}
+      </div>
+      <div flex>
+        <span class="label">企业简介：</span>
+        {{ companyInfo.companyDescription }}
+      </div>
     </div>
   </div>
 </template>
@@ -32,7 +55,7 @@ const companyInfo = reactive({
   contactPhone: '13812345678',
   companyAddress: '北京市海淀区中关村东路66号',
   industryCategory: '信息技术',
-  companySize: '200-500人'
+  companySize: '200-500人',
 })
 
 const openEditCompanyInfo = () => {
@@ -42,14 +65,18 @@ const openEditCompanyInfo = () => {
 
 <style scoped lang="scss">
 .company-info-root-container {
-  @apply flex flex-col border-solid border border-gray-100 rounded px-10 py-6 bg-white shadow-md;
+  @apply flex flex-col;
 
   .title {
-    @apply text-xl font-bold;
+    @apply text-lg font-bold;
+  }
+
+  .label {
+    @apply text-[--color-text-lighter] min-w-30;
   }
 
   .content {
-    @apply grid grid-cols-2 gap-4;
+    @apply grid grid-cols-2 gap-4 mt-4;
 
     img {
       @apply ml-2 w-24 h-24 rounded-full object-cover;

@@ -1,14 +1,21 @@
 <template>
   <div class="profile-root-container">
-    <el-button w-50 self-end type="primary" size="small" @click="isPersonal = !isPersonal"
+    <el-button
+      w-50
+      self-end
+      type="primary"
+      size="small"
+      @click="isPersonal = !isPersonal"
       >测试按钮，切换个人/企业</el-button
     >
 
     <base-info />
-
+    <el-divider></el-divider>
     <personal-info v-if="isPersonal"></personal-info>
     <company-info v-else></company-info>
+    <el-divider></el-divider>
     <security-info />
+    <el-divider></el-divider>
     <payment-info />
   </div>
 </template>
@@ -25,7 +32,7 @@ const isPersonal = ref(true)
 
 <style lang="scss" scoped>
 .profile-root-container {
-  @apply flex flex-col p-10 gap-10;
+  @apply flex flex-col p-10;
 
   @media (max-width: 40rem) {
     @apply p-5;

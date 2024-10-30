@@ -2,7 +2,12 @@
   <div class="payment-info-root-container">
     <span class="title">支付日志</span>
     <div class="payment-list">
-      <payment-item v-for="item in paymentLogs" :key="item.id" :paymentLog="item"> </payment-item>
+      <payment-item
+        v-for="item in paymentLogs"
+        :key="item.id"
+        :paymentLog="item"
+      >
+      </payment-item>
     </div>
     <div class="pager-panel">
       <el-pagination
@@ -26,7 +31,7 @@ const paymentLogs = ref<IPaymentLog[]>([
     amount: 500.0,
     type: 1, // 充值
     remark: '用户充值500元',
-    createTime: '2023-09-18 09:00:00'
+    createTime: '2023-09-18 09:00:00',
   },
   {
     id: '2',
@@ -34,7 +39,7 @@ const paymentLogs = ref<IPaymentLog[]>([
     amount: -200.0,
     type: 2, // 冻结
     remark: '订单金额冻结200元',
-    createTime: '2023-09-18 10:00:00'
+    createTime: '2023-09-18 10:00:00',
   },
   {
     id: '3',
@@ -42,7 +47,7 @@ const paymentLogs = ref<IPaymentLog[]>([
     amount: -200.0,
     type: 3, // 支付
     remark: '订单支付200元',
-    createTime: '2023-09-18 11:00:00'
+    createTime: '2023-09-18 11:00:00',
   },
   {
     id: '4',
@@ -50,7 +55,7 @@ const paymentLogs = ref<IPaymentLog[]>([
     amount: 150.0,
     type: 4, // 退款
     remark: '订单退款150元',
-    createTime: '2023-09-18 12:00:00'
+    createTime: '2023-09-18 12:00:00',
   },
   {
     id: '5',
@@ -58,7 +63,7 @@ const paymentLogs = ref<IPaymentLog[]>([
     amount: 300.0,
     type: 1, // 充值
     remark: '用户充值300元',
-    createTime: '2023-09-18 13:00:00'
+    createTime: '2023-09-18 13:00:00',
   },
   {
     id: '6',
@@ -66,7 +71,7 @@ const paymentLogs = ref<IPaymentLog[]>([
     amount: -100.0,
     type: 2, // 冻结
     remark: '订单金额冻结100元',
-    createTime: '2023-09-18 14:00:00'
+    createTime: '2023-09-18 14:00:00',
   },
   {
     id: '7',
@@ -74,7 +79,7 @@ const paymentLogs = ref<IPaymentLog[]>([
     amount: -100.0,
     type: 3, // 支付
     remark: '订单支付100元',
-    createTime: '2023-09-18 15:00:00'
+    createTime: '2023-09-18 15:00:00',
   },
   {
     id: '8',
@@ -82,8 +87,8 @@ const paymentLogs = ref<IPaymentLog[]>([
     amount: 80.0,
     type: 4, // 退款
     remark: '订单退款80元',
-    createTime: '2023-09-18 16:00:00'
-  }
+    createTime: '2023-09-18 16:00:00',
+  },
 ])
 
 const paginationLayout = ref('total, prev, pager, next')
@@ -106,10 +111,10 @@ watchEffect(() => {
 
 <style scoped lang="scss">
 .payment-info-root-container {
-  @apply flex flex-col border-solid border border-gray-100 rounded px-10 py-6 bg-white shadow-md;
+  @apply flex flex-col;
 
   .title {
-    @apply text-xl font-bold;
+    @apply text-lg font-bold;
   }
 
   .payment-list {

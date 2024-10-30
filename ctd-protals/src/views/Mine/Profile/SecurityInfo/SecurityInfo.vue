@@ -1,9 +1,13 @@
 <template>
   <div class="security-info-root-container" gap-4>
     <span class="title">安全信息</span>
-    <div><strong>最后登录日期：</strong> {{ lastLoginDate }}</div>
-    <div><strong>登录设备：</strong> {{ lastLoginDevice }}</div>
-    <div><strong>登录位置：</strong> {{ lastLoginLocation }}</div>
+    <div mt-4 flex>
+      <span class="label">最后登录日期：</span> {{ lastLoginDate }}
+    </div>
+    <div flex><span class="label">登录设备：</span> {{ lastLoginDevice }}</div>
+    <div flex>
+      <span class="label">登录位置：</span> {{ lastLoginLocation }}
+    </div>
   </div>
 </template>
 
@@ -15,10 +19,14 @@ const lastLoginLocation = ref('北京, 中国')
 
 <style scoped lang="scss">
 .security-info-root-container {
-  @apply flex flex-col border-solid border border-gray-100 rounded px-10 py-6 bg-white shadow-md;
+  @apply flex flex-col;
 
   .title {
-    @apply text-xl font-bold;
+    @apply text-lg font-bold;
+  }
+
+  .label {
+    @apply block text-[--color-text-lighter] min-w-30;
   }
 
   @media (max-width: 40rem) {

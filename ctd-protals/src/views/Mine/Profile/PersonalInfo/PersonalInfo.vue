@@ -2,7 +2,10 @@
   <div class="personal-info-root-container">
     <div flex flex-row justify-between mb-4>
       <span class="title">个人信息</span>
-      <el-button type="primary" @click="editPersonalInfoDialogVisible = true"
+      <el-button
+        type="primary"
+        w-30
+        @click="editPersonalInfoDialogVisible = true"
         >编辑个人信息</el-button
       >
     </div>
@@ -36,20 +39,20 @@ const personalInfo = reactive({
   gender: '男',
   birthDate: '1990-01-01',
   address: '北京市朝阳区',
-  avatar: 'https://via.placeholder.com/150'
+  avatar: 'https://via.placeholder.com/150',
 })
 </script>
 
 <style scoped lang="scss">
 .personal-info-root-container {
-  @apply flex flex-col border-solid border border-gray-100 rounded px-10 py-6 bg-white shadow-md;
+  @apply flex flex-col;
 
   .title {
-    @apply text-xl font-bold;
+    @apply text-lg font-bold;
   }
 
   .content {
-    @apply grid grid-cols-2 gap-4;
+    @apply grid grid-cols-2 gap-4 mt-4;
 
     img {
       @apply ml-2 w-24 h-24 rounded-full object-cover;
