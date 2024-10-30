@@ -93,7 +93,15 @@ export class RegisterService {
 
       await queryRunner.manager.save(activation);
 
-      await this.mailerService.sendActivationEmail(email, activationToken);
+      const mailResponse = await this.mailerService.sendActivationEmail(
+        email,
+        activationToken,
+      );
+
+      if (mailResponse.code !== 0) {
+        await queryRunner.rollbackTransaction();
+        return mailResponse;
+      }
 
       await queryRunner.commitTransaction();
       console.log(`用户注册成功：${email}，发送激活邮件。`);
