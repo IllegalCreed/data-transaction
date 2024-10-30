@@ -6,7 +6,7 @@ import type { IOrderProduct } from '@/types/productOrder'
 export const useOrderProduct = () => {
   const settingsStore = useSettingsStore()
 
-  const productOrders = ref<IOrderProduct[]>()
+  const productOrders = ref<IOrderProduct[]>([])
 
   const getProductOrders = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {

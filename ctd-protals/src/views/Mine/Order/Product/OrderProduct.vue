@@ -39,7 +39,7 @@
 
     <el-skeleton :loading="getProductOrdersActionLoading" animated>
       <template #template>
-        <div flex flex-row flex-wrap gap-8>
+        <div flex flex-row flex-wrap gap-4>
           <el-skeleton-item
             v-for="n in 8"
             :key="n"
@@ -49,7 +49,11 @@
         </div>
       </template>
       <template #default>
-        <product-panel></product-panel>
+        <product-panel v-if="productOrders.length > 0"></product-panel>
+        <div v-else class="no-data">
+          <img :src="bg" alt="暂无数据" />
+          <span>暂无订单</span>
+        </div>
       </template>
     </el-skeleton>
 
@@ -68,7 +72,10 @@
 import ProductPanel from './ProductOrderPanel.vue'
 import { useOrderStore } from '@/stores/modules/order'
 const orderStore = useOrderStore()
+const { productOrders } = storeToRefs(orderStore)
 const { getProductOrders: getProductOrdersAction } = orderStore
+
+const bg = new URL('@/assets/placeholder/noOrder.png', import.meta.url).href
 
 const searchQuery = ref('')
 const selectedStatus = ref('all')
@@ -180,6 +187,18 @@ onMounted(() => {
       .search-input {
         @apply w-full;
       }
+    }
+  }
+
+  .no-data {
+    @apply flex flex-col items-center justify-center;
+
+    img {
+      @apply mt-30 w-full max-w-80;
+    }
+
+    span {
+      @apply text-[--color-text-lighter] mt-10 mb-20;
     }
   }
 }
