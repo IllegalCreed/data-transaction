@@ -11,14 +11,24 @@
     </div>
 
     <div class="content">
-      <div><strong>姓名：</strong> {{ personalInfo.name }}</div>
-      <div><strong>身份证号：</strong> {{ personalInfo.idCard }}</div>
-      <div><strong>联系电话：</strong> {{ personalInfo.phone }}</div>
-      <div><strong>性别：</strong> {{ personalInfo.gender }}</div>
-      <div><strong>出生日期：</strong> {{ personalInfo.birthDate }}</div>
-      <div><strong>住址：</strong> {{ personalInfo.address }}</div>
+      <div flex><span class="label">姓名：</span> {{ personalInfo.name }}</div>
+      <div flex>
+        <span class="label">身份证号：</span> {{ personalInfo.idCard }}
+      </div>
+      <div flex>
+        <span class="label">联系电话：</span> {{ personalInfo.phone }}
+      </div>
+      <div flex>
+        <span class="label">性别：</span> {{ personalInfo.gender }}
+      </div>
+      <div flex>
+        <span class="label">出生日期：</span> {{ personalInfo.birthDate }}
+      </div>
+      <div flex>
+        <span class="label">住址：</span> {{ personalInfo.address }}
+      </div>
       <div flex flex-row>
-        <strong>头像：</strong>
+        <span class="label">头像：</span>
         <img :src="personalInfo.avatar" alt="头像" />
       </div>
     </div>
@@ -49,6 +59,10 @@ const personalInfo = reactive({
 
   .title {
     @apply text-lg font-bold;
+  }
+
+  .label {
+    @apply text-[--color-text-lighter] min-w-30;
   }
 
   .content {

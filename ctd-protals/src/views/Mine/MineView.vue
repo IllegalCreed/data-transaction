@@ -131,7 +131,7 @@ onMounted(() => {
   }
 
   .content-container {
-    @apply flex-1 ml-5 mt-10 bg-[var(--color-background-alternating)];
+    @apply flex-1 ml-5 mt-10 min-h-100vh bg-[var(--color-background-alternating)];
 
     @media (max-width: 40rem) {
       @apply ml-0 mt-0;

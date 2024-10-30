@@ -50,6 +50,10 @@ const changeEmailDialogVisiable = ref(false)
 
     .btn-container {
       @apply flex flex-row gap-x-2;
+
+      button {
+        @apply w-30;
+      }
     }
 
     @media (max-width: 40rem) {
