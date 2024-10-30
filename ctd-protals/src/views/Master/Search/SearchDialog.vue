@@ -1,6 +1,7 @@
 <template>
   <el-dialog
     class="search-dialog-container"
+    title="全局搜索"
     v-model="model"
     :width="dialogWidth"
     destroy-on-close
@@ -9,7 +10,7 @@
     :lock-scroll="false"
     @closed="resetSearch"
   >
-    <div flex flex-col mt-4>
+    <div flex flex-col>
       <el-input
         v-model="searchQuery"
         size="large"
@@ -29,7 +30,7 @@
       </el-input>
 
       <div class="record-container" v-if="!searchQuery">
-        <span font-bold text-3>历史记录</span>
+        <span font-bold text-sm>历史记录</span>
         <div class="list-container">
           <history-record-item
             v-for="(item, index) in historyRecords"
@@ -42,7 +43,7 @@
         class="record-container"
         v-else-if="searchQuery && !getSearchResultsActionLoading"
       >
-        <span font-bold text-3>搜索结果</span>
+        <span font-bold text-sm>搜索结果</span>
         <div class="list-container">
           <search-record-item
             v-for="(item, index) in searchResults"

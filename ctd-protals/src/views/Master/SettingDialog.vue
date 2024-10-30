@@ -55,7 +55,7 @@ const {
   watermarkEnabled,
   setWatermark,
   mockEnabled,
-  setMock
+  setMock,
 } = useSettingsStore()
 
 const model = defineModel<boolean>({ required: true })
