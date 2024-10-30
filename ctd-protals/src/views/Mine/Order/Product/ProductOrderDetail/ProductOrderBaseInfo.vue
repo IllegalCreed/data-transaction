@@ -23,10 +23,10 @@
         <span text-2xl font-bold>{{ orderDetails.name }}</span>
 
         <div flex flex-row gap-2>
-          <el-tag :type="productTypeTagType" disable-transitions>
+          <el-tag disable-transitions>
             {{ mappedProductType }}
           </el-tag>
-          <el-tag :type="statusTagType" disable-transitions>
+          <el-tag disable-transitions>
             {{ mappedStatus }}
           </el-tag>
         </div>
@@ -101,7 +101,10 @@
 </template>
 
 <script setup lang="ts">
-import type { IOrderProductDetail, ProductOrderStatus } from '@/types/product'
+import {
+  ProductOrderStatus,
+  type IOrderProductDetail,
+} from '@/types/productOrder'
 
 const { orderId, status } = defineProps<{
   orderId: number
@@ -117,7 +120,7 @@ const orderDetails = ref<IOrderProductDetail>({
   name: '高级数据分析平台',
   description: '一个功能全面的数据分析平台，适用于大规模数据处理。',
   imageUrl: 'https://via.placeholder.com/200', // 产品图片 URL
-  type: 1, // 1: API
+  type: ProductType.API,
   specifications: [
     { key: '数量', value: 5 },
     { key: '购买形式', value: '一次性购买' },
@@ -134,29 +137,29 @@ watchEffect(() => {
   orderDetails.value.status = status
 })
 
-const showExpectedDeliveryTime = computed(() => orderDetails.value.status === 2) // 待交付
+const showExpectedDeliveryTime = computed(
+  () => orderDetails.value.status === ProductOrderStatus.ToDeliver,
+) // 待交付
 const showActualDeliveryTime = computed(
-  () => [3, 4, 5].includes(orderDetails.value.status), // 待验查、待评价、已评价
+  () =>
+    [
+      ProductOrderStatus.ToCheck,
+      ProductOrderStatus.ToReview,
+      ProductOrderStatus.Reviewed,
+    ].includes(orderDetails.value.status), // 待验查、待评价、已评价
 )
 
 import {
   PRODUCT_ORDER_STATUS_MAP,
-  PRODUCT_ORDER_STATUS_TAG_TYPE,
   PRODUCT_TYPE_MAP,
-  PRODUCT_TYPE_TAG_TYPE,
-} from '@/constants/productOrder'
+  ProductType,
+} from '@/types/productOrder'
 
 const mappedStatus = computed(
   () => PRODUCT_ORDER_STATUS_MAP[orderDetails.value.status] || '待审核',
 )
-const statusTagType = computed(
-  () => PRODUCT_ORDER_STATUS_TAG_TYPE[orderDetails.value.status] || 'info',
-)
 const mappedProductType = computed(
   () => PRODUCT_TYPE_MAP[orderDetails.value.type] || '数据集',
-)
-const productTypeTagType = computed(
-  () => PRODUCT_TYPE_TAG_TYPE[orderDetails.value.type] || 'success',
 )
 </script>
 

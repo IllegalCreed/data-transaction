@@ -119,7 +119,7 @@ import {
   CompanySize,
   CompanySizeLabels,
   IndustryType,
-  IndustryTypeLabels,
+  INDUSTRY_TYPE_MAP,
 } from '@/types/register'
 
 // 获取企业信息的 Pinia store
@@ -130,7 +130,7 @@ const enterpriseInfo = accountStore.enterpriseInfo
 // 生成行业类型的 select 选项
 const industryTypeOptions = Object.values(IndustryType).map(value => ({
   value,
-  label: IndustryTypeLabels[value],
+  label: INDUSTRY_TYPE_MAP[value],
 }))
 
 // 生成企业规模的 select 选项

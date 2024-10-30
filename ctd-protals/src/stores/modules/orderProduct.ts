@@ -2,7 +2,7 @@ import {
   ProductOrderStatus,
   ProductType,
   type IOrderProduct,
-} from '@/types/product'
+} from '@/types/productOrder'
 import { defineStore } from 'pinia'
 
 export const useOrderProductStore = defineStore('orderProduct', () => {

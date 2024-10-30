@@ -385,6 +385,7 @@
     "reSendActivationEmail": true,
     "register": true,
     "tokenExchangeEmail": true,
-    "getSearchResults": true
+    "getSearchResults": true,
+    "getProductOrders": true
   }
 }

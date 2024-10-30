@@ -1,7 +1,7 @@
 <template>
   <div class="product-item-root-container">
     <div flex flex-row gap-5>
-      <img :src="order.description" />
+      <img :src="order.imageUrl" />
 
       <div flex flex-col items-start>
         <span class="title">{{ order.name }}</span>
@@ -22,7 +22,7 @@
       </div>
     </div>
     <div class="product-item-content">
-      <el-tag :type="statusTagType" size="large">{{ mappedStatus }}</el-tag>
+      <el-tag size="large">{{ mappedStatus }}</el-tag>
       <div text-lg text-red-600 font-bold>{{ order.paymentAmount }}</div>
     </div>
     <div class="product-item-actions">
@@ -56,22 +56,16 @@
 </template>
 
 <script setup lang="ts">
-import { ProductOrderStatus, type IOrderProduct } from '@/types/product'
+import { ProductOrderStatus, type IOrderProduct } from '@/types/productOrder'
 
 const { order } = defineProps<{
   order: IOrderProduct
 }>()
 
-import {
-  PRODUCT_ORDER_STATUS_MAP,
-  PRODUCT_ORDER_STATUS_TAG_TYPE,
-} from '@/constants/productOrder'
+import { PRODUCT_ORDER_STATUS_MAP } from '@/types/productOrder'
 
 const mappedStatus = computed(
   () => PRODUCT_ORDER_STATUS_MAP[order.status] || '待审核',
-)
-const statusTagType = computed(
-  () => PRODUCT_ORDER_STATUS_TAG_TYPE[order.status] || 'info',
 )
 
 const router = useRouter()

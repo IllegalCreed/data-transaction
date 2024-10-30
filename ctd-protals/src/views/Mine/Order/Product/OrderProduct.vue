@@ -26,7 +26,7 @@
           placeholder="选择订单状态"
         >
           <el-option
-            v-for="status in orderStatuses"
+            v-for="status in orderStatusOptions"
             :key="status.value"
             :label="status.label"
             :value="status.value"
@@ -37,7 +37,21 @@
 
     <el-divider />
 
-    <product-panel></product-panel>
+    <el-skeleton :loading="getProductOrdersActionLoading" animated>
+      <template #template>
+        <div flex flex-row flex-wrap gap-8>
+          <el-skeleton-item
+            v-for="n in 8"
+            :key="n"
+            variant="rect"
+            class="!h-60 !w-100"
+          ></el-skeleton-item>
+        </div>
+      </template>
+      <template #default>
+        <product-panel></product-panel>
+      </template>
+    </el-skeleton>
 
     <el-pagination
       mt-10
@@ -52,20 +66,27 @@
 
 <script setup lang="ts">
 import ProductPanel from './ProductOrderPanel.vue'
+import { useOrderStore } from '@/stores/modules/order'
+const orderStore = useOrderStore()
+const { getProductOrders: getProductOrdersAction } = orderStore
 
 const searchQuery = ref('')
 const selectedStatus = ref('all')
 
-// 状态列表
-const orderStatuses = ref([
-  { value: 'all', label: '全部' },
-  { value: 'pending', label: '待审核' },
-  { value: 'contract', label: '合同协商' },
-  { value: 'to_deliver', label: '待交付' },
-  { value: 'to_check', label: '待验查' },
-  { value: 'pending_review', label: '待评价' },
-  { value: 'reviewed', label: '已评价' },
-])
+import {
+  PRODUCT_ORDER_STATUS_MAP,
+  ProductOrderStatus,
+} from '@/types/productOrder'
+const orderStatusOptions: { value: string; label: string }[] = Object.values(
+  ProductOrderStatus,
+).map(value => ({
+  value,
+  label: PRODUCT_ORDER_STATUS_MAP[value],
+}))
+orderStatusOptions.unshift({
+  value: 'all',
+  label: '全部',
+})
 
 // 分页组件设置
 const paginationLayout = ref('total, prev, pager, next')
@@ -82,6 +103,22 @@ watchEffect(() => {
     paginationLayout.value = 'total, prev, pager, next'
     showPaginationBackground.value = true
     pagerCount.value = 7
+  }
+})
+
+const {
+  isLoading: getProductOrdersActionLoading,
+  execute: executeGetProductOrdersAction,
+} = useAsyncState(getProductOrdersAction, undefined, {
+  immediate: false,
+  throwError: true,
+})
+
+onMounted(() => {
+  try {
+    executeGetProductOrdersAction()
+  } catch (error: unknown) {
+    console.error(error)
   }
 })
 </script>

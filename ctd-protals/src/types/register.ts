@@ -40,7 +40,7 @@ export enum UserType {
 }
 
 // 自然语言映射
-export const UserTypeLabels: Record<UserType, string> = {
+export const USER_TYPE_MAP: Record<UserType, string> = {
   [UserType.Individual]: '个人用户',
   [UserType.Enterprise]: '企业用户',
 }
@@ -71,7 +71,7 @@ export enum IndustryType {
 }
 
 // 行业类型的自然语言映射
-export const IndustryTypeLabels: Record<IndustryType, string> = {
+export const INDUSTRY_TYPE_MAP: Record<IndustryType, string> = {
   [IndustryType.Agriculture]: '农、林、牧、渔业',
   [IndustryType.Mining]: '采矿业',
   [IndustryType.Manufacturing]: '制造业',

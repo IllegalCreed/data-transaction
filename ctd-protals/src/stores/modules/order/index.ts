@@ -1,5 +1,11 @@
 import { defineStore } from 'pinia'
+import { useOrderProduct } from './product'
 
 export const useOrderStore = defineStore('order', () => {
-  return {}
+  const { productOrders, getProductOrders } = useOrderProduct()
+
+  return {
+    productOrders,
+    getProductOrders,
+  }
 })

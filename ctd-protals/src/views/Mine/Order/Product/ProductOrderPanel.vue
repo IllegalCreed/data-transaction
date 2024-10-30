@@ -1,14 +1,18 @@
 <template>
   <div class="product-panel-root-container">
-    <product-item v-for="item in orderProducts" :key="item.id" :order="item"></product-item>
+    <product-item
+      v-for="item in productOrders"
+      :key="item.id"
+      :order="item"
+    ></product-item>
   </div>
 </template>
 
 <script setup lang="ts">
 import ProductItem from './ProductOrderItem.vue'
-
-import { useOrderProductStore } from '@/stores/modules/orderProduct'
-const { orderProducts } = useOrderProductStore()
+import { useOrderStore } from '@/stores/modules/order'
+const orderStore = useOrderStore()
+const { productOrders } = storeToRefs(orderStore)
 </script>
 
 <style lang="scss" scoped>

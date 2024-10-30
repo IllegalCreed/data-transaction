@@ -1,26 +1,43 @@
 <template>
   <div class="product-order-detail-root-container">
-    <el-button size="small" type="primary" self-end mb-5 @click="changeCurrentStep"
+    <el-button
+      size="small"
+      type="primary"
+      self-end
+      mb-5
+      @click="changeCurrentStep"
       >测试按钮，切换订单状态</el-button
     >
 
-    <step-group class="step" :steps="steps" :currentStep="currentStep" self-stretch />
+    <step-group
+      class="step"
+      :steps="steps"
+      :currentStep="currentStep"
+      self-stretch
+    />
 
-    <product-order-base-info :status="currentStep" :orderId="1" />
+    <product-order-base-info :status="currentStatus" :orderId="1" />
 
     <product-order-contract-info v-if="currentStep > 1" :orderId="1" mt-10 />
 
     <product-order-review-info v-if="currentStep === 5" :orderId="1" mt-10 />
 
     <div class="btn-container">
-      <el-button class="btn" v-if="currentStep === 1" type="primary">签署合同</el-button>
-      <el-button class="btn" v-if="currentStep === 3" type="primary">确认交付</el-button>
-      <el-button class="btn" v-if="currentStep === 4" type="primary">评价订单</el-button>
+      <el-button class="btn" v-if="currentStep === 1" type="primary"
+        >签署合同</el-button
+      >
+      <el-button class="btn" v-if="currentStep === 3" type="primary"
+        >确认交付</el-button
+      >
+      <el-button class="btn" v-if="currentStep === 4" type="primary"
+        >评价订单</el-button
+      >
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ProductOrderStatus } from '@/types/productOrder'
 import ProductOrderBaseInfo from './ProductOrderBaseInfo.vue'
 import ProductOrderContractInfo from './ProductOrderContractInfo.vue'
 import ProductOrderReviewInfo from './ProductOrderReviewInfo.vue'
@@ -31,14 +48,16 @@ const steps = [
   { title: '待交付' },
   { title: '待验查' },
   { title: '待评价' },
-  { title: '已评价' }
+  { title: '已评价' },
 ]
 
+const stepList = Object.values(ProductOrderStatus)
 const currentStep = ref(0)
-
 const changeCurrentStep = () => {
-  currentStep.value = (currentStep.value + 1) % steps.length
+  currentStep.value = (currentStep.value + 1) % stepList.length
 }
+
+const currentStatus = computed(() => stepList[currentStep.value])
 </script>
 
 <style scoped lang="scss">
