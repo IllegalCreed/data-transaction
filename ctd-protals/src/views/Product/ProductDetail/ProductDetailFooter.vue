@@ -1,6 +1,8 @@
 <template>
   <div v-show="isFooterVisible" class="product-detail-footer-root-container">
-    <el-button flex-1 type="default" size="large" @click="addToFav">收藏产品</el-button>
+    <el-button flex-1 type="default" size="large" @click="addToFav"
+      >收藏产品</el-button
+    >
     <el-button
       flex-1
       type="primary"
@@ -11,16 +13,20 @@
     >
   </div>
 
-  <order-dialog v-model="isOrderDialogVisiable" :productId="productId" :baseInfo="baseInfo" />
+  <order-dialog
+    v-model="isOrderDialogVisiable"
+    :productId="productId"
+    :baseInfo="baseInfo"
+  />
 </template>
 
 <script setup lang="ts">
-import type { IProductBaseInfo } from '@/types/product'
+import type { IProductDetail } from '@/types/product'
 import OrderDialog from './OrderDialog.vue'
 
 defineProps<{
   productId: string
-  baseInfo: IProductBaseInfo
+  baseInfo: IProductDetail
   loading: boolean
 }>()
 
@@ -35,11 +41,11 @@ onMounted(() => {
   if (footerElement) {
     const options = {
       root: null, // 以视口为根
-      threshold: 0 // 元素可见部分超过 0% 时触发回调
+      threshold: 0, // 元素可见部分超过 0% 时触发回调
     }
 
-    observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
+    observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
         if (entry.isIntersecting) {
           // footer 进入视口，隐藏 product-detail-footer
           isFooterVisible.value = false

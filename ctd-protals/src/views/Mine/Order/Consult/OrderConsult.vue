@@ -1,6 +1,6 @@
 <template>
   <div class="order-consult-root-container">
-    <span text-2xl font-bold>咨询代办订单</span>
+    <span text-xl font-bold>咨询代办订单</span>
     <div class="no-data">
       <img :src="bg" alt="暂无数据" />
       <span>暂无订单</span>

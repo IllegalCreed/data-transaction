@@ -1,6 +1,6 @@
 <template>
   <div class="order-service-root-container">
-    <span text-2xl font-bold>数据服务订单</span>
+    <span text-xl font-bold>数据服务订单</span>
     <div class="no-data">
       <img :src="bg" alt="暂无数据" />
       <span>暂无订单</span>

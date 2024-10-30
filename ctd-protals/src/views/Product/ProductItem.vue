@@ -4,7 +4,7 @@
       <img :src="product.imageUrl" object-contain w-full />
     </div>
     <div class="text-container">
-      <span class="title">{{ product.title }}</span>
+      <span class="title">{{ product.name }}</span>
       <div class="tag-container">
         <el-tag
           v-for="(tag, index) in product.tags"
@@ -17,10 +17,12 @@
       </div>
       <span class="desc">{{ product.description }}</span>
       <div flex-1></div>
-      <span class="price">￥{{ product.price ? product.price : '--' }}</span>
+      <span class="price"
+        >￥{{ product.showPrice ? product.showPrice : '--' }}</span
+      >
     </div>
     <div class="bottom-container">
-      <span class="company">服务商: {{ product.seller }}</span>
+      <span class="company">服务商: {{ product.sellerName }}</span>
     </div>
     <slot></slot>
   </div>

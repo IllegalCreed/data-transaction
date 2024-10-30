@@ -47,7 +47,7 @@ export interface IDemandBaseInfo {
   transactionType: TransactionType
   createTime: string
   expectedDeliveryDate: string
-  status: DemandOrderStatus // 收藏之后可能需要该属性
+  status: DemandOrderStatus
   tags: string[]
 }
 

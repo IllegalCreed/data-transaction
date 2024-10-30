@@ -73,11 +73,13 @@ const {
   isLoading: getProductActionLoading,
   execute: executeGetProductAction,
 } = useAsyncState(() => getProductAction(productId.value), {
-  title: '',
+  id: '',
+  name: '',
   soldCount: 0,
   description: '',
   tags: [],
   sellerId: 0,
+  sellerName: '',
   hasCount: false,
   specGroups: [],
 })

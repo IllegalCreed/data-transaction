@@ -1,17 +1,29 @@
 <template>
-  <el-dialog class="order-dialog-container" v-model="modelValue" width="100%" title="立即下单">
+  <el-dialog
+    class="order-dialog-container"
+    v-model="modelValue"
+    width="100%"
+    title="立即下单"
+  >
     <div class="order-content-root-container">
-      <span class="title">{{ baseInfo.title }}</span>
+      <span class="title">{{ baseInfo.name }}</span>
       <span class="desc">{{ baseInfo.description }}</span>
 
       <div class="spec-groups-container">
-        <div class="spec-group" v-for="group in baseInfo.specGroups" :key="group.key">
+        <div
+          class="spec-group"
+          v-for="group in baseInfo.specGroups"
+          :key="group.key"
+        >
           <label class="spec-group-label">{{ group.label }}</label>
           <div class="spec-props-container">
             <div
               v-for="prop in group.specs"
               :key="prop.key"
-              :class="['custom-radio-button', { selected: selectedSpecs[group.key] === prop.key }]"
+              :class="[
+                'custom-radio-button',
+                { selected: selectedSpecs[group.key] === prop.key },
+              ]"
               @click="selectSpec(group.key, prop.key)"
             >
               {{ prop.label }}
@@ -21,12 +33,26 @@
       </div>
 
       <span class="number-label">数量</span>
-      <number-input mt-2 v-model="count" :min="1" v-if="baseInfo.hasCount"></number-input>
+      <number-input
+        mt-2
+        v-model="count"
+        :min="1"
+        v-if="baseInfo.hasCount"
+      ></number-input>
 
       <div class="bottom-container">
         <span v-if="!getPriceActionLoading" class="price">￥{{ price }}</span>
-        <i-eos-icons:loading self-end text-3xl mr-8 v-else></i-eos-icons:loading>
-        <el-button class="action-button" type="primary" size="large" @click="placeOrder"
+        <i-eos-icons:loading
+          self-end
+          text-3xl
+          mr-8
+          v-else
+        ></i-eos-icons:loading>
+        <el-button
+          class="action-button"
+          type="primary"
+          size="large"
+          @click="placeOrder"
           >立即下单</el-button
         >
       </div>
@@ -36,14 +62,14 @@
 
 <script setup lang="ts">
 import NumberInput from '@/components/NumberInput.vue'
-import type { IProductBaseInfo } from '@/types/product'
+import type { IProductDetail } from '@/types/product'
 import { useProductStore } from '@/stores/modules/product'
 const productStore = useProductStore()
 const { getPrice: getPriceAction } = productStore
 
 const { baseInfo } = defineProps<{
   productId: string
-  baseInfo: IProductBaseInfo
+  baseInfo: IProductDetail
 }>()
 
 const modelValue = defineModel<boolean>({ required: true })
@@ -60,21 +86,21 @@ const price = computed(() => {
 const selectedSpecs = ref<Record<string, string>>({})
 watch(
   () => baseInfo,
-  (newValue: IProductBaseInfo) => {
+  (newValue: IProductDetail) => {
     selectedSpecs.value = newValue.specGroups.reduce(
       (acc, group) => {
         acc[group.key] = group.specs[0].key
         return acc
       },
-      {} as Record<string, string>
+      {} as Record<string, string>,
     )
-  }
+  },
 )
 
 const {
   state: priceRaw,
   isLoading: getPriceActionLoading,
-  execute: executeGetPriceActionRaw
+  execute: executeGetPriceActionRaw,
 } = useAsyncState(() => getPriceAction(selectedSpecs.value), undefined)
 const executeGetPriceAction = useDebounceFn(executeGetPriceActionRaw, 1000)
 
@@ -85,8 +111,8 @@ watch(
     executeGetPriceAction()
   },
   {
-    deep: true
-  }
+    deep: true,
+  },
 )
 
 const selectSpec = (groupKey: string, propKey: string) => {

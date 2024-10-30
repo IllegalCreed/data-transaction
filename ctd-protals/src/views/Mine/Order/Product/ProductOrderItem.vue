@@ -1,24 +1,29 @@
 <template>
   <div class="product-item-root-container">
     <div flex flex-row gap-5>
-      <img :src="order.productImageUrl" />
+      <img :src="order.description" />
 
       <div flex flex-col items-start>
-        <span class="title">{{ order.productName }}</span>
+        <span class="title">{{ order.name }}</span>
         <el-tag size="small" mt-1>{{ order.type }}</el-tag>
         <div flex-1></div>
-        <span class="time"><strong>下单时间：</strong>{{ order.purchaseDate }}</span>
+        <span class="time"
+          ><strong>下单时间：</strong>{{ order.purchaseDate }}</span
+        >
         <span class="time" v-if="order.status === ProductOrderStatus.ToDeliver">
           <strong>预计交付时间：</strong>{{ order.expectedDeliveryDate }}
         </span>
-        <span class="time" v-else-if="order.status === ProductOrderStatus.ToCheck">
+        <span
+          class="time"
+          v-else-if="order.status === ProductOrderStatus.ToCheck"
+        >
           <strong>实际交付时间：</strong>{{ order.actualDeliveryDate }}
         </span>
       </div>
     </div>
     <div class="product-item-content">
       <el-tag :type="statusTagType" size="large">{{ mappedStatus }}</el-tag>
-      <div text-lg text-red-600 font-bold>{{ order.price }}</div>
+      <div text-lg text-red-600 font-bold>{{ order.paymentAmount }}</div>
     </div>
     <div class="product-item-actions">
       <el-button size="small" @click="viewDetails(order)">查看详情</el-button>
@@ -57,18 +62,25 @@ const { order } = defineProps<{
   order: IOrderProduct
 }>()
 
-import { PRODUCT_ORDER_STATUS_MAP, PRODUCT_ORDER_STATUS_TAG_TYPE } from '@/constants/productOrder'
+import {
+  PRODUCT_ORDER_STATUS_MAP,
+  PRODUCT_ORDER_STATUS_TAG_TYPE,
+} from '@/constants/productOrder'
 
-const mappedStatus = computed(() => PRODUCT_ORDER_STATUS_MAP[order.status] || '待审核')
-const statusTagType = computed(() => PRODUCT_ORDER_STATUS_TAG_TYPE[order.status] || 'info')
+const mappedStatus = computed(
+  () => PRODUCT_ORDER_STATUS_MAP[order.status] || '待审核',
+)
+const statusTagType = computed(
+  () => PRODUCT_ORDER_STATUS_TAG_TYPE[order.status] || 'info',
+)
 
 const router = useRouter()
 const viewDetails = (order: IOrderProduct) => {
   router.push({
     name: 'order-products-detail',
     params: {
-      id: order.id
-    }
+      id: order.id,
+    },
   })
 }
 

@@ -1,14 +1,15 @@
-import type { IProduct, IProductBaseInfo } from '@/types/product'
+import type { IProduct, IProductDetail } from '@/types/product'
 import { v4 as uuidv4 } from 'uuid'
 
 export const products: IProduct[] = [
   {
     id: 1,
-    title: '中国京剧像音像资源数据',
+    name: '中国京剧像音像资源数据',
     tags: ['京剧', '短片', '音像'],
     description: '包含视频图片音频等不同类型的数据',
-    seller: '-----',
-    price: null,
+    sellerId: 1,
+    sellerName: '-----',
+    showPrice: null,
     imageUrl: new URL(
       '@/assets/placeholder/productDefault.png',
       import.meta.url,
@@ -16,11 +17,12 @@ export const products: IProduct[] = [
   },
   {
     id: 2,
-    title: '微班进京200周年影像',
+    name: '微班进京200周年影像',
     tags: ['京剧', '神话京剧', '现代京剧'],
     description: '《战洪州》《火凤凰》《五台山》等',
-    seller: '-----',
-    price: null,
+    sellerId: 1,
+    sellerName: '-----',
+    showPrice: null,
     imageUrl: new URL(
       '@/assets/placeholder/productDefault.png',
       import.meta.url,
@@ -28,11 +30,12 @@ export const products: IProduct[] = [
   },
   {
     id: 3,
-    title: '少儿京剧影像',
+    name: '少儿京剧影像',
     tags: ['少儿', '京剧'],
     description: '《沉香习舞》、《乌盆记》、《探阴山》等',
-    seller: '-----',
-    price: null,
+    sellerId: 1,
+    sellerName: '-----',
+    showPrice: null,
     imageUrl: new URL(
       '@/assets/placeholder/productDefault.png',
       import.meta.url,
@@ -40,11 +43,12 @@ export const products: IProduct[] = [
   },
   {
     id: 4,
-    title: '北京三维数字地图',
+    name: '北京三维数字地图',
     tags: ['web', 'API', '小程序'],
     description: '包含北京地形以及元、明、清等不同时期的三维数字地图',
-    seller: '-----',
-    price: null,
+    sellerId: 1,
+    sellerName: '-----',
+    showPrice: null,
     imageUrl: new URL(
       '@/assets/placeholder/productDefault.png',
       import.meta.url,
@@ -52,11 +56,12 @@ export const products: IProduct[] = [
   },
   {
     id: 5,
-    title: '大运河历史遗迹遗址模型',
+    name: '大运河历史遗迹遗址模型',
     tags: ['三维', '模型', '文化'],
     description: '大运河北京段河道、水源、桥梁、古建筑等三维模型',
-    seller: '-----',
-    price: null,
+    sellerId: 1,
+    sellerName: '-----',
+    showPrice: null,
     imageUrl: new URL(
       '@/assets/placeholder/productDefault.png',
       import.meta.url,
@@ -64,11 +69,12 @@ export const products: IProduct[] = [
   },
   {
     id: 6,
-    title: '景区画像数据',
+    name: '景区画像数据',
     tags: ['旅游', '画像', '数据'],
     description: '景区到访人员旅行偏好等分析数据',
-    seller: '-----',
-    price: null,
+    sellerId: 1,
+    sellerName: '-----',
+    showPrice: null,
     imageUrl: new URL(
       '@/assets/placeholder/productDefault.png',
       import.meta.url,
@@ -76,11 +82,12 @@ export const products: IProduct[] = [
   },
   {
     id: 7,
-    title: '客流态势检测数据',
+    name: '客流态势检测数据',
     tags: ['画像', '消费', '数据'],
     description: '旅游目的地的游客来源、游客数量走势、游客男女和性别画像等数据',
-    seller: '-----',
-    price: null,
+    sellerId: 1,
+    sellerName: '-----',
+    showPrice: null,
     imageUrl: new URL(
       '@/assets/placeholder/productDefault.png',
       import.meta.url,
@@ -88,11 +95,12 @@ export const products: IProduct[] = [
   },
   {
     id: 8,
-    title: '游客画像数据集',
+    name: '游客画像数据集',
     tags: ['画像', '数据', '模型'],
     description: '游客属性、游客消费、游客偏好等类型数据',
-    seller: '-----',
-    price: null,
+    sellerId: 1,
+    sellerName: '-----',
+    showPrice: null,
     imageUrl: new URL(
       '@/assets/placeholder/productDefault.png',
       import.meta.url,
@@ -103,7 +111,8 @@ export const products: IProduct[] = [
   //   title: '电信数据基础接口指标',
   //   tags: ['客流量', '游客来源', '首访区域'],
   //   description: '假日文旅报告维度——以报告服务和平台开发服务对外销售',
-  //   seller: '-----',
+  //   sellerId: 1,
+  //   sellerName: '-----',
   //   price: null,
   //   imageUrl: new URL(
   //     '@/assets/placeholder/productDefault.png',
@@ -116,7 +125,8 @@ export const products: IProduct[] = [
   //   tags: ['日度游客规模统计', '客流驻留时长', '月度游客规模趋势'],
   //   description:
   //     '大景区-经济外溢效应分析数据指标——以报告/平台对外服务已为北京市提供环球影城分析',
-  //   seller: '-----',
+  //   sellerId: 1,
+  //   sellerName: '-----',
   //   price: null,
   //   imageUrl: new URL(
   //     '@/assets/placeholder/productDefault.png',
@@ -152,19 +162,21 @@ export const products: IProduct[] = [
 
 export const productDetails: {
   id: string | number
-  baseInfo: IProductBaseInfo
+  baseInfo: IProductDetail
   imageUrls: string[]
   content: string
 }[] = [
   {
     id: 1,
     baseInfo: {
-      title: '文化产品',
+      id: 1,
+      name: '文化产品',
       soldCount: 100,
       tags: ['热门', '推荐'],
       description:
         '全屋智能家居解决方案，便捷、安全,全屋智能家居解决方案，便捷、安全',
       sellerId: 1,
+      sellerName: '',
       hasCount: true,
       specGroups: [
         {

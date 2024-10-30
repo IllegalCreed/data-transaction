@@ -1,15 +1,15 @@
 import { useSettingsStore } from '@/stores/modules/settings'
-import type { IProduct, IProductBaseInfo } from '@/types/product'
+import type { IProduct, IProductDetail } from '@/types/product'
 import {
   getProducts as getProductsAPI,
   getProduct as getProductAPI,
   getPrice as getPriceAPI,
   getRecommendProducts as getRecommendProductsAPI,
-  getProductImages as getProductImagesAPI
+  getProductImages as getProductImagesAPI,
 } from '@/apis/product/product'
 import {
   products as mockProducts,
-  productDetails as mockProductDetails
+  productDetails as mockProductDetails,
 } from '@/constants/mockData/product/product'
 
 export const useProduct = () => {
@@ -37,11 +37,13 @@ export const useProduct = () => {
     })
   }
 
-  const getProduct = (id: string | number): Promise<IProductBaseInfo> => {
-    return new Promise<IProductBaseInfo>((resolve, reject) => {
+  const getProduct = (id: string | number): Promise<IProductDetail> => {
+    return new Promise<IProductDetail>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => {
-          const productDetail = mockProductDetails.find((item) => item.id === Number(id))
+          const productDetail = mockProductDetails.find(
+            item => item.id === Number(id),
+          )
           if (productDetail) {
             resolve(productDetail?.baseInfo)
           } else {
@@ -51,7 +53,7 @@ export const useProduct = () => {
       } else {
         getProductAPI(id)
           .then((res: unknown) => {
-            const product = res as IProductBaseInfo
+            const product = res as IProductDetail
             resolve(product)
           })
           .catch((error: unknown) => {
@@ -85,7 +87,9 @@ export const useProduct = () => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => {
           const recommendProducts =
-            mockProducts.length >= 6 ? mockProducts.slice(0, 6) : [...mockProducts]
+            mockProducts.length >= 6
+              ? mockProducts.slice(0, 6)
+              : [...mockProducts]
           if (recommendProducts) {
             resolve(recommendProducts)
           } else {
@@ -109,7 +113,9 @@ export const useProduct = () => {
     return new Promise<string[]>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => {
-          const productDetail = mockProductDetails.find((item) => item.id === Number(id))
+          const productDetail = mockProductDetails.find(
+            item => item.id === Number(id),
+          )
           if (productDetail) {
             resolve(productDetail?.imageUrls)
           } else {
@@ -133,7 +139,9 @@ export const useProduct = () => {
     return new Promise<string>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => {
-          const productDetail = mockProductDetails.find((item) => item.id === Number(id))
+          const productDetail = mockProductDetails.find(
+            item => item.id === Number(id),
+          )
           if (productDetail) {
             resolve(productDetail?.content)
           } else {
@@ -160,6 +168,6 @@ export const useProduct = () => {
     getPrice,
     getRecommendProducts,
     getProductImages,
-    getProductContent
+    getProductContent,
   }
 }
