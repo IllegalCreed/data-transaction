@@ -1,8 +1,11 @@
 import {
   ProductOrderStatus,
   ProductType,
+  type IContract,
   type IOrderProduct,
+  type IOrderProductDetail,
 } from '@/types/productOrder'
+import type { IReview } from '@/types/review'
 
 export const orderProducts: IOrderProduct[] = [
   {
@@ -94,5 +97,61 @@ export const orderProducts: IOrderProduct[] = [
     paymentAmount: 700,
     status: ProductOrderStatus.Completed, // 已评价
     actualDeliveryDate: '2023-09-30',
+  },
+]
+
+export const orderProductDetails: {
+  id: string | number
+  detailInfo: IOrderProductDetail
+  contract: IContract
+  review: IReview
+}[] = [
+  {
+    id: 1,
+    detailInfo: {
+      sellerId: 1,
+      hasCount: true,
+      count: 5,
+      id: 1,
+      orderNum: 'ASDH98IKJ9865587KJHOASDN0976DISB',
+      name: '高级数据分析平台',
+      description: '一个功能全面的数据分析平台，适用于大规模数据处理。',
+      imageUrl: new URL(
+        '@/assets/placeholder/productDefault.png',
+        import.meta.url,
+      ).href,
+      type: ProductType.API,
+      specifications: [
+        { key: '购买形式', value: '一次性购买' },
+        { key: '购买形式', value: '一次性购买' },
+        { key: '购买形式', value: '一次性购买' },
+        { key: '购买形式', value: '一次性购买' },
+        { key: '购买形式', value: '一次性购买' },
+        { key: '购买形式', value: '一次性购买' },
+      ],
+      status: ProductOrderStatus.Pending,
+      sellerName: '数据科技有限公司',
+      paymentAmount: 999.99,
+      purchaseDate: '2024-03-15 09:00:00',
+      expectedDeliveryDate: '2024-03-25 17:00:00',
+      actualDeliveryDate: '2024-03-24 16:30:00', // 实际交付时间
+    },
+    contract: {
+      id: 1,
+      contractNum: 'C-20240425-001',
+      contractUrl: 'www.baidu.com',
+      signingTime: '2024-04-25 10:30:00',
+      partyA: '消费者名称',
+      partyB: '科技商家有限公司',
+    },
+    review: {
+      id: 1,
+      name: '消费者名称',
+      usefulCount: 10,
+      rating: 5,
+      createTime: '2024-04-25 10:30:00',
+      content: '消费者信息',
+      reply: '商家回复信息',
+    },
   },
 ]

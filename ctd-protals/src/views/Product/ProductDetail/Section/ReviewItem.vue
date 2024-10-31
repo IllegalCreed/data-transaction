@@ -4,10 +4,20 @@
       <img class="avatar" :src="props.review.avatar" />
       <div flex flex-col>
         <span class="name">{{ review.name }}</span>
-        <el-rate :model-value="review.rating" size="small" disabled text-color="#ff9900"></el-rate>
+        <el-rate
+          :model-value="review.rating"
+          size="small"
+          disabled
+          text-color="#ff9900"
+        ></el-rate>
       </div>
       <div flex-1></div>
-      <el-link type="primary" :underline="false" @click="markAsUseful" select-none>
+      <el-link
+        type="primary"
+        :underline="false"
+        @click="markAsUseful"
+        select-none
+      >
         <template #icon>
           <i-icon-park-outline:good-one></i-icon-park-outline:good-one>
         </template>
@@ -17,7 +27,7 @@
 
     <div class="main-container">
       <div class="content">{{ review.content }}</div>
-      <div class="time">{{ review.createdAt }}</div>
+      <div class="time">{{ review.createTime }}</div>
       <div v-if="review.reply" class="reply">
         <span class="reply-label">商家回复：</span>
         <span>{{ review.reply }}</span>

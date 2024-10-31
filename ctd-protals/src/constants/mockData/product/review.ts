@@ -9,7 +9,7 @@ export const reviews: IReview[] = [
     reply: '感谢您的好评！我们会继续努力。',
     usefulCount: 10,
     rating: 3.5,
-    createdAt: '2023-04-01 10:00:00'
+    createTime: '2023-04-01 10:00:00',
   },
   {
     id: 2,
@@ -18,7 +18,7 @@ export const reviews: IReview[] = [
     content: '质量不错，但是价格偏高。',
     usefulCount: 5,
     rating: 5,
-    createdAt: '2023-04-01 10:00:00'
+    createTime: '2023-04-01 10:00:00',
   },
   {
     id: 3,
@@ -28,7 +28,7 @@ export const reviews: IReview[] = [
     reply: '感谢您的好评！我们会继续努力。',
     usefulCount: 10,
     rating: 3.5,
-    createdAt: '2023-04-01 10:00:00'
+    createTime: '2023-04-01 10:00:00',
   },
   {
     id: 4,
@@ -37,7 +37,7 @@ export const reviews: IReview[] = [
     content: '质量不错，但是价格偏高。',
     usefulCount: 5,
     rating: 5,
-    createdAt: '2023-04-01 10:00:00'
+    createTime: '2023-04-01 10:00:00',
   },
   {
     id: 5,
@@ -47,7 +47,7 @@ export const reviews: IReview[] = [
     reply: '感谢您的好评！我们会继续努力。',
     usefulCount: 10,
     rating: 3.5,
-    createdAt: '2023-04-01 10:00:00'
+    createTime: '2023-04-01 10:00:00',
   },
   {
     id: 6,
@@ -56,8 +56,8 @@ export const reviews: IReview[] = [
     content: '质量不错，但是价格偏高。',
     usefulCount: 5,
     rating: 5,
-    createdAt: '2023-04-01 10:00:00'
-  }
+    createTime: '2023-04-01 10:00:00',
+  },
 ]
 
 export const reviewInfo: IReviewInfo = {
@@ -65,23 +65,23 @@ export const reviewInfo: IReviewInfo = {
   filters: [
     {
       key: ReviewType.All,
-      count: 20
+      count: 20,
     },
     {
       key: ReviewType.Positive,
-      count: 15
+      count: 15,
     },
     {
       key: ReviewType.Neutral,
-      count: 3
+      count: 3,
     },
     {
       key: ReviewType.Negative,
-      count: 2
+      count: 2,
     },
     {
       key: ReviewType.Replied,
-      count: 5
-    }
-  ]
+      count: 5,
+    },
+  ],
 }

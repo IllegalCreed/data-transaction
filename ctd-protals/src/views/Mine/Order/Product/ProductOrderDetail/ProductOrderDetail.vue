@@ -12,25 +12,47 @@
     <el-divider v-if="!isMobileDevice" />
 
     <div flex flex-row items-stretch>
-      <product-order-base-info :status="currentStatus" :orderId="1" flex-1 />
-      <el-steps
-        direction="vertical"
-        :active="
-          currentStep === steps.length - 1 ? currentStep + 1 : currentStep
-        "
-        finish-status="success"
-        process-status="process"
-        class="step"
+      <product-order-base-info
+        :orderDetails="orderDetails"
+        :loading="getProductOrderDetailActionLoading"
+        flex-1
+      />
+      <el-skeleton
+        :loading="getProductOrderDetailActionLoading"
+        animated
+        class="!w-auto"
       >
-        <el-step v-for="item in steps" :key="item.title" :title="item.title" />
-      </el-steps>
+        <template #template>
+          <el-skeleton-item
+            variant="rect"
+            class="!h-80 !w-40 ml-10"
+          ></el-skeleton-item>
+        </template>
+        <template #default>
+          <el-steps
+            direction="vertical"
+            :active="
+              currentStep === steps.length - 1 ? currentStep + 1 : currentStep
+            "
+            finish-status="success"
+            process-status="process"
+            class="step"
+          >
+            <el-step
+              v-for="item in steps"
+              :key="item.title"
+              :title="item.title"
+            />
+          </el-steps>
+        </template>
+      </el-skeleton>
     </div>
 
     <el-divider />
 
     <product-order-contract-info
       v-if="currentStep > getStatusIndex(ProductOrderStatus.Pending)"
-      :orderId="1"
+      :orderId="orderId"
     />
 
     <el-divider
@@ -39,7 +61,7 @@
 
     <product-order-review-info
       v-if="currentStatus === ProductOrderStatus.Completed"
-      :orderId="1"
+      :orderId="orderId"
     />
 
     <div class="btn-container">
@@ -72,10 +94,46 @@
 import {
   PRODUCT_ORDER_STATUS_MAP,
   ProductOrderStatus,
+  ProductType,
 } from '@/types/productOrder'
 import ProductOrderBaseInfo from './ProductOrderBaseInfo.vue'
 import ProductOrderContractInfo from './ProductOrderContractInfo.vue'
 import ProductOrderReviewInfo from './ProductOrderReviewInfo.vue'
+
+import { useOrderStore } from '@/stores/modules/order'
+const orderStore = useOrderStore()
+const { getProductOrderDetail: getProductOrderDetailAction } = orderStore
+
+const orderId = useRouteParams<string>('id', '')
+watch(
+  () => orderId,
+  () => {
+    executeGetProductOrderDetailAction()
+  },
+)
+
+const {
+  state: orderDetails,
+  isLoading: getProductOrderDetailActionLoading,
+  execute: executeGetProductOrderDetailAction,
+} = useAsyncState(() => getProductOrderDetailAction(orderId.value), {
+  id: 0,
+  orderNum: '',
+  name: '',
+  description: '',
+  imageUrl: '',
+  type: ProductType.Dataset,
+  specifications: [],
+  hasCount: false,
+  count: 0,
+  status: ProductOrderStatus.Pending,
+  sellerId: 0,
+  sellerName: '',
+  paymentAmount: 0,
+  purchaseDate: '',
+  expectedDeliveryDate: '',
+  actualDeliveryDate: '',
+})
 
 // 枚举数组
 const stepList = Object.values(ProductOrderStatus)
@@ -100,6 +158,14 @@ const router = useRouter()
 const back = () => {
   router.push({ name: 'order-products' })
 }
+
+onMounted(() => {
+  try {
+    executeGetProductOrderDetailAction()
+  } catch (error: unknown) {
+    console.error(error)
+  }
+})
 </script>
 
 <style scoped lang="scss">

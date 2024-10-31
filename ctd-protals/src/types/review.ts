@@ -6,7 +6,7 @@ export interface IReview {
   reply?: string
   usefulCount: number
   rating: number
-  createdAt: string
+  createTime: string
 }
 
 export enum ReviewType {
@@ -14,7 +14,7 @@ export enum ReviewType {
   Positive = 1,
   Neutral = 2,
   Negative = 3,
-  Replied = 4
+  Replied = 4,
 }
 
 export interface IReviewInfo {

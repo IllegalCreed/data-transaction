@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  orderId: number
+  orderId: number | string
 }>()
 
 const contractDetails = ref({

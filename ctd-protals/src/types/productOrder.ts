@@ -57,3 +57,12 @@ export interface IOrderProductDetail extends IOrderProduct {
   count: number
   specifications: IOrderSpecification[]
 }
+
+export interface IContract {
+  id: number | string
+  contractNum: string
+  contractUrl: string
+  signingTime: string
+  partyA: string
+  partyB: string
+}

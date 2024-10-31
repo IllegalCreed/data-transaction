@@ -1,7 +1,7 @@
 <template>
   <div class="comment-item-root-container">
     <div flex flex-row justify-between gap-2>
-      <span class="date">{{ comment.createdAt }}</span>
+      <span class="date">{{ comment.createTime }}</span>
       <el-rate :model-value="comment.rating" size="small" disabled></el-rate>
     </div>
     <p>{{ comment.content }}</p>
@@ -16,7 +16,9 @@
       <img :src="comment.product.image" alt="产品图片" width="100" />
       <div flex flex-col justify-between w-full>
         <span font-bold>{{ comment.product.title }}</span>
-        <span self-end text-red-500 font-bold text-lg>￥{{ comment.product.price }}</span>
+        <span self-end text-red-500 font-bold text-lg
+          >￥{{ comment.product.price }}</span
+        >
       </div>
     </div>
     <div class="demand-info" v-else-if="comment.type === 'demand'">
@@ -28,7 +30,9 @@
       <el-button size="small" @click="viewDetails"
         >查看{{ comment.type === 'product' ? '产品' : '需求' }}</el-button
       >
-      <el-button size="small" type="danger" @click="deleteComment"> 删除 </el-button>
+      <el-button size="small" type="danger" @click="deleteComment">
+        删除
+      </el-button>
     </div>
   </div>
 </template>

@@ -386,6 +386,7 @@
     "register": true,
     "tokenExchangeEmail": true,
     "getSearchResults": true,
-    "getProductOrders": true
+    "getProductOrders": true,
+    "getProductOrderDetail": true
   }
 }
