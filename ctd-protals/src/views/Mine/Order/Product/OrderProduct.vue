@@ -39,12 +39,12 @@
 
     <el-skeleton :loading="getProductOrdersActionLoading" animated>
       <template #template>
-        <div flex flex-row flex-wrap gap-4>
+        <div flex flex-col gap-4>
           <el-skeleton-item
-            v-for="n in 8"
+            v-for="n in 4"
             :key="n"
             variant="rect"
-            class="!h-60 !w-100"
+            class="!h-50"
           ></el-skeleton-item>
         </div>
       </template>
