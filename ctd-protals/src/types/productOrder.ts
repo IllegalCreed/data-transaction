@@ -5,7 +5,7 @@ export enum ProductOrderStatus {
   ToDeliver = 'ToDeliver',
   ToCheck = 'ToCheck',
   ToReview = 'ToReview',
-  Reviewed = 'Reviewed',
+  Completed = 'Completed',
 }
 
 export const PRODUCT_ORDER_STATUS_MAP: Record<ProductOrderStatus, string> = {
@@ -14,7 +14,7 @@ export const PRODUCT_ORDER_STATUS_MAP: Record<ProductOrderStatus, string> = {
   [ProductOrderStatus.ToDeliver]: '待交付',
   [ProductOrderStatus.ToCheck]: '待验查',
   [ProductOrderStatus.ToReview]: '待评价',
-  [ProductOrderStatus.Reviewed]: '已评价',
+  [ProductOrderStatus.Completed]: '已完成',
 }
 
 // 产品类型

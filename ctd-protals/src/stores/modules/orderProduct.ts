@@ -70,7 +70,7 @@ export const useOrderProductStore = defineStore('orderProduct', () => {
       type: ProductType.API,
       purchaseDate: '2023-09-23',
       paymentAmount: 700,
-      status: ProductOrderStatus.Reviewed, // 已评价
+      status: ProductOrderStatus.Completed, // 已评价
       actualDeliveryDate: '2023-09-30',
     },
   ])

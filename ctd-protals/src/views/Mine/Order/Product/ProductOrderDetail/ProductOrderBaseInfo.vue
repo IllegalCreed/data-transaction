@@ -9,7 +9,7 @@
         class="product-image"
       >
         <template #error>
-          <div bg-gray-300 w-50 h-50 rounded flex justify-center items-center>
+          <div bg-gray-300 w-40 h-40 rounded flex justify-center items-center>
             <i-lets-icons:img-box
               text-gray-400
               w-15
@@ -20,55 +20,41 @@
       </el-image>
 
       <div flex-1 flex flex-col gap-2>
-        <span text-2xl font-bold>{{ orderDetails.name }}</span>
+        <span class="title">{{ orderDetails.name }}</span>
 
         <div flex flex-row gap-2>
-          <el-tag disable-transitions>
+          <el-tag size="small" disable-transitions>
             {{ mappedProductType }}
           </el-tag>
-          <el-tag disable-transitions>
+          <el-tag size="small" disable-transitions>
             {{ mappedStatus }}
           </el-tag>
         </div>
 
-        <span text-sm text-gray-500>{{ orderDetails.description }}</span>
+        <span class="desc">{{ orderDetails.description }}</span>
 
         <div flex-1></div>
 
         <div flex flex-col gap-1>
-          <div flex flex-row items-center text-slate-500 text-sm>
-            <strong>下单时间：</strong>
-            <span>{{ orderDetails.purchaseDate }}</span>
+          <div flex flex-row items-center>
+            <span class="label">下单时间：</span>
+            <span class="value">{{ orderDetails.purchaseDate }}</span>
           </div>
-          <div
-            v-if="showExpectedDeliveryTime"
-            flex
-            flex-row
-            items-center
-            text-slate-500
-            text-sm
-          >
-            <strong>预计交付时间：</strong>
-            <span>{{ orderDetails.expectedDeliveryDate }}</span>
+          <div v-if="showExpectedDeliveryTime" flex flex-row items-center>
+            <span class="label">预计交付时间：</span>
+            <span class="value">{{ orderDetails.expectedDeliveryDate }}</span>
           </div>
-          <div
-            v-if="showActualDeliveryTime"
-            flex
-            flex-row
-            items-center
-            text-slate-500
-            text-sm
-          >
-            <strong>实际交付时间：</strong>
-            <span>{{ orderDetails.actualDeliveryDate }}</span>
+          <div v-if="showActualDeliveryTime" flex flex-row items-center>
+            <span class="label">实际交付时间：</span>
+            <span class="value">{{ orderDetails.actualDeliveryDate }}</span>
           </div>
         </div>
       </div>
     </div>
 
     <div class="specifications-container">
-      <span text-base font-bold>规格：</span>
-      <div flex flex-row flex-1 gap-2>
+      <span class="label">规格：</span>
+      <div flex flex-row flex-wrap flex-1 gap-2>
         <div
           v-for="(spec, index) in orderDetails.specifications"
           :key="index"
@@ -77,7 +63,7 @@
           bg-slate-100
           px-2
           py-1
-          text-sm
+          text-xs
         >
           <div>
             <span>{{ spec.key }}：</span>
@@ -87,15 +73,19 @@
       </div>
     </div>
 
-    <div class="footer-container">
-      <div flex flex-row items-center>
-        <span text-base font-bold>商家名称：</span>
-        <span text-base text-gray-500>{{ orderDetails.sellerName }}</span>
-      </div>
+    <div flex flex-row items-center v-if="orderDetails.hasCount">
+      <span class="label">数量：</span>
+      <span class="value">{{ orderDetails.count }}</span>
+    </div>
 
-      <span font-bold text-red-500 text-2xl
-        >￥{{ orderDetails.paymentAmount }}</span
-      >
+    <div flex flex-row items-center>
+      <span class="label">商家名称：</span>
+      <span class="value">{{ orderDetails.sellerName }}</span>
+    </div>
+
+    <div flex flex-row items-center>
+      <span class="label">支付金额：</span>
+      <span class="price">￥{{ orderDetails.paymentAmount }}</span>
     </div>
   </div>
 </template>
@@ -113,8 +103,8 @@ const { orderId, status } = defineProps<{
 
 const orderDetails = ref<IOrderProductDetail>({
   sellerId: 1,
-  hasCount: false,
-  count: 0,
+  hasCount: true,
+  count: 5,
   id: 1,
   orderNum: orderId,
   name: '高级数据分析平台',
@@ -122,7 +112,11 @@ const orderDetails = ref<IOrderProductDetail>({
   imageUrl: 'https://via.placeholder.com/200', // 产品图片 URL
   type: ProductType.API,
   specifications: [
-    { key: '数量', value: 5 },
+    { key: '购买形式', value: '一次性购买' },
+    { key: '购买形式', value: '一次性购买' },
+    { key: '购买形式', value: '一次性购买' },
+    { key: '购买形式', value: '一次性购买' },
+    { key: '购买形式', value: '一次性购买' },
     { key: '购买形式', value: '一次性购买' },
   ],
   status: status, // 5: 已评价
@@ -145,7 +139,7 @@ const showActualDeliveryTime = computed(
     [
       ProductOrderStatus.ToCheck,
       ProductOrderStatus.ToReview,
-      ProductOrderStatus.Reviewed,
+      ProductOrderStatus.Completed,
     ].includes(orderDetails.value.status), // 待验查、待评价、已评价
 )
 
@@ -165,13 +159,21 @@ const mappedProductType = computed(
 
 <style scoped lang="scss">
 .product-order-detail-baseinfo-root-container {
-  @apply flex flex-col border-solid border border-gray-100 rounded px-10 py-6 bg-white shadow-md gap-4;
+  @apply flex flex-col gap-4;
 
   .header-container {
     @apply flex flex-row gap-4;
 
+    .title {
+      @apply text-xl font-bold;
+    }
+
+    .desc {
+      @apply text-sm text-[var(--color-text-light)] line-clamp-2;
+    }
+
     .product-image {
-      @apply rounded max-w-50 h-50 bg-gray-100;
+      @apply rounded max-w-40 h-40 bg-gray-100;
     }
   }
 
@@ -179,27 +181,31 @@ const mappedProductType = computed(
     @apply flex flex-row;
   }
 
-  .footer-container {
-    @apply flex flex-row items-center justify-between;
+  .price {
+    @apply text-2xl text-[var(--color-price)] font-bold;
+  }
+
+  .label {
+    @apply text-sm text-[var(--color-text-lighter)];
+  }
+
+  .value {
+    @apply text-sm text-[var(--color-text)];
   }
 
   @media (max-width: 40rem) {
-    @apply p-0 pb-10 shadow-none border-0 border-b border-gray-200;
+    @apply p-0;
 
     .header-container {
       @apply flex-col;
 
       .product-image {
-        @apply max-w-full;
+        @apply max-w-full h-60;
       }
     }
 
     .specifications-container {
       @apply flex-col gap-2;
-    }
-
-    .footer-container {
-      @apply flex-col items-start gap-6;
     }
   }
 }

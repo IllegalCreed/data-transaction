@@ -9,25 +9,35 @@
       >测试按钮，切换订单状态</el-button
     >
 
-    <step-group
-      class="step"
-      :steps="steps"
-      :currentStep="currentStep"
-      self-stretch
-    />
+    <div flex flex-row items-stretch>
+      <product-order-base-info :status="currentStatus" :orderId="1" flex-1 />
+      <el-steps
+        direction="vertical"
+        :active="
+          currentStep === steps.length - 1 ? currentStep + 1 : currentStep
+        "
+        finish-status="success"
+        process-status="process"
+        class="step"
+      >
+        <el-step v-for="item in steps" :key="item.title" :title="item.title" />
+      </el-steps>
+    </div>
 
-    <product-order-base-info :status="currentStatus" :orderId="1" />
+    <el-divider />
 
     <product-order-contract-info
       v-if="currentStep > getStatusIndex(ProductOrderStatus.Pending)"
       :orderId="1"
-      mt-10
+    />
+
+    <el-divider
+      v-if="currentStep > getStatusIndex(ProductOrderStatus.Pending)"
     />
 
     <product-order-review-info
-      v-if="currentStatus === ProductOrderStatus.Reviewed"
+      v-if="currentStatus === ProductOrderStatus.Completed"
       :orderId="1"
-      mt-10
     />
 
     <div class="btn-container">
@@ -35,18 +45,21 @@
         class="btn"
         v-if="currentStatus === ProductOrderStatus.Pending"
         type="primary"
+        size="large"
         >签署合同</el-button
-      >
-      <el-button
-        class="btn"
-        v-if="currentStatus === ProductOrderStatus.ToDeliver"
-        type="primary"
-        >确认交付</el-button
       >
       <el-button
         class="btn"
         v-if="currentStatus === ProductOrderStatus.ToCheck"
         type="primary"
+        size="large"
+        >确认交付</el-button
+      >
+      <el-button
+        class="btn"
+        v-if="currentStatus === ProductOrderStatus.ToReview"
+        type="primary"
+        size="large"
         >评价订单</el-button
       >
     </div>
@@ -85,19 +98,27 @@ const getStatusIndex = (status: ProductOrderStatus): number => {
   @apply flex flex-col p-10;
 
   .step {
-    @apply mb-10;
+    @apply h-auto mx-5;
+
+    :deep(.is-process) {
+      @apply text-[var(--color-primary)] border-[var(--color-primary)];
+    }
+
+    @media (max-width: 50rem) {
+      @apply hidden;
+    }
   }
 
   .btn-container {
     @apply flex flex-row justify-center items-center mt-10;
+
+    .btn {
+      @apply w-40;
+    }
   }
 
   @media (max-width: 40rem) {
     @apply p-5;
-
-    .step {
-      @apply hidden;
-    }
 
     .btn-container {
       .btn {

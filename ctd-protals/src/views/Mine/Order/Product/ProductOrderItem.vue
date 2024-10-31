@@ -46,7 +46,7 @@
                 class="value"
                 :style="{
                   color:
-                    order.status === ProductOrderStatus.Reviewed
+                    order.status === ProductOrderStatus.Completed
                       ? 'var(--color-up-arrow)'
                       : 'var(--color-price)',
                 }"
