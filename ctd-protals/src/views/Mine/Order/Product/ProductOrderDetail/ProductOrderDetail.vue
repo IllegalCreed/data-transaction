@@ -18,18 +18,35 @@
 
     <product-order-base-info :status="currentStatus" :orderId="1" />
 
-    <product-order-contract-info v-if="currentStep > 1" :orderId="1" mt-10 />
+    <product-order-contract-info
+      v-if="currentStep > getStatusIndex(ProductOrderStatus.Pending)"
+      :orderId="1"
+      mt-10
+    />
 
-    <product-order-review-info v-if="currentStep === 5" :orderId="1" mt-10 />
+    <product-order-review-info
+      v-if="currentStatus === ProductOrderStatus.Reviewed"
+      :orderId="1"
+      mt-10
+    />
 
     <div class="btn-container">
-      <el-button class="btn" v-if="currentStep === 1" type="primary"
+      <el-button
+        class="btn"
+        v-if="currentStatus === ProductOrderStatus.Pending"
+        type="primary"
         >签署合同</el-button
       >
-      <el-button class="btn" v-if="currentStep === 3" type="primary"
+      <el-button
+        class="btn"
+        v-if="currentStatus === ProductOrderStatus.ToDeliver"
+        type="primary"
         >确认交付</el-button
       >
-      <el-button class="btn" v-if="currentStep === 4" type="primary"
+      <el-button
+        class="btn"
+        v-if="currentStatus === ProductOrderStatus.ToCheck"
+        type="primary"
         >评价订单</el-button
       >
     </div>
@@ -37,27 +54,30 @@
 </template>
 
 <script setup lang="ts">
-import { ProductOrderStatus } from '@/types/productOrder'
+import {
+  PRODUCT_ORDER_STATUS_MAP,
+  ProductOrderStatus,
+} from '@/types/productOrder'
 import ProductOrderBaseInfo from './ProductOrderBaseInfo.vue'
 import ProductOrderContractInfo from './ProductOrderContractInfo.vue'
 import ProductOrderReviewInfo from './ProductOrderReviewInfo.vue'
 
-const steps = [
-  { title: '待审核' },
-  { title: '合同协商' },
-  { title: '待交付' },
-  { title: '待验查' },
-  { title: '待评价' },
-  { title: '已评价' },
-]
-
+// 枚举数组
 const stepList = Object.values(ProductOrderStatus)
+
+// 中文映射数组
+const steps = stepList.map(status => ({
+  title: PRODUCT_ORDER_STATUS_MAP[status],
+}))
+
 const currentStep = ref(0)
+const currentStatus = computed(() => stepList[currentStep.value])
 const changeCurrentStep = () => {
   currentStep.value = (currentStep.value + 1) % stepList.length
 }
-
-const currentStatus = computed(() => stepList[currentStep.value])
+const getStatusIndex = (status: ProductOrderStatus): number => {
+  return stepList.findIndex(s => s === status)
+}
 </script>
 
 <style scoped lang="scss">

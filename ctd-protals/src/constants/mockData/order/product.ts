@@ -7,8 +7,8 @@ import {
 export const orderProducts: IOrderProduct[] = [
   {
     id: 1,
-    orderNum: '#ASDH98IKJ9865587KJHOASDN0976',
-    name: '数据产品 A',
+    orderNum: 'ASDH98IKJ9865587KJHOASDN0976DISB',
+    name: '数据产品数据产品数据产品数据产品数据产品数据产品数据产品数据产品',
     description: '数据产品A的描述',
     imageUrl: new URL(
       '@/assets/placeholder/productDefault.png',
@@ -22,7 +22,7 @@ export const orderProducts: IOrderProduct[] = [
   },
   {
     id: 2,
-    orderNum: '#ASDH98IKJ9865587KJHOASDN0976',
+    orderNum: 'ASDH98IKJ9865587KJHOASDN0976DISB',
     name: '数据产品 B',
     description: '数据产品A的描述',
     imageUrl: new URL(
@@ -37,7 +37,7 @@ export const orderProducts: IOrderProduct[] = [
   },
   {
     id: 3,
-    orderNum: '#ASDH98IKJ9865587KJHOASDN0976',
+    orderNum: 'ASDH98IKJ9865587KJHOASDN0976DISB',
     name: '数据产品 C',
     description: '数据产品A的描述',
     imageUrl: new URL(
@@ -52,7 +52,7 @@ export const orderProducts: IOrderProduct[] = [
   },
   {
     id: 4,
-    orderNum: '#ASDH98IKJ9865587KJHOASDN0976',
+    orderNum: 'ASDH98IKJ9865587KJHOASDN0976DISB',
     name: '数据产品 D',
     description: '数据产品A的描述',
     imageUrl: new URL(
@@ -67,7 +67,7 @@ export const orderProducts: IOrderProduct[] = [
   },
   {
     id: 5,
-    orderNum: '#ASDH98IKJ9865587KJHOASDN0976',
+    orderNum: 'ASDH98IKJ9865587KJHOASDN0976DISB',
     name: '数据产品 E',
     description: '数据产品A的描述',
     imageUrl: new URL(
@@ -82,7 +82,7 @@ export const orderProducts: IOrderProduct[] = [
   },
   {
     id: 6,
-    orderNum: '#ASDH98IKJ9865587KJHOASDN0976',
+    orderNum: 'ASDH98IKJ9865587KJHOASDN0976DISB',
     name: '数据产品 F',
     description: '数据产品A的描述',
     imageUrl: new URL(

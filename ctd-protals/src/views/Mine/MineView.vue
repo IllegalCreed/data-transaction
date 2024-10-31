@@ -71,6 +71,10 @@ watch(mineMenus, () => {
 })
 
 const setActiveMenu = () => {
+  if (route.meta.belong) {
+    activeMenu.value = route.meta.belong as string
+    return
+  }
   activeMenu.value = route.path
 }
 

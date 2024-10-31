@@ -17,10 +17,6 @@ const { productOrders } = storeToRefs(orderStore)
 
 <style lang="scss" scoped>
 .product-panel-root-container {
-  @apply grid grid-cols-2 gap-4;
-
-  @media (max-width: 50rem) {
-    @apply grid-cols-1;
-  }
+  @apply flex flex-col gap-4;
 }
 </style>

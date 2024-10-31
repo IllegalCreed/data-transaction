@@ -102,6 +102,7 @@
   --color-detail-section-background: var(--color-blue-100);
   --color-step-background: var(--color-blue-200);
   --color-register-role-background: var(--color-blue-100);
+  --color-order-header-background: var(--color-blue-50);
 
   --color-border: var(--color-gray-200);
   --color-text: var(--color-gray-700);
