@@ -98,7 +98,7 @@ const getStatusIndex = (status: ProductOrderStatus): number => {
   @apply flex flex-col p-10;
 
   .step {
-    @apply h-auto mx-5;
+    @apply h-auto ml-5 mr-10;
 
     :deep(.is-process) {
       @apply text-[var(--color-primary)] border-[var(--color-primary)];

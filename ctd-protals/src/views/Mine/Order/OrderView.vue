@@ -8,7 +8,7 @@
         :key="index"
         :to="item.path"
         class="tab-item"
-        :class="{ active: route.path === item.path }"
+        :class="{ active: isActive(item.path) }"
       >
         {{ item.label }}
       </router-link>
@@ -30,6 +30,13 @@ const { mineMenus } = storeToRefs(menuStore)
 const { getMineMenus: getMineMenusAction } = menuStore
 
 const route = useRoute()
+
+const isActive = (itemPath: string) => {
+  if (route.meta.belong) {
+    return itemPath === (route.meta.belong as string)
+  }
+  return itemPath === route.path
+}
 
 onMounted(() => {
   getMineMenusAction()
