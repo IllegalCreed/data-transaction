@@ -1,13 +1,15 @@
 <template>
   <div class="product-order-detail-root-container">
-    <el-button
-      size="small"
-      type="primary"
-      self-end
-      mb-5
-      @click="changeCurrentStep"
-      >测试按钮，切换订单状态</el-button
-    >
+    <div flex flex-row justify-between v-if="!isMobileDevice">
+      <div class="back-btn" @click="back">
+        <i-ion:arrow-back-circle-outline h-6 w-6 /><span>返回</span>
+      </div>
+      <el-button size="small" type="primary" @click="changeCurrentStep"
+        >测试按钮，切换订单状态</el-button
+      >
+    </div>
+
+    <el-divider v-if="!isMobileDevice" />
 
     <div flex flex-row items-stretch>
       <product-order-base-info :status="currentStatus" :orderId="1" flex-1 />
@@ -91,11 +93,26 @@ const changeCurrentStep = () => {
 const getStatusIndex = (status: ProductOrderStatus): number => {
   return stepList.findIndex(s => s === status)
 }
+
+const isMobileDevice = useMediaQuery('(max-width: 40rem)')
+
+const router = useRouter()
+const back = () => {
+  router.push({ name: 'order-products' })
+}
 </script>
 
 <style scoped lang="scss">
 .product-order-detail-root-container {
   @apply flex flex-col p-10;
+
+  .back-btn {
+    @apply flex flex-row items-center gap-2 cursor-pointer select-none;
+
+    span {
+      @apply line-height-none;
+    }
+  }
 
   .step {
     @apply h-auto ml-5 mr-10;
