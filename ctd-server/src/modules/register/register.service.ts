@@ -13,6 +13,7 @@ import { MailerService } from 'src/modules/mailer/mailer.service';
 import { ApiResponse } from 'src/common/interfaces/api-response.interface';
 import {
   generateActivationToken,
+  verifyActivationToken,
   hashPassword,
 } from 'src/common/utils/security';
 import {
@@ -20,6 +21,7 @@ import {
   createErrorResponse,
 } from 'src/common/utils/response';
 import { ErrorCode } from 'src/common/constants/error-codes';
+import { ActivateAccountDto } from './dto/activate-account.dto';
 
 @Injectable()
 export class RegisterService {
@@ -50,68 +52,63 @@ export class RegisterService {
 
     const hashedPassword = await hashPassword(password);
 
-    const queryRunner = this.dataSource.createQueryRunner();
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
-
     try {
-      const user = this.userRepository.create({
-        email,
-        password: hashedPassword,
-        userType,
-        status: UserStatus.PENDING,
+      await this.dataSource.transaction(async (manager) => {
+        const user = this.userRepository.create({
+          email,
+          password: hashedPassword,
+          userType,
+          status: UserStatus.PENDING,
+        });
+
+        if (userType === UserType.Individual && createUserDto.individualInfo) {
+          const individualInfo = this.individualUserInfoRepository.create(
+            createUserDto.individualInfo,
+          );
+          user.individualInfo = individualInfo;
+        } else if (
+          userType === UserType.Enterprise &&
+          createUserDto.enterpriseInfo
+        ) {
+          const enterpriseInfo = this.enterpriseUserInfoRepository.create(
+            createUserDto.enterpriseInfo,
+          );
+          user.enterpriseInfo = enterpriseInfo;
+        }
+
+        await manager.save(user);
+
+        const activationToken = await generateActivationToken(
+          email,
+          this.configService.get<string>('JWT_SECRET'),
+        );
+
+        const activation = this.activationRepository.create({
+          activationToken,
+          user,
+          expireAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+          isActivated: false,
+        });
+
+        await manager.save(activation);
+
+        await this.mailerService.sendActivationEmailInternal(
+          email,
+          activationToken,
+        );
       });
 
-      if (userType === UserType.Individual && createUserDto.individualInfo) {
-        const individualInfo = this.individualUserInfoRepository.create(
-          createUserDto.individualInfo,
-        );
-        user.individualInfo = individualInfo;
-      } else if (
-        userType === UserType.Enterprise &&
-        createUserDto.enterpriseInfo
-      ) {
-        const enterpriseInfo = this.enterpriseUserInfoRepository.create(
-          createUserDto.enterpriseInfo,
-        );
-        user.enterpriseInfo = enterpriseInfo;
-      }
-
-      await queryRunner.manager.save(user);
-
-      const activationToken = await generateActivationToken(
-        email,
-        this.configService.get<string>('JWT_SECRET'),
-      );
-
-      const activation = this.activationRepository.create({
-        activationToken,
-        user,
-        expireAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
-        isActivated: false,
-      });
-
-      await queryRunner.manager.save(activation);
-
-      const mailResponse = await this.mailerService.sendActivationEmail(
-        email,
-        activationToken,
-      );
-
-      if (mailResponse.code !== 0) {
-        await queryRunner.rollbackTransaction();
-        return mailResponse;
-      }
-
-      await queryRunner.commitTransaction();
-      console.log(`用户注册成功：${email}，发送激活邮件。`);
+      console.log(`用户注册成功：${email}`);
       return createSuccessResponse('REGISTRATION_SUCCEED');
     } catch (error) {
-      await queryRunner.rollbackTransaction();
-      console.error('注册失败：', error);
+      console.error('用户注册失败：', error);
+
+      const errorCode = Number(error.message);
+      if (errorCode === ErrorCode.SEND_EMAIL_FAILED) {
+        return createErrorResponse(ErrorCode.SEND_EMAIL_FAILED);
+      }
+
       return createErrorResponse(ErrorCode.REGISTRATION_FAILED);
-    } finally {
-      await queryRunner.release();
     }
   }
 
@@ -121,5 +118,63 @@ export class RegisterService {
     const user = await this.userRepository.findOne({ where: { email } });
     const available = !user;
     return createSuccessResponse({ available });
+  }
+
+  async activateAccount(
+    activateAccountDto: ActivateAccountDto,
+  ): Promise<ApiResponse<string>> {
+    const { activationToken } = activateAccountDto;
+
+    const email = await verifyActivationToken(
+      activationToken,
+      this.configService.get<string>('JWT_SECRET'),
+    );
+
+    if (!email) {
+      console.error('激活账户失败：JWT验证失败');
+      return createErrorResponse(ErrorCode.ACTIVATE_ACCOUNT_FAILED);
+    }
+
+    try {
+      await this.dataSource.transaction(async (manager) => {
+        const activation = await this.activationRepository.findOne({
+          where: { activationToken, isActivated: false },
+          relations: ['user'],
+        });
+
+        if (!activation) {
+          console.error('激活账户失败：无效的激活令牌');
+          throw new Error(ErrorCode.INVALID_ACTIVATION_TOKEN.toString());
+        }
+
+        if (activation.expireAt < new Date()) {
+          console.error('激活账户失败：激活令牌已过期');
+          throw new Error(ErrorCode.INVALID_ACTIVATION_TOKEN.toString());
+        }
+
+        if (activation.user.email !== email) {
+          console.error('激活账户失败：数据异常');
+          throw new Error(ErrorCode.ACTIVATE_ACCOUNT_FAILED.toString());
+        }
+
+        activation.user.status = UserStatus.ACTIVE;
+        activation.isActivated = true;
+
+        await manager.save(activation.user);
+        await manager.save(activation);
+      });
+
+      console.log(`账户激活成功：${email}`);
+      return createSuccessResponse('ACCOUNT_ACTIVATED');
+    } catch (error) {
+      const errorCode = Number(error.message);
+
+      if (errorCode === ErrorCode.INVALID_ACTIVATION_TOKEN) {
+        return createErrorResponse(errorCode, email);
+      }
+
+      console.error('激活账户失败：', error);
+      return createErrorResponse(ErrorCode.ACTIVATE_ACCOUNT_FAILED);
+    }
   }
 }

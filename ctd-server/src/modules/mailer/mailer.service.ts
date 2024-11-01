@@ -11,7 +11,8 @@ import { ErrorCode } from 'src/common/constants/error-codes';
 @Injectable()
 export class MailerService {
   constructor(
-    @Inject('MAIL_TRANSPORTER') private readonly transporter: Transporter,
+    @Inject('MAIL_TRANSPORTER')
+    private readonly transporter: Transporter,
     private readonly configService: ConfigService,
   ) {
     // 打印配置以确保正确加载
@@ -24,25 +25,44 @@ export class MailerService {
     );
   }
 
+  // 私有的核心发送邮件方法
+  private async sendMail(
+    to: string,
+    subject: string,
+    html: string,
+  ): Promise<void> {
+    const mailOptions = {
+      from: `"北京市文旅数据专区平台" <${this.configService.get<string>('MAIL_USER')}>`,
+      to: to,
+      subject: subject,
+      html: html,
+    };
+
+    try {
+      await this.transporter.sendMail(mailOptions);
+      console.log(`发送邮件成功: ${to}`);
+    } catch (error) {
+      console.error('发送邮件失败：', error);
+      throw new Error(ErrorCode.SEND_EMAIL_FAILED.toString());
+    }
+  }
+
+  // 内部方法，供服务调用，抛出异常或返回 void
+  async sendActivationEmailInternal(to: string, token: string): Promise<void> {
+    const activationLink = `${this.configService.get<string>('FRONTEND_DOMAIN')}/register?token=${token}`;
+    const html = `<p>您好，请点击链接激活您的账号: <a href="${activationLink}">${activationLink}</a></p>`;
+    await this.sendMail(to, '激活账号', html);
+  }
+
+  // 外部方法，供 API 调用，返回统一的 ApiResponse<string>
   async sendActivationEmail(
     to: string,
     token: string,
   ): Promise<ApiResponse<string>> {
-    const activationLink = `${process.env.FRONTEND_DOMAIN}/register?token=${token}`;
-    const mailOptions = {
-      from: `"北京市文旅数据专区平台" <${process.env.MAIL_USER}>`, // 发件人地址
-      to: to, // 收件人列表
-      subject: '激活账号', // 邮件标题
-      text: `您好，请点击链接激活您的账号: ${activationLink}`, // 纯文本内容
-      html: `<p>您好，请点击链接激活您的账号: <a href="${activationLink}">${activationLink}</a></p>`, // HTML内容
-    };
-
     try {
-      const info = await this.transporter.sendMail(mailOptions);
-      console.log('发送邮件: %s', info.messageId);
+      await this.sendActivationEmailInternal(to, token);
       return createSuccessResponse('SEND_EMAIL_SUCCEED');
-    } catch (error) {
-      console.error('发送激活邮件失败：', error);
+    } catch {
       return createErrorResponse(ErrorCode.SEND_EMAIL_FAILED);
     }
   }
