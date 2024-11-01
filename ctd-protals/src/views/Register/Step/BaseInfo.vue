@@ -170,10 +170,14 @@ const handleSubmit = async (): Promise<boolean> => {
   return subFormValid
 }
 
-const reSendEmail = () => {
+const reSendEmail = async () => {
   if (baseInfo.email) {
-    reSendActivationEmailAction(baseInfo.email)
-    emit('nextStep')
+    try {
+      await reSendActivationEmailAction(baseInfo.email)
+      emit('nextStep')
+    } catch {
+      ElMessage.error('发送失败')
+    }
   } else {
     ElMessage.error('请输入邮箱地址')
   }

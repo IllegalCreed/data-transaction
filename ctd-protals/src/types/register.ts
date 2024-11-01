@@ -1,21 +1,18 @@
-// 基础注册信息接口
 export interface IBaseInfo {
   email: string
   password: string
   confirmPassword: string
 }
 
-// 个人用户信息接口
 export interface IIndividualUserInfo {
   fullName: string
   identificationNumber: string
   phoneNumber: string
-  gender?: string
+  gender?: GenderType
   dateOfBirth?: string
   residentialAddress?: string
 }
 
-// 企业用户信息接口
 export interface IEnterpriseInfo {
   enterpriseName: string
   enterpriseDescription?: string
@@ -28,24 +25,32 @@ export interface IEnterpriseInfo {
   companySize?: CompanySize
 }
 
-// 注册信息类型
 export type RegistrationInfo =
   | (IBaseInfo & IIndividualUserInfo & { userType: UserType.Individual })
   | (IBaseInfo & IEnterpriseInfo & { userType: UserType.Enterprise })
 
-// 用户类型
 export enum UserType {
   Individual = 'individual',
   Enterprise = 'enterprise',
 }
 
-// 自然语言映射
 export const USER_TYPE_MAP: Record<UserType, string> = {
   [UserType.Individual]: '个人用户',
   [UserType.Enterprise]: '企业用户',
 }
 
-// 行业类型枚举
+export enum GenderType {
+  Male = 'male',
+  Female = 'female',
+  Other = 'other',
+}
+
+export const GENDER_TYPE_MAP: Record<GenderType, string> = {
+  [GenderType.Male]: '男',
+  [GenderType.Female]: '女',
+  [GenderType.Other]: '其他',
+}
+
 export enum IndustryType {
   Agriculture = 'agriculture', // 农、林、牧、渔业
   Mining = 'mining', // 采矿业
@@ -70,7 +75,6 @@ export enum IndustryType {
   Other = 'other', // 其他
 }
 
-// 行业类型的自然语言映射
 export const INDUSTRY_TYPE_MAP: Record<IndustryType, string> = {
   [IndustryType.Agriculture]: '农、林、牧、渔业',
   [IndustryType.Mining]: '采矿业',
@@ -95,13 +99,12 @@ export const INDUSTRY_TYPE_MAP: Record<IndustryType, string> = {
   [IndustryType.Other]: '其他',
 }
 
-// 企业规模枚举
 export enum CompanySize {
-  Micro = 'micro', // 微型企业
-  Small = 'small', // 小型企业
-  Medium = 'medium', // 中型企业
-  Large = 'large', // 大型企业
-  ExtraLarge = 'extra_large', // 超大型企业
+  Micro = 'micro',
+  Small = 'small',
+  Medium = 'medium',
+  Large = 'large',
+  ExtraLarge = 'extra_large',
 }
 
 // 企业规模的自然语言映射

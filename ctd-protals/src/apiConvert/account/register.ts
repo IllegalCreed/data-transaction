@@ -1,4 +1,4 @@
-import { UserType, type RegistrationInfo } from '@/types/register'
+import { GenderType, UserType, type RegistrationInfo } from '@/types/register'
 
 export const registInfoConverter = (info: RegistrationInfo) => {
   if (info.userType === UserType.Individual) {
@@ -12,7 +12,7 @@ export const registInfoConverter = (info: RegistrationInfo) => {
       username: info.email,
       address: info.residentialAddress,
       birthday: info.dateOfBirth,
-      sex: info.gender === 'male' ? '0' : '1',
+      sex: info.gender === GenderType.Male ? '0' : '1',
     }
   } else if (info.userType === UserType.Enterprise) {
     return {

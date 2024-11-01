@@ -3,7 +3,9 @@ import {
   IsString,
   IsOptional,
   IsDateString,
+  IsEnum,
 } from 'class-validator';
+import { GenderType } from 'src/enums/gender-type.enum';
 
 export class IndividualUserInfoDto {
   @IsString({ message: '姓名必须为字符串' })
@@ -18,9 +20,9 @@ export class IndividualUserInfoDto {
   @IsNotEmpty({ message: '手机号不能为空' })
   phoneNumber: string;
 
-  @IsString({ message: '性别必须为字符串' })
+  @IsEnum(GenderType, { message: '性别必须是 Male、Female 或 Other' })
   @IsOptional()
-  gender?: string;
+  gender?: GenderType;
 
   @IsDateString({}, { message: '出生日期格式不正确' })
   @IsOptional()

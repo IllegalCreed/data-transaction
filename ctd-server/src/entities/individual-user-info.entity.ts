@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
 import { User } from './user.entity';
+import { GenderType } from 'src/enums/gender-type.enum';
 
 @Entity()
 export class IndividualUserInfo {
@@ -15,8 +16,8 @@ export class IndividualUserInfo {
   @Column()
   phoneNumber: string;
 
-  @Column({ nullable: true })
-  gender?: string;
+  @Column({ type: 'enum', enum: GenderType, nullable: true })
+  gender?: GenderType;
 
   @Column({ nullable: true })
   dateOfBirth?: string;

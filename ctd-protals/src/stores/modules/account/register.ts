@@ -8,6 +8,7 @@ import {
 } from '@/apis/account/register'
 import { ads as mockAds } from '@/constants/mockData/account/register'
 import {
+  GenderType,
   IndustryType,
   UserType,
   type IBaseInfo,
@@ -30,7 +31,7 @@ export const useRegister = () => {
     fullName: '',
     identificationNumber: '',
     phoneNumber: '',
-    gender: '',
+    gender: GenderType.Male,
     dateOfBirth: '',
     residentialAddress: '',
   })

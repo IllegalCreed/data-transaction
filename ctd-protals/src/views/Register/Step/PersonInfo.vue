@@ -45,19 +45,11 @@
           placeholder="请选择性别"
         >
           <el-option
-            data-testid="gender-option-male"
-            label="男"
-            value="male"
-          ></el-option>
-          <el-option
-            data-testid="gender-option-famale"
-            label="女"
-            value="female"
-          ></el-option>
-          <el-option
-            data-testid="gender-option-other"
-            label="其他"
-            value="other"
+            v-for="item in genderTypeOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+            :data-testid="`gender-option-${item.value}`"
           ></el-option>
         </el-select>
       </el-form-item>
@@ -90,6 +82,7 @@
 import { ref } from 'vue'
 import { useAccountStore } from '@/stores/modules/account'
 import type { FormInstance, FormRules } from 'element-plus'
+import { GENDER_TYPE_MAP, GenderType } from '@/types/register'
 
 // 获取个人信息的 Pinia store
 const accountStore = useAccountStore()
@@ -137,6 +130,11 @@ const validateForm = (): Promise<boolean> => {
 defineExpose({
   validateForm,
 })
+
+const genderTypeOptions = Object.values(GenderType).map(value => ({
+  value,
+  label: GENDER_TYPE_MAP[value],
+}))
 </script>
 
 <style lang="scss" scoped>
