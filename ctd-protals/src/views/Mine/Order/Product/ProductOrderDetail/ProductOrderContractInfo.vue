@@ -2,11 +2,7 @@
   <div class="product-order-detail-contract-root-container">
     <span text-lg font-bold>合同信息</span>
 
-    <el-skeleton
-      :loading="getProductOrderContractActionLoading"
-      animated
-      class="!w-auto"
-    >
+    <el-skeleton :loading="getProductOrderContractActionLoading" animated>
       <template #template>
         <div flex flex-col>
           <div grid grid-cols-2 gap-6>

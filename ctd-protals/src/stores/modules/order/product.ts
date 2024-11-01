@@ -7,12 +7,14 @@ import {
   getProductOrders as getProductOrdersAPI,
   getProductOrderDetail as getProductOrderDetailAPI,
   getProductOrderContract as getProductOrderContractAPI,
+  getProductOrderReview as getProductOrderReviewAPI,
 } from '@/apis/order/product'
 import type {
   IContract,
   IOrderProduct,
   IOrderProductDetail,
 } from '@/types/productOrder'
+import type { IReview } from '@/types/review'
 
 export const useOrderProduct = () => {
   const settingsStore = useSettingsStore()
@@ -93,10 +95,37 @@ export const useOrderProduct = () => {
     })
   }
 
+  const getProductOrderReview = (id: string | number): Promise<IReview> => {
+    return new Promise<IReview>((resolve, reject) => {
+      if (settingsStore.mockEnabled) {
+        window.setTimeout(() => {
+          const productDetail = mockOrderProductDetails.find(
+            item => item.id === Number(id),
+          )
+          if (productDetail) {
+            resolve(productDetail?.review)
+          } else {
+            reject(new Error('Order not found'))
+          }
+        }, 1000)
+      } else {
+        getProductOrderReviewAPI(id)
+          .then((res: unknown) => {
+            const productOrderReview = res as IReview
+            resolve(productOrderReview)
+          })
+          .catch((error: unknown) => {
+            reject(error)
+          })
+      }
+    })
+  }
+
   return {
     productOrders,
     getProductOrders,
     getProductOrderDetail,
     getProductOrderContract,
+    getProductOrderReview,
   }
 }

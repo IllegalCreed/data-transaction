@@ -36,3 +36,16 @@ export const getProductOrderContract = (
     false,
   )
 }
+
+export const getProductOrderReview = (
+  id: string | number,
+): Promise<unknown> => {
+  const params = { id }
+  return request.post(
+    {
+      url: `/getProductOrderReview/${id}`,
+      params,
+    },
+    false,
+  )
+}

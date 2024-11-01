@@ -388,6 +388,7 @@
     "getSearchResults": true,
     "getProductOrders": true,
     "getProductOrderDetail": true,
-    "getProductOrderContract": true
+    "getProductOrderContract": true,
+    "getProductOrderReview": true
   }
 }
