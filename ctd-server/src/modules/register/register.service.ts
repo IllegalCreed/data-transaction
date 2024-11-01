@@ -46,8 +46,8 @@ export class RegisterService {
   async register(createUserDto: CreateUserDto): Promise<ApiResponse<string>> {
     const { email, password, userType } = createUserDto;
 
-    if (!(await this.isEmailAvailable(email)).data.available) {
-      return createErrorResponse(ErrorCode.EMAIL_TAKEN);
+    if (!(await this.isUserNameAvailable(email)).data.available) {
+      return createErrorResponse(ErrorCode.USERNAME_TAKEN);
     }
 
     const hashedPassword = await hashPassword(password);
@@ -55,6 +55,7 @@ export class RegisterService {
     try {
       await this.dataSource.transaction(async (manager) => {
         const user = this.userRepository.create({
+          username: email,
           email,
           password: hashedPassword,
           userType,
@@ -112,10 +113,10 @@ export class RegisterService {
     }
   }
 
-  async isEmailAvailable(
-    email: string,
+  async isUserNameAvailable(
+    username: string,
   ): Promise<ApiResponse<{ available: boolean }>> {
-    const user = await this.userRepository.findOne({ where: { email } });
+    const user = await this.userRepository.findOne({ where: { username } });
     const available = !user;
     return createSuccessResponse({ available });
   }

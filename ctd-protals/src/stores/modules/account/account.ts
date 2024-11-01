@@ -6,7 +6,7 @@ import {
   getInfo as getInfoAPI,
 } from '@/apis/account/account'
 import { userInfo as mockUserInfo } from '@/constants/mockData/account/account'
-import type { IUserInfo } from '@/types/master'
+import type { UserInfo } from '@/types/account'
 
 export const useAccount = () => {
   const tokenStore = useTokenStore()
@@ -51,16 +51,18 @@ export const useAccount = () => {
     })
   }
 
-  const userinfo = ref<IUserInfo>()
+  const userinfo = ref<UserInfo>()
   const getUserInfo = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
-        userinfo.value = mockUserInfo
-        resolve()
+        window.setTimeout(() => {
+          userinfo.value = mockUserInfo
+          resolve()
+        }, 1000)
       } else {
         getInfoAPI()
           .then(res => {
-            userinfo.value = res as IUserInfo
+            userinfo.value = res as UserInfo
             resolve()
           })
           .catch((error: Error) => {

@@ -12,7 +12,7 @@
       label-width="auto"
       label-position="top"
     >
-      <el-form-item label="邮箱" prop="email">
+      <el-form-item label="用户名" prop="email">
         <el-input
           data-testid="email-input"
           v-model="baseInfo.email"

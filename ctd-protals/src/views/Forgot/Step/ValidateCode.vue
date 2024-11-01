@@ -1,10 +1,7 @@
 <template>
   <div class="validate-code-root-container">
     <span class="title">验证邮箱</span>
-    <p class="desc">
-      我们向您的邮箱<strong mx-2>{{ email }}</strong
-      >发送了一封邮件
-    </p>
+    <p class="desc">我们向您的验证邮箱发送了一封邮件</p>
 
     <verification-code-input
       data-testid="verification-code-input"
