@@ -17,7 +17,7 @@
             <el-input
               data-testid="email-input"
               v-model="baseInfo.email"
-              placeholder="邮箱地址将作为您的登录账号"
+              placeholder="邮箱地址将作为您的登录用户名"
             />
           </el-form-item>
 

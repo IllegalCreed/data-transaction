@@ -6,7 +6,7 @@
       <span class="desc">输入用户名密码以继续</span>
 
       <div class="login-input-container" mt-10>
-        <span ml-1 text-sm>邮箱</span>
+        <span ml-1 text-sm>用户名</span>
         <el-input
           data-testid="email-input"
           v-model="loginForm.account"

@@ -18,7 +18,7 @@
       <template #default>
         <div class="content" mt-6>
           <div flex>
-            <span class="label">账号：</span> {{ userinfo?.userName }}
+            <span class="label">用户名：</span> {{ userinfo?.userName }}
           </div>
           <div class="btn-container">
             <el-button
