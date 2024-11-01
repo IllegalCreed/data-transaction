@@ -23,3 +23,16 @@ export const getProductOrderDetail = (
     false,
   )
 }
+
+export const getProductOrderContract = (
+  id: string | number,
+): Promise<unknown> => {
+  const params = { id }
+  return request.post(
+    {
+      url: `/getProductOrderContract/${id}`,
+      params,
+    },
+    false,
+  )
+}

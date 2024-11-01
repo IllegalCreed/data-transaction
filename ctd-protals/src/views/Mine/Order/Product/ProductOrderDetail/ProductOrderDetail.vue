@@ -116,24 +116,28 @@ const {
   state: orderDetails,
   isLoading: getProductOrderDetailActionLoading,
   execute: executeGetProductOrderDetailAction,
-} = useAsyncState(() => getProductOrderDetailAction(orderId.value), {
-  id: 0,
-  orderNum: '',
-  name: '',
-  description: '',
-  imageUrl: '',
-  type: ProductType.Dataset,
-  specifications: [],
-  hasCount: false,
-  count: 0,
-  status: ProductOrderStatus.Pending,
-  sellerId: 0,
-  sellerName: '',
-  paymentAmount: 0,
-  purchaseDate: '',
-  expectedDeliveryDate: '',
-  actualDeliveryDate: '',
-})
+} = useAsyncState(
+  () => getProductOrderDetailAction(orderId.value),
+  {
+    id: 0,
+    orderNum: '',
+    name: '',
+    description: '',
+    imageUrl: '',
+    type: ProductType.Dataset,
+    specifications: [],
+    hasCount: false,
+    count: 0,
+    status: ProductOrderStatus.Pending,
+    sellerId: 0,
+    sellerName: '',
+    paymentAmount: 0,
+    purchaseDate: '',
+    expectedDeliveryDate: '',
+    actualDeliveryDate: '',
+  },
+  { shallow: false },
+)
 
 // 枚举数组
 const stepList = Object.values(ProductOrderStatus)
@@ -145,6 +149,13 @@ const steps = stepList.map(status => ({
 
 const currentStep = ref(0)
 const currentStatus = computed(() => stepList[currentStep.value])
+watch(
+  () => currentStatus.value,
+  newValue => {
+    orderDetails.value.status = newValue
+  },
+)
+
 const changeCurrentStep = () => {
   currentStep.value = (currentStep.value + 1) % stepList.length
 }

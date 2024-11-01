@@ -81,6 +81,7 @@ declare global {
   const getProduct: typeof import('./src/apis/product/product')['getProduct']
   const getProductFilterSource: typeof import('./src/apis/product/filter')['getProductFilterSource']
   const getProductImages: typeof import('./src/apis/product/product')['getProductImages']
+  const getProductOrderContract: typeof import('./src/apis/order/product')['getProductOrderContract']
   const getProductOrderDetail: typeof import('./src/apis/order/product')['getProductOrderDetail']
   const getProductOrders: typeof import('./src/apis/order/product')['getProductOrders']
   const getProductReviewInfo: typeof import('./src/apis/product/review')['getProductReviewInfo']

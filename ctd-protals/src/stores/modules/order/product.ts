@@ -6,8 +6,13 @@ import {
 import {
   getProductOrders as getProductOrdersAPI,
   getProductOrderDetail as getProductOrderDetailAPI,
+  getProductOrderContract as getProductOrderContractAPI,
 } from '@/apis/order/product'
-import type { IOrderProduct, IOrderProductDetail } from '@/types/productOrder'
+import type {
+  IContract,
+  IOrderProduct,
+  IOrderProductDetail,
+} from '@/types/productOrder'
 
 export const useOrderProduct = () => {
   const settingsStore = useSettingsStore()
@@ -62,9 +67,36 @@ export const useOrderProduct = () => {
     })
   }
 
+  const getProductOrderContract = (id: string | number): Promise<IContract> => {
+    return new Promise<IContract>((resolve, reject) => {
+      if (settingsStore.mockEnabled) {
+        window.setTimeout(() => {
+          const productDetail = mockOrderProductDetails.find(
+            item => item.id === Number(id),
+          )
+          if (productDetail) {
+            resolve(productDetail?.contract)
+          } else {
+            reject(new Error('Order not found'))
+          }
+        }, 1000)
+      } else {
+        getProductOrderContractAPI(id)
+          .then((res: unknown) => {
+            const productOrderContract = res as IContract
+            resolve(productOrderContract)
+          })
+          .catch((error: unknown) => {
+            reject(error)
+          })
+      }
+    })
+  }
+
   return {
     productOrders,
     getProductOrders,
     getProductOrderDetail,
+    getProductOrderContract,
   }
 }

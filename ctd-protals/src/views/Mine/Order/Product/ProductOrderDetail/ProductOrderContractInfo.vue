@@ -2,39 +2,82 @@
   <div class="product-order-detail-contract-root-container">
     <span text-lg font-bold>合同信息</span>
 
-    <div class="contract-info-container">
-      <div>
-        <span class="label">合同编号：</span>
-        <span class="value">{{ contractDetails.contractId }}</span>
-      </div>
-      <div>
-        <span class="label">签署时间：</span>
-        <span class="value">{{ contractDetails.signingTime }}</span>
-      </div>
-      <div>
-        <span class="label">甲方：</span>
-        <span class="value">{{ contractDetails.partyA }}</span>
-      </div>
-      <div>
-        <span class="label">乙方：</span>
-        <span class="value">{{ contractDetails.partyB }}</span>
-      </div>
-    </div>
+    <el-skeleton
+      :loading="getProductOrderContractActionLoading"
+      animated
+      class="!w-auto"
+    >
+      <template #template>
+        <div flex flex-col>
+          <div grid grid-cols-2 gap-6>
+            <el-skeleton-item
+              v-for="n in 4"
+              :key="n"
+              variant="p"
+            ></el-skeleton-item>
+          </div>
+          <el-skeleton-item
+            variant="rect"
+            class="self-center mt-10 !w-30 !h-8"
+          ></el-skeleton-item>
+        </div>
+      </template>
+      <template #default>
+        <div class="contract-info-container">
+          <div>
+            <span class="label">合同编号：</span>
+            <span class="value">{{ contractDetails.contractNum }}</span>
+          </div>
+          <div>
+            <span class="label">签署时间：</span>
+            <span class="value">{{ contractDetails.signingTime }}</span>
+          </div>
+          <div>
+            <span class="label">甲方：</span>
+            <span class="value">{{ contractDetails.partyA }}</span>
+          </div>
+          <div>
+            <span class="label">乙方：</span>
+            <span class="value">{{ contractDetails.partyB }}</span>
+          </div>
+        </div>
 
-    <el-button self-center class="btn default-btn"> 查看合同详情 </el-button>
+        <el-button self-center class="btn default-btn">
+          查看合同详情
+        </el-button>
+      </template>
+    </el-skeleton>
   </div>
 </template>
 
 <script setup lang="ts">
-defineProps<{
+import { useOrderStore } from '@/stores/modules/order'
+const orderStore = useOrderStore()
+const { getProductOrderContract: getProductOrderContractAction } = orderStore
+
+const { orderId } = defineProps<{
   orderId: number | string
 }>()
 
-const contractDetails = ref({
-  contractId: 'C-20240425-001',
-  signingTime: '2024-04-25 10:30:00',
-  partyA: '消费者名称',
-  partyB: '科技商家有限公司',
+const {
+  state: contractDetails,
+  isLoading: getProductOrderContractActionLoading,
+  execute: executeGetProductOrderContractAction,
+} = useAsyncState(() => getProductOrderContractAction(orderId), {
+  id: 0,
+  contractNum: '',
+  contractUrl: '',
+  signingTime: '',
+  partyA: '',
+  partyB: '',
+})
+
+onMounted(() => {
+  try {
+    executeGetProductOrderContractAction()
+  } catch (error: unknown) {
+    console.error(error)
+  }
 })
 </script>
 
