@@ -93,7 +93,7 @@ import { PayType, TransactionMode } from '@/types/demand'
 const sections = ref<ISection[]>([
   {
     id: 'details',
-    label: '产品详情',
+    label: '需求详情',
     component: markRaw(DetailsSection),
     props: { demandId: demandId },
   },
