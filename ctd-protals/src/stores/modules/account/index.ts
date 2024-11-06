@@ -5,7 +5,14 @@ import { useRegister } from './register'
 import { useForgot } from './forgot'
 
 export const useAccountStore = defineStore('account', () => {
-  const { logout, resetPwd, userinfo, getUserInfo } = useAccount()
+  const {
+    logout,
+    resetPwd,
+    userinfo,
+    getUserInfo,
+    mockInfoType,
+    setMockInfoType,
+  } = useAccount()
   const { login, getCode, getAd, links, getLinks } = useLogin()
   const {
     userType,
@@ -38,6 +45,8 @@ export const useAccountStore = defineStore('account', () => {
       resetPwd,
       userinfo,
       getUserInfo,
+      mockInfoType,
+      setMockInfoType,
       links,
       getLinks,
       getAd,

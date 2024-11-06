@@ -22,7 +22,7 @@ export interface IEnterpriseInfo {
   contactPhoneNumber: string
   enterpriseAddress: string
   industryType: IndustryType
-  companySize?: CompanySize
+  companySize?: CompanySizeType
 }
 
 export type RegistrationInfo =
@@ -99,7 +99,7 @@ export const INDUSTRY_TYPE_MAP: Record<IndustryType, string> = {
   [IndustryType.Other]: '其他',
 }
 
-export enum CompanySize {
+export enum CompanySizeType {
   Micro = 'micro',
   Small = 'small',
   Medium = 'medium',
@@ -108,10 +108,10 @@ export enum CompanySize {
 }
 
 // 企业规模的自然语言映射
-export const CompanySizeLabels: Record<CompanySize, string> = {
-  [CompanySize.Micro]: '微型企业（1-9人）',
-  [CompanySize.Small]: '小型企业（10-49人）',
-  [CompanySize.Medium]: '中型企业（50-249人）',
-  [CompanySize.Large]: '大型企业（250-999人）',
-  [CompanySize.ExtraLarge]: '超大型企业（1000人以上）',
+export const COMPANY_SIZE_TYPE_MAP: Record<CompanySizeType, string> = {
+  [CompanySizeType.Micro]: '微型企业（1-9人）',
+  [CompanySizeType.Small]: '小型企业（10-49人）',
+  [CompanySizeType.Medium]: '中型企业（50-249人）',
+  [CompanySizeType.Large]: '大型企业（250-999人）',
+  [CompanySizeType.ExtraLarge]: '超大型企业（1000人以上）',
 }

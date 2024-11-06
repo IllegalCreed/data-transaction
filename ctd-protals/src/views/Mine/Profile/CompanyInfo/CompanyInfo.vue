@@ -7,36 +7,46 @@
       >
     </div>
 
-    <div class="content">
+    <div
+      class="content"
+      v-if="userinfo && userinfo.userType === UserType.Enterprise"
+    >
       <div flex>
-        <span class="label">企业名称：</span> {{ companyInfo.companyName }}
+        <span class="label">企业名称：</span> {{ userinfo.enterpriseName }}
       </div>
       <div flex>
         <span class="label">统一社会信用代码：</span>
-        {{ companyInfo.companyCode }}
+        {{ userinfo.registrationNumber }}
       </div>
       <div flex>
-        <span class="label">联系人姓名：</span> {{ companyInfo.contactName }}
+        <span class="label">联系人姓名：</span> {{ userinfo.contactPersonName }}
       </div>
       <div flex>
         <span class="label">联系人职位：</span>
-        {{ companyInfo.contactPosition }}
+        {{ userinfo.contactPersonTitle }}
       </div>
       <div flex>
-        <span class="label">联系人电话：</span> {{ companyInfo.contactPhone }}
+        <span class="label">联系人电话：</span>
+        {{ userinfo.contactPhoneNumber }}
       </div>
       <div flex>
-        <span class="label">企业地址：</span> {{ companyInfo.companyAddress }}
+        <span class="label">企业地址：</span> {{ userinfo.enterpriseAddress }}
       </div>
       <div flex>
-        <span class="label">行业类别：</span> {{ companyInfo.industryCategory }}
+        <span class="label">行业类别：</span>
+        {{ INDUSTRY_TYPE_MAP[userinfo.industryType] }}
       </div>
       <div flex>
-        <span class="label">企业规模：</span> {{ companyInfo.companySize }}
+        <span class="label">企业规模：</span>
+        {{
+          userinfo.companySize
+            ? COMPANY_SIZE_TYPE_MAP[userinfo.companySize]
+            : '--'
+        }}
       </div>
       <div flex>
         <span class="label">企业简介：</span>
-        {{ companyInfo.companyDescription }}
+        {{ userinfo.enterpriseDescription }}
       </div>
     </div>
   </div>
@@ -44,19 +54,14 @@
 
 <script setup lang="ts">
 import { ElMessage } from 'element-plus'
-
-const companyInfo = reactive({
-  companyName: '创智科技有限公司',
-  companyDescription:
-    '一家专注于人工智能和大数据分析的高科技企业，致力于为客户提供创新的技术解决方案。',
-  companyCode: 'CN-110108-123456',
-  contactName: '王小明',
-  contactPosition: '市场部经理',
-  contactPhone: '13812345678',
-  companyAddress: '北京市海淀区中关村东路66号',
-  industryCategory: '信息技术',
-  companySize: '200-500人',
-})
+import {
+  UserType,
+  INDUSTRY_TYPE_MAP,
+  COMPANY_SIZE_TYPE_MAP,
+} from '@/types/register'
+import { useAccountStore } from '@/stores/modules/account'
+const accountStore = useAccountStore()
+const { userinfo } = storeToRefs(accountStore)
 
 const openEditCompanyInfo = () => {
   ElMessage.warning('企业用户请前往 企业管理端 进行编辑')

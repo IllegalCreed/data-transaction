@@ -10,26 +10,35 @@
       >
     </div>
 
-    <div class="content">
-      <div flex><span class="label">姓名：</span> {{ personalInfo.name }}</div>
+    <div
+      class="content"
+      v-if="userinfo && userinfo.userType === UserType.Individual"
+    >
+      <div flex><span class="label">姓名：</span> {{ userinfo.fullName }}</div>
       <div flex>
-        <span class="label">身份证号：</span> {{ personalInfo.idCard }}
+        <span class="label">身份证号：</span>
+        {{ userinfo.identificationNumber }}
       </div>
       <div flex>
-        <span class="label">联系电话：</span> {{ personalInfo.phone }}
+        <span class="label">联系电话：</span> {{ userinfo.phoneNumber }}
       </div>
       <div flex>
-        <span class="label">性别：</span> {{ personalInfo.gender }}
+        <span class="label">性别：</span>
+        {{
+          userinfo.gender
+            ? GENDER_TYPE_MAP[userinfo.gender]
+            : GENDER_TYPE_MAP[GenderType.Other]
+        }}
       </div>
       <div flex>
-        <span class="label">出生日期：</span> {{ personalInfo.birthDate }}
+        <span class="label">出生日期：</span> {{ userinfo.dateOfBirth }}
       </div>
       <div flex>
-        <span class="label">住址：</span> {{ personalInfo.address }}
+        <span class="label">住址：</span> {{ userinfo.residentialAddress }}
       </div>
       <div flex flex-row>
         <span class="label">头像：</span>
-        <img :src="personalInfo.avatar" alt="头像" />
+        <img :src="userinfo.avatar" alt="头像" />
       </div>
     </div>
 
@@ -39,18 +48,13 @@
 
 <script setup lang="ts">
 import EditPersonalInfoDialog from './EditPersonalInfoDialog.vue'
+import { UserType } from '@/types/register'
+import { GENDER_TYPE_MAP, GenderType } from '@/types/register'
+import { useAccountStore } from '@/stores/modules/account'
+const accountStore = useAccountStore()
+const { userinfo } = storeToRefs(accountStore)
 
 const editPersonalInfoDialogVisible = ref(false)
-
-const personalInfo = reactive({
-  name: '张三',
-  idCard: '123456789012345678',
-  phone: '13800138000',
-  gender: '男',
-  birthDate: '1990-01-01',
-  address: '北京市朝阳区',
-  avatar: 'https://via.placeholder.com/150',
-})
 </script>
 
 <style scoped lang="scss">

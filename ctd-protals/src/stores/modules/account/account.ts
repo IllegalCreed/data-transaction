@@ -5,8 +5,12 @@ import {
   resetPwd as resetPwdAPI,
   getInfo as getInfoAPI,
 } from '@/apis/account/account'
-import { userInfo as mockUserInfo } from '@/constants/mockData/account/account'
+import {
+  individualUserInfo as mockIndividualUserInfo,
+  enterpriseUserInfo as mockEnterpriseUserInfo,
+} from '@/constants/mockData/account/account'
 import type { UserInfo } from '@/types/account'
+import { UserType } from '@/types/register'
 
 export const useAccount = () => {
   const tokenStore = useTokenStore()
@@ -51,12 +55,22 @@ export const useAccount = () => {
     })
   }
 
+  const mockInfoType = ref<UserType>(UserType.Individual)
+
+  const setMockInfoType = (type: UserType) => {
+    mockInfoType.value = type
+  }
+
   const userinfo = ref<UserInfo>()
   const getUserInfo = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => {
-          userinfo.value = mockUserInfo
+          if (mockInfoType.value === UserType.Individual) {
+            userinfo.value = mockIndividualUserInfo
+          } else {
+            userinfo.value = mockEnterpriseUserInfo
+          }
           resolve()
         }, 1000)
       } else {
@@ -73,5 +87,12 @@ export const useAccount = () => {
     })
   }
 
-  return { logout, resetPwd, userinfo, getUserInfo }
+  return {
+    logout,
+    resetPwd,
+    userinfo,
+    getUserInfo,
+    mockInfoType,
+    setMockInfoType,
+  }
 }

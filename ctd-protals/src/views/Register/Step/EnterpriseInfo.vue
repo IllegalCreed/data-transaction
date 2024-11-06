@@ -116,8 +116,8 @@ import { ref } from 'vue'
 import { useAccountStore } from '@/stores/modules/account'
 import type { FormInstance, FormRules } from 'element-plus'
 import {
-  CompanySize,
-  CompanySizeLabels,
+  CompanySizeType,
+  COMPANY_SIZE_TYPE_MAP,
   IndustryType,
   INDUSTRY_TYPE_MAP,
 } from '@/types/register'
@@ -134,9 +134,9 @@ const industryTypeOptions = Object.values(IndustryType).map(value => ({
 }))
 
 // 生成企业规模的 select 选项
-const companySizeOptions = Object.values(CompanySize).map(value => ({
+const companySizeOptions = Object.values(CompanySizeType).map(value => ({
   value,
-  label: CompanySizeLabels[value],
+  label: COMPANY_SIZE_TYPE_MAP[value],
 }))
 
 // 表单实例引用
