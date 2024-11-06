@@ -106,70 +106,17 @@ export const products: IProduct[] = [
       import.meta.url,
     ).href,
   },
-  // {
-  //   id: 9,
-  //   title: '电信数据基础接口指标',
-  //   tags: ['客流量', '游客来源', '首访区域'],
-  //   description: '假日文旅报告维度——以报告服务和平台开发服务对外销售',
-  //   sellerId: 1,
-  //   sellerName: '-----',
-  //   price: null,
-  //   imageUrl: new URL(
-  //     '@/assets/placeholder/productDefault.png',
-  //     import.meta.url,
-  //   ).href,
-  // },
-  // {
-  //   id: 10,
-  //   title: '景区经济外溢效应分析数据指标--报告+平台',
-  //   tags: ['日度游客规模统计', '客流驻留时长', '月度游客规模趋势'],
-  //   description:
-  //     '大景区-经济外溢效应分析数据指标——以报告/平台对外服务已为北京市提供环球影城分析',
-  //   sellerId: 1,
-  //   sellerName: '-----',
-  //   price: null,
-  //   imageUrl: new URL(
-  //     '@/assets/placeholder/productDefault.png',
-  //     import.meta.url,
-  //   ).href,
-  // },
-  // {
-  //   id: 11,
-  //   title: '北京数据基础制度先行区 数据落地与应用',
-  //   tags: ['客流态势监测', '国内客流数据集', '游客画像数据集'],
-  //   description:
-  //     '依托职住模型对全国联通用户进行统计并结合国家文化和旅游部发布的扩样算法进行全网反推，为旅游目的地提供全域游客情从游客来源、游客数量走势、游客男女和性别画像等方面进行游客特征分析，帮助客户实时监测客流情况',
-  //   seller: '联通数字科技有限公司',
-  //   price: null,
-  //   imageUrl: new URL(
-  //     '@/assets/placeholder/productDefault.png',
-  //     import.meta.url,
-  //   ).href,
-  // },
-  // {
-  //   id: 12,
-  //   title: '北京文化资源数据清单',
-  //   tags: ['三维地图', '主题信息', '地理信息'],
-  //   description: '建设北京地形、元、明、清、现代五套三维数字地图。',
-  //   seller: '中国电信股份有限公司北京分公司',
-  //   price: null,
-  //   imageUrl: new URL(
-  //     '@/assets/placeholder/productDefault.png',
-  //     import.meta.url,
-  //   ).href,
-  // },
 ]
 
 export const productDetails: {
   id: string | number
-  baseInfo: IProductDetail
+  detailInfo: IProductDetail
   imageUrls: string[]
   content: string
 }[] = [
   {
     id: 1,
-    baseInfo: {
-      id: 1,
+    detailInfo: {
       name: '文化产品',
       soldCount: 100,
       tags: ['热门', '推荐'],

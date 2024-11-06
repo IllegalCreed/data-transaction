@@ -5,47 +5,47 @@ export const getDemands = (): Promise<unknown> => {
   return request.post(
     {
       url: '/getDemands',
-      params
+      params,
     },
-    false
+    false,
   )
 }
 
 export const getDemand = (id: string | number): Promise<unknown> => {
   const params = {
-    id
+    id,
   }
   return request.post(
     {
       url: `/getDemand/${id}`,
-      params
+      params,
     },
-    false
-  )
-}
-
-export const getDemandDetail = (id: string | number): Promise<unknown> => {
-  const params = {
-    id
-  }
-  return request.post(
-    {
-      url: `/getDemandDetail/${id}`,
-      params
-    },
-    false
+    false,
   )
 }
 
 export const getRecommendDemands = (id: string | number): Promise<unknown> => {
   const params = {
-    id
+    id,
   }
   return request.post(
     {
       url: `/getRecommendDemands/${id}`,
-      params
+      params,
     },
-    false
+    false,
+  )
+}
+
+export const getDemandContent = (id: string | number): Promise<unknown> => {
+  const params = {
+    id,
+  }
+  return request.post(
+    {
+      url: `/getDemandContent/${id}`,
+      params,
+    },
+    false,
   )
 }

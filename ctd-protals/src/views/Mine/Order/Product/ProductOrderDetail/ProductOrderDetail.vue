@@ -67,7 +67,7 @@
     <div class="btn-container">
       <el-button
         class="btn"
-        v-if="currentStatus === ProductOrderStatus.Pending"
+        v-if="currentStatus === ProductOrderStatus.Contract"
         type="primary"
         size="large"
         >签署合同</el-button
@@ -91,14 +91,14 @@
 </template>
 
 <script setup lang="ts">
+import ProductOrderBaseInfo from './ProductOrderBaseInfo.vue'
+import ProductOrderContractInfo from './ProductOrderContractInfo.vue'
+import ProductOrderReviewInfo from './ProductOrderReviewInfo.vue'
 import {
   PRODUCT_ORDER_STATUS_MAP,
   ProductOrderStatus,
   ProductType,
 } from '@/types/productOrder'
-import ProductOrderBaseInfo from './ProductOrderBaseInfo.vue'
-import ProductOrderContractInfo from './ProductOrderContractInfo.vue'
-import ProductOrderReviewInfo from './ProductOrderReviewInfo.vue'
 
 import { useOrderStore } from '@/stores/modules/order'
 const orderStore = useOrderStore()

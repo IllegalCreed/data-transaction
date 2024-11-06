@@ -134,24 +134,21 @@ const handleClick = () => {
 const isMobileDevice = useMediaQuery('(max-width: 40rem)')
 
 const signContract = () => {
-  // 签署合同逻辑
   console.log('签署合同', order)
 }
 
 const confirmDelivery = () => {
-  // 确认交付逻辑
   console.log('确认交付', order)
 }
 
 const reviewOrder = () => {
-  // 评价订单逻辑
   console.log('评价订单', order)
 }
 </script>
 
 <style scoped lang="scss">
 .product-item-root-container {
-  @apply relative flex flex-col border-solid border border-[var(--color-border)] shadow;
+  @apply flex flex-col border-solid border border-[var(--color-border)];
 
   .header {
     @apply flex flex-row items-center justify-between gap-2 px-4 h-10 bg-[var(--color-order-header-background)];

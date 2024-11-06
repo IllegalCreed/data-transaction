@@ -9,15 +9,24 @@
         <div><strong>商家名称：</strong> {{ company.name }}</div>
         <div>
           <strong>综合评分：</strong>
-          <el-rate :model-value="company.rating" size="small" disabled mb-2></el-rate>
+          <el-rate
+            :model-value="company.rating"
+            size="small"
+            disabled
+            mb-2
+          ></el-rate>
         </div>
 
         <div flex-1></div>
 
         <div flex flex-row flex-wrap items-center gap-2>
-          <el-tag v-for="(tag, index) in company.tags" :key="index" type="info" size="small">{{
-            tag
-          }}</el-tag>
+          <el-tag
+            v-for="(tag, index) in company.tags"
+            :key="index"
+            type="info"
+            size="small"
+            >{{ tag }}</el-tag
+          >
         </div>
       </div>
     </div>
@@ -30,7 +39,7 @@
 import type { ICompany } from '@/types/company'
 
 defineProps<{
-  orderId: number
+  orderId: number | string
 }>()
 
 const company = ref<ICompany>({
@@ -38,7 +47,7 @@ const company = ref<ICompany>({
   name: '数据科技有限公司',
   avatar: 'https://via.placeholder.com/100',
   tags: ['数据分析', '机器学习'],
-  rating: 4.5
+  rating: 4.5,
 })
 </script>
 

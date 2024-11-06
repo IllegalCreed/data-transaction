@@ -391,6 +391,12 @@
     "getProductOrderContract": true,
     "getProductOrderReview": true,
     "getPaymentLogs": true,
-    "getSecurityInfo": true
+    "getSecurityInfo": true,
+    "getDemandOrderContract": true,
+    "getDemandOrderDetail": true,
+    "getDemandOrderReview": true,
+    "getDemandOrders": true,
+    "getProductContent": true,
+    "getDemandContent": true
   }
 }

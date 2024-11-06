@@ -9,7 +9,13 @@ export const useDemandStore = defineStore('demand', () => {
   const { filterSource, getFilterSource, filters } = useFilter()
   const { sortingSource, getSortingSource, sortings } = useSorting()
   const { safes, getSafes } = useSafe()
-  const { demands, getDemands, getDemand, getDemandDetail, getRecommendDemands } = useDemand()
+  const {
+    demands,
+    getDemands,
+    getDemand,
+    getDemandContent,
+    getRecommendDemands,
+  } = useDemand()
   const {
     baseInfo,
     tradingModel,
@@ -17,7 +23,7 @@ export const useDemandStore = defineStore('demand', () => {
     paymentOption,
     customTags,
     checkedPopularTags,
-    selectedTags
+    selectedTags,
   } = useCreate()
   return {
     filterSource,
@@ -31,7 +37,7 @@ export const useDemandStore = defineStore('demand', () => {
     demands,
     getDemands,
     getDemand,
-    getDemandDetail,
+    getDemandContent,
     getRecommendDemands,
     baseInfo,
     tradingModel,
@@ -39,6 +45,6 @@ export const useDemandStore = defineStore('demand', () => {
     paymentOption,
     customTags,
     checkedPopularTags,
-    selectedTags
+    selectedTags,
   }
 })

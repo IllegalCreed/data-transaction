@@ -6,6 +6,7 @@ import {
   getPrice as getPriceAPI,
   getRecommendProducts as getRecommendProductsAPI,
   getProductImages as getProductImagesAPI,
+  getProductContent as getProductContentAPI,
 } from '@/apis/product/product'
 import {
   products as mockProducts,
@@ -45,7 +46,7 @@ export const useProduct = () => {
             item => item.id === Number(id),
           )
           if (productDetail) {
-            resolve(productDetail?.baseInfo)
+            resolve(productDetail?.detailInfo)
           } else {
             reject(new Error('Product not found'))
           }
@@ -149,7 +150,7 @@ export const useProduct = () => {
           }
         }, 1000)
       } else {
-        getProductImagesAPI(id)
+        getProductContentAPI(id)
           .then((res: unknown) => {
             const content = res as string
             resolve(content)

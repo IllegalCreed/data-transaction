@@ -1,11 +1,11 @@
 // 产品订单状态
 export enum ProductOrderStatus {
-  Pending = 'Pending',
-  Contract = 'Contract',
-  ToDeliver = 'ToDeliver',
-  ToCheck = 'ToCheck',
-  ToReview = 'ToReview',
-  Completed = 'Completed',
+  Pending = 'pending',
+  Contract = 'contract',
+  ToDeliver = 'toDeliver',
+  ToCheck = 'toCheck',
+  ToReview = 'toReview',
+  Completed = 'completed',
 }
 
 export const PRODUCT_ORDER_STATUS_MAP: Record<ProductOrderStatus, string> = {
@@ -19,8 +19,8 @@ export const PRODUCT_ORDER_STATUS_MAP: Record<ProductOrderStatus, string> = {
 
 // 产品类型
 export enum ProductType {
-  Dataset = 'Dataset',
-  API = 'API',
+  Dataset = 'dataset',
+  API = 'api',
 }
 
 export const PRODUCT_TYPE_MAP: Record<ProductType, string> = {

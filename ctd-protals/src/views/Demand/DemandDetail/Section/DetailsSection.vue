@@ -1,12 +1,26 @@
 <template>
   <div flex flex-col>
-    <el-skeleton :loading="getDemandDetailActionLoading" animated flex flex-col gap-4>
+    <el-skeleton
+      :loading="getDemandContentActionLoading"
+      animated
+      flex
+      flex-col
+      gap-4
+    >
       <template #template>
-        <el-skeleton-item v-for="n in 20" :key="n" variant="p"></el-skeleton-item>
+        <el-skeleton-item
+          v-for="n in 20"
+          :key="n"
+          variant="p"
+        ></el-skeleton-item>
       </template>
 
       <template #default>
-        <div class="demand-detail-content" v-html="sanitizedContent" overflow-hidden></div>
+        <div
+          class="demand-detail-content"
+          v-html="sanitizedContent"
+          overflow-hidden
+        ></div>
 
         <div mt-10>
           <h3>附件列表</h3>
@@ -37,15 +51,15 @@ const { demandId } = defineProps<{
 
 import { useDemandStore } from '@/stores/modules/demand'
 const demandStore = useDemandStore()
-const { getDemandDetail: getDemandDetailAction } = demandStore
+const { getDemandContent: getDemandContentAction } = demandStore
 
 const {
   state: detail,
-  isLoading: getDemandDetailActionLoading,
-  execute: executeGetDemandDetailAction
-} = useAsyncState(() => getDemandDetailAction(demandId), {
+  isLoading: getDemandContentActionLoading,
+  execute: executeGetDemandContentAction,
+} = useAsyncState(() => getDemandContentAction(demandId), {
   content: '',
-  attachments: []
+  attachments: [],
 })
 
 const sanitizedContent = computed(() => {
@@ -54,7 +68,7 @@ const sanitizedContent = computed(() => {
 
 onMounted(() => {
   try {
-    executeGetDemandDetailAction()
+    executeGetDemandContentAction()
   } catch (error: unknown) {
     console.error(error)
   }

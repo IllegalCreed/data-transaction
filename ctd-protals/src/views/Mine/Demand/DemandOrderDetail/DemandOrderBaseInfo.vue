@@ -1,114 +1,125 @@
 <template>
   <div class="demand-order-detail-baseinfo-root-container">
-    <div class="header-container">
-      <div flex-1 flex flex-col gap-2>
-        <span text-2xl font-bold>{{ orderDetails.title }}</span>
+    <el-skeleton :loading="loading" animated>
+      <template #template>
+        <div flex flex-col gap-4>
+          <el-skeleton-item variant="rect" class="!h-40"></el-skeleton-item>
+          <el-skeleton-item
+            v-for="n in 5"
+            :key="n"
+            variant="p"
+          ></el-skeleton-item>
+        </div>
+      </template>
+      <template #default>
+        <div class="header-container">
+          <div flex-1 flex flex-col gap-2>
+            <span text-2xl font-bold>{{ orderDetails.title }}</span>
 
-        <div flex flex-row gap-2>
-          <el-tag :type="ActiveStatusTagType" disable-transitions>
-            {{ mappedActiveStatus }}
-          </el-tag>
-          <el-tag :type="statusTagType" disable-transitions>
-            {{ mappedStatus }}
-          </el-tag>
+            <div flex flex-row gap-2>
+              <el-tag disable-transitions>
+                {{ mappedActiveStatus }}
+              </el-tag>
+              <el-tag disable-transitions>
+                {{ mappedStatus }}
+              </el-tag>
+            </div>
+
+            <span text-sm text-gray-500>{{ orderDetails.description }}</span>
+
+            <div flex-1></div>
+
+            <div flex flex-col gap-1>
+              <div flex flex-row items-center text-slate-500 text-sm>
+                <strong>创建时间：</strong>
+                <span>{{ orderDetails.createTime }}</span>
+              </div>
+              <div
+                v-if="showExpectedDeliveryTime"
+                flex
+                flex-row
+                items-center
+                text-slate-500
+                text-sm
+              >
+                <strong>预计交付时间：</strong>
+                <span>{{ orderDetails.expectedDeliveryDate }}</span>
+              </div>
+              <div
+                v-if="showActualDeliveryTime"
+                flex
+                flex-row
+                items-center
+                text-slate-500
+                text-sm
+              >
+                <strong>实际交付时间：</strong>
+                <span>{{ orderDetails.actualDeliveryDate }}</span>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <span text-sm text-gray-500>{{ orderDetails.shotDesc }}</span>
-
-        <div flex-1></div>
-
-        <div flex flex-col gap-1>
-          <div flex flex-row items-center text-slate-500 text-sm>
-            <strong>创建时间：</strong>
-            <span>{{ orderDetails.createTime }}</span>
+        <div class="base-info-container">
+          <div>
+            <strong>交易类型：</strong> {{ orderDetails.transactionType.mode }}
           </div>
-          <div v-if="showExpectedDeliveryTime" flex flex-row items-center text-slate-500 text-sm>
-            <strong>预计交付时间：</strong>
-            <span>{{ orderDetails.expectedDeliveryDate }}</span>
+          <div>
+            <strong>付款方式：</strong>
+            {{
+              orderDetails.transactionType.mode === TransactionMode.Tender
+                ? orderDetails.transactionType.payType
+                : ''
+            }}
           </div>
-          <div v-if="showActualDeliveryTime" flex flex-row items-center text-slate-500 text-sm>
-            <strong>实际交付时间：</strong>
-            <span>{{ orderDetails.actualDeliveryDate }}</span>
-          </div>
+          <div><strong>预算：</strong> {{ orderDetails.budget }}</div>
         </div>
-      </div>
-    </div>
 
-    <div class="base-info-container">
-      <div><strong>交易类型：</strong> {{ orderDetails.transactionType.mode }}</div>
-      <div>
-        <strong>付款方式：</strong>
-        {{
-          orderDetails.transactionType.mode === TransactionMode.Tender
-            ? orderDetails.transactionType.payType
-            : ''
-        }}
-      </div>
-      <div><strong>预算：</strong> {{ orderDetails.budget }}</div>
-    </div>
-
-    <div class="btn-container">
-      <el-button class="btn" type="primary" v-if="status < 2">编辑</el-button>
-      <el-button class="btn" type="primary" v-if="status < 2">{{
-        orderDetails.activeStatus === DemandActiveStatus.Enabled ? '停用' : '启用'
-      }}</el-button>
-      <el-button class="btn" type="primary" v-if="status < 3">删除</el-button>
-    </div>
+        <div
+          class="btn-container"
+          v-if="
+            orderDetails.status === DemandOrderStatus.Pending ||
+            orderDetails.status === DemandOrderStatus.Bidding
+          "
+        >
+          <el-button class="btn" type="primary">编辑</el-button>
+          <el-button class="btn" type="primary">{{
+            orderDetails.activeStatus === ActiveStatus.Enabled ? '停用' : '启用'
+          }}</el-button>
+          <el-button class="btn" type="primary">删除</el-button>
+        </div>
+      </template>
+    </el-skeleton>
   </div>
 </template>
 
 <script setup lang="ts">
-import {
-  DemandActiveStatus,
-  PayType,
-  TransactionMode,
-  type DemandOrderStatus,
-  type IOrderDemandDetails
-} from '@/types/demand'
+import { TransactionMode } from '@/types/demand'
+import { DEMAND_ORDER_STATUS_MAP } from '@/types/demandOrder'
+import { DemandOrderStatus, type IOrderDemandDetail } from '@/types/demandOrder'
+import { ACTIVE_STATUS_MAP, ActiveStatus } from '@/types/common'
 
-const { orderId, status } = defineProps<{
-  orderId: number
-  status: DemandOrderStatus
+const { orderDetails } = defineProps<{
+  orderDetails: IOrderDemandDetail
+  loading: boolean
 }>()
 
-const orderDetails = ref<IOrderDemandDetails>({
-  id: orderId,
-  title: '高级数据分析平台',
-  shotDesc: '一个功能全面的数据分析平台，适用于大规模数据处理。',
-  status: status,
-  transactionType: { mode: TransactionMode.Tender, payType: PayType.ByFixedPrice },
-  activeStatus: DemandActiveStatus.Enabled,
-  budget: 999.99,
-  createTime: '2024-03-15 09:00:00',
-  expectedDeliveryDate: '2024-03-25 17:00:00',
-  actualDeliveryDate: '2024-03-24 16:30:00'
-})
-
-watchEffect(() => {
-  orderDetails.value.status = status
-})
-
-const showExpectedDeliveryTime = computed(() => orderDetails.value.status === 2) // 待交付
-const showActualDeliveryTime = computed(
-  () => [3, 4, 5].includes(orderDetails.value.status) // 待验查、待评价、已评价
+const showExpectedDeliveryTime = computed(
+  () => orderDetails.status === DemandOrderStatus.ToDeliver,
+)
+const showActualDeliveryTime = computed(() =>
+  [
+    DemandOrderStatus.ToCheck,
+    DemandOrderStatus.ToReview,
+    DemandOrderStatus.Completed,
+  ].includes(orderDetails.status),
 )
 
-import {
-  DEMAND_ORDER_STATUS_MAP,
-  DEMAND_ORDER_STATUS_TAG_TYPE,
-  DEMAND_ACTIVE_STATUS_MAP,
-  DEMAND_ACTIVE_STATUS_TAG_TYPE
-} from '@/constants/demandOrder'
-
-const mappedStatus = computed(() => DEMAND_ORDER_STATUS_MAP[orderDetails.value.status] || '待审核')
-const statusTagType = computed(
-  () => DEMAND_ORDER_STATUS_TAG_TYPE[orderDetails.value.status] || 'info'
+const mappedStatus = computed(
+  () => DEMAND_ORDER_STATUS_MAP[orderDetails.status] || '待审核',
 )
 const mappedActiveStatus = computed(
-  () => DEMAND_ACTIVE_STATUS_MAP[orderDetails.value.activeStatus] || '数据集'
-)
-const ActiveStatusTagType = computed(
-  () => DEMAND_ACTIVE_STATUS_TAG_TYPE[orderDetails.value.activeStatus] || 'success'
+  () => ACTIVE_STATUS_MAP[orderDetails.activeStatus] || '启动',
 )
 </script>
 

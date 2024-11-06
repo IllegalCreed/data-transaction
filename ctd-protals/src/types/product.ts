@@ -10,7 +10,6 @@ export interface IProductSpecGroup extends IProductSpec {
 }
 
 export interface IProductBase {
-  id: string | number
   name: string
   description: string
   sellerId: string | number
@@ -21,6 +20,7 @@ export interface IProductBase {
 
 // 产品列表项
 export interface IProduct extends IProductBase {
+  id: string | number
   showPrice: number | null
 }
 

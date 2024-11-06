@@ -5,7 +5,11 @@
     <div class="review-info-container">
       <div>
         <strong>评分：</strong>
-        <el-rate :model-value="reviewDetails.rating" size="small" disabled></el-rate>
+        <el-rate
+          :model-value="reviewDetails.rating"
+          size="small"
+          disabled
+        ></el-rate>
       </div>
       <div><strong>评价时间：</strong> {{ reviewDetails.createTime }}</div>
     </div>
@@ -20,14 +24,14 @@
 
 <script setup lang="ts">
 defineProps<{
-  orderId: number
+  orderId: number | string
 }>()
 
 const reviewDetails = ref({
   rating: 5,
   createTime: '2024-04-25 10:30:00',
   content: '消费者名称',
-  reply: '商家回复信息'
+  reply: '商家回复信息',
 })
 </script>
 

@@ -15,14 +15,14 @@
 
 <script setup lang="ts">
 defineProps<{
-  orderId: number
+  orderId: number | string
 }>()
 
 const contractDetails = ref({
   contractId: 'C-20240425-001',
   signingTime: '2024-04-25 10:30:00',
   partyA: '消费者名称',
-  partyB: '科技商家有限公司'
+  partyB: '科技商家有限公司',
 })
 </script>
 

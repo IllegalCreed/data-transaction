@@ -1,6 +1,8 @@
 <template>
   <div v-show="isFooterVisible" class="demand-detail-footer-root-container">
-    <el-button flex-1 type="default" size="large" @click="addToFav">收藏需求</el-button>
+    <el-button flex-1 type="default" size="large" @click="addToFav"
+      >收藏需求</el-button
+    >
     <el-button
       flex-1
       type="primary"
@@ -11,16 +13,20 @@
     >
   </div>
 
-  <order-dialog v-model="isOrderDialogVisiable" :demandId="demandId" :baseInfo="baseInfo" />
+  <order-dialog
+    v-model="isOrderDialogVisiable"
+    :demandId="demandId"
+    :baseInfo="baseInfo"
+  />
 </template>
 
 <script setup lang="ts">
-import type { IDemandBaseInfo } from '@/types/demand'
+import type { IDemandDetail } from '@/types/demand'
 import OrderDialog from './OrderDialog.vue'
 
 defineProps<{
   demandId: string
-  baseInfo: IDemandBaseInfo
+  baseInfo: IDemandDetail
   loading: boolean
 }>()
 
@@ -35,11 +41,11 @@ onMounted(() => {
   if (footerElement) {
     const options = {
       root: null,
-      threshold: 0
+      threshold: 0,
     }
 
-    observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
+    observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
         if (entry.isIntersecting) {
           isFooterVisible.value = false
         } else {
