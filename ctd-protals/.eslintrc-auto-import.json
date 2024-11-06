@@ -389,6 +389,7 @@
     "getProductOrders": true,
     "getProductOrderDetail": true,
     "getProductOrderContract": true,
-    "getProductOrderReview": true
+    "getProductOrderReview": true,
+    "getPaymentLogs": true
   }
 }

@@ -1,51 +1,119 @@
 <template>
   <div class="payment-item-root-container">
-    <el-tag self-start :type="typeMap[paymentLog.type]?.tagType">{{
-      typeMap[paymentLog.type]?.label
-    }}</el-tag>
-
-    <div class="item-content">
-      <strong>#{{ paymentLog.orderNumber }}</strong>
-      <strong text-red-500 text-lg>￥{{ paymentLog.amount }}</strong>
+    <div
+      class="icon"
+      :style="{
+        color: paymentTypeColor,
+        borderColor: paymentTypeColor,
+        backgroundColor: paymentTypeBgColor,
+      }"
+    >
+      {{ paymentTypeText }}
     </div>
 
-    <div class="item-content" mt-2>
-      <span text-gray-500 text-sm
-        ><strong text-gray-800>描述：</strong>{{ paymentLog.remark }}</span
-      >
-      <span text-sm text-gray-400>{{ paymentLog.createTime }}</span>
+    <div class="main-container">
+      <div class="left-container">
+        <span class="order-num">#{{ paymentLog.orderNumber }}</span>
+        <span class="desc left-desc">{{ paymentLog.remark }}</span>
+        <span class="time">{{ paymentLog.createTime }}</span>
+      </div>
+
+      <div class="right-container">
+        <strong class="price">￥{{ paymentLog.amount }}</strong>
+        <span class="desc right-desc">{{ paymentLog.remark }}</span>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { IPaymentLog } from '@/types/payment'
+import {
+  PAYMENT_TYPE_COLOR_MAP,
+  PAYMENT_TYPE_MAP,
+  type IPaymentLog,
+} from '@/types/payment'
 
-defineProps<{
+const { paymentLog } = defineProps<{
   paymentLog: IPaymentLog
 }>()
 
-// 定义类型映射
-const typeMap: Record<
-  number,
-  { label: string; tagType: 'primary' | 'success' | 'info' | 'warning' | 'danger' }
-> = {
-  1: { label: '充值', tagType: 'success' },
-  2: { label: '冻结', tagType: 'warning' },
-  3: { label: '支付', tagType: 'info' },
-  4: { label: '退款', tagType: 'danger' }
-}
+const paymentTypeText = computed(() => PAYMENT_TYPE_MAP[paymentLog.type])
+const paymentTypeColor = computed(() => PAYMENT_TYPE_COLOR_MAP[paymentLog.type])
+
+const paymentTypeBgColor = computed(() => {
+  return `${paymentTypeColor.value}22`
+})
 </script>
 
 <style lang="scss" scoped>
 .payment-item-root-container {
-  @apply flex flex-col gap-2 p-4 border border-solid border-gray-200 rounded bg-gray-50;
+  @apply flex flex-row items-center gap-4 p-4 border border-solid border-[var(--color-border)];
 
-  .item-content {
-    @apply flex flex-row items-center justify-between gap-2;
+  .icon {
+    @apply text-sm flex-shrink-0 rounded-full w-12 h-12 flex items-center justify-center border border-solid border-[var(--color-border)];
+  }
 
-    @media (max-width: 40rem) {
-      @apply flex-col items-start;
+  .main-container {
+    @apply flex-1 flex flex-row items-center justify-between gap-2;
+
+    .left-container {
+      @apply flex flex-col items-start justify-between gap-4;
+
+      .order-num {
+        @apply break-all;
+
+        @media (max-width: 40rem) {
+          @apply text-sm;
+        }
+      }
+
+      .time {
+        @apply text-xs text-[var(--color-text-lighter)];
+      }
+
+      .left-desc {
+        @apply hidden;
+
+        @media (max-width: 40rem) {
+          @apply block;
+        }
+      }
+
+      @media (max-width: 40rem) {
+        @apply items-start justify-start gap-2;
+      }
+    }
+
+    .right-container {
+      @apply flex flex-col items-end justify-between gap-4;
+
+      .price {
+        @apply text-lg text-[--color-price] font-bold;
+      }
+
+      .right-desc {
+        @apply block;
+
+        @media (max-width: 40rem) {
+          @apply hidden;
+        }
+      }
+    }
+
+    .desc {
+      @apply text-sm text-[var(--color-text-light)];
+
+      @media (max-width: 40rem) {
+        @apply text-xs;
+      }
+    }
+  }
+
+  @media (max-width: 40rem) {
+    @apply items-start border-none p-0 pb-4 gap-2 border-b border-b-solid border-b-[var(--color-border)];
+
+    .icon {
+      @apply w-10 h-10 text-xs;
     }
   }
 }

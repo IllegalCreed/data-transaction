@@ -76,6 +76,7 @@ declare global {
   const getNews: typeof import('./src/apis/news/index')['getNews']
   const getNewsList: typeof import('./src/apis/news/index')['getNewsList']
   const getPartner: typeof import('./src/apis/home/partner')['getPartner']
+  const getPaymentLogs: typeof import('./src/apis/payment/payment')['getPaymentLogs']
   const getPrice: typeof import('./src/apis/product/product')['getPrice']
   const getPrimaryCases: typeof import('./src/apis/scene/primary')['getPrimaryCases']
   const getProduct: typeof import('./src/apis/product/product')['getProduct']
