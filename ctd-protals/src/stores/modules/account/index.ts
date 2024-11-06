@@ -3,6 +3,7 @@ import { useAccount } from './account'
 import { useLogin } from './login'
 import { useRegister } from './register'
 import { useForgot } from './forgot'
+import { useSecurity } from './security'
 
 export const useAccountStore = defineStore('account', () => {
   const {
@@ -36,6 +37,7 @@ export const useAccountStore = defineStore('account', () => {
     resetPassword: forgotResetPassword,
     getAds: getForgotAds,
   } = useForgot()
+  const { securityInfo, getSecurityInfo } = useSecurity()
 
   return {
     ...{
@@ -72,6 +74,10 @@ export const useAccountStore = defineStore('account', () => {
       forgotVerifyCode,
       forgotResetPassword,
       getForgotAds,
+    },
+    ...{
+      securityInfo,
+      getSecurityInfo,
     },
   }
 })

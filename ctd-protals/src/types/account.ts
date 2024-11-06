@@ -9,3 +9,9 @@ export interface IUserBaseInfo {
 export type UserInfo =
   | (IUserBaseInfo & IIndividualUserInfo & { userType: UserType.Individual })
   | (IUserBaseInfo & IEnterpriseInfo & { userType: UserType.Enterprise })
+
+export interface ISecurityInfo {
+  lastLoginDate: string
+  lastLoginDevice: string
+  lastLoginLocation: string
+}

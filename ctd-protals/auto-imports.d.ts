@@ -97,6 +97,7 @@ declare global {
   const getRegisterAdsAPI: typeof import('./src/apis/account/register')['getRegisterAdsAPI']
   const getScene: typeof import('./src/apis/scene/case')['getScene']
   const getSearchResults: typeof import('./src/apis/master/search')['getSearchResults']
+  const getSecurityInfo: typeof import('./src/apis/account/account')['getSecurityInfo']
   const getSeller: typeof import('./src/apis/product/seller')['getSeller']
   const getTeams: typeof import('./src/apis/consult/team')['getTeams']
   const getTopPartner: typeof import('./src/apis/home/partner')['getTopPartner']

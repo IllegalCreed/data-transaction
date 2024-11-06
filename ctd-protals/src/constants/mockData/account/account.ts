@@ -1,4 +1,4 @@
-import type { UserInfo } from '@/types/account'
+import type { ISecurityInfo, UserInfo } from '@/types/account'
 import {
   CompanySizeType,
   GenderType,
@@ -33,4 +33,10 @@ export const enterpriseUserInfo: UserInfo = {
   companySize: CompanySizeType.Medium,
   enterpriseAddress: '北京',
   enterpriseDescription: '这是一个测试企业',
+}
+
+export const securityInfo: ISecurityInfo = {
+  lastLoginDate: '2024-09-18',
+  lastLoginDevice: 'iPhone 12',
+  lastLoginLocation: '北京, 中国',
 }

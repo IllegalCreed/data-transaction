@@ -1,20 +1,56 @@
 <template>
   <div class="security-info-root-container" gap-4>
     <span class="title">安全信息</span>
-    <div mt-4 flex>
-      <span class="label">最后登录日期：</span> {{ lastLoginDate }}
-    </div>
-    <div flex><span class="label">登录设备：</span> {{ lastLoginDevice }}</div>
-    <div flex>
-      <span class="label">登录位置：</span> {{ lastLoginLocation }}
-    </div>
+    <el-skeleton :loading="getSecurityInfoActionLoading" animated>
+      <template #template>
+        <div flex flex-col gap-4 mt-4>
+          <el-skeleton-item
+            v-for="n in 3"
+            :key="n"
+            variant="p"
+            class="!w-50"
+          ></el-skeleton-item>
+        </div>
+      </template>
+      <template #default>
+        <div mt-4 flex>
+          <span class="label">最后登录日期：</span>
+          {{ securityInfo.lastLoginDate }}
+        </div>
+        <div flex>
+          <span class="label">登录设备：</span>
+          {{ securityInfo.lastLoginDevice }}
+        </div>
+        <div flex>
+          <span class="label">登录位置：</span>
+          {{ securityInfo.lastLoginLocation }}
+        </div>
+      </template>
+    </el-skeleton>
   </div>
 </template>
 
 <script setup lang="ts">
-const lastLoginDate = ref('2024-09-18')
-const lastLoginDevice = ref('iPhone 12')
-const lastLoginLocation = ref('北京, 中国')
+import { useAccountStore } from '@/stores/modules/account'
+const accountStore = useAccountStore()
+const { securityInfo } = storeToRefs(accountStore)
+const { getSecurityInfo: getSecurityInfoAction } = accountStore
+
+const {
+  isLoading: getSecurityInfoActionLoading,
+  execute: executeGetSecurityInfoAction,
+} = useAsyncState(getSecurityInfoAction, undefined, {
+  immediate: false,
+  throwError: true,
+})
+
+onMounted(() => {
+  try {
+    executeGetSecurityInfoAction()
+  } catch (error: unknown) {
+    console.error(error)
+  }
+})
 </script>
 
 <style scoped lang="scss">

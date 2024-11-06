@@ -21,3 +21,14 @@ export const resetPwd = (oldPwd: string, newPwd: string): Promise<unknown> => {
 export const getInfo = (): Promise<unknown> => {
   return request.get({ url: '/getInfoAPI' })
 }
+
+export const getSecurityInfo = (): Promise<unknown> => {
+  const params = {}
+  return request.get(
+    {
+      url: '/user/getSecurityInfo',
+      params,
+    },
+    true,
+  )
+}

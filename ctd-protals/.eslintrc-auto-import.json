@@ -390,6 +390,7 @@
     "getProductOrderDetail": true,
     "getProductOrderContract": true,
     "getProductOrderReview": true,
-    "getPaymentLogs": true
+    "getPaymentLogs": true,
+    "getSecurityInfo": true
   }
 }
