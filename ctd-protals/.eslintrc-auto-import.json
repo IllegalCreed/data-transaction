@@ -398,6 +398,8 @@
     "getDemandOrders": true,
     "getProductContent": true,
     "getDemandContent": true,
-    "getFileIcon": true
+    "getFileIcon": true,
+    "getDemandOrderRecommendCompanies": true,
+    "getDemandOrderTenderCompanies": true
   }
 }

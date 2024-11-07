@@ -45,3 +45,29 @@ export const getDemandOrderReview = (id: string | number): Promise<unknown> => {
     false,
   )
 }
+
+export const getDemandOrderTenderCompanies = (
+  id: string | number,
+): Promise<unknown> => {
+  const params = { id }
+  return request.post(
+    {
+      url: `/getDemandOrderTenderCompanies/${id}`,
+      params,
+    },
+    false,
+  )
+}
+
+export const getDemandOrderRecommendCompanies = (
+  id: string | number,
+): Promise<unknown> => {
+  const params = { id }
+  return request.post(
+    {
+      url: `/getDemandOrderRecommendCompanies/${id}`,
+      params,
+    },
+    false,
+  )
+}

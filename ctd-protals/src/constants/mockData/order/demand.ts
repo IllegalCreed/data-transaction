@@ -1,4 +1,5 @@
 import { ActiveStatus } from '@/types/common'
+import type { ICompany } from '@/types/company'
 import { PayType, TransactionMode } from '@/types/demand'
 import {
   DemandOrderStatus,
@@ -122,6 +123,8 @@ export const orderDemands: IOrderDemand[] = [
 export const orderDemandDetails: {
   id: string | number
   detailInfo: IOrderDemandDetail
+  tenderCompanies: ICompany[]
+  recommendCompanies: ICompany[]
   contract: IContract
   review: IReview
 }[] = [
@@ -144,6 +147,52 @@ export const orderDemandDetails: {
       status: DemandOrderStatus.Pending,
       activeStatus: ActiveStatus.Enabled,
     },
+    tenderCompanies: [
+      {
+        id: '1',
+        name: '数据科技有限公司',
+        avatar: 'https://via.placeholder.com/100',
+        tags: ['数据分析', '机器学习'],
+        rating: 4.5,
+      },
+      {
+        id: '2',
+        name: '视觉设计公司',
+        avatar: 'https://via.placeholder.com/100',
+        tags: ['UI设计', '用户体验'],
+        rating: 4.8,
+      },
+      {
+        id: '3',
+        name: '云计算服务商',
+        avatar: 'https://via.placeholder.com/100',
+        tags: ['云服务', '大数据'],
+        rating: 4.2,
+      },
+    ],
+    recommendCompanies: [
+      {
+        id: '4',
+        name: '市场研究机构',
+        avatar: 'https://via.placeholder.com/100',
+        tags: ['市场分析', '数据挖掘'],
+        rating: 4.7,
+      },
+      {
+        id: '5',
+        name: '品牌营销公司',
+        avatar: 'https://via.placeholder.com/100',
+        tags: ['品牌战略', '广告'],
+        rating: 4.6,
+      },
+      {
+        id: '6',
+        name: '移动开发团队',
+        avatar: 'https://via.placeholder.com/100',
+        tags: ['移动应用', '产品开发'],
+        rating: 4.3,
+      },
+    ],
     contract: {
       id: 1,
       contractNum: 'C-20240425-001',

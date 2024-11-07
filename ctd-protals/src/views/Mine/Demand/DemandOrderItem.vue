@@ -136,7 +136,7 @@ const mappedTransactionMode = computed(
 const router = useRouter()
 const viewDetails = () => {
   router.push({
-    name: 'order-demands-detail',
+    name: 'my-demands-detail',
     params: {
       id: order.id,
     },

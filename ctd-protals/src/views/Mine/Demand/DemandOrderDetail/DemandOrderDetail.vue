@@ -186,7 +186,7 @@ const isMobileDevice = useMediaQuery('(max-width: 40rem)')
 
 const router = useRouter()
 const back = () => {
-  router.push({ name: 'order-products' })
+  router.push({ name: 'my-demands' })
 }
 
 onMounted(() => {

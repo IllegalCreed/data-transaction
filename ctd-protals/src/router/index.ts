@@ -220,11 +220,14 @@ const router = createRouter({
             },
             {
               path: '/mine/demands/:id',
-              name: 'order-demands-detail',
+              name: 'my-demands-detail',
               component: () =>
                 import(
                   '@/views/Mine/Demand/DemandOrderDetail/DemandOrderDetail.vue'
                 ),
+              meta: {
+                belong: '/mine/demands',
+              },
             },
             {
               path: '/mine/favorites',

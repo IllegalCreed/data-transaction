@@ -6,12 +6,15 @@ import {
 import {
   getDemandOrders as getDemandOrdersAPI,
   getDemandOrderDetail as getDemandOrderDetailAPI,
+  getDemandOrderTenderCompanies as getDemandOrderTenderCompaniesAPI,
+  getDemandOrderRecommendCompanies as getDemandOrderRecommendCompaniesAPI,
   getDemandOrderContract as getDemandOrderContractAPI,
   getDemandOrderReview as getDemandOrderReviewAPI,
 } from '@/apis/order/demand'
 import type { IOrderDemand, IOrderDemandDetail } from '@/types/demandOrder'
 import type { IReview } from '@/types/review'
 import type { IContract } from '@/types/productOrder'
+import type { ICompany } from '@/types/company'
 
 export const useOrderDemand = () => {
   const settingsStore = useSettingsStore()
@@ -58,6 +61,62 @@ export const useOrderDemand = () => {
           .then((res: unknown) => {
             const demandOrderDetail = res as IOrderDemandDetail
             resolve(demandOrderDetail)
+          })
+          .catch((error: unknown) => {
+            reject(error)
+          })
+      }
+    })
+  }
+
+  const getDemandOrderTenderCompanies = (
+    id: string | number,
+  ): Promise<ICompany[]> => {
+    return new Promise<ICompany[]>((resolve, reject) => {
+      if (settingsStore.mockEnabled) {
+        window.setTimeout(() => {
+          const demandDetail = mockOrderDemandDetails.find(
+            item => item.id === Number(id),
+          )
+          if (demandDetail) {
+            resolve(demandDetail?.tenderCompanies)
+          } else {
+            reject(new Error('Order not found'))
+          }
+        }, 1000)
+      } else {
+        getDemandOrderTenderCompaniesAPI(id)
+          .then((res: unknown) => {
+            const demandOrderTenderCompanies = res as ICompany[]
+            resolve(demandOrderTenderCompanies)
+          })
+          .catch((error: unknown) => {
+            reject(error)
+          })
+      }
+    })
+  }
+
+  const getDemandOrderRecommendCompanies = (
+    id: string | number,
+  ): Promise<ICompany[]> => {
+    return new Promise<ICompany[]>((resolve, reject) => {
+      if (settingsStore.mockEnabled) {
+        window.setTimeout(() => {
+          const demandDetail = mockOrderDemandDetails.find(
+            item => item.id === Number(id),
+          )
+          if (demandDetail) {
+            resolve(demandDetail?.recommendCompanies)
+          } else {
+            reject(new Error('Order not found'))
+          }
+        }, 1000)
+      } else {
+        getDemandOrderRecommendCompaniesAPI(id)
+          .then((res: unknown) => {
+            const demandOrderRecommendCompanies = res as ICompany[]
+            resolve(demandOrderRecommendCompanies)
           })
           .catch((error: unknown) => {
             reject(error)
@@ -122,6 +181,8 @@ export const useOrderDemand = () => {
     demandOrders,
     getDemandOrders,
     getDemandOrderDetail,
+    getDemandOrderTenderCompanies,
+    getDemandOrderRecommendCompanies,
     getDemandOrderContract,
     getDemandOrderReview,
   }

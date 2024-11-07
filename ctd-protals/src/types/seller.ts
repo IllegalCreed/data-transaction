@@ -1,6 +1,6 @@
 export interface ISeller {
   id: string | number
-  title: string
+  name: string
   avatar: string
   tags: string[]
   content: string
