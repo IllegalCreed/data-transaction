@@ -17,6 +17,7 @@ export const useOrderStore = defineStore('order', () => {
     getDemandOrderDetail,
     getDemandOrderTenderCompanies,
     getDemandOrderRecommendCompanies,
+    getDemandOrderCurrentCompany,
     getDemandOrderContract,
     getDemandOrderReview,
   } = useOrderDemand()
@@ -32,6 +33,7 @@ export const useOrderStore = defineStore('order', () => {
     getDemandOrderDetail,
     getDemandOrderTenderCompanies,
     getDemandOrderRecommendCompanies,
+    getDemandOrderCurrentCompany,
     getDemandOrderContract,
     getDemandOrderReview,
   }

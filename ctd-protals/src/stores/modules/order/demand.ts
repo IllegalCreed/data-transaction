@@ -8,6 +8,7 @@ import {
   getDemandOrderDetail as getDemandOrderDetailAPI,
   getDemandOrderTenderCompanies as getDemandOrderTenderCompaniesAPI,
   getDemandOrderRecommendCompanies as getDemandOrderRecommendCompaniesAPI,
+  getDemandOrderCurrentCompany as getDemandOrderCurrentCompanyAPI,
   getDemandOrderContract as getDemandOrderContractAPI,
   getDemandOrderReview as getDemandOrderReviewAPI,
 } from '@/apis/order/demand'
@@ -125,6 +126,34 @@ export const useOrderDemand = () => {
     })
   }
 
+  const getDemandOrderCurrentCompany = (
+    id: string | number,
+  ): Promise<ICompany> => {
+    return new Promise<ICompany>((resolve, reject) => {
+      if (settingsStore.mockEnabled) {
+        window.setTimeout(() => {
+          const DemandDetail = mockOrderDemandDetails.find(
+            item => item.id === Number(id),
+          )
+          if (DemandDetail) {
+            resolve(DemandDetail?.currentCompany)
+          } else {
+            reject(new Error('Order not found'))
+          }
+        }, 1000)
+      } else {
+        getDemandOrderCurrentCompanyAPI(id)
+          .then((res: unknown) => {
+            const DemandOrderCompany = res as ICompany
+            resolve(DemandOrderCompany)
+          })
+          .catch((error: unknown) => {
+            reject(error)
+          })
+      }
+    })
+  }
+
   const getDemandOrderContract = (id: string | number): Promise<IContract> => {
     return new Promise<IContract>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
@@ -183,6 +212,7 @@ export const useOrderDemand = () => {
     getDemandOrderDetail,
     getDemandOrderTenderCompanies,
     getDemandOrderRecommendCompanies,
+    getDemandOrderCurrentCompany,
     getDemandOrderContract,
     getDemandOrderReview,
   }

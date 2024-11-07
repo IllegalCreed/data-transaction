@@ -201,7 +201,7 @@ const handleDelete = () => {
   }
 
   .label {
-    @apply text-sm text-[var(--color-text-lighter)];
+    @apply text-sm text-[var(--color-text-lighter)] min-w-20;
   }
 
   .value {

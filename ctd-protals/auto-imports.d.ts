@@ -66,6 +66,7 @@ declare global {
   const getDemandDetail: (typeof import('./src/apis/demand/demand'))['getDemandDetail']
   const getDemandFilterSource: typeof import('./src/apis/demand/filter')['getDemandFilterSource']
   const getDemandOrderContract: typeof import('./src/apis/order/demand')['getDemandOrderContract']
+  const getDemandOrderCurrentCompany: typeof import('./src/apis/order/demand')['getDemandOrderCurrentCompany']
   const getDemandOrderDetail: typeof import('./src/apis/order/demand')['getDemandOrderDetail']
   const getDemandOrderRecommendCompanies: typeof import('./src/apis/order/demand')['getDemandOrderRecommendCompanies']
   const getDemandOrderReview: typeof import('./src/apis/order/demand')['getDemandOrderReview']

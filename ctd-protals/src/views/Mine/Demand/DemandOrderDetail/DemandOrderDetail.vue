@@ -79,11 +79,11 @@
     />
 
     <demand-order-contract-info
-      v-if="currentStep > getStatusIndex(DemandOrderStatus.Contract)"
+      v-if="currentStep > getStatusIndex(DemandOrderStatus.Bidding)"
       :orderId="orderId"
     />
     <el-divider
-      v-if="currentStep > getStatusIndex(DemandOrderStatus.Contract)"
+      v-if="currentStep > getStatusIndex(DemandOrderStatus.Bidding)"
     />
 
     <demand-order-review-info
@@ -93,21 +93,21 @@
 
     <div class="btn-container">
       <el-button
-        class="btn"
         v-if="orderDetails.status === DemandOrderStatus.Contract"
         type="primary"
+        size="large"
         >签署合同</el-button
       >
       <el-button
-        class="btn"
         v-if="orderDetails.status === DemandOrderStatus.ToCheck"
         type="primary"
+        size="large"
         >确认交付</el-button
       >
       <el-button
-        class="btn"
         v-if="orderDetails.status === DemandOrderStatus.ToReview"
         type="primary"
+        size="large"
         >评价订单</el-button
       >
     </div>
@@ -189,9 +189,10 @@ const back = () => {
   router.push({ name: 'my-demands' })
 }
 
-onMounted(() => {
+onMounted(async () => {
   try {
-    executeGetDemandOrderDetailAction()
+    await executeGetDemandOrderDetailAction()
+    currentStep.value = getStatusIndex(orderDetails.value.status)
   } catch (error: unknown) {
     console.error(error)
   }
@@ -242,12 +243,6 @@ const openEditModal = () => {}
 
     .step {
       @apply hidden;
-    }
-
-    .btn-container {
-      .btn {
-        @apply flex-1;
-      }
     }
   }
 }

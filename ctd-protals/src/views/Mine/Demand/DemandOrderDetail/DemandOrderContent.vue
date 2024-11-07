@@ -107,7 +107,7 @@ const handleAttachmentEdit = () => {}
   @apply flex flex-col;
 
   .title {
-    @apply text-xl font-bold;
+    @apply text-lg font-bold;
   }
 
   .content-container {

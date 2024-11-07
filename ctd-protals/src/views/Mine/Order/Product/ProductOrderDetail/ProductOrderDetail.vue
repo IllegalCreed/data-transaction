@@ -66,21 +66,18 @@
 
     <div class="btn-container">
       <el-button
-        class="btn"
         v-if="orderDetails.status === ProductOrderStatus.Contract"
         type="primary"
         size="large"
         >签署合同</el-button
       >
       <el-button
-        class="btn"
         v-if="orderDetails.status === ProductOrderStatus.ToCheck"
         type="primary"
         size="large"
         >确认交付</el-button
       >
       <el-button
-        class="btn"
         v-if="orderDetails.status === ProductOrderStatus.ToReview"
         type="primary"
         size="large"
@@ -211,12 +208,6 @@ onMounted(() => {
 
     .step {
       @apply hidden;
-    }
-
-    .btn-container {
-      .btn {
-        @apply flex-1;
-      }
     }
   }
 }

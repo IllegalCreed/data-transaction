@@ -98,8 +98,6 @@ onMounted(() => {
   }
 
   @media (max-width: 40rem) {
-    @apply p-0;
-
     .contract-info-container {
       @apply grid-cols-1;
     }

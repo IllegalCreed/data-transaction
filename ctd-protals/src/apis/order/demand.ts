@@ -71,3 +71,16 @@ export const getDemandOrderRecommendCompanies = (
     false,
   )
 }
+
+export const getDemandOrderCurrentCompany = (
+  id: string | number,
+): Promise<unknown> => {
+  const params = { id }
+  return request.post(
+    {
+      url: `/getDemandOrderCurrentCompany/${id}`,
+      params,
+    },
+    false,
+  )
+}

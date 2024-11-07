@@ -400,6 +400,7 @@
     "getDemandContent": true,
     "getFileIcon": true,
     "getDemandOrderRecommendCompanies": true,
-    "getDemandOrderTenderCompanies": true
+    "getDemandOrderTenderCompanies": true,
+    "getDemandOrderCurrentCompany": true
   }
 }

@@ -1,5 +1,5 @@
 export interface ICompany {
-  id: string
+  id: number | string
   name: string
   avatar: string
   tags: string[]
