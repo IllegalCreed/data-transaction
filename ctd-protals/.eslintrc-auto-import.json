@@ -397,6 +397,7 @@
     "getDemandOrderReview": true,
     "getDemandOrders": true,
     "getProductContent": true,
-    "getDemandContent": true
+    "getDemandContent": true,
+    "getFileIcon": true
   }
 }

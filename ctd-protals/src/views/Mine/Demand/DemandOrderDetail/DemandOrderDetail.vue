@@ -15,6 +15,9 @@
       <demand-order-base-info
         :orderDetails="orderDetails"
         :loading="getDemandOrderDetailActionLoading"
+        @change-active-status="changeActiveStatus"
+        @delete="deleteOrder"
+        @edit="openEditModal"
         flex-1
       />
       <el-skeleton
@@ -50,6 +53,14 @@
 
     <el-divider />
 
+    <demand-order-content
+      :orderId="orderId"
+      :order-status="orderDetails.status"
+      :loading="getDemandOrderDetailActionLoading"
+    />
+
+    <el-divider />
+
     <demand-order-company-selector
       v-if="currentStep === getStatusIndex(DemandOrderStatus.Bidding)"
       :orderId="orderId"
@@ -76,26 +87,26 @@
     />
 
     <demand-order-review-info
-      v-if="currentStatus === DemandOrderStatus.Completed"
+      v-if="orderDetails.status === DemandOrderStatus.Completed"
       :orderId="orderId"
     />
 
     <div class="btn-container">
       <el-button
         class="btn"
-        v-if="currentStatus === DemandOrderStatus.Contract"
+        v-if="orderDetails.status === DemandOrderStatus.Contract"
         type="primary"
         >签署合同</el-button
       >
       <el-button
         class="btn"
-        v-if="currentStatus === DemandOrderStatus.ToCheck"
+        v-if="orderDetails.status === DemandOrderStatus.ToCheck"
         type="primary"
         >确认交付</el-button
       >
       <el-button
         class="btn"
-        v-if="currentStatus === DemandOrderStatus.ToReview"
+        v-if="orderDetails.status === DemandOrderStatus.ToReview"
         type="primary"
         >评价订单</el-button
       >
@@ -105,6 +116,7 @@
 
 <script setup lang="ts">
 import DemandOrderBaseInfo from './DemandOrderBaseInfo.vue'
+import DemandOrderContent from './DemandOrderContent.vue'
 import DemandOrderCompanySelector from './DemandOrderCompanySelector/DemandOrderCompanySelector.vue'
 import DemandOrderCompanyInfo from './DemandOrderCompanyInfo.vue'
 import DemandOrderContractInfo from './DemandOrderContractInfo.vue'
@@ -155,11 +167,11 @@ const steps = stepList.map(status => ({
 }))
 
 const currentStep = ref(0)
-const currentStatus = computed(() => stepList[currentStep.value])
+
 watch(
-  () => currentStatus.value,
-  newValue => {
-    orderDetails.value.status = newValue
+  () => currentStep.value,
+  () => {
+    orderDetails.value.status = stepList[currentStep.value]
   },
 )
 
@@ -184,14 +196,41 @@ onMounted(() => {
     console.error(error)
   }
 })
+
+const changeActiveStatus = () => {
+  orderDetails.value.activeStatus =
+    orderDetails.value.activeStatus === ActiveStatus.Enabled
+      ? ActiveStatus.Disabled
+      : ActiveStatus.Enabled
+}
+
+const deleteOrder = () => {}
+
+const openEditModal = () => {}
 </script>
 
 <style scoped lang="scss">
 .demand-order-detail-root-container {
   @apply flex flex-col p-10;
 
+  .back-btn {
+    @apply flex flex-row items-center gap-2 cursor-pointer select-none;
+
+    span {
+      @apply line-height-none;
+    }
+  }
+
   .step {
-    @apply mb-10;
+    @apply h-auto ml-20 mr-10;
+
+    :deep(.is-process) {
+      @apply text-[var(--color-primary)] border-[var(--color-primary)];
+    }
+
+    @media (max-width: 50rem) {
+      @apply hidden;
+    }
   }
 
   .btn-container {

@@ -98,7 +98,7 @@ export const demandDetails: {
     },
     content: {
       content: `
-        <h2>项目背景</h2>
+        <h4>项目背景</h4>
         <p>我们正在寻求一个专业开发团队来建立一个具有以下特点的企业级网站：</p>
         <ul>
           <li>高性能，能够支持大规模用户访问</li>

@@ -51,6 +51,7 @@ declare module 'vue' {
     FilterDialog: typeof import('./src/components/FilterDialog.vue')['default']
     FilterItem: typeof import('./src/components/FilterItem.vue')['default']
     FilterListView: typeof import('./src/components/FilterListView.vue')['default']
+    'IBx:edit': typeof import('~icons/bx/edit')['default']
     'ICarbon:checkmarkOutline': typeof import('~icons/carbon/checkmark-outline')['default']
     'ICarbon:warning': typeof import('~icons/carbon/warning')['default']
     'IEosIcons:loading': typeof import('~icons/eos-icons/loading')['default']

@@ -161,7 +161,7 @@ const mappedProductType = computed(
     }
 
     .desc {
-      @apply text-sm text-[var(--color-text-light)] line-clamp-2;
+      @apply text-sm text-[var(--color-text-light)];
     }
 
     .product-image {

@@ -60,28 +60,28 @@
     />
 
     <product-order-review-info
-      v-if="currentStatus === ProductOrderStatus.Completed"
+      v-if="orderDetails.status === ProductOrderStatus.Completed"
       :orderId="orderId"
     />
 
     <div class="btn-container">
       <el-button
         class="btn"
-        v-if="currentStatus === ProductOrderStatus.Contract"
+        v-if="orderDetails.status === ProductOrderStatus.Contract"
         type="primary"
         size="large"
         >签署合同</el-button
       >
       <el-button
         class="btn"
-        v-if="currentStatus === ProductOrderStatus.ToCheck"
+        v-if="orderDetails.status === ProductOrderStatus.ToCheck"
         type="primary"
         size="large"
         >确认交付</el-button
       >
       <el-button
         class="btn"
-        v-if="currentStatus === ProductOrderStatus.ToReview"
+        v-if="orderDetails.status === ProductOrderStatus.ToReview"
         type="primary"
         size="large"
         >评价订单</el-button
@@ -148,11 +148,10 @@ const steps = stepList.map(status => ({
 }))
 
 const currentStep = ref(0)
-const currentStatus = computed(() => stepList[currentStep.value])
 watch(
-  () => currentStatus.value,
-  newValue => {
-    orderDetails.value.status = newValue
+  () => currentStep.value,
+  () => {
+    orderDetails.value.status = stepList[currentStep.value]
   },
 )
 
@@ -192,7 +191,7 @@ onMounted(() => {
   }
 
   .step {
-    @apply h-auto ml-5 mr-10;
+    @apply h-auto ml-20 mr-10;
 
     :deep(.is-process) {
       @apply text-[var(--color-primary)] border-[var(--color-primary)];
@@ -205,14 +204,14 @@ onMounted(() => {
 
   .btn-container {
     @apply flex flex-row justify-center items-center mt-10;
-
-    .btn {
-      @apply w-40;
-    }
   }
 
   @media (max-width: 40rem) {
     @apply p-5;
+
+    .step {
+      @apply hidden;
+    }
 
     .btn-container {
       .btn {

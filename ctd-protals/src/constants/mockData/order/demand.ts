@@ -140,6 +140,7 @@ export const orderDemandDetails: {
       budget: 120000,
       createTime: '2024-01-30',
       expectedDeliveryDate: '2024-01-30',
+      actualDeliveryDate: '2024-01-30',
       status: DemandOrderStatus.Pending,
       activeStatus: ActiveStatus.Enabled,
     },
