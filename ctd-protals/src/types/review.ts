@@ -1,3 +1,6 @@
+import type { TransactionType } from './demand'
+import type { ProductType } from './productOrder'
+
 export interface IReview {
   id: string | number
   avatar?: string
@@ -25,26 +28,25 @@ export interface IReviewInfo {
   }[]
 }
 
-// 当 type 为 'product' 时的接口
-export interface IProductReview extends IReview {
+export interface IProductReview extends Omit<IReview, 'name'> {
   type: 'product'
   product: {
-    productId: string
-    title: string
+    productId: string | number
+    name: string
+    type: ProductType
     price: number
-    image: string
+    imageUrl: string
   }
 }
 
-// 当 type 为 'demand' 时的接口
-export interface IDemandReview extends IReview {
+export interface IDemandReview extends Omit<IReview, 'name'> {
   type: 'demand'
   demand: {
-    demandId: string
-    title: string
+    demandId: string | number
+    name: string
+    transactionType: TransactionType
     budget: number
   }
 }
 
-// 联合类型
 export type IMyReview = IProductReview | IDemandReview

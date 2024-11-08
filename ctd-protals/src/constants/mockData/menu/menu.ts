@@ -70,11 +70,35 @@ export const mineMenus: IMenu[] = [
     path: '/mine/favorites',
     label: '我的收藏',
     icon: 'i-mynaui:star',
+    children: [
+      {
+        path: '/mine/favorites/products',
+        label: '产品收藏',
+        icon: 'i-ic:outline-bookmarks',
+      },
+      {
+        path: '/mine/favorites/demands',
+        label: '需求收藏',
+        icon: 'i-material-symbols:favorite-outline',
+      },
+    ],
   },
   {
     path: '/mine/comments',
     label: '我的评论',
     icon: 'i-uil:comment-lines',
+    children: [
+      {
+        path: '/mine/comments/products',
+        label: '产品评论',
+        icon: 'i-lets-icons:comment',
+      },
+      {
+        path: '/mine/comments/demands',
+        label: '需求评论',
+        icon: 'i-uil:comment-dots',
+      },
+    ],
   },
 ]
 

@@ -233,11 +233,39 @@ const router = createRouter({
               path: '/mine/favorites',
               name: 'my-favorites',
               component: () => import('@/views/Mine/Favorite/FavoriteView.vue'),
+              children: [
+                {
+                  path: 'products',
+                  name: 'favorites-products',
+                  component: () =>
+                    import('@/views/Mine/Favorite/Product/FavoriteProduct.vue'),
+                },
+                {
+                  path: 'demands',
+                  name: 'favorites-demands',
+                  component: () =>
+                    import('@/views/Mine/Favorite/Demand/FavoriteDemand.vue'),
+                },
+              ],
             },
             {
               path: '/mine/comments',
               name: 'my-comments',
               component: () => import('@/views/Mine/Comment/CommentView.vue'),
+              children: [
+                {
+                  path: 'products',
+                  name: 'comments-products',
+                  component: () =>
+                    import('@/views/Mine/Comment/Product/CommentProduct.vue'),
+                },
+                {
+                  path: 'demands',
+                  name: 'comments-demands',
+                  component: () =>
+                    import('@/views/Mine/Comment/Demand/CommentDemand.vue'),
+                },
+              ],
             },
           ],
         },

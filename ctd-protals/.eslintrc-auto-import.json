@@ -401,6 +401,10 @@
     "getFileIcon": true,
     "getDemandOrderRecommendCompanies": true,
     "getDemandOrderTenderCompanies": true,
-    "getDemandOrderCurrentCompany": true
+    "getDemandOrderCurrentCompany": true,
+    "getFavoriteDemands": true,
+    "getFavoriteProducts": true,
+    "getDemandComments": true,
+    "getProductComments": true
   }
 }
