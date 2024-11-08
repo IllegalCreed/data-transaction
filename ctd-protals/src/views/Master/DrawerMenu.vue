@@ -25,7 +25,7 @@
         <template #default>
           <div v-if="userinfo" flex flex-row items-center>
             <img w-14 h-14 rounded-full :src="userinfo.avatar" />
-            <div flex flex-col ml-4 space-y-2>
+            <div flex flex-col items-start ml-4 space-y-2>
               <span text-lg font-bold>{{
                 userinfo.userType === UserType.Individual
                   ? userinfo.fullName

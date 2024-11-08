@@ -62,7 +62,6 @@ declare module 'vue' {
     'IIc:roundPlus': typeof import('~icons/ic/round-plus')['default']
     'IIconamoon:shieldYesFill': typeof import('~icons/iconamoon/shield-yes-fill')['default']
     'IIconParkOutline:goodOne': typeof import('~icons/icon-park-outline/good-one')['default']
-    'IIconParkTwotone:delete': typeof import('~icons/icon-park-twotone/delete')['default']
     'IIon:arrowBackCircleOutline': typeof import('~icons/ion/arrow-back-circle-outline')['default']
     'IIon:timeOutline': typeof import('~icons/ion/time-outline')['default']
     'ILetsIcons:imgBox': typeof import('~icons/lets-icons/img-box')['default']
