@@ -22,7 +22,7 @@ import {
 } from 'src/common/utils/response';
 import { ErrorCode } from 'src/common/constants/error-codes';
 import { ActivateAccountDto } from './dto/activate-account.dto';
-import { ResendVerificationEmailDto } from './dto/resend-verification-email.dto';
+import { ResendActivationEmailDto } from './dto/resend-activation-email.dto';
 
 @Injectable()
 export class RegisterService {
@@ -158,10 +158,10 @@ export class RegisterService {
     }
   }
 
-  async resendVerificationEmail(
-    resendVerificationEmailDto: ResendVerificationEmailDto,
+  async resendActivationEmail(
+    resendActivationEmailDto: ResendActivationEmailDto,
   ): Promise<ApiResponse<string>> {
-    const { email } = resendVerificationEmailDto;
+    const { email } = resendActivationEmailDto;
 
     const user = await this.userRepository.findOne({
       where: { email },
@@ -183,7 +183,7 @@ export class RegisterService {
       });
 
       this.logger.log(`重新发送激活邮件成功：${email}`);
-      return createSuccessResponse('ACTIVATION_EMAIL_SENT');
+      return createSuccessResponse('RESEND_ACTIVATION_EMAIL_SUCCEED');
     } catch (error) {
       this.logger.error('重新发送激活邮件失败：', error);
 

@@ -3,7 +3,7 @@ import { RegisterService } from './register.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ApiResponse } from 'src/common/interfaces/api-response.interface';
 import { ActivateAccountDto } from './dto/activate-account.dto';
-import { ResendVerificationEmailDto } from './dto/resend-verification-email.dto';
+import { ResendActivationEmailDto } from './dto/resend-activation-email.dto';
 
 @Controller('register')
 export class RegisterController {
@@ -23,12 +23,10 @@ export class RegisterController {
     return this.registerService.activateAccount(activateAccountDto);
   }
 
-  @Post('resend-verification-email')
-  async resendVerificationEmail(
-    @Body() resendVerificationEmailDto: ResendVerificationEmailDto,
+  @Post('resend-activation-email')
+  async resendActivationEmail(
+    @Body() resendActivationEmailDto: ResendActivationEmailDto,
   ): Promise<ApiResponse<string>> {
-    return this.registerService.resendVerificationEmail(
-      resendVerificationEmailDto,
-    );
+    return this.registerService.resendActivationEmail(resendActivationEmailDto);
   }
 }
