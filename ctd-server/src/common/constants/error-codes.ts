@@ -1,6 +1,6 @@
 export enum ErrorCode {
   // 注册相关
-  USERNAME_TAKEN = 1001,
+  EMAIL_TAKEN = 1001,
   REGISTRATION_FAILED = 1002,
   SEND_EMAIL_FAILED = 1003,
   // 激活相关
@@ -11,7 +11,7 @@ export enum ErrorCode {
 
 export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
   // 注册相关
-  [ErrorCode.USERNAME_TAKEN]: 'Username is already taken.',
+  [ErrorCode.EMAIL_TAKEN]: 'Email is already taken.',
   [ErrorCode.REGISTRATION_FAILED]:
     'Registration failed due to unexpected error.',
   [ErrorCode.SEND_EMAIL_FAILED]: 'Failed to send activation email.',
