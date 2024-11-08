@@ -1,35 +1,35 @@
-import type { RegistInfoType } from '@/types/register'
+import { GenderType, UserType, type RegistrationInfo } from '@/types/register'
 
-export const registInfoConverter = (info: RegistInfoType) => {
-  if (info.userIdentity === 'personal') {
+export const registInfoConverter = (info: RegistrationInfo) => {
+  if (info.userType === UserType.Individual) {
     return {
       userType: '00',
       email: info.email,
       password: info.password,
-      nickName: info.name,
-      idCard: info.idNumber,
-      phonenumber: info.phone,
+      nickName: info.fullName,
+      idCard: info.identificationNumber,
+      phonenumber: info.phoneNumber,
       username: info.email,
-      address: info.address,
-      birthday: info.birthDate,
-      sex: info.gender === 'male' ? '0' : '1',
+      address: info.residentialAddress,
+      birthday: info.dateOfBirth,
+      sex: info.gender === GenderType.Male ? '0' : '1',
     }
-  } else if (info.userIdentity === 'enterprise') {
+  } else if (info.userType === UserType.Enterprise) {
     return {
       userType: '11',
       email: info.email,
       username: info.email,
       password: info.password,
-      address: info.companyAddress,
-      nickName: info.companyName,
+      address: info.enterpriseAddress,
+      nickName: info.enterpriseName,
       sysEnterprise: {
-        code: info.companyCode,
-        entRemark: info.companyDescription,
+        code: info.registrationNumber,
+        entRemark: info.enterpriseDescription,
         entScale: info.companySize,
-        contactsName: info.contactName,
-        contactsPhone: info.contactPhone,
-        contactsPosition: info.contactPosition,
-        industryCategory: info.industryCategory,
+        contactsName: info.contactPersonName,
+        contactsPhone: info.contactPhoneNumber,
+        contactsPosition: info.contactPersonTitle,
+        industryCategory: info.industryType,
       },
     }
   }

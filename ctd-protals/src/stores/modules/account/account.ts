@@ -1,8 +1,16 @@
 import { useTokenStore } from '../token'
 import { useSettingsStore } from '../settings'
-import { logoutAPI, resetPwdAPI, getInfoAPI } from '@/apis/account/account'
-import { userInfo as mockUserInfo } from '@/constants/mockData/account/account'
-import type { IUserInfo } from '@/types/master'
+import {
+  logout as logoutAPI,
+  resetPwd as resetPwdAPI,
+  getInfo as getInfoAPI,
+} from '@/apis/account/account'
+import {
+  individualUserInfo as mockIndividualUserInfo,
+  enterpriseUserInfo as mockEnterpriseUserInfo,
+} from '@/constants/mockData/account/account'
+import type { UserInfo } from '@/types/account'
+import { UserType } from '@/types/register'
 
 export const useAccount = () => {
   const tokenStore = useTokenStore()
@@ -47,16 +55,28 @@ export const useAccount = () => {
     })
   }
 
-  const userinfo = ref<IUserInfo>()
+  const mockInfoType = ref<UserType>(UserType.Individual)
+
+  const setMockInfoType = (type: UserType) => {
+    mockInfoType.value = type
+  }
+
+  const userinfo = ref<UserInfo>()
   const getUserInfo = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
-        userinfo.value = mockUserInfo
-        resolve()
+        window.setTimeout(() => {
+          if (mockInfoType.value === UserType.Individual) {
+            userinfo.value = mockIndividualUserInfo
+          } else {
+            userinfo.value = mockEnterpriseUserInfo
+          }
+          resolve()
+        }, 1000)
       } else {
         getInfoAPI()
           .then(res => {
-            userinfo.value = res as IUserInfo
+            userinfo.value = res as UserInfo
             resolve()
           })
           .catch((error: Error) => {
@@ -67,5 +87,12 @@ export const useAccount = () => {
     })
   }
 
-  return { logout, resetPwd, userinfo, getUserInfo }
+  return {
+    logout,
+    resetPwd,
+    userinfo,
+    getUserInfo,
+    mockInfoType,
+    setMockInfoType,
+  }
 }

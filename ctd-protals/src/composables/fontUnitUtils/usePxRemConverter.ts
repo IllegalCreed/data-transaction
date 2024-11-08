@@ -6,10 +6,11 @@ export function usePxRemConverter() {
   /**
    * 将 px 转换为 rem
    * @param px - 需要转换的 px 值
-   * @returns 转换后的 rem 字符串
+   * @returns 转换后的 rem 数值和格式化后的字符串
    */
-  const pxToRem = (px: number): string => {
-    return `${px / documentFontSize.value}rem`
+  const pxToRem = (px: number): { value: number; format: string } => {
+    const value = px / documentFontSize.value
+    return { value, format: `${value}rem` }
   }
 
   /**
@@ -17,8 +18,12 @@ export function usePxRemConverter() {
    * @param rem - 需要转换的 rem 值
    * @returns 转换后的 px 数值
    */
-  const remToPx = (rem: number): number => {
-    return rem * documentFontSize.value
+  const remToPx = (rem: number): { value: number; format: string } => {
+    const value = rem * documentFontSize.value
+    return {
+      value,
+      format: `${value}px`,
+    }
   }
 
   // 如果希望转换结果也是响应式的，可以将它们包装为 computed

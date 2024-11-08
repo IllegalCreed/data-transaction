@@ -3,7 +3,7 @@ import type { ISeller } from '@/types/seller'
 export const sellers: ISeller[] = [
   {
     id: 1,
-    title: '智能科技有限公司',
+    name: '智能科技有限公司',
     avatar: new URL('@/assets/mock/partnerLogo.png', import.meta.url).href,
     tags: ['五星商家', '企业', '1万保证金', '生态创新Top10'],
     content: `
@@ -15,7 +15,7 @@ export const sellers: ISeller[] = [
       { title: '评分', value: '4.9/5' },
       { title: '成交量', value: '1500+' },
       { title: '入驻时间', value: '5年' },
-      { title: '服务完成率', value: '98%' }
-    ]
-  }
+      { title: '服务完成率', value: '98%' },
+    ],
+  },
 ]

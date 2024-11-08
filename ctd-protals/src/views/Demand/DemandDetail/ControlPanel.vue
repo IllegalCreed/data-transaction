@@ -13,8 +13,16 @@
           <el-skeleton-item variant="h1" class="!w-40"></el-skeleton-item>
 
           <div flex flex-row gap-4 mt-6>
-            <el-skeleton-item variant="rect" class="!h-10" flex-1></el-skeleton-item>
-            <el-skeleton-item variant="rect" class="!h-10" flex-1></el-skeleton-item>
+            <el-skeleton-item
+              variant="rect"
+              class="!h-10"
+              flex-1
+            ></el-skeleton-item>
+            <el-skeleton-item
+              variant="rect"
+              class="!h-10"
+              flex-1
+            ></el-skeleton-item>
           </div>
         </div>
       </template>
@@ -23,7 +31,9 @@
 
         <label class="label" mt-10>交易模式</label>
         <span class="value">{{ mappedTransactionMode }}</span>
-        <label class="label" v-if="baseInfo.transactionType.mode === TransactionMode.Tender"
+        <label
+          class="label"
+          v-if="baseInfo.transactionType.mode === TransactionMode.Tender"
           >付款方式</label
         >
         <span class="value">{{ mappedPayType }}</span>
@@ -32,8 +42,12 @@
         <span class="price">￥{{ baseInfo.budget }}</span>
 
         <div class="actions-container">
-          <el-button flex-1 type="default" size="large" @click="addToFav">收藏需求</el-button>
-          <el-button flex-1 type="primary" size="large" @click="placeOrder">承接需求</el-button>
+          <el-button flex-1 type="default" size="large" @click="addToFav"
+            >收藏需求</el-button
+          >
+          <el-button flex-1 type="primary" size="large" @click="placeOrder"
+            >承接需求</el-button
+          >
         </div>
       </template>
     </el-skeleton>
@@ -41,20 +55,24 @@
 </template>
 
 <script setup lang="ts">
-import { TransactionMode, type IDemandBaseInfo } from '@/types/demand'
-import { DEMAND_TRANSACTION_MODE_MAP, DEMAND_PAY_TYPE_MAP } from '@/constants/demandOrder'
+import {
+  PAY_TYPE_MAP,
+  TRANSACTION_MODE_MAP,
+  TransactionMode,
+  type IDemandDetail,
+} from '@/types/demand'
 
 const mappedTransactionMode = computed(
-  () => DEMAND_TRANSACTION_MODE_MAP[baseInfo.transactionType.mode] || '招标'
+  () => TRANSACTION_MODE_MAP[baseInfo.transactionType.mode] || '招标',
 )
 const mappedPayType = computed(() => {
   if (baseInfo.transactionType.mode === TransactionMode.Tender)
-    return DEMAND_PAY_TYPE_MAP[baseInfo.transactionType.payType] || '按项目'
+    return PAY_TYPE_MAP[baseInfo.transactionType.payType] || '按项目'
 })
 
 const { baseInfo } = defineProps<{
   demandId: string
-  baseInfo: IDemandBaseInfo
+  baseInfo: IDemandDetail
   loading: boolean
 }>()
 

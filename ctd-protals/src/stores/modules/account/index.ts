@@ -3,13 +3,21 @@ import { useAccount } from './account'
 import { useLogin } from './login'
 import { useRegister } from './register'
 import { useForgot } from './forgot'
+import { useSecurity } from './security'
 
 export const useAccountStore = defineStore('account', () => {
-  const { logout, resetPwd, userinfo, getUserInfo } = useAccount()
+  const {
+    logout,
+    resetPwd,
+    userinfo,
+    getUserInfo,
+    mockInfoType,
+    setMockInfoType,
+  } = useAccount()
   const { login, getCode, getAd, links, getLinks } = useLogin()
   const {
-    userIdentity,
-    setUserIdentity,
+    userType,
+    setUserType,
     personalInfo,
     enterpriseInfo,
     baseInfo,
@@ -29,6 +37,7 @@ export const useAccountStore = defineStore('account', () => {
     resetPassword: forgotResetPassword,
     getAds: getForgotAds,
   } = useForgot()
+  const { securityInfo, getSecurityInfo } = useSecurity()
 
   return {
     ...{
@@ -38,14 +47,16 @@ export const useAccountStore = defineStore('account', () => {
       resetPwd,
       userinfo,
       getUserInfo,
+      mockInfoType,
+      setMockInfoType,
       links,
       getLinks,
       getAd,
     },
     ...{
       getRegisterAds,
-      userIdentity,
-      setUserIdentity,
+      userType,
+      setUserType,
       personalInfo,
       enterpriseInfo,
       baseInfo,
@@ -63,6 +74,10 @@ export const useAccountStore = defineStore('account', () => {
       forgotVerifyCode,
       forgotResetPassword,
       getForgotAds,
+    },
+    ...{
+      securityInfo,
+      getSecurityInfo,
     },
   }
 })

@@ -3,11 +3,11 @@ import type { IScene } from '@/types/scene'
 export const cases: IScene[] = [
   {
     id: 1,
-    title: '数字剧游场',
-    companyName: '数字剧游场',
+    title: '三教庙数字剧游场景',
+    companyName: '',
     description:
       '数字剧游场景主要面向5-12岁青少年及亲子家庭，在公园、景点、场馆、商业、乡村、古镇等各类场所制作开发“微信小程序+实景线索+剧情任务”形式的沉浸式剧本游戏活动，让亲子出行变得更有趣味性和知识性。通过活动，既可增进亲子关系，又能引导孩子锻炼体能、学习知识、训练思维、培养品格。真正做到寓教于乐、玩中收获。',
-    imageUrl:'http://10.105.31.40:9001/img/11.webp',
+    imageUrl: 'http://10.105.31.40:9001/img/11.webp',
     bannerUrl: new URL('@/assets/mock/newsBanner.png', import.meta.url).href,
     link: 'https://www.baidu.com',
     content: `
@@ -26,14 +26,15 @@ export const cases: IScene[] = [
   <img style="max-width: 750px;" src="http://10.105.31.40:9001/img/1-3.png" alt="">
 </div>
 <p style="border-style:none;margin-bottom:0pt;margin-top:0pt;mso-border-between:none;mso-pagination:none;text-align:justify;text-indent:32pt;">&nbsp;</p>
-    `
+    `,
   },
   {
     id: 2,
-    title: '万舟骈集',
-    companyName: '大运河“万舟骈集"数实融合文化体验场',
-    description: '掘大运河历史文化，使文化传承更生动直观，通过沉浸式体验，增强公众对中华民族精神的认同感，实现了对大运河历史文化资源更广泛的理解与传承，具有重要的社会效益。',
-    imageUrl:'http://10.105.31.40:9001/img/12.webp',
+    title: '大运河“万舟骈集”数实融合文化体验场景',
+    companyName: '',
+    description:
+      '掘大运河历史文化，使文化传承更生动直观，通过沉浸式体验，增强公众对中华民族精神的认同感，实现了对大运河历史文化资源更广泛的理解与传承，具有重要的社会效益。',
+    imageUrl: 'http://10.105.31.40:9001/img/12.webp',
     bannerUrl: new URL('@/assets/mock/newsBanner.png', import.meta.url).href,
     link: 'https://www.baidu.com',
     content: `
@@ -51,15 +52,15 @@ export const cases: IScene[] = [
 <div style="display:flex;justify-content: center">
   <img style="max-width: 750px;" src="http://10.105.31.40:9001/img/2-4.png" alt="">
 </div>
-    `
+    `,
   },
   {
     id: 3,
     title: '马驹桥农文旅数字化场景',
-    companyName: '马驹桥农文旅数字化场景',
+    companyName: '',
     description:
       '场景通过数字人、AR、元宇宙等先进技术，为游客提供独特的马驹桥线上线下融合游览体验，打造沉浸式的智慧旅游环境。',
-    imageUrl:'http://10.105.31.40:9001/img/13.webp',
+    imageUrl: 'http://10.105.31.40:9001/img/13.webp',
     bannerUrl: new URL('@/assets/mock/newsBanner.png', import.meta.url).href,
     link: 'https://www.baidu.com',
     content: `
@@ -67,14 +68,15 @@ export const cases: IScene[] = [
 <p style="border-style:none;margin-bottom:0pt;margin-top:0pt;mso-border-between:none;mso-border-bottom-alt:none;mso-border-left-alt:none;mso-border-right-alt:none;mso-border-top-alt:none;mso-pagination:none;text-align:justify;text-indent:32pt;"><span style="color:#000000;font-family:'仿宋';font-size:16pt;"><span style="mso-style-textfill-fill-color:#000000;">场景实现了农业与文旅深度融合。本地农民与商户可入驻平台，上架新鲜蔬菜、文创产品和精品民宿，游客既可以线上购买农产品，也可以预订民宿，实现农业和文旅产业的良性互动循环。</span></span></p>
 <p style="border-style:none;margin-bottom:0pt;margin-top:0pt;mso-border-between:none;mso-border-bottom-alt:none;mso-border-left-alt:none;mso-border-right-alt:none;mso-border-top-alt:none;mso-pagination:none;text-align:justify;text-indent:32pt;"><span style="color:#000000;font-family:'仿宋';font-size:16pt;"><span style="mso-style-textfill-fill-color:#000000;">场景构建了农文旅数字资源库。将乡村土地资源、全景、三维模型、照片、音视频等数据信息整合展示，支持马驹桥的线上招商展示及风光介绍，并通过实时更新保持信息的及时和准确。</span></span></p>
 <p style="border-style:none;margin-bottom:0pt;margin-top:0pt;mso-border-between:none;mso-pagination:none;text-align:justify;text-indent:32pt;"><span style="color:#000000;font-family:'仿宋';font-size:16pt;"><span style="mso-style-textfill-fill-color:#000000;">马驹桥农文旅数字化场景不仅能为游客提供极佳的游览体验，还可以为本地村民提供增收的商业机会，通过打通创新商业模式，推动区域经济发展，打造乡村农文旅的示范样板。</span></span></p>
-    `
+    `,
   },
   {
     id: 4,
     title: '数字音乐艺术文化视听体验空间场景',
-    companyName: '数字音乐艺术文化视听体验空间场景',
-    description: '数字音乐艺术文化视听体验空间打造的是融合盒式录像带、录音带的数字化修复技术与视听展示播放为一体的体验空间，内容取材于我国传统民间艺术曲库和各地特色音乐，通过磁带数字化技术把收集、整理、编辑好的语音资料进行数字化修复和呈现，同时结合各地历史文化内容，为文化赋予声音，在践行国家文化数字化战略的同时，也让参观者深切体会到科技与文化相结合的魅力所在。',
-    imageUrl:'http://10.105.31.40:9001/img/14.webp',
+    companyName: '',
+    description:
+      '数字音乐艺术文化视听体验空间打造的是融合盒式录像带、录音带的数字化修复技术与视听展示播放为一体的体验空间，内容取材于我国传统民间艺术曲库和各地特色音乐，通过磁带数字化技术把收集、整理、编辑好的语音资料进行数字化修复和呈现，同时结合各地历史文化内容，为文化赋予声音，在践行国家文化数字化战略的同时，也让参观者深切体会到科技与文化相结合的魅力所在。',
+    imageUrl: 'http://10.105.31.40:9001/img/14.webp',
     bannerUrl: new URL('@/assets/mock/newsBanner.png', import.meta.url).href,
     link: 'https://www.baidu.com',
     content: `
@@ -111,29 +113,30 @@ export const cases: IScene[] = [
 <div style="display:flex;justify-content: center">
   <img style="max-width: 750px;" src="http://10.105.31.40:9001/img/4-6.png" alt="">
 </div>
-`
+`,
   },
   {
     id: 5,
-      title: 'AI赋能感知交互型文旅体验',
-    companyName: 'AI绘画家',
+    title: '儿童AI绘画师场景',
+    companyName: '',
     description:
       'AI绘画家+硬件载体，吸引不同人群，助力提升文旅的吸引力和游客满意度。',
-    imageUrl:'http://10.105.31.40:9001/img/15.webp',
+    imageUrl: 'http://10.105.31.40:9001/img/15.webp',
     bannerUrl: new URL('@/assets/mock/newsBanner.png', import.meta.url).href,
     link: 'https://www.baidu.com',
     content: `
 <p style="text-align:center;"><span style="font-size:18px;"><strong>AI赋能感知交互型文旅体验一AI绘画家</strong></span></p>
 <p style="text-align:center;"><span style="background-color:#64b5f6;color:#f9fbe7;font-size:18px;">AI绘画家+硬件载体，吸引不同人群，助力提升文旅的吸引力和游客满意度。</span></p>
 <div><span style="font-size:18px;"><strong>AI转绘技术</strong></span><br>&nbsp; &nbsp; &nbsp;<span style="font-size:18px;">利用深度学习和图像生成算法，实时将用户的涂鸦转化为不同风格的绘画作品。支持多种绘画风格，如巴洛克、像素风、水彩画等。</span><br><span style="font-size:18px;"><strong>用户界面</strong></span><br>&nbsp; &nbsp;&nbsp;<span style="font-size:18px;">简洁友好的用户界面，方便游客使用。用户可以通过简单的操作选择绘画风格、调整细节并进行打印。</span><br><span style="font-size:18px;"><strong>卧式触摸查询一体机:</strong></span><br>&nbsp; &nbsp;&nbsp;<span style="font-size:18px;">采用全高清屏幕，兼容Windows和安卓系统支持多点触控、无线WiFi连接，触控查询功打印设备:</span><br>&nbsp; &nbsp;&nbsp;<span style="font-size:18px;">内置高质量打印机，支持即时打印，用户可以在现场得到自己的绘画作品。</span><br><span style="font-size:18px;"><strong>个性化签名</strong></span><br>&nbsp; &nbsp;&nbsp;<span style="font-size:18px;">支持用户在作品上签名，增加作品的个性化和纪念价值。</span><br><span style="font-size:18px;"><strong>数据分析</strong></span><br>&nbsp; &nbsp;&nbsp;<span style="font-size:18px;">后台系统支持数据分析，景区管理者可以通过数据了解游客的使用习惯和偏好，优化服务。</span></div>
-    `
+    `,
   },
   {
     id: 6,
-    title: '阿派朗',
-    companyName: '阿派朗',
-    description: '阿派朗创造力乐园是一座将前沿科技转化为亲子游玩体验的智玩IP乐园,致力于服务0-14岁的亲子家庭。乐园包含80000平米超大户外空间，布局创造登陆站、未来牧场、密码天才湾、超级咔咔、元气宇宙、律动森林、派派营地、咔咔美味村】八大主题版块，结合智能交互手环和线上任务,体验前所未有的混合现实探索游玩。阿派朗邀请你一起玩出创造力!',
-    imageUrl:'http://10.105.31.40:9001/img/16.webp',
+    title: '阿派朗数字乐园场景',
+    companyName: '',
+    description:
+      '阿派朗创造力乐园是一座将前沿科技转化为亲子游玩体验的智玩IP乐园,致力于服务0-14岁的亲子家庭。乐园包含80000平米超大户外空间，布局创造登陆站、未来牧场、密码天才湾、超级咔咔、元气宇宙、律动森林、派派营地、咔咔美味村】八大主题版块，结合智能交互手环和线上任务,体验前所未有的混合现实探索游玩。阿派朗邀请你一起玩出创造力!',
+    imageUrl: 'http://10.105.31.40:9001/img/16.webp',
     bannerUrl: new URL('@/assets/mock/newsBanner.png', import.meta.url).href,
     link: 'https://www.baidu.com',
     content: `
@@ -267,18 +270,18 @@ export const cases: IScene[] = [
        <video src="http://10.105.31.40:9001/img/5-2.mp4" autoplay controls style="max-width: 750px;"></video>
   </div>
 
-    `
+    `,
   },
   {
     id: 7,
-    title: '大运河游船成套升级策划',
-    companyName: '北京黑油数字展览股份有限公司',
+    title: '运河游船科技升级场景',
+    companyName: '',
     description:
       '塑造24时+24节气全域沉浸通州大运河-数字游船|全新IP形象，打造流动的城市记忆，立足升级通州大运河游船的全新形象，聚焦游船本体改造的同时未来可拓展至运河两岸的整体升级。',
-    imageUrl:'http://10.105.31.40:9001/img/17.png',
+    imageUrl: 'http://10.105.31.40:9001/img/17.png',
     bannerUrl: new URL('@/assets/mock/newsBanner.png', import.meta.url).href,
     link: 'https://www.baidu.com',
-    content:`
+    content: `
    <div><strong>大运河·游船升级改造方案</strong></div>
 <div><strong>整体策划</strong><br>塑造24时+24节气全域沉浸，通州大运河-数字游船|全新IP形象，打造流动的城市记忆，立足升级通州大运河游船的全新形象，聚焦游船本体改造的同时，未来可拓展至运河两岸的整体升级。</div>
 <div>互动、娱乐、打卡、体验、游船、休憩、观光、游览、传承历史文化，提升整体效果。激活两岸。丰富活动体验，增加吸引力，24时大运河夜游、夜经济，城市亮化。</div>
@@ -315,41 +318,44 @@ export const cases: IScene[] = [
 <div>现有船只，输出电源功率低，只能依靠额外电源，增加成本和设计难度。 如有购买新增船只计划，建议将电源输出方案考虑在内。</div>
 <div>&nbsp;</div>
 
-    `
+    `,
   },
   {
     id: 8,
-    title: '光影实验室',
-    companyName: '光影实验室',
-    description: '光影实验室微电影场景把视频拍摄整个后期功能一键合成，真正做到了现场演绎实时出片。一个普通小白经过学习软件后只需2小时就能轻松上手并可以直接拍摄大片。系统目前内置近30部电影级大片，让大家线下参演看过的电影及网剧 ，直观体验剧中人物的电影情节。\n',
-    imageUrl:'http://10.105.31.40:9001/img/18.png',
+    title: '光影实验室微电影场景',
+    companyName: '',
+    description:
+      '光影实验室微电影场景把视频拍摄整个后期功能一键合成，真正做到了现场演绎实时出片。一个普通小白经过学习软件后只需2小时就能轻松上手并可以直接拍摄大片。系统目前内置近30部电影级大片，让大家线下参演看过的电影及网剧 ，直观体验剧中人物的电影情节。\n',
+    imageUrl: 'http://10.105.31.40:9001/img/18.png',
     bannerUrl: new URL('@/assets/mock/newsBanner.png', import.meta.url).href,
     link: 'https://www.baidu.com',
-    content:`光影实验室微电影场景把视频拍摄整个后期功能一键合成，真正做到了现场演绎实时出片。一个普通小白经过学习软件后只需2小时就能轻松上手并可以直接拍摄大片。系统目前内置近30部电影级大片，让大家线下参演看过的电影及网剧 ，直观体验剧中人物的电影情节。
-`
+    content: `光影实验室微电影场景把视频拍摄整个后期功能一键合成，真正做到了现场演绎实时出片。一个普通小白经过学习软件后只需2小时就能轻松上手并可以直接拍摄大片。系统目前内置近30部电影级大片，让大家线下参演看过的电影及网剧 ，直观体验剧中人物的电影情节。
+`,
   },
   {
     id: 9,
     title: 'AIGC景区VLOG场景',
-    companyName: 'AIGC景区VLOG场景',
-    description: '联通旅游景区Vlog解决方案，让景区拍照拍视频不再是难题，助力游客一键留存个人专属旅游大片，游玩更沉浸畅快；助力景区实现引流增收、打造景区IP，填补游客与景区互动空白。\n方案组网简单，落地便捷。端云结合，景区只需要部署摄像机系统即可上线。',
-    imageUrl:'http://10.105.31.40:9001/img/19.png',
+    companyName: '',
+    description:
+      '联通旅游景区Vlog解决方案，让景区拍照拍视频不再是难题，助力游客一键留存个人专属旅游大片，游玩更沉浸畅快；助力景区实现引流增收、打造景区IP，填补游客与景区互动空白。\n方案组网简单，落地便捷。端云结合，景区只需要部署摄像机系统即可上线。',
+    imageUrl: 'http://10.105.31.40:9001/img/19.png',
     bannerUrl: new URL('@/assets/mock/newsBanner.png', import.meta.url).href,
     link: 'https://www.baidu.com',
-    content:`联通旅游景区Vlog解决方案，让景区拍照拍视频不再是难题，助力游客一键留存个人专属旅游大片，游玩更沉浸畅快；助力景区实现引流增收、打造景区IP，填补游客与景区互动空白。
+    content: `联通旅游景区Vlog解决方案，让景区拍照拍视频不再是难题，助力游客一键留存个人专属旅游大片，游玩更沉浸畅快；助力景区实现引流增收、打造景区IP，填补游客与景区互动空白。
 方案组网简单，落地便捷。端云结合，景区只需要部署摄像机系统即可上线。
 游客只要摆个POSE就能一键获取专属旅拍Vlog，视频自带航拍、滤镜、特效等时髦要素，无需P图剪辑，立马就能美美地发圈。
-`
+`,
   },
   {
     id: 10,
-    title: '艺云数字艺术中心',
-    companyName: '王府井',
-    description: 'EDCC艺云数字艺术中心（王府井）坐落于北京市“文化金三角”区域的王府井大街，位于北京市百货大楼南馆4-5层，总面积达4000平方米。EDCC王府井由艺云科技策划建设，苏州创艺文化投资并负责运营，项目将于10月15日正式开业，对公众全面开放。',
-    imageUrl:'http://10.105.31.40:9001/img/20.png',
+    title: '艺云数字艺术中心展陈场景',
+    companyName: '',
+    description:
+      'EDCC艺云数字艺术中心（王府井）坐落于北京市“文化金三角”区域的王府井大街，位于北京市百货大楼南馆4-5层，总面积达4000平方米。EDCC王府井由艺云科技策划建设，苏州创艺文化投资并负责运营，项目将于10月15日正式开业，对公众全面开放。',
+    imageUrl: 'http://10.105.31.40:9001/img/20.png',
     bannerUrl: new URL('@/assets/mock/newsBanner.png', import.meta.url).href,
     link: 'https://www.baidu.com',
-    content:`
+    content: `
     <p><strong>EDCC王府井项目介绍</strong></p>
 <p>&nbsp;</p>
 <p><strong>EDCC艺云数字艺术中心（王府井）项目背景</strong></p>
@@ -365,6 +371,6 @@ export const cases: IScene[] = [
 <div style="display:flex;justify-content: center">
   <img style="max-width: 750px;" src="http://10.105.31.40:9001/img/10-2.png" alt="">
 </div>
-`
-  }
+`,
+  },
 ]

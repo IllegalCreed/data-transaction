@@ -14,6 +14,7 @@
     >
       <el-form-item label="密码" prop="password">
         <el-input
+          data-testid="new-password-input"
           v-model="baseInfo.password"
           type="password"
           placeholder="至少8位大小写字母数字及特殊符号"
@@ -22,6 +23,7 @@
 
       <el-form-item label="确认密码" prop="confirmPassword">
         <el-input
+          data-testid="confirm-password-input"
           v-model="baseInfo.confirmPassword"
           type="password"
           placeholder="请再次输入密码"
@@ -30,6 +32,7 @@
     </el-form>
 
     <el-button
+      data-testid="next-button"
       :loading="forgotResetPasswordActionLoading"
       class="btn"
       type="primary"

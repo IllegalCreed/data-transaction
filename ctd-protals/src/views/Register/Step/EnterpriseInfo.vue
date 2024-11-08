@@ -11,100 +11,98 @@
       label-position="top"
     >
       <!-- 企业名称 -->
-      <el-form-item label="企业名称*" prop="companyName">
+      <el-form-item label="企业名称*" prop="enterpriseName">
         <el-input
           data-testid="companyName-input"
-          v-model="enterpriseInfo.companyName"
+          v-model="enterpriseInfo.enterpriseName"
           placeholder="请输入企业名称"
         />
       </el-form-item>
 
       <!-- 统一社会信用代码 -->
-      <el-form-item label="统一社会信用代码*" prop="companyCode">
+      <el-form-item label="统一社会信用代码*" prop="registrationNumber">
         <el-input
           data-testid="companyCode-input"
-          v-model="enterpriseInfo.companyCode"
+          v-model="enterpriseInfo.registrationNumber"
           placeholder="请输入统一社会信用代码"
         />
       </el-form-item>
 
       <!-- 联系人姓名 -->
-      <el-form-item label="联系人姓名*" prop="contactName">
+      <el-form-item label="联系人姓名*" prop="contactPersonName">
         <el-input
           data-testid="contactName-input"
-          v-model="enterpriseInfo.contactName"
+          v-model="enterpriseInfo.contactPersonName"
           placeholder="请输入联系人姓名"
         />
       </el-form-item>
 
       <!-- 联系人职位 -->
-      <el-form-item label="联系人职位" prop="contactPosition">
+      <el-form-item label="联系人职位" prop="contactPersonTitle">
         <el-input
           data-testid="contactPosition-input"
-          v-model="enterpriseInfo.contactPosition"
+          v-model="enterpriseInfo.contactPersonTitle"
           placeholder="请输入联系人职位"
         />
       </el-form-item>
 
       <!-- 联系人电话 -->
-      <el-form-item label="联系人电话*" prop="contactPhone">
+      <el-form-item label="联系人电话*" prop="contactPhoneNumber">
         <el-input
           data-testid="contactPhone-input"
-          v-model="enterpriseInfo.contactPhone"
+          v-model="enterpriseInfo.contactPhoneNumber"
           placeholder="请输入联系人电话"
         />
       </el-form-item>
 
       <!-- 企业地址 -->
-      <el-form-item label="企业地址*" prop="companyAddress">
+      <el-form-item label="企业地址*" prop="enterpriseAddress">
         <el-input
           data-testid="companyAddress-input"
-          v-model="enterpriseInfo.companyAddress"
+          v-model="enterpriseInfo.enterpriseAddress"
           placeholder="请输入企业地址"
         />
       </el-form-item>
 
       <!-- 行业类别 -->
-      <el-form-item label="行业类别*" prop="industryCategory">
+      <el-form-item label="行业类别*" prop="industryType">
         <el-select
-          data-testid="industryCategory-select"
-          v-model="enterpriseInfo.industryCategory"
+          data-testid="industryType-select"
+          v-model="enterpriseInfo.industryType"
           placeholder="请选择行业类别"
         >
           <el-option
-            data-testid="industryCategory-option-IT"
-            label="信息技术"
-            value="信息技术"
+            v-for="item in industryTypeOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+            :data-testid="`industryType-option-${item.value}`"
           ></el-option>
-          <el-option label="制造业" value="制造业"></el-option>
-          <el-option label="服务业" value="服务业"></el-option>
-          <el-option label="金融" value="金融"></el-option>
-          <!-- 其他类别 -->
         </el-select>
       </el-form-item>
 
       <!-- 企业规模 -->
-      <el-form-item label="企业规模" prop="companySize">
+      <el-form-item label="企业规模" prop="numberOfEmployees">
         <el-select
           data-testid="companySize-select"
           v-model="enterpriseInfo.companySize"
           placeholder="请选择企业规模"
         >
           <el-option
-            data-testid="companySize-option-large"
-            label="小型企业"
-            value="小型企业"
+            v-for="item in companySizeOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+            :data-testid="`companySize-option-${item.value}`"
           ></el-option>
-          <el-option label="中型企业" value="中型企业"></el-option>
-          <el-option label="大型企业" value="大型企业"></el-option>
         </el-select>
       </el-form-item>
 
       <!-- 企业简介 -->
-      <el-form-item label="企业简介" prop="companyDescription">
+      <el-form-item label="企业简介" prop="enterpriseDescription">
         <el-input
           data-testid="companyDescription-input"
-          v-model="enterpriseInfo.companyDescription"
+          v-model="enterpriseInfo.enterpriseDescription"
           type="textarea"
           placeholder="请输入企业简介"
         />
@@ -117,20 +115,39 @@
 import { ref } from 'vue'
 import { useAccountStore } from '@/stores/modules/account'
 import type { FormInstance, FormRules } from 'element-plus'
+import {
+  CompanySizeType,
+  COMPANY_SIZE_TYPE_MAP,
+  IndustryType,
+  INDUSTRY_TYPE_MAP,
+} from '@/types/register'
 
 // 获取企业信息的 Pinia store
 const accountStore = useAccountStore()
-
 // 绑定 store 的企业信息数据
 const enterpriseInfo = accountStore.enterpriseInfo
+
+// 生成行业类型的 select 选项
+const industryTypeOptions = Object.values(IndustryType).map(value => ({
+  value,
+  label: INDUSTRY_TYPE_MAP[value],
+}))
+
+// 生成企业规模的 select 选项
+const companySizeOptions = Object.values(CompanySizeType).map(value => ({
+  value,
+  label: COMPANY_SIZE_TYPE_MAP[value],
+}))
 
 // 表单实例引用
 const enterpriseForm = ref<FormInstance | null>(null)
 
 // 表单验证规则
 const rules = ref<FormRules>({
-  companyName: [{ required: true, message: '请输入企业名称', trigger: 'blur' }],
-  companyCode: [
+  enterpriseName: [
+    { required: true, message: '请输入企业名称', trigger: 'blur' },
+  ],
+  registrationNumber: [
     { required: true, message: '请输入统一社会信用代码', trigger: 'blur' },
     {
       pattern: /^[A-Z0-9]{18}$/,
@@ -138,10 +155,10 @@ const rules = ref<FormRules>({
       trigger: 'blur',
     },
   ],
-  contactName: [
+  contactPersonName: [
     { required: true, message: '请输入联系人姓名', trigger: 'blur' },
   ],
-  contactPhone: [
+  contactPhoneNumber: [
     { required: true, message: '请输入联系人电话', trigger: 'blur' },
     {
       pattern: /^[1-9]\d{10}$/,
@@ -149,10 +166,10 @@ const rules = ref<FormRules>({
       trigger: 'blur',
     },
   ],
-  companyAddress: [
+  enterpriseAddress: [
     { required: true, message: '请输入企业地址', trigger: 'blur' },
   ],
-  industryCategory: [
+  industryType: [
     { required: true, message: '请选择行业类别', trigger: 'change' },
   ],
 })

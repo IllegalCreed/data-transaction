@@ -11,28 +11,28 @@
       label-position="top"
     >
       <!-- 姓名 -->
-      <el-form-item label="姓名" prop="name">
+      <el-form-item label="姓名" prop="fullName">
         <el-input
           data-testid="name-input"
-          v-model="personalInfo.name"
+          v-model="personalInfo.fullName"
           placeholder="请输入姓名"
         />
       </el-form-item>
 
       <!-- 身份证号 -->
-      <el-form-item label="身份证号" prop="idNumber">
+      <el-form-item label="身份证号" prop="identificationNumber">
         <el-input
           data-testid="idNumber-input"
-          v-model="personalInfo.idNumber"
+          v-model="personalInfo.identificationNumber"
           placeholder="请输入身份证号"
         />
       </el-form-item>
 
       <!-- 联系电话 -->
-      <el-form-item label="联系电话" prop="phone">
+      <el-form-item label="联系电话" prop="phoneNumber">
         <el-input
           data-testid="phone-input"
-          v-model="personalInfo.phone"
+          v-model="personalInfo.phoneNumber"
           placeholder="请输入联系电话"
         />
       </el-form-item>
@@ -45,19 +45,11 @@
           placeholder="请选择性别"
         >
           <el-option
-            data-testid="gender-option-male"
-            label="男"
-            value="male"
-          ></el-option>
-          <el-option
-            data-testid="gender-option-famale"
-            label="女"
-            value="female"
-          ></el-option>
-          <el-option
-            data-testid="gender-option-other"
-            label="其他"
-            value="other"
+            v-for="item in genderTypeOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+            :data-testid="`gender-option-${item.value}`"
           ></el-option>
         </el-select>
       </el-form-item>
@@ -66,7 +58,7 @@
       <el-form-item label="出生日期">
         <el-date-picker
           id="birthday-picker"
-          v-model="personalInfo.birthDate"
+          v-model="personalInfo.dateOfBirth"
           type="date"
           placeholder="请选择出生日期"
           class="!w-full"
@@ -77,7 +69,7 @@
       <el-form-item label="住址">
         <el-input
           data-testid="address-input"
-          v-model="personalInfo.address"
+          v-model="personalInfo.residentialAddress"
           type="textarea"
           placeholder="请输入住址"
         />
@@ -90,6 +82,7 @@
 import { ref } from 'vue'
 import { useAccountStore } from '@/stores/modules/account'
 import type { FormInstance, FormRules } from 'element-plus'
+import { GENDER_TYPE_MAP, GenderType } from '@/types/register'
 
 // 获取个人信息的 Pinia store
 const accountStore = useAccountStore()
@@ -102,8 +95,8 @@ const personForm = ref<FormInstance | null>(null)
 
 // 表单验证规则
 const rules = ref<FormRules>({
-  name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
-  idNumber: [
+  fullName: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+  identificationNumber: [
     { required: true, message: '请输入身份证号', trigger: 'blur' },
     {
       pattern: /^[1-9]\d{14}(\d{2}[0-9xX])?$/,
@@ -111,7 +104,7 @@ const rules = ref<FormRules>({
       trigger: 'blur',
     },
   ],
-  phone: [
+  phoneNumber: [
     { required: true, message: '请输入联系电话', trigger: 'blur' },
     { pattern: /^[1-9]\d{10}$/, message: '手机号格式不正确', trigger: 'blur' },
   ],
@@ -137,6 +130,11 @@ const validateForm = (): Promise<boolean> => {
 defineExpose({
   validateForm,
 })
+
+const genderTypeOptions = Object.values(GenderType).map(value => ({
+  value,
+  label: GENDER_TYPE_MAP[value],
+}))
 </script>
 
 <style lang="scss" scoped>

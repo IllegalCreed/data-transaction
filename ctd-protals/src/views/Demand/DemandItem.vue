@@ -3,16 +3,18 @@
     <div class="text-container">
       <span class="title">{{ demand.title }}</span>
       <div class="tag-container">
-        <el-tag v-for="(tag, index) in demand.tags" :key="index" type="primary" size="small">
+        <el-tag
+          v-for="(tag, index) in demand.tags"
+          :key="index"
+          type="primary"
+          size="small"
+        >
           {{ tag }}
         </el-tag>
       </div>
       <span class="desc">{{ demand.description }}</span>
       <div flex-1></div>
-      <div flex flex-row justify-between items-center mt-4>
-        <span class="time">{{ demand.createTime }}</span>
-        <span class="price">￥{{ demand.budget }}</span>
-      </div>
+      <span class="price" mt-2>￥{{ demand.budget }}</span>
     </div>
     <div class="bottom-container">
       <span class="mode">{{ mappedTransactionMode }}</span>
@@ -22,10 +24,9 @@
 </template>
 
 <script setup lang="ts">
-import type { IDemand } from '@/types/demand'
-import { DEMAND_TRANSACTION_MODE_MAP } from '@/constants/demandOrder'
+import { type IDemand, TRANSACTION_MODE_MAP } from '@/types/demand'
 const mappedTransactionMode = computed(
-  () => DEMAND_TRANSACTION_MODE_MAP[demand.transactionType.mode] || '招标'
+  () => TRANSACTION_MODE_MAP[demand.transactionType.mode] || '招标',
 )
 
 const { demand } = defineProps<{

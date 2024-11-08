@@ -21,15 +21,14 @@ const model = defineModel()
 
 <style scoped lang="scss">
 .tab-bar-root-container {
-  @apply flex flex-row justify-start px-5 bg-white z-10 rounded-full overflow-x-auto;
-  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
+  @apply flex flex-row justify-start px-5 bg-[var(--color-background-alternating)] z-10 rounded shadow overflow-x-auto;
 
   &::-webkit-scrollbar {
     @apply hidden;
   }
 
   @media (max-width: 40rem) {
-    @apply sticky top-15 w-full rounded-none;
+    @apply sticky top-15;
   }
 }
 

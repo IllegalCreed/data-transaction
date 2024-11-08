@@ -18,13 +18,15 @@
         <span font-bold text-red-500 text-4xl>￥{{ budget }}</span>
       </div>
 
-      <el-button mt-4 type="primary" size="large" @click="placeOrder">承接需求</el-button>
+      <el-button mt-4 type="primary" size="large" @click="placeOrder"
+        >承接需求</el-button
+      >
     </div>
   </el-dialog>
 </template>
 
 <script setup lang="ts">
-const { demandId } = defineProps<{
+defineProps<{
   demandId: string
 }>()
 const modelValue = defineModel<boolean>({ required: true })
@@ -35,8 +37,7 @@ const budget = ref(10000.0)
 
 // 模拟接口调用获取商品信息
 const fetchProductInfo = async () => {
-  console.log(`Fetching product info for ID: ${demandId}`)
-  await new Promise((resolve) => setTimeout(resolve, 1000))
+  await new Promise(resolve => setTimeout(resolve, 1000))
 
   // 模拟返回的数据
   demandName.value = '示例需求'

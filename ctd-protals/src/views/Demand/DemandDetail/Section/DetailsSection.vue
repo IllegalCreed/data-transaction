@@ -1,12 +1,26 @@
 <template>
   <div flex flex-col>
-    <el-skeleton :loading="getDemandDetailActionLoading" animated flex flex-col gap-4>
+    <el-skeleton
+      :loading="getDemandContentActionLoading"
+      animated
+      flex
+      flex-col
+      gap-4
+    >
       <template #template>
-        <el-skeleton-item v-for="n in 20" :key="n" variant="p"></el-skeleton-item>
+        <el-skeleton-item
+          v-for="n in 20"
+          :key="n"
+          variant="p"
+        ></el-skeleton-item>
       </template>
 
       <template #default>
-        <div class="demand-detail-content" v-html="sanitizedContent" overflow-hidden></div>
+        <div
+          class="demand-detail-content"
+          v-html="sanitizedContent"
+          overflow-hidden
+        ></div>
 
         <div mt-10>
           <h3>附件列表</h3>
@@ -30,6 +44,7 @@
 
 <script setup lang="ts">
 import DOMPurify from 'dompurify'
+import { getFileIcon } from '@/utils/file'
 
 const { demandId } = defineProps<{
   demandId: string
@@ -37,15 +52,15 @@ const { demandId } = defineProps<{
 
 import { useDemandStore } from '@/stores/modules/demand'
 const demandStore = useDemandStore()
-const { getDemandDetail: getDemandDetailAction } = demandStore
+const { getDemandContent: getDemandContentAction } = demandStore
 
 const {
   state: detail,
-  isLoading: getDemandDetailActionLoading,
-  execute: executeGetDemandDetailAction
-} = useAsyncState(() => getDemandDetailAction(demandId), {
+  isLoading: getDemandContentActionLoading,
+  execute: executeGetDemandContentAction,
+} = useAsyncState(() => getDemandContentAction(demandId), {
   content: '',
-  attachments: []
+  attachments: [],
 })
 
 const sanitizedContent = computed(() => {
@@ -54,39 +69,11 @@ const sanitizedContent = computed(() => {
 
 onMounted(() => {
   try {
-    executeGetDemandDetailAction()
+    executeGetDemandContentAction()
   } catch (error: unknown) {
     console.error(error)
   }
 })
-
-const getFileIcon = (fileName: string) => {
-  const extension = fileName.split('.').pop()?.toLowerCase()
-  switch (extension) {
-    case 'pdf':
-      return new URL('@/assets/icon/demand/pdf.png', import.meta.url).href // PDF 图标
-    case 'doc':
-    case 'docx':
-      return new URL('@/assets/icon/demand/word.png', import.meta.url).href // Word 文档图标
-    case 'xls':
-    case 'xlsx':
-      return new URL('@/assets/icon/demand/excel.png', import.meta.url).href // Excel 文档图标
-    case 'ppt':
-    case 'pptx':
-      return new URL('@/assets/icon/demand/ppt.png', import.meta.url).href // PPT 文档图标
-    case 'txt':
-      return new URL('@/assets/icon/demand/txt.png', import.meta.url).href // 文本文件图标
-    case 'jpg':
-    case 'jpeg':
-    case 'png':
-      return new URL('@/assets/icon/demand/pic.png', import.meta.url).href // 图片文件图标
-    case 'rar':
-    case 'zip':
-      return new URL('@/assets/icon/demand/zip.png', import.meta.url).href // 压缩文件图标
-    default:
-      return new URL('@/assets/icon/demand/common.png', import.meta.url).href // 通用文件图标
-  }
-}
 </script>
 
 <style lang="scss" scoped>
