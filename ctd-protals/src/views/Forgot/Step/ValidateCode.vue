@@ -1,18 +1,20 @@
 <template>
   <div class="validate-code-root-container">
     <span class="title">验证邮箱</span>
-    <p class="desc">
-      我们向您的邮箱<strong mx-2>{{ email }}</strong
-      >发送了一封邮件
-    </p>
+    <p class="desc">我们向您的验证邮箱发送了一封邮件</p>
 
-    <verification-code-input mt-4 v-model="code"></verification-code-input>
+    <verification-code-input
+      data-testid="verification-code-input"
+      mt-4
+      v-model="code"
+    ></verification-code-input>
 
     <div class="step-btn-container">
       <el-button class="step-btn" type="primary" @click="handlePrevStep"
         >上一步</el-button
       >
       <el-button
+        data-testid="next-button"
         class="step-btn"
         :loading="forgotVerifyCodeActionLoading"
         type="primary"
@@ -26,6 +28,7 @@
         :loading="forgotSendEmailActionLoading"
         @click="reSendEmail"
         class="resend-email"
+        data-testid="resend-email-button"
         >重新发送邮件</span
       ></span
     >

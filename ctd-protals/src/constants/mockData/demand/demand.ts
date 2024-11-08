@@ -1,10 +1,9 @@
 import {
-  DemandOrderStatus,
   PayType,
   TransactionMode,
   type IDemand,
-  type IDemandBaseInfo,
-  type IDemandDetails,
+  type IDemandContent,
+  type IDemandDetail,
 } from '@/types/demand'
 
 export const demands: IDemand[] = [
@@ -15,7 +14,7 @@ export const demands: IDemand[] = [
     publisher: 'ABC 科技公司',
     budget: 100000,
     transactionType: { mode: TransactionMode.Pitch },
-    createTime: '2024-01-10',
+    expectedDeliveryDate: '2024-01-10',
     tags: ['开发', 'Web', '技术'],
   },
   {
@@ -28,7 +27,7 @@ export const demands: IDemand[] = [
       mode: TransactionMode.Tender,
       payType: PayType.ByWorkTime,
     },
-    createTime: '2024-02-15',
+    expectedDeliveryDate: '2024-02-15',
     tags: ['人工智能', '机器学习', '数据'],
   },
   {
@@ -41,7 +40,7 @@ export const demands: IDemand[] = [
       mode: TransactionMode.Tender,
       payType: PayType.ByFixedPrice,
     },
-    createTime: '2024-03-05',
+    expectedDeliveryDate: '2024-03-05',
     tags: ['咨询', '营销', '战略'],
   },
   {
@@ -51,7 +50,7 @@ export const demands: IDemand[] = [
     publisher: 'DEF 企业解决方案',
     budget: 250000,
     transactionType: { mode: TransactionMode.Pitch },
-    createTime: '2024-01-20',
+    expectedDeliveryDate: '2024-01-20',
     tags: ['云计算', '迁移', 'IT'],
   },
   {
@@ -61,7 +60,7 @@ export const demands: IDemand[] = [
     publisher: 'GHI 移动开发公司',
     budget: 300000,
     transactionType: { mode: TransactionMode.Pitch },
-    createTime: '2024-02-25',
+    expectedDeliveryDate: '2024-02-25',
     tags: ['开发', '移动应用', '设计'],
   },
   {
@@ -71,79 +70,19 @@ export const demands: IDemand[] = [
     publisher: 'JKL 培训服务公司',
     budget: 80000,
     transactionType: { mode: TransactionMode.Pitch },
-    createTime: '2024-04-10',
+    expectedDeliveryDate: '2024-04-10',
     tags: ['培训', '技术', '软技能'],
-  },
-  {
-    id: 7,
-    title: '旅游舆情监测与分析系统',
-    description: '监测网络舆情，及时响应，保护品牌形象。',
-    publisher: 'QRS 数据科技',
-    budget: 120000,
-    transactionType: { mode: TransactionMode.Pitch },
-    createTime: '2024-01-30',
-    tags: ['数据分析', '工具', '开发'],
-  },
-  {
-    id: 8,
-    title: '旅游安全预警与应急响应',
-    description: '实时监控风险，快速响应，保障游客安全。',
-    publisher: 'QRS 数据科技',
-    budget: 120000,
-    transactionType: { mode: TransactionMode.Pitch },
-    createTime: '2024-01-30',
-    tags: ['数据分析', '工具', '开发'],
-  },
-  {
-    id: 9,
-    title: '旅游消费数据分析服务',
-    description: '分析消费数据，洞察市场趋势，指导营销策略。',
-    publisher: 'QRS 数据科技',
-    budget: 120000,
-    transactionType: { mode: TransactionMode.Pitch },
-    createTime: '2024-01-30',
-    tags: ['数据分析', '工具', '开发'],
-  },
-  {
-    id: 10,
-    title: '文化遗产数字化保护平台',
-    description: '数字化保存文化遗产，便于研究与教育传播。',
-    publisher: 'QRS 数据科技',
-    budget: 120000,
-    transactionType: { mode: TransactionMode.Pitch },
-    createTime: '2024-01-30',
-    tags: ['数据分析', '工具', '开发'],
-  },
-  {
-    id: 11,
-    title: '旅游交通流量监控系统',
-    description: '监控交通流量，优化路线，减少拥堵。',
-    publisher: 'QRS 数据科技',
-    budget: 120000,
-    transactionType: { mode: TransactionMode.Pitch },
-    createTime: '2024-01-30',
-    tags: ['数据分析', '工具', '开发'],
-  },
-  {
-    id: 12,
-    title: '旅游客户服务与反馈分析',
-    description: '收集客户反馈，提升服务质量，增强客户忠诚度。',
-    publisher: 'QRS 数据科技',
-    budget: 120000,
-    transactionType: { mode: TransactionMode.Pitch },
-    createTime: '2024-01-30',
-    tags: ['数据分析', '工具', '开发'],
   },
 ]
 
 export const demandDetails: {
   id: string | number
-  baseInfo: IDemandBaseInfo
-  detail: IDemandDetails
+  detailInfo: IDemandDetail
+  content: IDemandContent
 }[] = [
   {
     id: 1,
-    baseInfo: {
+    detailInfo: {
       title: '高性能企业级网站开发需求',
       tags: ['开发', 'Web', '企业级'],
       description:
@@ -156,11 +95,10 @@ export const demandDetails: {
       budget: 120000,
       createTime: '2024-01-30',
       expectedDeliveryDate: '2024-01-30',
-      status: DemandOrderStatus.Bidding,
     },
-    detail: {
+    content: {
       content: `
-        <h2>项目背景</h2>
+        <h4>项目背景</h4>
         <p>我们正在寻求一个专业开发团队来建立一个具有以下特点的企业级网站：</p>
         <ul>
           <li>高性能，能够支持大规模用户访问</li>

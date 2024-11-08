@@ -36,14 +36,12 @@ const sceneStore = useSceneStore()
 const { cases } = storeToRefs(sceneStore)
 const { getCases: getCasesAction } = sceneStore
 
-const { isLoading: getCasesActionLoading, execute: executeGetCasesAction } = useAsyncState(
-  () => getCasesAction(),
-  undefined
-)
+const { isLoading: getCasesActionLoading, execute: executeGetCasesAction } =
+  useAsyncState(() => getCasesAction(), undefined)
 
 const isMobileDevice = useMediaQuery('(max-width: 40rem)')
 const aosDelay = (index: number) => {
-  return isMobileDevice.value ? 0 : index * 100
+  return isMobileDevice.value ? 0 : (index % 4) * 50
 }
 
 onMounted(() => {

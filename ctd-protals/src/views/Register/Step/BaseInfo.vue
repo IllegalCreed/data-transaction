@@ -17,7 +17,7 @@
             <el-input
               data-testid="email-input"
               v-model="baseInfo.email"
-              placeholder="邮箱地址将作为您的登录账号"
+              placeholder="邮箱地址将作为您的登录用户名"
             />
           </el-form-item>
 
@@ -52,11 +52,11 @@
 
       <person-info
         ref="personFormRef"
-        v-if="userIdentity === 'personal'"
+        v-if="userType === UserType.Individual"
       ></person-info>
       <enterprise-info
         ref="enterpriseFormRef"
-        v-else-if="userIdentity === 'enterprise'"
+        v-else-if="userType === UserType.Enterprise"
       ></enterprise-info>
     </div>
 
@@ -81,11 +81,12 @@ import EnterpriseInfo from './EnterpriseInfo.vue'
 import { useAccountStore } from '@/stores/modules/account'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 import type { IBaseInfo } from '@/types/register'
+import { UserType } from '@/types/register'
 import type { InternalRuleItem } from 'async-validator'
 
 const accountStore = useAccountStore()
+const { userType } = storeToRefs(accountStore)
 const {
-  userIdentity,
   baseInfo,
   register: registerAction,
   reSendActivationEmail: reSendActivationEmailAction,
@@ -157,19 +158,26 @@ const handleSubmit = async (): Promise<boolean> => {
   if (!baseFormValid) return Promise.resolve(false)
 
   let subFormValid = true
-  if (userIdentity === 'personal' && personFormRef.value) {
+  if (userType.value === UserType.Individual && personFormRef.value) {
     subFormValid = await personFormRef.value.validateForm()
-  } else if (userIdentity === 'enterprise' && enterpriseFormRef.value) {
+  } else if (
+    userType.value === UserType.Enterprise &&
+    enterpriseFormRef.value
+  ) {
     subFormValid = await enterpriseFormRef.value.validateForm()
   }
 
   return subFormValid
 }
 
-const reSendEmail = () => {
+const reSendEmail = async () => {
   if (baseInfo.email) {
-    reSendActivationEmailAction(baseInfo.email)
-    emit('nextStep')
+    try {
+      await reSendActivationEmailAction(baseInfo.email)
+      emit('nextStep')
+    } catch {
+      ElMessage.error('发送失败')
+    }
   } else {
     ElMessage.error('请输入邮箱地址')
   }

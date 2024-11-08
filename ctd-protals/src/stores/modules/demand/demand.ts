@@ -1,14 +1,14 @@
 import { useSettingsStore } from '@/stores/modules/settings'
-import type { IDemand, IDemandBaseInfo, IDemandDetails } from '@/types/demand'
+import type { IDemand, IDemandContent, IDemandDetail } from '@/types/demand'
 import {
   getDemands as getDemandsAPI,
   getDemand as getDemandAPI,
-  getDemandDetail as getDemandDetailAPI,
-  getRecommendDemands as getRecommendDemandsAPI
+  getDemandContent as getDemandContentAPI,
+  getRecommendDemands as getRecommendDemandsAPI,
 } from '@/apis/demand/demand'
 import {
   demands as mockDemands,
-  demandDetails as mockDemandDetails
+  demandDetails as mockDemandDetails,
 } from '@/constants/mockData/demand/demand'
 
 export const useDemand = () => {
@@ -36,13 +36,15 @@ export const useDemand = () => {
     })
   }
 
-  const getDemand = (id: string | number): Promise<IDemandBaseInfo> => {
-    return new Promise<IDemandBaseInfo>((resolve, reject) => {
+  const getDemand = (id: string | number): Promise<IDemandDetail> => {
+    return new Promise<IDemandDetail>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => {
-          const demandDetail = mockDemandDetails.find((item) => item.id === Number(id))
+          const demandDetail = mockDemandDetails.find(
+            item => item.id === Number(id),
+          )
           if (demandDetail) {
-            resolve(demandDetail?.baseInfo)
+            resolve(demandDetail?.detailInfo)
           } else {
             reject(new Error('Demand not found'))
           }
@@ -50,7 +52,7 @@ export const useDemand = () => {
       } else {
         getDemandAPI(id)
           .then((res: unknown) => {
-            const product = res as IDemandBaseInfo
+            const product = res as IDemandDetail
             resolve(product)
           })
           .catch((error: unknown) => {
@@ -60,21 +62,23 @@ export const useDemand = () => {
     })
   }
 
-  const getDemandDetail = (id: string | number): Promise<IDemandDetails> => {
-    return new Promise<IDemandDetails>((resolve, reject) => {
+  const getDemandContent = (id: string | number): Promise<IDemandContent> => {
+    return new Promise<IDemandContent>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => {
-          const demandDetail = mockDemandDetails.find((item) => item.id === Number(id))
+          const demandDetail = mockDemandDetails.find(
+            item => item.id === Number(id),
+          )
           if (demandDetail) {
-            resolve(demandDetail?.detail)
+            resolve(demandDetail?.content)
           } else {
             reject(new Error('Demand not found'))
           }
         }, 1000)
       } else {
-        getDemandDetailAPI(id)
+        getDemandContentAPI(id)
           .then((res: unknown) => {
-            const product = res as IDemandDetails
+            const product = res as IDemandContent
             resolve(product)
           })
           .catch((error: unknown) => {
@@ -113,7 +117,7 @@ export const useDemand = () => {
     demands,
     getDemands,
     getDemand,
-    getDemandDetail,
-    getRecommendDemands
+    getDemandContent,
+    getRecommendDemands,
   }
 }

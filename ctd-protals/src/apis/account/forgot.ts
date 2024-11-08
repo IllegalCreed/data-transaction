@@ -1,6 +1,6 @@
 import request from '@/axios'
 
-export const forgotSendEmailAPI = (email: string): Promise<unknown> => {
+export const forgotSendEmail = (email: string): Promise<unknown> => {
   const data = { email }
   return request.post(
     {
@@ -14,7 +14,7 @@ export const forgotSendEmailAPI = (email: string): Promise<unknown> => {
   )
 }
 
-export const forgotVerifyCodeAPI = (
+export const forgotVerifyCode = (
   email: string,
   code: string,
 ): Promise<unknown> => {
@@ -31,7 +31,7 @@ export const forgotVerifyCodeAPI = (
   )
 }
 
-export const forgotResetPasswordAPI = (
+export const forgotResetPassword = (
   code: string,
   password: string,
 ): Promise<unknown> => {
@@ -48,11 +48,11 @@ export const forgotResetPasswordAPI = (
   )
 }
 
-export const getForgotAdsAPI = (): Promise<unknown> => {
+export const getForgotAds = (): Promise<unknown> => {
   const params = {}
   return request.get(
     {
-      url: '/getForgotAdsAPI',
+      url: '/getForgotAds',
       params,
     },
     true,

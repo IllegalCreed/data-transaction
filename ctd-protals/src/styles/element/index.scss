@@ -1,14 +1,14 @@
 @forward 'element-plus/theme-chalk/src/common/var.scss' with (
   $colors: (
     'primary': (
-      'base': #386ce1
-    )
+      'base': #386ce1,
+    ),
   ),
   $menu: (
-    'bg-color': #f5f8fa
+    'bg-color': #ffffff,
   ),
   $pagination: (
-    'button-bg-color': #ffffff
+    'button-bg-color': #ffffff,
   )
 );
 

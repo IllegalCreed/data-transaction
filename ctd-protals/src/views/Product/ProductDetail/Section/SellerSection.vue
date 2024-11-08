@@ -4,7 +4,11 @@
       <el-skeleton-item variant="rect" class="!h-25"></el-skeleton-item>
       <el-skeleton-item variant="rect" class="!h-30"></el-skeleton-item>
       <div flex flex-col gap-4>
-        <el-skeleton-item v-for="n in 10" :key="n" variant="p"></el-skeleton-item>
+        <el-skeleton-item
+          v-for="n in 10"
+          :key="n"
+          variant="p"
+        ></el-skeleton-item>
       </div>
     </template>
 
@@ -13,20 +17,32 @@
         <div class="seller-body-container">
           <img :src="seller.avatar" />
           <div flex flex-col flex-1 min-w-0>
-            <span text-lg font-bold mb-2>{{ seller.title }}</span>
+            <span text-lg font-bold mb-2>{{ seller.name }}</span>
             <div flex flex-row flex-wrap items-center gap-2>
-              <el-tag v-for="(tag, index) in seller.tags" :key="index" type="info">{{
-                tag
-              }}</el-tag>
+              <el-tag
+                v-for="(tag, index) in seller.tags"
+                :key="index"
+                type="info"
+                >{{ tag }}</el-tag
+              >
             </div>
           </div>
-          <el-button class="detail-btn" type="primary" @click="viewSellerDetails"
+          <el-button
+            class="detail-btn"
+            type="primary"
+            @click="viewSellerDetails"
             >查看详情</el-button
           >
         </div>
 
         <div class="stats-container">
-          <div v-for="(stat, index) in seller.stats" :key="index" flex flex-col items-center>
+          <div
+            v-for="(stat, index) in seller.stats"
+            :key="index"
+            flex
+            flex-col
+            items-center
+          >
             <span class="value">{{ stat.value }}</span>
             <span class="label">{{ stat.title }}</span>
           </div>
@@ -48,7 +64,7 @@ watch(
   () => sellerId,
   () => {
     executeGetSellerAction()
-  }
+  },
 )
 
 import { useProductStore } from '@/stores/modules/product'
@@ -58,14 +74,14 @@ const { getSeller: getSellerAction } = productStore
 const {
   state: seller,
   isLoading: getSellerActionLoading,
-  execute: executeGetSellerAction
+  execute: executeGetSellerAction,
 } = useAsyncState(() => getSellerAction(sellerId), {
   id: '',
-  title: '',
+  name: '',
   avatar: '',
   tags: [],
   content: '',
-  stats: []
+  stats: [],
 })
 
 const sanitizedContent = computed(() => {

@@ -6,39 +6,76 @@
           <el-skeleton-item variant="p" class="!w-50"></el-skeleton-item>
           <el-skeleton-item variant="p" class="!w-30"></el-skeleton-item>
           <div flex flex-row gap-4>
-            <el-skeleton-item v-for="n in 3" :key="n" variant="p" class="!w-10"></el-skeleton-item>
+            <el-skeleton-item
+              v-for="n in 3"
+              :key="n"
+              variant="p"
+              class="!w-10"
+            ></el-skeleton-item>
           </div>
           <el-skeleton-item variant="p" mt-5></el-skeleton-item>
           <el-skeleton-item variant="p" class="!w-50"></el-skeleton-item>
           <el-skeleton-item variant="p" class="!w-30" mt-10></el-skeleton-item>
           <div flex flex-row gap-4>
-            <el-skeleton-item v-for="n in 3" :key="n" variant="p" class="!w-10"></el-skeleton-item>
+            <el-skeleton-item
+              v-for="n in 3"
+              :key="n"
+              variant="p"
+              class="!w-10"
+            ></el-skeleton-item>
           </div>
           <el-skeleton-item variant="p" class="!w-30" mt-4></el-skeleton-item>
           <div flex flex-row gap-4>
-            <el-skeleton-item v-for="n in 3" :key="n" variant="p" class="!w-10"></el-skeleton-item>
+            <el-skeleton-item
+              v-for="n in 3"
+              :key="n"
+              variant="p"
+              class="!w-10"
+            ></el-skeleton-item>
           </div>
 
-          <el-skeleton-item variant="p" class="!w-40" mt-8 self-end></el-skeleton-item>
+          <el-skeleton-item
+            variant="p"
+            class="!w-40"
+            mt-8
+            self-end
+          ></el-skeleton-item>
 
           <div flex flex-row gap-4 mt-4>
-            <el-skeleton-item variant="rect" class="!h-10" flex-1></el-skeleton-item>
-            <el-skeleton-item variant="rect" class="!h-10" flex-1></el-skeleton-item>
+            <el-skeleton-item
+              variant="rect"
+              class="!h-10"
+              flex-1
+            ></el-skeleton-item>
+            <el-skeleton-item
+              variant="rect"
+              class="!h-10"
+              flex-1
+            ></el-skeleton-item>
           </div>
         </div>
       </template>
       <template #default>
-        <span class="title">{{ baseInfo.title }}</span>
+        <span class="title">{{ baseInfo.name }}</span>
         <span class="sold-count">已售 {{ baseInfo.soldCount }}</span>
         <div class="tag-container">
-          <el-tag v-for="(tag, index) in baseInfo.tags" :key="index" type="primary" size="default">
+          <el-tag
+            v-for="(tag, index) in baseInfo.tags"
+            :key="index"
+            type="primary"
+            size="default"
+          >
             {{ tag }}
           </el-tag>
         </div>
         <span class="desc">{{ baseInfo.description }}</span>
 
         <div class="spec-groups-container">
-          <div class="spec-group" v-for="group in baseInfo.specGroups" :key="group.key">
+          <div
+            class="spec-group"
+            v-for="group in baseInfo.specGroups"
+            :key="group.key"
+          >
             <label class="spec-group-label">{{ group.label }}</label>
             <div class="spec-props-container">
               <div
@@ -46,7 +83,7 @@
                 :key="prop.key"
                 :class="[
                   'custom-radio-button',
-                  { selected: selectedSpecs[group.key] === prop.key }
+                  { selected: selectedSpecs[group.key] === prop.key },
                 ]"
                 @click="selectSpec(group.key, prop.key)"
               >
@@ -57,14 +94,27 @@
         </div>
 
         <div flex flex-row justify-between mt-10>
-          <number-input v-model="count" :min="1" v-if="baseInfo.hasCount"></number-input>
+          <number-input
+            v-model="count"
+            :min="1"
+            v-if="baseInfo.hasCount"
+          ></number-input>
           <span v-if="!getPriceActionLoading" class="price">￥{{ price }}</span>
-          <i-eos-icons:loading self-end text-3xl mr-8 v-else></i-eos-icons:loading>
+          <i-eos-icons:loading
+            self-end
+            text-3xl
+            mr-8
+            v-else
+          ></i-eos-icons:loading>
         </div>
 
         <div class="actions-container">
-          <el-button flex-1 type="default" size="large" @click="addToFav">收藏产品</el-button>
-          <el-button flex-1 type="primary" size="large" @click="placeOrder">立即下单</el-button>
+          <el-button flex-1 type="default" size="large" @click="addToFav"
+            >收藏产品</el-button
+          >
+          <el-button flex-1 type="primary" size="large" @click="placeOrder"
+            >立即下单</el-button
+          >
         </div>
       </template>
     </el-skeleton>
@@ -73,14 +123,14 @@
 
 <script setup lang="ts">
 import NumberInput from '@/components/NumberInput.vue'
-import type { IProductBaseInfo } from '@/types/product'
+import type { IProductDetail } from '@/types/product'
 import { useProductStore } from '@/stores/modules/product'
 const productStore = useProductStore()
 const { getPrice: getPriceAction } = productStore
 
 const { baseInfo } = defineProps<{
   productId: string
-  baseInfo: IProductBaseInfo
+  baseInfo: IProductDetail
   loading: boolean
 }>()
 
@@ -96,21 +146,21 @@ const price = computed(() => {
 const selectedSpecs = ref<Record<string, string>>({})
 watch(
   () => baseInfo,
-  (newValue: IProductBaseInfo) => {
+  (newValue: IProductDetail) => {
     selectedSpecs.value = newValue.specGroups.reduce(
       (acc, group) => {
         acc[group.key] = group.specs[0].key
         return acc
       },
-      {} as Record<string, string>
+      {} as Record<string, string>,
     )
-  }
+  },
 )
 
 const {
   state: priceRaw,
   isLoading: getPriceActionLoading,
-  execute: executeGetPriceActionRaw
+  execute: executeGetPriceActionRaw,
 } = useAsyncState(() => getPriceAction(selectedSpecs.value), undefined)
 const executeGetPriceAction = useDebounceFn(executeGetPriceActionRaw, 1000)
 
@@ -121,8 +171,8 @@ watch(
     executeGetPriceAction()
   },
   {
-    deep: true
-  }
+    deep: true,
+  },
 )
 
 const selectSpec = (groupKey: string, propKey: string) => {

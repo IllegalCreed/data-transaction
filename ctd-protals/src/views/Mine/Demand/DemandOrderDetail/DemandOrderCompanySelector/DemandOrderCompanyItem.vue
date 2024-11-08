@@ -3,17 +3,26 @@
     <img :src="company.avatar" class="avatar" />
     <div flex flex-col flex-1 min-w-0>
       <span text-lg font-bold>{{ company.name }}</span>
-      <el-rate :model-value="company.rating" size="small" disabled mb-2></el-rate>
+      <el-rate
+        :model-value="company.rating"
+        size="small"
+        disabled
+        mb-2
+      ></el-rate>
       <div flex flex-row flex-wrap items-center gap-2>
-        <el-tag v-for="(tag, index) in company.tags" :key="index" type="info" size="small">{{
-          tag
-        }}</el-tag>
+        <el-tag
+          v-for="(tag, index) in company.tags"
+          :key="index"
+          type="info"
+          size="small"
+          >{{ tag }}</el-tag
+        >
       </div>
     </div>
 
     <div class="btn-container">
-      <el-button class="btn" size="small">联系商家</el-button>
-      <el-button class="btn" type="primary" size="small">选择商家</el-button>
+      <el-button class="btn">联系商家</el-button>
+      <el-button class="btn" type="primary">选择商家</el-button>
     </div>
   </div>
 </template>
@@ -33,7 +42,7 @@ const { company } = defineProps<{ company: ICompany }>()
   }
 
   .btn-container {
-    @apply flex flex-col gap-4;
+    @apply flex flex-col gap-2;
 
     .btn {
       @apply ml-0;
@@ -50,7 +59,8 @@ const { company } = defineProps<{ company: ICompany }>()
     @apply flex-col items-start;
 
     .btn-container {
-      @apply self-stretch flex-row gap-2;
+      @apply self-stretch flex-row gap-4 mt-4;
+
       .btn {
         @apply flex-1;
       }

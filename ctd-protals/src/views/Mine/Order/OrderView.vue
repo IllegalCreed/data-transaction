@@ -2,12 +2,13 @@
   <div flex flex-col h-full>
     <div class="tab">
       <router-link
-        v-for="(item, index) in mineMenus?.find((link) => link.path === '/mine/orders')?.children ||
-        []"
+        v-for="(item, index) in mineMenus?.find(
+          link => link.path === '/mine/orders',
+        )?.children || []"
         :key="index"
         :to="item.path"
         class="tab-item"
-        :class="{ active: route.path === item.path }"
+        :class="{ active: isActive(item.path) }"
       >
         {{ item.label }}
       </router-link>
@@ -30,6 +31,13 @@ const { getMineMenus: getMineMenusAction } = menuStore
 
 const route = useRoute()
 
+const isActive = (itemPath: string) => {
+  if (route.meta.belong) {
+    return itemPath === (route.meta.belong as string)
+  }
+  return itemPath === route.path
+}
+
 onMounted(() => {
   getMineMenusAction()
 })
@@ -37,13 +45,13 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .tab {
-  @apply hidden flex-row items-center justify-around gap-4 h-15 min-w-80 sticky top-15 left-0 right-0 bg-white z-10 shadow-sm;
+  @apply hidden flex-row items-center justify-around gap-4 h-15 min-w-80 sticky top-15 left-0 right-0 bg-[var(--color-background-alternating)] z-10 shadow-sm;
 
   .tab-item {
-    @apply text-base no-underline text-gray-500 hover:opacity-60;
+    @apply text-base no-underline text-[var(--color-text)] hover:opacity-60;
 
     &.active {
-      @apply text-red-700;
+      @apply text-[var(--color-primary)];
     }
   }
 

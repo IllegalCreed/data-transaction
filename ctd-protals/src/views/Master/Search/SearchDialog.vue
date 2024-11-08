@@ -1,6 +1,7 @@
 <template>
   <el-dialog
     class="search-dialog-container"
+    title="全局搜索"
     v-model="model"
     :width="dialogWidth"
     destroy-on-close
@@ -9,7 +10,7 @@
     :lock-scroll="false"
     @closed="resetSearch"
   >
-    <div flex flex-col mt-4>
+    <div flex flex-col>
       <el-input
         v-model="searchQuery"
         size="large"
@@ -18,31 +19,36 @@
         @input="search"
       >
         <template #prefix>
-          <i :class="isLoading ? 'i-eos-icons:loading' : 'i-vaadin:search'"></i>
+          <i
+            :class="
+              getSearchResultsActionLoading || getHistoryRecordsActionLoading
+                ? 'i-eos-icons:loading'
+                : 'i-vaadin:search'
+            "
+          ></i>
         </template>
       </el-input>
 
       <div class="record-container" v-if="!searchQuery">
-        <span font-bold text-3>历史记录</span>
+        <span font-bold text-sm>历史记录</span>
         <div class="list-container">
           <history-record-item
-            v-for="(record, index) in historyRecords"
+            v-for="(item, index) in historyRecords"
             :key="index"
-            :module="record.module"
-            :title="record.title"
-            :description="record.description"
+            :data="item"
           ></history-record-item>
         </div>
       </div>
-      <div class="record-container" v-else-if="searchQuery && !isLoading">
-        <span font-bold text-3>搜索结果</span>
+      <div
+        class="record-container"
+        v-else-if="searchQuery && !getSearchResultsActionLoading"
+      >
+        <span font-bold text-sm>搜索结果</span>
         <div class="list-container">
           <search-record-item
-            v-for="(record, index) in searchResults"
+            v-for="(item, index) in searchResults"
             :key="index"
-            :module="record.module"
-            :title="record.title"
-            :description="record.description"
+            :data="item"
           />
         </div>
       </div>
@@ -54,92 +60,64 @@
 <script setup lang="ts">
 import HistoryRecordItem from './HistoryRecordItem.vue'
 import SearchRecordItem from './SearchRecordItem.vue'
+import { useMasterStore } from '@/stores/modules/master'
+const masterStore = useMasterStore()
+const { historyRecords, searchResults } = storeToRefs(masterStore)
+const {
+  getHistoryRecords: getHistoryRecordsAction,
+  getSearchResults: getSearchResultsAction,
+} = masterStore
 
 const model = defineModel<boolean>({ required: true })
 
 const searchQuery = ref('')
-const isLoading = ref(false)
+const getSearchResultsActionLoading = ref(false)
 
-const handleSearch = () => {
-  setTimeout(() => {
-    console.log(`Searching for: ${searchQuery.value}`)
-    isLoading.value = false
-  }, 1000)
-}
-
-const debouncedSearch = useDebounceFn(handleSearch, 1000)
+const executeGetSearchResultsAction = useDebounceFn(
+  () =>
+    getSearchResultsAction(searchQuery.value).then(() => {
+      getSearchResultsActionLoading.value = false
+    }),
+  1000,
+)
 
 const search = () => {
   if (searchQuery.value === '') {
-    isLoading.value = false
+    getSearchResultsActionLoading.value = false
     return
   }
-  isLoading.value = true
-  debouncedSearch()
+  getSearchResultsActionLoading.value = true
+  executeGetSearchResultsAction()
 }
 
 const resetSearch = () => {
   searchQuery.value = ''
-  isLoading.value = false
+  getSearchResultsActionLoading.value = false
 }
 
 const isMobileDevice = useMediaQuery('(max-width: 40rem)')
 
-const dialogWidth = ref('30rem')
-// 监听窗口大小变化
+const dialogWidth = ref('40rem')
 watchEffect(() => {
   if (isMobileDevice.value) {
     dialogWidth.value = '100%'
   } else {
-    dialogWidth.value = '30rem'
+    dialogWidth.value = '40rem'
   }
 })
 
-const historyRecords = [
-  {
-    module: 'data-trading' as const,
-    title: '交易记录 12345',
-    description: '描述了数据交易的详细信息。'
-  },
-  {
-    module: 'data-services' as const,
-    title: '服务请求 ABC',
-    description: '描述了数据服务的具体内容。'
-  },
-  {
-    module: 'asset-catalog' as const,
-    title: '资产条目 67890',
-    description: '这是资产目录中的一个条目。'
-  }
-]
+const {
+  isLoading: getHistoryRecordsActionLoading,
+  execute: executeGetHistoryRecordsAction,
+} = useAsyncState(() => getHistoryRecordsAction(), undefined)
 
-const searchResults = [
-  {
-    module: 'data-trading' as const,
-    title: '交易记录 ABC123',
-    description: '描述了某个数据交易的详情。'
-  },
-  {
-    module: 'data-services' as const,
-    title: '服务记录 DEF456',
-    description: '描述了某个数据服务的详情。'
-  },
-  {
-    module: 'asset-catalog' as const,
-    title: '目录项 GHI789',
-    description: '这是资产目录中的一个条目。'
-  },
-  {
-    module: 'asset-consulting' as const,
-    title: '咨询记录 JKL012',
-    description: '描述了某个资产咨询的详情。'
-  },
-  {
-    module: 'community' as const,
-    title: '社区活动 MNO345',
-    description: '描述了社区中的一个活动记录。'
+onMounted(() => {
+  try {
+    executeGetHistoryRecordsAction()
+  } catch (error: unknown) {
+    console.error(error)
   }
-]
+})
 </script>
 
 <style lang="scss" scoped>
@@ -150,7 +128,7 @@ const searchResults = [
 }
 
 .record-container {
-  @apply flex flex-col min-h-100 max-h-80vh mt-4;
+  @apply flex flex-col min-h-100 max-h-60vh mt-4;
   .list-container {
     @apply flex flex-col flex-1 overflow-y-auto;
   }

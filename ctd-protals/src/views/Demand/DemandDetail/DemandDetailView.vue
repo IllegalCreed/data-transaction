@@ -73,7 +73,6 @@ const {
   },
   createTime: '',
   expectedDeliveryDate: '',
-  status: DemandOrderStatus.Bidding,
   tags: [],
 })
 
@@ -90,11 +89,11 @@ import DetailsSection from './Section/DetailsSection.vue'
 import SafetySection from './Section/SafetySection.vue'
 import RecommendationsSection from './Section/RecommendationsSection.vue'
 import type { ISection } from '@/types/section'
-import { DemandOrderStatus, PayType, TransactionMode } from '@/types/demand'
+import { PayType, TransactionMode } from '@/types/demand'
 const sections = ref<ISection[]>([
   {
     id: 'details',
-    label: '产品详情',
+    label: '需求详情',
     component: markRaw(DetailsSection),
     props: { demandId: demandId },
   },

@@ -1,13 +1,10 @@
 import request from '@/axios'
 
-export const logoutAPI = (): Promise<unknown> => {
+export const logout = (): Promise<unknown> => {
   return request.post({ url: '/logout' })
 }
 
-export const resetPwdAPI = (
-  oldPwd: string,
-  newPwd: string,
-): Promise<unknown> => {
+export const resetPwd = (oldPwd: string, newPwd: string): Promise<unknown> => {
   const params = {
     oldPassword: oldPwd,
     newPassword: newPwd,
@@ -21,6 +18,17 @@ export const resetPwdAPI = (
   )
 }
 
-export const getInfoAPI = (): Promise<unknown> => {
+export const getInfo = (): Promise<unknown> => {
   return request.get({ url: '/getInfoAPI' })
+}
+
+export const getSecurityInfo = (): Promise<unknown> => {
+  const params = {}
+  return request.get(
+    {
+      url: '/user/getSecurityInfo',
+      params,
+    },
+    true,
+  )
 }

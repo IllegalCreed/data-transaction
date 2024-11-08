@@ -1,9 +1,14 @@
 <template>
   <div class="order-product-root-container">
-    <span text-2xl font-bold>数据产品订单</span>
+    <span text-xl font-bold>数据产品订单</span>
 
     <div class="search-filter">
-      <el-input class="search-input" v-model="searchQuery" placeholder="搜索订单" clearable>
+      <el-input
+        class="search-input"
+        v-model="searchQuery"
+        placeholder="请输入订单关键字搜索"
+        clearable
+      >
         <template #append>
           <el-button>
             <template v-slot:icon>
@@ -14,10 +19,14 @@
       </el-input>
 
       <div flex flex-row items-center>
-        <strong>状态：</strong>
-        <el-select class="status-select" v-model="selectedStatus" placeholder="选择订单状态">
+        <span class="label">状态：</span>
+        <el-select
+          class="status-select"
+          v-model="selectedStatus"
+          placeholder="选择订单状态"
+        >
           <el-option
-            v-for="status in orderStatuses"
+            v-for="status in orderStatusOptions"
             :key="status.value"
             :label="status.label"
             :value="status.value"
@@ -28,7 +37,25 @@
 
     <el-divider />
 
-    <product-panel></product-panel>
+    <el-skeleton :loading="getProductOrdersActionLoading" animated>
+      <template #template>
+        <div flex flex-col gap-4>
+          <el-skeleton-item
+            v-for="n in 4"
+            :key="n"
+            variant="rect"
+            class="!h-50"
+          ></el-skeleton-item>
+        </div>
+      </template>
+      <template #default>
+        <product-panel v-if="productOrders.length > 0"></product-panel>
+        <div v-else class="no-data">
+          <img :src="bg" alt="暂无数据" />
+          <span>暂无订单</span>
+        </div>
+      </template>
+    </el-skeleton>
 
     <el-pagination
       mt-10
@@ -43,20 +70,30 @@
 
 <script setup lang="ts">
 import ProductPanel from './ProductOrderPanel.vue'
+import { useOrderStore } from '@/stores/modules/order'
+const orderStore = useOrderStore()
+const { productOrders } = storeToRefs(orderStore)
+const { getProductOrders: getProductOrdersAction } = orderStore
+
+const bg = new URL('@/assets/placeholder/noOrder.png', import.meta.url).href
 
 const searchQuery = ref('')
 const selectedStatus = ref('all')
 
-// 状态列表
-const orderStatuses = ref([
-  { value: 'all', label: '全部' },
-  { value: 'pending', label: '待审核' },
-  { value: 'contract', label: '合同协商' },
-  { value: 'to_deliver', label: '待交付' },
-  { value: 'to_check', label: '待验查' },
-  { value: 'pending_review', label: '待评价' },
-  { value: 'reviewed', label: '已评价' }
-])
+import {
+  PRODUCT_ORDER_STATUS_MAP,
+  ProductOrderStatus,
+} from '@/types/productOrder'
+const orderStatusOptions: { value: string; label: string }[] = Object.values(
+  ProductOrderStatus,
+).map(value => ({
+  value,
+  label: PRODUCT_ORDER_STATUS_MAP[value],
+}))
+orderStatusOptions.unshift({
+  value: 'all',
+  label: '全部',
+})
 
 // 分页组件设置
 const paginationLayout = ref('total, prev, pager, next')
@@ -75,6 +112,22 @@ watchEffect(() => {
     pagerCount.value = 7
   }
 })
+
+const {
+  isLoading: getProductOrdersActionLoading,
+  execute: executeGetProductOrdersAction,
+} = useAsyncState(getProductOrdersAction, undefined, {
+  immediate: false,
+  throwError: true,
+})
+
+onMounted(() => {
+  try {
+    executeGetProductOrdersAction()
+  } catch (error: unknown) {
+    console.error(error)
+  }
+})
 </script>
 
 <style lang="scss" scoped>
@@ -89,7 +142,33 @@ watchEffect(() => {
     @apply flex flex-row items-center justify-between w-full gap-4 mt-10;
 
     .search-input {
-      @apply w-100;
+      @apply w-100 border-1 border-solid border-[--color-border] rounded;
+
+      :deep(.el-input__wrapper) {
+        @apply border-none shadow-none text-base;
+      }
+
+      :deep(.el-input-group__append) {
+        @apply rounded-r-full bg-[var(--color-background-alternating)] border-none shadow-none;
+      }
+
+      :deep(.el-button) {
+        @apply flex items-center justify-center;
+      }
+
+      :deep(.el-icon) {
+        width: 1.2rem;
+        height: 1.2rem;
+      }
+
+      :deep(.el-icon svg) {
+        width: 1.2rem;
+        height: 1.2rem;
+      }
+    }
+
+    .label {
+      @apply text-lg text-[--color-text-lighter];
     }
 
     .status-select {
@@ -108,6 +187,18 @@ watchEffect(() => {
       .search-input {
         @apply w-full;
       }
+    }
+  }
+
+  .no-data {
+    @apply flex flex-col items-center justify-center;
+
+    img {
+      @apply mt-30 w-full max-w-80;
+    }
+
+    span {
+      @apply text-[--color-text-lighter] mt-10 mb-20;
     }
   }
 }

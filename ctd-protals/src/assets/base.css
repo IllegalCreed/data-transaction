@@ -14,6 +14,18 @@
   --color-gray-900: #111827;
   --color-gray-950: #090c0e;
 
+  --color-slate-50: #f8fafc;
+  --color-slate-100: #f1f5f9;
+  --color-slate-200: #e2e8f0;
+  --color-slate-300: #cbd5e1;
+  --color-slate-400: #94a3b8;
+  --color-slate-500: #64748b;
+  --color-slate-600: #475569;
+  --color-slate-700: #334155;
+  --color-slate-800: #1e293b;
+  --color-slate-900: #0f172a;
+  --color-slate-950: #020617;
+
   --color-blue-50: #eff6ff;
   --color-blue-100: #dbeafe;
   --color-blue-200: #bfdbfe;
@@ -63,7 +75,6 @@
   --color-green-950: #052e16;
 
   --color-white: #fff;
-  --color-light-white: #f5f8fa;
 
   --color-black: #000;
   --color-black-50: rgba(0, 0, 0, 0.5);
@@ -72,7 +83,7 @@
 :root {
   --color-primary: var(--color-light-primary);
 
-  --color-background: var(--color-light-white);
+  --color-background: var(--color-slate-100);
   --color-background-alternating: var(--color-white);
   --color-background-darkest: var(--color-blue-950);
   --color-background-darker: var(--color-gray-800);
@@ -91,6 +102,7 @@
   --color-detail-section-background: var(--color-blue-100);
   --color-step-background: var(--color-blue-200);
   --color-register-role-background: var(--color-blue-100);
+  --color-order-header-background: var(--color-blue-50);
 
   --color-border: var(--color-gray-200);
   --color-text: var(--color-gray-700);
@@ -109,7 +121,7 @@
 .dark {
   --color-primary: var(--color-light-primary);
 
-  --color-background: var(--color-light-white);
+  --color-background: var(--color-blue-50);
   --color-background-alternating: var(--color-white);
   --color-background-darkest: var(--color-blue-950);
   --color-background-darker: var(--color-gray-800);

@@ -1,95 +1,68 @@
 <template>
-  <div class="comment-root-container">
-    <common-tabbar v-model="currentPage" :links="links" class="tabbar" />
-
-    <div v-if="currentPage === 'product'" class="comment-list-container">
-      <comment-item
-        v-for="(item, index) in productReviews"
+  <div flex flex-col h-full>
+    <div class="tab">
+      <router-link
+        v-for="(item, index) in mineMenus?.find(
+          link => link.path === '/mine/comments',
+        )?.children || []"
         :key="index"
-        :comment="item"
-      ></comment-item>
+        :to="item.path"
+        class="tab-item"
+        :class="{ active: isActive(item.path) }"
+      >
+        {{ item.label }}
+      </router-link>
     </div>
-
-    <div v-else class="comment-list-container">
-      <comment-item
-        v-for="(item, index) in demandReviews"
-        :key="index"
-        :comment="item"
-      ></comment-item>
-    </div>
-
-    <div class="pager-panel">
-      <el-pagination
-        :pager-count="pagerCount"
-        :background="showPaginationBackground"
-        :total="1000"
-        :layout="paginationLayout"
-      />
+    <div class="content">
+      <router-view v-slot="{ Component }">
+        <transition name="fade" mode="out-in">
+          <component :is="Component" />
+        </transition>
+      </router-view>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import CommentItem from './CommentItem.vue'
-import CommonTabbar from '@/components/CommonTabbar.vue'
+import { useMenuStore } from '@/stores/modules/menu'
+const menuStore = useMenuStore()
+const { mineMenus } = storeToRefs(menuStore)
+const { getMineMenus: getMineMenusAction } = menuStore
 
-import { useCommentStore } from '@/stores/modules/comment'
-const { productReviews, demandReviews } = useCommentStore()
+const route = useRoute()
 
-const currentPage = ref('product')
-
-const links = ref([
-  {
-    id: 'product',
-    label: '产品'
-  },
-  { id: 'demand', label: '需求' }
-])
-
-const paginationLayout = ref('total, prev, pager, next')
-const showPaginationBackground = ref(true)
-const pagerCount = ref(7)
-const isMobileDevice = useMediaQuery('(max-width: 40rem)')
-
-watchEffect(() => {
-  if (isMobileDevice.value) {
-    paginationLayout.value = 'prev, pager, next'
-    showPaginationBackground.value = false
-    pagerCount.value = 5
-  } else {
-    paginationLayout.value = 'total, prev, pager, next'
-    showPaginationBackground.value = true
-    pagerCount.value = 7
+const isActive = (itemPath: string) => {
+  if (route.meta.belong) {
+    return itemPath === (route.meta.belong as string)
   }
+  return itemPath === route.path
+}
+
+onMounted(() => {
+  getMineMenusAction()
 })
 </script>
 
 <style lang="scss" scoped>
-.comment-root-container {
-  @apply flex flex-col p-10;
+.tab {
+  @apply hidden flex-row items-center justify-around gap-4 h-15 min-w-80 sticky top-15 left-0 right-0 bg-[var(--color-background-alternating)] z-10 shadow-sm;
 
-  .tabbar {
-    @apply self-center w-50;
+  .tab-item {
+    @apply text-base no-underline text-[var(--color-text)] hover:opacity-60;
 
-    @media (max-width: 40rem) {
-      @apply self-start m--5 w-[calc(100%+40px)];
+    &.active {
+      @apply text-[var(--color-primary)];
     }
-  }
-
-  .comment-list-container {
-    @apply grid grid-cols-2 mt-10 gap-4;
   }
 
   @media (max-width: 40rem) {
-    @apply p-5;
-
-    .comment-list-container {
-      @apply grid grid-cols-1;
-    }
+    @apply flex;
   }
 }
 
-.pager-panel {
-  @apply flex flex-row justify-center mt-10 max-w-280 w-full;
+.content {
+  @media (max-width: 40rem) {
+    @apply mt-5;
+  }
 }
 </style>

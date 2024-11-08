@@ -17,19 +17,23 @@
           :index="item.path"
         >
           <template #title>
-            <el-icon><i :class="item.icon"></i></el-icon>
-            <span>{{ item.label }}</span>
+            <el-icon><i :class="item.icon" class="icon"></i></el-icon>
+            <span class="title">{{ item.label }}</span>
           </template>
           <!-- 子菜单项 -->
-          <el-menu-item v-for="child in item.children" :key="child.path" :index="child.path">
-            <el-icon><i :class="child.icon"></i></el-icon>
-            <span>{{ child.label }}</span>
+          <el-menu-item
+            v-for="child in item.children"
+            :key="child.path"
+            :index="child.path"
+          >
+            <el-icon><i :class="child.icon" class="icon"></i></el-icon>
+            <span class="title">{{ child.label }}</span>
           </el-menu-item>
         </el-sub-menu>
         <!-- 无子菜单的项 -->
         <el-menu-item v-else :key="item.path + '-menuitem'" :index="item.path">
-          <el-icon><i :class="item.icon"></i></el-icon>
-          <span>{{ item.label }}</span>
+          <el-icon><i :class="item.icon" class="icon"></i></el-icon>
+          <span class="title">{{ item.label }}</span>
         </el-menu-item>
       </template>
     </el-menu>
@@ -58,8 +62,8 @@ const defaultOpeneds = ref<string[]>([])
 const setDefaultOpeneds = () => {
   if (mineMenus.value) {
     defaultOpeneds.value = mineMenus.value
-      .filter((item) => item.children && item.children.length)
-      .map((item) => item.path)
+      .filter(item => item.children && item.children.length)
+      .map(item => item.path)
   }
 }
 watch(mineMenus, () => {
@@ -67,6 +71,10 @@ watch(mineMenus, () => {
 })
 
 const setActiveMenu = () => {
+  if (route.meta.belong) {
+    activeMenu.value = route.meta.belong as string
+    return
+  }
   activeMenu.value = route.path
 }
 
@@ -74,7 +82,7 @@ watch(
   () => route.path,
   () => {
     setActiveMenu()
-  }
+  },
 )
 
 setActiveMenu()
@@ -100,13 +108,25 @@ onMounted(() => {
 </script>
 <style scoped lang="scss">
 .mine-view-container {
-  @apply flex flex-row self-center h-full min-h-200 mb--20 max-w-300 w-full;
+  @apply flex flex-row self-center h-full min-h-200 max-w-300 w-full;
 
   .menu-container {
-    @apply self-start sticky top-1/2 transform translate-y-[calc(-50%+40px)];
+    @apply self-start sticky top-30 h-[calc(100vh-10rem)] border-r-0 overflow-hidden p-5;
 
     &:not(.el-menu--collapse) {
-      @apply w-50;
+      @apply w-60;
+    }
+
+    &.el-menu--collapse {
+      @apply p-0;
+    }
+
+    .title {
+      @apply text-base ml-4;
+    }
+
+    .icon {
+      @apply text-2xl;
     }
 
     @media (max-width: 40rem) {
@@ -115,7 +135,11 @@ onMounted(() => {
   }
 
   .content-container {
-    @apply flex-1;
+    @apply flex-1 ml-5 mt-10 min-h-100vh bg-[var(--color-background-alternating)];
+
+    @media (max-width: 40rem) {
+      @apply ml-0 mt-0;
+    }
   }
 }
 </style>

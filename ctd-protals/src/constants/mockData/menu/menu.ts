@@ -47,17 +47,17 @@ export const mineMenus: IMenu[] = [
       {
         path: '/mine/orders/products',
         label: '数据产品',
-        icon: 'i-mdi:database',
+        icon: 'i-tabler:database-dollar',
       },
       {
         path: '/mine/orders/services',
         label: '数据服务',
-        icon: 'i-mdi:cloud',
+        icon: 'i-carbon:data-vis-1',
       },
       {
         path: '/mine/orders/consults',
         label: '咨询代办',
-        icon: 'i-mdi:account-tie',
+        icon: 'i-lineicons:consulting',
       },
     ],
   },
@@ -70,11 +70,35 @@ export const mineMenus: IMenu[] = [
     path: '/mine/favorites',
     label: '我的收藏',
     icon: 'i-mynaui:star',
+    children: [
+      {
+        path: '/mine/favorites/products',
+        label: '产品收藏',
+        icon: 'i-ic:outline-bookmarks',
+      },
+      {
+        path: '/mine/favorites/demands',
+        label: '需求收藏',
+        icon: 'i-material-symbols:favorite-outline',
+      },
+    ],
   },
   {
     path: '/mine/comments',
     label: '我的评论',
     icon: 'i-uil:comment-lines',
+    children: [
+      {
+        path: '/mine/comments/products',
+        label: '产品评论',
+        icon: 'i-lets-icons:comment',
+      },
+      {
+        path: '/mine/comments/demands',
+        label: '需求评论',
+        icon: 'i-uil:comment-dots',
+      },
+    ],
   },
 ]
 

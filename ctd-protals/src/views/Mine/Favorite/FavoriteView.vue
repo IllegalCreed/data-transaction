@@ -1,109 +1,68 @@
 <template>
-  <div class="favorite-root-container">
-    <common-tabbar v-model="currentPage" :links="links" class="tabbar" />
-
-    <div v-if="currentPage === 'product'" flex flex-row justify-center self-center flex-wrap mt-10>
-      <product-item
-        class="product-item"
-        v-for="(product, index) in products"
+  <div flex flex-col h-full>
+    <div class="tab">
+      <router-link
+        v-for="(item, index) in mineMenus?.find(
+          link => link.path === '/mine/favorites',
+        )?.children || []"
         :key="index"
-        :product="product"
+        :to="item.path"
+        class="tab-item"
+        :class="{ active: isActive(item.path) }"
       >
-        <el-button size="small" type="primary" absolute right-1 top-1>移除</el-button>
-      </product-item>
+        {{ item.label }}
+      </router-link>
     </div>
-
-    <div v-else flex flex-row justify-center self-center flex-wrap mt-10>
-      <demand-item
-        class="demand-item"
-        v-for="(demand, index) in demands"
-        :key="index"
-        :demand="demand"
-      >
-        <el-button size="small" type="primary" absolute right-1 top-1>移除</el-button>
-      </demand-item>
-    </div>
-
-    <div class="pager-panel">
-      <el-pagination
-        :pager-count="pagerCount"
-        :background="showPaginationBackground"
-        :total="1000"
-        :layout="paginationLayout"
-      />
+    <div class="content">
+      <router-view v-slot="{ Component }">
+        <transition name="fade" mode="out-in">
+          <component :is="Component" />
+        </transition>
+      </router-view>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import CommonTabbar from '@/components/CommonTabbar.vue'
-import ProductItem from '@/views/Product/ProductItem.vue'
-import DemandItem from '@/views/Demand/DemandItem.vue'
+import { useMenuStore } from '@/stores/modules/menu'
+const menuStore = useMenuStore()
+const { mineMenus } = storeToRefs(menuStore)
+const { getMineMenus: getMineMenusAction } = menuStore
 
-import { useProductStore } from '@/stores/modules/product'
-const { products } = useProductStore()
+const route = useRoute()
 
-import { useDemandStore } from '@/stores/modules/demand'
-const { demands } = useDemandStore()
-
-const currentPage = ref('product')
-
-const links = ref([
-  {
-    id: 'product',
-    label: '产品'
-  },
-  { id: 'demand', label: '需求' }
-])
-
-const paginationLayout = ref('total, prev, pager, next')
-const showPaginationBackground = ref(true)
-const pagerCount = ref(7)
-const isMobileDevice = useMediaQuery('(max-width: 40rem)')
-
-watchEffect(() => {
-  if (isMobileDevice.value) {
-    paginationLayout.value = 'prev, pager, next'
-    showPaginationBackground.value = false
-    pagerCount.value = 5
-  } else {
-    paginationLayout.value = 'total, prev, pager, next'
-    showPaginationBackground.value = true
-    pagerCount.value = 7
+const isActive = (itemPath: string) => {
+  if (route.meta.belong) {
+    return itemPath === (route.meta.belong as string)
   }
+  return itemPath === route.path
+}
+
+onMounted(() => {
+  getMineMenusAction()
 })
 </script>
 
 <style lang="scss" scoped>
-.favorite-root-container {
-  @apply flex flex-col pt-10 pb-20;
+.tab {
+  @apply hidden flex-row items-center justify-around gap-4 h-15 min-w-80 sticky top-15 left-0 right-0 bg-[var(--color-background-alternating)] z-10 shadow-sm;
 
-  .tabbar {
-    @apply self-center w-50;
+  .tab-item {
+    @apply text-base no-underline text-[var(--color-text)] hover:opacity-60;
 
-    @media (max-width: 40rem) {
-      @apply self-start m--5 w-[calc(100%+20px)];
+    &.active {
+      @apply text-[var(--color-primary)];
     }
   }
 
   @media (max-width: 40rem) {
-    @apply pt-5;
+    @apply flex;
   }
 }
 
-.product-item {
-  @media (min-width: 41rem) {
-    @apply w-58;
+.content {
+  @media (max-width: 40rem) {
+    @apply mt-5;
   }
-}
-
-.demand-item {
-  @media (min-width: 41rem) {
-    @apply w-78;
-  }
-}
-
-.pager-panel {
-  @apply flex flex-row justify-center mt-10 max-w-280 w-full;
 }
 </style>
