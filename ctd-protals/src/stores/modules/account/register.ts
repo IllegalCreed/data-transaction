@@ -2,10 +2,10 @@ import type { IRegisterAdCarouselItem } from '@/types/advertisement'
 import { useSettingsStore } from '../settings'
 import {
   register as registerAPI,
-  activationAccount as activationAccountAPI,
+  activateAccount as activateAccountAPI,
   tokenExchangeEmail as tokenExchangeEmailAPI,
   reSendActivationEmail as reSendActivationEmailAPI,
-} from '@/apis/account/register'
+} from '@/apis/account'
 import { ads as mockAds } from '@/constants/mockData/account/register'
 import {
   GenderType,
@@ -89,12 +89,12 @@ export const useRegister = () => {
     })
   }
 
-  const activationAccount = (token: string): Promise<void> => {
+  const activateAccount = (token: string): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => resolve(), 1000)
       } else {
-        activationAccountAPI(token)
+        activateAccountAPI(token)
           .then(() => {
             resolve()
           })
@@ -111,15 +111,19 @@ export const useRegister = () => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => resolve('test@test.com'), 1000)
       } else {
-        tokenExchangeEmailAPI(token)
-          .then((res: unknown) => {
-            const resData = res as ICommonReturn<string>
-            resolve(resData.data)
-          })
-          .catch(error => {
-            reject(error)
-          })
-          .finally(() => {})
+        if (tokenExchangeEmailAPI) {
+          tokenExchangeEmailAPI(token)
+            .then((res: unknown) => {
+              const resData = res as ICommonReturn<string>
+              resolve(resData.data)
+            })
+            .catch(error => {
+              reject(error)
+            })
+            .finally(() => {})
+        } else {
+          reject('tokenExchangeEmailAPI is not defined')
+        }
       }
     })
   }
@@ -149,7 +153,7 @@ export const useRegister = () => {
 
   return {
     register,
-    activationAccount,
+    activateAccount,
     tokenExchangeEmail,
     reSendActivationEmail,
     getAds,

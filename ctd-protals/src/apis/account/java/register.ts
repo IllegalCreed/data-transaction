@@ -13,7 +13,7 @@ export const register = (registerInfo: RegistrationInfo): Promise<unknown> => {
   )
 }
 
-export const activationAccount = (token: string): Promise<unknown> => {
+export const activateAccount = (token: string): Promise<unknown> => {
   const params = { token }
 
   return request.get(

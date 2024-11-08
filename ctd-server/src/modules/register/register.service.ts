@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DataSource } from 'typeorm';
@@ -22,9 +22,11 @@ import {
 } from 'src/common/utils/response';
 import { ErrorCode } from 'src/common/constants/error-codes';
 import { ActivateAccountDto } from './dto/activate-account.dto';
+import { ResendVerificationEmailDto } from './dto/resend-verification-email.dto';
 
 @Injectable()
 export class RegisterService {
+  private readonly logger = new Logger(RegisterService.name);
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
@@ -47,6 +49,7 @@ export class RegisterService {
     const { email, password, userType } = createUserDto;
 
     if (!(await this.isEmailAvailable(email)).data.available) {
+      this.logger.error('用户注册失败：邮件被占用');
       return createErrorResponse(ErrorCode.EMAIL_TAKEN);
     }
 
@@ -78,30 +81,15 @@ export class RegisterService {
 
         await manager.save(user);
 
-        const activationToken = await generateActivationToken(
-          email,
-          this.configService.get<string>('JWT_SECRET'),
-        );
-
-        const activation = this.activationRepository.create({
-          activationToken,
-          user,
-          expireAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
-          isActivated: false,
+        await this.createAndSendActivation(user, async (activation) => {
+          await manager.save(activation);
         });
-
-        await manager.save(activation);
-
-        await this.mailerService.sendActivationEmailInternal(
-          email,
-          activationToken,
-        );
       });
 
-      console.log(`用户注册成功：${email}`);
+      this.logger.log(`用户注册成功：${email}`);
       return createSuccessResponse('REGISTRATION_SUCCEED');
     } catch (error) {
-      console.error('用户注册失败：', error);
+      this.logger.error('用户注册失败：', error);
 
       const errorCode = Number(error.message);
       if (errorCode === ErrorCode.SEND_EMAIL_FAILED) {
@@ -110,14 +98,6 @@ export class RegisterService {
 
       return createErrorResponse(ErrorCode.REGISTRATION_FAILED);
     }
-  }
-
-  async isEmailAvailable(
-    email: string,
-  ): Promise<ApiResponse<{ available: boolean }>> {
-    const user = await this.userRepository.findOne({ where: { email } });
-    const available = !user;
-    return createSuccessResponse({ available });
   }
 
   async activateAccount(
@@ -131,7 +111,7 @@ export class RegisterService {
     );
 
     if (!email) {
-      console.error('激活账户失败：JWT验证失败');
+      this.logger.error('激活账户失败：JWT验证失败');
       return createErrorResponse(ErrorCode.ACTIVATE_ACCOUNT_FAILED);
     }
 
@@ -143,17 +123,17 @@ export class RegisterService {
         });
 
         if (!activation) {
-          console.error('激活账户失败：无效的激活令牌');
+          this.logger.error('激活账户失败：无效的激活令牌');
           throw new Error(ErrorCode.INVALID_ACTIVATION_TOKEN.toString());
         }
 
         if (activation.expireAt < new Date()) {
-          console.error('激活账户失败：激活令牌已过期');
+          this.logger.error('激活账户失败：激活令牌已过期');
           throw new Error(ErrorCode.INVALID_ACTIVATION_TOKEN.toString());
         }
 
         if (activation.user.email !== email) {
-          console.error('激活账户失败：数据异常');
+          this.logger.error('激活账户失败：数据异常');
           throw new Error(ErrorCode.ACTIVATE_ACCOUNT_FAILED.toString());
         }
 
@@ -164,7 +144,7 @@ export class RegisterService {
         await manager.save(activation);
       });
 
-      console.log(`账户激活成功：${email}`);
+      this.logger.log(`账户激活成功：${email}`);
       return createSuccessResponse('ACCOUNT_ACTIVATED');
     } catch (error) {
       const errorCode = Number(error.message);
@@ -173,8 +153,84 @@ export class RegisterService {
         return createErrorResponse(errorCode, email);
       }
 
-      console.error('激活账户失败：', error);
+      this.logger.error('激活账户失败：', error);
       return createErrorResponse(ErrorCode.ACTIVATE_ACCOUNT_FAILED);
     }
+  }
+
+  async resendVerificationEmail(
+    resendVerificationEmailDto: ResendVerificationEmailDto,
+  ): Promise<ApiResponse<string>> {
+    const { email } = resendVerificationEmailDto;
+
+    const user = await this.userRepository.findOne({
+      where: { email },
+    });
+
+    if (!user) {
+      this.logger.error('重新发送激活邮件失败：用户未找到');
+      return createErrorResponse(ErrorCode.USER_NOT_FOUND);
+    }
+
+    if (user.status === UserStatus.ACTIVE) {
+      this.logger.error('重新发送激活邮件失败：用户已激活');
+      return createErrorResponse(ErrorCode.ACCOUNT_ALREADY_ACTIVATED);
+    }
+
+    try {
+      await this.createAndSendActivation(user, async (activation) => {
+        await this.activationRepository.save(activation);
+      });
+
+      this.logger.log(`重新发送激活邮件成功：${email}`);
+      return createSuccessResponse('ACTIVATION_EMAIL_SENT');
+    } catch (error) {
+      this.logger.error('重新发送激活邮件失败：', error);
+
+      const errorCode = Number(error.message);
+      if (errorCode === ErrorCode.SEND_EMAIL_FAILED) {
+        return createErrorResponse(ErrorCode.SEND_EMAIL_FAILED);
+      }
+
+      return createErrorResponse(ErrorCode.RESEND_ACTIVATION_EMAIL_FAILED);
+    }
+  }
+
+  private async isEmailAvailable(
+    email: string,
+  ): Promise<ApiResponse<{ available: boolean }>> {
+    const user = await this.userRepository.findOne({ where: { email } });
+    const available = !user;
+    return createSuccessResponse({ available });
+  }
+
+  private async createAndSendActivation(
+    user: User,
+    saveActivation: (activation: UserActivation) => Promise<void>,
+  ): Promise<void> {
+    const email = user.email;
+
+    // 生成新的激活令牌
+    const activationToken = await generateActivationToken(
+      email,
+      this.configService.get<string>('JWT_SECRET', { infer: true }),
+    );
+
+    // 创建新的激活记录
+    const activation = this.activationRepository.create({
+      activationToken,
+      user,
+      expireAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      isActivated: false,
+    });
+
+    // 保存激活记录，使用传入的保存函数
+    await saveActivation(activation);
+
+    // 发送激活邮件
+    await this.mailerService.sendActivationEmailInternal(
+      email,
+      activationToken,
+    );
   }
 }

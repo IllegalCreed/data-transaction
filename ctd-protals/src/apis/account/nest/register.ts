@@ -1,0 +1,37 @@
+import request from '@/axios'
+import type { RegistrationInfo } from '@/types/register'
+
+export const register = (registerInfo: RegistrationInfo): Promise<unknown> => {
+  const data = { registerInfo }
+  return request.post(
+    {
+      url: '/register',
+      data,
+    },
+    false,
+  )
+}
+
+export const activateAccount = (token: string): Promise<unknown> => {
+  const params = { token }
+
+  return request.post(
+    {
+      url: '/register/activate',
+      params,
+    },
+    false,
+  )
+}
+
+export const reSendActivationEmail = (email: string): Promise<unknown> => {
+  const params = { email }
+
+  return request.get(
+    {
+      url: '/register/refreshActivation',
+      params,
+    },
+    false,
+  )
+}

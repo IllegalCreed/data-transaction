@@ -45,7 +45,7 @@ import { useAccountStore } from '@/stores/modules/account'
 const accountStore = useAccountStore()
 const {
   baseInfo,
-  activationAccount: activationAccountAction,
+  activateAccount: activateAccountAction,
   reSendActivationEmail: reSendActivationEmailAction,
   tokenExchangeEmail: tokenExchangeEmailAction,
 } = accountStore
@@ -63,7 +63,7 @@ const router = useRouter()
 // 模拟 API 调用验证激活链接
 const verifyActivation = async (token: string) => {
   try {
-    await activationAccountAction(token)
+    await activateAccountAction(token)
     isActivationSuccess.value = true
   } catch {
     isActivationSuccess.value = false
