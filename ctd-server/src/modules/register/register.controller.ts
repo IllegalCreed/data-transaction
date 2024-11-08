@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { RegisterService } from './register.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ApiResponse } from 'src/common/interfaces/api-response.interface';
@@ -9,7 +9,6 @@ export class RegisterController {
   constructor(private readonly registerService: RegisterService) {}
 
   @Post()
-  @HttpCode(HttpStatus.CREATED)
   async register(
     @Body() createUserDto: CreateUserDto,
   ): Promise<ApiResponse<string>> {
@@ -17,7 +16,6 @@ export class RegisterController {
   }
 
   @Post('activate')
-  @HttpCode(HttpStatus.OK)
   async activateAccount(
     @Body() activateAccountDto: ActivateAccountDto,
   ): Promise<ApiResponse<string>> {
