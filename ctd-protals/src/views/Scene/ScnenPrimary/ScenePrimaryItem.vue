@@ -6,12 +6,17 @@
     <div flex-1></div>
     <el-button class="btn" type="primary" size="large">
       <span> 进入场景 </span>
-      <i-solar:round-arrow-right-broken ml-2 w-8 h-8></i-solar:round-arrow-right-broken>
+      <i-solar:round-arrow-right-broken
+        ml-2
+        w-8
+        h-8
+      ></i-solar:round-arrow-right-broken>
     </el-button>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useWave } from '@/composables'
 import type { IScene } from '@/types/scene'
 
 defineProps<{ scene: IScene }>()
@@ -21,8 +26,14 @@ const root = useTemplateRef('root')
 const numberOfLines = 5
 useWave(root, {
   numberOfLines,
-  amplitude: Array.from({ length: numberOfLines }, (_, index) => 15 + index * 2),
-  frequency: Array.from({ length: numberOfLines }, (_, index) => 0.01 + index * 0.005),
+  amplitude: Array.from(
+    { length: numberOfLines },
+    (_, index) => 15 + index * 2,
+  ),
+  frequency: Array.from(
+    { length: numberOfLines },
+    (_, index) => 0.01 + index * 0.005,
+  ),
   opacity: Array.from({ length: numberOfLines }, (_, index) => 0 + index * 0.3),
   speed: Array.from({ length: numberOfLines }, (_, index) => 2 - index * 0.2),
   style: 'position: absolute; bottom: -20px; left: 0;',
@@ -32,7 +43,7 @@ useWave(root, {
       canvasElement.width = rect!.width
       canvasElement.height = 100
     }
-  }
+  },
 })
 </script>
 

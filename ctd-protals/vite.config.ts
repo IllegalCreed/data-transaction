@@ -64,13 +64,7 @@ export default defineConfig({
             ['useRouteQuery', 'useRouteQuery'],
           ],
         },
-        {
-          from: '.src/types',
-          type: true,
-          imports: ['ISort'],
-        },
       ],
-      dirs: ['./src/utils', './src/composables', './src/apis/**'],
       dts: true,
       eslintrc: {
         enabled: true,

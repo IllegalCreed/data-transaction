@@ -9,7 +9,10 @@
     >
       {{ link.label }}
     </RouterLink>
-    <el-dropdown v-if="dropdownLinks.length > 0 && visibleLinks.length > 0" trigger="click">
+    <el-dropdown
+      v-if="dropdownLinks.length > 0 && visibleLinks.length > 0"
+      trigger="click"
+    >
       <div flex justify-center items-center p-1>
         <i-lucide:ellipsis cursor-pointer />
       </div>
@@ -42,6 +45,7 @@
 </template>
 
 <script setup lang="ts">
+import { useResponsiveMenu } from '@/composables'
 import { useMenuStore } from '@/stores/modules/menu'
 const menuStore = useMenuStore()
 const { mainMenus } = storeToRefs(menuStore)
@@ -59,12 +63,13 @@ const navigateTo = (path: string) => {
 }
 
 const menuContainer = useTemplateRef('menuContainer')
-const shadowMenuItemsRef = useTemplateRef<HTMLAnchorElement[]>('shadowMenuItemsRef')
+const shadowMenuItemsRef =
+  useTemplateRef<HTMLAnchorElement[]>('shadowMenuItemsRef')
 
 const { visibleLinks, dropdownLinks } = useResponsiveMenu(
   mainMenus,
   menuContainer,
-  shadowMenuItemsRef
+  shadowMenuItemsRef,
 )
 
 onMounted(() => {

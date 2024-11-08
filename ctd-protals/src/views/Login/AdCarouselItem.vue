@@ -23,6 +23,8 @@
 </template>
 
 <script setup lang="ts">
+import { useWave } from '@/composables'
+
 defineProps<{
   title: string
   comment: string
@@ -35,8 +37,14 @@ const root = useTemplateRef('root')
 const numberOfLines = 3
 useWave(root, {
   numberOfLines,
-  amplitude: Array.from({ length: numberOfLines }, (_, index) => 15 + index * 2),
-  frequency: Array.from({ length: numberOfLines }, (_, index) => 0.01 + index * 0.005),
+  amplitude: Array.from(
+    { length: numberOfLines },
+    (_, index) => 15 + index * 2,
+  ),
+  frequency: Array.from(
+    { length: numberOfLines },
+    (_, index) => 0.01 + index * 0.005,
+  ),
   opacity: Array.from({ length: numberOfLines }, (_, index) => 0 + index * 0.3),
   speed: Array.from({ length: numberOfLines }, (_, index) => 2 - index * 0.2),
   style: 'position: absolute; bottom: -20px; left: 0;',
@@ -46,7 +54,7 @@ useWave(root, {
       canvasElement.width = rect!.width
       canvasElement.height = 100
     }
-  }
+  },
 })
 </script>
 

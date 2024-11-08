@@ -2,11 +2,20 @@
   <div class="filter-item-root-container">
     <label class="title">{{ data.label }}：</label>
     <div class="content" ref="contentRef">
-      <div v-for="item in data.items" :key="item.id" @click="selectItem(item.id)">
+      <div
+        v-for="item in data.items"
+        :key="item.id"
+        @click="selectItem(item.id)"
+      >
         <span :class="{ selected: model === item.id }">{{ item.label }}</span>
       </div>
     </div>
-    <el-link v-if="isToggleVisible" @click="toggle" :underline="false" class="toggle-button">
+    <el-link
+      v-if="isToggleVisible"
+      @click="toggle"
+      :underline="false"
+      class="toggle-button"
+    >
       {{ isCollapsed ? '收起' : '展开' }}
       <i-mingcute:down-line v-if="!isCollapsed" ml-2></i-mingcute:down-line>
       <i-mingcute:up-line v-else ml-2></i-mingcute:up-line>
@@ -16,13 +25,15 @@
 
 <script setup lang="ts">
 import type { IFilter } from '@/types/filter'
+import { usePxRemConverter } from '@/composables/fontUnitUtils/usePxRemConverter'
+const { remToPx } = usePxRemConverter()
 
 defineProps<{
   data: IFilter
 }>()
 
 const model = defineModel<string>({
-  required: true
+  required: true,
 })
 
 const isCollapsed = ref(false)
@@ -42,7 +53,7 @@ const toggle = () => {
 
 const checkToggleVisibility = () => {
   if (contentRef.value) {
-    isToggleVisible.value = contentRef.value.scrollHeight > remToPx(3)
+    isToggleVisible.value = contentRef.value.scrollHeight > remToPx(3).value
   }
 }
 
