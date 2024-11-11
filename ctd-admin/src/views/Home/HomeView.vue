@@ -80,9 +80,9 @@ import { useRouterStore } from '@/stores/modules/router'
 const { cachedViews } = useRouterStore()
 const router = useRouter()
 
-const isCollapse = ref(false)
-const showText = ref(true)
-watch(isCollapse, (value) => {
+const isCollapse = ref<boolean>(false)
+const showText = ref<boolean>(true)
+watch(isCollapse, (value: boolean) => {
   if (value) {
     showText.value = false
   } else {
@@ -93,7 +93,7 @@ watch(isCollapse, (value) => {
 })
 
 const activeIndex = ref('user')
-const handleSelect = (key: string, keyPath: string[]) => {
+const handleSelect = (key: string) => {
   activeIndex.value = key
   router.push({
     name: key
@@ -107,7 +107,7 @@ const setCurrentMenu = (route: _RouteLocationBase) => {
   activeIndex.value = route.meta.belong as string
 }
 
-router.afterEach((to: RouteLocationNormalized, from: RouteLocationNormalized) => {
+router.afterEach((to: RouteLocationNormalized) => {
   setCurrentMenu(to)
 })
 

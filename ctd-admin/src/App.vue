@@ -1,5 +1,5 @@
 <template>
-  <el-watermark :font="font" :content="['Demo']" :zIndex="100">
+  <el-watermark :font="font" :content="[settingsStore.watermarkContent]" :zIndex="100">
     <el-config-provider :locale="locale">
       <router-view v-slot="{ Component }">
         <transition name="fade" mode="out-in">

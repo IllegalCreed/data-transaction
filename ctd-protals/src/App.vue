@@ -1,5 +1,9 @@
 <template>
-  <el-watermark :font="font" :content="[settingsStore.watermarkContent]" :zIndex="100">
+  <el-watermark
+    :font="font"
+    :content="[settingsStore.watermarkContent]"
+    :zIndex="100"
+  >
     <el-config-provider :locale="locale">
       <router-view v-slot="{ Component }">
         <transition name="fade" mode="out-in">
@@ -16,14 +20,15 @@ import zhCn from 'element-plus/es/locale/lang/zh-cn'
 const locale = zhCn
 
 const settingsStore = useSettingsStore()
-watch(
-  () => settingsStore.watermarkEnabled,
-  (value) => {
-    font.color = value ? 'rgba(0, 0, 0, .1)' : 'rgba(0, 0, 0, 0)'
-  }
-)
+const { watermarkEnabled } = storeToRefs(settingsStore)
+
 const font = reactive({
-  color: 'rgba(0, 0, 0, .1)'
+  color: 'rgba(0, 0, 0, .1)',
+})
+
+// 对于简单ref变量，直接使用watch即可，无需使用getter模式
+watch(watermarkEnabled, value => {
+  font.color = value ? 'rgba(0, 0, 0, .1)' : 'rgba(0, 0, 0, 0)'
 })
 </script>
 

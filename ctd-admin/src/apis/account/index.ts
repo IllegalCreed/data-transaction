@@ -1,41 +1,31 @@
-import request from '@/axios'
-import type { ILogin } from '@/types/Login'
+import type { ILogin } from '@/types/login'
+import * as javaLogin from './java/login'
+import * as nestLogin from './nest/login'
+import * as javaAccount from './java/account'
+import * as nestAccount from './nest/account'
 
-export const loginAPI = (login: ILogin): Promise<any> => {
-  const data = {
-    username: login.account,
-    password: login.password,
-    code: login.code,
-    uuid: login.uuid
-  }
-  return request.post(
-    {
-      url: '/login',
-      data
-    },
-    false
-  )
+interface ILoginAPI {
+  login: (login: ILogin) => Promise<unknown>
+  getCode: () => Promise<unknown>
+  logout: () => Promise<unknown>
 }
 
-export const logoutAPI = (): Promise<any> => {
-  return request.post({ url: '/logout' })
+interface IAccountAPI {
+  resetPwd: (oldPwd: string, newPwd: string) => Promise<unknown>
 }
 
-export const getCodeAPI = (): Promise<any> => {
-  return request.get({ url: '/captchaImage' })
+type AccountAPIType = ILoginAPI & IAccountAPI
+
+const javaAPI: AccountAPIType = {
+  ...javaLogin,
+  ...javaAccount
 }
 
-// 修改管理员密码
-export const resetPwdAPI = (oldPwd: string, newPwd: string): Promise<any> => {
-  const params = {
-    oldPassword: oldPwd,
-    newPassword: newPwd
-  }
-  return request.get(
-    {
-      url: '/user/resetPwd',
-      params
-    },
-    true
-  )
+const nestAPI: AccountAPIType = {
+  ...nestLogin,
+  ...nestAccount
 }
+
+const accountAPI: AccountAPIType = import.meta.env.VITE_BACK_TYPE === 'java' ? javaAPI : nestAPI
+
+export const { login, getCode, logout, resetPwd } = accountAPI

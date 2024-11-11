@@ -22,7 +22,7 @@
 
 <script setup lang="ts">
 import { useAccountStore } from '@/stores/modules/account'
-import type { ILogin } from '@/types/Login'
+import type { ILogin } from '@/types/login'
 const { login: loginAction, getCode: getCodeAction } = useAccountStore()
 const router = useRouter()
 
@@ -36,9 +36,10 @@ const loginform = ref<ILogin>({
 const loginLoading = ref(false)
 
 function getCode() {
-  getCodeAction().then((res: any) => {
-    codeUrl.value = 'data:image/gif;base64,' + res.img
-    loginform.value.uuid = res.uuid
+  getCodeAction().then((res: unknown) => {
+    const data = res as { img: string; uuid: string }
+    codeUrl.value = 'data:image/gif;base64,' + data.img
+    loginform.value.uuid = data.uuid
   })
 }
 
@@ -50,7 +51,7 @@ function Login() {
         name: 'user'
       })
     })
-    .catch((error) => {
+    .catch(() => {
       getCode()
     })
     .finally(() => {
@@ -61,7 +62,7 @@ function Login() {
 getCode()
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .login-root-container {
   @apply flex flex-col items-center justify-center w-screen h-screen;
 }
