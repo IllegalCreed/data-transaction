@@ -1,0 +1,17 @@
+@import './base.css';
+
+#app {
+}
+
+.default-btn {
+  --el-button-border-color: var(--border-btn-primary-color) !important;
+  --el-button-text-color: var(--text-btn-primary-color) !important;
+}
+
+.table-header-row {
+  background-color: var(--background-page-dark-color) !important;
+}
+
+.table-row-cell {
+  background-color: var(--background-page-color) !important;
+}

@@ -52,8 +52,7 @@ const handleCommand = (command: string) => {
 
 <style scoped lang="scss">
 .header-root-container {
-  @apply: flex flex-row items-center justify-between px-10 h-20 relative;
-  background-color: var(--primary-color);
+  @apply: flex flex-row items-center justify-between px-10 h-20 relative bg-[var(--background-header-color)];
 }
 
 .header-user-container {

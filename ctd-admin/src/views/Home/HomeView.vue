@@ -124,7 +124,7 @@ const menuItems = ref([
 
 <style scoped>
 .home-root-container {
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -187,7 +187,7 @@ const menuItems = ref([
   flex-direction: column;
   flex: 1;
   padding: 20px;
-  background-color: var(--page-background-dark-color);
+  background-color: var(--background-page-dark-color);
   overflow-y: scroll;
 }
 

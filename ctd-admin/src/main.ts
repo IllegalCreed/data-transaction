@@ -1,6 +1,6 @@
 // import 'element-plus/theme-chalk/base.css'
 
-import '@/assets/main.css'
+import '@/assets/main.scss'
 import '@/styles/index.scss'
 import 'virtual:uno.css'
 import 'element-plus/theme-chalk/src/message.scss'
