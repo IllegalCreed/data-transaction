@@ -1,14 +1,14 @@
 import request from '@/axios'
 
 export const getProducts = (
-  title: string,
+  searchQuery: string,
   status: string,
   sellerId: string | number,
   pageNum: number,
   pageSize: number
 ): Promise<unknown> => {
   const params = {
-    title,
+    searchQuery,
     status,
     sellerId,
     pageNum,

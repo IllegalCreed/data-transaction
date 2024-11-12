@@ -8,7 +8,7 @@ export const useProduct = () => {
   const settingsStore = useSettingsStore()
 
   const getProducts = (
-    title: string,
+    searchQuery: string,
     status: string,
     sellerId: string | number,
     pageNum: number,
@@ -18,7 +18,7 @@ export const useProduct = () => {
       if (settingsStore.mockEnabled) {
         resolve({ total: mockProducts.length, rows: mockProducts })
       } else {
-        getProductsAPI(title, status, sellerId, pageNum, pageSize)
+        getProductsAPI(searchQuery, status, sellerId, pageNum, pageSize)
           .then((res) => {
             const result = res as apiListResult<IProduct>
             resolve(result)

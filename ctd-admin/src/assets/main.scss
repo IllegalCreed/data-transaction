@@ -8,10 +8,43 @@
   --el-button-text-color: var(--text-btn-primary-color) !important;
 }
 
+.search-input {
+  @apply max-w-100;
+}
+
 .table-header-row {
   background-color: var(--background-page-dark-color) !important;
 }
 
 .table-row-cell {
   background-color: var(--background-page-color) !important;
+}
+
+.sorting-popover,
+.filter-popover {
+  padding: 0 !important;
+
+  .el-divider--horizontal {
+    @apply my-0;
+  }
+
+  .panel {
+    @apply flex flex-col p-3 gap-3;
+  }
+
+  .title {
+    @apply text-base p-3;
+  }
+
+  .label {
+    @apply text-sm;
+  }
+
+  .reset {
+    @apply text-sm text-[var(--text-btn-primary-color)];
+  }
+}
+
+.modal-mask {
+  @apply fixed top-0 left-0 w-full h-full bg-black/50 z-10;
 }

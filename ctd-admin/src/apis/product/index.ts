@@ -3,7 +3,7 @@ import * as nestPruduct from './nest/product'
 
 interface IProductAPI {
   getProducts: (
-    title: string,
+    searchQuery: string,
     status: string,
     sellerId: string | number,
     pageNum: number,
