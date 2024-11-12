@@ -108,7 +108,7 @@
       </el-popover>
     </div>
 
-    <product-tabel-panel :data="data"></product-tabel-panel>
+    <product-tabel-panel :data="data" @delete="handleDelete"></product-tabel-panel>
 
     <el-pagination
       self-center
@@ -126,26 +126,52 @@
 
 <script setup lang="ts">
 import ProductTabelPanel from './ProductTabelPanel.vue'
-import type { apiListResult } from '@/types/common'
-import { usePager } from '@/composables/usePager'
-import type { IProductItem } from '@/types/product'
-import { productStatusOptions } from '@/constants/mapData/product'
 
+// 获取列表
 const searchQuery = ref<string>('')
-const status = ref<string>('')
-const sellerId = ref<string | number>('')
-
+const data = ref<IProductItem[]>([])
 import { useProductStore } from '@/stores/modules/product'
-const { getProducts: getProductsAction } = useProductStore()
-const getList = (pageNum: number, pageSize: number): Promise<apiListResult<IProductItem>> => {
-  return getProductsAction(searchQuery.value, status.value, sellerId.value, pageNum, pageSize)
+const { getProducts: getProductsAction, delProducts: delProductsAction } = useProductStore()
+const getList = async (): Promise<number> => {
+  const res = await getProductsAction(
+    searchQuery.value,
+    status.value,
+    sellerId.value,
+    pageNum.value,
+    pageSize.value
+  )
+
+  data.value = res.rows
+
+  return res.total
 }
 
-const { pageNum, pageSize, total, data } = usePager(getList)
+// 删除
+import { useDelete } from '@/composables/useDelete'
+const delName = ref('')
+const delId = ref<string | number>('')
+const { doDelAction } = useDelete(`是否确认删除${delName.value}？`, async () => {
+  await delProductsAction([delId.value])
+  getList()
+})
+const handleDelete = (id: string | number, name: string) => {
+  delName.value = name
+  delId.value = id
+  doDelAction()
+}
+
+// 分页
+import { usePager } from '@/composables/usePager'
+import type { IProductItem } from '@/types/product'
+const { pageNum, pageSize, total } = usePager(getList)
 
 const sortingVisible = ref<boolean>(false)
 const filterVisible = ref<boolean>(false)
 
+// 筛选
+const status = ref<string>('')
+const sellerId = ref<string | number>('')
+import { productStatusOptions } from '@/constants/mapData/product'
 import { useBusinessStore } from '@/stores/modules/business'
 const { getBusinessOptionsByName: getBusinessOptionsByNameAction } = useBusinessStore()
 const {
@@ -163,14 +189,6 @@ const remoteMethod = (query: string) => {
   } else {
     businessOptions.value = []
   }
-}
-
-const sortingCount = ref(0)
-
-const resetAllSorting = () => {}
-
-const applySorting = () => {
-  sortingVisible.value = false
 }
 
 const filterCount = ref(0)
@@ -197,6 +215,15 @@ const applyFilter = () => {
   if (sellerId.value) {
     filterCount.value++
   }
+}
+
+// 排序
+const sortingCount = ref(0)
+
+const resetAllSorting = () => {}
+
+const applySorting = () => {
+  sortingVisible.value = false
 }
 </script>
 

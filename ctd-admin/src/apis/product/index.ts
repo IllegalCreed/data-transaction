@@ -11,6 +11,7 @@ interface IProductAPI {
     pageNum: number,
     pageSize: number
   ) => Promise<unknown>
+  delProducts: (ids: (string | number)[]) => Promise<unknown>
 }
 
 interface IApprovalAPI {
@@ -32,4 +33,4 @@ const nestAPI: ProductAPIType = {
 
 const productAPI: ProductAPIType = import.meta.env.VITE_BACK_TYPE === 'java' ? javaAPI : nestAPI
 
-export const { getProducts, getLastRejectReason, getProductApprovalLogs } = productAPI
+export const { getProducts, delProducts, getLastRejectReason, getProductApprovalLogs } = productAPI

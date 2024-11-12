@@ -1,7 +1,7 @@
 import { useSettingsStore } from '../settings'
 import type { apiListResult } from '@/types/common'
 import type { IProductItem } from '@/types/product'
-import { getProducts as getProductsAPI } from '@/apis/product'
+import { getProducts as getProductsAPI, delProducts as delProductsAPI } from '@/apis/product'
 import { products as mockProducts } from '@/constants/mockData/product/product'
 
 export const useProduct = () => {
@@ -33,7 +33,27 @@ export const useProduct = () => {
     })
   }
 
+  const delProducts = (ids: (string | number)[]): Promise<void> => {
+    return new Promise<void>((resolve, reject) => {
+      if (settingsStore.mockEnabled) {
+        window.setTimeout(() => {
+          resolve()
+        }, 1000)
+      } else {
+        delProductsAPI(ids)
+          .then(() => {
+            resolve()
+          })
+          .catch((error: Error) => {
+            reject(error)
+          })
+          .finally(() => {})
+      }
+    })
+  }
+
   return {
-    getProducts
+    getProducts,
+    delProducts
   }
 }

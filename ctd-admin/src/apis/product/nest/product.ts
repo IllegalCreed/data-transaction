@@ -22,3 +22,16 @@ export const getProducts = (
     true
   )
 }
+
+export const delProducts = (ids: (string | number)[]): Promise<unknown> => {
+  const params = {
+    ids
+  }
+  return request.delete(
+    {
+      url: '/product/del',
+      params
+    },
+    true
+  )
+}

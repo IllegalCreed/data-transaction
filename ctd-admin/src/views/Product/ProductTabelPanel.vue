@@ -53,7 +53,7 @@
         <el-button link type="primary" size="small" @click="goDetail(scope.row.id)"
           >查看详情</el-button
         >
-        <el-button link type="primary" size="small" @click="deleteRow(scope.row.id)"
+        <el-button link type="primary" size="small" @click="deleteRow(scope.row.id, scope.row.name)"
           >删除</el-button
         >
       </template>
@@ -96,8 +96,12 @@ const rejectReason = (id: number | string) => {
   reasonDialogVisible.value = true
 }
 
-const deleteRow = (id: number | string) => {
-  console.log(id)
+const emit = defineEmits<{
+  (e: 'delete', id: number | string, name: string): void
+}>()
+
+const deleteRow = (id: number | string, name: string) => {
+  emit('delete', id, name)
 }
 </script>
 
