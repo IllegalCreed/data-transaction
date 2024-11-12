@@ -1,12 +1,7 @@
 <template>
   <div class="product-root-container">
     <div flex flex-row justify-between>
-      <el-input
-        class="search-input"
-        v-model="searchQuery"
-        placeholder="请输入订单关键字搜索"
-        clearable
-      >
+      <el-input class="search-input" v-model="searchQuery" placeholder="请输入关键字搜索" clearable>
         <template #append>
           <el-button>
             <template v-slot:icon>
@@ -15,8 +10,6 @@
           </el-button>
         </template>
       </el-input>
-
-      <el-button class="default-btn">新建产品</el-button>
     </div>
 
     <el-divider class="!my-0" />
@@ -135,7 +128,7 @@
 import ProductTabelPanel from './ProductTabelPanel.vue'
 import type { apiListResult } from '@/types/common'
 import { usePager } from '@/composables/usePager'
-import type { IProduct } from '@/types/product'
+import type { IProductItem } from '@/types/product'
 import { productStatusOptions } from '@/constants/mapData/product'
 
 const searchQuery = ref<string>('')
@@ -144,7 +137,7 @@ const sellerId = ref<string | number>('')
 
 import { useProductStore } from '@/stores/modules/product'
 const { getProducts: getProductsAction } = useProductStore()
-const getList = (pageNum: number, pageSize: number): Promise<apiListResult<IProduct>> => {
+const getList = (pageNum: number, pageSize: number): Promise<apiListResult<IProductItem>> => {
   return getProductsAction(searchQuery.value, status.value, sellerId.value, pageNum, pageSize)
 }
 

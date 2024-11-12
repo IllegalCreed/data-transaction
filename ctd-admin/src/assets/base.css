@@ -2,59 +2,58 @@
   --color-light-primary: #d00d14;
   --color-dark-primary: #950b0f;
 
-  --com-black: #000000;
-  --com-black-9: #141414;
-  --com-black-7: #1f1f1f;
-  --com-black-5: #262626;
-  --com-black-3: #434343;
-  --com-black-1: #595959;
-  --com-gray: #8c8c8c;
-  --com-white-1: #bfbfbf;
-  --com-white-3: #d9d9d9;
-  --com-white-5: #f0f0f0;
-  --com-white-7: #f5f5f5;
-  --com-white-9: #fafafa;
-  --com-white: #ffffff;
+  --color-black: #000;
+  --color-white: #fff;
+
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+  --color-gray-950: #090c0e;
 }
 
 :root {
-  --text-color: var(--com-black-3);
+  --text-color: var(--color-gray-600);
   --text-btn-primary-color: var(--color-light-primary);
-  --text-highlight-color: var(--com-gray);
-  --text-white-color: var(--com-white-7);
-  --text-white-highlight-color: var(--com-white);
-  --text-disable: var(--com-gray);
+  --text-white-color: var(--color-gray-100);
+  --text-white-highlight-color: var(--color-white);
+  --text-disable-color: var(--color-gray-400);
 
-  --background-page-dark-color: var(--com-white-5);
-  --background-page-color: var(--com-white);
+  --background-page-dark-color: var(--color-gray-200);
+  --background-page-color: var(--color-white);
   --background-header-color: var(--color-light-primary);
 
-  --border: var(--com-white-3);
+  --border: var(--color-gray-300);
   --border-btn-primary-color: var(--color-light-primary);
 
   --menu-background: var(--page-background-color);
-  --menu-hover: var(--com-white-3);
+  --menu-hover: var(--color-gray-300);
   --menu-text-color: var(--text-color);
   --menu-active-text-color: var(--el-color-primary);
 }
 
 .dark {
-  --text-color: var(--com-white-1);
+  --text-color: var(--color-gray-300);
   --text-btn-primary-color: var(--color-dark-primary);
-  --text-highlight-color: var(--com-white-3);
-  --text-white-color: var(--com-white-7);
-  --text-white-highlight-color: var(--com-white);
-  --text-disable: var(--com-black-1);
+  --text-white-color: var(--color-gray-100);
+  --text-white-highlight-color: var(--color-white);
+  --text-disable-color: var(--color-gray-500);
 
-  --background-page-dark-color: var(--com-black-9);
-  --background-page-color: var(--com-black-5);
+  --background-page-dark-color: var(--color-gray-900);
+  --background-page-color: var(--color-gray-800);
   --background-header-color: var(--color-dark-primary);
 
-  --border: var(--com-black-3);
+  --border: var(--color-gray-600);
   --border-btn-primary-color: var(--color-dark-primary);
 
   --menu-background: var(--page-background-color);
-  --menu-hover: var(--com-black-5);
+  --menu-hover: var(--color-gray-800);
   --menu-text-color: var(--text-color);
   --menu-active-text-color: var(--el-color-primary);
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="header-root-container">
-    <span text-4xl font-bold>LOGO</span>
+    <span class="logo">LOGO</span>
     <div flex flex-row items-center space-x-4>
       <div flex justify-center items-center h-12 w-12 rounded-full class="bg-white/80">
         <i-fa-solid:user h-6 w-6 color-white></i-fa-solid:user>
@@ -18,6 +18,14 @@
           </el-dropdown-menu>
         </template>
       </el-dropdown>
+      <el-switch v-model="darkModeEnabled">
+        <template #active-action>
+          <i-material-symbols-light:dark-mode />
+        </template>
+        <template #inactive-action>
+          <i-material-symbols-light:light-mode color-yellow />
+        </template>
+      </el-switch>
     </div>
   </div>
 
@@ -48,29 +56,30 @@ const handleCommand = (command: string) => {
     default:
   }
 }
+import { useSettingsStore } from '@/stores/modules/settings'
+const settingStore = useSettingsStore()
+const { darkModeEnabled } = storeToRefs(settingStore)
 </script>
 
 <style scoped lang="scss">
 .header-root-container {
   @apply: flex flex-row items-center justify-between px-10 h-20 relative bg-[var(--background-header-color)];
-}
 
-.header-user-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
+  :deep(.el-switch.is-checked .el-switch__core) {
+    background-color: var(--el-switch-off-color);
+    border-color: var(--el-switch-border-color, var(--el-switch-off-color));
+  }
 
-.header-root-container :deep(.el-switch.is-checked .el-switch__core) {
-  background-color: var(--el-switch-off-color);
-  border-color: var(--el-switch-border-color, var(--el-switch-off-color));
-}
+  .logo {
+    @apply text-4xl font-bold text-[var(--text-white-color)];
+  }
 
-.user-text {
-  color: var(--text-white-color);
-}
+  .user-text {
+    @apply text-[var(--text-white-color)];
+  }
 
-.user-text:hover {
-  color: var(--text-white-highlight-color);
+  .user-text:hover {
+    @apply text-[var(--text-white-highlight-color)];
+  }
 }
 </style>

@@ -1,6 +1,15 @@
 <template>
-  <div :class="['history-tab-item-root-container', isActive ? 'active' : null]" flex flex-row items-center space-x-3.5
-    px-5 cursor-pointer select-none @click="change">
+  <div
+    :class="['history-tab-item-root-container', isActive ? 'active' : null]"
+    flex
+    flex-row
+    items-center
+    space-x-3.5
+    px-5
+    cursor-pointer
+    select-none
+    @click="change"
+  >
     <span text-3.5>{{ props.data.title }}</span>
     <i-ion:close v-show="showDelete" @click.stop="close"></i-ion:close>
   </div>
@@ -42,7 +51,7 @@ function change() {
 
 <style scoped>
 .history-tab-item-root-container {
-  color: var(--text-disable);
+  color: var(--text-disable-color);
   border-right-width: 1px;
   border-right-style: solid;
   border-right-color: var(--border);

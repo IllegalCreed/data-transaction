@@ -8,11 +8,17 @@ export const PRODUCT_STATUS_MAP: Record<ProductStatus, string> = {
   [ProductStatus.Rejected]: '已驳回'
 }
 
+export const PRODUCT_STATUS_COLOR_MAP: Record<
+  ProductStatus,
+  'primary' | 'success' | 'info' | 'warning' | 'danger'
+> = {
+  [ProductStatus.Approving]: 'info',
+  [ProductStatus.OffSale]: 'warning',
+  [ProductStatus.OnSale]: 'success',
+  [ProductStatus.Rejected]: 'danger'
+}
+
 export const productStatusOptions: IOption[] = Object.values(ProductStatus).map((value) => ({
   value,
   label: PRODUCT_STATUS_MAP[value]
 }))
-// productStatusOptions.unshift({
-//   value: 'all',
-//   label: '全部'
-// })

@@ -5,17 +5,21 @@ export enum ProductStatus {
   Rejected = 'rejected'
 }
 
-export interface IProduct {
+interface IProduct {
   id: string | number
   name: string
   description: string
   sellerId: string | number
-  sellerName: string
   imageUrl?: string
   showPrice: number | null
-  soldCount: number
   currentVersion?: number
   status: ProductStatus
+}
+
+export interface IProductItem extends IProduct {
+  rating: number
+  soldCount: number
+  sellerName: string
   createTime: string
   updateTime: string
 }
