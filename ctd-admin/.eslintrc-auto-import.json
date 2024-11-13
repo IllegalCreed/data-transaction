@@ -326,6 +326,10 @@
     "useTokenStore": true,
     "warningMessage": true,
     "ElMessage": true,
-    "ElMessageBox": true
+    "ElMessageBox": true,
+    "dayjs": true,
+    "useRouteHash": true,
+    "useRouteParams": true,
+    "useRouteQuery": true
   }
 }

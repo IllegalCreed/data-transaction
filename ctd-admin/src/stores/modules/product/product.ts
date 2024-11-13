@@ -1,7 +1,11 @@
 import { useSettingsStore } from '../settings'
 import type { apiListResult } from '@/types/common'
-import type { IProductItem } from '@/types/product'
-import { getProducts as getProductsAPI, delProducts as delProductsAPI } from '@/apis/product'
+import type { IProductDetail, IProductItem } from '@/types/product'
+import {
+  getProducts as getProductsAPI,
+  getProduct as getProductAPI,
+  delProducts as delProductsAPI
+} from '@/apis/product'
 import { products as mockProducts } from '@/constants/mockData/product/product'
 
 export const useProduct = () => {
@@ -40,6 +44,31 @@ export const useProduct = () => {
     })
   }
 
+  const getProduct = (id: string | number): Promise<IProductDetail> => {
+    return new Promise<IProductDetail>((resolve, reject) => {
+      if (settingsStore.mockEnabled) {
+        window.setTimeout(() => {
+          const result = mockProducts.find((item) => item.id === Number(id))
+          if (result) {
+            resolve(result)
+          } else {
+            reject(new Error('Product not found'))
+          }
+        }, 1000)
+      } else {
+        getProductAPI(id)
+          .then((res) => {
+            const result = res as IProductDetail
+            resolve(result)
+          })
+          .catch((error: Error) => {
+            reject(error)
+          })
+          .finally(() => {})
+      }
+    })
+  }
+
   const delProducts = (ids: (string | number)[]): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
@@ -61,6 +90,7 @@ export const useProduct = () => {
 
   return {
     getProducts,
+    getProduct,
     delProducts
   }
 }

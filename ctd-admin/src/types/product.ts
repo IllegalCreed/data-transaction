@@ -1,25 +1,66 @@
-export enum ProductStatus {
-  Approving = 'approving',
-  OffSale = 'offSale',
-  OnSale = 'onSale',
-  Rejected = 'rejected'
+import type { ProductStatus } from '@/constants/mapData/product'
+
+// 产品规格
+export interface IProductSpec {
+  id: string
+  label: string
 }
 
+// 产品规格组
+export interface IProductSpecGroup extends IProductSpec {
+  children: IProductSpec[]
+}
+
+// 产品价格
+export interface IProductPrice {
+  price: number
+  specs: { groupId: string; specId: string }[]
+}
+
+// 产品价格组（前端展示用）
+export interface IProductPriceGroup {
+  specId: string
+  label: string
+  children: IProductPrice[]
+}
+
+// 产品
 interface IProduct {
   id: string | number
-  name: string
-  description: string
   sellerId: string | number
-  imageUrl?: string
-  showPrice: number | null
   currentVersion?: number
   status: ProductStatus
-}
-
-export interface IProductItem extends IProduct {
-  rating: number
-  soldCount: number
-  sellerName: string
   createTime: string
   updateTime: string
 }
+
+// 产品额外属性
+interface IProductExtra {
+  rating: number
+  soldCount: number
+  sellerName: string
+}
+
+// 产品版本
+interface IProductVersion {
+  versionId: string | number
+  name: string
+  description: string
+  showPrice: number
+  tags: string[]
+  coverImageUrl: string
+  imageUrls: string[]
+  detail: string
+  specs: IProductSpecGroup[]
+  prices: IProductPrice[]
+  submitTime: string
+}
+
+// 产品列表项
+export interface IProductItem
+  extends Pick<IProductVersion, 'name' | 'description' | 'showPrice' | 'coverImageUrl'>,
+    IProduct,
+    IProductExtra {}
+
+// 产品详情
+export type IProductDetail = IProduct & IProductExtra

@@ -23,6 +23,15 @@ export const getProducts = (
   )
 }
 
+export const getProduct = (id: string | number): Promise<unknown> => {
+  return request.get(
+    {
+      url: `/product/${id}`
+    },
+    true
+  )
+}
+
 export const delProducts = (ids: (string | number)[]): Promise<unknown> => {
   const params = {
     ids

@@ -24,6 +24,7 @@
   --text-white-color: var(--color-gray-100);
   --text-white-highlight-color: var(--color-white);
   --text-disable-color: var(--color-gray-400);
+  --text-label-color: var(--color-gray-400);
 
   --background-page-dark-color: var(--color-gray-200);
   --background-page-color: var(--color-white);

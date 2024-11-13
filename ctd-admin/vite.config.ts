@@ -43,7 +43,12 @@ export default defineConfig({
             // 默认别名导入
             ['default', 'axios'] // import { default as axios } from 'axios',
           ],
-          moment: [['default', 'moment']]
+          dayjs: [['default', 'dayjs']],
+          '@vueuse/router': [
+            ['useRouteHash', 'useRouteHash'],
+            ['useRouteParams', 'useRouteParams'],
+            ['useRouteQuery', 'useRouteQuery']
+          ]
         }
       ],
       dts: true,

@@ -1,4 +1,5 @@
-import { ProductStatus, type IProductItem } from '@/types/product'
+import { ProductStatus } from '@/constants/mapData/product'
+import type { IProductItem } from '@/types/product'
 
 export const products: IProductItem[] = [
   {
@@ -7,11 +8,10 @@ export const products: IProductItem[] = [
     description: '测试描述',
     sellerId: 1,
     sellerName: '测试商家1',
-    imageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
+    coverImageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
     showPrice: 200.0,
     soldCount: 200,
     rating: 5,
-    currentVersion: 1,
     status: ProductStatus.Approving,
     createTime: '2022-01-01 00:00:00',
     updateTime: '2022-01-01 00:00:00'
@@ -22,7 +22,7 @@ export const products: IProductItem[] = [
     description: '测试描述',
     sellerId: 2,
     sellerName: '测试商家2',
-    imageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
+    coverImageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
     showPrice: 200.0,
     soldCount: 200,
     rating: 5,
@@ -37,7 +37,7 @@ export const products: IProductItem[] = [
     description: '测试描述',
     sellerId: 3,
     sellerName: '测试商家3',
-    imageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
+    coverImageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
     showPrice: 200.0,
     soldCount: 200,
     rating: 5,
@@ -52,12 +52,27 @@ export const products: IProductItem[] = [
     description: '测试描述',
     sellerId: 1,
     sellerName: '测试商家1',
-    imageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
+    coverImageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
     showPrice: 200.0,
     soldCount: 200,
     rating: 5,
     currentVersion: 1,
     status: ProductStatus.Rejected,
+    createTime: '2022-01-01 00:00:00',
+    updateTime: '2022-01-01 00:00:00'
+  },
+  {
+    id: 5,
+    name: '测试产品5',
+    description: '测试描述',
+    sellerId: 1,
+    sellerName: '测试商家1',
+    coverImageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
+    showPrice: 200.0,
+    soldCount: 200,
+    rating: 5,
+    currentVersion: 1,
+    status: ProductStatus.Approving,
     createTime: '2022-01-01 00:00:00',
     updateTime: '2022-01-01 00:00:00'
   }

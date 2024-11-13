@@ -21,7 +21,7 @@ export interface IProductBase {
 // 产品列表项
 export interface IProduct extends IProductBase {
   id: string | number
-  showPrice: number | null
+  showPrice?: number
 }
 
 // 产品详情

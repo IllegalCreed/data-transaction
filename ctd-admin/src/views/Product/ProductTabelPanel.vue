@@ -7,7 +7,7 @@
   >
     <el-table-column prop="icon" label="封面" width="80" align="center">
       <template #default="scope">
-        <img class="icon" :src="scope.row.imageUrl" />
+        <img class="icon" :src="scope.row.coverImageUrl" />
       </template>
     </el-table-column>
     <el-table-column prop="name" label="名称" />
@@ -72,10 +72,14 @@
 <script setup lang="ts">
 import ProductRejectDialog from './ProductRejectDialog.vue'
 import ProductReasonDialog from './ProductReasonDialog.vue'
-import { type IProductItem, ProductStatus } from '@/types/product'
+import type { IProductItem } from '@/types/product'
 defineProps<{ data: IProductItem[]; loading: boolean }>()
 
-import { PRODUCT_STATUS_COLOR_MAP, PRODUCT_STATUS_MAP } from '@/constants/mapData/product'
+import {
+  PRODUCT_STATUS_COLOR_MAP,
+  PRODUCT_STATUS_MAP,
+  ProductStatus
+} from '@/constants/mapData/product'
 const stautsColor = (status: ProductStatus) => PRODUCT_STATUS_COLOR_MAP[status]
 const statusLabel = (status: ProductStatus) => PRODUCT_STATUS_MAP[status]
 
@@ -83,6 +87,7 @@ const rejectDialogVisible = ref<boolean>(false)
 const reasonDialogVisible = ref<boolean>(false)
 const currentProductId = ref<number | string>(0)
 
+const router = useRouter()
 const approval = (id: number | string) => {
   console.log(id)
 }
@@ -93,7 +98,12 @@ const reject = (id: number | string) => {
 }
 
 const goDetail = (id: number | string) => {
-  console.log(id)
+  router.push({
+    name: 'product-detail',
+    params: {
+      id
+    }
+  })
 }
 
 const rejectReason = (id: number | string) => {

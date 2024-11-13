@@ -45,6 +45,22 @@
   }
 }
 
+.panel-title {
+  @apply text-lg font-bold;
+}
+
+.prop {
+  @apply flex flex-row gap-4 items-center;
+
+  .label {
+    @apply text-base text-[var(--text-label-color)] min-w-20;
+  }
+
+  .value {
+    @apply text-base;
+  }
+}
+
 .modal-mask {
   @apply fixed top-0 left-0 w-full h-full bg-black/50 z-10;
 }

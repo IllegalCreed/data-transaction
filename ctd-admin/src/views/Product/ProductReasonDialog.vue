@@ -1,6 +1,6 @@
 <template>
   <el-dialog v-model="model" title="驳回原因" width="500" :close-on-click-modal="false">
-    <el-skeleton :loading="getLastRejectReasonActionLoading" animated>
+    <el-skeleton :loading="geReasonLoading" animated>
       <template #template>
         <div class="main-container">
           <span class="label">驳回原因：</span>
@@ -51,7 +51,7 @@ import { useProductStore } from '@/stores/modules/product'
 const { getLastRejectReason: getLastRejectReasonAction } = useProductStore()
 const {
   state: lastRejectReason,
-  isLoading: getLastRejectReasonActionLoading,
+  isLoading: geReasonLoading,
   execute: executeGetLastRejectReasonAction
 } = useAsyncState(
   () => getLastRejectReasonAction(id),
@@ -73,7 +73,7 @@ const {
   @apply grid grid-cols-[100px_1fr] gap-4;
 
   .label {
-    @apply text-sm text-[var(--text-disable-color)];
+    @apply text-sm text-[var(--text-label-color)];
   }
 
   .value {

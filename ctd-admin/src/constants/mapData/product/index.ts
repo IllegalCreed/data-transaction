@@ -1,5 +1,10 @@
 import type { IOption } from '@/types/common'
-import { ProductStatus } from '@/types/product'
+export enum ProductStatus {
+  Approving = 'approving',
+  OffSale = 'offSale',
+  OnSale = 'onSale',
+  Rejected = 'rejected'
+}
 
 export const PRODUCT_STATUS_MAP: Record<ProductStatus, string> = {
   [ProductStatus.Approving]: '待审核',

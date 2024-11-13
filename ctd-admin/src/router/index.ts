@@ -36,6 +36,12 @@ const router = createRouter({
           meta: { belong: 'product', title: '产品管理' }
         },
         {
+          path: '/home/product-detail/:id',
+          component: () => import('@/views/Product/ProductDetail/ProductDetailView.vue'),
+          name: 'product-detail',
+          meta: { belong: 'product', title: '产品详情' }
+        },
+        {
           path: '/home/demand',
           component: () => import('@/views/Demand/DemandView.vue'),
           name: 'demand',
