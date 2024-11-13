@@ -31,7 +31,6 @@
 
 <script setup lang="ts">
 import type { FormInstance, FormRules } from 'element-plus'
-import { ElMessage } from 'element-plus'
 
 const baseForm = useTemplateRef<FormInstance>('baseForm')
 const baseInfo = ref({

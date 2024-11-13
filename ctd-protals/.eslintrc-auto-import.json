@@ -405,6 +405,7 @@
     "getFavoriteDemands": true,
     "getFavoriteProducts": true,
     "getDemandComments": true,
-    "getProductComments": true
+    "getProductComments": true,
+    "ElMessageBox": true
   }
 }

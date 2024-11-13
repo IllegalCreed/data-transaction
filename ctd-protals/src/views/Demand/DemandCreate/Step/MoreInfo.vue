@@ -4,7 +4,12 @@
 
     <span text-lg font-bold mb-4>已选择的标签</span>
     <div class="selected-tags">
-      <el-tag v-for="tag in selectedTags" :key="tag" closable @close="removeTag(tag)">
+      <el-tag
+        v-for="tag in selectedTags"
+        :key="tag"
+        closable
+        @close="removeTag(tag)"
+      >
         {{ tag }}
       </el-tag>
     </div>
@@ -33,18 +38,31 @@
     </div>
 
     <div class="step-btn-container">
-      <el-button class="step-btn" type="primary" @click="handlePrevStep">上一步</el-button>
-      <el-button class="step-btn" type="primary" @click="handleComplete">提交申请</el-button>
+      <el-button class="step-btn" type="primary" @click="handlePrevStep"
+        >上一步</el-button
+      >
+      <el-button class="step-btn" type="primary" @click="handleComplete"
+        >提交申请</el-button
+      >
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ElMessage } from 'element-plus'
 import { useDemandStore } from '@/stores/modules/demand'
-const { customTags, checkedPopularTags, selectedTags } = storeToRefs(useDemandStore())
+const { customTags, checkedPopularTags, selectedTags } =
+  storeToRefs(useDemandStore())
 
-const popularTags = ['开发', '技术', '人工智能', '机器学习', '数据', '咨询', '营销', '培训']
+const popularTags = [
+  '开发',
+  '技术',
+  '人工智能',
+  '机器学习',
+  '数据',
+  '咨询',
+  '营销',
+  '培训',
+]
 const customTag = ref('')
 const maxTags = 5
 

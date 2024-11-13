@@ -53,7 +53,6 @@
 </template>
 
 <script setup lang="ts">
-import { ElMessage } from 'element-plus'
 import {
   UserType,
   INDUSTRY_TYPE_MAP,

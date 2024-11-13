@@ -37,7 +37,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ElMessage } from 'element-plus'
 import IdentityItem from './IdentityItem.vue'
 import { useAccountStore } from '@/stores/modules/account'
 import { UserType } from '@/types/register'

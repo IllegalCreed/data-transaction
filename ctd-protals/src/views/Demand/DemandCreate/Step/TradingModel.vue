@@ -23,8 +23,12 @@
     ></trading-item>
 
     <div class="step-btn-container">
-      <el-button class="step-btn" type="primary" @click="handlePrevStep">上一步</el-button>
-      <el-button class="step-btn" type="primary" @click="handleNextStep">下一步</el-button>
+      <el-button class="step-btn" type="primary" @click="handlePrevStep"
+        >上一步</el-button
+      >
+      <el-button class="step-btn" type="primary" @click="handleNextStep"
+        >下一步</el-button
+      >
     </div>
   </div>
 </template>
@@ -32,7 +36,6 @@
 <script setup lang="ts">
 import TradingItem from './TradingItem.vue'
 
-import { ElMessage } from 'element-plus'
 import { useDemandStore } from '@/stores/modules/demand'
 const demandStore = useDemandStore()
 

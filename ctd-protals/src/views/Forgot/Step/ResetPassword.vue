@@ -46,7 +46,6 @@
 import type { IPassword } from '@/types/forgot'
 import type { InternalRuleItem } from 'async-validator'
 import type { FormInstance, FormRules } from 'element-plus'
-import { ElMessage } from 'element-plus'
 
 import { useAccountStore } from '@/stores/modules/account'
 const accountStore = useAccountStore()

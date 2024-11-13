@@ -7,7 +7,6 @@ import type {
 
 import axios, { AxiosError } from 'axios'
 import { useTokenStore } from '@/stores/modules/token'
-import { ElMessage } from 'element-plus'
 
 export const PATH_URL = import.meta.env.VITE_APP_BASE_API
 const abortControllerMap: Map<string, AbortController> = new Map()

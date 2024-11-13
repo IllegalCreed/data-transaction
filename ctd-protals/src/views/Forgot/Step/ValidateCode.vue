@@ -36,7 +36,6 @@
 </template>
 
 <script setup lang="ts">
-import { ElMessage } from 'element-plus'
 import VerificationCodeInput from '@/components/VerificationCodeInput.vue'
 import { useAccountStore } from '@/stores/modules/account'
 
