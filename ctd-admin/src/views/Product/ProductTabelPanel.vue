@@ -1,5 +1,10 @@
 <template>
-  <el-table :data="data" header-cell-class-name="table-header-row" cell-class-name="table-row-cell">
+  <el-table
+    :data="data"
+    v-loading="loading"
+    header-cell-class-name="table-header-row"
+    cell-class-name="table-row-cell"
+  >
     <el-table-column prop="icon" label="封面" width="80" align="center">
       <template #default="scope">
         <img class="icon" :src="scope.row.imageUrl" />
@@ -68,7 +73,7 @@
 import ProductRejectDialog from './ProductRejectDialog.vue'
 import ProductReasonDialog from './ProductReasonDialog.vue'
 import { type IProductItem, ProductStatus } from '@/types/product'
-defineProps<{ data: IProductItem[] }>()
+defineProps<{ data: IProductItem[]; loading: boolean }>()
 
 import { PRODUCT_STATUS_COLOR_MAP, PRODUCT_STATUS_MAP } from '@/constants/mapData/product'
 const stautsColor = (status: ProductStatus) => PRODUCT_STATUS_COLOR_MAP[status]

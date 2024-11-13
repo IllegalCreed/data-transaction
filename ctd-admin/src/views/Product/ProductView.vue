@@ -10,7 +10,7 @@
         clearable
       >
         <template #append>
-          <el-button @click="handleSearch">
+          <el-button @click="handleSearch" :loading="getListLoading">
             <template v-slot:icon>
               <i-vaadin:search></i-vaadin:search>
             </template>
@@ -115,7 +115,11 @@
       </el-popover>
     </div>
 
-    <product-tabel-panel :data="data" @delete="handleDelete"></product-tabel-panel>
+    <product-tabel-panel
+      :data="data"
+      :loading="getListLoading"
+      @delete="handleDelete"
+    ></product-tabel-panel>
 
     <el-pagination
       self-center
@@ -135,11 +139,12 @@
 import ProductTabelPanel from './ProductTabelPanel.vue'
 
 // 获取列表
-
+const getListLoading = ref<boolean>(false)
 const data = ref<IProductItem[]>([])
 import { useProductStore } from '@/stores/modules/product'
 const { getProducts: getProductsAction, delProducts: delProductsAction } = useProductStore()
 const getList = async (): Promise<apiListResult<IProductItem>> => {
+  getListLoading.value = true
   const res = await getProductsAction(
     searchQuery.value,
     status.value,
@@ -149,6 +154,7 @@ const getList = async (): Promise<apiListResult<IProductItem>> => {
   )
 
   data.value = res.rows
+  getListLoading.value = false
   return res
 }
 
