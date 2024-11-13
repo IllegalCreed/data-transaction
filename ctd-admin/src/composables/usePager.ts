@@ -1,5 +1,7 @@
-export function usePager(
-  getList: () => Promise<number>,
+import type { apiListResult } from '@/types/common'
+
+export function usePager<T>(
+  getList: () => Promise<apiListResult<T>>,
   options?: {
     initPageNum?: number
     initPageSize?: number
@@ -15,10 +17,11 @@ export function usePager(
   })
 
   const refresh = async () => {
-    total.value = await getList()
+    const result = await getList()
+    total.value = result.total
   }
 
   watch([pageNum, pageSize], refresh)
 
-  return { pageNum, pageSize, total }
+  return { pageNum, pageSize, total, refresh }
 }

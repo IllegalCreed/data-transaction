@@ -35,11 +35,15 @@ import type { UploadUserFile } from 'element-plus'
 
 defineProps<{ id: string | number }>()
 const model = defineModel<boolean>()
-
-const reason = ref('')
+watch(model, (val) => {
+  if (val) {
+    reason.value = ''
+    fileList.value = []
+  }
+})
 
 const uploadRef = useTemplateRef('uploadRef')
-
+const reason = ref('')
 const fileList = ref<UploadUserFile[]>([])
 
 const handleReject = () => {

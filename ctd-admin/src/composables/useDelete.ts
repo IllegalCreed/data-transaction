@@ -1,5 +1,3 @@
-import { ElMessage, ElMessageBox } from 'element-plus'
-
 export function useDelete(tip: string, delAction: () => void) {
   const doDelAction = async () => {
     try {

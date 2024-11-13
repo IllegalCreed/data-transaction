@@ -1,9 +1,16 @@
 <template>
   <div class="product-root-container">
     <div flex flex-row justify-between>
-      <el-input class="search-input" v-model="searchQuery" placeholder="请输入关键字搜索" clearable>
+      <el-input
+        class="search-input"
+        @keyup.enter="handleSearch"
+        @clear="handleSearch"
+        v-model="searchQuery"
+        placeholder="请输入关键字搜索"
+        clearable
+      >
         <template #append>
-          <el-button>
+          <el-button @click="handleSearch">
             <template v-slot:icon>
               <i-vaadin:search></i-vaadin:search>
             </template>
@@ -128,11 +135,11 @@
 import ProductTabelPanel from './ProductTabelPanel.vue'
 
 // 获取列表
-const searchQuery = ref<string>('')
+
 const data = ref<IProductItem[]>([])
 import { useProductStore } from '@/stores/modules/product'
 const { getProducts: getProductsAction, delProducts: delProductsAction } = useProductStore()
-const getList = async (): Promise<number> => {
+const getList = async (): Promise<apiListResult<IProductItem>> => {
   const res = await getProductsAction(
     searchQuery.value,
     status.value,
@@ -142,9 +149,12 @@ const getList = async (): Promise<number> => {
   )
 
   data.value = res.rows
-
-  return res.total
+  return res
 }
+
+import { usePager } from '@/composables/usePager'
+import type { IProductItem } from '@/types/product'
+const { pageNum, pageSize, total, refresh } = usePager(getList)
 
 // 删除
 import { useDelete } from '@/composables/useDelete'
@@ -152,7 +162,7 @@ const delName = ref('')
 const delId = ref<string | number>('')
 const { doDelAction } = useDelete(`是否确认删除${delName.value}？`, async () => {
   await delProductsAction([delId.value])
-  getList()
+  refresh()
 })
 const handleDelete = (id: string | number, name: string) => {
   delName.value = name
@@ -160,19 +170,19 @@ const handleDelete = (id: string | number, name: string) => {
   doDelAction()
 }
 
-// 分页
-import { usePager } from '@/composables/usePager'
-import type { IProductItem } from '@/types/product'
-const { pageNum, pageSize, total } = usePager(getList)
-
-const sortingVisible = ref<boolean>(false)
-const filterVisible = ref<boolean>(false)
+// 搜索
+const searchQuery = ref<string>('')
+const handleSearch = () => {
+  refresh()
+}
 
 // 筛选
+const filterVisible = ref<boolean>(false)
 const status = ref<string>('')
 const sellerId = ref<string | number>('')
 import { productStatusOptions } from '@/constants/mapData/product'
 import { useBusinessStore } from '@/stores/modules/business'
+import type { apiListResult } from '@/types/common'
 const { getBusinessOptionsByName: getBusinessOptionsByNameAction } = useBusinessStore()
 const {
   state: businessOptions,
@@ -215,9 +225,12 @@ const applyFilter = () => {
   if (sellerId.value) {
     filterCount.value++
   }
+  pageNum.value = 1
+  refresh()
 }
 
 // 排序
+const sortingVisible = ref<boolean>(false)
 const sortingCount = ref(0)
 
 const resetAllSorting = () => {}

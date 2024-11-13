@@ -14,13 +14,13 @@
       </template>
     </el-table-column>
     <el-table-column prop="currentVersion" label="当前版本" />
-    <el-table-column prop="createTime" label="创建时间" width="130" />
-    <el-table-column prop="updateTime" label="更新时间" width="130" />
     <el-table-column label="状态" width="120">
       <template #default="scope">
         <el-tag :type="stautsColor(scope.row.status)">{{ statusLabel(scope.row.status) }}</el-tag>
       </template>
     </el-table-column>
+    <el-table-column prop="createTime" label="创建时间" width="130" />
+    <el-table-column prop="updateTime" label="更新时间" width="130" />
     <el-table-column fixed="right" label="操作" align="right" width="250">
       <template #default="scope">
         <el-button

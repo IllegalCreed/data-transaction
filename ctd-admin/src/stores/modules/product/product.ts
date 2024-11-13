@@ -17,7 +17,14 @@ export const useProduct = () => {
     return new Promise<apiListResult<IProductItem>>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => {
-          resolve({ total: mockProducts.length, rows: mockProducts })
+          const result = mockProducts.filter((item) => {
+            const statusMatch = status ? item.status === status : true
+            const sellerMatch = sellerId ? item.sellerId === sellerId : true
+            const searchMatch = searchQuery ? item.name.includes(searchQuery) : true
+
+            return statusMatch && sellerMatch && searchMatch
+          })
+          resolve({ total: result.length, rows: result })
         }, 1000)
       } else {
         getProductsAPI(searchQuery, status, sellerId, pageNum, pageSize)
