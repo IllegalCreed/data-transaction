@@ -56,3 +56,15 @@ export const getVersion = (
     true
   )
 }
+
+export const getPriceDefinition = (
+  productId: string | number,
+  version: string | number
+): Promise<unknown> => {
+  return request.get(
+    {
+      url: `/product/${productId}/${version}/price`
+    },
+    true
+  )
+}

@@ -1,15 +1,22 @@
 import { useSettingsStore } from '../settings'
 import type { apiListResult } from '@/types/common'
-import type { IProductDetail, IProductItem, IProductVersion } from '@/types/product'
+import type {
+  IProductDetail,
+  IProductItem,
+  IProductSpecsPriceDefinition,
+  IProductVersion
+} from '@/types/product'
 import {
   getProducts as getProductsAPI,
   getProduct as getProductAPI,
   delProducts as delProductsAPI,
-  getVersion as getVersionAPI
+  getVersion as getVersionAPI,
+  getPriceDefinition as getPriceDefinitionAPI
 } from '@/apis/product'
 import {
   products as mockProducts,
-  versions as mockVersions
+  versions as mockVersions,
+  prices as mockPrices
 } from '@/constants/mockData/product/product'
 
 export const useProduct = () => {
@@ -120,10 +127,35 @@ export const useProduct = () => {
     })
   }
 
+  const getPriceDefinition = (
+    productId: string | number,
+    version: string | number
+  ): Promise<IProductSpecsPriceDefinition> => {
+    return new Promise<IProductSpecsPriceDefinition>((resolve, reject) => {
+      if (settingsStore.mockEnabled) {
+        window.setTimeout(() => {
+          const result = mockPrices
+          resolve(result)
+        }, 1000)
+      } else {
+        getPriceDefinitionAPI(productId, version)
+          .then((res) => {
+            const result = res as IProductSpecsPriceDefinition
+            resolve(result)
+          })
+          .catch((error: Error) => {
+            reject(error)
+          })
+          .finally(() => {})
+      }
+    })
+  }
+
   return {
     getProducts,
     getProduct,
     delProducts,
-    getVersion
+    getVersion,
+    getPriceDefinition
   }
 }

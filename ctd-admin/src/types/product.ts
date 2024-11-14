@@ -1,5 +1,4 @@
 import type { ProductPriceTypes, ProductStatus } from '@/constants/mapData/product'
-import type { InputNumberEmits } from 'element-plus/lib/components/index.js'
 
 // 产品规格
 export interface IProductSpec {
@@ -9,6 +8,7 @@ export interface IProductSpec {
 
 // 产品规格组
 export interface IProductSpecGroup extends IProductSpec {
+  affectsPrice: boolean
   children: IProductSpec[]
 }
 
@@ -57,6 +57,7 @@ export interface IProductVersion {
 }
 
 export interface IProductSpecsPriceDefinition {
+  defaultPrice: number
   specs: IProductSpecGroup[]
   prices: IProductSpecsPrice[]
 }

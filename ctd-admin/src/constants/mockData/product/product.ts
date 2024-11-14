@@ -1,5 +1,5 @@
 import { ProductPriceTypes, ProductStatus } from '@/constants/mapData/product'
-import type { IProductItem, IProductVersion } from '@/types/product'
+import type { IProductItem, IProductSpecsPriceDefinition, IProductVersion } from '@/types/product'
 
 export const products: IProductItem[] = [
   {
@@ -117,3 +117,73 @@ export const versions: IProductVersion[] = [
     submitTime: '2022-01-01 00:00:00'
   }
 ]
+
+export const prices: IProductSpecsPriceDefinition = {
+  defaultPrice: 100,
+  specs: [
+    {
+      id: '1',
+      label: '颜色',
+      affectsPrice: true,
+      children: [
+        {
+          id: '1-1',
+          label: '白色'
+        },
+        {
+          id: '1-2',
+          label: '蓝色'
+        }
+      ]
+    },
+    {
+      id: '2',
+      label: '型号',
+      affectsPrice: true,
+      children: [
+        {
+          id: '2-1',
+          label: '大'
+        },
+        {
+          id: '2-2',
+          label: '中'
+        },
+        {
+          id: '2-3',
+          label: '小'
+        }
+      ]
+    },
+    {
+      id: '3',
+      label: '形状',
+      affectsPrice: false,
+      children: [
+        {
+          id: '3-1',
+          label: '圆形'
+        },
+        {
+          id: '3-2',
+          label: '方形'
+        }
+      ]
+    }
+  ],
+  prices: [
+    {
+      price: 200,
+      specs: [
+        {
+          groupId: '1',
+          specId: '1-1'
+        },
+        {
+          groupId: '2',
+          specId: '2-1'
+        }
+      ]
+    }
+  ]
+}

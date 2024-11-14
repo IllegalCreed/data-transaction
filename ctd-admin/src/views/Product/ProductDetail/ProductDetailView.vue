@@ -7,12 +7,19 @@
       :version="baseInfo.currentVersion"
       :loading="getProductLoading"
     />
+    <el-divider />
+    <product-detail-price-info-panel
+      :product-id="id"
+      :version="baseInfo.currentVersion"
+      :loading="getProductLoading"
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
 import ProductDetailBaseInfoPanel from './ProductDetailBaseInfoPanel.vue'
 import ProductDetailVersionInfoPanel from './ProductDetailVersionInfoPanel.vue'
+import ProductDetailPriceInfoPanel from './ProductDetailPriceInfoPanel.vue'
 
 const id = useRouteParams<string | number>('id')
 watch(id, () => {
