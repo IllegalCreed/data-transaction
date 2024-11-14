@@ -7,7 +7,7 @@
         <span class="label">默认价格：</span>
         <span class="value">{{ priceInfo.defaultPrice }}</span>
       </div>
-      <div class="prop" items-start grid-col-span-3>
+      <div class="prop" items-start>
         <span class="label">产品规格：</span>
         <div flex flex-col gap-4>
           <div class="spec-group-container" v-for="item in priceInfo.specs" :key="item.id">
@@ -21,7 +21,7 @@
           </div>
         </div>
       </div>
-      <div class="prop" items-start grid-col-span-3>
+      <div class="prop" items-start grid-row-span-2>
         <span class="label">产品价格：</span>
         <div flex flex-col gap-4>
           <div class="spec-group-container" v-for="item in priceList" :key="item.specs.join">
@@ -87,7 +87,7 @@ const { priceList } = usePriceList(priceInfo)
   @apply flex flex-col gap-4;
 
   .props-container {
-    @apply flex flex-col gap-4;
+    @apply grid grid-flow-col gap-4 items-start;
   }
 
   .spec-group-container {
