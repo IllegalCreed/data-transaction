@@ -42,6 +42,12 @@ const router = createRouter({
           meta: { belong: 'product', title: '产品详情' }
         },
         {
+          path: '/home/product-approval/:id',
+          component: () => import('@/views/Product/ProductApproval/ProductApprovalView.vue'),
+          name: 'product-approval',
+          meta: { belong: 'product', title: '产品审核' }
+        },
+        {
           path: '/home/demand',
           component: () => import('@/views/Demand/DemandView.vue'),
           name: 'demand',

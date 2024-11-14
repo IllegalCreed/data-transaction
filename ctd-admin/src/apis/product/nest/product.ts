@@ -44,3 +44,15 @@ export const delProducts = (ids: (string | number)[]): Promise<unknown> => {
     true
   )
 }
+
+export const getVersion = (
+  productId: string | number,
+  version: string | number
+): Promise<unknown> => {
+  return request.get(
+    {
+      url: `/product/${productId}/${version}`
+    },
+    true
+  )
+}

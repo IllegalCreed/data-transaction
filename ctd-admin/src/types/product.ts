@@ -1,4 +1,5 @@
-import type { ProductStatus } from '@/constants/mapData/product'
+import type { ProductPriceTypes, ProductStatus } from '@/constants/mapData/product'
+import type { InputNumberEmits } from 'element-plus/lib/components/index.js'
 
 // 产品规格
 export interface IProductSpec {
@@ -12,23 +13,23 @@ export interface IProductSpecGroup extends IProductSpec {
 }
 
 // 产品价格
-export interface IProductPrice {
+export interface IProductSpecsPrice {
   price: number
   specs: { groupId: string; specId: string }[]
 }
 
 // 产品价格组（前端展示用）
-export interface IProductPriceGroup {
+export interface IProductSpecsPriceGroup {
   specId: string
   label: string
-  children: IProductPrice[]
+  children: IProductSpecsPrice[]
 }
 
 // 产品
 interface IProduct {
   id: string | number
   sellerId: string | number
-  currentVersion?: number
+  currentVersion?: string | number
   status: ProductStatus
   createTime: string
   updateTime: string
@@ -42,8 +43,8 @@ interface IProductExtra {
 }
 
 // 产品版本
-interface IProductVersion {
-  versionId: string | number
+export interface IProductVersion {
+  version: string | number
   name: string
   description: string
   showPrice: number
@@ -51,9 +52,13 @@ interface IProductVersion {
   coverImageUrl: string
   imageUrls: string[]
   detail: string
-  specs: IProductSpecGroup[]
-  prices: IProductPrice[]
+  priceType: ProductPriceTypes
   submitTime: string
+}
+
+export interface IProductSpecsPriceDefinition {
+  specs: IProductSpecGroup[]
+  prices: IProductSpecsPrice[]
 }
 
 // 产品列表项

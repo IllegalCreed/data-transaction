@@ -2,25 +2,28 @@
   <div class="product-detail-root-container">
     <product-detail-base-info-panel :data="baseInfo" :loading="getProductLoading" />
     <el-divider />
+    <product-detail-version-info-panel
+      :product-id="id"
+      :version="baseInfo.currentVersion"
+      :loading="getProductLoading"
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ProductStatus } from '@/constants/mapData/product'
 import ProductDetailBaseInfoPanel from './ProductDetailBaseInfoPanel.vue'
+import ProductDetailVersionInfoPanel from './ProductDetailVersionInfoPanel.vue'
 
 const id = useRouteParams<string | number>('id')
 watch(id, () => {
   executeGetProductAction()
 })
+
 onMounted(() => {
-  try {
-    executeGetProductAction()
-  } catch (error: unknown) {
-    console.error(error)
-  }
+  executeGetProductAction()
 })
 
+import { ProductStatus } from '@/constants/mapData/product'
 import { useProductStore } from '@/stores/modules/product'
 const { getProduct: getProductAction } = useProductStore()
 const {

@@ -3,7 +3,7 @@ import { useProduct } from './product'
 import { useApproval } from './approval'
 
 export const useProductStore = defineStore('product', () => {
-  const { getProducts, getProduct, delProducts } = useProduct()
+  const { getProducts, getProduct, delProducts, getVersion } = useProduct()
   const { getLastRejectReason } = useApproval()
 
   return {
@@ -11,7 +11,8 @@ export const useProductStore = defineStore('product', () => {
     ...{
       getProducts,
       getProduct,
-      delProducts
+      delProducts,
+      getVersion
     },
     // useApproval
     ...{

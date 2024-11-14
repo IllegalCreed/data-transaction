@@ -27,3 +27,11 @@ export const productStatusOptions: IOption[] = Object.values(ProductStatus).map(
   value,
   label: PRODUCT_STATUS_MAP[value]
 }))
+
+export enum ProductPriceTypes {
+  Specs = 'specs'
+}
+
+export const PRODUCT_PRICT_TYPES_MAP: Record<ProductPriceTypes, string> = {
+  [ProductPriceTypes.Specs]: '按规格定价'
+}

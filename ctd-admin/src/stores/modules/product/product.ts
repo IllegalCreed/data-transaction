@@ -1,12 +1,16 @@
 import { useSettingsStore } from '../settings'
 import type { apiListResult } from '@/types/common'
-import type { IProductDetail, IProductItem } from '@/types/product'
+import type { IProductDetail, IProductItem, IProductVersion } from '@/types/product'
 import {
   getProducts as getProductsAPI,
   getProduct as getProductAPI,
-  delProducts as delProductsAPI
+  delProducts as delProductsAPI,
+  getVersion as getVersionAPI
 } from '@/apis/product'
-import { products as mockProducts } from '@/constants/mockData/product/product'
+import {
+  products as mockProducts,
+  versions as mockVersions
+} from '@/constants/mockData/product/product'
 
 export const useProduct = () => {
   const settingsStore = useSettingsStore()
@@ -88,9 +92,38 @@ export const useProduct = () => {
     })
   }
 
+  const getVersion = (
+    productId: string | number,
+    version: string | number
+  ): Promise<IProductVersion> => {
+    return new Promise<IProductVersion>((resolve, reject) => {
+      if (settingsStore.mockEnabled) {
+        window.setTimeout(() => {
+          const result = mockVersions.find((item) => item.version === Number(version))
+          if (result) {
+            resolve(result)
+          } else {
+            reject(new Error('Product version not found'))
+          }
+        }, 1000)
+      } else {
+        getVersionAPI(productId, version)
+          .then((res) => {
+            const result = res as IProductVersion
+            resolve(result)
+          })
+          .catch((error: Error) => {
+            reject(error)
+          })
+          .finally(() => {})
+      }
+    })
+  }
+
   return {
     getProducts,
     getProduct,
-    delProducts
+    delProducts,
+    getVersion
   }
 }
