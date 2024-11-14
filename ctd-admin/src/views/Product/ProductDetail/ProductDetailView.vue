@@ -13,6 +13,8 @@
       :version="baseInfo.currentVersion"
       :loading="getProductLoading"
     />
+    <el-divider />
+    <product-detail-approval-log-panel :product-id="id" />
   </div>
 </template>
 
@@ -20,6 +22,7 @@
 import ProductDetailBaseInfoPanel from './ProductDetailBaseInfoPanel.vue'
 import ProductDetailVersionInfoPanel from './ProductDetailVersionInfoPanel.vue'
 import ProductDetailPriceInfoPanel from './ProductDetailPriceInfoPanel.vue'
+import ProductDetailApprovalLogPanel from './ProductDetailApprovalLogPanel.vue'
 
 const id = useRouteParams<string | number>('id')
 watch(id, () => {

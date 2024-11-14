@@ -97,7 +97,7 @@ const {
     imageUrls: [],
     detail: '',
     priceType: ProductPriceTypes.Specs,
-    submitTime: ''
+    createTime: ''
   },
   {
     immediate: false,

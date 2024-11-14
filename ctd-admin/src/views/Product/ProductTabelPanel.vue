@@ -18,7 +18,11 @@
         <el-rate v-model="scope.row.rating" size="small" disabled />
       </template>
     </el-table-column>
-    <el-table-column prop="currentVersion" label="当前版本" />
+    <el-table-column prop="currentVersion" label="当前版本">
+      <template #default="scope">
+        {{ scope.row.currentVersion ?? '--' }}
+      </template>
+    </el-table-column>
     <el-table-column label="状态" width="120">
       <template #default="scope">
         <el-tag :type="stautsColor(scope.row.status)">{{ statusLabel(scope.row.status) }}</el-tag>
@@ -52,7 +56,7 @@
           link
           type="primary"
           size="small"
-          @click="rejectReason(scope.row.id)"
+          @click="rejectReason(scope.row.reasonId)"
           >驳回原因</el-button
         >
         <el-button link type="primary" size="small" @click="goDetail(scope.row.id)"
@@ -66,7 +70,7 @@
   </el-table>
 
   <product-reject-dialog v-model="rejectDialogVisible" :id="currentProductId" />
-  <product-reason-dialog v-model="reasonDialogVisible" :id="currentProductId" />
+  <product-reason-dialog v-model="reasonDialogVisible" :id="reasonId" />
 </template>
 
 <script setup lang="ts">
@@ -86,6 +90,7 @@ const statusLabel = (status: ProductStatus) => PRODUCT_STATUS_MAP[status]
 const rejectDialogVisible = ref<boolean>(false)
 const reasonDialogVisible = ref<boolean>(false)
 const currentProductId = ref<number | string>(0)
+const reasonId = ref<number | string>(0)
 
 const router = useRouter()
 const approval = (id: number | string) => {
@@ -107,7 +112,7 @@ const goDetail = (id: number | string) => {
 }
 
 const rejectReason = (id: number | string) => {
-  currentProductId.value = id
+  reasonId.value = id
   reasonDialogVisible.value = true
 }
 

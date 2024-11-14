@@ -6,3 +6,12 @@ export interface IRejectReason {
   fileList: IFile[]
   createTime: string
 }
+
+export interface IApprovalLog {
+  id: number | string
+  result: boolean
+  reasonId?: string | number
+  createVersion?: string | number
+  submitTime?: string
+  approvalTime: string
+}

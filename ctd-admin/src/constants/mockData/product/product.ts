@@ -58,6 +58,7 @@ export const products: IProductItem[] = [
     rating: 5,
     currentVersion: 1,
     status: ProductStatus.Rejected,
+    reasonId: 1,
     createTime: '2022-01-01 00:00:00',
     updateTime: '2022-01-01 00:00:00'
   },
@@ -93,7 +94,7 @@ export const versions: IProductVersion[] = [
       <p>增加的测试内容</p>
     `,
     priceType: ProductPriceTypes.Specs,
-    submitTime: '2022-01-01 00:00:00'
+    createTime: '2022-01-01 00:00:00'
   },
   {
     version: 1,
@@ -114,7 +115,7 @@ export const versions: IProductVersion[] = [
       <p>测试内容</p>
     `,
     priceType: ProductPriceTypes.Specs,
-    submitTime: '2022-01-01 00:00:00'
+    createTime: '2022-01-01 00:00:00'
   }
 ]
 

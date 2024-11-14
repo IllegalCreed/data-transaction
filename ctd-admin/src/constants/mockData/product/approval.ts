@@ -1,4 +1,4 @@
-import type { IRejectReason } from '@/types/approval'
+import type { IApprovalLog, IRejectReason } from '@/types/approval'
 
 export const lastReason: IRejectReason = {
   id: 1,
@@ -23,3 +23,26 @@ export const lastReason: IRejectReason = {
     }
   ]
 }
+
+export const approvalLogs: IApprovalLog[] = [
+  {
+    id: 1,
+    result: false,
+    reasonId: 1,
+    submitTime: '2022-01-01 00:00:00',
+    approvalTime: '2022-01-01 00:00:00'
+  },
+  {
+    id: 2,
+    result: true,
+    createVersion: 1,
+    submitTime: '2022-01-01 00:00:00',
+    approvalTime: '2022-01-01 00:00:00'
+  },
+  {
+    id: 3,
+    result: false,
+    reasonId: 1,
+    approvalTime: '2022-01-01 00:00:00'
+  }
+]

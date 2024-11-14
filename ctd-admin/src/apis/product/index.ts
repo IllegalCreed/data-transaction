@@ -18,7 +18,7 @@ interface IProductAPI {
 }
 
 interface IApprovalAPI {
-  getLastRejectReason: (productId: string | number) => Promise<unknown>
+  getProductRejectReason: (id: string | number) => Promise<unknown>
   getProductApprovalLogs: (productId: string | number) => Promise<unknown>
 }
 
@@ -42,6 +42,6 @@ export const {
   delProducts,
   getVersion,
   getPriceDefinition,
-  getLastRejectReason,
+  getProductRejectReason,
   getProductApprovalLogs
 } = productAPI

@@ -40,6 +40,7 @@ interface IProductExtra {
   rating: number
   soldCount: number
   sellerName: string
+  reasonId?: string | number
 }
 
 // 产品版本
@@ -53,7 +54,7 @@ export interface IProductVersion {
   imageUrls: string[]
   detail: string
   priceType: ProductPriceTypes
-  submitTime: string
+  createTime: string
 }
 
 export interface IProductSpecsPriceDefinition {

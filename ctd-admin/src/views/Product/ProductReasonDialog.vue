@@ -26,7 +26,14 @@
           <span class="value">{{ lastRejectReason.createTime }}</span>
           <span class="label">附件列表：</span>
           <div flex flex-col gap-2>
-            <div v-for="item in lastRejectReason.fileList" :key="item.url" flex flex-row gap-2>
+            <div
+              v-for="item in lastRejectReason.fileList"
+              :key="item.url"
+              flex
+              flex-row
+              gap-2
+              cursor-pointer
+            >
               <i-pepicons-pencil:file />
               <span>{{ item.fileName }}</span>
             </div>
@@ -43,18 +50,18 @@ const model = defineModel<boolean>()
 
 watch(model, (val) => {
   if (val) {
-    executeGetLastRejectReasonAction()
+    executeGetProductRejectReasonAction()
   }
 })
 
 import { useProductStore } from '@/stores/modules/product'
-const { getLastRejectReason: getLastRejectReasonAction } = useProductStore()
+const { getProductRejectReason: getProductRejectReasonAction } = useProductStore()
 const {
   state: lastRejectReason,
   isLoading: geReasonLoading,
-  execute: executeGetLastRejectReasonAction
+  execute: executeGetProductRejectReasonAction
 } = useAsyncState(
-  () => getLastRejectReasonAction(id),
+  () => getProductRejectReasonAction(id),
   {
     id: '',
     reason: '',
