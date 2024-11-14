@@ -21,6 +21,17 @@
           </div>
         </div>
       </div>
+      <div class="prop" items-start grid-col-span-3>
+        <span class="label">产品价格：</span>
+        <div flex flex-col gap-4>
+          <div class="spec-group-container" v-for="item in priceList" :key="item.specs.join">
+            <div grid grid-cols-2 gap-4>
+              <span class="value" font-bold>{{ item.specs.join(` / `) }}</span>
+              <span class="value">{{ item.price }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -42,6 +53,7 @@ watch(
 )
 
 import { useProductStore } from '@/stores/modules/product'
+import { usePriceList } from './usePriceList'
 const { getPriceDefinition: getPriceDefinitionAction } = useProductStore()
 const {
   state: priceInfo,
@@ -54,6 +66,7 @@ const {
       : Promise.reject(new Error('暂无版本信息')),
   {
     defaultPrice: 0,
+    mainSpecGroupId: '',
     specs: [],
     prices: []
   },
@@ -65,6 +78,8 @@ const {
     }
   }
 )
+
+const { priceList } = usePriceList(priceInfo)
 </script>
 
 <style scoped lang="scss">

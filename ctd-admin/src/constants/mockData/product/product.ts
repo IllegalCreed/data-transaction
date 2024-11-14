@@ -120,6 +120,7 @@ export const versions: IProductVersion[] = [
 
 export const prices: IProductSpecsPriceDefinition = {
   defaultPrice: 100,
+  mainSpecGroupId: '1',
   specs: [
     {
       id: '1',
