@@ -17,6 +17,8 @@
           </el-button>
         </template>
       </el-input>
+
+      <el-button class="default-btn">新建产品</el-button>
     </div>
 
     <el-divider class="!my-0" />
@@ -177,9 +179,6 @@ const applyFilter = () => {
   filterVisible.value = false
   filterCount.value = 0
   if (status.value) {
-    filterCount.value++
-  }
-  if (sellerId.value) {
     filterCount.value++
   }
   pageNum.value = 1
