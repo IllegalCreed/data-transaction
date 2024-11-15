@@ -12,3 +12,10 @@ export interface IFile {
   fileName: string
   url: string
 }
+
+export interface IMenu {
+  path: string
+  label: string
+  icon: string
+  children?: IMenu[]
+}

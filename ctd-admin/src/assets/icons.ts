@@ -1,3 +1,7 @@
 // @unocss-include
-// NavMenu
-;['i-vaadin:users', 'i-vaadin:package', 'i-vaadin:paperplane', 'i-vaadin:cog']
+export const NavMenu = [
+  'i-solar:user-linear',
+  'i-fluent-mdl2:product-list',
+  'i-carbon:document-requirements',
+  'i-carbon:settings'
+]
