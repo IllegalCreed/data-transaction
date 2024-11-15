@@ -10,7 +10,8 @@
         <img class="icon" :src="scope.row.coverImageUrl" />
       </template>
     </el-table-column>
-    <el-table-column prop="name" label="名称" />
+    <el-table-column prop="name" label="产品名称" />
+    <el-table-column prop="sellerName" label="商家名称" />
     <el-table-column prop="showPrice" label="展示售价" width="100" />
     <el-table-column prop="soldCount" label="已售" width="80" />
     <el-table-column prop="rating" label="综合评价" width="130">
@@ -18,7 +19,7 @@
         <el-rate v-model="scope.row.rating" size="small" disabled />
       </template>
     </el-table-column>
-    <el-table-column prop="currentVersion" label="当前版本">
+    <el-table-column prop="currentVersion" label="当前版本" width="80">
       <template #default="scope">
         {{ scope.row.currentVersion ?? '--' }}
       </template>
@@ -94,7 +95,12 @@ const reasonId = ref<number | string>(0)
 
 const router = useRouter()
 const approval = (id: number | string) => {
-  console.log(id)
+  router.push({
+    name: 'product-approval',
+    params: {
+      id
+    }
+  })
 }
 
 const reject = (id: number | string) => {

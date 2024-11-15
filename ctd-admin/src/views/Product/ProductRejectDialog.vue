@@ -46,9 +46,13 @@ const uploadRef = useTemplateRef('uploadRef')
 const reason = ref('')
 const fileList = ref<UploadUserFile[]>([])
 
+const emit = defineEmits<{
+  (e: 'reject'): void
+}>()
 const handleReject = () => {
   uploadRef.value!.submit()
   model.value = false
+  emit('reject')
 }
 </script>
 
