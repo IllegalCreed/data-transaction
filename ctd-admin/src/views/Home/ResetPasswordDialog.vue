@@ -21,6 +21,7 @@
 </template>
 
 <script setup lang="ts">
+import type { InternalRuleItem } from 'async-validator'
 import type { FormInstance, FormRules } from 'element-plus'
 import { useAccountStore } from '@/stores/modules/account'
 import { successMessage } from '@/utils/messageBox'
@@ -36,7 +37,11 @@ const userPwd = ref({
 })
 
 const formRef = ref<FormInstance>()
-const validateNewPwd = (rule: any, value: any, callback: any) => {
+const validateNewPwd = (
+  rule: InternalRuleItem,
+  value: string,
+  callback: (error?: string | Error) => void
+) => {
   const regex =
     /^(?![A-Za-z0-9]+$)(?![a-z0-9\W]+$)(?![A-Za-z\W]+$)(?![A-Z0-9\W]+$)[a-zA-Z0-9\W]{8,20}$/
   if (!regex.test(userPwd.value.newPwd)) {
@@ -46,7 +51,11 @@ const validateNewPwd = (rule: any, value: any, callback: any) => {
   }
 }
 
-const validateRepeatPwd = (rule: any, value: any, callback: any) => {
+const validateRepeatPwd = (
+  rule: InternalRuleItem,
+  value: string,
+  callback: (error?: string | Error) => void
+) => {
   if (userPwd.value.newPwd !== userPwd.value.repeatPwd) {
     callback(new Error('请保证两次输入的密码一致'))
   } else {
@@ -54,7 +63,7 @@ const validateRepeatPwd = (rule: any, value: any, callback: any) => {
   }
 }
 
-const rules = reactive<FormRules<any>>({
+const rules = reactive<FormRules>({
   oldPwd: [{ required: true, message: '密码不能为空', trigger: 'blur' }],
   newPwd: [
     { required: true, message: '密码不能为空', trigger: 'blur' },
@@ -68,7 +77,7 @@ const rules = reactive<FormRules<any>>({
 
 async function handleResetPwd() {
   if (!formRef.value) return
-  await formRef.value.validate((valid, fields) => {
+  await formRef.value.validate((valid) => {
     if (valid) {
       resetPwd(userPwd.value.oldPwd, userPwd.value.newPwd).then(() => {
         successMessage('保存')

@@ -115,7 +115,7 @@ const approval = () => {
   router.push({
     name: 'product-approval',
     params: {
-      productId
+      id: productId
     }
   })
 }

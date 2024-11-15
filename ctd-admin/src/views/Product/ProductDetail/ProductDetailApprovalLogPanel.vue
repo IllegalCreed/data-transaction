@@ -109,6 +109,8 @@ const compareVersion = (createVersion: number | string) => {
     sourceVersion.value = version
     targetVersion.value = createVersion
     compareDialogVisible.value = true
+  } else {
+    ElMessage.error('暂无当前版本')
   }
 }
 </script>

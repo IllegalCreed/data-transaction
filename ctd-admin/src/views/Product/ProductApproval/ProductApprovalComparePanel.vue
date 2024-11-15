@@ -302,8 +302,10 @@ const {
   {
     immediate: false,
     onError: (e) => {
-      const error = e as Error
-      ElMessage.error(error.message)
+      if (e) {
+        const error = e as Error
+        ElMessage.error(error.message)
+      }
     }
   }
 )
@@ -334,8 +336,10 @@ const {
   {
     immediate: false,
     onError: (e) => {
-      const error = e as Error
-      ElMessage.error(error.message)
+      if (e) {
+        const error = e as Error
+        ElMessage.error(error.message)
+      }
     }
   }
 )
