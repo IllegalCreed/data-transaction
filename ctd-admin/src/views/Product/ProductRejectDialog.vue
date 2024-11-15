@@ -52,6 +52,10 @@ const emit = defineEmits<{
 const handleReject = () => {
   uploadRef.value!.submit()
   model.value = false
+  ElMessage({
+    message: '已驳回',
+    type: 'success'
+  })
   emit('reject')
 }
 </script>

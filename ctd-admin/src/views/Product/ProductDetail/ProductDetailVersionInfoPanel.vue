@@ -3,7 +3,7 @@
     <span class="panel-title">当前版本信息</span>
     <div flex flex-row gap-1 v-if="!version" v-loading="loading">
       <span text-sm>暂无，请先</span>
-      <el-link type="primary">去审核</el-link>
+      <el-link type="primary" @click="approval">去审核</el-link>
     </div>
     <div v-else class="props-container" v-loading="loading || getVersionLoading">
       <div class="prop">
@@ -109,6 +109,16 @@ const {
     }
   }
 )
+
+const router = useRouter()
+const approval = () => {
+  router.push({
+    name: 'product-approval',
+    params: {
+      productId
+    }
+  })
+}
 </script>
 
 <style lang="scss" scoped>
