@@ -66,6 +66,19 @@ export const products: IProductItem[] = [
     status: ProductStatus.Approving,
     createTime: '2022-01-01 00:00:00',
     updateTime: '2022-01-01 00:00:00'
+  },
+  {
+    id: 6,
+    name: '测试产品6',
+    description: '测试描述',
+    coverImageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
+    showPrice: 200.0,
+    soldCount: 200,
+    rating: 5,
+    currentVersion: 2,
+    status: ProductStatus.ToSubmit,
+    createTime: '2022-01-01 00:00:00',
+    updateTime: '2022-01-01 00:00:00'
   }
 ]
 

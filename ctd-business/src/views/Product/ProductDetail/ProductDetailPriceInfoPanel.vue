@@ -2,8 +2,7 @@
   <div class="product-detail-price-root-container">
     <span class="panel-title">产品价格定义</span>
     <div flex flex-row items-start gap-1 v-if="!version" v-loading="loading">
-      <span text-sm>暂无，请先</span>
-      <el-link type="primary" @click="approval">去审核</el-link>
+      <span text-sm>暂无过审版本</span>
     </div>
     <div v-else class="props-container" v-loading="loading || getPriceLoading">
       <div class="prop">
@@ -83,16 +82,6 @@ const {
 )
 
 const { priceList } = usePriceList(priceInfo)
-
-const router = useRouter()
-const approval = () => {
-  router.push({
-    name: 'product-approval',
-    params: {
-      id: productId
-    }
-  })
-}
 </script>
 
 <style scoped lang="scss">

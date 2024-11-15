@@ -33,15 +33,6 @@
     <el-table-column fixed="right" label="操作" align="right" width="250">
       <template #default="scope">
         <el-button
-          v-if="scope.row.status === ProductStatus.Approving"
-          link
-          type="primary"
-          size="small"
-          @click="approval(scope.row.id)"
-        >
-          编辑
-        </el-button>
-        <el-button
           v-if="scope.row.status === ProductStatus.OffSale"
           link
           type="primary"
@@ -67,6 +58,15 @@
           @click="rejectReason(scope.row.reasonId)"
           >驳回原因</el-button
         >
+        <el-button
+          v-if="scope.row.status !== ProductStatus.Approving"
+          link
+          type="primary"
+          size="small"
+          @click="approval(scope.row.id)"
+        >
+          编辑
+        </el-button>
         <el-button link type="primary" size="small" @click="goDetail(scope.row.id)"
           >查看详情</el-button
         >
