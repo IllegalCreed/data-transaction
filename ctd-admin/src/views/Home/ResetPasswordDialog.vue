@@ -24,7 +24,6 @@
 import type { InternalRuleItem } from 'async-validator'
 import type { FormInstance, FormRules } from 'element-plus'
 import { useAccountStore } from '@/stores/modules/account'
-import { successMessage } from '@/utils/messageBox'
 
 const { resetPwd } = useAccountStore()
 
@@ -80,7 +79,10 @@ async function handleResetPwd() {
   await formRef.value.validate((valid) => {
     if (valid) {
       resetPwd(userPwd.value.oldPwd, userPwd.value.newPwd).then(() => {
-        successMessage('保存')
+        ElMessage({
+          message: '保存成功',
+          type: 'success'
+        })
         model.value = false
       })
     }

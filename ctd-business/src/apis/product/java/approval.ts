@@ -12,3 +12,16 @@ export const getProductApprovalLogs = (productId: string | number): Promise<unkn
     true
   )
 }
+
+export const getProductRejectReason = (id: string | number): Promise<unknown> => {
+  const params = {
+    id
+  }
+  return request.get(
+    {
+      url: `/product/approval/resson/${id}`,
+      params
+    },
+    true
+  )
+}

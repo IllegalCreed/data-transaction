@@ -332,6 +332,7 @@
     "useRouteParams": true,
     "useRouteQuery": true,
     "lodash": true,
-    "isEqual": true
+    "isEqual": true,
+    "ElNotification": true
   }
 }

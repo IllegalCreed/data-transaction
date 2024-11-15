@@ -1,6 +1,6 @@
 <template>
   <el-watermark :font="font" :content="[settingsStore.watermarkContent]" :zIndex="100">
-    <el-config-provider :locale="locale">
+    <el-config-provider :locale="locale" :button="{ autoInsertSpace: true }">
       <router-view v-slot="{ Component }">
         <transition name="fade" mode="out-in">
           <component :is="Component" />

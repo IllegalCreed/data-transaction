@@ -18,14 +18,6 @@
           </el-dropdown-menu>
         </template>
       </el-dropdown>
-      <el-switch v-model="darkModeEnabled">
-        <template #active-action>
-          <IconDark class="active-icon"></IconDark>
-        </template>
-        <template #inactive-action>
-          <IconLight class="active-icon"></IconLight>
-        </template>
-      </el-switch>
     </div>
   </div>
 
@@ -56,9 +48,6 @@ const handleCommand = (command: string) => {
     default:
   }
 }
-import { useSettingsStore } from '@/stores/modules/settings'
-const settingStore = useSettingsStore()
-const { darkModeEnabled } = storeToRefs(settingStore)
 </script>
 
 <style scoped lang="scss">

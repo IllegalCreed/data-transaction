@@ -1,5 +1,3 @@
-// NOTE: 必须手动引入，否则会覆盖自定义样式
-import { ElNotification } from 'element-plus'
 import { v4 as uuidv4 } from 'uuid'
 import { useSettingsStore } from '../settings'
 import { useTokenStore } from '../token'

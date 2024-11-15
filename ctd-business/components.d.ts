@@ -27,6 +27,8 @@ declare module 'vue' {
     ElPopover: typeof import('element-plus/es')['ElPopover']
     ElRate: typeof import('element-plus/es')['ElRate']
     ElSelect: typeof import('element-plus/es')['ElSelect']
+    ElSkeleton: typeof import('element-plus/es')['ElSkeleton']
+    ElSkeletonItem: typeof import('element-plus/es')['ElSkeletonItem']
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
@@ -41,8 +43,12 @@ declare module 'vue' {
     'IMingcute:downLine': typeof import('~icons/mingcute/down-line')['default']
     'IOi:collapseLeft': typeof import('~icons/oi/collapse-left')['default']
     'IOi:collapseRight': typeof import('~icons/oi/collapse-right')['default']
+    'IPepiconsPencil:file': typeof import('~icons/pepicons-pencil/file')['default']
     'IVaadin:search': typeof import('~icons/vaadin/search')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+  }
+  export interface ComponentCustomProperties {
+    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }

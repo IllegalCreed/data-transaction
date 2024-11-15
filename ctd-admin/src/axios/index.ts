@@ -7,7 +7,6 @@ import type {
 
 import axios, { AxiosError } from 'axios'
 import { useTokenStore } from '@/stores/modules/token'
-import { errorMessage } from '@/utils/messageBox'
 
 export const PATH_URL = import.meta.env.VITE_APP_BASE_API
 const abortControllerMap: Map<string, AbortController> = new Map()
@@ -48,6 +47,25 @@ axiosInstance.interceptors.request.use(
       config.params = {}
       config.url = url
     }
+
+    const contentType = config.headers['Content-Type'] as string
+    if (contentType) {
+      if (contentType.includes('multipart/form-data')) {
+        const formData = new FormData()
+        Object.keys(config.data).forEach((key) => {
+          formData.append(key, config.data[key])
+        })
+        config.data = formData
+        delete config.headers['Content-Type']
+      } else if (contentType.includes('application/x-www-form-urlencoded')) {
+        const params = new URLSearchParams()
+        Object.keys(config.data).forEach((key) => {
+          params.append(key, config.data[key])
+        })
+        config.data = params
+      }
+    }
+
     return config
   },
   (error) => {
@@ -57,6 +75,8 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => {
+    const url = response.config.url || ''
+    abortControllerMap.delete(url)
     const code = response.data.code || 200
 
     // 二进制数据则直接返回
@@ -68,12 +88,12 @@ axiosInstance.interceptors.response.use(
     }
 
     if (code === 401) {
-      const tokenStore = useTokenStore()
-      tokenStore.relogin()
+      // const tokenStore = useTokenStore()
+      // tokenStore.clearToken()
       return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
     } else if (!/^2\d{2}$/.test(code)) {
       // 如果不是2开头的三位数
-      errorMessage(response.data.msg)
+      ElMessage.error(response.data.msg)
       return Promise.reject(new Error(response.data.msg))
     } else {
       return Promise.resolve(response.data)
@@ -88,34 +108,21 @@ axiosInstance.interceptors.response.use(
     } else if (message.includes('Request failed with status code')) {
       message = `服务器异常, 错误码: ${message.substring(message.length - 3)}`
     }
-    errorMessage(message)
+    ElMessage.error(message)
     return Promise.reject(error)
   }
 )
 
-const request = (config: AxiosRequestConfig): Promise<any> => {
-  return new Promise((resolve, reject) => {
-    axiosInstance
-      .request(config)
-      .then((res) => {
-        resolve(res)
-      })
-      .catch((err: any) => {
-        reject(err)
-      })
-  })
+const request = (config: AxiosRequestConfig): Promise<unknown> => {
+  return axiosInstance.request(config)
 }
 
-const mixConfig = (option: any, hasToken: boolean): any => {
+const mixConfig = (option: AxiosRequestConfig, hasToken: boolean): AxiosRequestConfig => {
   const headers = {
     'Content-Type': 'application/json;charset=utf-8',
+    Authorization: hasToken ? useTokenStore().token : '',
     ...option.headers
   }
-  if (hasToken) {
-    const tokenStore = useTokenStore()
-    headers.Authorization = tokenStore.token
-  }
-
   return { ...option, headers }
 }
 
@@ -123,22 +130,24 @@ const mixConfig = (option: any, hasToken: boolean): any => {
  * 参数处理
  * @param {*} params  参数
  */
-export function tansParams(params: any) {
+export function tansParams(params: Record<string, unknown>): string {
   let result = ''
   for (const propName of Object.keys(params)) {
     const value = params[propName]
     const part = encodeURIComponent(propName) + '='
+
     if (value !== null && value !== '' && typeof value !== 'undefined') {
-      if (typeof value === 'object') {
-        for (const key of Object.keys(value)) {
-          if (value[key] !== null && value[key] !== '' && typeof value[key] !== 'undefined') {
-            const params = propName + '[' + key + ']'
-            const subPart = encodeURIComponent(params) + '='
-            result += subPart + encodeURIComponent(value[key]) + '&'
+      if (typeof value === 'object' && !Array.isArray(value)) {
+        for (const key of Object.keys(value as Record<string, unknown>)) {
+          const subValue = (value as Record<string, unknown>)[key]
+          if (subValue !== null && subValue !== '' && typeof subValue !== 'undefined') {
+            const paramKey = `${propName}[${key}]`
+            const subPart = encodeURIComponent(paramKey) + '='
+            result += subPart + encodeURIComponent(String(subValue)) + '&'
           }
         }
       } else {
-        result += part + encodeURIComponent(value) + '&'
+        result += part + encodeURIComponent(String(value)) + '&'
       }
     }
   }
@@ -146,16 +155,16 @@ export function tansParams(params: any) {
 }
 
 export default {
-  get: (option: any, hasToken: boolean = true) => {
+  get: (option: AxiosRequestConfig, hasToken: boolean = true) => {
     return request({ method: 'get', ...mixConfig(option, hasToken) })
   },
-  post: (option: any, hasToken: boolean = true) => {
+  post: (option: AxiosRequestConfig, hasToken: boolean = true) => {
     return request({ method: 'post', ...mixConfig(option, hasToken) })
   },
-  delete: (option: any, hasToken: boolean = true) => {
+  delete: (option: AxiosRequestConfig, hasToken: boolean = true) => {
     return request({ method: 'delete', ...mixConfig(option, hasToken) })
   },
-  put: (option: any, hasToken: boolean = true) => {
+  put: (option: AxiosRequestConfig, hasToken: boolean = true) => {
     return request({ method: 'put', ...mixConfig(option, hasToken) })
   },
   cancelRequest: (url: string | string[]) => {
@@ -166,7 +175,7 @@ export default {
     }
   },
   cancelAllRequest: () => {
-    for (const [_, controller] of abortControllerMap) {
+    for (const controller of abortControllerMap.values()) {
       controller.abort()
     }
     abortControllerMap.clear()

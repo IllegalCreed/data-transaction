@@ -1,17 +1,22 @@
 <template>
   <div class="product-root-container">
     <div flex flex-row justify-between>
-      <el-input class="search-input" v-model="searchQuery" placeholder="请输入关键字搜索" clearable>
+      <el-input
+        class="search-input"
+        @keyup.enter="handleSearch"
+        @clear="handleSearch"
+        v-model="searchQuery"
+        placeholder="请输入关键字搜索"
+        clearable
+      >
         <template #append>
-          <el-button>
+          <el-button @click="handleSearch" :loading="getListLoading">
             <template v-slot:icon>
               <i-vaadin:search></i-vaadin:search>
             </template>
           </el-button>
         </template>
       </el-input>
-
-      <el-button class="default-btn">新建产品</el-button>
     </div>
 
     <el-divider class="!my-0" />
@@ -78,30 +83,6 @@
             </el-select>
           </div>
           <el-divider />
-          <div class="panel">
-            <div flex flex-row justify-between>
-              <span class="label">商家</span>
-              <el-link class="reset" :underline="false" @click="resetSellerFilter">重置</el-link>
-            </div>
-            <el-select
-              filterable
-              remote
-              remote-show-suffix
-              clearable
-              :remote-method="remoteMethod"
-              :loading="getBusinessOptionsByNameActionLoading"
-              v-model="sellerId"
-              placeholder="选择商家"
-            >
-              <el-option
-                v-for="item in businessOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
-          </div>
-          <el-divider />
           <div flex flex-row justify-between p-3>
             <el-button class="default-btn" size="small" @click="resetAllFilter">重置全部</el-button>
             <el-button type="primary" size="small" @click="applyFilter">应用</el-button>
@@ -110,7 +91,11 @@
       </el-popover>
     </div>
 
-    <product-tabel-panel :data="data"></product-tabel-panel>
+    <product-tabel-panel
+      :data="data"
+      :loading="getListLoading"
+      @delete="handleDelete"
+    ></product-tabel-panel>
 
     <el-pagination
       self-center
@@ -128,52 +113,55 @@
 
 <script setup lang="ts">
 import ProductTabelPanel from './ProductTabelPanel.vue'
-import type { apiListResult } from '@/types/common'
+
+// 获取列表
+const getListLoading = ref<boolean>(false)
+const data = ref<IProductItem[]>([])
+import { useProductStore } from '@/stores/modules/product'
+const { getProducts: getProductsAction, delProducts: delProductsAction } = useProductStore()
+const getList = async (): Promise<apiListResult<IProductItem>> => {
+  getListLoading.value = true
+  const res = await getProductsAction(
+    searchQuery.value,
+    status.value,
+    pageNum.value,
+    pageSize.value
+  )
+
+  data.value = res.rows
+  getListLoading.value = false
+  return res
+}
+
 import { usePager } from '@/composables/usePager'
 import type { IProductItem } from '@/types/product'
-import { productStatusOptions } from '@/constants/mapData/product'
+const { pageNum, pageSize, total, refresh } = usePager(getList)
 
-const searchQuery = ref<string>('')
-const status = ref<string>('')
-const sellerId = ref<string | number>('')
-
-import { useProductStore } from '@/stores/modules/product'
-const { getProducts: getProductsAction } = useProductStore()
-const getList = (pageNum: number, pageSize: number): Promise<apiListResult<IProductItem>> => {
-  return getProductsAction(searchQuery.value, status.value, sellerId.value, pageNum, pageSize)
-}
-
-const { pageNum, pageSize, total, data } = usePager(getList)
-
-const sortingVisible = ref<boolean>(false)
-const filterVisible = ref<boolean>(false)
-
-import { useBusinessStore } from '@/stores/modules/business'
-const { getBusinessOptionsByName: getBusinessOptionsByNameAction } = useBusinessStore()
-const {
-  state: businessOptions,
-  isLoading: getBusinessOptionsByNameActionLoading,
-  execute: executeGetBusinessOptionsByNameAction
-} = useAsyncState(getBusinessOptionsByNameAction, [], {
-  immediate: false,
-  throwError: true
+// 删除
+import { useDelete } from '@/composables/useDelete'
+const delName = ref('')
+const delId = ref<string | number>('')
+const { doDelAction } = useDelete(`是否确认删除${delName.value}？`, async () => {
+  await delProductsAction([delId.value])
+  refresh()
 })
-
-const remoteMethod = (query: string) => {
-  if (query) {
-    executeGetBusinessOptionsByNameAction(0, query)
-  } else {
-    businessOptions.value = []
-  }
+const handleDelete = (id: string | number, name: string) => {
+  delName.value = name
+  delId.value = id
+  doDelAction()
 }
 
-const sortingCount = ref(0)
-
-const resetAllSorting = () => {}
-
-const applySorting = () => {
-  sortingVisible.value = false
+// 搜索
+const searchQuery = ref<string>('')
+const handleSearch = () => {
+  refresh()
 }
+
+// 筛选
+const filterVisible = ref<boolean>(false)
+const status = ref<string>('')
+import { productStatusOptions } from '@/constants/mapData/product'
+import type { apiListResult } from '@/types/common'
 
 const filterCount = ref(0)
 
@@ -181,13 +169,8 @@ const resetStatusFilter = () => {
   status.value = ''
 }
 
-const resetSellerFilter = () => {
-  sellerId.value = ''
-}
-
 const resetAllFilter = () => {
   resetStatusFilter()
-  resetSellerFilter()
 }
 
 const applyFilter = () => {
@@ -199,6 +182,18 @@ const applyFilter = () => {
   if (sellerId.value) {
     filterCount.value++
   }
+  pageNum.value = 1
+  refresh()
+}
+
+// 排序
+const sortingVisible = ref<boolean>(false)
+const sortingCount = ref(0)
+
+const resetAllSorting = () => {}
+
+const applySorting = () => {
+  sortingVisible.value = false
 }
 </script>
 

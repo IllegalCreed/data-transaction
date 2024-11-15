@@ -41,12 +41,10 @@
           :default-active="activeIndex"
           :collapse="isCollapse"
         >
-          <el-menu-item v-for="menu in menuItems" :key="menu.index" :index="menu.index">
-            <el-icon>
-              <component :is="menu.icon"></component>
-            </el-icon>
+          <el-menu-item v-for="item in mainMenus" :key="item.path" :index="item.path">
+            <el-icon><i :class="item.icon" class="icon"></i></el-icon>
             <template #title>
-              <span text-4>{{ menu.label }}</span>
+              <span text-lg ml-10>{{ item.label }}</span>
             </template>
           </el-menu-item>
         </el-menu>
@@ -113,18 +111,18 @@ router.afterEach((to: RouteLocationNormalized) => {
 
 setCurrentMenu(router.currentRoute.value)
 
-// 菜单项数据
-const menuItems = ref([
-  { index: 'user', label: '用户管理', icon: 'i-vaadin:users' },
-  { index: 'product', label: '产品管理', icon: 'i-vaadin:package' },
-  { index: 'demand', label: '需求管理', icon: 'i-vaadin:paperplane' },
-  { index: 'setting', label: '系统配置', icon: 'i-vaadin:cog' }
-])
+import { useMenuStore } from '@/stores/modules/menu'
+const menuStore = useMenuStore()
+const { mainMenus } = storeToRefs(menuStore)
+const { getMainMenus: getMainMenusAction } = menuStore
+onMounted(() => {
+  getMainMenusAction()
+})
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .home-root-container {
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -144,12 +142,16 @@ const menuItems = ref([
 .home-menu {
   flex: 1;
   min-height: 0;
+
+  .icon {
+    @apply text-2xl;
+  }
 }
 
 .home-menu-header {
   border-bottom-width: 1px;
   border-bottom-style: solid;
-  border-bottom-color: var(--border);
+  border-bottom-color: var(--border-color);
 }
 
 .home-menu:not(.el-menu--collapse) {
@@ -187,7 +189,7 @@ const menuItems = ref([
   flex-direction: column;
   flex: 1;
   padding: 20px;
-  background-color: var(--page-background-dark-color);
+  background-color: var(--background-page-dark-color);
   overflow-y: scroll;
 }
 

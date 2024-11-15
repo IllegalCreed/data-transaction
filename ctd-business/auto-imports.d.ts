@@ -7,6 +7,9 @@
 export {}
 declare global {
   const EffectScope: typeof import('vue')['EffectScope']
+  const ElMessage: typeof import('element-plus/es')['ElMessage']
+  const ElMessageBox: typeof import('element-plus/es')['ElMessageBox']
+  const ElNotification: typeof import('element-plus/es')['ElNotification']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
   const autoResetRef: typeof import('@vueuse/core')['autoResetRef']
@@ -30,6 +33,7 @@ declare global {
   const createTemplatePromise: typeof import('@vueuse/core')['createTemplatePromise']
   const createUnrefFn: typeof import('@vueuse/core')['createUnrefFn']
   const customRef: typeof import('vue')['customRef']
+  const dayjs: typeof import('dayjs')['default']
   const debouncedRef: typeof import('@vueuse/core')['debouncedRef']
   const debouncedWatch: typeof import('@vueuse/core')['debouncedWatch']
   const defineAsyncComponent: typeof import('vue')['defineAsyncComponent']
@@ -246,6 +250,9 @@ declare global {
   const useRefHistory: typeof import('@vueuse/core')['useRefHistory']
   const useResizeObserver: typeof import('@vueuse/core')['useResizeObserver']
   const useRoute: typeof import('vue-router')['useRoute']
+  const useRouteHash: typeof import('@vueuse/router')['useRouteHash']
+  const useRouteParams: typeof import('@vueuse/router')['useRouteParams']
+  const useRouteQuery: typeof import('@vueuse/router')['useRouteQuery']
   const useRouter: typeof import('vue-router')['useRouter']
   const useRouterStore: typeof import('./src/stores/modules/router')['useRouterStore']
   const useScreenOrientation: typeof import('@vueuse/core')['useScreenOrientation']
