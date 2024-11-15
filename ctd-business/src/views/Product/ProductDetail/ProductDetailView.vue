@@ -44,11 +44,9 @@ const {
   () => getProductAction(id.value),
   {
     id: id.value,
-    sellerId: 0,
     status: ProductStatus.Approving,
     rating: 0,
     soldCount: 0,
-    sellerName: '',
     createTime: '',
     updateTime: ''
   },

@@ -63,7 +63,7 @@
           link
           type="primary"
           size="small"
-          @click="approval(scope.row.id)"
+          @click="edit(scope.row.id)"
         >
           编辑
         </el-button>
@@ -97,9 +97,9 @@ const reasonDialogVisible = ref<boolean>(false)
 const reasonId = ref<number | string>(0)
 
 const router = useRouter()
-const approval = (id: number | string) => {
+const edit = (id: number | string) => {
   router.push({
-    name: 'product-approval',
+    name: 'product-edit',
     params: {
       id
     }

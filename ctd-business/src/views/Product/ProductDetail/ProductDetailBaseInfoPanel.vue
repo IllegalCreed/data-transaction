@@ -10,10 +10,6 @@
         <span class="label">当前版本：</span>
         <span class="value">{{ data.currentVersion ?? '暂无' }}</span>
       </div>
-      <div class="prop">
-        <span class="label">商家名称：</span>
-        <span class="value">{{ data.sellerName }}</span>
-      </div>
       <div class="prop" items-center>
         <span class="label">状态:</span>
         <el-tag :type="stautsColor(data.status)">{{ statusLabel(data.status) }}</el-tag>

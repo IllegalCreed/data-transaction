@@ -75,7 +75,6 @@ export const products: IProductItem[] = [
     showPrice: 200.0,
     soldCount: 200,
     rating: 5,
-    currentVersion: 2,
     status: ProductStatus.ToSubmit,
     createTime: '2022-01-01 00:00:00',
     updateTime: '2022-01-01 00:00:00'

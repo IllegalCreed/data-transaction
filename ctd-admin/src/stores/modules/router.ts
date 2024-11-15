@@ -1,20 +1,26 @@
-import type { RouteLocationNormalizedLoaded } from 'vue-router'
+import type { RouteMeta } from 'vue-router'
+
+interface RouteLike {
+  path: string
+  name: string
+  meta: RouteMeta
+}
 
 export const useRouterStore = defineStore('router', () => {
-  const visitedViews = ref<any[]>([])
-  const cachedViews = ref<any[]>([])
+  const visitedViews = ref<RouteLike[]>([])
+  const cachedViews = ref<string[]>([])
 
-  const addView = (view: RouteLocationNormalizedLoaded) => {
+  const addView = (view: RouteLike) => {
     addVisitedView(view)
     addCachedView(view)
   }
 
-  function deleteView(view: RouteLocationNormalizedLoaded) {
+  function deleteView(view: RouteLike): void {
     deleteVisitedView(view)
     deleteCachedView(view)
   }
 
-  function deleteVisitedView(view: RouteLocationNormalizedLoaded) {
+  function deleteVisitedView(view: RouteLike): void {
     for (const [i, v] of visitedViews.value.entries()) {
       if (v.path === view.path) {
         visitedViews.value.splice(i, 1)
@@ -23,12 +29,14 @@ export const useRouterStore = defineStore('router', () => {
     }
   }
 
-  function deleteCachedView(view: RouteLocationNormalizedLoaded) {
-    const index = cachedViews.value.indexOf(view.name)
-    index > -1 && cachedViews.value.splice(index, 1)
+  function deleteCachedView(view: RouteLike): void {
+    const index = cachedViews.value.indexOf(view.name as string)
+    if (index > -1) {
+      cachedViews.value.splice(index, 1)
+    }
   }
 
-  function addVisitedView(view: RouteLocationNormalizedLoaded) {
+  function addVisitedView(view: RouteLike): void {
     if (visitedViews.value.some((v) => v.path === view.path)) return
     if (view.meta.title) {
       visitedViews.value.push(
@@ -39,10 +47,10 @@ export const useRouterStore = defineStore('router', () => {
     }
   }
 
-  function addCachedView(view: RouteLocationNormalizedLoaded) {
-    if (cachedViews.value.includes(view.name)) return
+  function addCachedView(view: RouteLike): void {
+    if (cachedViews.value.includes(view.name as string)) return
     if (!view.meta.noCache) {
-      cachedViews.value.push(view.name)
+      cachedViews.value.push(view.name as string)
     }
   }
 

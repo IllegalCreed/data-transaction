@@ -18,7 +18,7 @@
         </template>
       </el-input>
 
-      <el-button class="default-btn">新建产品</el-button>
+      <el-button class="default-btn" @click="handleCreate">新建产品</el-button>
     </div>
 
     <el-divider class="!my-0" />
@@ -193,6 +193,17 @@ const resetAllSorting = () => {}
 
 const applySorting = () => {
   sortingVisible.value = false
+}
+
+// 新建
+const router = useRouter()
+const handleCreate = () => {
+  router.push({
+    name: 'product-edit',
+    params: {
+      id: -1
+    }
+  })
 }
 </script>
 
