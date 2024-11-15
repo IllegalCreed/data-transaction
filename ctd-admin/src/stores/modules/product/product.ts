@@ -134,8 +134,12 @@ export const useProduct = () => {
     return new Promise<IProductSpecsPriceDefinition>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => {
-          const result = mockPrices
-          resolve(result)
+          const result = mockPrices.find((item) => item.version === Number(version))
+          if (result) {
+            resolve(result.prices)
+          } else {
+            reject(new Error('Product version not found'))
+          }
         }, 1000)
       } else {
         getPriceDefinitionAPI(productId, version)

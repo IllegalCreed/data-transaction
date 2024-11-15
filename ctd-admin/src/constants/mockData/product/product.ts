@@ -137,73 +137,209 @@ export const versions: IProductVersion[] = [
   }
 ]
 
-export const prices: IProductSpecsPriceDefinition = {
-  defaultPrice: 100,
-  mainSpecGroupId: '1',
-  specs: [
-    {
-      id: '1',
-      label: '颜色',
-      affectsPrice: true,
-      children: [
-        {
-          id: '1-1',
-          label: '白色'
-        },
-        {
-          id: '1-2',
-          label: '蓝色'
-        }
-      ]
-    },
-    {
-      id: '2',
-      label: '型号',
-      affectsPrice: true,
-      children: [
-        {
-          id: '2-1',
-          label: '大'
-        },
-        {
-          id: '2-2',
-          label: '中'
-        },
-        {
-          id: '2-3',
-          label: '小'
-        }
-      ]
-    },
-    {
-      id: '3',
-      label: '形状',
-      affectsPrice: false,
-      children: [
-        {
-          id: '3-1',
-          label: '圆形'
-        },
-        {
-          id: '3-2',
-          label: '方形'
-        }
-      ]
-    }
-  ],
-  prices: [
-    {
-      price: 200,
+export const prices: { version: string | number; prices: IProductSpecsPriceDefinition }[] = [
+  {
+    version: 0,
+    prices: {
+      defaultPrice: 0,
+      mainSpecGroupId: '1',
       specs: [
         {
-          groupId: '1',
-          specId: '1-1'
+          id: '1',
+          label: '颜色',
+          affectsPrice: true,
+          children: [
+            {
+              id: '1-1',
+              label: '白色'
+            },
+            {
+              id: '1-2',
+              label: '蓝色'
+            }
+          ]
         },
         {
-          groupId: '2',
-          specId: '2-1'
+          id: '2',
+          label: '型号',
+          affectsPrice: true,
+          children: [
+            {
+              id: '2-1',
+              label: '大'
+            },
+            {
+              id: '2-2',
+              label: '中'
+            },
+            {
+              id: '2-3',
+              label: '小'
+            }
+          ]
+        },
+        {
+          id: '3',
+          label: '形状',
+          affectsPrice: false,
+          children: [
+            {
+              id: '3-1',
+              label: '圆形'
+            },
+            {
+              id: '3-2',
+              label: '方形'
+            }
+          ]
+        }
+      ],
+      prices: [
+        {
+          price: 200,
+          specs: [
+            {
+              groupId: '1',
+              specId: '1-1'
+            },
+            {
+              groupId: '2',
+              specId: '2-1'
+            }
+          ]
         }
       ]
     }
-  ]
-}
+  },
+  {
+    version: 1,
+    prices: {
+      defaultPrice: 100,
+      mainSpecGroupId: '1',
+      specs: [
+        {
+          id: '1',
+          label: '颜色',
+          affectsPrice: true,
+          children: [
+            {
+              id: '1-1',
+              label: '白色'
+            },
+            {
+              id: '1-2',
+              label: '蓝色'
+            }
+          ]
+        },
+        {
+          id: '2',
+          label: '型号',
+          affectsPrice: true,
+          children: [
+            {
+              id: '2-1',
+              label: '大'
+            },
+            {
+              id: '2-2',
+              label: '中'
+            },
+            {
+              id: '2-3',
+              label: '小'
+            }
+          ]
+        },
+        {
+          id: '3',
+          label: '形状',
+          affectsPrice: false,
+          children: [
+            {
+              id: '3-1',
+              label: '圆形'
+            },
+            {
+              id: '3-2',
+              label: '方形'
+            }
+          ]
+        }
+      ],
+      prices: [
+        {
+          price: 200,
+          specs: [
+            {
+              groupId: '1',
+              specId: '1-1'
+            },
+            {
+              groupId: '2',
+              specId: '2-1'
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    version: 2,
+    prices: {
+      defaultPrice: 300,
+      mainSpecGroupId: '1',
+      specs: [
+        {
+          id: '1',
+          label: '颜色',
+          affectsPrice: true,
+          children: [
+            {
+              id: '1-1',
+              label: '白色'
+            },
+            {
+              id: '1-2',
+              label: '蓝色'
+            }
+          ]
+        },
+        {
+          id: '2',
+          label: '型号',
+          affectsPrice: true,
+          children: [
+            {
+              id: '2-1',
+              label: '大'
+            },
+            {
+              id: '2-2',
+              label: '中'
+            },
+            {
+              id: '2-3',
+              label: '小'
+            }
+          ]
+        }
+      ],
+      prices: [
+        {
+          price: 200,
+          specs: [
+            {
+              groupId: '1',
+              specId: '1-1'
+            },
+            {
+              groupId: '2',
+              specId: '2-1'
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

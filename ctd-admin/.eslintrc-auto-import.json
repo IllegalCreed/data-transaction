@@ -330,6 +330,8 @@
     "dayjs": true,
     "useRouteHash": true,
     "useRouteParams": true,
-    "useRouteQuery": true
+    "useRouteQuery": true,
+    "lodash": true,
+    "isEqual": true
   }
 }

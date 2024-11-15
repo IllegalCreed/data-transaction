@@ -41,7 +41,7 @@
 
     <div class="prop-row">
       <div class="prop">
-        <span class="label" :class="{ change: sourceVersion.tags !== targetVersion.tags }"
+        <span class="label" :class="{ change: !isEqual(sourceVersion.tags, targetVersion.tags) }"
           >产品标签：</span
         >
         <div flex flex-row flex-wrap gap-2>
@@ -50,7 +50,7 @@
           </el-tag>
         </div>
       </div>
-      <div class="prop" v-if="sourceVersion.tags !== targetVersion.tags">
+      <div class="prop" v-if="!isEqual(sourceVersion.tags, targetVersion.tags)">
         <span class="label">产品标签：</span>
         <div flex flex-row flex-wrap gap-2>
           <el-tag v-for="item in targetVersion.tags" :key="item" type="info">
@@ -102,7 +102,9 @@
 
     <div class="prop-row">
       <div class="prop">
-        <span class="label" :class="{ change: sourceVersion.imageUrls !== targetVersion.imageUrls }"
+        <span
+          class="label"
+          :class="{ change: !isEqual(sourceVersion.imageUrls, targetVersion.imageUrls) }"
           >产品图片：</span
         >
         <div flex flex-row flex-wrap gap-4>
@@ -117,7 +119,7 @@
           />
         </div>
       </div>
-      <div class="prop" v-if="sourceVersion.imageUrls !== targetVersion.imageUrls">
+      <div class="prop" v-if="!isEqual(sourceVersion.imageUrls, targetVersion.imageUrls)">
         <span class="label">产品图片：</span>
         <div flex flex-row flex-wrap gap-4>
           <el-image
@@ -146,19 +148,101 @@
       </div>
     </div>
 
+    <div class="prop-row">
+      <div class="prop">
+        <span
+          class="label"
+          :class="{ change: sourcePrice.defaultPrice !== targetPrice.defaultPrice }"
+          >默认价格：</span
+        >
+        <span class="value">{{ sourcePrice.defaultPrice }}</span>
+      </div>
+      <div class="prop" v-if="sourcePrice.defaultPrice !== targetPrice.defaultPrice">
+        <span class="label">默认价格：</span>
+        <span class="value">{{ targetPrice.defaultPrice }}</span>
+      </div>
+    </div>
+
+    <div class="prop-row">
+      <div class="prop">
+        <span class="label" :class="{ change: !isEqual(sourcePrice.specs, targetPrice.specs) }"
+          >产品规格：</span
+        >
+        <div flex flex-col gap-4>
+          <div class="spec-group-container" v-for="item in sourcePrice.specs" :key="item.id">
+            <div grid grid-cols-2 gap-4>
+              <span class="value" font-bold>{{ item.label }}</span>
+              <el-tag class="value" :type="item.affectsPrice ? 'success' : 'danger'">{{
+                item.affectsPrice ? '价格相关' : '价格无关'
+              }}</el-tag>
+            </div>
+            <span text-sm>{{ item.children.map((item) => item.label).join(` / `) }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="prop" v-if="!isEqual(sourcePrice.specs, targetPrice.specs)">
+        <span class="label">产品规格：</span>
+        <div flex flex-col gap-4>
+          <div class="spec-group-container" v-for="item in targetPrice.specs" :key="item.id">
+            <div grid grid-cols-2 gap-4>
+              <span class="value" font-bold>{{ item.label }}</span>
+              <el-tag class="value" :type="item.affectsPrice ? 'success' : 'danger'">{{
+                item.affectsPrice ? '价格相关' : '价格无关'
+              }}</el-tag>
+            </div>
+            <span text-sm>{{ item.children.map((item) => item.label).join(` / `) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="prop-row">
+      <div class="prop">
+        <span class="label" :class="{ change: !isEqual(sourcePriceList, targetPriceList) }"
+          >产品价格：</span
+        >
+        <div flex flex-col gap-4>
+          <div class="spec-group-container" v-for="item in sourcePriceList" :key="item.specs.join">
+            <div grid grid-cols-2 gap-4>
+              <span class="value" font-bold>{{ item.specs.join(` / `) }}</span>
+              <span class="value">{{ item.price }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="prop" v-if="!isEqual(sourcePriceList, targetPriceList)">
+        <span class="label">产品价格：</span>
+        <div flex flex-col gap-4>
+          <div class="spec-group-container" v-for="item in targetPriceList" :key="item.specs.join">
+            <div grid grid-cols-2 gap-4>
+              <span class="value" font-bold>{{ item.specs.join(` / `) }}</span>
+              <span class="value">{{ item.price }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- 左侧加载覆盖层 -->
-    <div class="loading-overlay left-overlay" v-if="getSourceVersionLoading">
+    <div
+      class="loading-overlay left-overlay"
+      v-if="getSourceVersionLoading || getSourcePriceLoading"
+    >
       <i-line-md:loading-loop class="loading-icon" />
     </div>
 
     <!-- 右侧加载覆盖层 -->
-    <div class="loading-overlay right-overlay" v-if="getTargetVersionLoading">
+    <div
+      class="loading-overlay right-overlay"
+      v-if="getTargetVersionLoading || getTargetPriceLoading"
+    >
       <i-line-md:loading-loop class="loading-icon" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { isEqual } from 'lodash-es'
 const { productId, source, target } = defineProps<{
   productId: number | string
   source: number | string
@@ -167,7 +251,9 @@ const { productId, source, target } = defineProps<{
 
 import { ProductPriceTypes } from '@/constants/mapData/product'
 import { useProductStore } from '@/stores/modules/product'
-const { getVersion: getVersionAction } = useProductStore()
+import { usePriceList } from '../ProductDetail/usePriceList'
+const { getVersion: getVersionAction, getPriceDefinition: getPriceDefinitionAction } =
+  useProductStore()
 const defalutVersion = {
   version: 0,
   name: '',
@@ -202,10 +288,42 @@ const {
     ElMessage.error(error.message)
   }
 })
+const defaultPrice = {
+  defaultPrice: 0,
+  mainSpecGroupId: '',
+  specs: [],
+  prices: []
+}
+const {
+  state: sourcePrice,
+  isLoading: getSourcePriceLoading,
+  execute: executeGetSourcePriceDefinitionAction
+} = useAsyncState(() => getPriceDefinitionAction(productId, source), defaultPrice, {
+  immediate: false,
+  onError: (e) => {
+    const error = e as Error
+    ElMessage.error(error.message)
+  }
+})
+const {
+  state: targetPrice,
+  isLoading: getTargetPriceLoading,
+  execute: executeGetTargetPriceDefinitionAction
+} = useAsyncState(() => getPriceDefinitionAction(productId, target), defaultPrice, {
+  immediate: false,
+  onError: (e) => {
+    const error = e as Error
+    ElMessage.error(error.message)
+  }
+})
+const { priceList: sourcePriceList } = usePriceList(sourcePrice)
+const { priceList: targetPriceList } = usePriceList(targetPrice)
 
 onMounted(() => {
   executeGetSourceVersionAction()
   executeGetTargetVersionAction()
+  executeGetSourcePriceDefinitionAction()
+  executeGetTargetPriceDefinitionAction()
 })
 </script>
 
@@ -215,6 +333,14 @@ onMounted(() => {
 
   .prop-row {
     @apply py-8 grid grid-cols-2 gap-4 border-b border-b-dashed border-[var(--border-color)];
+  }
+
+  .spec-group-container {
+    @apply flex flex-col gap-2 pb-4;
+
+    &:not(:last-child) {
+      @apply border-b border-b-dashed border-[var(--border-color)];
+    }
   }
 
   .change {
