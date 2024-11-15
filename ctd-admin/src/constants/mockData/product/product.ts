@@ -72,7 +72,7 @@ export const products: IProductItem[] = [
     showPrice: 200.0,
     soldCount: 200,
     rating: 5,
-    currentVersion: 1,
+    currentVersion: 2,
     status: ProductStatus.Approving,
     createTime: '2022-01-01 00:00:00',
     updateTime: '2022-01-01 00:00:00'
@@ -107,6 +107,24 @@ export const versions: IProductVersion[] = [
       new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
       new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
       new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
+      new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
+      new URL('@/assets/placeholder/productDefault.png', import.meta.url).href
+    ],
+    detail: `
+      <h1>测试标题</h1>
+      <p>测试内容</p>
+    `,
+    priceType: ProductPriceTypes.Specs,
+    createTime: '2022-01-01 00:00:00'
+  },
+  {
+    version: 2,
+    name: '测试产品5',
+    description: '测试描述测试描述测试描述测试描述',
+    showPrice: 1000,
+    tags: ['测试标签1', '测试标签2', '测试标签3'],
+    coverImageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
+    imageUrls: [
       new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
       new URL('@/assets/placeholder/productDefault.png', import.meta.url).href
     ],

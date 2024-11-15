@@ -14,7 +14,7 @@
       :loading="getProductLoading"
     />
     <el-divider />
-    <product-detail-approval-log-panel :product-id="id" />
+    <product-detail-approval-log-panel :product-id="id" :version="baseInfo.currentVersion" />
   </div>
 </template>
 

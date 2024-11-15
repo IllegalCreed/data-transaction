@@ -149,7 +149,7 @@ const menuItems = ref([
 .home-menu-header {
   border-bottom-width: 1px;
   border-bottom-style: solid;
-  border-bottom-color: var(--border);
+  border-bottom-color: var(--border-color);
 }
 
 .home-menu:not(.el-menu--collapse) {

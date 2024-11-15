@@ -54,7 +54,7 @@ function change() {
   color: var(--text-disable-color);
   border-right-width: 1px;
   border-right-style: solid;
-  border-right-color: var(--border);
+  border-right-color: var(--border-color);
 }
 
 .active {

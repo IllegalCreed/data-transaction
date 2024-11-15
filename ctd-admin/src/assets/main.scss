@@ -50,7 +50,7 @@
 }
 
 .prop {
-  @apply flex flex-row gap-4 items-center;
+  @apply flex flex-row gap-4 items-start;
 
   .label {
     @apply text-base text-[var(--text-label-color)] min-w-20;

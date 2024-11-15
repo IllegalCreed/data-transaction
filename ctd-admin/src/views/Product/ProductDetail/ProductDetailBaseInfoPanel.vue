@@ -14,11 +14,11 @@
         <span class="label">商家名称：</span>
         <span class="value">{{ data.sellerName }}</span>
       </div>
-      <div class="prop">
+      <div class="prop" items-center>
         <span class="label">状态:</span>
         <el-tag :type="stautsColor(data.status)">{{ statusLabel(data.status) }}</el-tag>
       </div>
-      <div class="prop">
+      <div class="prop" items-center>
         <span class="label">综合评价：</span>
         <el-rate :model-value="data.rating" allow-half disabled show-score text-color="#ff9900" />
       </div>

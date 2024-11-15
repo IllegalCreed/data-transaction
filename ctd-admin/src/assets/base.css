@@ -4,6 +4,7 @@
 
   --color-black: #000;
   --color-white: #fff;
+  --color-white-700: rgba(255, 255, 255, 0.7);
 
   --color-gray-50: #f9fafb;
   --color-gray-100: #f3f4f6;
@@ -26,11 +27,13 @@
   --text-disable-color: var(--color-gray-400);
   --text-label-color: var(--color-gray-400);
 
+  --mask-color: var(--color-white-700);
+
   --background-page-dark-color: var(--color-gray-200);
   --background-page-color: var(--color-white);
   --background-header-color: var(--color-light-primary);
 
-  --border: var(--color-gray-300);
+  --border-color: var(--color-gray-300);
   --border-btn-primary-color: var(--color-light-primary);
 
   --menu-background: var(--page-background-color);
@@ -45,12 +48,15 @@
   --text-white-color: var(--color-gray-100);
   --text-white-highlight-color: var(--color-white);
   --text-disable-color: var(--color-gray-500);
+  --text-label-color: var(--color-gray-400);
+
+  --mask-color: var(--color-white-700);
 
   --background-page-dark-color: var(--color-gray-900);
   --background-page-color: var(--color-gray-800);
   --background-header-color: var(--color-dark-primary);
 
-  --border: var(--color-gray-600);
+  --border-color: var(--color-gray-600);
   --border-btn-primary-color: var(--color-dark-primary);
 
   --menu-background: var(--page-background-color);

@@ -1,7 +1,7 @@
 <template>
   <div class="product-detail-version-root-container">
     <span class="panel-title">当前版本信息</span>
-    <div flex flex-row items-start gap-1 v-if="!version" v-loading="loading">
+    <div flex flex-row gap-1 v-if="!version" v-loading="loading">
       <span text-sm>暂无，请先</span>
       <el-link type="primary">去审核</el-link>
     </div>
@@ -18,17 +18,19 @@
         <span class="label">展示价格：</span>
         <span class="value">{{ versionInfo.showPrice }}</span>
       </div>
-      <div class="prop" items-start>
+      <div class="prop">
         <span class="label">产品标签：</span>
-        <el-tag v-for="item in versionInfo.tags" :key="item" type="info">
-          {{ item }}
-        </el-tag>
+        <div flex flex-row flex-wrap gap-2>
+          <el-tag v-for="item in versionInfo.tags" :key="item" type="info">
+            {{ item }}
+          </el-tag>
+        </div>
       </div>
-      <div class="prop" items-start>
+      <div class="prop" grid-col-span-2>
         <span class="label">产品描述：</span>
         <span class="value">{{ versionInfo.description }}</span>
       </div>
-      <div class="prop" items-start grid-col-span-3>
+      <div class="prop" grid-col-span-3>
         <span class="label">产品封面：</span>
         <el-image
           class="w-30 h-30"
@@ -38,7 +40,7 @@
         />
       </div>
 
-      <div class="prop" items-start grid-col-span-3>
+      <div class="prop" grid-col-span-3>
         <span class="label">产品图片：</span>
         <div flex flex-row flex-wrap gap-4>
           <el-image
@@ -53,7 +55,7 @@
         </div>
       </div>
 
-      <div class="prop" items-start grid-col-span-3>
+      <div class="prop" grid-col-span-3>
         <span class="label">产品详情：</span>
         <div v-html="versionInfo.detail"></div>
       </div>

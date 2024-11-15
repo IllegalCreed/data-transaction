@@ -32,7 +32,7 @@
             link
             type="primary"
             size="small"
-            @click="compareVersion(scope.row.id)"
+            @click="compareVersion(scope.row.createVersion)"
           >
             对比当前版本
           </el-button>
@@ -49,14 +49,22 @@
     </el-table>
 
     <product-reason-dialog v-model="reasonDialogVisible" :id="reasonId" />
+    <product-approval-compare-dialog
+      v-model="compareDialogVisible"
+      :product-id="productId"
+      :source="sourceVersion"
+      :target="targetVersion"
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
 import ProductReasonDialog from '../ProductReasonDialog.vue'
+import ProductApprovalCompareDialog from '../ProductApproval/ProductApprovalCompareDialog.vue'
 
-const { productId } = defineProps<{
+const { productId, version } = defineProps<{
   productId: number | string
+  version: number | string | undefined
 }>()
 
 watch(
@@ -93,8 +101,15 @@ const rejectReason = (id: number | string) => {
   reasonDialogVisible.value = true
 }
 
-const compareVersion = (id: number | string) => {
-  console.log(id)
+const sourceVersion = ref<number | string>(0)
+const targetVersion = ref<number | string>(0)
+const compareDialogVisible = ref<boolean>(false)
+const compareVersion = (createVersion: number | string) => {
+  if (version) {
+    sourceVersion.value = version
+    targetVersion.value = createVersion
+    compareDialogVisible.value = true
+  }
 }
 </script>
 
