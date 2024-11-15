@@ -1,6 +1,6 @@
 <template>
   <div class="header-root-container">
-    <span class="logo">LOGO</span>
+    <img :src="logo" class="logo" />
     <div flex flex-row items-center space-x-4>
       <div flex justify-center items-center h-12 w-12 rounded-full class="bg-white/80">
         <i-fa-solid:user h-6 w-6 color-white></i-fa-solid:user>
@@ -29,6 +29,8 @@
 import ResetPasswordDialog from './ResetPasswordDialog.vue'
 import SettingDialog from './SettingDialog.vue'
 import { useAccountStore } from '@/stores/modules/account'
+
+const logo = ref(new URL('@/assets/logo_big.png', import.meta.url).href)
 
 const { logout } = useAccountStore()
 const isSettingDialogVisible = ref(false)
@@ -60,7 +62,7 @@ const handleCommand = (command: string) => {
   }
 
   .logo {
-    @apply text-4xl font-bold text-[var(--text-white-color)];
+    @apply h-20;
   }
 
   .user-text {
