@@ -37,8 +37,9 @@
         </div>
         <el-menu
           class="home-menu"
-          @select="handleSelect"
-          :default-active="activeIndex"
+          @select="handleMenuSelect"
+          :default-active="activeMenu"
+          router
           :collapse="isCollapse"
         >
           <el-menu-item v-for="item in mainMenus" :key="item.path" :index="item.path">
@@ -66,17 +67,13 @@
 </template>
 
 <script setup lang="ts">
-import {
-  RouterView,
-  useRouter,
-  type RouteLocationNormalized,
-  type _RouteLocationBase
-} from 'vue-router'
 import HeaderView from './HeaderView.vue'
-import { ref } from 'vue'
 import { useRouterStore } from '@/stores/modules/router'
 const { cachedViews } = useRouterStore()
+
+const route = useRoute()
 const router = useRouter()
+const activeMenu = ref('')
 
 const isCollapse = ref<boolean>(false)
 const showText = ref<boolean>(true)
@@ -90,26 +87,26 @@ watch(isCollapse, (value: boolean) => {
   }
 })
 
-const activeIndex = ref('user')
-const handleSelect = (key: string) => {
-  activeIndex.value = key
-  router.push({
-    name: key
-  })
+const handleMenuSelect = (path: string) => {
+  router.push(path)
 }
 
-const setCurrentMenu = (route: _RouteLocationBase) => {
-  if (route.name === 'home') {
+const setActiveMenu = () => {
+  if (route.meta.belong) {
+    activeMenu.value = route.meta.belong as string
     return
   }
-  activeIndex.value = route.meta.belong as string
+  activeMenu.value = route.path
 }
 
-router.afterEach((to: RouteLocationNormalized) => {
-  setCurrentMenu(to)
-})
+watch(
+  () => route.path,
+  () => {
+    setActiveMenu()
+  }
+)
 
-setCurrentMenu(router.currentRoute.value)
+setActiveMenu()
 
 import { useMenuStore } from '@/stores/modules/menu'
 const menuStore = useMenuStore()

@@ -27,37 +27,37 @@ const router = createRouter({
           path: '/home/user',
           component: () => import('@/views/User/UserView.vue'),
           name: 'user',
-          meta: { belong: 'user', title: '用户管理' }
+          meta: { belong: '/home/user', title: '用户管理' }
         },
         {
           path: '/home/product',
           component: () => import('@/views/Product/ProductView.vue'),
           name: 'product',
-          meta: { belong: 'product', title: '产品管理' }
+          meta: { belong: '/home/product', title: '产品管理' }
         },
         {
           path: '/home/product-detail/:id',
           component: () => import('@/views/Product/ProductDetail/ProductDetailView.vue'),
           name: 'product-detail',
-          meta: { belong: 'product', title: '产品详情' }
+          meta: { belong: '/home/product', title: '产品详情' }
         },
         {
           path: '/home/product-edit/:id',
           component: () => import('@/views/Product/ProductEdit/ProductEditView.vue'),
           name: 'product-edit',
-          meta: { belong: 'product', title: '产品编辑' }
+          meta: { belong: '/home/product', title: '产品编辑' }
         },
         {
           path: '/home/demand',
           component: () => import('@/views/Demand/DemandView.vue'),
           name: 'demand',
-          meta: { belong: 'demand', title: '需求管理' }
+          meta: { belong: '/home/demand', title: '需求管理' }
         },
         {
           path: '/home/setting',
           component: () => import('@/views/Setting/SettingView.vue'),
           name: 'setting',
-          meta: { belong: 'setting', title: '系统配置' }
+          meta: { belong: '/home/setting', title: '系统配置' }
         }
       ]
     }
