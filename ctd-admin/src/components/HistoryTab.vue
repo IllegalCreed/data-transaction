@@ -38,7 +38,7 @@ function close(view: RouteLocationNormalizedLoaded) {
   if (view.path === route.path) {
     const latestView = visitedViews.slice(-1)[0]
     if (latestView) {
-      return router.push(latestView.fullPath)
+      return router.push(latestView.path)
     }
     return router.push('/admin/home/user')
   }

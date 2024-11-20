@@ -115,10 +115,6 @@ const goDetail = (id: number | string) => {
   })
 }
 
-const changeState = (id: number | string, status: ProductStatus) => {
-  console.log(id, status)
-}
-
 const rejectReason = (id: number | string) => {
   reasonId.value = id
   reasonDialogVisible.value = true
@@ -126,10 +122,14 @@ const rejectReason = (id: number | string) => {
 
 const emit = defineEmits<{
   (e: 'delete', id: number | string, name: string): void
+  (e: 'changeState', id: number | string, status: ProductStatus): void
 }>()
 
 const deleteRow = (id: number | string, name: string) => {
   emit('delete', id, name)
+}
+const changeState = (id: number | string, status: ProductStatus) => {
+  emit('changeState', id, status)
 }
 </script>
 

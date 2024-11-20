@@ -2,7 +2,8 @@ import type { RouteMeta } from 'vue-router'
 
 interface RouteLike {
   path: string
-  name: string
+  fullPath: string
+  name?: string | symbol
   meta: RouteMeta
 }
 

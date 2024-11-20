@@ -97,6 +97,7 @@
       :data="data"
       :loading="getListLoading"
       @delete="handleDelete"
+      @change-state="handleStateChange"
     ></product-tabel-panel>
 
     <el-pagination
@@ -162,7 +163,7 @@ const handleSearch = () => {
 // 筛选
 const filterVisible = ref<boolean>(false)
 const status = ref<string>('')
-import { productStatusOptions } from '@/constants/mapData/product'
+import { ProductStatus, productStatusOptions } from '@/constants/mapData/product'
 import type { apiListResult } from '@/types/common'
 
 const filterCount = ref(0)
@@ -204,6 +205,17 @@ const handleCreate = () => {
       id: -1
     }
   })
+}
+
+// 状态变更
+const handleStateChange = (id: string | number, status: ProductStatus) => {
+  if (status === ProductStatus.OnSale) {
+    ElMessage.success('上架成功')
+  } else {
+    ElMessage.success('下架成功')
+  }
+  pageNum.value = 1
+  refresh()
 }
 </script>
 

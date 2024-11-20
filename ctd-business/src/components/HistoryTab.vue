@@ -19,8 +19,7 @@
 
 <script setup lang="ts">
 import { useRouterStore } from '@/stores/modules/router'
-import { onMounted, watch } from 'vue'
-import { useRoute, useRouter, type RouteLocationNormalizedLoaded } from 'vue-router'
+import type { RouteLocationNormalizedLoaded } from 'vue-router'
 const { addView, visitedViews } = useRouterStore()
 
 const route = useRoute()
@@ -38,7 +37,7 @@ function close(view: RouteLocationNormalizedLoaded) {
   if (view.path === route.path) {
     const latestView = visitedViews.slice(-1)[0]
     if (latestView) {
-      return router.push(latestView.fullPath)
+      return router.push(latestView.path)
     }
     return router.push('/admin/home/user')
   }
