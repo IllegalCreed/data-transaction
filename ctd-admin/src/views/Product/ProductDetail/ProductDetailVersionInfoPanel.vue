@@ -19,6 +19,42 @@
         <span class="value">{{ versionInfo.showPrice }}</span>
       </div>
       <div class="prop">
+        <span class="label">产品形态：</span>
+        <span class="value">{{ formLabel(versionInfo.form) }}</span>
+      </div>
+      <div class="prop">
+        <span class="label">涉及领域：</span>
+        <el-tag v-for="item in versionInfo.dataFields" :key="item" type="info">
+          {{ dataFieldLabel(item) }}
+        </el-tag>
+      </div>
+      <div class="prop">
+        <span class="label">数据来源：</span>
+        <el-tag v-for="item in versionInfo.dataSources" :key="item" type="info">
+          {{ dataSourceLabel(item) }}
+        </el-tag>
+      </div>
+      <div class="prop">
+        <span class="label">区域：</span>
+        <div flex flex-row flex-wrap gap-2>
+          <el-tag v-for="item in versionInfo.regions" :key="item" type="info">
+            {{ regionLabel(item) }}
+          </el-tag>
+        </div>
+      </div>
+      <div class="prop">
+        <span class="label">时间：</span>
+        <div flex flex-row flex-wrap gap-2>
+          <el-tag v-for="item in versionInfo.times" :key="item" type="info">
+            {{ timeLabel(item) }}
+          </el-tag>
+        </div>
+      </div>
+      <div class="prop">
+        <span class="label">定价方式：</span>
+        <span class="value">{{ priceTypeLabel(versionInfo.priceType) }}</span>
+      </div>
+      <div class="prop">
         <span class="label">产品标签：</span>
         <div flex flex-row flex-wrap gap-2>
           <el-tag v-for="item in versionInfo.tags" :key="item" type="info">
@@ -79,7 +115,20 @@ watch(
   }
 )
 
-import { ProductPriceTypes } from '@/constants/mapData/product'
+import {
+  PRODUCT_DATA_FIELD_MAP,
+  PRODUCT_DATA_SOURCE_MAP,
+  PRODUCT_FORM_MAP,
+  REGION_MAP,
+  TIME_MAP,
+  PRODUCT_PRICT_TYPES_MAP,
+  ProductDataField,
+  ProductDataSource,
+  ProductForm,
+  ProductPriceTypes,
+  Region,
+  Time
+} from '@/constants/mapData/product'
 import { useProductStore } from '@/stores/modules/product'
 const { getVersion: getVersionAction } = useProductStore()
 const {
@@ -98,6 +147,11 @@ const {
     coverImageUrl: '',
     imageUrls: [],
     detail: '',
+    form: ProductForm.Other,
+    dataFields: [],
+    dataSources: [],
+    regions: [],
+    times: [],
     priceType: ProductPriceTypes.Specs,
     createTime: ''
   },
@@ -119,6 +173,13 @@ const approval = () => {
     }
   })
 }
+
+const formLabel = (form: ProductForm) => PRODUCT_FORM_MAP[form]
+const dataFieldLabel = (dataField: ProductDataField) => PRODUCT_DATA_FIELD_MAP[dataField]
+const dataSourceLabel = (dataSource: ProductDataSource) => PRODUCT_DATA_SOURCE_MAP[dataSource]
+const regionLabel = (region: Region) => REGION_MAP[region]
+const timeLabel = (time: Time) => TIME_MAP[time]
+const priceTypeLabel = (priceType: ProductPriceTypes) => PRODUCT_PRICT_TYPES_MAP[priceType]
 </script>
 
 <style lang="scss" scoped>

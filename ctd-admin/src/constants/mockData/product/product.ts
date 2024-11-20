@@ -1,4 +1,12 @@
-import { ProductPriceTypes, ProductStatus } from '@/constants/mapData/product'
+import {
+  ProductDataField,
+  ProductDataSource,
+  ProductForm,
+  ProductPriceTypes,
+  ProductStatus,
+  Region,
+  Time
+} from '@/constants/mapData/product'
 import type { IProductItem, IProductSpecsPriceDefinition, IProductVersion } from '@/types/product'
 
 export const products: IProductItem[] = [
@@ -93,6 +101,11 @@ export const versions: IProductVersion[] = [
       <p>测试内容</p>
       <p>增加的测试内容</p>
     `,
+    form: ProductForm.Package,
+    dataFields: [ProductDataField.Traffic, ProductDataField.Hotel],
+    dataSources: [ProductDataSource.GovernmentData],
+    regions: [Region.Chaoyang, Region.Tongzhou],
+    times: [Time.Holiday],
     priceType: ProductPriceTypes.Specs,
     createTime: '2022-01-01 00:00:00'
   },
@@ -114,6 +127,11 @@ export const versions: IProductVersion[] = [
       <h1>测试标题</h1>
       <p>测试内容</p>
     `,
+    form: ProductForm.Package,
+    dataFields: [ProductDataField.Performance, ProductDataField.Hotel],
+    dataSources: [ProductDataSource.GovernmentData],
+    regions: [Region.Chaoyang, Region.Fangshan],
+    times: [Time.Holiday],
     priceType: ProductPriceTypes.Specs,
     createTime: '2022-01-01 00:00:00'
   },
@@ -132,6 +150,11 @@ export const versions: IProductVersion[] = [
       <h1>测试标题</h1>
       <p>测试内容</p>
     `,
+    form: ProductForm.Package,
+    dataFields: [ProductDataField.Traffic, ProductDataField.Hotel],
+    dataSources: [ProductDataSource.GovernmentData],
+    regions: [Region.Chaoyang, Region.Pinggu],
+    times: [Time.Holiday],
     priceType: ProductPriceTypes.Specs,
     createTime: '2022-01-01 00:00:00'
   }

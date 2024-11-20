@@ -83,6 +83,109 @@
 
     <div class="prop-row">
       <div class="prop">
+        <span class="label" :class="{ change: sourceVersion.form !== targetVersion.form && target }"
+          >产品形态：</span
+        >
+        <span class="value">{{ formLabel(sourceVersion.form) }}</span>
+      </div>
+      <div class="prop" v-if="sourceVersion.form !== targetVersion.form && target">
+        <span class="label">产品形态：</span>
+        <span class="value">{{ formLabel(targetVersion.form) }}</span>
+      </div>
+    </div>
+
+    <div class="prop-row">
+      <div class="prop">
+        <span
+          class="label"
+          :class="{
+            change: !isEqual(sourceVersion.dataFields, targetVersion.dataFields) && target
+          }"
+          >涉及领域：</span
+        >
+        <el-tag v-for="item in sourceVersion.dataFields" :key="item" type="info">
+          {{ dataFieldLabel(item) }}
+        </el-tag>
+      </div>
+      <div
+        class="prop"
+        v-if="!isEqual(sourceVersion.dataFields, targetVersion.dataFields) && target"
+      >
+        <span class="label">涉及领域：</span>
+        <el-tag v-for="item in targetVersion.dataFields" :key="item" type="info">
+          {{ dataFieldLabel(item) }}
+        </el-tag>
+      </div>
+    </div>
+
+    <div class="prop-row">
+      <div class="prop">
+        <span
+          class="label"
+          :class="{
+            change: !isEqual(sourceVersion.dataSources, targetVersion.dataSources) && target
+          }"
+          >数据来源：</span
+        >
+        <el-tag v-for="item in sourceVersion.dataSources" :key="item" type="info">
+          {{ dataSourceLabel(item) }}
+        </el-tag>
+      </div>
+      <div
+        class="prop"
+        v-if="!isEqual(sourceVersion.dataSources, targetVersion.dataSources) && target"
+      >
+        <span class="label">数据来源：</span>
+        <el-tag v-for="item in targetVersion.dataSources" :key="item" type="info">
+          {{ dataSourceLabel(item) }}
+        </el-tag>
+      </div>
+    </div>
+
+    <div class="prop-row">
+      <div class="prop">
+        <span
+          class="label"
+          :class="{
+            change: !isEqual(sourceVersion.regions, targetVersion.regions) && target
+          }"
+          >区域：</span
+        >
+        <el-tag v-for="item in sourceVersion.regions" :key="item" type="info">
+          {{ regionLabel(item) }}
+        </el-tag>
+      </div>
+      <div class="prop" v-if="!isEqual(sourceVersion.regions, targetVersion.regions) && target">
+        <span class="label">区域：</span>
+        <el-tag v-for="item in targetVersion.regions" :key="item" type="info">
+          {{ regionLabel(item) }}
+        </el-tag>
+      </div>
+    </div>
+
+    <div class="prop-row">
+      <div class="prop">
+        <span
+          class="label"
+          :class="{
+            change: !isEqual(sourceVersion.times, targetVersion.times) && target
+          }"
+          >时间：</span
+        >
+        <el-tag v-for="item in sourceVersion.times" :key="item" type="info">
+          {{ timeLabel(item) }}
+        </el-tag>
+      </div>
+      <div class="prop" v-if="!isEqual(sourceVersion.times, targetVersion.times) && target">
+        <span class="label">时间：</span>
+        <el-tag v-for="item in targetVersion.times" :key="item" type="info">
+          {{ timeLabel(item) }}
+        </el-tag>
+      </div>
+    </div>
+
+    <div class="prop-row">
+      <div class="prop">
         <span
           class="label"
           :class="{ change: sourceVersion.coverImageUrl !== targetVersion.coverImageUrl && target }"
@@ -264,7 +367,20 @@ const { productId, source, target } = defineProps<{
   target: number | string | undefined
 }>()
 
-import { ProductPriceTypes } from '@/constants/mapData/product'
+import {
+  PRODUCT_DATA_FIELD_MAP,
+  PRODUCT_DATA_SOURCE_MAP,
+  PRODUCT_FORM_MAP,
+  REGION_MAP,
+  TIME_MAP,
+  PRODUCT_PRICT_TYPES_MAP,
+  ProductDataField,
+  ProductDataSource,
+  ProductForm,
+  ProductPriceTypes,
+  Region,
+  Time
+} from '@/constants/mapData/product'
 import { useProductStore } from '@/stores/modules/product'
 import { usePriceList } from '../ProductDetail/usePriceList'
 const { getVersion: getVersionAction, getPriceDefinition: getPriceDefinitionAction } =
@@ -278,6 +394,11 @@ const defalutVersion = {
   coverImageUrl: '',
   imageUrls: [],
   detail: '',
+  form: ProductForm.Other,
+  dataFields: [],
+  dataSources: [],
+  regions: [],
+  times: [],
   priceType: ProductPriceTypes.Specs,
   createTime: ''
 }
@@ -360,6 +481,13 @@ onMounted(() => {
   executeGetSourcePriceDefinitionAction()
   executeGetTargetPriceDefinitionAction()
 })
+
+const formLabel = (form: ProductForm) => PRODUCT_FORM_MAP[form]
+const dataFieldLabel = (dataField: ProductDataField) => PRODUCT_DATA_FIELD_MAP[dataField]
+const dataSourceLabel = (dataSource: ProductDataSource) => PRODUCT_DATA_SOURCE_MAP[dataSource]
+const regionLabel = (region: Region) => REGION_MAP[region]
+const timeLabel = (time: Time) => TIME_MAP[time]
+const priceTypeLabel = (priceType: ProductPriceTypes) => PRODUCT_PRICT_TYPES_MAP[priceType]
 </script>
 
 <style scoped lang="scss">
