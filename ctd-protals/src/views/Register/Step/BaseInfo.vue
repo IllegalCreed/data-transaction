@@ -79,7 +79,7 @@
 import PersonInfo from './PersonInfo.vue'
 import EnterpriseInfo from './EnterpriseInfo.vue'
 import { useAccountStore } from '@/stores/modules/account'
-import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
+import type { FormInstance, FormRules } from 'element-plus'
 import type { IBaseInfo } from '@/types/register'
 import { UserType } from '@/types/register'
 import type { InternalRuleItem } from 'async-validator'

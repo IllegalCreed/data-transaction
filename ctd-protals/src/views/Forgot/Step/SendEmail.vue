@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
+import type { FormInstance, FormRules } from 'element-plus'
 import { useAccountStore } from '@/stores/modules/account'
 
 const accountStore = useAccountStore()

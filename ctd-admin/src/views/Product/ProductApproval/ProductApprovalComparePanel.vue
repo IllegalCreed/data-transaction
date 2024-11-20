@@ -266,6 +266,21 @@
       <div class="prop">
         <span
           class="label"
+          :class="{ change: sourceVersion.priceType !== targetVersion.priceType && target }"
+          >定价方式：</span
+        >
+        <span class="value">{{ priceTypeLabel(sourceVersion.priceType) }}</span>
+      </div>
+      <div class="prop" v-if="sourceVersion.priceType !== targetVersion.priceType && target">
+        <span class="label">定价方式：</span>
+        <span class="value">{{ priceTypeLabel(targetVersion.priceType) }}</span>
+      </div>
+    </div>
+
+    <div class="prop-row">
+      <div class="prop">
+        <span
+          class="label"
           :class="{ change: sourcePrice.defaultPrice !== targetPrice.defaultPrice && target }"
           >默认价格：</span
         >

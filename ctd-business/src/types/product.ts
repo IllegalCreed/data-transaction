@@ -1,4 +1,12 @@
-import type { ProductPriceTypes, ProductStatus } from '@/constants/mapData/product'
+import type {
+  ProductDataField,
+  ProductDataSource,
+  ProductForm,
+  ProductPriceTypes,
+  ProductStatus,
+  Region,
+  Time
+} from '@/constants/mapData/product'
 
 // 产品规格
 export interface IProductSpec {
@@ -51,6 +59,11 @@ export interface IProductVersion {
   coverImageUrl: string
   imageUrls: string[]
   detail: string
+  form: ProductForm
+  dataFields: ProductDataField[]
+  dataSources: ProductDataSource[]
+  regions: Region[]
+  times: Time[]
   priceType: ProductPriceTypes
   createTime: string
 }
