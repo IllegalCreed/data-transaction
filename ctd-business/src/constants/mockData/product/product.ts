@@ -85,7 +85,11 @@ export const versions: IProductVersion[] = [
     showPrice: 2000,
     tags: ['测试标签1', '测试标签2', '增加的测试标签3'],
     coverImageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
-    imageUrls: [],
+    imageUrls: [
+      new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
+      new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
+      new URL('@/assets/placeholder/productDefault.png', import.meta.url).href
+    ],
     detail: `
       <h1>测试标题</h1>
       <p>测试内容</p>

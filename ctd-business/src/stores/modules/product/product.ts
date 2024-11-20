@@ -104,6 +104,7 @@ export const useProduct = () => {
     return new Promise<IProductVersion>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => {
+          console.log(version)
           const result = mockVersions.find((item) => item.version === Number(version))
           if (result) {
             resolve(result)

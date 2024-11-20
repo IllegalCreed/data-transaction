@@ -3,6 +3,7 @@
   --color-dark-primary: #1d50c3;
 
   --color-black: #000;
+  --color-black-500: rgba(0, 0, 0, 0.5);
   --color-white: #fff;
   --color-white-700: rgba(255, 255, 255, 0.7);
 
@@ -32,6 +33,7 @@
   --background-page-dark-color: var(--color-gray-200);
   --background-page-color: var(--color-white);
   --background-header-color: var(--color-light-primary);
+  --background-image-upload-action-color: var(--color-black-500);
 
   --border-color: var(--color-gray-300);
   --border-btn-primary-color: var(--color-light-primary);
