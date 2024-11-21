@@ -19,3 +19,10 @@ export interface IMenu {
   icon: string
   children?: IMenu[]
 }
+
+export interface IUploadFile {
+  id: string
+  name: string
+  url: string
+  raw?: File
+}

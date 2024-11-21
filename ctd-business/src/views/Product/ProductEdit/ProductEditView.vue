@@ -141,63 +141,10 @@
         </el-select>
       </el-form-item>
       <el-form-item label="封面图片" prop="coverImageUrl">
-        <el-upload
-          ref="coverImageUpload"
-          action="#"
-          class="avatar-uploader"
-          v-model:file-list="coverImageList"
-          :limit="1"
-          :show-file-list="false"
-          :auto-upload="false"
-          :on-exceed="handleCoverImageExceed"
-        >
-          <div v-if="coverImage" w-full h-full>
-            <img :src="coverImage.url" object-cover w-full h-full />
-            <div class="avatar-uploader-actions">
-              <span cursor-pointer @click.stop="handleCoverImagePreview()">
-                <i-ri:zoom-in-line />
-              </span>
-              <span cursor-pointer @click.stop="handleCoverImageDownload()">
-                <i-material-symbols:download-sharp />
-              </span>
-              <span cursor-pointer>
-                <i-heroicons-outline:refresh />
-              </span>
-            </div>
-          </div>
-          <i-ic:baseline-plus v-else w-6 h-6 />
-        </el-upload>
+        <image-picker v-model="coverImage" />
       </el-form-item>
       <el-form-item label="图片集" prop="imageUrls">
-        <el-upload
-          ref="imageUpload"
-          class="avatar-uploader"
-          action="#"
-          multiple
-          list-type="picture-card"
-          v-model:file-list="imageList"
-          :auto-upload="false"
-          :before-upload="handleImageUpload"
-        >
-          <i-ic:baseline-plus w-6 h-6 />
-
-          <template #file="{ file }">
-            <div>
-              <img object-cover w-full h-full :src="file.url" />
-              <span class="el-upload-list__item-actions">
-                <span @click="handleImagePreview(file)">
-                  <i-ri:zoom-in-line />
-                </span>
-                <span @click="handleImageDownload(file)">
-                  <i-material-symbols:download-sharp />
-                </span>
-                <span @click="handleImageRemove(file)">
-                  <i-material-symbols:delete-outline />
-                </span>
-              </span>
-            </div>
-          </template>
-        </el-upload>
+        <image-array-picker v-model="imageList" />
       </el-form-item>
     </el-form>
     <el-image-viewer
@@ -210,15 +157,10 @@
 </template>
 
 <script setup lang="ts">
-import {
-  genFileId,
-  type FormInstance,
-  type FormRules,
-  type UploadFile,
-  type UploadProps,
-  type UploadRawFile,
-  type UploadUserFile
-} from 'element-plus'
+import ImagePicker from '@/components/ImagePicker.vue'
+import ImageArrayPicker from '@/components/ImageArrayPicker.vue'
+import { v4 as uuidv4 } from 'uuid'
+import { type FormInstance, type FormRules } from 'element-plus'
 import type { IProductVersion } from '@/types/product'
 import { ProductForm, ProductPriceTypes } from '@/constants/mapData/product'
 
@@ -263,8 +205,17 @@ const {
       ElMessage.error(error.message)
     },
     onSuccess: (data) => {
+      if (data.coverImageUrl) {
+        coverImage.value = {
+          id: uuidv4(),
+          url: data.coverImageUrl,
+          name: data.coverImageUrl,
+          raw: undefined
+        }
+      }
       imageList.value = data.imageUrls.map((url) => {
         return {
+          id: uuidv4(),
           url,
           name: url,
           raw: undefined
@@ -323,45 +274,10 @@ import {
   regionOptions,
   timeOptions
 } from '@/constants/mapData/product'
+import type { IUploadFile } from '@/types/common'
 
 // 封面相关
-const coverImageUpload = useTemplateRef('coverImageUpload')
-const coverImageList = ref<UploadUserFile[]>([])
-const coverImage = computed((): UploadUserFile | undefined => {
-  if (coverImageList.value.length > 0) {
-    return {
-      url: URL.createObjectURL(coverImageList.value[0].raw!),
-      raw: coverImageList.value[0].raw!,
-      name: coverImageList.value[0].name
-    }
-  } else if (data.value.coverImageUrl) {
-    return {
-      url: data.value.coverImageUrl,
-      raw: undefined,
-      name: data.value.coverImageUrl
-    }
-  } else {
-    return undefined
-  }
-})
-const handleCoverImagePreview = () => {
-  if (coverImage.value) {
-    imagePreviewVisible.value = true
-    imagePreviewUrlList.value = [coverImage.value.url!]
-    imagePreviewInitIndex.value = 0
-  }
-}
-const handleCoverImageDownload = () => {
-  if (coverImage.value) {
-    downloadFile(coverImage.value.url!)
-  }
-}
-const handleCoverImageExceed: UploadProps['onExceed'] = (files) => {
-  coverImageUpload.value!.clearFiles()
-  const file = files[0] as UploadRawFile
-  file.uid = genFileId()
-  coverImageUpload.value!.handleStart(file)
-}
+const coverImage = ref<IUploadFile>()
 
 // 图片预览
 const imagePreviewVisible = ref(false)
@@ -369,38 +285,7 @@ const imagePreviewInitIndex = ref(0)
 const imagePreviewUrlList = ref<string[]>([])
 
 // 图片相关
-const imageUpload = useTemplateRef('imageUpload')
-const imageList = ref<UploadUserFile[]>([])
-const imageUrlList = computed<string[]>(() => {
-  return imageList.value.map((item) => item.url ?? '')
-})
-const handleImageUpload = (file: UploadRawFile) => {
-  const formData = new FormData()
-  formData.append('file', file)
-
-  // uploadAPI(formData)
-  //   .then((res) => {
-  //     onSuccess(res)
-  //   })
-  //   .catch(() => {
-  //     onFail()
-  //   })
-
-  return false
-}
-const handleImagePreview = (file: UploadFile) => {
-  imagePreviewInitIndex.value = imageList.value.indexOf(file)
-  imagePreviewUrlList.value = imageUrlList.value
-  imagePreviewVisible.value = true
-}
-const handleImageDownload = (file: UploadFile) => {}
-const handleImageRemove = (file: UploadFile) => {
-  imageList.value.splice(imageList.value.indexOf(file), 1)
-}
-
-const downloadFile = (url: string) => {
-  console.log('download:', url)
-}
+const imageList = ref<IUploadFile[]>([])
 </script>
 
 <style scoped lang="scss">

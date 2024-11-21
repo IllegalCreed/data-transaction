@@ -48,6 +48,8 @@ declare module 'vue' {
     'IIc:baselinePlus': typeof import('~icons/ic/baseline-plus')['default']
     'IIon:close': typeof import('~icons/ion/close')['default']
     'ILineMd:loadingLoop': typeof import('~icons/line-md/loading-loop')['default']
+    ImageArrayPicker: typeof import('./src/components/ImageArrayPicker.vue')['default']
+    ImagePicker: typeof import('./src/components/ImagePicker.vue')['default']
     'IMaterialSymbols:deleteOutline': typeof import('~icons/material-symbols/delete-outline')['default']
     'IMaterialSymbols:downloadSharp': typeof import('~icons/material-symbols/download-sharp')['default']
     'IMingcute:downLine': typeof import('~icons/mingcute/down-line')['default']
