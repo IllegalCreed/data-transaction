@@ -70,7 +70,7 @@ export interface IProductVersion {
 
 export interface IProductSpecsPriceDefinition {
   defaultPrice: number
-  mainSpecGroupId: string
+  mainSpecGroupId?: string
   specs: IProductSpecGroup[]
   prices: IProductSpecsPrice[]
 }
