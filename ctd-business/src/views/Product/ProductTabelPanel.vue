@@ -33,6 +33,14 @@
     <el-table-column fixed="right" label="操作" align="right" width="250">
       <template #default="scope">
         <el-button
+          v-if="scope.row.status === ProductStatus.Approving"
+          link
+          type="primary"
+          size="small"
+          @click="showCurrentVersion(scope.row.id)"
+          >当前提交版本</el-button
+        >
+        <el-button
           v-if="scope.row.status === ProductStatus.OffSale"
           link
           type="primary"
@@ -78,9 +86,16 @@
   </el-table>
 
   <product-reason-dialog v-model="reasonDialogVisible" :id="reasonId" />
+  <product-approval-compare-dialog
+    v-model="compareDialogVisible"
+    :product-id="productId"
+    :source="0"
+    :target="0"
+  />
 </template>
 
 <script setup lang="ts">
+import ProductApprovalCompareDialog from './ProductApproval/ProductApprovalCompareDialog.vue'
 import ProductReasonDialog from './ProductReasonDialog.vue'
 import type { IProductItem } from '@/types/product'
 defineProps<{ data: IProductItem[]; loading: boolean }>()
@@ -104,6 +119,13 @@ const edit = (id: number | string) => {
       id
     }
   })
+}
+
+const compareDialogVisible = ref<boolean>(false)
+const productId = ref<number | string>(0)
+const showCurrentVersion = (id: number | string) => {
+  productId.value = id
+  compareDialogVisible.value = true
 }
 
 const goDetail = (id: number | string) => {
