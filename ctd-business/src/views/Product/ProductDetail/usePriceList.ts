@@ -1,5 +1,5 @@
-import type { IProductSpecsPriceDefinition } from '@/types/product'
-import type { Ref } from 'vue'
+import type { IProductSpecsPriceDefinition, IProductSpecsPriceGroup } from '@/types/product'
+import type { Reactive, Ref } from 'vue'
 
 interface ISpecOption {
   groupId: string
@@ -29,21 +29,7 @@ export function usePriceList(priceInfo: Ref<IProductSpecsPriceDefinition>) {
       }))
     )
 
-    // 计算笛卡尔积（全排列组合）
-    function cartesianProduct(arrays: ISpecOption[][]): ISpecOption[][] {
-      return arrays.reduce(
-        (acc, curr) => acc.flatMap((a) => curr.map((b) => [...a, b])),
-        [[] as ISpecOption[]]
-      )
-    }
-
     const combinations = cartesianProduct(specOptions)
-
-    // 生成规格组合的唯一键
-    function generateKey(specs: { groupId: string; specId: string }[]): string {
-      const sortedSpecs = specs.slice().sort((a, b) => a.groupId.localeCompare(b.groupId))
-      return sortedSpecs.map((spec) => `${spec.groupId}:${spec.specId}`).join('|')
-    }
 
     // 创建价格映射表
     const priceMap = new Map<string, number>()
@@ -63,4 +49,80 @@ export function usePriceList(priceInfo: Ref<IProductSpecsPriceDefinition>) {
   })
 
   return { priceList }
+}
+
+export function usePriceListReactive(priceInfo: Reactive<IProductSpecsPriceDefinition>) {
+  const priceList = computed(() => {
+    const { mainSpecGroupId, specs, prices: priceEntries } = priceInfo
+
+    const mainSpecGroup = specs.find((group) => group.id === mainSpecGroupId)
+    if (!mainSpecGroup) {
+      return []
+    }
+
+    const otherSpecGroups = specs.filter(
+      (group) => group.affectsPrice && group.id !== mainSpecGroupId
+    )
+
+    const mainSpecOptions = mainSpecGroup.children.map((spec) => ({
+      groupId: mainSpecGroup.id,
+      specId: spec.id,
+      label: spec.label
+    }))
+
+    const otherSpecOptions = otherSpecGroups.map((group) =>
+      group.children.map((spec) => ({
+        groupId: group.id,
+        specId: spec.id,
+        label: spec.label
+      }))
+    )
+
+    const otherCombinations = cartesianProduct(otherSpecOptions)
+
+    const priceMap = new Map<string, number>()
+    priceEntries.forEach((priceEntry) => {
+      const key = generateKey(priceEntry.specs)
+      priceMap.set(key, priceEntry.price)
+    })
+
+    const priceGroups: IProductSpecsPriceGroup[] = mainSpecOptions.map((mainSpecOption) => {
+      const children = otherCombinations.map((combination) => {
+        const fullSpecs = [mainSpecOption, ...combination]
+
+        const key = generateKey(fullSpecs.map(({ groupId, specId }) => ({ groupId, specId })))
+
+        const price = priceMap.get(key) ?? undefined
+
+        return {
+          price,
+          specs: combination
+        }
+      })
+
+      return reactive({
+        groupId: mainSpecOption.groupId,
+        specId: mainSpecOption.specId,
+        label: mainSpecOption.label,
+        children
+      })
+    })
+
+    return priceGroups
+  })
+
+  return { priceList }
+}
+
+export function generateKey(specs: { groupId: string; specId: string }[]): string {
+  const sortedSpecs = specs.slice().sort((a, b) => a.groupId.localeCompare(b.groupId))
+  return sortedSpecs.map((spec) => `${spec.groupId}:${spec.specId}`).join('|')
+}
+
+function cartesianProduct(arrays: ISpecOption[][]): ISpecOption[][] {
+  if (arrays.length === 0) return [[]]
+  return arrays.reduce(
+    (acc, curr) => acc.flatMap((a) => curr.map((b) => [...a, b])),
+    [[] as ISpecOption[]]
+  )
 }

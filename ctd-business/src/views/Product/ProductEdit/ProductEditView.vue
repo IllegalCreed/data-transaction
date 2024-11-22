@@ -157,13 +157,6 @@
         </el-select>
       </el-form-item>
       <el-divider />
-      <el-form-item label="默认价格" prop="defaultPrice" max-w-120>
-        <el-input-number v-model="priceInfo.defaultPrice" :min="0" :controls="false" :precision="2">
-          <template #prefix>
-            <span>￥</span>
-          </template>
-        </el-input-number>
-      </el-form-item>
       <div flex flex-col gap-4 mb-5>
         <span text-sm>规格列表</span>
         <product-spec-item
@@ -184,8 +177,15 @@
           <el-button type="primary" @click="newSpecGroup"> + 添加规格 </el-button>
         </div>
       </div>
+      <el-form-item label="默认价格" prop="defaultPrice" max-w-120>
+        <el-input-number v-model="priceInfo.defaultPrice" :min="0" :controls="false" :precision="2">
+          <template #prefix>
+            <span>￥</span>
+          </template>
+        </el-input-number>
+      </el-form-item>
       <el-form-item
-        v-if="priceInfo.specs.length > 0"
+        v-if="mainSpecGroupOptions.length > 0"
         label="主规格"
         prop="mainSpecGroupId"
         max-w-120
@@ -199,7 +199,22 @@
           />
         </el-select>
       </el-form-item>
+      <div flex flex-col gap-4 mb-5 v-if="priceInfo.mainSpecGroupId">
+        <span text-sm>价格列表</span>
+        <product-price-group
+          v-for="(item, index) in priceList"
+          :key="item.specId"
+          :prices="priceInfo.prices"
+          :defaultPrice="priceInfo.defaultPrice"
+          v-model:group="priceList[index]"
+        />
+      </div>
     </el-form>
+    <p>
+      {{ JSON.stringify(priceList) }}
+    </p>
+
+    {{ JSON.stringify(priceInfo.prices) }}
     <el-image-viewer
       v-if="imagePreviewVisible"
       @close="imagePreviewVisible = false"
@@ -213,6 +228,7 @@
 import ImagePicker from '@/components/ImagePicker.vue'
 import ImageArrayPicker from '@/components/ImageArrayPicker.vue'
 import ProductSpecItem from './ProductSpecItem.vue'
+import ProductPriceGroup from './ProductPriceGroup.vue'
 import { v4 as uuidv4 } from 'uuid'
 import { type FormInstance, type FormRules } from 'element-plus'
 import type { IProductSpecsPriceDefinition, IProductVersion } from '@/types/product'
@@ -352,7 +368,7 @@ const toolbar = [
 ]
 
 // 价格相关
-import { usePriceList } from '../ProductDetail/usePriceList'
+import { usePriceListReactive } from '../ProductDetail/usePriceList'
 
 const newSpecGroupLabel = ref('')
 const newSpecGroup = () => {
@@ -364,9 +380,6 @@ const newSpecGroup = () => {
       children: []
     })
     newSpecGroupLabel.value = ''
-    if (priceInfo.specs.length === 1) {
-      priceInfo.mainSpecGroupId = priceInfo.specs[0].id
-    }
   } else {
     ElMessage.warning('请输入规格名称')
   }
@@ -379,23 +392,33 @@ const handleSpecGroupDelete = (id: string | number) => {
 
     // 检查被删除的规格组是否是当前的主规格
     if (priceInfo.mainSpecGroupId === id) {
-      if (priceInfo.specs.length > 0) {
-        priceInfo.mainSpecGroupId = priceInfo.specs[0].id
-      } else {
-        priceInfo.mainSpecGroupId = undefined
+      const nextMainSpecGroup = priceInfo.specs.find((item) => item.affectsPrice === true)
+      if (nextMainSpecGroup) {
+        // 设置新的主规格
+        priceInfo.mainSpecGroupId = nextMainSpecGroup.id
       }
     }
   }
 }
 
 const mainSpecGroupOptions = computed(() => {
-  return priceInfo.specs.map((item) => {
-    return {
-      value: item.id,
-      label: item.label
-    }
-  })
+  return priceInfo.specs
+    .filter((item) => item.affectsPrice === true)
+    .map((item) => {
+      return {
+        value: item.id,
+        label: item.label
+      }
+    })
 })
+
+watch(mainSpecGroupOptions, () => {
+  if (mainSpecGroupOptions.value.length === 0) {
+    priceInfo.mainSpecGroupId = undefined
+  }
+})
+
+const { priceList } = usePriceListReactive(priceInfo)
 </script>
 
 <style scoped lang="scss">

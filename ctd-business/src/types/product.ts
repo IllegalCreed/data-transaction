@@ -28,9 +28,13 @@ export interface IProductSpecsPrice {
 
 // 产品价格组（前端展示用）
 export interface IProductSpecsPriceGroup {
+  groupId: string
   specId: string
   label: string
-  children: IProductSpecsPrice[]
+  children: {
+    price?: number
+    specs: { groupId: string; specId: string; label: string }[]
+  }[]
 }
 
 // 产品
