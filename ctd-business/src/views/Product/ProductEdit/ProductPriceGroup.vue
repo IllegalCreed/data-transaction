@@ -3,44 +3,63 @@
     <div flex flex-row items-center>
       <span flex-shrink-0>规格名称：{{ modelGroup.label }}</span>
       <div flex-1></div>
-      <el-input
-        class="max-w-50"
+      <el-input-number
         v-if="modelGroup.children.length > 1"
-        :placeholder="pricesRange"
         v-model="newPrice"
+        :placeholder="pricesRange"
         @keyup.enter="setPrice"
-      />
+        :min="0"
+        :controls="false"
+        :precision="2"
+      >
+        <template #prefix>
+          <span>￥</span>
+        </template>
+      </el-input-number>
       <el-button ml-4 v-if="modelGroup.children.length > 1" type="primary" @click="setPrice"
         >设置全部</el-button
       >
       <el-button v-if="modelGroup.children.length > 1" type="danger" @click="clearPrices"
         >清除全部</el-button
       >
-      <el-input
+      <el-input-number
         v-else
-        class="max-w-50"
-        :placeholder="defaultPrice.toFixed(2)"
         v-model="modelGroup.children[0].price"
-        @input="updateItemPrice(modelGroup.children[0])"
-      />
+        :placeholder="defaultPrice.toFixed(2)"
+        @change="updateItemPrice(modelGroup.children[0])"
+        :min="0"
+        :controls="false"
+        :precision="2"
+      >
+        <template #prefix>
+          <span>￥</span>
+        </template>
+      </el-input-number>
     </div>
     <div flex flex-col gap-4 v-if="modelGroup.children.length > 1">
       <div flex flex-row justify-between items-center gap-4 v-for="item in modelGroup.children">
         <span flex-shrink-0>{{ item.specs.map((spec) => spec.label).join(' / ') }}</span>
         <div flex-1></div>
-        <el-input
-          class="max-w-50"
-          :placeholder="defaultPrice.toFixed(2)"
+        <el-input-number
           v-model="item.price"
-          @input="updateItemPrice(item)"
-        />
+          :placeholder="defaultPrice.toFixed(2)"
+          @change="updateItemPrice(item)"
+          :min="0"
+          :controls="false"
+          :precision="2"
+        >
+          <template #prefix>
+            <span>￥</span>
+          </template>
+        </el-input-number>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { IProductSpecsPrice, IProductSpecsPriceGroup } from '@/types/product'
+import type { IProductSpecsPrice, IProductSpecsPriceFrontendGroup } from '@/types/product'
+import { updatePriceInfoPrices } from './usePriceGroup'
 
 interface IItem {
   price?: number
@@ -52,7 +71,7 @@ const { prices, defaultPrice } = defineProps<{
   defaultPrice: number
 }>()
 
-const modelGroup = defineModel<IProductSpecsPriceGroup>('group', {
+const modelGroup = defineModel<IProductSpecsPriceFrontendGroup>('group', {
   default: {
     groupId: '',
     label: '',
@@ -67,7 +86,6 @@ const pricesRange = computed(() => {
     .map((item) => item.price)
     .filter((price): price is number => price !== undefined)
 
-  // Include defaultPrice if there are items with undefined price
   if (prices.length < totalChildren) {
     prices.push(defaultPrice)
   }
@@ -84,7 +102,7 @@ const newPrice = ref<number>()
 const setPrice = () => {
   modelGroup.value.children.forEach((item) => {
     item.price = newPrice.value
-    updatePriceInfoPrices(item)
+    updatePriceInfoPrices(prices, modelGroup.value, item)
   })
   newPrice.value = undefined
 }
@@ -92,59 +110,12 @@ const setPrice = () => {
 const clearPrices = () => {
   modelGroup.value.children.forEach((item) => {
     item.price = undefined
-    updatePriceInfoPrices(item)
+    updatePriceInfoPrices(prices, modelGroup.value, item)
   })
 }
 
 const updateItemPrice = (item: IItem) => {
-  updatePriceInfoPrices(item)
-}
-
-const updatePriceInfoPrices = (item: IItem) => {
-  // 构建完整的规格列表，包括主规格
-  const fullSpecs = [
-    {
-      groupId: modelGroup.value.groupId, // 主规格组ID
-      specId: modelGroup.value.specId,
-      label: modelGroup.value.label
-    },
-    ...item.specs
-  ]
-
-  // 在 priceInfo.prices 中查找对应的价格项
-  const priceEntry = prices.find((entry: IProductSpecsPrice) => {
-    return compareSpecs(entry.specs, fullSpecs)
-  })
-
-  if (priceEntry) {
-    // 更新价格
-    if (item.price) {
-      priceEntry.price = item.price
-    } else {
-      // 如果价格为空，则删除价格项
-      prices.splice(prices.indexOf(priceEntry), 1)
-    }
-  } else {
-    // 添加新的价格项
-    if (item.price) {
-      prices.push({
-        price: item.price,
-        specs: fullSpecs.map(({ groupId, specId }) => ({ groupId, specId }))
-      })
-    }
-  }
-}
-
-const compareSpecs = (
-  specsA: { groupId: string; specId: string }[],
-  specsB: { groupId: string; specId: string; label: string }[]
-) => {
-  if (specsA.length !== specsB.length) return false
-  const sortedA = specsA.slice().sort((a, b) => a.groupId.localeCompare(b.groupId))
-  const sortedB = specsB.slice().sort((a, b) => a.groupId.localeCompare(b.groupId))
-  return sortedA.every((spec, index) => {
-    return spec.groupId === sortedB[index].groupId && spec.specId === sortedB[index].specId
-  })
+  updatePriceInfoPrices(prices, modelGroup.value, item)
 }
 </script>
 
