@@ -28,7 +28,7 @@
           </template>
         </el-input-number>
       </el-form-item>
-      <el-form-item label="标签" prop="showPrice" max-w-120>
+      <el-form-item label="标签" prop="tags" max-w-120>
         <div flex flex-row flex-wrap gap-2>
           <el-tag v-for="tag in versionInfo.tags" :key="tag" closable @close="handleTagClose(tag)">
             {{ tag }}
@@ -157,26 +157,10 @@
         </el-select>
       </el-form-item>
       <el-divider />
-      <div flex flex-col gap-4 mb-5>
-        <span text-sm>规格列表</span>
-        <product-spec-item
-          v-for="item in priceInfo.specs"
-          :key="item.id"
-          :id="item.id"
-          @delete="handleSpecGroupDelete"
-          v-model:children="item.children"
-          v-model:label="item.label"
-          v-model:affectsPrice="item.affectsPrice"
-        />
-        <div flex flex-row gap-4 max-w-120>
-          <el-input
-            v-model="newSpecGroupLabel"
-            placeholder="输入规格名称回车添加"
-            @keyup.enter="newSpecGroup"
-          />
-          <el-button type="primary" @click="newSpecGroup"> + 添加规格 </el-button>
-        </div>
-      </div>
+      <product-spec-panel
+        v-model:specs="priceInfo.specs"
+        v-model:main-spec-group-id="priceInfo.mainSpecGroupId"
+      />
       <el-form-item label="默认价格" prop="defaultPrice" max-w-120>
         <el-input-number v-model="priceInfo.defaultPrice" :min="0" :controls="false" :precision="2">
           <template #prefix>
@@ -210,28 +194,32 @@
         />
       </div>
     </el-form>
-    <p>
-      {{ JSON.stringify(priceList) }}
-    </p>
-
-    {{ JSON.stringify(priceInfo.prices) }}
-    <el-image-viewer
-      v-if="imagePreviewVisible"
-      @close="imagePreviewVisible = false"
-      :url-list="imagePreviewUrlList"
-      :initial-index="imagePreviewInitIndex"
-    />
+    <div>
+      <el-button type="primary" @click="save">保存</el-button>
+      <el-button class="default-btn" @click="submit">提交审核</el-button>
+    </div>
+    <pre
+      >{{ JSON.stringify(priceInfo.specs, null, 2) }}
+    </pre>
+    <pre
+      >{{ JSON.stringify(priceInfo.prices, null, 2) }}
+    </pre>
   </div>
 </template>
 
 <script setup lang="ts">
 import ImagePicker from '@/components/ImagePicker.vue'
 import ImageArrayPicker from '@/components/ImageArrayPicker.vue'
-import ProductSpecItem from './ProductSpecItem.vue'
+import ProductSpecPanel from './ProductSpecPanel.vue'
 import ProductPriceGroup from './ProductPriceGroup.vue'
 import { v4 as uuidv4 } from 'uuid'
 import { type FormInstance, type FormRules } from 'element-plus'
-import type { IProductSpecsPriceDefinition, IProductVersion } from '@/types/product'
+import type {
+  IProductSpecGroup,
+  IProductSpecsPriceDefinition,
+  IProductSpecsPriceGroup,
+  IProductVersion
+} from '@/types/product'
 import { ProductForm, ProductPriceTypes } from '@/constants/mapData/product'
 
 const id = useRouteParams<string>('id')
@@ -243,9 +231,27 @@ const rules = reactive<FormRules<IProductVersion & IProductSpecsPriceDefinition>
   showPrice: [{ required: true, message: '请输入展示价格', trigger: 'blur' }]
 })
 
+const save = async () => {
+  // 需要先upload图片
+  await setVersionAction(id.value, versionInfo)
+  await setPriceDefinitionAction(id.value, priceInfo)
+}
+
+const submit = async () => {
+  if (await form.value?.validate()) {
+    // 需要先upload图片
+    await setVersionAction(id.value, versionInfo)
+    await setPriceDefinitionAction(id.value, priceInfo)
+  }
+}
+
 import { useProductStore } from '@/stores/modules/product'
-const { getVersion: getVersionAction, getPriceDefinition: getPriceDefinitionAction } =
-  useProductStore()
+const {
+  getVersion: getVersionAction,
+  getPriceDefinition: getPriceDefinitionAction,
+  setVersion: setVersionAction,
+  setPriceDefinition: setPriceDefinitionAction
+} = useProductStore()
 const versionInfo = reactive<IProductVersion>({
   version: 0,
   name: '',
@@ -341,10 +347,6 @@ import {
 import type { IUploadFile } from '@/types/common'
 
 // 图片相关
-const imagePreviewVisible = ref(false)
-const imagePreviewInitIndex = ref(0)
-const imagePreviewUrlList = ref<string[]>([])
-
 const coverImage = ref<IUploadFile>()
 const imageList = ref<IUploadFile[]>([])
 
@@ -368,39 +370,84 @@ const toolbar = [
 ]
 
 // 价格相关
-import { usePriceListReactive } from '../ProductDetail/usePriceList'
+import { generateSpecsPriceGroup } from './usePriceGroup'
+import type { WatchHandle } from 'vue'
 
-const newSpecGroupLabel = ref('')
-const newSpecGroup = () => {
-  if (newSpecGroupLabel.value) {
-    priceInfo.specs.push({
-      id: uuidv4(),
-      label: newSpecGroupLabel.value,
-      affectsPrice: false,
-      children: []
-    })
-    newSpecGroupLabel.value = ''
-  } else {
-    ElMessage.warning('请输入规格名称')
-  }
-}
+const innerWatchers = new Map<string, WatchHandle[]>()
+function addInnerWatcher(spec: IProductSpecGroup) {
+  const unwatchList = []
 
-const handleSpecGroupDelete = (id: string | number) => {
-  const index = priceInfo.specs.findIndex((item) => item.id === id)
-  if (index !== -1) {
-    priceInfo.specs.splice(index, 1)
-
-    // 检查被删除的规格组是否是当前的主规格
-    if (priceInfo.mainSpecGroupId === id) {
-      const nextMainSpecGroup = priceInfo.specs.find((item) => item.affectsPrice === true)
-      if (nextMainSpecGroup) {
-        // 设置新的主规格
-        priceInfo.mainSpecGroupId = nextMainSpecGroup.id
+  // 监听 spec.children.length 的变化
+  const unwatchChildren = watch(
+    () => spec.children.map((child) => child.id),
+    (newIds, oldIds) => {
+      // 仅当 affectsPrice 为 true 时，spec 才会影响价格的key
+      if (spec.affectsPrice === true) {
+        // 当增加规格项，仅增加一组新价格（主规格）或每组新增若干价格（从规格），原有价格无需变化。
+        // 当减少规格项，那么需要删除一组价格（主规格）或每组中相关价格（从规格）。其他价格不变。
+        const removedIds = oldIds.filter((id) => !newIds.includes(id))
+        if (removedIds.length > 0) {
+          // 当 spec 是主规格时，删除包含被删除规格项的价格项
+          priceInfo.prices = priceInfo.prices.filter((priceItem) => {
+            // 检查 priceItem.specs 中是否包含被删除的规格项
+            const hasRemovedSpec = priceItem.specs.some(
+              (specItem) => specItem.groupId === spec.id && removedIds.includes(specItem.specId)
+            )
+            // 返回 true 保留，返回 false 删除
+            return !hasRemovedSpec
+          })
+        }
+        genPriceList()
       }
     }
+  )
+  unwatchList.push(unwatchChildren)
+
+  // 监听 spec.affectsPrice 的变化
+  const unwatchAffectsPrice = watch(
+    () => spec.affectsPrice,
+    () => {
+      // 当 affectsPrice 为 true 时，只能成为一个从规格，那么必然会影响所有价格的key，所以价格需要清空
+      // 当 affectsPrice 为 false 时，如果为主规格，则必然会切换主规格，那么必然会影响所有价格的key，所以价格需要清空
+      // 当 affectsPrice 为 false 时，如果不为主规格，也必然不会影响所有价格的key，所以价格需要清空
+      // 也就是所有情况下当affectsPrice发生变化时，价格设定都需要清空
+      priceInfo.prices = []
+      genPriceList()
+    }
+  )
+  unwatchList.push(unwatchAffectsPrice)
+
+  // 将监听器存储到 Map 中
+  innerWatchers.set(spec.id, unwatchList)
+}
+
+function clearInnerWatcher(id: string) {
+  const unwatchList = innerWatchers.get(id)
+  if (unwatchList) {
+    unwatchList.forEach((unwatch) => unwatch())
+    innerWatchers.delete(id)
   }
 }
 
+watch(
+  () => priceInfo.specs.map((spec) => spec.id),
+  (newIds, oldIds) => {
+    const addedIds = newIds.filter((id) => !oldIds.includes(id))
+    const removedIds = oldIds.filter((id) => !newIds.includes(id))
+    addedIds.forEach((id) => {
+      const spec = priceInfo.specs.find((item) => item.id === id)
+      if (spec) {
+        addInnerWatcher(spec)
+      }
+    })
+    removedIds.forEach((id) => {
+      clearInnerWatcher(id)
+    })
+    genPriceList()
+  }
+)
+
+// 主规格相关
 const mainSpecGroupOptions = computed(() => {
   return priceInfo.specs
     .filter((item) => item.affectsPrice === true)
@@ -411,14 +458,29 @@ const mainSpecGroupOptions = computed(() => {
       }
     })
 })
-
 watch(mainSpecGroupOptions, () => {
   if (mainSpecGroupOptions.value.length === 0) {
     priceInfo.mainSpecGroupId = undefined
   }
 })
+watch(
+  () => priceInfo.mainSpecGroupId,
+  () => {
+    if (priceInfo.mainSpecGroupId) {
+      genPriceList()
+    }
+  }
+)
 
-const { priceList } = usePriceListReactive(priceInfo)
+// 四种情况需要重新生成价格列表
+// 增删规格
+// 增删价格相关的规格项
+// 修改价格相关
+// 切换主规格
+const priceList = ref<IProductSpecsPriceGroup[]>([])
+function genPriceList() {
+  priceList.value = generateSpecsPriceGroup(priceInfo)
+}
 </script>
 
 <style scoped lang="scss">

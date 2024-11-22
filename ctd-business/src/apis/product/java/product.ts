@@ -1,4 +1,5 @@
 import request from '@/axios'
+import type { IProductSpecsPriceDefinition, IProductVersion } from '@/types/product'
 
 export const getProducts = (
   searchQuery: string,
@@ -62,6 +63,40 @@ export const getPriceDefinition = (
   return request.get(
     {
       url: `/product/${productId}/${version}/price`
+    },
+    true
+  )
+}
+
+export const setVersion = (
+  productId: string | number,
+  versionInfo: IProductVersion
+): Promise<unknown> => {
+  const data = {
+    productId,
+    versionInfo
+  }
+  return request.post(
+    {
+      url: `/product/${productId}/0/update`,
+      data
+    },
+    true
+  )
+}
+
+export const setPriceDefinition = (
+  productId: string | number,
+  priceInfo: IProductSpecsPriceDefinition
+): Promise<unknown> => {
+  const data = {
+    productId,
+    priceInfo
+  }
+  return request.get(
+    {
+      url: `/product/${productId}/0/price/update`,
+      data
     },
     true
   )

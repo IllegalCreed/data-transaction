@@ -1,11 +1,30 @@
 <template>
   <div class="product-price-group-root-container">
-    <div flex flex-row items-center gap-4>
-      <span min-w-80>规格名称：{{ modelGroup.label }}</span>
-      <el-input :placeholder="pricesRange" v-model="newPrice" @keyup.enter="setPrice" />
-      <el-button type="danger" @click="clearPrices">清除价格</el-button>
+    <div flex flex-row items-center>
+      <span flex-shrink-0>规格名称：{{ modelGroup.label }}</span>
+      <div flex-1></div>
+      <el-input
+        class="max-w-50"
+        v-if="modelGroup.children.length > 1"
+        :placeholder="pricesRange"
+        v-model="newPrice"
+        @keyup.enter="setPrice"
+      />
+      <el-button ml-4 v-if="modelGroup.children.length > 1" type="primary" @click="setPrice"
+        >设置全部</el-button
+      >
+      <el-button v-if="modelGroup.children.length > 1" type="danger" @click="clearPrices"
+        >清除全部</el-button
+      >
+      <el-input
+        v-else
+        class="max-w-50"
+        :placeholder="defaultPrice.toFixed(2)"
+        v-model="modelGroup.children[0].price"
+        @input="updateItemPrice(modelGroup.children[0])"
+      />
     </div>
-    <div flex flex-col gap-4>
+    <div flex flex-col gap-4 v-if="modelGroup.children.length > 1">
       <div flex flex-row justify-between items-center gap-4 v-for="item in modelGroup.children">
         <span flex-shrink-0>{{ item.specs.map((spec) => spec.label).join(' / ') }}</span>
         <div flex-1></div>
@@ -28,7 +47,7 @@ interface IItem {
   specs: { groupId: string; specId: string; label: string }[]
 }
 
-const { prices } = defineProps<{
+const { prices, defaultPrice } = defineProps<{
   prices: IProductSpecsPrice[]
   defaultPrice: number
 }>()
@@ -43,24 +62,29 @@ const modelGroup = defineModel<IProductSpecsPriceGroup>('group', {
 })
 
 const pricesRange = computed(() => {
+  const totalChildren = modelGroup.value.children.length
   const prices = modelGroup.value.children
     .map((item) => item.price)
-    .filter((price): price is number => price !== undefined && price !== null)
+    .filter((price): price is number => price !== undefined)
 
-  if (prices.length === 0) {
-    return '0'
+  // Include defaultPrice if there are items with undefined price
+  if (prices.length < totalChildren) {
+    prices.push(defaultPrice)
   }
 
   const minPrice = Math.min(...prices)
   const maxPrice = Math.max(...prices)
 
-  return minPrice === maxPrice ? `${minPrice}` : `${minPrice}-${maxPrice}`
+  return minPrice === maxPrice
+    ? minPrice.toFixed(2)
+    : `${minPrice.toFixed(2)}-${maxPrice.toFixed(2)}`
 })
 
 const newPrice = ref<number>()
 const setPrice = () => {
   modelGroup.value.children.forEach((item) => {
     item.price = newPrice.value
+    updatePriceInfoPrices(item)
   })
   newPrice.value = undefined
 }
@@ -68,6 +92,7 @@ const setPrice = () => {
 const clearPrices = () => {
   modelGroup.value.children.forEach((item) => {
     item.price = undefined
+    updatePriceInfoPrices(item)
   })
 }
 
@@ -125,6 +150,6 @@ const compareSpecs = (
 
 <style lang="scss" scoped>
 .product-price-group-root-container {
-  @apply flex flex-col p-5 gap-4 max-w-160 rounded border border-dashed border-[var(--border-color)];
+  @apply flex flex-col p-5 gap-4 max-w-200 rounded border border-dashed border-[var(--border-color)];
 }
 </style>

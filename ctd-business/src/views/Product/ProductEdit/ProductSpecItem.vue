@@ -27,7 +27,7 @@
         </el-button>
       </div>
     </el-form-item>
-    <el-form-item label="价格相关" prop="affectsPrice">
+    <el-form-item label="价格相关" prop="affectsPrice" v-if="modelChildren.length > 0">
       <el-switch v-model="modelAffectsPrice" />
     </el-form-item>
     <el-button self-end type="danger" class="w-20" @click="handleDelete">删除</el-button>
@@ -77,7 +77,11 @@ const addCustomTag = () => {
 const handleTagDelete = (id: string) => {
   const index = modelChildren.value.findIndex((item) => item.id === id)
   if (index !== -1) {
-    modelChildren.value.splice(index, 1)
+    if (modelChildren.value.length === 1 && modelAffectsPrice.value === true) {
+      ElMessage.warning('当价格相关时，最后一个规格项不能删除')
+    } else {
+      modelChildren.value.splice(index, 1)
+    }
   }
 }
 

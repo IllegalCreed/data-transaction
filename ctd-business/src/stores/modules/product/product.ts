@@ -11,7 +11,9 @@ import {
   getProduct as getProductAPI,
   delProducts as delProductsAPI,
   getVersion as getVersionAPI,
-  getPriceDefinition as getPriceDefinitionAPI
+  setVersion as setVersionAPI,
+  getPriceDefinition as getPriceDefinitionAPI,
+  setPriceDefinition as setPriceDefinitionAPI
 } from '@/apis/product'
 import {
   products as mockProducts,
@@ -104,7 +106,6 @@ export const useProduct = () => {
     return new Promise<IProductVersion>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => {
-          console.log(version)
           const result = mockVersions.find((item) => item.version === Number(version))
           if (result) {
             resolve(result)
@@ -117,6 +118,25 @@ export const useProduct = () => {
           .then((res) => {
             const result = res as IProductVersion
             resolve(result)
+          })
+          .catch((error: Error) => {
+            reject(error)
+          })
+          .finally(() => {})
+      }
+    })
+  }
+
+  const setVersion = (productId: string | number, versionInfo: IProductVersion): Promise<void> => {
+    return new Promise<void>((resolve, reject) => {
+      if (settingsStore.mockEnabled) {
+        window.setTimeout(() => {
+          resolve()
+        }, 1000)
+      } else {
+        setVersionAPI(productId, versionInfo)
+          .then(() => {
+            resolve()
           })
           .catch((error: Error) => {
             reject(error)
@@ -154,11 +174,35 @@ export const useProduct = () => {
     })
   }
 
+  const setPriceDefinition = (
+    productId: string | number,
+    priceInfo: IProductSpecsPriceDefinition
+  ): Promise<void> => {
+    return new Promise<void>((resolve, reject) => {
+      if (settingsStore.mockEnabled) {
+        window.setTimeout(() => {
+          resolve()
+        }, 1000)
+      } else {
+        setPriceDefinitionAPI(productId, priceInfo)
+          .then((res) => {
+            resolve()
+          })
+          .catch((error: Error) => {
+            reject(error)
+          })
+          .finally(() => {})
+      }
+    })
+  }
+
   return {
     getProducts,
     getProduct,
     delProducts,
     getVersion,
-    getPriceDefinition
+    setVersion,
+    getPriceDefinition,
+    setPriceDefinition
   }
 }
