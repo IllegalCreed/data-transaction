@@ -2,8 +2,7 @@
   <div class="product-detail-version-root-container">
     <span class="panel-title">当前版本信息</span>
     <div flex flex-row gap-1 v-if="!version" v-loading="loading">
-      <span text-sm>暂无，请先</span>
-      <el-link type="primary" @click="approval">去审核</el-link>
+      <span text-sm>暂无过审版本</span>
     </div>
     <div v-else class="props-container" v-loading="loading || getVersionLoading">
       <div class="prop">
