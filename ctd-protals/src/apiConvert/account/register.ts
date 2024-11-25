@@ -9,7 +9,6 @@ export const registInfoConverter = (info: RegistrationInfo) => {
       nickName: info.fullName,
       idCard: info.identificationNumber,
       phonenumber: info.phoneNumber,
-      username: info.email,
       address: info.residentialAddress,
       birthday: info.dateOfBirth,
       sex: info.gender === GenderType.Male ? '0' : '1',
@@ -18,7 +17,6 @@ export const registInfoConverter = (info: RegistrationInfo) => {
     return {
       userType: '11',
       email: info.email,
-      username: info.email,
       password: info.password,
       address: info.enterpriseAddress,
       nickName: info.enterpriseName,

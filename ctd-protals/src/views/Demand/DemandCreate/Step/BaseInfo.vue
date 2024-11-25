@@ -22,8 +22,13 @@
         />
       </el-form-item>
 
-      <el-form-item label="需求描述" prop="desc">
-        <el-input v-model="baseInfo.desc" :rows="5" type="textarea" max-w-200 />
+      <el-form-item label="需求描述" prop="description">
+        <el-input
+          v-model="baseInfo.description"
+          :rows="5"
+          type="textarea"
+          max-w-200
+        />
       </el-form-item>
 
       <el-form-item label="需求详情" prop="detail">
@@ -50,12 +55,13 @@ import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import type { FormInstance, FormRules } from 'element-plus'
 
 import { useDemandStore } from '@/stores/modules/demand'
+import type { IBaseInfo } from '@/types/demand'
 const demandStore = useDemandStore()
 const { baseInfo } = demandStore
 
-const rules = reactive<FormRules<any>>({
+const rules = reactive<FormRules<IBaseInfo>>({
   title: [{ required: true, message: '请输入需求名称', trigger: 'blur' }],
-  desc: [{ required: true, message: '请输入需求描述', trigger: 'blur' }],
+  description: [{ required: true, message: '请输入需求描述', trigger: 'blur' }],
 })
 
 const toolbar = [

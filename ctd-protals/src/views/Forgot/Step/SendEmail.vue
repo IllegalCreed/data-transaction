@@ -12,11 +12,11 @@
       label-width="auto"
       label-position="top"
     >
-      <el-form-item label="用户名" prop="email">
+      <el-form-item label="邮箱" prop="email">
         <el-input
           data-testid="email-input"
           v-model="baseInfo.email"
-          placeholder="您注册时填写的邮箱地址"
+          placeholder="填写您的邮箱地址"
         />
       </el-form-item>
     </el-form>

@@ -1,9 +1,11 @@
+import type { IBaseInfo } from '@/types/demand'
+
 export const useCreate = () => {
-  const baseInfo = reactive({
+  const baseInfo = reactive<IBaseInfo>({
     title: '',
-    desc: '',
+    description: '',
     detail: '',
-    completionTime: ''
+    completionTime: '',
   })
 
   const tradingModel = ref('')
@@ -17,7 +19,7 @@ export const useCreate = () => {
     budgetType: 'fixed',
     fixedPrice: 0,
     minPrice: 0,
-    maxPrice: 0
+    maxPrice: 0,
   })
 
   const customTags = ref<string[]>([])
@@ -33,6 +35,6 @@ export const useCreate = () => {
     paymentOption,
     customTags,
     checkedPopularTags,
-    selectedTags
+    selectedTags,
   }
 }
