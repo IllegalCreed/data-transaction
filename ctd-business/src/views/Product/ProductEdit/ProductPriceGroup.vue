@@ -37,7 +37,15 @@
       </el-input-number>
     </div>
     <div flex flex-col gap-4 v-if="modelGroup.children.length > 1">
-      <div flex flex-row justify-between items-center gap-4 v-for="item in modelGroup.children">
+      <div
+        flex
+        flex-row
+        justify-between
+        items-center
+        gap-4
+        v-for="item in modelGroup.children"
+        :key="item.specs.map((spec) => spec.label).join(' / ')"
+      >
         <span flex-shrink-0>{{ item.specs.map((spec) => spec.label).join(' / ') }}</span>
         <div flex-1></div>
         <el-input-number
