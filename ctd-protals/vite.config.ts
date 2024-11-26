@@ -28,8 +28,8 @@ export default defineConfig({
       '/dev-api': {
         target:
           process.env.VITE_BACK_TYPE === 'java'
-            ? 'http://10.105.21.63:8080'
-            : 'http://localhost:9000',
+            ? process.env.VITE_JAVA_SERVER_URL
+            : process.env.VITE_NEST_SERVER_URL,
         changeOrigin: true,
         rewrite: p => p.replace(/^\/dev-api/, ''),
       },

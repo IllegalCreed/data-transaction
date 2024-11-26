@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-namespace */
 /// <reference types="cypress" />
 
 // ***********************************************
@@ -38,15 +37,6 @@
 //   }
 // }
 
-declare global {
-  namespace Cypress {
-    interface Chainable {
-      getActivationToken(baseUrl: string, email: string): Chainable<void>
-      getVerificationCode(baseUrl: string, email: string): Chainable<void>
-    }
-  }
-}
-
 /**
  * 获取激活 Token
  * @param baseUrl 服务器 URL
@@ -79,5 +69,3 @@ Cypress.Commands.add(
     )
   },
 )
-
-export {}
