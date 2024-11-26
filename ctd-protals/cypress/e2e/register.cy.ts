@@ -1,3 +1,4 @@
+/// <reference types="cypress" />
 import type { ICorporateUserData, IIndividualUserData } from '../support/types'
 import {
   activateUser,

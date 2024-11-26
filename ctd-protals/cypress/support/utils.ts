@@ -1,4 +1,4 @@
-/// <reference types="cypress" />
+import './commands'
 import type { ICorporateUserData, IIndividualUserData } from './types'
 
 /**
