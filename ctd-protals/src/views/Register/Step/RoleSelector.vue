@@ -1,8 +1,8 @@
 <template>
   <div class="role-selector-root-container">
-    <span class="title">请选择您的注册身份</span>
+    <span class="title">请选择您的用户类型</span>
     <p class="desc">
-      为了更好地为您提供定制化的服务，请选择您的身份。不同的身份将影响您在平台上的使用体验
+      为了更好地为您提供定制化的服务，请选择您的用户类型。不同的用户类型将影响您在平台上的使用体验
     </p>
 
     <identity-item
@@ -46,7 +46,7 @@ const handleNextStep = () => {
   if (accountStore.userType) {
     emit('nextStep')
   } else {
-    ElMessage.error('请选择一个身份')
+    ElMessage.error('请选择用户类型')
   }
 }
 

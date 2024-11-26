@@ -98,10 +98,17 @@ describe('User Registration Flow', () => {
 
     registerCorporateUser(testUser)
 
-    registerCorporateUser(testUser, '注册账号已存在')
+    registerCorporateUser(testUser, '账号已存在')
 
     cy.get('[data-testid="resend-activation-button"]').click()
 
     cy.contains('验证邮件已发送').should('be.visible')
+  })
+
+  // 不选择用户类型，点击注册按钮，应该显示错误信息
+  it.only('should not register without selecting user type', () => {
+    cy.visit('/register')
+    cy.get('[data-testid="next-button"]').click()
+    cy.contains('请选择用户类型').should('be.visible')
   })
 })
