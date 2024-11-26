@@ -162,7 +162,7 @@ const rules = ref<FormRules>({
     { required: true, message: '请输入联系人电话', trigger: 'blur' },
     {
       pattern: /^[1-9]\d{10}$/,
-      message: '联系电话格式不正确',
+      message: '手机号格式不正确',
       trigger: 'blur',
     },
   ],

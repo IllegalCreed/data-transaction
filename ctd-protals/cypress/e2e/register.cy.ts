@@ -8,6 +8,7 @@ import {
 } from '../support/utils'
 
 describe('User Registration Flow', () => {
+  // 注册个人用户并激活
   it('should register as an individual user', () => {
     const testUser: IIndividualUserData = {
       email: generateUniqueEmail('testuser'),
@@ -24,6 +25,7 @@ describe('User Registration Flow', () => {
     activateUser(testUser.email)
   })
 
+  // 注册企业用户并激活
   it('should register as a corporate user', () => {
     const testUser: ICorporateUserData = {
       email: generateUniqueEmail('testcompany'),
@@ -43,6 +45,7 @@ describe('User Registration Flow', () => {
     activateUser(testUser.email)
   })
 
+  // 注册个人用户并激活，然后尝试激活失败并重新发送激活邮件
   it('should register as an individual user and handle activation failure with resend', () => {
     const testUser: IIndividualUserData = {
       email: generateUniqueEmail('testuser'),
@@ -77,6 +80,7 @@ describe('User Registration Flow', () => {
     })
   })
 
+  // 注册企业用户两次，提示用户已存在，应该显示错误信息并允许重新发送激活邮件
   it('should not allow registering with an existing email and allow resending activation email', () => {
     const testUser: ICorporateUserData = {
       email: generateUniqueEmail('testcompany'),

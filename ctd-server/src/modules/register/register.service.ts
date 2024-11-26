@@ -48,9 +48,17 @@ export class RegisterService {
   async register(createUserDto: CreateUserDto): Promise<ApiResponse<string>> {
     const { email, password, userType } = createUserDto;
 
-    if (!(await this.isEmailAvailable(email)).data.available) {
-      this.logger.error('用户注册失败：邮件被占用');
-      return createErrorResponse(ErrorCode.EMAIL_TAKEN);
+    const user = await this.userRepository.findOne({
+      where: { email },
+    });
+    if (user) {
+      if (user.status === UserStatus.ACTIVE) {
+        this.logger.error('用户注册失败：用户已激活');
+        return createErrorResponse(ErrorCode.ACCOUNT_ALREADY_ACTIVATED);
+      } else {
+        this.logger.error('用户注册失败：用户已注册但未激活');
+        return createErrorResponse(ErrorCode.ACCOUNT_PENDING_ACTIVATION);
+      }
     }
 
     const hashedPassword = await hashPassword(password);
@@ -194,14 +202,6 @@ export class RegisterService {
 
       return createErrorResponse(ErrorCode.RESEND_ACTIVATION_EMAIL_FAILED);
     }
-  }
-
-  private async isEmailAvailable(
-    email: string,
-  ): Promise<ApiResponse<{ available: boolean }>> {
-    const user = await this.userRepository.findOne({ where: { email } });
-    const available = !user;
-    return createSuccessResponse({ available });
   }
 
   private async createAndSendActivation(

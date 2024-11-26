@@ -10,6 +10,7 @@ export enum ErrorCode {
   ACTIVATE_ACCOUNT_FAILED = 1004,
   ACCOUNT_ALREADY_ACTIVATED = 1005,
   RESEND_ACTIVATION_EMAIL_FAILED = 1006,
+  ACCOUNT_PENDING_ACTIVATION = 1007,
 }
 
 export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
@@ -28,4 +29,5 @@ export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
   [ErrorCode.ACCOUNT_ALREADY_ACTIVATED]: 'Account is already activated.',
   [ErrorCode.RESEND_ACTIVATION_EMAIL_FAILED]:
     'Failed to resend activation email.',
+  [ErrorCode.ACCOUNT_PENDING_ACTIVATION]: 'Account is pending activation.',
 };
