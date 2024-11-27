@@ -114,6 +114,9 @@ importers:
       cypress:
         specifier: ^13.16.0
         version: 13.16.0
+      dotenv:
+        specifier: ^16.4.5
+        version: 16.4.5
       eslint:
         specifier: ^9.15.0
         version: 9.15.0(jiti@2.0.0)
@@ -1971,6 +1974,10 @@ packages:
 
   dompurify@3.2.1:
     resolution: {integrity: sha512-NBHEsc0/kzRYQd+AY6HR6B/IgsqzBABrqJbpCDQII/OK6h7B7LXzweZTDsqSW2LkTRpoxf18YUP+YjGySk6B3w==}
+
+  dotenv@16.4.5:
+    resolution: {integrity: sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==}
+    engines: {node: '>=12'}
 
   duplexer@0.1.2:
     resolution: {integrity: sha512-jtD6YG370ZCIi/9GTaJKQxWTZD045+4R4hTk/x1UyoqadyJ9x9CgSi1RlVDQF8U2sxLLSnFkCaMihqljHIWgMg==}
@@ -5779,6 +5786,8 @@ snapshots:
   dompurify@3.2.1:
     optionalDependencies:
       '@types/trusted-types': 2.0.7
+
+  dotenv@16.4.5: {}
 
   duplexer@0.1.2: {}
 

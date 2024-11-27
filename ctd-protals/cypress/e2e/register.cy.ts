@@ -106,7 +106,7 @@ describe('User Registration Flow', () => {
   })
 
   // 不选择用户类型，点击注册按钮，应该显示错误信息
-  it.only('should not register without selecting user type', () => {
+  it('should not register without selecting user type', () => {
     cy.visit('/register')
     cy.get('[data-testid="next-button"]').click()
     cy.contains('请选择用户类型').should('be.visible')
