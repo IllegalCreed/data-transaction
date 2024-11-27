@@ -16,7 +16,7 @@
         <el-input
           class="!w-20"
           v-if="tagInputVisible"
-          ref="TagInputRef"
+          ref="tagInputRef"
           v-model="customTag"
           size="small"
           @keyup.enter="addCustomTag"
@@ -46,11 +46,11 @@ const modelChildren = defineModel<IProductSpec[]>('children', { default: [] })
 
 const customTag = ref('')
 const tagInputVisible = ref(false)
-const tagInputRef = useTemplateRef('TagInputRef')
+const tagInputRef = ref()
 const showTagInput = () => {
   tagInputVisible.value = true
   nextTick(() => {
-    tagInputRef.value!.input!.focus()
+    tagInputRef.value!.focus()
   })
 }
 

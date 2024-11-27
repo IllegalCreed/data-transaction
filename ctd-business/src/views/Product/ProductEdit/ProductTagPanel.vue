@@ -6,7 +6,7 @@
     <el-input
       class="!w-20"
       v-if="tagInputVisible"
-      ref="TagInputRef"
+      ref="tagInputRef"
       v-model="customTag"
       size="small"
       @keyup.enter="addCustomTag"
@@ -29,12 +29,12 @@ const { maxTags = 5 } = defineProps<{ maxTags: number }>()
 
 const customTag = ref('')
 const tagInputVisible = ref(false)
-const tagInputRef = useTemplateRef('TagInputRef')
+const tagInputRef = ref()
 const isTagLimitReached = computed(() => tags.value.length >= maxTags)
 const showTagInput = () => {
   tagInputVisible.value = true
   nextTick(() => {
-    tagInputRef.value!.input!.focus()
+    tagInputRef.value!.focus()
   })
 }
 const addCustomTag = () => {

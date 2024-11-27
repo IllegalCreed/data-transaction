@@ -28,6 +28,9 @@
           </template>
         </el-input-number>
       </el-form-item>
+      <el-form-item label="数量是否可选" prop="hasCount">
+        <el-switch v-model="versionInfo.hasCount" />
+      </el-form-item>
       <el-form-item label="标签" prop="tags" max-w-120>
         <product-tag-panel v-model:tags="versionInfo.tags" :max-tags="5"></product-tag-panel>
       </el-form-item>
@@ -115,7 +118,7 @@
       <el-form-item label="图片集" prop="imageUrls">
         <image-array-picker v-model="imageList" />
       </el-form-item>
-      <el-form-item label="需求详情" prop="detail">
+      <el-form-item label="产品详情" prop="detail">
         <product-rich-edit-panel v-model:content="versionInfo.detail" />
       </el-form-item>
       <el-form-item label="定价方式" prop="priceType" max-w-120>
@@ -226,6 +229,7 @@ const versionInfo = reactive<IProductVersion>({
   name: '',
   description: '',
   showPrice: 0,
+  hasCount: false,
   tags: [],
   coverImageUrl: '',
   imageUrls: [],

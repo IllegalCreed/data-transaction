@@ -47,6 +47,21 @@
       <div class="prop">
         <span
           class="label"
+          :class="{ change: sourceVersion.hasCount !== targetVersion.hasCount && target }"
+          >数量是否可选：</span
+        >
+        <span class="value">{{ sourceVersion.hasCount ? '是' : '否' }}</span>
+      </div>
+      <div class="prop" v-if="sourceVersion.hasCount !== targetVersion.hasCount && target">
+        <span class="label">数量是否可选：</span>
+        <span class="value">{{ targetVersion.hasCount ? '是' : '否' }}</span>
+      </div>
+    </div>
+
+    <div class="prop-row">
+      <div class="prop">
+        <span
+          class="label"
           :class="{ change: !isEqual(sourceVersion.tags, targetVersion.tags) && target }"
           >产品标签：</span
         >
@@ -405,6 +420,7 @@ const defalutVersion = {
   name: '',
   description: '',
   showPrice: 0,
+  hasCount: false,
   tags: [],
   coverImageUrl: '',
   imageUrls: [],

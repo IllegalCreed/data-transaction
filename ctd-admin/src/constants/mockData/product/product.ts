@@ -93,6 +93,7 @@ export const versions: IProductVersion[] = [
     name: '测试产品5',
     description: '修改了测试描述',
     showPrice: 2000,
+    hasCount: false,
     tags: ['测试标签1', '测试标签2', '增加的测试标签3'],
     coverImageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
     imageUrls: [],
@@ -114,6 +115,7 @@ export const versions: IProductVersion[] = [
     name: '测试产品5',
     description: '测试描述',
     showPrice: 200,
+    hasCount: false,
     tags: ['测试标签1', '测试标签2'],
     coverImageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
     imageUrls: [
@@ -140,6 +142,7 @@ export const versions: IProductVersion[] = [
     name: '测试产品5',
     description: '测试描述测试描述测试描述测试描述',
     showPrice: 1000,
+    hasCount: true,
     tags: ['测试标签1', '测试标签2', '测试标签3'],
     coverImageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
     imageUrls: [

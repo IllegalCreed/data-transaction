@@ -57,6 +57,7 @@ export interface IProductVersion {
   name: string
   description: string
   showPrice: number
+  hasCount: boolean
   tags: string[]
   coverImageUrl: string
   imageUrls: string[]
@@ -70,6 +71,7 @@ export interface IProductVersion {
   createTime: string
 }
 
+// 产品规格价格定义
 export interface IProductSpecsPriceDefinition {
   defaultPrice: number
   mainSpecGroupId: string

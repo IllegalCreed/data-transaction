@@ -19,6 +19,10 @@
         <span class="value">{{ versionInfo.showPrice }}</span>
       </div>
       <div class="prop">
+        <span class="label">数量是否可选：</span>
+        <span class="value">{{ versionInfo.hasCount ? '是' : '否' }}</span>
+      </div>
+      <div class="prop">
         <span class="label">产品形态：</span>
         <span class="value">{{ formLabel(versionInfo.form) }}</span>
       </div>
@@ -143,6 +147,7 @@ const {
     name: '',
     description: '',
     showPrice: 0,
+    hasCount: false,
     tags: [],
     coverImageUrl: '',
     imageUrls: [],

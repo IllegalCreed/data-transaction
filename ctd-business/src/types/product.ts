@@ -60,6 +60,7 @@ export interface IProductVersion {
   name: string
   description: string
   showPrice: number
+  hasCount: boolean
   tags: string[]
   coverImageUrl: string
   imageUrls: string[]
