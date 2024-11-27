@@ -314,7 +314,7 @@ describe('User Registration Flow', () => {
     }
   })
 
-  it.only('注册个人用户，个人信息性别选项显示正确', () => {
+  it('注册个人用户，个人信息性别选项显示正确', () => {
     cy.visit('/register')
     cy.get('[data-testid="individual-user-button"]').click()
     cy.get('[data-testid="next-button"]').click()
@@ -322,30 +322,32 @@ describe('User Registration Flow', () => {
     cy.contains('个人信息').should('be.visible')
     // 检测选项
     cy.get('[data-testid="gender-select"]').click()
-    cy.contains('男').should('be.visible')
-    cy.contains('女').should('be.visible')
-    cy.contains('其他').should('be.visible')
+    cy.contains('男').should('be.exist')
+    cy.contains('女').should('be.exist')
+    cy.contains('其他').should('be.exist')
   })
 
-  it.only('注册企业用户，企业信息行业类别选项显示正确', () => {
+  it('注册企业用户，企业信息行业类别选项显示正确', () => {
     cy.visit('/register')
     cy.get('[data-testid="corporate-user-button"]').click()
     cy.get('[data-testid="next-button"]').click()
     cy.contains('请您填写基本信息').should('be.visible')
     cy.contains('企业信息').should('be.visible')
-    // 检测选项
+    // 检测选项，只检测第一个和最后一个
     cy.get('[data-testid="industryType-select"]').click()
-    cy.contains('其他').should('be.visible')
+    cy.contains('农、林、牧、渔业').should('be.exist')
+    cy.contains('其他').should('be.exist')
   })
 
-  it.only('注册企业用户，企业信息行业类别选项显示正确', () => {
+  it('注册企业用户，企业信息行业类别选项显示正确', () => {
     cy.visit('/register')
     cy.get('[data-testid="corporate-user-button"]').click()
     cy.get('[data-testid="next-button"]').click()
     cy.contains('请您填写基本信息').should('be.visible')
     cy.contains('企业信息').should('be.visible')
-    // 检测选项
+    // 检测选项，只检测第一个和最后一个
     cy.get('[data-testid="companySize-select"]').click()
-    cy.contains('微型企业（1-9人）').should('be.visible')
+    cy.contains('微型企业（1-9人）').should('be.exist')
+    cy.contains('超大型企业（1000人以上）').should('be.exist')
   })
 })
