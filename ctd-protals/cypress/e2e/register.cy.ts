@@ -8,8 +8,7 @@ import {
 } from '../support/utils'
 
 describe('User Registration Flow', () => {
-  // 注册个人用户并激活
-  it('should register as an individual user', () => {
+  it('注册个人用户并激活成功', () => {
     const testUser: IIndividualUserData = {
       email: generateUniqueEmail('testuser'),
       password: 'Password@123!',
@@ -25,8 +24,7 @@ describe('User Registration Flow', () => {
     activateUser(testUser.email)
   })
 
-  // 注册企业用户并激活
-  it('should register as a corporate user', () => {
+  it('注册企业用户并激活成功', () => {
     const testUser: ICorporateUserData = {
       email: generateUniqueEmail('testcompany'),
       password: 'Password@123!',
@@ -45,8 +43,7 @@ describe('User Registration Flow', () => {
     activateUser(testUser.email)
   })
 
-  // 注册个人用户并激活，然后尝试激活失败并重新发送激活邮件
-  it('should register as an individual user and handle activation failure with resend', () => {
+  it('注册任意用户，并在激活失败后重新发送激活邮件', () => {
     const testUser: IIndividualUserData = {
       email: generateUniqueEmail('testuser'),
       password: 'Password@123!',
@@ -80,8 +77,7 @@ describe('User Registration Flow', () => {
     })
   })
 
-  // 注册企业用户两次，提示用户已存在，应该显示错误信息并允许重新发送激活邮件
-  it('should not allow registering with an existing email and allow resending activation email', () => {
+  it('注册任意用户两次，并在提示用户已存未激活后，重新发送激活邮件', () => {
     const testUser: ICorporateUserData = {
       email: generateUniqueEmail('testcompany'),
       password: 'Password@123!',
@@ -98,17 +94,93 @@ describe('User Registration Flow', () => {
 
     registerCorporateUser(testUser)
 
-    registerCorporateUser(testUser, '账号已存在')
+    registerCorporateUser(testUser, '账号已存在，请先激活后登录')
 
     cy.get('[data-testid="resend-activation-button"]').click()
 
     cy.contains('验证邮件已发送').should('be.visible')
   })
 
-  // 不选择用户类型，点击注册按钮，应该显示错误信息
-  it('should not register without selecting user type', () => {
+  it('注册任意用户并激活成功，再次注册该用户，提示用户已存已激活', () => {
+    const testUser: ICorporateUserData = {
+      email: generateUniqueEmail('testcompany'),
+      password: 'Password@123!',
+      companyName: 'test company',
+      companyCode: '111111111111111111',
+      contactName: 'test user',
+      contactPosition: 'test position',
+      contactPhone: '18888888888',
+      companyAddress: 'test address',
+      industryCategory: 'information_technology',
+      companySize: 'large',
+      companyDescription: 'test description',
+    }
+
+    registerCorporateUser(testUser)
+    activateUser(testUser.email)
+
+    registerCorporateUser(testUser, '账号已存在，可直接登录')
+  })
+
+  it('不选择用户类型点击下一步，给予对应提示', () => {
     cy.visit('/register')
     cy.get('[data-testid="next-button"]').click()
     cy.contains('请选择用户类型').should('be.visible')
+  })
+
+  it('基本信息邮箱不合规，给予对应提示', () => {
+    cy.visit('/register')
+    cy.get('[data-testid="individual-user-button"]').click()
+    cy.get('[data-testid="next-button"]').click()
+    cy.contains('请您填写基本信息').should('be.visible')
+    // 检测必填项
+    cy.get('[data-testid="email-input"]').clear()
+    cy.get('[data-testid="email-input"]').blur()
+    cy.contains('请输入邮箱地址').should('be.visible')
+    // 检测格式合规
+    const useCase = ['123', '123@', '@123']
+    for (const item of useCase) {
+      cy.get('[data-testid="email-input"]').clear()
+      cy.get('[data-testid="email-input"]').type(item)
+      cy.get('[data-testid="email-input"]').blur()
+      cy.contains('请输入正确的邮箱地址').should('be.visible')
+    }
+  })
+
+  it('基本信息密码不合规，给予对应提示', () => {
+    cy.visit('/register')
+    cy.get('[data-testid="individual-user-button"]').click()
+    cy.get('[data-testid="next-button"]').click()
+    cy.contains('请您填写基本信息').should('be.visible')
+    // 检测必填项
+    cy.get('[data-testid="password-input"]').clear()
+    cy.get('[data-testid="password-input"]').blur()
+    cy.contains('请输入密码').should('be.visible')
+    // 检测格式合规
+    const useCase = ['1234', '1234test', '1234testTEST', '1234TEST!']
+    for (const item of useCase) {
+      cy.get('[data-testid="password-input"]').clear()
+      cy.get('[data-testid="password-input"]').type(item)
+      cy.get('[data-testid="password-input"]').blur()
+      cy.contains('密码必须大于8位，且至少包含大小写字母数字及特殊字符').should(
+        'be.visible',
+      )
+    }
+  })
+
+  it.only('基本信息确认密码不合规，给予对应提示', () => {
+    cy.visit('/register')
+    cy.get('[data-testid="individual-user-button"]').click()
+    cy.get('[data-testid="next-button"]').click()
+    cy.contains('请您填写基本信息').should('be.visible')
+    // 检测必填项
+    cy.get('[data-testid="confirm-password-input"]').clear()
+    cy.get('[data-testid="confirm-password-input"]').blur()
+    cy.contains('请再次确认密码').should('be.visible')
+    // 检测格式合规
+    cy.get('[data-testid="password-input"]').type('Password@123!')
+    cy.get('[data-testid="confirm-password-input"]').type('Password@123')
+    cy.get('[data-testid="confirm-password-input"]').blur()
+    cy.contains('请保证两次输入的密码一致').should('be.visible')
   })
 })
