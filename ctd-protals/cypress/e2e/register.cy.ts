@@ -168,7 +168,7 @@ describe('User Registration Flow', () => {
     }
   })
 
-  it.only('基本信息确认密码不合规，给予对应提示', () => {
+  it('基本信息确认密码不合规，给予对应提示', () => {
     cy.visit('/register')
     cy.get('[data-testid="individual-user-button"]').click()
     cy.get('[data-testid="next-button"]').click()
@@ -182,5 +182,170 @@ describe('User Registration Flow', () => {
     cy.get('[data-testid="confirm-password-input"]').type('Password@123')
     cy.get('[data-testid="confirm-password-input"]').blur()
     cy.contains('请保证两次输入的密码一致').should('be.visible')
+  })
+
+  it('注册个人用户，个人信息姓名不合规，给予对应提示', () => {
+    cy.visit('/register')
+    cy.get('[data-testid="individual-user-button"]').click()
+    cy.get('[data-testid="next-button"]').click()
+    cy.contains('请您填写基本信息').should('be.visible')
+    cy.contains('个人信息').should('be.visible')
+    // 检测必填项
+    cy.get('[data-testid="name-input"]').clear()
+    cy.get('[data-testid="name-input"]').blur()
+    cy.contains('请输入姓名').should('be.visible')
+  })
+
+  it('注册个人用户，个人信息身份证号不合规，给予对应提示', () => {
+    cy.visit('/register')
+    cy.get('[data-testid="individual-user-button"]').click()
+    cy.get('[data-testid="next-button"]').click()
+    cy.contains('请您填写基本信息').should('be.visible')
+    cy.contains('个人信息').should('be.visible')
+    // 检测必填项
+    cy.get('[data-testid="idNumber-input"]').clear()
+    cy.get('[data-testid="idNumber-input"]').blur()
+    cy.contains('请输入身份证号').should('be.visible')
+    // 检测格式合规
+    const useCase = ['1234', '11010519990101136V']
+    for (const item of useCase) {
+      cy.get('[data-testid="idNumber-input"]').clear()
+      cy.get('[data-testid="idNumber-input"]').type(item)
+      cy.get('[data-testid="idNumber-input"]').blur()
+      cy.contains('身份证号格式不正确').should('be.visible')
+    }
+  })
+
+  it('注册个人用户，个人信息手机号不合规，给予对应提示', () => {
+    cy.visit('/register')
+    cy.get('[data-testid="individual-user-button"]').click()
+    cy.get('[data-testid="next-button"]').click()
+    cy.contains('请您填写基本信息').should('be.visible')
+    cy.contains('个人信息').should('be.visible')
+    // 检测必填项
+    cy.get('[data-testid="phone-input"]').clear()
+    cy.get('[data-testid="phone-input"]').blur()
+    cy.contains('请输入联系电话').should('be.visible')
+    // 检测格式合规
+    const useCase = ['1234', '93336666999']
+    for (const item of useCase) {
+      cy.get('[data-testid="phone-input"]').clear()
+      cy.get('[data-testid="phone-input"]').type(item)
+      cy.get('[data-testid="phone-input"]').blur()
+      cy.contains('手机号格式不正确').should('be.visible')
+    }
+  })
+
+  it('注册企业用户，企业信息企业名称不合规，给予对应提示', () => {
+    cy.visit('/register')
+    cy.get('[data-testid="corporate-user-button"]').click()
+    cy.get('[data-testid="next-button"]').click()
+    cy.contains('请您填写基本信息').should('be.visible')
+    cy.contains('企业信息').should('be.visible')
+    // 检测必填项
+    cy.get('[data-testid="companyName-input"]').clear()
+    cy.get('[data-testid="companyName-input"]').blur()
+    cy.contains('请输入企业名称').should('be.visible')
+  })
+
+  it('注册企业用户，企业信息统一社会信用代码不合规，给予对应提示', () => {
+    cy.visit('/register')
+    cy.get('[data-testid="corporate-user-button"]').click()
+    cy.get('[data-testid="next-button"]').click()
+    cy.contains('请您填写基本信息').should('be.visible')
+    cy.contains('企业信息').should('be.visible')
+    // 检测必填项
+    cy.get('[data-testid="companyCode-input"]').clear()
+    cy.get('[data-testid="companyCode-input"]').blur()
+    cy.contains('请输入统一社会信用代码').should('be.visible')
+    // 检测格式合规
+    const useCase = ['1234', '12345678912345678z']
+    for (const item of useCase) {
+      cy.get('[data-testid="companyCode-input"]').clear()
+      cy.get('[data-testid="companyCode-input"]').type(item)
+      cy.get('[data-testid="companyCode-input"]').blur()
+      cy.contains(
+        '统一社会信用代码格式不正确，必须是18位大写字母或数字',
+      ).should('be.visible')
+    }
+  })
+
+  it('注册企业用户，企业信息企业地址不合规，给予对应提示', () => {
+    cy.visit('/register')
+    cy.get('[data-testid="corporate-user-button"]').click()
+    cy.get('[data-testid="next-button"]').click()
+    cy.contains('请您填写基本信息').should('be.visible')
+    cy.contains('企业信息').should('be.visible')
+    // 检测必填项
+    cy.get('[data-testid="companyAddress-input"]').clear()
+    cy.get('[data-testid="companyAddress-input"]').blur()
+    cy.contains('请输入企业地址').should('be.visible')
+  })
+
+  it('注册企业用户，企业信息联系人名称不合规，给予对应提示', () => {
+    cy.visit('/register')
+    cy.get('[data-testid="corporate-user-button"]').click()
+    cy.get('[data-testid="next-button"]').click()
+    cy.contains('请您填写基本信息').should('be.visible')
+    cy.contains('企业信息').should('be.visible')
+    // 检测必填项
+    cy.get('[data-testid="contactName-input"]').clear()
+    cy.get('[data-testid="contactName-input"]').blur()
+    cy.contains('请输入联系人姓名').should('be.visible')
+  })
+
+  it('注册企业用户，企业信息联系人电话不合规，给予对应提示', () => {
+    cy.visit('/register')
+    cy.get('[data-testid="corporate-user-button"]').click()
+    cy.get('[data-testid="next-button"]').click()
+    cy.contains('请您填写基本信息').should('be.visible')
+    cy.contains('企业信息').should('be.visible')
+    // 检测必填项
+    cy.get('[data-testid="contactPhone-input"]').clear()
+    cy.get('[data-testid="contactPhone-input"]').blur()
+    cy.contains('请输入联系人电话').should('be.visible')
+    // 检测格式合规
+    const useCase = ['1234', '93336666999']
+    for (const item of useCase) {
+      cy.get('[data-testid="contactPhone-input"]').clear()
+      cy.get('[data-testid="contactPhone-input"]').type(item)
+      cy.get('[data-testid="contactPhone-input"]').blur()
+      cy.contains('手机号格式不正确').should('be.visible')
+    }
+  })
+
+  it.only('注册个人用户，个人信息性别选项显示正确', () => {
+    cy.visit('/register')
+    cy.get('[data-testid="individual-user-button"]').click()
+    cy.get('[data-testid="next-button"]').click()
+    cy.contains('请您填写基本信息').should('be.visible')
+    cy.contains('个人信息').should('be.visible')
+    // 检测选项
+    cy.get('[data-testid="gender-select"]').click()
+    cy.contains('男').should('be.visible')
+    cy.contains('女').should('be.visible')
+    cy.contains('其他').should('be.visible')
+  })
+
+  it.only('注册企业用户，企业信息行业类别选项显示正确', () => {
+    cy.visit('/register')
+    cy.get('[data-testid="corporate-user-button"]').click()
+    cy.get('[data-testid="next-button"]').click()
+    cy.contains('请您填写基本信息').should('be.visible')
+    cy.contains('企业信息').should('be.visible')
+    // 检测选项
+    cy.get('[data-testid="industryType-select"]').click()
+    cy.contains('其他').should('be.visible')
+  })
+
+  it.only('注册企业用户，企业信息行业类别选项显示正确', () => {
+    cy.visit('/register')
+    cy.get('[data-testid="corporate-user-button"]').click()
+    cy.get('[data-testid="next-button"]').click()
+    cy.contains('请您填写基本信息').should('be.visible')
+    cy.contains('企业信息').should('be.visible')
+    // 检测选项
+    cy.get('[data-testid="companySize-select"]').click()
+    cy.contains('微型企业（1-9人）').should('be.visible')
   })
 })
