@@ -1,6 +1,8 @@
 import type { RegistrationInfo } from '@/types/register'
 import * as javaRegister from './java/register'
 import * as nestRegister from './nest/register'
+import * as javaForgot from './java/forgot'
+import * as nestForgot from './nest/forgot'
 
 interface IRegisterAPI {
   register: (registerInfo: RegistrationInfo) => Promise<unknown>
@@ -10,15 +12,26 @@ interface IRegisterAPI {
   getRegisterAds?: () => Promise<unknown> // 目前后台不支持自定义广告
 }
 
-const javaAPI: IRegisterAPI = {
+interface IForgotAPI {
+  sendVerificationCode: (email: string) => Promise<unknown>
+  verifyCode: (email: string, code: string) => Promise<unknown>
+  resetPasswordByToken: (token: string, password: string) => Promise<unknown>
+  getForgotAds?: () => Promise<unknown> // 目前后台不支持自定义广告
+}
+
+type AccountAPIType = IRegisterAPI & IForgotAPI
+
+const javaAPI: AccountAPIType = {
   ...javaRegister,
+  ...javaForgot,
 }
 
-const nestAPI: IRegisterAPI = {
+const nestAPI: AccountAPIType = {
   ...nestRegister,
+  ...nestForgot,
 }
 
-const registerAPI: IRegisterAPI =
+const accountAPI: AccountAPIType =
   import.meta.env.VITE_BACK_TYPE === 'java' ? javaAPI : nestAPI
 
 export const {
@@ -27,4 +40,8 @@ export const {
   tokenExchangeEmail,
   reSendActivationEmail,
   getRegisterAds,
-} = registerAPI
+  sendVerificationCode,
+  verifyCode,
+  resetPasswordByToken,
+  getForgotAds,
+} = accountAPI

@@ -1,10 +1,10 @@
 import type { IRegisterAdCarouselItem } from '@/types/advertisement'
 import { useSettingsStore } from '../settings'
 import {
-  forgotSendEmail as forgotSendEmailAPI,
-  forgotVerifyCode as forgotVerifyCodeAPI,
-  forgotResetPassword as forgotResetPasswordAPI,
-} from '@/apis/account/forgot'
+  sendVerificationCode as sendVerificationCodeAPI,
+  verifyCode as verifyCodeAPI,
+  resetPasswordByToken as resetPasswordByTokenAPI,
+} from '@/apis/account'
 import { ads as mockAds } from '@/constants/mockData/account/forgot'
 import type { ICommonReturn } from '@/axios/type'
 
@@ -28,7 +28,7 @@ export const useForgot = () => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => resolve(), 1000)
       } else {
-        forgotSendEmailAPI(email)
+        sendVerificationCodeAPI(email)
           .then(() => {
             resolve()
           })
@@ -45,7 +45,7 @@ export const useForgot = () => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => resolve('mockToken'), 1000)
       } else {
-        forgotVerifyCodeAPI(email, code)
+        verifyCodeAPI(email, code)
           .then(res => {
             const resData = res as ICommonReturn<string>
             resolve(resData.data)
@@ -63,7 +63,7 @@ export const useForgot = () => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => resolve(), 1000)
       } else {
-        forgotResetPasswordAPI(code, password)
+        resetPasswordByTokenAPI(code, password)
           .then(() => {
             resolve()
           })

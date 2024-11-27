@@ -10,7 +10,11 @@
     ></verification-code-input>
 
     <div class="step-btn-container">
-      <el-button class="step-btn" type="primary" @click="handlePrevStep"
+      <el-button
+        data-testid="prev-button"
+        class="step-btn"
+        type="primary"
+        @click="handlePrevStep"
         >上一步</el-button
       >
       <el-button
@@ -60,8 +64,12 @@ const {
 
 const emit = defineEmits(['nextStep', 'prevStep'])
 const handleNextStep = async () => {
-  if (!email.value || !code.value) {
-    ElMessage.error('请输入邮箱和验证码')
+  if (!email.value) {
+    ElMessage.error('未找到邮箱')
+    return
+  }
+  if (!code.value || code.value.length !== 6) {
+    ElMessage.error('请输入完整的验证码')
     return
   }
   try {
@@ -87,7 +95,7 @@ const {
 
 const reSendEmail = async () => {
   if (!email.value) {
-    ElMessage.error('请输入邮箱')
+    ElMessage.error('未找到邮箱')
     return
   }
   try {

@@ -1,6 +1,6 @@
 import request from '@/axios'
 
-export const forgotSendEmail = (email: string): Promise<unknown> => {
+export const sendVerificationCode = (email: string): Promise<unknown> => {
   const data = { email }
   return request.post(
     {
@@ -14,10 +14,7 @@ export const forgotSendEmail = (email: string): Promise<unknown> => {
   )
 }
 
-export const forgotVerifyCode = (
-  email: string,
-  code: string,
-): Promise<unknown> => {
+export const verifyCode = (email: string, code: string): Promise<unknown> => {
   const data = { email, code }
   return request.post(
     {
@@ -31,11 +28,11 @@ export const forgotVerifyCode = (
   )
 }
 
-export const forgotResetPassword = (
-  code: string,
+export const resetPasswordByToken = (
+  token: string,
   password: string,
 ): Promise<unknown> => {
-  const data = { code, password }
+  const data = { code: token, password }
   return request.post(
     {
       url: '/register/forgotPwdReset',

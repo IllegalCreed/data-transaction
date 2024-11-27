@@ -132,12 +132,16 @@ const handleNextStep = async () => {
         ElMessage.error('系统错误，请刷新后重试')
         return
       }
-      await executeForgotResetPasswordAction(
-        0,
-        token.value,
-        baseInfo.value.password,
-      )
-      emit('nextStep')
+      try {
+        await executeForgotResetPasswordAction(
+          0,
+          token.value,
+          baseInfo.value.password,
+        )
+        emit('nextStep')
+      } catch {
+        ElMessage.error('重置失败，请稍后再试')
+      }
     } else {
       ElMessage.error('请检查填写的信息是否正确')
     }

@@ -7,7 +7,7 @@ import {
   registerIndividualUser,
 } from '../support/utils'
 
-describe('User Registration Flow', () => {
+describe('注册', () => {
   it('注册个人用户并激活成功', () => {
     const testUser: IIndividualUserData = {
       email: generateUniqueEmail('testuser'),
