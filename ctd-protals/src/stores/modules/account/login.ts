@@ -11,11 +11,11 @@ import { login as loginAPI, getCode as getCodeAPI } from '@/apis/account/login'
 
 export const useLogin = () => {
   const tokenStore = useTokenStore()
-  const settingsStore = useSettingsStore()
+  const { findMockTreeValueByKey } = useSettingsStore()
 
   const login = (login: ILogin): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('登录')) {
         tokenStore.setToken('testToken')
         resolve()
       } else {
@@ -34,7 +34,7 @@ export const useLogin = () => {
 
   const getCode = (): Promise<ILoginCode> => {
     return new Promise<ILoginCode>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('登录')) {
         resolve({
           uuid: uuidv4(),
           img: mockCode,

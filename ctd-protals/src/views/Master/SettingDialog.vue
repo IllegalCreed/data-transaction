@@ -30,17 +30,26 @@
       <el-switch v-model="isDarkMode" @change="toggleDarkMode"></el-switch>
     </div>
 
+    <!-- 水印开关 -->
+    <div class="setting-item">
+      <span>测试水印(debug)</span>
+      <el-switch v-model="isWatermark" @change="toggleWatermark"></el-switch>
+    </div>
+
     <!-- 模拟数据开关 -->
     <div class="setting-item">
       <span>模拟数据</span>
       <el-switch v-model="isMock" @change="toggleMock"></el-switch>
     </div>
 
-    <!-- 水印开关 -->
-    <div class="setting-item">
-      <span>测试水印(debug)</span>
-      <el-switch v-model="isWatermark" @change="toggleWatermark"></el-switch>
-    </div>
+    <el-tree :data="mockTree" :props="{ label: 'key', children: 'children' }">
+      <template #default="{ node, data }">
+        <div flex flex-row justify-between items-center w-full>
+          <span>{{ node.label }}</span>
+          <el-switch v-model="data.value" />
+        </div>
+      </template>
+    </el-tree>
   </el-dialog>
 </template>
 
@@ -57,6 +66,7 @@ const {
   mockEnabled,
   setMock,
 } = useSettingsStore()
+const { mockTree } = storeToRefs(useSettingsStore())
 
 const model = defineModel<boolean>({ required: true })
 

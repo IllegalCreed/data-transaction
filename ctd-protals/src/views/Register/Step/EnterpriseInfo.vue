@@ -140,7 +140,7 @@ const companySizeOptions = Object.values(CompanySizeType).map(value => ({
 }))
 
 // 表单实例引用
-const enterpriseForm = ref<FormInstance | null>(null)
+const enterpriseForm = useTemplateRef<FormInstance>('enterpriseForm')
 
 // 表单验证规则
 const rules = ref<FormRules>({

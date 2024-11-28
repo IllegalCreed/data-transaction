@@ -19,7 +19,7 @@ import {
 import type { ICommonReturn } from '@/axios/type'
 
 export const useRegister = () => {
-  const settingsStore = useSettingsStore()
+  const { findMockTreeValueByKey } = useSettingsStore()
 
   const userType = ref<UserType>()
 
@@ -72,7 +72,7 @@ export const useRegister = () => {
 
   const register = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('注册')) {
         console.log(registerInfo.value)
         window.setTimeout(() => resolve(), 1000)
       } else {
@@ -91,7 +91,7 @@ export const useRegister = () => {
 
   const activateAccount = (token: string): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('注册')) {
         window.setTimeout(() => resolve(), 1000)
       } else {
         activateAccountAPI(token)
@@ -108,7 +108,7 @@ export const useRegister = () => {
 
   const tokenExchangeEmail = (token: string): Promise<string> => {
     return new Promise<string>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('注册')) {
         window.setTimeout(() => resolve('test@test.com'), 1000)
       } else {
         if (tokenExchangeEmailAPI) {
@@ -130,7 +130,7 @@ export const useRegister = () => {
 
   const reSendActivationEmail = (email: string): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('注册')) {
         window.setTimeout(() => resolve(), 1000)
       } else {
         reSendActivationEmailAPI(email)

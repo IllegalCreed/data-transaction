@@ -3,10 +3,11 @@ import { generateUniqueEmail } from '../support/utils'
 import { registerIndividualUser } from '../support/utils'
 import { activateUser } from '../support/utils'
 
-describe('Login Flow', () => {
+describe('登录', () => {
   let testUser: IIndividualUserData
 
   before(() => {
+    if (testUser) return
     // 注册并激活用户账号
     testUser = {
       email: generateUniqueEmail('testuser'),
@@ -22,38 +23,18 @@ describe('Login Flow', () => {
     activateUser(testUser.email)
   })
 
-  it('should successfully login with valid credentials', () => {
-    // 访问登录页面
-    cy.visit('/login')
-
-    // 输入邮箱和密码
-    cy.get('[data-testid="email-input"]').type(testUser.email)
-    cy.get('[data-testid="password-input"]').type(testUser.password)
-
-    // 点击登录按钮
-    cy.get('[data-testid="login-button"]').click()
-
-    // 验证登录成功后页面包含指定的元素
-    cy.get('.home-root-container').should('be.visible')
+  it('登录成功', () => {
+    cy.login(testUser.email)
   })
 
-  it('should store token in localStorage when "Remember Me" is checked', () => {
-    // 访问登录页面
+  it('记住密码，登录成功', () => {
     cy.visit('/login')
-
-    // 输入邮箱和密码
     cy.get('[data-testid="email-input"]').type(testUser.email)
     cy.get('[data-testid="password-input"]').type(testUser.password)
-
-    // 勾选“记住登录状态”复选框
     cy.get('[data-testid="remember-me-checkbox"] .el-checkbox__original').check(
       { force: true },
     )
-
-    // 点击登录按钮
     cy.get('[data-testid="login-button"]').click()
-
-    // 验证登录成功
     cy.get('.home-root-container').should('be.visible')
 
     // 检查 localStorage 中是否存在令牌
@@ -69,23 +50,14 @@ describe('Login Flow', () => {
     })
   })
 
-  it('should store token in sessionStorage when "Remember Me" is not checked', () => {
-    // 访问登录页面
+  it('不记住密码，登录成功', () => {
     cy.visit('/login')
-
-    // 输入邮箱和密码
     cy.get('[data-testid="email-input"]').type(testUser.email)
     cy.get('[data-testid="password-input"]').type(testUser.password)
-
-    // 确保未勾选“记住登录状态”复选框
     cy.get(
       '[data-testid="remember-me-checkbox"] .el-checkbox__original',
     ).uncheck({ force: true })
-
-    // 点击登录按钮
     cy.get('[data-testid="login-button"]').click()
-
-    // 验证登录成功
     cy.get('.home-root-container').should('be.visible')
 
     // 检查 sessionStorage 中是否存在令牌

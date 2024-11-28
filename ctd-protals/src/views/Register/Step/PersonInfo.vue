@@ -91,7 +91,7 @@ const accountStore = useAccountStore()
 const personalInfo = accountStore.personalInfo
 
 // 表单实例引用
-const personForm = ref<FormInstance | null>(null)
+const personForm = useTemplateRef<FormInstance>('personForm')
 
 // 表单验证规则
 const rules = ref<FormRules>({

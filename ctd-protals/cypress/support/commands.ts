@@ -6,6 +6,7 @@ declare global {
     interface Chainable {
       getActivationToken(baseUrl: string, email: string): Chainable<void>
       getVerificationCode(baseUrl: string, email: string): Chainable<void>
+      login(email: string): Chainable<void>
     }
   }
 }
@@ -42,5 +43,32 @@ Cypress.Commands.add(
     )
   },
 )
+
+/**
+ * 登录
+ * @param email 用户名
+ */
+Cypress.Commands.add('login', email => {
+  cy.session(
+    [email],
+    () => {
+      cy.visit('/login')
+      cy.get('[data-testid="email-input"]').type(email)
+      cy.get('[data-testid="password-input"]').type('Password@123!')
+      cy.get('[data-testid="login-button"]').click()
+      cy.get('.home-root-container').should('be.visible')
+    },
+    {
+      validate() {
+        cy.window().then(window => {
+          const token =
+            window.localStorage.getItem('token') ||
+            window.sessionStorage.getItem('token')
+          expect(token).to.not.equal(null)
+        })
+      },
+    },
+  )
+})
 
 export {}

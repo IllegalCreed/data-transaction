@@ -9,7 +9,7 @@ import { ads as mockAds } from '@/constants/mockData/account/forgot'
 import type { ICommonReturn } from '@/axios/type'
 
 export const useForgot = () => {
-  const settingsStore = useSettingsStore()
+  const { findMockTreeValueByKey } = useSettingsStore()
 
   const email = ref<string>()
 
@@ -25,7 +25,7 @@ export const useForgot = () => {
 
   const sendEmail = (email: string): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('忘记密码')) {
         window.setTimeout(() => resolve(), 1000)
       } else {
         sendVerificationCodeAPI(email)
@@ -42,7 +42,7 @@ export const useForgot = () => {
 
   const verifyCode = (email: string, code: string): Promise<string> => {
     return new Promise<string>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('忘记密码')) {
         window.setTimeout(() => resolve('mockToken'), 1000)
       } else {
         verifyCodeAPI(email, code)
@@ -60,7 +60,7 @@ export const useForgot = () => {
 
   const resetPassword = (code: string, password: string): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('忘记密码')) {
         window.setTimeout(() => resolve(), 1000)
       } else {
         resetPasswordByTokenAPI(code, password)

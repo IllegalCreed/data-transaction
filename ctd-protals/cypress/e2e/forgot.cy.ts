@@ -6,11 +6,12 @@ import {
 } from '../support/utils'
 
 describe('忘记密码', () => {
-  let registeredUser: IIndividualUserData
+  let testUser: IIndividualUserData
 
   before(() => {
+    if (testUser) return
     // 注册并激活账号
-    registeredUser = {
+    testUser = {
       email: generateUniqueEmail('testuser'),
       password: 'Password@123!',
       name: 'test user',
@@ -21,8 +22,8 @@ describe('忘记密码', () => {
       address: 'test address',
     }
 
-    registerIndividualUser(registeredUser)
-    activateUser(registeredUser.email)
+    registerIndividualUser(testUser)
+    activateUser(testUser.email)
   })
 
   it('重置密码成功', () => {
@@ -30,11 +31,11 @@ describe('忘记密码', () => {
 
     // 输入邮箱地址
     cy.contains('忘记密码').should('be.visible')
-    cy.get('[data-testid="email-input"]').type(registeredUser.email)
+    cy.get('[data-testid="email-input"]').type(testUser.email)
     cy.get('[data-testid="next-button"]').click()
 
     cy.contains('验证邮箱').should('be.visible')
-    getVerificationCodeAndResetPwd(registeredUser.email)
+    getVerificationCodeAndResetPwd(testUser.email)
   })
 
   it('重新发送验证码邮件，重置密码成功', () => {
@@ -42,13 +43,13 @@ describe('忘记密码', () => {
 
     // 输入邮箱地址
     cy.contains('忘记密码').should('be.visible')
-    cy.get('[data-testid="email-input"]').type(registeredUser.email)
+    cy.get('[data-testid="email-input"]').type(testUser.email)
     cy.get('[data-testid="next-button"]').click()
 
     cy.contains('验证邮箱').should('be.visible')
     cy.get('[data-testid="resend-email-button"]').click()
     cy.contains('邮件发送成功').should('be.visible')
-    getVerificationCodeAndResetPwd(registeredUser.email)
+    getVerificationCodeAndResetPwd(testUser.email)
   })
 
   it('在验证码输入页面，点击上一步，回到邮箱填写页面，重新完成重置密码流程', () => {
@@ -56,7 +57,7 @@ describe('忘记密码', () => {
 
     // 输入邮箱地址
     cy.contains('忘记密码').should('be.visible')
-    cy.get('[data-testid="email-input"]').type(registeredUser.email)
+    cy.get('[data-testid="email-input"]').type(testUser.email)
     cy.get('[data-testid="next-button"]').click()
     cy.contains('验证邮箱').should('be.visible')
 
@@ -64,11 +65,11 @@ describe('忘记密码', () => {
 
     cy.contains('忘记密码').should('be.visible')
     cy.get('[data-testid="email-input"]').clear()
-    cy.get('[data-testid="email-input"]').type(registeredUser.email)
+    cy.get('[data-testid="email-input"]').type(testUser.email)
     cy.get('[data-testid="next-button"]').click()
     cy.contains('验证邮箱').should('be.visible')
 
-    getVerificationCodeAndResetPwd(registeredUser.email)
+    getVerificationCodeAndResetPwd(testUser.email)
   })
 
   it('填写邮件地址不合规，给予对应提示', () => {
@@ -128,7 +129,7 @@ describe('忘记密码', () => {
 
     // 输入邮箱地址
     cy.contains('忘记密码').should('be.visible')
-    cy.get('[data-testid="email-input"]').type(registeredUser.email)
+    cy.get('[data-testid="email-input"]').type(testUser.email)
     cy.get('[data-testid="next-button"]').click()
 
     cy.contains('验证邮箱').should('be.visible')
@@ -144,11 +145,11 @@ describe('忘记密码', () => {
 
     // 输入邮箱地址
     cy.contains('忘记密码').should('be.visible')
-    cy.get('[data-testid="email-input"]').type(registeredUser.email)
+    cy.get('[data-testid="email-input"]').type(testUser.email)
     cy.get('[data-testid="next-button"]').click()
 
     cy.contains('验证邮箱').should('be.visible')
-    cy.getVerificationCode(Cypress.env('serverUrl'), registeredUser.email)
+    cy.getVerificationCode(Cypress.env('serverUrl'), testUser.email)
     cy.get<string>('@verificationCode').then(verificationCode => {
       enterVerificationCode(verificationCode)
       cy.intercept(
@@ -170,11 +171,11 @@ describe('忘记密码', () => {
 
     // 输入邮箱地址
     cy.contains('忘记密码').should('be.visible')
-    cy.get('[data-testid="email-input"]').type(registeredUser.email)
+    cy.get('[data-testid="email-input"]').type(testUser.email)
     cy.get('[data-testid="next-button"]').click()
 
     cy.contains('验证邮箱').should('be.visible')
-    cy.getVerificationCode(Cypress.env('serverUrl'), registeredUser.email)
+    cy.getVerificationCode(Cypress.env('serverUrl'), testUser.email)
     cy.get<string>('@verificationCode').then(verificationCode => {
       enterVerificationCode(verificationCode)
       cy.get('[data-testid="next-button"]').click()
@@ -201,11 +202,11 @@ describe('忘记密码', () => {
 
     // 输入邮箱地址
     cy.contains('忘记密码').should('be.visible')
-    cy.get('[data-testid="email-input"]').type(registeredUser.email)
+    cy.get('[data-testid="email-input"]').type(testUser.email)
     cy.get('[data-testid="next-button"]').click()
 
     cy.contains('验证邮箱').should('be.visible')
-    cy.getVerificationCode(Cypress.env('serverUrl'), registeredUser.email)
+    cy.getVerificationCode(Cypress.env('serverUrl'), testUser.email)
     cy.get<string>('@verificationCode').then(verificationCode => {
       enterVerificationCode(verificationCode)
       cy.get('[data-testid="next-button"]').click()
@@ -227,11 +228,11 @@ describe('忘记密码', () => {
 
     // 输入邮箱地址
     cy.contains('忘记密码').should('be.visible')
-    cy.get('[data-testid="email-input"]').type(registeredUser.email)
+    cy.get('[data-testid="email-input"]').type(testUser.email)
     cy.get('[data-testid="next-button"]').click()
 
     cy.contains('验证邮箱').should('be.visible')
-    cy.getVerificationCode(Cypress.env('serverUrl'), registeredUser.email)
+    cy.getVerificationCode(Cypress.env('serverUrl'), testUser.email)
     cy.get<string>('@verificationCode').then(verificationCode => {
       enterVerificationCode(verificationCode)
       cy.get('[data-testid="next-button"]').click()
