@@ -72,4 +72,63 @@ describe('登录', () => {
       expect(token).to.equal(null)
     })
   })
+
+  it.only('登录表单，邮箱不合规，给予对应提示', () => {
+    cy.visit('/login')
+    // 检测必填项
+    cy.get('[data-testid="email-input"]').clear()
+    cy.get('[data-testid="email-input"]').blur()
+    cy.contains('请输入邮箱地址').should('be.visible')
+    // 检测格式合规
+    const useCase = ['123', '123@', '@123']
+    for (const item of useCase) {
+      cy.get('[data-testid="email-input"]').clear()
+      cy.get('[data-testid="email-input"]').type(item)
+      cy.get('[data-testid="email-input"]').blur()
+      cy.contains('请输入正确的邮箱地址').should('be.visible')
+    }
+  })
+
+  it.only('登录表单，密码不合规，给予对应提示', () => {
+    cy.visit('/login')
+    // 检测必填项
+    cy.get('[data-testid="password-input"]').clear()
+    cy.get('[data-testid="password-input"]').blur()
+    cy.contains('请输入密码').should('be.visible')
+  })
+
+  it.only('未注册账户登录，给予对应提示', () => {
+    cy.visit('/login')
+    cy.get('[data-testid="email-input"]').type(generateUniqueEmail('testuser'))
+    cy.get('[data-testid="password-input"]').type(testUser.password)
+    cy.get('[data-testid="login-button"]').click()
+    cy.contains('用户不存在/密码错误').should('be.visible')
+  })
+
+  it.only('已注册未激活账户登录，给予对应提示', () => {
+    const tempUser: IIndividualUserData = {
+      email: generateUniqueEmail('testuser'),
+      password: 'Password@123!',
+      name: 'Test User',
+      idNumber: '110101199001010000',
+      phone: '18888888888',
+      gender: 'male',
+      birthday: '15',
+      address: 'Test Address',
+    }
+    registerIndividualUser(tempUser)
+    cy.visit('/login')
+    cy.get('[data-testid="email-input"]').type(tempUser.email)
+    cy.get('[data-testid="password-input"]').type(testUser.password)
+    cy.get('[data-testid="login-button"]').click()
+    cy.contains('用户未激活').should('be.visible')
+  })
+
+  it.only('已注册已激活账户登录，密码错误，给予对应提示', () => {
+    cy.visit('/login')
+    cy.get('[data-testid="email-input"]').type(testUser.email)
+    cy.get('[data-testid="password-input"]').type('12345678')
+    cy.get('[data-testid="login-button"]').click()
+    cy.contains('用户不存在/密码错误').should('be.visible')
+  })
 })
