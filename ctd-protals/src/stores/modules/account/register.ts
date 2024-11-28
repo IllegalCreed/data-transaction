@@ -17,6 +17,7 @@ import {
   type RegistrationInfo,
 } from '@/types/register'
 import type { ICommonReturn } from '@/axios/type'
+import { omit } from 'lodash-es'
 
 export const useRegister = () => {
   const { findMockTreeValueByKey } = useSettingsStore()
@@ -27,7 +28,7 @@ export const useRegister = () => {
     userType.value = value
   }
 
-  const personalInfo = reactive<IIndividualUserInfo>({
+  const individualInfo = reactive<IIndividualUserInfo>({
     fullName: '',
     identificationNumber: '',
     phoneNumber: '',
@@ -57,15 +58,15 @@ export const useRegister = () => {
   const registerInfo = computed((): RegistrationInfo => {
     if (userType.value === UserType.Enterprise) {
       return {
-        ...baseInfo,
-        ...enterpriseInfo,
+        ...omit(baseInfo, ['confirmPassword']),
         userType: UserType.Enterprise,
+        enterpriseInfo: { ...enterpriseInfo },
       }
     } else {
       return {
-        ...baseInfo,
-        ...personalInfo,
+        ...omit(baseInfo, ['confirmPassword']),
         userType: UserType.Individual,
+        individualInfo: { ...individualInfo },
       }
     }
   })
@@ -159,7 +160,7 @@ export const useRegister = () => {
     getAds,
     userType,
     setUserType,
-    personalInfo,
+    personalInfo: individualInfo,
     enterpriseInfo,
     baseInfo,
   }

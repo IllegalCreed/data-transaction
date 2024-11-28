@@ -8,7 +8,7 @@ import {
 } from '../support/utils'
 
 describe('注册', () => {
-  it('注册个人用户并激活成功', () => {
+  it.only('注册个人用户并激活成功', () => {
     const testUser: IIndividualUserData = {
       email: generateUniqueEmail('testuser'),
       password: 'Password@123!',

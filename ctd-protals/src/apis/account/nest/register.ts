@@ -2,7 +2,7 @@ import request from '@/axios'
 import type { RegistrationInfo } from '@/types/register'
 
 export const register = (registerInfo: RegistrationInfo): Promise<unknown> => {
-  const data = { registerInfo }
+  const data = { ...registerInfo }
   return request.post(
     {
       url: '/register',
@@ -13,12 +13,12 @@ export const register = (registerInfo: RegistrationInfo): Promise<unknown> => {
 }
 
 export const activateAccount = (token: string): Promise<unknown> => {
-  const params = { token }
+  const data = { activationToken: token }
 
   return request.post(
     {
       url: '/register/activate',
-      params,
+      data,
     },
     false,
   )

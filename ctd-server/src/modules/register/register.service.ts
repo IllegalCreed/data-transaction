@@ -89,6 +89,7 @@ export class RegisterService {
 
         await manager.save(user);
 
+        // 使用事务来保存激活记录
         await this.createAndSendActivation(user, async (activation) => {
           await manager.save(activation);
         });
@@ -186,6 +187,7 @@ export class RegisterService {
     }
 
     try {
+      // 直接使用激活实体操作，不使用事务
       await this.createAndSendActivation(user, async (activation) => {
         await this.activationRepository.save(activation);
       });
@@ -202,6 +204,28 @@ export class RegisterService {
 
       return createErrorResponse(ErrorCode.RESEND_ACTIVATION_EMAIL_FAILED);
     }
+  }
+
+  async getActivationTokenForTesting(
+    email: string,
+  ): Promise<ApiResponse<string>> {
+    // 查找最新的未使用的激活记录
+    const activation = await this.activationRepository.findOne({
+      where: {
+        user: { email },
+        isActivated: false,
+      },
+      order: {
+        createdAt: 'DESC',
+      },
+      relations: ['user'],
+    });
+
+    if (!activation) {
+      return createErrorResponse(ErrorCode.ACTIVATION_TOKEN_NOT_FOUND);
+    }
+
+    return createSuccessResponse(activation.activationToken);
   }
 
   private async createAndSendActivation(

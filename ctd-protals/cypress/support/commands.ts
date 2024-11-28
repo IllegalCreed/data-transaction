@@ -17,13 +17,24 @@ declare global {
  * @param email 用户邮箱
  */
 Cypress.Commands.add('getActivationToken', (baseUrl: string, email: string) => {
-  cy.request('GET', `${baseUrl}/register/test/getToken?email=${email}`).then(
-    response => {
+  if (Cypress.env('serverType') === 'java') {
+    cy.request('GET', `${baseUrl}/register/test/getToken?email=${email}`).then(
+      response => {
+        expect(response.status).to.eq(200)
+        const token = response.body
+        cy.wrap(token).as('activationToken')
+      },
+    )
+  } else {
+    cy.request(
+      'GET',
+      `${baseUrl}/register/test/get-activation-token?email=${email}`,
+    ).then(response => {
       expect(response.status).to.eq(200)
-      const token = response.body
+      const token = response.body.data
       cy.wrap(token).as('activationToken')
-    },
-  )
+    })
+  }
 })
 
 /**
