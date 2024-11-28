@@ -39,6 +39,7 @@
 </template>
 
 <script setup lang="ts">
+import type { ICommonReturn } from '@/axios/type'
 import { useAccountStore } from '@/stores/modules/account'
 
 const accountStore = useAccountStore()
@@ -64,9 +65,13 @@ const verifyActivation = async (token: string) => {
   try {
     await activateAccountAction(token)
     isActivationSuccess.value = true
-  } catch {
+  } catch (error: unknown) {
     isActivationSuccess.value = false
-    await executeTokenExchangeEmailAction(0, token)
+    if (import.meta.env.VITE_BACK_TYPE === 'java') {
+      await executeTokenExchangeEmailAction(0, token)
+    } else {
+      email.value = (error as ICommonReturn<string>).msg
+    }
   } finally {
     isLoading.value = false
   }

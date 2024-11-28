@@ -8,7 +8,7 @@ import {
 } from '../support/utils'
 
 describe('注册', () => {
-  it.only('注册个人用户并激活成功', () => {
+  it('注册个人用户并激活成功', () => {
     const testUser: IIndividualUserData = {
       email: generateUniqueEmail('testuser'),
       password: 'Password@123!',
@@ -43,7 +43,7 @@ describe('注册', () => {
     activateUser(testUser.email)
   })
 
-  it('注册任意用户，并在激活失败后重新发送激活邮件', () => {
+  it.only('注册任意用户，并在激活失败后重新发送激活邮件', () => {
     const testUser: IIndividualUserData = {
       email: generateUniqueEmail('testuser'),
       password: 'Password@123!',
@@ -60,10 +60,21 @@ describe('注册', () => {
     cy.getActivationToken(Cypress.env('serverUrl'), testUser.email)
 
     cy.get('@activationToken').then(token => {
-      cy.intercept('GET', /\/(?:dev-api\/)?register\/activation/, {
-        statusCode: 200,
-        body: { code: 500, msg: '您的token不合法或已过期' },
-      }).as('activationRequest')
+      if (Cypress.env('serverType') === 'java') {
+        cy.intercept('GET', /\/(?:dev-api\/)?register\/activation/, {
+          statusCode: 200,
+          body: { code: 500, msg: '您的token不合法或已过期' },
+        }).as('activationRequest')
+      } else {
+        cy.intercept('POST', /\/(?:dev-api\/)?register\/activate/, {
+          statusCode: 200,
+          body: {
+            code: 1003,
+            msg: '您的token不合法或已过期',
+            data: testUser.email,
+          },
+        }).as('activationRequest')
+      }
 
       cy.visit(`/register?token=${token}`)
 

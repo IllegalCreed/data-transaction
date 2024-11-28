@@ -77,7 +77,7 @@ axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => {
     const url = response.config.url || ''
     abortControllerMap.delete(url)
-    const code = response.data.code || 200
+    const code = response.data.code ?? 200
 
     // 二进制数据则直接返回
     if (
@@ -87,16 +87,25 @@ axiosInstance.interceptors.response.use(
       return response.data
     }
 
-    if (code === 401) {
-      // const tokenStore = useTokenStore()
-      // tokenStore.clearToken()
-      return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
-    } else if (!/^2\d{2}$/.test(code)) {
-      // 如果不是2开头的三位数
-      ElMessage.error(response.data.msg)
-      return Promise.reject(new Error(response.data.msg))
+    if (import.meta.env.VITE_BACK_TYPE === 'java') {
+      if (code === 401) {
+        const tokenStore = useTokenStore()
+        tokenStore.clearToken()
+        return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
+      } else if (!/^2\d{2}$/.test(code)) {
+        // 如果不是2开头的三位数
+        ElMessage.error(response.data.msg)
+        return Promise.reject(new Error(response.data.msg))
+      } else {
+        return Promise.resolve(response.data)
+      }
     } else {
-      return Promise.resolve(response.data)
+      if (code === 0) {
+        return Promise.resolve(response.data)
+      } else {
+        ElMessage.error(response.data.msg)
+        return Promise.reject(response.data)
+      }
     }
   },
   (error: Error) => {
