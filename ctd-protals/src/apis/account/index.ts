@@ -1,8 +1,11 @@
 import type { RegistrationInfo } from '@/types/register'
+import type { ILogin } from '@/types/login'
 import * as javaRegister from './java/register'
 import * as nestRegister from './nest/register'
 import * as javaForgot from './java/forgot'
 import * as nestForgot from './nest/forgot'
+import * as javaLogin from './java/login'
+import * as nestLogin from './nest/login'
 
 interface IRegisterAPI {
   register: (registerInfo: RegistrationInfo) => Promise<unknown>
@@ -19,16 +22,24 @@ interface IForgotAPI {
   getForgotAds?: () => Promise<unknown> // 目前后台不支持自定义广告
 }
 
-type AccountAPIType = IRegisterAPI & IForgotAPI
+interface ILoginAPI {
+  login: (login: ILogin) => Promise<unknown>
+  getCode: () => Promise<unknown>
+  getLoginAds?: () => Promise<unknown> // 目前后台不支持自定义广告
+}
+
+type AccountAPIType = IRegisterAPI & IForgotAPI & ILoginAPI
 
 const javaAPI: AccountAPIType = {
   ...javaRegister,
   ...javaForgot,
+  ...javaLogin,
 }
 
 const nestAPI: AccountAPIType = {
   ...nestRegister,
   ...nestForgot,
+  ...nestLogin,
 }
 
 const accountAPI: AccountAPIType =
@@ -44,4 +55,7 @@ export const {
   verifyCode,
   resetPasswordByToken,
   getForgotAds,
+  login,
+  getCode,
+  getLoginAds,
 } = accountAPI

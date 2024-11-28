@@ -19,7 +19,7 @@ export const getCode = (): Promise<unknown> => {
   return request.get({ url: '/captchaImage' })
 }
 
-export const getAd = (): Promise<unknown> => {
+export const getLoginAds = (): Promise<unknown> => {
   const params = {}
   return request.get(
     {
