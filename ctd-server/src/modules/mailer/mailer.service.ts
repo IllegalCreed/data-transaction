@@ -64,9 +64,9 @@ export class MailerService {
 
     try {
       await this.transporter.sendMail(mailOptions);
-      console.log(`发送邮件成功: ${to}`);
+      this.logger.log(`发送邮件成功: ${to}`);
     } catch (error) {
-      console.error('发送邮件失败：', error);
+      this.logger.error('发送邮件失败：', error);
       throw new ExpectedError(ErrorCode.SEND_EMAIL_FAILED);
     }
   }
