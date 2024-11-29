@@ -1,11 +1,26 @@
 import type { RegistrationInfo } from '@/types/register'
 import type { ILogin } from '@/types/login'
+import * as javaMail from './java/mail'
+import * as nestMail from './nest/mail'
 import * as javaRegister from './java/register'
 import * as nestRegister from './nest/register'
 import * as javaForgot from './java/forgot'
 import * as nestForgot from './nest/forgot'
 import * as javaLogin from './java/login'
 import * as nestLogin from './nest/login'
+import type { VerificationCodes } from '@/constants/mapData/mail'
+
+interface IMailAPI {
+  sendVerificationCode: (
+    email: string,
+    type: VerificationCodes,
+  ) => Promise<unknown>
+  verifyCode: (
+    email: string,
+    code: string,
+    type: VerificationCodes,
+  ) => Promise<unknown>
+}
 
 interface IRegisterAPI {
   register: (registerInfo: RegistrationInfo) => Promise<unknown>
@@ -16,8 +31,6 @@ interface IRegisterAPI {
 }
 
 interface IForgotAPI {
-  sendVerificationCode: (email: string) => Promise<unknown>
-  verifyCode: (email: string, code: string) => Promise<unknown>
   resetPasswordByToken: (token: string, password: string) => Promise<unknown>
   getForgotAds?: () => Promise<unknown> // 目前后台不支持自定义广告
 }
@@ -28,15 +41,17 @@ interface ILoginAPI {
   getLoginAds?: () => Promise<unknown> // 目前后台不支持自定义广告
 }
 
-type AccountAPIType = IRegisterAPI & IForgotAPI & ILoginAPI
+type AccountAPIType = IMailAPI & IRegisterAPI & IForgotAPI & ILoginAPI
 
 const javaAPI: AccountAPIType = {
+  ...javaMail,
   ...javaRegister,
   ...javaForgot,
   ...javaLogin,
 }
 
 const nestAPI: AccountAPIType = {
+  ...nestMail,
   ...nestRegister,
   ...nestForgot,
   ...nestLogin,

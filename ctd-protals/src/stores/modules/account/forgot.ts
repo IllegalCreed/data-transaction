@@ -7,6 +7,7 @@ import {
 } from '@/apis/account'
 import { ads as mockAds } from '@/constants/mockData/account/forgot'
 import type { ICommonReturn } from '@/axios/type'
+import { VerificationCodes } from '@/constants/mapData/mail'
 
 export const useForgot = () => {
   const { findMockTreeValueByKey } = useSettingsStore()
@@ -28,7 +29,7 @@ export const useForgot = () => {
       if (findMockTreeValueByKey('忘记密码')) {
         window.setTimeout(() => resolve(), 1000)
       } else {
-        sendVerificationCodeAPI(email)
+        sendVerificationCodeAPI(email, VerificationCodes.ForgotPWD)
           .then(() => {
             resolve()
           })
@@ -45,7 +46,7 @@ export const useForgot = () => {
       if (findMockTreeValueByKey('忘记密码')) {
         window.setTimeout(() => resolve('mockToken'), 1000)
       } else {
-        verifyCodeAPI(email, code)
+        verifyCodeAPI(email, code, VerificationCodes.ForgotPWD)
           .then(res => {
             const resData = res as ICommonReturn<string>
             resolve(resData.data)

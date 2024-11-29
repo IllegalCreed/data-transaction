@@ -1,33 +1,5 @@
 import request from '@/axios'
 
-export const sendVerificationCode = (email: string): Promise<unknown> => {
-  const data = { email }
-  return request.post(
-    {
-      url: '/register/forgotPwdSendEmail',
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-      data,
-    },
-    true,
-  )
-}
-
-export const verifyCode = (email: string, code: string): Promise<unknown> => {
-  const data = { email, code }
-  return request.post(
-    {
-      url: '/register/forgotPwdVerifyEmailCode',
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-      data,
-    },
-    true,
-  )
-}
-
 export const resetPasswordByToken = (
   token: string,
   password: string,
