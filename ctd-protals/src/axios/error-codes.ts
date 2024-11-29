@@ -23,7 +23,8 @@ export const ErrorCodeMessages: { [key: number]: string } = {
   [ErrorCode.EMAIL_TAKEN]: '邮箱地址已经存在',
   [ErrorCode.REGISTRATION_FAILED]: '注册失败',
   [ErrorCode.INVALID_ACTIVATION_TOKEN]: '激活凭据无效或已过期',
-  [ErrorCode.ACTIVATE_ACCOUNT_FAILED]: '激活失败',
+  [ErrorCode.ACTIVATE_ACCOUNT_FAILED]:
+    '服务端数据异常，请返回注册页手动填写邮件地址后再重新发送激活邮件',
   [ErrorCode.ACCOUNT_ALREADY_ACTIVATED]: '账号已存在并激活，请返回登录页面登录',
   [ErrorCode.RESEND_ACTIVATION_EMAIL_FAILED]: '发送激活邮件失败',
   [ErrorCode.ACCOUNT_PENDING_ACTIVATION]:

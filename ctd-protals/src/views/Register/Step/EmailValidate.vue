@@ -39,6 +39,7 @@
 </template>
 
 <script setup lang="ts">
+import { ErrorCode } from '@/axios/error-codes'
 import type { ICommonReturn } from '@/axios/type'
 import { useAccountStore } from '@/stores/modules/account'
 
@@ -68,9 +69,26 @@ const verifyActivation = async (token: string) => {
   } catch (error: unknown) {
     isActivationSuccess.value = false
     if (import.meta.env.VITE_BACK_TYPE === 'java') {
-      await executeTokenExchangeEmailAction(0, token)
+      try {
+        await executeTokenExchangeEmailAction(0, token)
+      } catch (error2: unknown) {
+        if (error2 instanceof Error) {
+          ElMessage.error(
+            '获取邮件地址失败，请返回注册页手动填写邮件地址后再重新发送激活邮件',
+          )
+        }
+      }
     } else {
-      email.value = (error as ICommonReturn<string>).data
+      const res = error as ICommonReturn<string>
+      if (res.code !== ErrorCode.ACTIVATE_ACCOUNT_FAILED) {
+        const resendEmail = res.data
+        if (resendEmail) {
+          email.value = resendEmail
+        } else {
+          // 如果错误码不是ACTIVATE_ACCOUNT_FAILED，理论上返回值必然有email，除非服务端出bug了
+          ElMessage.error('系统错误，请联系管理员')
+        }
+      }
     }
   } finally {
     isLoading.value = false

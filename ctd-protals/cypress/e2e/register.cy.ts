@@ -144,6 +144,63 @@ describe('注册', () => {
     }
   })
 
+  it.only('注册任意用户，并在激活失败后获取邮件地址依然失败，给予对应提示', () => {
+    const testUser: IIndividualUserData = {
+      email: generateUniqueEmail('testuser'),
+      password: 'Password@123!',
+      name: 'test user',
+      idNumber: '110101199001010000',
+      phone: '18888888888',
+      gender: 'male',
+      birthday: '15',
+      address: 'test address',
+    }
+
+    registerIndividualUser(testUser)
+
+    cy.getActivationToken(Cypress.env('serverUrl'), testUser.email)
+
+    cy.get('@activationToken').then(token => {
+      if (Cypress.env('serverType') === 'java') {
+        cy.intercept('GET', /\/(?:dev-api\/)?register\/activation/, {
+          statusCode: 200,
+          body: { code: 500, msg: '您的token不合法或已过期' },
+        }).as('activationRequest')
+        cy.intercept('GET', /\/(?:dev-api\/)?register\/getEmail/, {
+          statusCode: 200,
+          body: { code: 500, msg: '未知错误' },
+        }).as('geEmailRequest')
+      } else {
+        cy.intercept('POST', /\/(?:dev-api\/)?register\/activate/, {
+          statusCode: 200,
+          body: {
+            code: 1004,
+            msg: '数据异常',
+            data: testUser.email,
+          },
+        }).as('activationRequest')
+      }
+
+      cy.visit(`/register?token=${token}`)
+
+      cy.wait('@activationRequest')
+      if (Cypress.env('serverType') === 'java') {
+        cy.wait('@geEmailRequest')
+      }
+
+      cy.contains('激活失败').should('be.visible')
+      if (Cypress.env('serverType') === 'java') {
+        cy.contains('获取邮件地址失败').should('be.visible')
+      } else {
+        cy.contains('服务端数据异常').should('be.visible')
+      }
+
+      cy.get('[data-testid="resend-activation-button"]').click()
+
+      cy.contains('无法获取邮件地址').should('be.visible')
+    })
+  })
+
   it('不选择用户类型点击下一步，给予对应提示', () => {
     cy.visit('/register')
     cy.get('[data-testid="next-button"]').click()
