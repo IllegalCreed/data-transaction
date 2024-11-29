@@ -1,4 +1,13 @@
-import { Controller, Post, Body, HttpCode, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  HttpCode,
+  HttpStatus,
+  Get,
+  Query,
+  BadRequestException,
+} from '@nestjs/common';
 import { MailerService } from './mailer.service';
 import { SendVerificationCodeDto } from './dto/send-verification-code.dto';
 import { ApiResponse } from 'src/common/interfaces/api-response.interface';
@@ -29,5 +38,27 @@ export class MailerController {
     @Body() verifyCodeDto: VerifyCodeDto,
   ): Promise<ApiResponse<string>> {
     return this.mailerService.verifyCode(verifyCodeDto);
+  }
+
+  @Get('test/get-code')
+  async getVerificationCodeForTesting(
+    @Query('email') email: string,
+    @Query('type') type: number,
+  ): Promise<ApiResponse<string>> {
+    // 在非生产环境中，禁止使用此端点
+    const nodeEnv = process.env.NODE_ENV || 'development';
+    if (nodeEnv !== 'development') {
+      throw new BadRequestException(
+        'This endpoint is only available in testing environments.',
+      );
+    }
+    if (!email) {
+      throw new BadRequestException('Email is required.');
+    }
+    if (!type) {
+      throw new BadRequestException('Type is required.');
+    }
+
+    return this.mailerService.getVerificationCodeForTesting(email, type);
   }
 }

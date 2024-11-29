@@ -149,7 +149,7 @@ describe('忘记密码', () => {
     cy.get('[data-testid="next-button"]').click()
 
     cy.contains('验证邮箱').should('be.visible')
-    cy.getVerificationCode(Cypress.env('serverUrl'), testUser.email)
+    cy.getVerificationCode(Cypress.env('serverUrl'), testUser.email, 1)
     cy.get<string>('@verificationCode').then(verificationCode => {
       enterVerificationCode(verificationCode)
       cy.intercept(
@@ -175,7 +175,7 @@ describe('忘记密码', () => {
     cy.get('[data-testid="next-button"]').click()
 
     cy.contains('验证邮箱').should('be.visible')
-    cy.getVerificationCode(Cypress.env('serverUrl'), testUser.email)
+    cy.getVerificationCode(Cypress.env('serverUrl'), testUser.email, 1)
     cy.get<string>('@verificationCode').then(verificationCode => {
       enterVerificationCode(verificationCode)
       cy.get('[data-testid="next-button"]').click()
@@ -206,7 +206,7 @@ describe('忘记密码', () => {
     cy.get('[data-testid="next-button"]').click()
 
     cy.contains('验证邮箱').should('be.visible')
-    cy.getVerificationCode(Cypress.env('serverUrl'), testUser.email)
+    cy.getVerificationCode(Cypress.env('serverUrl'), testUser.email, 1)
     cy.get<string>('@verificationCode').then(verificationCode => {
       enterVerificationCode(verificationCode)
       cy.get('[data-testid="next-button"]').click()
@@ -232,7 +232,7 @@ describe('忘记密码', () => {
     cy.get('[data-testid="next-button"]').click()
 
     cy.contains('验证邮箱').should('be.visible')
-    cy.getVerificationCode(Cypress.env('serverUrl'), testUser.email)
+    cy.getVerificationCode(Cypress.env('serverUrl'), testUser.email, 1)
     cy.get<string>('@verificationCode').then(verificationCode => {
       enterVerificationCode(verificationCode)
       cy.get('[data-testid="next-button"]').click()
@@ -261,7 +261,7 @@ describe('忘记密码', () => {
 
   function getVerificationCodeAndResetPwd(email: string) {
     // 调用后门接口获取验证码
-    cy.getVerificationCode(Cypress.env('serverUrl'), email)
+    cy.getVerificationCode(Cypress.env('serverUrl'), email, 1)
     cy.get<string>('@verificationCode').then(verificationCode => {
       enterVerificationCode(verificationCode)
       cy.get('[data-testid="next-button"]').click()

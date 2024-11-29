@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RegisterModule } from './modules/register/register.module';
+import { ForgotModule } from './modules/forgot/forgot.module';
 
 const nodeEnv = process.env.NODE_ENV || 'development';
 
@@ -51,6 +52,7 @@ const nodeEnv = process.env.NODE_ENV || 'development';
       inject: [ConfigService],
     }),
     RegisterModule,
+    ForgotModule,
   ],
   controllers: [],
   providers: [],

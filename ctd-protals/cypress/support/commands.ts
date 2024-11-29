@@ -5,7 +5,11 @@ declare global {
   namespace Cypress {
     interface Chainable {
       getActivationToken(baseUrl: string, email: string): Chainable<void>
-      getVerificationCode(baseUrl: string, email: string): Chainable<void>
+      getVerificationCode(
+        baseUrl: string,
+        email: string,
+        type: number,
+      ): Chainable<void>
       login(email: string): Chainable<void>
     }
   }
@@ -44,14 +48,26 @@ Cypress.Commands.add('getActivationToken', (baseUrl: string, email: string) => {
  */
 Cypress.Commands.add(
   'getVerificationCode',
-  (baseUrl: string, email: string) => {
-    cy.request('GET', `${baseUrl}/register/test/getCode?email=${email}`).then(
-      response => {
+  (baseUrl: string, email: string, type: number) => {
+    if (Cypress.env('serverType') === 'java') {
+      cy.request(
+        'GET',
+        `${baseUrl}/register/test/getCode?email=${email}&type=${type}`,
+      ).then(response => {
         expect(response.status).to.eq(200)
         const verificationCode = response.body
         cy.wrap(verificationCode).as('verificationCode')
-      },
-    )
+      })
+    } else {
+      cy.request(
+        'GET',
+        `${baseUrl}/mailer/test/get-code?email=${email}&type=${type}`,
+      ).then(response => {
+        expect(response.status).to.eq(200)
+        const verificationCode = response.body.data
+        cy.wrap(verificationCode).as('verificationCode')
+      })
+    }
   },
 )
 

@@ -7,22 +7,11 @@ export const resetPasswordByToken = (
   const data = { code: token, password }
   return request.post(
     {
-      url: '/register/forgotPwdReset',
+      url: '/register/reset-password',
       headers: {
         'Content-Type': 'multipart/form-data',
       },
       data,
-    },
-    true,
-  )
-}
-
-export const getForgotAds = (): Promise<unknown> => {
-  const params = {}
-  return request.get(
-    {
-      url: '/getForgotAds',
-      params,
     },
     true,
   )

@@ -144,7 +144,7 @@ describe('注册', () => {
     }
   })
 
-  it.only('注册任意用户，并在激活失败后获取邮件地址依然失败，给予对应提示', () => {
+  it('注册任意用户，并在激活失败后获取邮件地址依然失败，给予对应提示', () => {
     const testUser: IIndividualUserData = {
       email: generateUniqueEmail('testuser'),
       password: 'Password@123!',

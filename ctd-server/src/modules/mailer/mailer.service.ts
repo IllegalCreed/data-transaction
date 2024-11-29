@@ -205,4 +205,21 @@ export class MailerService {
       return createErrorResponse(ErrorCode.VERIFY_CODE_FAILED);
     }
   }
+
+  async getVerificationCodeForTesting(
+    email: string,
+    type: VerificationCodes,
+  ): Promise<ApiResponse<string>> {
+    // 查找指定邮箱和类型的最后一个未使用的验证码
+    const verificationCode = await this.verificationCodeRepository.findOne({
+      where: { email, type, isUsed: false },
+      order: { createdAt: 'DESC' },
+    });
+
+    if (!verificationCode) {
+      return createErrorResponse(ErrorCode.VERIFICATION_CODE_NOT_FOUND);
+    }
+
+    return createSuccessResponse(verificationCode.code);
+  }
 }
