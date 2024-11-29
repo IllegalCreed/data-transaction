@@ -7,6 +7,7 @@ import type {
 
 import axios, { AxiosError } from 'axios'
 import { useTokenStore } from '@/stores/modules/token'
+import { ErrorCodeMessages } from './error-codes'
 
 export const PATH_URL = import.meta.env.VITE_APP_BASE_API
 const abortControllerMap: Map<string, AbortController> = new Map()
@@ -103,7 +104,7 @@ axiosInstance.interceptors.response.use(
       if (code === 0) {
         return Promise.resolve(response.data)
       } else {
-        ElMessage.error(response.data.msg)
+        ElMessage.error(ErrorCodeMessages[response.data.code as number])
         return Promise.reject(response.data)
       }
     }
