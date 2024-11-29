@@ -25,12 +25,12 @@ export const activateAccount = (token: string): Promise<unknown> => {
 }
 
 export const reSendActivationEmail = (email: string): Promise<unknown> => {
-  const params = { email }
+  const data = { email }
 
-  return request.get(
+  return request.post(
     {
-      url: '/register/refreshActivation',
-      params,
+      url: '/register/resend-activation-email',
+      data,
     },
     false,
   )

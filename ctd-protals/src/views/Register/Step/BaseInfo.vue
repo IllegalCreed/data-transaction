@@ -175,8 +175,10 @@ const reSendEmail = async () => {
     try {
       await reSendActivationEmailAction(baseInfo.email)
       emit('nextStep')
-    } catch {
-      ElMessage.error('发送失败')
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        ElMessage.error('发送失败')
+      }
     }
   } else {
     ElMessage.error('请输入邮箱地址')
@@ -197,8 +199,9 @@ const handleNextStep = async () => {
         await executeRegisterAction()
         emit('nextStep')
       } catch (error: unknown) {
-        const errorMessage = error instanceof Error ? error.message : '注册失败'
-        ElMessage.error(errorMessage)
+        if (error instanceof Error) {
+          ElMessage.error('注册失败')
+        }
       }
     } else {
       ElMessage.error('请检查填写的信息是否正确')

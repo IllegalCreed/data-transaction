@@ -43,7 +43,7 @@ describe('注册', () => {
     activateUser(testUser.email)
   })
 
-  it.only('注册任意用户，并在激活失败后重新发送激活邮件', () => {
+  it('注册任意用户，并在激活失败后重新发送激活邮件', () => {
     const testUser: IIndividualUserData = {
       email: generateUniqueEmail('testuser'),
       password: 'Password@123!',
@@ -105,7 +105,14 @@ describe('注册', () => {
 
     registerCorporateUser(testUser)
 
-    registerCorporateUser(testUser, '账号已存在，请先激活后登录')
+    if (Cypress.env('serverType') === 'java') {
+      registerCorporateUser(testUser, '账号已存在，请先激活后登录')
+    } else {
+      registerCorporateUser(
+        testUser,
+        '账号已存在，无法重复注册，完成激活操作即可登录',
+      )
+    }
 
     cy.get('[data-testid="resend-activation-button"]').click()
 
@@ -130,7 +137,11 @@ describe('注册', () => {
     registerCorporateUser(testUser)
     activateUser(testUser.email)
 
-    registerCorporateUser(testUser, '账号已存在，可直接登录')
+    if (Cypress.env('serverType') === 'java') {
+      registerCorporateUser(testUser, '账号已存在，可直接登录')
+    } else {
+      registerCorporateUser(testUser, '账号已存在并激活，请返回登录页面登录')
+    }
   })
 
   it('不选择用户类型点击下一步，给予对应提示', () => {

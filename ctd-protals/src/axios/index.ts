@@ -92,7 +92,9 @@ axiosInstance.interceptors.response.use(
       if (code === 401) {
         const tokenStore = useTokenStore()
         tokenStore.clearToken()
-        return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
+        return Promise.reject(
+          new Error('无效的会话，或者会话已过期，请重新登录。'),
+        )
       } else if (!/^2\d{2}$/.test(code)) {
         // 如果不是2开头的三位数
         ElMessage.error(response.data.msg)

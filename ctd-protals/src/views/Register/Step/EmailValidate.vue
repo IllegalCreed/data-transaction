@@ -70,7 +70,7 @@ const verifyActivation = async (token: string) => {
     if (import.meta.env.VITE_BACK_TYPE === 'java') {
       await executeTokenExchangeEmailAction(0, token)
     } else {
-      email.value = (error as ICommonReturn<string>).msg
+      email.value = (error as ICommonReturn<string>).data
     }
   } finally {
     isLoading.value = false

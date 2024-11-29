@@ -24,8 +24,9 @@ export const ErrorCodeMessages: { [key: number]: string } = {
   [ErrorCode.REGISTRATION_FAILED]: '注册失败',
   [ErrorCode.INVALID_ACTIVATION_TOKEN]: '激活凭据无效或已过期',
   [ErrorCode.ACTIVATE_ACCOUNT_FAILED]: '激活失败',
-  [ErrorCode.ACCOUNT_ALREADY_ACTIVATED]: '用户已激活',
+  [ErrorCode.ACCOUNT_ALREADY_ACTIVATED]: '账号已存在并激活，请返回登录页面登录',
   [ErrorCode.RESEND_ACTIVATION_EMAIL_FAILED]: '发送激活邮件失败',
-  [ErrorCode.ACCOUNT_PENDING_ACTIVATION]: '用户已注册但未激活',
+  [ErrorCode.ACCOUNT_PENDING_ACTIVATION]:
+    '账号已存在，无法重复注册，完成激活操作即可登录',
   [ErrorCode.ACTIVATION_TOKEN_NOT_FOUND]: '激活凭据不存在',
 }
