@@ -136,7 +136,7 @@ export class MailerService {
             subject = '重置密码验证码';
             content = `您的验证码是: ${code}`;
             break;
-          case VerificationCodes.ResetPWD:
+          case VerificationCodes.ChangePWD:
             subject = '修改密码验证码';
             content = `您的验证码是: ${code}`;
             break;
