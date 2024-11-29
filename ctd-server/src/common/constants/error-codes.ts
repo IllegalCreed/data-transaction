@@ -12,6 +12,13 @@ export enum ErrorCode {
   RESEND_ACTIVATION_EMAIL_FAILED = 1006,
   ACCOUNT_PENDING_ACTIVATION = 1007,
   ACTIVATION_TOKEN_NOT_FOUND = 1008,
+
+  // 忘记密码相关
+  INVALID_VERIFICATION_CODE_TYPE = 1101,
+  SEND_VERIFICATION_CODE_FAILED = 1102,
+  INVALID_VERIFICATION_CODE = 1103,
+  VERIFY_CODE_FAILED = 1104,
+  ACCOUNT_NOT_ACTIVATED = 1105,
 }
 
 export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
@@ -32,4 +39,13 @@ export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
     'Failed to resend activation email.',
   [ErrorCode.ACCOUNT_PENDING_ACTIVATION]: 'Account is pending activation.',
   [ErrorCode.ACTIVATION_TOKEN_NOT_FOUND]: 'Activation token not found.',
+
+  // 忘记密码相关
+  [ErrorCode.INVALID_VERIFICATION_CODE_TYPE]: 'Invalid verification code type.',
+  [ErrorCode.SEND_VERIFICATION_CODE_FAILED]:
+    'Failed to send verification code.',
+  [ErrorCode.INVALID_VERIFICATION_CODE]:
+    'Verification code is invalid or has expired.',
+  [ErrorCode.VERIFY_CODE_FAILED]: 'Verify code failed due to unexpected error.',
+  [ErrorCode.ACCOUNT_NOT_ACTIVATED]: 'Account is not activated.',
 };

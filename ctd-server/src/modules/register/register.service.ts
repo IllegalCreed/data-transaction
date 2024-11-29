@@ -12,8 +12,8 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { MailerService } from 'src/modules/mailer/mailer.service';
 import { ApiResponse } from 'src/common/interfaces/api-response.interface';
 import {
-  generateActivationToken,
-  verifyActivationToken,
+  generateToken,
+  verifyToken,
   hashPassword,
 } from 'src/common/utils/security';
 import {
@@ -23,6 +23,7 @@ import {
 import { ErrorCode } from 'src/common/constants/error-codes';
 import { ActivateAccountDto } from './dto/activate-account.dto';
 import { ResendActivationEmailDto } from './dto/resend-activation-email.dto';
+import { ExpectedError } from 'src/types/error';
 
 @Injectable()
 export class RegisterService {
@@ -100,9 +101,8 @@ export class RegisterService {
     } catch (error) {
       this.logger.error('用户注册失败：', error);
 
-      const errorCode = Number(error.message);
-      if (errorCode === ErrorCode.SEND_EMAIL_FAILED) {
-        return createErrorResponse(ErrorCode.SEND_EMAIL_FAILED);
+      if (error instanceof ExpectedError) {
+        return createErrorResponse(error.errorCode);
       }
 
       return createErrorResponse(ErrorCode.REGISTRATION_FAILED);
@@ -114,7 +114,7 @@ export class RegisterService {
   ): Promise<ApiResponse<string>> {
     const { activationToken } = activateAccountDto;
 
-    const email = await verifyActivationToken(
+    const email = await verifyToken<string>(
       activationToken,
       this.configService.get<string>('JWT_SECRET'),
     );
@@ -133,17 +133,17 @@ export class RegisterService {
 
         if (!activation) {
           this.logger.error('激活账户失败：无效的激活令牌');
-          throw new Error(ErrorCode.INVALID_ACTIVATION_TOKEN.toString());
+          throw new ExpectedError(ErrorCode.INVALID_ACTIVATION_TOKEN);
         }
 
         if (activation.expireAt < new Date()) {
           this.logger.error('激活账户失败：激活令牌已过期');
-          throw new Error(ErrorCode.INVALID_ACTIVATION_TOKEN.toString());
+          throw new ExpectedError(ErrorCode.INVALID_ACTIVATION_TOKEN);
         }
 
         if (activation.user.email !== email) {
           this.logger.error('激活账户失败：数据异常');
-          throw new Error(ErrorCode.ACTIVATE_ACCOUNT_FAILED.toString());
+          throw new ExpectedError(ErrorCode.ACTIVATE_ACCOUNT_FAILED);
         }
 
         activation.user.status = UserStatus.ACTIVE;
@@ -156,13 +156,16 @@ export class RegisterService {
       this.logger.log(`账户激活成功：${email}`);
       return createSuccessResponse('ACCOUNT_ACTIVATED');
     } catch (error) {
-      const errorCode = Number(error.message);
+      this.logger.error('激活账户失败：', error);
 
-      if (errorCode === ErrorCode.INVALID_ACTIVATION_TOKEN) {
-        return createErrorResponse(errorCode, email);
+      if (error instanceof ExpectedError) {
+        if (error.errorCode === ErrorCode.INVALID_ACTIVATION_TOKEN) {
+          return createErrorResponse(error.errorCode, email);
+        } else {
+          return createErrorResponse(error.errorCode);
+        }
       }
 
-      this.logger.error('激活账户失败：', error);
       return createErrorResponse(ErrorCode.ACTIVATE_ACCOUNT_FAILED);
     }
   }
@@ -197,9 +200,8 @@ export class RegisterService {
     } catch (error) {
       this.logger.error('重新发送激活邮件失败：', error);
 
-      const errorCode = Number(error.message);
-      if (errorCode === ErrorCode.SEND_EMAIL_FAILED) {
-        return createErrorResponse(ErrorCode.SEND_EMAIL_FAILED);
+      if (error instanceof ExpectedError) {
+        return createErrorResponse(error.errorCode);
       }
 
       return createErrorResponse(ErrorCode.RESEND_ACTIVATION_EMAIL_FAILED);
@@ -235,7 +237,7 @@ export class RegisterService {
     const email = user.email;
 
     // 生成新的激活令牌
-    const activationToken = await generateActivationToken(
+    const activationToken = await generateToken<string>(
       email,
       this.configService.get<string>('JWT_SECRET', { infer: true }),
     );

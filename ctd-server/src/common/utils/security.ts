@@ -32,31 +32,37 @@ export function verifyPassword(
   });
 }
 
-export async function generateActivationToken(
-  raw: string,
+export async function generateToken<T>(
+  raw: T,
   secret: string,
+  expirationTime: string = '24h',
 ): Promise<string> {
   const jwt = await new SignJWT({ raw })
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt() // 设置签发时间（iat）
-    .setExpirationTime('24h') // 设置过期时间（exp）
+    .setExpirationTime(expirationTime) // 设置过期时间（exp）
     .setJti(uuidv4()) // 设置唯一标识符（jti）
     .sign(new TextEncoder().encode(secret));
 
   return jwt;
 }
 
-export async function verifyActivationToken(
+export async function verifyToken<T>(
   token: string,
   secret: string,
-): Promise<string | null> {
+): Promise<T | null> {
   try {
     const { payload } = await jwtVerify(
       token,
       new TextEncoder().encode(secret),
     );
-    return payload.raw as string;
+    return payload.raw as T;
   } catch {
     return null;
   }
+}
+
+export function generateRandomCode(): string {
+  const randomNumber = Math.floor(Math.random() * 1000000);
+  return randomNumber.toString().padStart(6, '0');
 }

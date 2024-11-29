@@ -8,10 +8,7 @@ export const sendVerificationCode = (
   const data = { email, type }
   return request.post(
     {
-      url: '/register/forgotPwdSendEmail',
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
+      url: '/mail/send-verification-vode',
       data,
     },
     true,
@@ -26,10 +23,7 @@ export const verifyCode = (
   const data = { email, code, type }
   return request.post(
     {
-      url: '/register/forgotPwdVerifyEmailCode',
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
+      url: '/mail/verify-code',
       data,
     },
     true,
