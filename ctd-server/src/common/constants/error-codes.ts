@@ -22,6 +22,14 @@ export enum ErrorCode {
   PASSWORD_RESET_FAILED = 1106,
   VERIFICATION_CODE_NOT_FOUND = 1107,
   INVALID_VERIFICATION_TOKEN = 1108,
+
+  // 图片验证码相关
+  GET_CAPTCHA_FAILED = 1201,
+  GENERATE_CAPTCHA_FAILED = 1202,
+  INVALID_CAPTCHA = 1203,
+  CAPTCHA_INCORRECT = 1204,
+  CAPTCHA_NOT_FOUND = 1205,
+  CAPTCHA_VERIFICATION_FAILED = 1206,
 }
 
 export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
@@ -56,4 +64,14 @@ export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
   [ErrorCode.VERIFICATION_CODE_NOT_FOUND]: 'Verification code not found.',
   [ErrorCode.INVALID_VERIFICATION_TOKEN]:
     'Verification token is invalid or has expired.',
+
+  // 图片验证码相关
+  [ErrorCode.GET_CAPTCHA_FAILED]: 'Get captcha failed due to unexpected error.',
+  [ErrorCode.GENERATE_CAPTCHA_FAILED]:
+    'Failed to generate captcha due to unexpected error.',
+  [ErrorCode.INVALID_CAPTCHA]: 'Captcha is invalid or has expired.',
+  [ErrorCode.CAPTCHA_INCORRECT]: 'Captcha is incorrect.',
+  [ErrorCode.CAPTCHA_NOT_FOUND]: 'Captcha not found.',
+  [ErrorCode.CAPTCHA_VERIFICATION_FAILED]:
+    'Captcha verification failed due to unexpected error.',
 };

@@ -87,7 +87,7 @@ export class MailerService {
         sendActivationEmailDto.to,
         sendActivationEmailDto.token,
       );
-      return createSuccessResponse('SEND_EMAIL_SUCCEED');
+      return createSuccessResponse(null, 'SEND_EMAIL_SUCCEED');
     } catch {
       return createErrorResponse(ErrorCode.SEND_EMAIL_FAILED);
     }
@@ -152,7 +152,7 @@ export class MailerService {
       });
 
       this.logger.log(`发送验证码成功：${email}`);
-      return createSuccessResponse('SEND_VERIFICATION_CODE_SUCCEED');
+      return createSuccessResponse(null, 'SEND_VERIFICATION_CODE_SUCCEED');
     } catch (error) {
       this.logger.error('发送验证码失败：', error);
 
@@ -194,7 +194,7 @@ export class MailerService {
       );
 
       this.logger.log(`验证码核销成功：${email}`);
-      return createSuccessResponse(token);
+      return createSuccessResponse(token, 'VERIFY_CODE_SUCCEED');
     } catch (error) {
       this.logger.error('验证码核销失败：', error);
 
@@ -220,6 +220,9 @@ export class MailerService {
       return createErrorResponse(ErrorCode.VERIFICATION_CODE_NOT_FOUND);
     }
 
-    return createSuccessResponse(verificationCode.code);
+    return createSuccessResponse(
+      verificationCode.code,
+      'GET_VERIFICATION_CODE_SUCCEED',
+    );
   }
 }

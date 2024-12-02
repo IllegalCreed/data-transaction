@@ -97,7 +97,7 @@ export class RegisterService {
       });
 
       this.logger.log(`用户注册成功：${email}`);
-      return createSuccessResponse('REGISTRATION_SUCCEED');
+      return createSuccessResponse(null, 'REGISTRATION_SUCCEED');
     } catch (error) {
       this.logger.error('用户注册失败：', error);
 
@@ -154,7 +154,7 @@ export class RegisterService {
       });
 
       this.logger.log(`账户激活成功：${email}`);
-      return createSuccessResponse('ACCOUNT_ACTIVATED');
+      return createSuccessResponse(null, 'ACCOUNT_ACTIVATED');
     } catch (error) {
       this.logger.error('激活账户失败：', error);
 
@@ -196,7 +196,7 @@ export class RegisterService {
       });
 
       this.logger.log(`重新发送激活邮件成功：${email}`);
-      return createSuccessResponse('RESEND_ACTIVATION_EMAIL_SUCCEED');
+      return createSuccessResponse(null, 'RESEND_ACTIVATION_EMAIL_SUCCEED');
     } catch (error) {
       this.logger.error('重新发送激活邮件失败：', error);
 
@@ -227,7 +227,10 @@ export class RegisterService {
       return createErrorResponse(ErrorCode.ACTIVATION_TOKEN_NOT_FOUND);
     }
 
-    return createSuccessResponse(activation.activationToken);
+    return createSuccessResponse(
+      activation.activationToken,
+      'GET_ACTIVATION_TOKEN_SUCCEED',
+    );
   }
 
   private async createAndSendActivation(

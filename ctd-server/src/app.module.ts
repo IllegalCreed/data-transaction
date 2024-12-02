@@ -1,13 +1,16 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ScheduleModule } from '@nestjs/schedule';
 import { RegisterModule } from './modules/register/register.module';
 import { ForgotModule } from './modules/forgot/forgot.module';
+import { CaptchaModule } from './modules/captcha/captcha.module';
 
 const nodeEnv = process.env.NODE_ENV || 'development';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true, // 全局模块, 不需要在其他模块引入
       envFilePath: [
@@ -53,6 +56,7 @@ const nodeEnv = process.env.NODE_ENV || 'development';
     }),
     RegisterModule,
     ForgotModule,
+    CaptchaModule,
   ],
   controllers: [],
   providers: [],

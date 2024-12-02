@@ -52,7 +52,7 @@ export class ForgotService {
       await this.userRepository.save(user);
 
       this.logger.log(`密码重置成功：${email}`);
-      return createSuccessResponse('PASSWORD_RESET_SUCCEED');
+      return createSuccessResponse(null, 'PASSWORD_RESET_SUCCEED');
     } catch (error) {
       this.logger.error('重置密码失败：', error);
 
