@@ -9,7 +9,7 @@ import { ApiResponse } from 'src/common/interfaces/api-response.interface';
 import { ErrorCode } from 'src/common/constants/error-codes';
 import { VerificationCode } from 'src/entities/verification-code.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DataSource, MoreThan, Repository } from 'typeorm';
+import { DataSource, LessThan, MoreThan, Repository } from 'typeorm';
 import { SendVerificationCodeDto } from './dto/send-verification-code.dto';
 import { VerificationCodes } from 'src/enums/verification-codes.enum';
 import { VerifyCodeDto } from './dto/verify-code.dto';
@@ -224,5 +224,17 @@ export class MailerService {
       verificationCode.code,
       'GET_VERIFICATION_CODE_SUCCEED',
     );
+  }
+
+  async removeExpiredVerificationCode(): Promise<void> {
+    try {
+      const result = await this.verificationCodeRepository.delete({
+        expireAt: LessThan(new Date()),
+      });
+
+      this.logger.log(`成功删除了 ${result.affected} 条过期邮件验证码。`);
+    } catch (error) {
+      this.logger.error('删除过期邮件验证码时发生错误：', error);
+    }
   }
 }

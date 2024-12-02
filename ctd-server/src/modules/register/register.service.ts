@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, DataSource } from 'typeorm';
+import { Repository, DataSource, LessThan } from 'typeorm';
 import { UserStatus } from 'src/enums/user-status.enum';
 import { UserType } from 'src/enums/user-type.enum';
 import { User } from 'src/entities/user.entity';
@@ -205,6 +205,18 @@ export class RegisterService {
       }
 
       return createErrorResponse(ErrorCode.RESEND_ACTIVATION_EMAIL_FAILED);
+    }
+  }
+
+  async removeExpiredToken(): Promise<void> {
+    try {
+      const result = await this.activationRepository.delete({
+        expireAt: LessThan(new Date()),
+      });
+
+      this.logger.log(`成功删除了 ${result.affected} 条过期激活凭据。`);
+    } catch (error) {
+      this.logger.error('删除过期激活凭据时发生错误：', error);
     }
   }
 

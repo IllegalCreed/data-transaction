@@ -19,7 +19,7 @@ export class Captcha {
 
   @Column()
   @Index()
-  expiredAt: Date;
+  expireAt: Date;
 
   @Column({ default: false })
   isUsed: boolean;

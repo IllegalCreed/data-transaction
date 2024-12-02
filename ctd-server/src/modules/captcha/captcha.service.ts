@@ -57,7 +57,7 @@ export class CaptchaService {
 
       const captchaEntity = this.captchaRepository.create({
         value: captcha.text,
-        expiredAt: new Date(Date.now() + 10 * 60 * 1000),
+        expireAt: new Date(Date.now() + 10 * 60 * 1000),
       });
 
       const savedCaptcha = await this.captchaRepository.save(captchaEntity);
@@ -105,11 +105,7 @@ export class CaptchaService {
       where: { id: captchaId },
     });
 
-    if (
-      !captcha ||
-      captcha.expiredAt.getTime() < Date.now() ||
-      captcha.isUsed
-    ) {
+    if (!captcha || captcha.expireAt.getTime() < Date.now() || captcha.isUsed) {
       throw new ExpectedError(ErrorCode.INVALID_CAPTCHA);
     }
 
@@ -147,12 +143,12 @@ export class CaptchaService {
   async removeExpiredCaptcha(): Promise<void> {
     try {
       const result = await this.captchaRepository.delete({
-        expiredAt: LessThan(new Date()),
+        expireAt: LessThan(new Date()),
       });
 
-      this.logger.log(`成功删除了 ${result.affected} 条过期验证码。`);
+      this.logger.log(`成功删除了 ${result.affected} 条过期图片验证码。`);
     } catch (error) {
-      this.logger.error('删除过期验证码时发生错误：', error);
+      this.logger.error('删除过期图片验证码时发生错误：', error);
     }
   }
 

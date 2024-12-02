@@ -13,6 +13,7 @@ import { SendVerificationCodeDto } from './dto/send-verification-code.dto';
 import { ApiResponse } from 'src/common/interfaces/api-response.interface';
 import { VerifyCodeDto } from './dto/verify-code.dto';
 import { SendActivationEmailDto } from './dto/send-activation-email.dto';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Controller('mailer')
 export class MailerController {
@@ -38,6 +39,11 @@ export class MailerController {
     @Body() verifyCodeDto: VerifyCodeDto,
   ): Promise<ApiResponse<string>> {
     return this.mailerService.verifyCode(verifyCodeDto);
+  }
+
+  @Cron(CronExpression.EVERY_DAY_AT_3AM)
+  async removeExpiredVerificationCodes() {
+    this.mailerService.removeExpiredVerificationCode();
   }
 
   @Get('test/get-code')

@@ -11,6 +11,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { ApiResponse } from 'src/common/interfaces/api-response.interface';
 import { ActivateAccountDto } from './dto/activate-account.dto';
 import { ResendActivationEmailDto } from './dto/resend-activation-email.dto';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Controller('register')
 export class RegisterController {
@@ -35,6 +36,11 @@ export class RegisterController {
     @Body() resendActivationEmailDto: ResendActivationEmailDto,
   ): Promise<ApiResponse<string>> {
     return this.registerService.resendActivationEmail(resendActivationEmailDto);
+  }
+
+  @Cron(CronExpression.EVERY_DAY_AT_3AM)
+  async removeExpiredTokens() {
+    this.registerService.removeExpiredToken();
   }
 
   @Get('test/get-activation-token')
