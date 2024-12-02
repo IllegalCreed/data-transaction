@@ -152,17 +152,28 @@ describe('忘记密码', () => {
     cy.getVerificationCode(Cypress.env('serverUrl'), testUser.email, 1)
     cy.get<string>('@verificationCode').then(verificationCode => {
       enterVerificationCode(verificationCode)
-      cy.intercept(
-        'POST',
-        /\/(?:dev-api\/)?register\/forgotPwdVerifyEmailCode/,
-        {
+      if (Cypress.env('serverType') === 'java') {
+        cy.intercept(
+          'POST',
+          /\/(?:dev-api\/)?register\/forgotPwdVerifyEmailCode/,
+          {
+            statusCode: 200,
+            body: { code: 500, msg: '验证码已失效' },
+          },
+        ).as('verifyCode')
+      } else {
+        cy.intercept('POST', /\/(?:dev-api\/)?mailer\/verify-code/, {
           statusCode: 200,
-          body: { code: 500, msg: '验证码已失效' },
-        },
-      ).as('verifyCode')
+          body: { code: 1103 },
+        }).as('verifyCode')
+      }
       cy.get('[data-testid="next-button"]').click()
       cy.wait('@verifyCode')
-      cy.contains('验证码已失效').should('be.visible')
+      if (Cypress.env('serverType') === 'java') {
+        cy.contains('验证码已失效').should('be.visible')
+      } else {
+        cy.contains('验证码无效或已过期').should('be.visible')
+      }
     })
   })
 
@@ -238,13 +249,24 @@ describe('忘记密码', () => {
       cy.get('[data-testid="next-button"]').click()
       cy.contains('设置新密码').should('be.visible')
       enterResetPasswordForm('NewPassword@123!')
-      cy.intercept('POST', /\/(?:dev-api\/)?register\/forgotPwdReset/, {
-        statusCode: 200,
-        body: { code: 500, msg: '令牌已失效' },
-      }).as('resetPassword')
+      if (Cypress.env('serverType') === 'java') {
+        cy.intercept('POST', /\/(?:dev-api\/)?register\/forgotPwdReset/, {
+          statusCode: 200,
+          body: { code: 500, msg: '令牌已失效' },
+        }).as('resetPassword')
+      } else {
+        cy.intercept('POST', /\/(?:dev-api\/)?forgot\/reset-password/, {
+          statusCode: 200,
+          body: { code: 1108, msg: '验证凭据无效或已过期' },
+        }).as('resetPassword')
+      }
       cy.get('[data-testid="next-button"]').click()
       cy.wait('@resetPassword')
-      cy.contains('令牌已失效').should('be.visible')
+      if (Cypress.env('serverType') === 'java') {
+        cy.contains('令牌已失效').should('be.visible')
+      } else {
+        cy.contains('验证凭据无效或已过期').should('be.visible')
+      }
     })
   })
 

@@ -139,8 +139,10 @@ const handleNextStep = async () => {
           baseInfo.value.password,
         )
         emit('nextStep')
-      } catch {
-        ElMessage.error('重置失败，请稍后再试')
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          ElMessage.error('重置密码失败')
+        }
       }
     } else {
       ElMessage.error('请检查填写的信息是否正确')

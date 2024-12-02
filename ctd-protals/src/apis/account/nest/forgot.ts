@@ -4,13 +4,10 @@ export const resetPasswordByToken = (
   token: string,
   password: string,
 ): Promise<unknown> => {
-  const data = { code: token, password }
+  const data = { token, newPassword: password }
   return request.post(
     {
-      url: '/register/reset-password',
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
+      url: '/forgot/reset-password',
       data,
     },
     true,

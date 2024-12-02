@@ -77,8 +77,10 @@ const handleNextStep = async () => {
     ElMessage.success('验证成功')
     setForgotTokenAction(token.value)
     emit('nextStep')
-  } catch {
-    ElMessage.error('验证失败')
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      ElMessage.error('验证失败')
+    }
   }
 }
 const handlePrevStep = () => {

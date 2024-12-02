@@ -70,7 +70,6 @@ describe('注册', () => {
           statusCode: 200,
           body: {
             code: 1003,
-            msg: '您的token不合法或已过期',
             data: testUser.email,
           },
         }).as('activationRequest')

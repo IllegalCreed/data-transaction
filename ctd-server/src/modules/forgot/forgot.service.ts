@@ -37,7 +37,7 @@ export class ForgotService {
 
     if (!email) {
       this.logger.error('重置密码失败：JWT验证失败');
-      return createErrorResponse(ErrorCode.PASSWORD_RESET_FAILED);
+      return createErrorResponse(ErrorCode.INVALID_VERIFICATION_TOKEN);
     }
 
     const user = await this.userRepository.findOne({ where: { email } });

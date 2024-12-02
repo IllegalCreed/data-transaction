@@ -21,6 +21,7 @@ export enum ErrorCode {
   ACCOUNT_NOT_ACTIVATED = 1105,
   PASSWORD_RESET_FAILED = 1106,
   VERIFICATION_CODE_NOT_FOUND = 1107,
+  INVALID_VERIFICATION_TOKEN = 1108,
 }
 
 export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
@@ -53,4 +54,6 @@ export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
   [ErrorCode.PASSWORD_RESET_FAILED]:
     'Password reset failed due to unexpected error.',
   [ErrorCode.VERIFICATION_CODE_NOT_FOUND]: 'Verification code not found.',
+  [ErrorCode.INVALID_VERIFICATION_TOKEN]:
+    'Verification token is invalid or has expired.',
 };

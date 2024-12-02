@@ -8,7 +8,7 @@ export const sendVerificationCode = (
   const data = { email, type }
   return request.post(
     {
-      url: '/mailer/send-verification-vode',
+      url: '/mailer/send-verification-code',
       data,
     },
     true,

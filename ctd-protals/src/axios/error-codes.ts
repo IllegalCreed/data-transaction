@@ -12,6 +12,16 @@ export enum ErrorCode {
   RESEND_ACTIVATION_EMAIL_FAILED = 1006,
   ACCOUNT_PENDING_ACTIVATION = 1007,
   ACTIVATION_TOKEN_NOT_FOUND = 1008,
+
+  // 忘记密码相关
+  INVALID_VERIFICATION_CODE_TYPE = 1101,
+  SEND_VERIFICATION_CODE_FAILED = 1102,
+  INVALID_VERIFICATION_CODE = 1103,
+  VERIFY_CODE_FAILED = 1104,
+  ACCOUNT_NOT_ACTIVATED = 1105,
+  PASSWORD_RESET_FAILED = 1106,
+  VERIFICATION_CODE_NOT_FOUND = 1107,
+  INVALID_VERIFICATION_TOKEN = 1108,
 }
 
 export const ErrorCodeMessages: { [key: number]: string } = {
@@ -30,4 +40,14 @@ export const ErrorCodeMessages: { [key: number]: string } = {
   [ErrorCode.ACCOUNT_PENDING_ACTIVATION]:
     '账号已存在，无法重复注册，完成激活操作即可登录',
   [ErrorCode.ACTIVATION_TOKEN_NOT_FOUND]: '激活凭据不存在',
+
+  // 忘记密码相关
+  [ErrorCode.INVALID_VERIFICATION_CODE_TYPE]: '无效的验证码类型',
+  [ErrorCode.SEND_VERIFICATION_CODE_FAILED]: '发送验证码失败',
+  [ErrorCode.INVALID_VERIFICATION_CODE]: '验证码无效或已过期',
+  [ErrorCode.VERIFY_CODE_FAILED]: '验证失败',
+  [ErrorCode.ACCOUNT_NOT_ACTIVATED]: '用户未激活，请先激活账户',
+  [ErrorCode.PASSWORD_RESET_FAILED]: '密码重置失败',
+  [ErrorCode.VERIFICATION_CODE_NOT_FOUND]: '验证码不存在',
+  [ErrorCode.INVALID_VERIFICATION_TOKEN]: '验证凭据无效或已过期',
 }
