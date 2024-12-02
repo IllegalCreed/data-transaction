@@ -43,4 +43,7 @@ export class User extends BaseEntity {
     default: UserStatus.PENDING,
   })
   status: UserStatus;
+
+  @Column({ default: 0 })
+  failedAttempts: number;
 }

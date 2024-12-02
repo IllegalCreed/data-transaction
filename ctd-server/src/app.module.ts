@@ -5,6 +5,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { RegisterModule } from './modules/register/register.module';
 import { ForgotModule } from './modules/forgot/forgot.module';
 import { CaptchaModule } from './modules/captcha/captcha.module';
+import { LoginModule } from './modules/login/login.module';
 
 const nodeEnv = process.env.NODE_ENV || 'development';
 
@@ -57,6 +58,7 @@ const nodeEnv = process.env.NODE_ENV || 'development';
     RegisterModule,
     ForgotModule,
     CaptchaModule,
+    LoginModule,
   ],
   controllers: [],
   providers: [],
