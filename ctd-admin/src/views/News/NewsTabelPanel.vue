@@ -62,7 +62,7 @@ const router = useRouter()
 
 const goDetail = (id: number | string) => {
   router.push({
-    name: 'product-detail',
+    name: 'news-detail',
     params: {
       id
     }

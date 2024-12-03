@@ -32,7 +32,7 @@ export const getProduct = (id: string | number): Promise<unknown> => {
   )
 }
 
-export const delProducts = (ids: (string | number)[]): Promise<unknown> => {
+export const deleteProducts = (ids: (string | number)[]): Promise<unknown> => {
   const params = {
     ids
   }

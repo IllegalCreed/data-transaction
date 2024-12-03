@@ -50,14 +50,14 @@ export const changeNewsStatus = (
   ids: (string | number)[],
   status: ActiveStatus
 ): Promise<unknown> => {
-  const params = {
+  const data = {
     ids,
     status
   }
   return request.put(
     {
       url: '/news/change-status',
-      params
+      data
     },
     true
   )

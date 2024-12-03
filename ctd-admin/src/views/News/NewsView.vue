@@ -74,7 +74,7 @@ import { useDelete } from '@/composables/useDelete'
 const delTitle = ref('')
 const delId = ref<string | number>('')
 const { doDelAction } = useDelete(
-  () => `是否确认删除${delTitle.value}？`,
+  () => `是否确认删除 ${delTitle.value} ？`,
   async () => {
     await deleteNewsAction([delId.value])
     refresh()
@@ -94,7 +94,7 @@ const changeId = ref<string | number>('')
 const changeStatus = ref<ActiveStatus>()
 const { doChangeAction } = useChangeStatus(
   () =>
-    `是否确认 ${changeStatus.value === ActiveStatus.Active ? '启用' : '停用'} ${changeTitle.value}？`,
+    `是否确认 ${changeStatus.value === ActiveStatus.Active ? '启用' : '停用'} ${changeTitle.value} ？`,
   async () => {
     if (!changeStatus.value) {
       ElMessage.error('请选择状态')

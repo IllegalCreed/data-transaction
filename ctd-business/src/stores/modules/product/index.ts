@@ -6,7 +6,8 @@ export const useProductStore = defineStore('product', () => {
   const {
     getProducts,
     getProduct,
-    delProducts,
+    changeProductStatus,
+    deleteProducts,
     getVersion,
     setVersion,
     getPriceDefinition,
@@ -19,7 +20,8 @@ export const useProductStore = defineStore('product', () => {
     ...{
       getProducts,
       getProduct,
-      delProducts,
+      changeProductStatus,
+      deleteProducts,
       getVersion,
       setVersion,
       getPriceDefinition,

@@ -1,7 +1,7 @@
-export function useDelete(tip: string, delAction: () => void) {
+export function useDelete(tip: () => string, delAction: () => void) {
   const doDelAction = async () => {
     try {
-      await ElMessageBox.confirm(tip, '删除', {
+      await ElMessageBox.confirm(tip(), '删除', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

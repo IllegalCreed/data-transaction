@@ -3,6 +3,7 @@ import * as nestPruduct from './nest/product'
 import * as javaApproval from './java/approval'
 import * as nestApproval from './nest/approval'
 import type { IProductSpecsPriceDefinition, IProductVersion } from '@/types/product'
+import type { ProductStatus } from '@/constants/mapData/product'
 
 interface IProductAPI {
   getProducts: (
@@ -12,7 +13,8 @@ interface IProductAPI {
     pageSize: number
   ) => Promise<unknown>
   getProduct: (id: string | number) => Promise<unknown>
-  delProducts: (ids: (string | number)[]) => Promise<unknown>
+  changeProductStatus: (ids: (string | number)[], status: ProductStatus) => Promise<unknown>
+  deleteProducts: (ids: (string | number)[]) => Promise<unknown>
   getVersion: (productId: string | number, version: string | number) => Promise<unknown>
   setVersion: (productId: string | number, versionInfo: IProductVersion) => Promise<unknown>
   getPriceDefinition: (productId: string | number, version: string | number) => Promise<unknown>
@@ -44,7 +46,8 @@ const productAPI: ProductAPIType = import.meta.env.VITE_BACK_TYPE === 'java' ? j
 export const {
   getProducts,
   getProduct,
-  delProducts,
+  changeProductStatus,
+  deleteProducts,
   getVersion,
   setVersion,
   getPriceDefinition,

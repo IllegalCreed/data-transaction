@@ -12,7 +12,7 @@ interface IProductAPI {
     pageSize: number
   ) => Promise<unknown>
   getProduct: (id: string | number) => Promise<unknown>
-  delProducts: (ids: (string | number)[]) => Promise<unknown>
+  deleteProducts: (ids: (string | number)[]) => Promise<unknown>
   getVersion: (productId: string | number, version: string | number) => Promise<unknown>
   getPriceDefinition: (productId: string | number, version: string | number) => Promise<unknown>
 }
@@ -39,7 +39,7 @@ const productAPI: ProductAPIType = import.meta.env.VITE_BACK_TYPE === 'java' ? j
 export const {
   getProducts,
   getProduct,
-  delProducts,
+  deleteProducts,
   getVersion,
   getPriceDefinition,
   getProductRejectReason,

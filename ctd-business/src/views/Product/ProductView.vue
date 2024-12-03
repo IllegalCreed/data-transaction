@@ -23,81 +23,13 @@
 
     <el-divider class="!my-0" />
 
-    <div flex flex-row justify-end gap-3>
-      <el-popover
-        :visible="sortingVisible"
-        popper-class="sorting-popover"
-        placement="bottom"
-        :width="300"
-      >
-        <template #reference>
-          <el-badge :value="sortingCount" :show-zero="false">
-            <el-button class="default-btn" @click="sortingVisible = true">
-              <template v-slot:icon>
-                <i-hugeicons:sorting-05></i-hugeicons:sorting-05>
-              </template>
-              排序</el-button
-            >
-          </el-badge>
-        </template>
-        <div flex flex-col>
-          <span class="title">排序</span>
-          <el-divider />
-          <div flex flex-row justify-between p-3>
-            <el-button class="default-btn" size="small" @click="resetAllSorting"
-              >重置全部</el-button
-            >
-            <el-button type="primary" size="small" @click="applySorting">应用</el-button>
-          </div>
-        </div>
-      </el-popover>
-      <el-popover
-        :visible="filterVisible"
-        popper-class="filter-popover"
-        placement="bottom"
-        :width="300"
-      >
-        <template #reference>
-          <el-badge :value="filterCount" :show-zero="false">
-            <el-button class="default-btn" @click="filterVisible = true">
-              <template v-slot:icon>
-                <i-hugeicons:filter-horizontal></i-hugeicons:filter-horizontal>
-              </template>
-              筛选</el-button
-            >
-          </el-badge>
-        </template>
-        <div flex flex-col>
-          <span class="title">筛选</span>
-          <el-divider />
-          <div class="panel">
-            <div flex flex-row justify-between>
-              <span class="label" shrink-0>状态</span>
-              <el-link class="reset" :underline="false" @click="resetStatusFilter">重置</el-link>
-            </div>
-            <el-select clearable v-model="status" placeholder="选择产品状态">
-              <el-option
-                v-for="item in productStatusOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
-          </div>
-          <el-divider />
-          <div flex flex-row justify-between p-3>
-            <el-button class="default-btn" size="small" @click="resetAllFilter">重置全部</el-button>
-            <el-button type="primary" size="small" @click="applyFilter">应用</el-button>
-          </div>
-        </div>
-      </el-popover>
-    </div>
+    <product-filter-sort-panel v-model:status="status" @refresh="reset" />
 
     <product-tabel-panel
       :data="data"
       :loading="getListLoading"
       @delete="handleDelete"
-      @change-state="handleStateChange"
+      @change-status="handleChangeStatus"
     ></product-tabel-panel>
 
     <el-pagination
@@ -109,19 +41,23 @@
       :total="total"
       :page-sizes="[10, 20, 30, 40, 50]"
     />
-
-    <div v-if="sortingVisible || filterVisible" class="modal-mask"></div>
   </div>
 </template>
 
 <script setup lang="ts">
+import ProductFilterSortPanel from './ProductFilterSortPanel.vue'
 import ProductTabelPanel from './ProductTabelPanel.vue'
+import type { apiListResult } from '@/types/common'
 
 // 获取列表
 const getListLoading = ref<boolean>(false)
 const data = ref<IProductItem[]>([])
 import { useProductStore } from '@/stores/modules/product'
-const { getProducts: getProductsAction, delProducts: delProductsAction } = useProductStore()
+const {
+  getProducts: getProductsAction,
+  changeProductStatus: changeProductStatusAction,
+  deleteProducts: deleteProductsAction
+} = useProductStore()
 const getList = async (): Promise<apiListResult<IProductItem>> => {
   getListLoading.value = true
   const res = await getProductsAction(
@@ -144,14 +80,42 @@ const { pageNum, pageSize, total, refresh } = usePager(getList)
 import { useDelete } from '@/composables/useDelete'
 const delName = ref('')
 const delId = ref<string | number>('')
-const { doDelAction } = useDelete(`是否确认删除${delName.value}？`, async () => {
-  await delProductsAction([delId.value])
-  refresh()
-})
+const { doDelAction } = useDelete(
+  () => `是否确认删除 ${delName.value} ？`,
+  async () => {
+    await deleteProductsAction([delId.value])
+    refresh()
+  }
+)
 const handleDelete = (id: string | number, name: string) => {
   delName.value = name
   delId.value = id
   doDelAction()
+}
+
+// 修改状态
+import { useChangeStatus } from '@/composables/useChangeStatus'
+import { ProductStatus } from '@/constants/mapData/product'
+const changeName = ref('')
+const changeId = ref<string | number>('')
+const changeStatus = ref<ProductStatus>()
+const { doChangeAction } = useChangeStatus(
+  () =>
+    `是否确认 ${changeStatus.value === ProductStatus.OnSale ? '上架' : '下架'} ${changeName.value} ？`,
+  async () => {
+    if (!changeStatus.value) {
+      ElMessage.error('请选择状态')
+      return
+    }
+    await changeProductStatusAction([changeId.value], changeStatus.value)
+    refresh()
+  }
+)
+const handleChangeStatus = (id: string | number, title: string, newStatus: ProductStatus) => {
+  changeName.value = title
+  changeId.value = id
+  changeStatus.value = newStatus
+  doChangeAction()
 }
 
 // 搜索
@@ -160,40 +124,10 @@ const handleSearch = () => {
   refresh()
 }
 
-// 筛选
-const filterVisible = ref<boolean>(false)
 const status = ref<string>('')
-import { ProductStatus, productStatusOptions } from '@/constants/mapData/product'
-import type { apiListResult } from '@/types/common'
-
-const filterCount = ref(0)
-
-const resetStatusFilter = () => {
-  status.value = ''
-}
-
-const resetAllFilter = () => {
-  resetStatusFilter()
-}
-
-const applyFilter = () => {
-  filterVisible.value = false
-  filterCount.value = 0
-  if (status.value) {
-    filterCount.value++
-  }
+const reset = () => {
   pageNum.value = 1
   refresh()
-}
-
-// 排序
-const sortingVisible = ref<boolean>(false)
-const sortingCount = ref(0)
-
-const resetAllSorting = () => {}
-
-const applySorting = () => {
-  sortingVisible.value = false
 }
 
 // 新建
@@ -205,17 +139,6 @@ const handleCreate = () => {
       id: -1
     }
   })
-}
-
-// 状态变更
-const handleStateChange = (id: string | number, status: ProductStatus) => {
-  if (status === ProductStatus.OnSale) {
-    ElMessage.success('上架成功')
-  } else {
-    ElMessage.success('下架成功')
-  }
-  pageNum.value = 1
-  refresh()
 }
 </script>
 

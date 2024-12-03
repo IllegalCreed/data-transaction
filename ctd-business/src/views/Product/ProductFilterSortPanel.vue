@@ -49,9 +49,9 @@
             <span class="label" shrink-0>状态</span>
             <el-link class="reset" :underline="false" @click="resetStatusFilter">重置</el-link>
           </div>
-          <el-select clearable v-model="status" placeholder="选择资讯状态">
+          <el-select clearable v-model="status" placeholder="选择产品状态">
             <el-option
-              v-for="item in activeStatusOptions"
+              v-for="item in productStatusOptions"
               :key="item.value"
               :label="item.label"
               :value="item.value"
@@ -80,7 +80,7 @@ const status = defineModel<string>('status', { default: '' })
 // 筛选
 const filterVisible = ref<boolean>(false)
 
-import { activeStatusOptions } from '@/constants/mapData'
+import { productStatusOptions } from '@/constants/mapData/product'
 
 const filterCount = ref(0)
 

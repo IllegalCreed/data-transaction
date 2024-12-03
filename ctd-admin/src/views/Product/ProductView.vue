@@ -54,7 +54,7 @@ import type { apiListResult } from '@/types/common'
 const getListLoading = ref<boolean>(false)
 const data = ref<IProductItem[]>([])
 import { useProductStore } from '@/stores/modules/product'
-const { getProducts: getProductsAction, delProducts: delProductsAction } = useProductStore()
+const { getProducts: getProductsAction, deleteProducts: deleteProductsAction } = useProductStore()
 const getList = async (): Promise<apiListResult<IProductItem>> => {
   getListLoading.value = true
   const res = await getProductsAction(
@@ -79,9 +79,9 @@ import { useDelete } from '@/composables/useDelete'
 const delName = ref('')
 const delId = ref<string | number>('')
 const { doDelAction } = useDelete(
-  () => `是否确认删除${delName.value}？`,
+  () => `是否确认删除 ${delName.value} ？`,
   async () => {
-    await delProductsAction([delId.value])
+    await deleteProductsAction([delId.value])
     refresh()
   }
 )

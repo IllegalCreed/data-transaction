@@ -45,7 +45,7 @@
           link
           type="primary"
           size="small"
-          @click="changeState(scope.row.id, ProductStatus.OnSale)"
+          @click="changeStatuwRow(scope.row.id, scope.row.name, ProductStatus.OnSale)"
         >
           上架
         </el-button>
@@ -54,7 +54,7 @@
           link
           type="primary"
           size="small"
-          @click="changeState(scope.row.id, ProductStatus.OffSale)"
+          @click="changeStatuwRow(scope.row.id, scope.row.name, ProductStatus.OffSale)"
         >
           下架
         </el-button>
@@ -144,14 +144,14 @@ const rejectReason = (id: number | string) => {
 
 const emit = defineEmits<{
   (e: 'delete', id: number | string, name: string): void
-  (e: 'changeState', id: number | string, status: ProductStatus): void
+  (e: 'changeStatus', id: number | string, title: string, newStatus: ProductStatus): void
 }>()
 
 const deleteRow = (id: number | string, name: string) => {
   emit('delete', id, name)
 }
-const changeState = (id: number | string, status: ProductStatus) => {
-  emit('changeState', id, status)
+const changeStatuwRow = (id: number | string, name: string, newStatus: ProductStatus) => {
+  emit('changeStatus', id, name, newStatus)
 }
 </script>
 

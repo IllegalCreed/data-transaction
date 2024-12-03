@@ -9,7 +9,8 @@ import type {
 import {
   getProducts as getProductsAPI,
   getProduct as getProductAPI,
-  delProducts as delProductsAPI,
+  changeProductStatus as changeProductStatusAPI,
+  deleteProducts as deleteProductsAPI,
   getVersion as getVersionAPI,
   setVersion as setVersionAPI,
   getPriceDefinition as getPriceDefinitionAPI,
@@ -20,6 +21,7 @@ import {
   versions as mockVersions,
   prices as mockPrices
 } from '@/constants/mockData/product/product'
+import type { ProductStatus } from '@/constants/mapData/product'
 
 export const useProduct = () => {
   const settingsStore = useSettingsStore()
@@ -80,14 +82,33 @@ export const useProduct = () => {
     })
   }
 
-  const delProducts = (ids: (string | number)[]): Promise<void> => {
+  const changeProductStatus = (ids: (string | number)[], status: ProductStatus): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => {
           resolve()
         }, 1000)
       } else {
-        delProductsAPI(ids)
+        changeProductStatusAPI(ids, status)
+          .then(() => {
+            resolve()
+          })
+          .catch((error: Error) => {
+            reject(error)
+          })
+          .finally(() => {})
+      }
+    })
+  }
+
+  const deleteProducts = (ids: (string | number)[]): Promise<void> => {
+    return new Promise<void>((resolve, reject) => {
+      if (settingsStore.mockEnabled) {
+        window.setTimeout(() => {
+          resolve()
+        }, 1000)
+      } else {
+        deleteProductsAPI(ids)
           .then(() => {
             resolve()
           })
@@ -185,7 +206,7 @@ export const useProduct = () => {
         }, 1000)
       } else {
         setPriceDefinitionAPI(productId, priceInfo)
-          .then((res) => {
+          .then(() => {
             resolve()
           })
           .catch((error: Error) => {
@@ -199,7 +220,8 @@ export const useProduct = () => {
   return {
     getProducts,
     getProduct,
-    delProducts,
+    changeProductStatus,
+    deleteProducts,
     getVersion,
     setVersion,
     getPriceDefinition,

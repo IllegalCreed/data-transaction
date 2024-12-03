@@ -9,7 +9,7 @@ import type {
 import {
   getProducts as getProductsAPI,
   getProduct as getProductAPI,
-  delProducts as delProductsAPI,
+  deleteProducts as deleteProductsAPI,
   getVersion as getVersionAPI,
   getPriceDefinition as getPriceDefinitionAPI
 } from '@/apis/product'
@@ -80,14 +80,14 @@ export const useProduct = () => {
     })
   }
 
-  const delProducts = (ids: (string | number)[]): Promise<void> => {
+  const deleteProducts = (ids: (string | number)[]): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => {
           resolve()
         }, 1000)
       } else {
-        delProductsAPI(ids)
+        deleteProductsAPI(ids)
           .then(() => {
             resolve()
           })
@@ -158,7 +158,7 @@ export const useProduct = () => {
   return {
     getProducts,
     getProduct,
-    delProducts,
+    deleteProducts,
     getVersion,
     getPriceDefinition
   }

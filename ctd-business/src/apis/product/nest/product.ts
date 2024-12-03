@@ -1,4 +1,5 @@
 import request from '@/axios'
+import type { ProductStatus } from '@/constants/mapData/product'
 import type { IProductSpecsPriceDefinition, IProductVersion } from '@/types/product'
 
 export const getProducts = (
@@ -31,7 +32,24 @@ export const getProduct = (id: string | number): Promise<unknown> => {
   )
 }
 
-export const delProducts = (ids: (string | number)[]): Promise<unknown> => {
+export const changeProductStatus = (
+  ids: (string | number)[],
+  status: ProductStatus
+): Promise<unknown> => {
+  const data = {
+    ids,
+    status
+  }
+  return request.put(
+    {
+      url: '/product/change-status',
+      data
+    },
+    true
+  )
+}
+
+export const deleteProducts = (ids: (string | number)[]): Promise<unknown> => {
   const params = {
     ids
   }
