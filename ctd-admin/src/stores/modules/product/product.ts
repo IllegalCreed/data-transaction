@@ -17,7 +17,7 @@ import {
   products as mockProducts,
   versions as mockVersions,
   prices as mockPrices
-} from '@/constants/mockData/product/product'
+} from '@/constants/mockData/product'
 
 export const useProduct = () => {
   const settingsStore = useSettingsStore()

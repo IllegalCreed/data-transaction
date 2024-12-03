@@ -1,7 +1,7 @@
 import { useSettingsStore } from '../settings'
 import type { IOption } from '@/types/common'
 import { getBusinessOptionsByName as getBusinessOptionsByNameAPI } from '@/apis/business'
-import { businessOptions as mockBusinessOptions } from '@/constants/mockData/business/business'
+import { businessOptions as mockBusinessOptions } from '@/constants/mockData/business'
 
 export const useBusiness = () => {
   const settingsStore = useSettingsStore()

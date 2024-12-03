@@ -30,6 +30,12 @@ const router = createRouter({
           meta: { belong: '/home/user', title: '用户管理' }
         },
         {
+          path: '/home/news',
+          component: () => import('@/views/News/NewsView.vue'),
+          name: 'news',
+          meta: { belong: '/home/news', title: '资讯管理' }
+        },
+        {
           path: '/home/product',
           component: () => import('@/views/Product/ProductView.vue'),
           name: 'product',

@@ -1,5 +1,5 @@
 <template>
-  <div class="product-root-container">
+  <div class="news-root-container">
     <div flex flex-row justify-between>
       <el-input
         class="search-input"
@@ -21,17 +21,14 @@
 
     <el-divider class="!my-0" />
 
-    <product-filter-sort-panel
-      v-model:status="status"
-      v-model:seller-id="sellerId"
-      @refresh="reset"
-    />
+    <news-filter-sort-panel v-model:status="status" @refresh="reset" />
 
-    <product-tabel-panel
+    <news-tabel-panel
       :data="data"
       :loading="getListLoading"
       @delete="handleDelete"
-    ></product-tabel-panel>
+      @changeStatus="handleChangeStatus"
+    />
 
     <el-pagination
       self-center
@@ -46,24 +43,22 @@
 </template>
 
 <script setup lang="ts">
-import ProductFilterSortPanel from './ProductFilterSortPanel.vue'
-import ProductTabelPanel from './ProductTabelPanel.vue'
+import NewsFilterSortPanel from './NewsFilterSortPanel.vue'
+import NewsTabelPanel from './NewsTabelPanel.vue'
 import type { apiListResult } from '@/types/common'
 
 // 获取列表
 const getListLoading = ref<boolean>(false)
-const data = ref<IProductItem[]>([])
-import { useProductStore } from '@/stores/modules/product'
-const { getProducts: getProductsAction, delProducts: delProductsAction } = useProductStore()
-const getList = async (): Promise<apiListResult<IProductItem>> => {
+const data = ref<INewsItem[]>([])
+import { useNewsStore } from '@/stores/modules/news'
+const {
+  getNews: getNewsAction,
+  changeNewsStatus: changeNewsStatusAction,
+  deleteNews: deleteNewsAction
+} = useNewsStore()
+const getList = async (): Promise<apiListResult<INewsItem>> => {
   getListLoading.value = true
-  const res = await getProductsAction(
-    searchQuery.value,
-    status.value,
-    sellerId.value,
-    pageNum.value,
-    pageSize.value
-  )
+  const res = await getNewsAction(searchQuery.value, status.value, pageNum.value, pageSize.value)
 
   data.value = res.rows
   getListLoading.value = false
@@ -71,24 +66,49 @@ const getList = async (): Promise<apiListResult<IProductItem>> => {
 }
 
 import { usePager } from '@/composables/usePager'
-import type { IProductItem } from '@/types/product'
+import type { INewsItem } from '@/types/news'
 const { pageNum, pageSize, total, refresh } = usePager(getList)
 
 // 删除
 import { useDelete } from '@/composables/useDelete'
-const delName = ref('')
+const delTitle = ref('')
 const delId = ref<string | number>('')
 const { doDelAction } = useDelete(
-  () => `是否确认删除${delName.value}？`,
+  () => `是否确认删除${delTitle.value}？`,
   async () => {
-    await delProductsAction([delId.value])
+    await deleteNewsAction([delId.value])
     refresh()
   }
 )
-const handleDelete = (id: string | number, name: string) => {
-  delName.value = name
+const handleDelete = (id: string | number, title: string) => {
+  delTitle.value = title
   delId.value = id
   doDelAction()
+}
+
+// 修改状态
+import { useChangeStatus } from '@/composables/useChangeStatus'
+import { ActiveStatus } from '@/constants/mapData'
+const changeTitle = ref('')
+const changeId = ref<string | number>('')
+const changeStatus = ref<ActiveStatus>()
+const { doChangeAction } = useChangeStatus(
+  () =>
+    `是否确认 ${changeStatus.value === ActiveStatus.Active ? '启用' : '停用'} ${changeTitle.value}？`,
+  async () => {
+    if (!changeStatus.value) {
+      ElMessage.error('请选择状态')
+      return
+    }
+    await changeNewsStatusAction([changeId.value], changeStatus.value)
+    refresh()
+  }
+)
+const handleChangeStatus = (id: string | number, title: string, newStatus: ActiveStatus) => {
+  changeTitle.value = title
+  changeId.value = id
+  changeStatus.value = newStatus
+  doChangeAction()
 }
 
 // 搜索
@@ -98,7 +118,6 @@ const handleSearch = () => {
 }
 
 const status = ref<string>('')
-const sellerId = ref<string | number>('')
 const reset = () => {
   pageNum.value = 1
   refresh()
@@ -106,7 +125,7 @@ const reset = () => {
 </script>
 
 <style scoped lang="scss">
-.product-root-container {
+.news-root-container {
   @apply flex-1 flex flex-col p-4 gap-4 bg-[var(--background-page-color)];
 }
 </style>
