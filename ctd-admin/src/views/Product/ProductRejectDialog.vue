@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import type { UploadUserFile } from 'element-plus'
+import type { UploadInstance, UploadUserFile } from 'element-plus'
 
 defineProps<{ id: string | number }>()
 const model = defineModel<boolean>()
@@ -42,7 +42,7 @@ watch(model, (val) => {
   }
 })
 
-const uploadRef = useTemplateRef('uploadRef')
+const uploadRef = ref<UploadInstance>()
 const reason = ref('')
 const fileList = ref<UploadUserFile[]>([])
 
