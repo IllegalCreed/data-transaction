@@ -30,6 +30,24 @@ const router = createRouter({
           meta: { belong: '/home/user', title: '用户管理' }
         },
         {
+          path: '/home/scene',
+          component: () => import('@/views/Scene/SceneView.vue'),
+          name: 'scene',
+          meta: { belong: '/home/scene', title: '场景管理' }
+        },
+        {
+          path: '/home/scene-detail/:id',
+          component: () => import('@/views/Scene/SceneDetail/SceneDetailView.vue'),
+          name: 'scene-detail',
+          meta: { belong: '/home/scene', title: '场景详情' }
+        },
+        {
+          path: '/home/scene-edit/:id',
+          component: () => import('@/views/Scene/SceneEdit/SceneEditView.vue'),
+          name: 'scene-edit',
+          meta: { belong: '/home/scene', title: '场景编辑' }
+        },
+        {
           path: '/home/news',
           component: () => import('@/views/News/NewsView.vue'),
           name: 'news',
