@@ -1,8 +1,8 @@
 import request from '@/axios'
 import type { ActiveStatus } from '@/constants/mapData'
-import type { INewsDTO } from '@/types/news'
+import type { ISceneDTO } from '@/types/scene'
 
-export const getNews = (
+export const getScenes = (
   searchQuery: string,
   status: string,
   pageNum: number,
@@ -16,61 +16,61 @@ export const getNews = (
   }
   return request.get(
     {
-      url: '/news/get-list',
+      url: '/scene',
       params
     },
     true
   )
 }
 
-export const getNewsDetail = (id: string | number): Promise<unknown> => {
+export const getScene = (id: string | number): Promise<unknown> => {
   return request.get(
     {
-      url: `/news/get-detail/${id}`
+      url: `/scene/${id}`
     },
     true
   )
 }
 
-export const upsertNews = (id: string | number, newsInfo: INewsDTO): Promise<unknown> => {
+export const upsertScene = (id: string | number, sceneInfo: ISceneDTO): Promise<unknown> => {
   const data = {
     id,
-    ...newsInfo
+    ...sceneInfo
   }
 
   return request.post(
     {
-      url: '/news/upsert',
+      url: '/scene/upsert',
       data
     },
     true
   )
 }
 
-export const changeNewsStatus = (
+export const changeScenesStatus = (
   ids: (string | number)[],
   status: ActiveStatus
 ): Promise<unknown> => {
-  const params = {
+  const data = {
     ids,
     status
   }
   return request.put(
     {
-      url: '/news/change-status',
-      params
+      url: '/scene/change-status',
+      data
     },
     true
   )
 }
 
-export const deleteNews = (ids: (string | number)[]): Promise<unknown> => {
+export const deleteScenes = (ids: (string | number)[]): Promise<unknown> => {
   const params = {
     ids
   }
   return request.delete(
     {
-      url: '/news/delete',
+      url: '/scene/delete',
       params
     },
     true

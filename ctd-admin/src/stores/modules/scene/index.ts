@@ -1,41 +1,45 @@
 import { defineStore } from 'pinia'
 import { useSettingsStore } from '../settings'
 import type { apiListResult } from '@/types/common'
-import type { INews, INewsDTO, INewsItem } from '@/types/news'
+import type { IScene, ISceneDTO, ISceneItem } from '@/types/scene'
 import {
-  getNews as getNewsAPI,
-  getNewsDetail as getNewsDetailAPI,
-  upsertNews as upsertNewsAPI,
-  changeNewsStatus as changeNewsStatusAPI,
-  deleteNews as deleteNewsAPI
-} from '@/apis/news'
-import { news as mockNews } from '@/constants/mockData/news'
+  getScenes as getScenesAPI,
+  getScene as getSceneAPI,
+  upsertScene as upsertSceneAPI,
+  changeScenesStatus as changeScenesStatusAPI,
+  deleteScenes as deleteScenesAPI
+} from '@/apis/scene'
+import { scenes as mockScenes } from '@/constants/mockData/scene'
 import type { ActiveStatus } from '@/constants/mapData'
 
-export const useNewsStore = defineStore('news', () => {
+export const useSceneStore = defineStore('scene', () => {
   const settingsStore = useSettingsStore()
 
-  const getNews = (
+  const getScenes = (
     searchQuery: string,
     status: string,
     pageNum: number,
     pageSize: number
-  ): Promise<apiListResult<INewsItem>> => {
-    return new Promise<apiListResult<INewsItem>>((resolve, reject) => {
+  ): Promise<apiListResult<ISceneItem>> => {
+    return new Promise<apiListResult<ISceneItem>>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => {
-          const result = mockNews.filter((item) => {
+          const result = mockScenes.filter((item) => {
             const statusMatch = status ? item.status === status : true
             const searchMatch = searchQuery ? item.title.includes(searchQuery) : true
 
             return statusMatch && searchMatch
           })
-          resolve({ total: result.length, rows: result })
+          const newArray: ISceneItem[] = result.map((item) => ({
+            ...item,
+            companyName: item.company.name
+          }))
+          resolve({ total: result.length, rows: newArray })
         }, 1000)
       } else {
-        getNewsAPI(searchQuery, status, pageNum, pageSize)
+        getScenesAPI(searchQuery, status, pageNum, pageSize)
           .then((res) => {
-            const result = res as apiListResult<INewsItem>
+            const result = res as apiListResult<ISceneItem>
             resolve(result)
           })
           .catch((error: Error) => {
@@ -46,21 +50,21 @@ export const useNewsStore = defineStore('news', () => {
     })
   }
 
-  const getNewsDetail = (id: string | number): Promise<INews> => {
-    return new Promise<INews>((resolve, reject) => {
+  const getScene = (id: string | number): Promise<IScene> => {
+    return new Promise<IScene>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => {
-          const result = mockNews.find((item) => item.id === Number(id))
+          const result = mockScenes.find((item) => item.id === Number(id))
           if (result) {
             resolve(result)
           } else {
-            reject(new Error('News not found'))
+            reject(new Error('Scene not found'))
           }
         }, 1000)
       } else {
-        getNewsDetailAPI(id)
+        getSceneAPI(id)
           .then((res) => {
-            const result = res as INews
+            const result = res as IScene
             resolve(result)
           })
           .catch((error: Error) => {
@@ -71,14 +75,14 @@ export const useNewsStore = defineStore('news', () => {
     })
   }
 
-  const upsertNews = (id: string | number, newsInfo: INewsDTO): Promise<void> => {
+  const upsertScene = (id: string | number, sceneInfo: ISceneDTO): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => {
           resolve()
         }, 1000)
       } else {
-        upsertNewsAPI(id, newsInfo)
+        upsertSceneAPI(id, sceneInfo)
           .then(() => {
             resolve()
           })
@@ -90,14 +94,14 @@ export const useNewsStore = defineStore('news', () => {
     })
   }
 
-  const changeNewsStatus = (ids: (string | number)[], status: ActiveStatus): Promise<void> => {
+  const changeScenesStatus = (ids: (string | number)[], status: ActiveStatus): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => {
           resolve()
         }, 1000)
       } else {
-        changeNewsStatusAPI(ids, status)
+        changeScenesStatusAPI(ids, status)
           .then(() => {
             resolve()
           })
@@ -109,14 +113,14 @@ export const useNewsStore = defineStore('news', () => {
     })
   }
 
-  const deleteNews = (ids: (string | number)[]): Promise<void> => {
+  const deleteScenes = (ids: (string | number)[]): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => {
           resolve()
         }, 1000)
       } else {
-        deleteNewsAPI(ids)
+        deleteScenesAPI(ids)
           .then(() => {
             resolve()
           })
@@ -129,10 +133,10 @@ export const useNewsStore = defineStore('news', () => {
   }
 
   return {
-    getNews,
-    getNewsDetail,
-    upsertNews,
-    changeNewsStatus,
-    deleteNews
+    getScenes,
+    getScene,
+    upsertScene,
+    changeScenesStatus,
+    deleteScenes
   }
 })

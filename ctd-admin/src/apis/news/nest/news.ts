@@ -70,7 +70,7 @@ export const deleteNews = (ids: (string | number)[]): Promise<unknown> => {
   }
   return request.delete(
     {
-      url: '/news/del',
+      url: '/news/delete',
       params
     },
     true
