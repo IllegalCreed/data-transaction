@@ -28,6 +28,8 @@ export const news: INews[] = [
     summary:
       '近日，全球数字经济大会副中心论坛成功举办，北京数据基础制度先行区文旅数据专区场景在会上首次亮相，受到社会各界广泛关注。会后，文旅数据专区创新联合体快速推进相关场景的实地应用进程。8月22日，文旅数据专区应用场景三庙一塔“数字科普剧本游”研学产品发布会在通州区文庙大成殿前成功举办。',
     content: `<img src="http://10.105.31.40:9001/img/2.jpg" alt="">`,
+    coverImageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
+    headerImageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
     status: ActiveStatus.Active,
     readCount: 1000,
     publicDate: '2024-08-22',

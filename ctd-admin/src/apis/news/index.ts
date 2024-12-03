@@ -11,7 +11,7 @@ interface INewsAPI {
     pageSize: number
   ) => Promise<unknown>
   getNewsDetail: (id: string | number) => Promise<unknown>
-  upsertNews: (newsInfo: INewsDTO) => Promise<unknown>
+  upsertNews: (id: string | number, newsInfo: INewsDTO) => Promise<unknown>
   changeNewsStatus: (ids: (string | number)[], status: ActiveStatus) => Promise<unknown>
   deleteNews: (ids: (string | number)[]) => Promise<unknown>
 }

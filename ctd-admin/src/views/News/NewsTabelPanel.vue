@@ -5,7 +5,7 @@
     header-cell-class-name="table-header-row"
     cell-class-name="table-row-cell"
   >
-    <el-table-column prop="title" label="资讯标题" />
+    <el-table-column prop="title" label="资讯标题" min-width="300" />
     <el-table-column prop="readCount" label="阅读数" width="80" />
     <el-table-column label="状态" width="120">
       <template #default="scope">
@@ -15,8 +15,9 @@
     <el-table-column prop="publicDate" label="发布日期" width="130" />
     <el-table-column prop="createTime" label="创建时间" width="130" />
     <el-table-column prop="updateTime" label="更新时间" width="130" />
-    <el-table-column fixed="right" label="操作" align="right" width="180">
+    <el-table-column fixed="right" label="操作" align="right" width="220">
       <template #default="scope">
+        <el-button link type="primary" size="small" @click="edit(scope.row.id)"> 编辑 </el-button>
         <el-button
           v-if="scope.row.status === ActiveStatus.Inactive"
           link
@@ -59,6 +60,14 @@ const stautsColor = (status: ActiveStatus) => ACTIVE_STATUS_COLOR_MAP[status]
 const statusLabel = (status: ActiveStatus) => ACTIVE_STATUS_MAP[status]
 
 const router = useRouter()
+const edit = (id: number | string) => {
+  router.push({
+    name: 'news-edit',
+    params: {
+      id
+    }
+  })
+}
 
 const goDetail = (id: number | string) => {
   router.push({

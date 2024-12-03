@@ -16,4 +16,4 @@ export interface INews {
 
 export type INewsItem = Omit<INews, 'summary' | 'coverImageUrl' | 'headerImageUrl' | 'content'>
 
-export type INewsDTO = Omit<INews, 'createTime' | 'updateTime' | 'readCount'>
+export type INewsDTO = Omit<INews, 'id' | 'createTime' | 'updateTime' | 'readCount'>

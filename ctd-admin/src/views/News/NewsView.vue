@@ -17,6 +17,8 @@
           </el-button>
         </template>
       </el-input>
+
+      <el-button class="default-btn" @click="handleCreate">新建资讯</el-button>
     </div>
 
     <el-divider class="!my-0" />
@@ -121,6 +123,17 @@ const status = ref<string>('')
 const reset = () => {
   pageNum.value = 1
   refresh()
+}
+
+// 新建
+const router = useRouter()
+const handleCreate = () => {
+  router.push({
+    name: 'news-edit',
+    params: {
+      id: -1
+    }
+  })
 }
 </script>
 

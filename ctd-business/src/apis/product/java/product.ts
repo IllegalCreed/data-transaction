@@ -16,7 +16,7 @@ export const getProducts = (
   }
   return request.get(
     {
-      url: '/product/getlist',
+      url: '/product',
       params
     },
     true
@@ -66,9 +66,14 @@ export const getVersion = (
   productId: string | number,
   version: string | number
 ): Promise<unknown> => {
+  const params = {
+    productId,
+    version
+  }
   return request.get(
     {
-      url: `/product/${productId}/${version}`
+      url: `/product/version`,
+      params
     },
     true
   )
@@ -78,9 +83,14 @@ export const getPriceDefinition = (
   productId: string | number,
   version: string | number
 ): Promise<unknown> => {
+  const params = {
+    productId,
+    version
+  }
   return request.get(
     {
-      url: `/product/${productId}/${version}/price`
+      url: `/product/price`,
+      params
     },
     true
   )
@@ -96,7 +106,7 @@ export const setVersion = (
   }
   return request.post(
     {
-      url: `/product/${productId}/0/update`,
+      url: `/product/version/update`,
       data
     },
     true
@@ -113,7 +123,7 @@ export const setPriceDefinition = (
   }
   return request.get(
     {
-      url: `/product/${productId}/0/price/update`,
+      url: `/product/price/update`,
       data
     },
     true

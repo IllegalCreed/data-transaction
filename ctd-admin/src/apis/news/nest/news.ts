@@ -32,8 +32,9 @@ export const getNewsDetail = (id: string | number): Promise<unknown> => {
   )
 }
 
-export const upsertNews = (newsInfo: INewsDTO): Promise<unknown> => {
+export const upsertNews = (id: string | number, newsInfo: INewsDTO): Promise<unknown> => {
   const data = {
+    id,
     ...newsInfo
   }
 

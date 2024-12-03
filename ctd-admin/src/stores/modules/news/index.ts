@@ -73,14 +73,14 @@ export const useNewsStore = defineStore('news', () => {
     })
   }
 
-  const upsertNews = (newsInfo: INewsDTO): Promise<void> => {
+  const upsertNews = (id: string | number, newsInfo: INewsDTO): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => {
           resolve()
         }, 1000)
       } else {
-        upsertNewsAPI(newsInfo)
+        upsertNewsAPI(id, newsInfo)
           .then(() => {
             resolve()
           })

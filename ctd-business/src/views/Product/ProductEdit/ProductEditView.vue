@@ -201,6 +201,8 @@ const rules = reactive<FormRules<IProductVersion & IProductSpecsPriceDefinition>
   name: [{ required: true, message: '请输入产品名称', trigger: 'blur' }],
   description: [{ required: true, message: '请输入产品描述', trigger: 'blur' }],
   showPrice: [{ required: true, message: '请输入展示价格', trigger: 'blur' }]
+
+  // TODO: 其他参数校验
 })
 
 const save = async () => {

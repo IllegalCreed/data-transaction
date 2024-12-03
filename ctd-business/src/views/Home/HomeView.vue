@@ -26,6 +26,7 @@
             w-4
             h-4
             mx-1
+            cursor-pointer
           ></i-oi:collapse-left>
           <i-oi:collapse-right
             v-else
@@ -33,6 +34,7 @@
             w-4
             h-4
             mx-1
+            cursor-pointer
           ></i-oi:collapse-right>
         </div>
         <el-menu
