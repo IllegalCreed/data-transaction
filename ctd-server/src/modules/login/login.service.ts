@@ -82,7 +82,7 @@ export class LoginService {
     // 验证用户是否存在和状态
     const user = await this.userRepository.findOne({ where: { email } });
     if (!user) {
-      this.logger.warn(`登录失败，用户不存在：${email}`);
+      this.logger.warn(`登录失败：用户不存在：${email}`);
       // 为了安全性，返回通用错误信息
       return createErrorResponse(ErrorCode.INVALID_CREDENTIALS);
     }
@@ -96,7 +96,7 @@ export class LoginService {
           false,
           '用户状态不允许',
         );
-        this.logger.warn(`登录失败，用户状态不允许：${email}`);
+        this.logger.warn(`登录失败：用户状态不允许：${email}`);
         return createErrorResponse(ErrorCode.INVALID_CREDENTIALS);
       } catch (error) {
         if (error instanceof ExpectedError) {
@@ -160,14 +160,28 @@ export class LoginService {
         );
         await this.incrementFailedAttempts(user);
 
-        this.logger.warn(`密码验证失败：${email}`);
-        if (user.failedAttempts >= CAPTCHA_THRESHOLD) {
+        this.logger.warn(`登录失败：密码验证失败：${email}`);
+
+        // 冻结用户
+        const FREEZE_THRESHOLD = this.configService.get<number>(
+          'FREEZE_THRESHOLD',
+          5,
+        );
+        if (user.failedAttempts >= FREEZE_THRESHOLD) {
+          this.logger.warn(`冻结用户账户：${email}`);
+          user.status = UserStatus.SUSPENDED;
+          await this.userRepository.save(user);
           return createErrorResponse(ErrorCode.LOGIN_FAILED, {
-            requiresCaptcha: true,
+            requiresCaptcha: false,
           });
         }
 
-        // TODO 如果大于冻结次数需要改一下user的status为冻结
+        // 下次登录需要验证码
+        if (user.failedAttempts >= CAPTCHA_THRESHOLD) {
+          return createErrorResponse(ErrorCode.ACCOUNT_SUSPENDED, {
+            requiresCaptcha: true,
+          });
+        }
 
         return createErrorResponse(ErrorCode.LOGIN_FAILED, {
           requiresCaptcha: false,
@@ -187,7 +201,7 @@ export class LoginService {
       try {
         await this.userRepository.save(user);
       } catch (error) {
-        this.logger.error('重置失败次数失败', error);
+        this.logger.error('登录失败：重置失败次数失败', error);
         return createErrorResponse(ErrorCode.LOGIN_FAILED);
       }
     }

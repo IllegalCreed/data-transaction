@@ -2,6 +2,7 @@ export enum ErrorCode {
   // 通用
   INVALID_CREDENTIALS = 9001,
   SEND_EMAIL_FAILED = 9002,
+  ACCOUNT_SUSPENDED = 9003,
 
   // 注册相关
   EMAIL_TAKEN = 1001,
@@ -45,6 +46,7 @@ export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
   // 通用
   [ErrorCode.INVALID_CREDENTIALS]: 'Invalid credentials.',
   [ErrorCode.SEND_EMAIL_FAILED]: 'Failed to send email.',
+  [ErrorCode.ACCOUNT_SUSPENDED]: 'Account is suspended.',
 
   // 注册相关
   [ErrorCode.EMAIL_TAKEN]: 'Email is already taken.',
