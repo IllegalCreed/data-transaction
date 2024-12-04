@@ -23,7 +23,11 @@
 
     <el-divider class="!my-0" />
 
-    <scene-filter-sort-panel v-model:status="status" @refresh="reset" />
+    <scene-filter-sort-panel
+      v-model:status="status"
+      v-model:is-outer-link="isOuterLink"
+      @refresh="reset"
+    />
 
     <scene-tabel-panel
       :data="data"
@@ -61,7 +65,13 @@ const {
 } = useSceneStore()
 const getList = async (): Promise<apiListResult<ISceneItem>> => {
   getListLoading.value = true
-  const res = await getScenesAction(searchQuery.value, status.value, pageNum.value, pageSize.value)
+  const res = await getScenesAction(
+    searchQuery.value,
+    status.value,
+    isOuterLink.value,
+    pageNum.value,
+    pageSize.value
+  )
 
   data.value = res.rows
   getListLoading.value = false
@@ -120,6 +130,7 @@ const handleSearch = () => {
 }
 
 const status = ref<string>('')
+const isOuterLink = ref<boolean>()
 const reset = () => {
   pageNum.value = 1
   refresh()

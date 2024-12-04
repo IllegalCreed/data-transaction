@@ -59,6 +59,17 @@
           </el-select>
         </div>
         <el-divider />
+        <div class="panel">
+          <div flex flex-row justify-between>
+            <span class="label" shrink-0>外链</span>
+            <el-link class="reset" :underline="false" @click="resetIsOuterLinkFilter">重置</el-link>
+          </div>
+          <el-select clearable v-model="isOuterLink" placeholder="选择是否为外链">
+            <el-option label="是" :value="true" />
+            <el-option label="否" :value="false" />
+          </el-select>
+        </div>
+        <el-divider />
         <div flex flex-row justify-between p-3>
           <el-button class="default-btn" size="small" @click="resetAllFilter">重置全部</el-button>
           <el-button type="primary" size="small" @click="applyFilter">应用</el-button>
@@ -76,6 +87,7 @@ const emit = defineEmits<{
 }>()
 
 const status = defineModel<string>('status', { default: '' })
+const isOuterLink = defineModel<boolean>('isOuterLink')
 
 // 筛选
 const filterVisible = ref<boolean>(false)
@@ -88,13 +100,21 @@ const resetStatusFilter = () => {
   status.value = ''
 }
 
+const resetIsOuterLinkFilter = () => {
+  isOuterLink.value = undefined
+}
+
 const resetAllFilter = () => {
   resetStatusFilter()
+  resetIsOuterLinkFilter()
 }
 
 const applyFilter = () => {
   filterVisible.value = false
   filterCount.value = 0
+  if (status.value) {
+    filterCount.value++
+  }
   if (status.value) {
     filterCount.value++
   }

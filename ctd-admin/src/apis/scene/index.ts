@@ -7,6 +7,7 @@ interface ISceneAPI {
   getScenes: (
     searchQuery: string,
     status: string,
+    isOuterLink: boolean | undefined,
     pageNum: number,
     pageSize: number
   ) => Promise<unknown>

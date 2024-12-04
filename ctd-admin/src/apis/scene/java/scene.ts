@@ -5,12 +5,14 @@ import type { ISceneDTO } from '@/types/scene'
 export const getScenes = (
   searchQuery: string,
   status: string,
+  isOuterLink: boolean | undefined,
   pageNum: number,
   pageSize: number
 ): Promise<unknown> => {
   const params = {
     searchQuery,
     status,
+    isOuterLink,
     pageNum,
     pageSize
   }

@@ -8,6 +8,12 @@
     <el-table-column prop="title" label="场景标题" min-width="300" />
     <el-table-column prop="readCount" label="阅读数" width="80" />
     <el-table-column prop="companyName" label="相关公司" width="200" />
+    <el-table-column label="外链" width="120">
+      <template #default="scope">
+        <el-tag v-if="scope.row.isOuterLink" type="success">{{ '是' }}</el-tag>
+        <el-tag v-else type="warning">{{ '否' }}</el-tag>
+      </template>
+    </el-table-column>
     <el-table-column label="状态" width="120">
       <template #default="scope">
         <el-tag :type="stautsColor(scope.row.status)">{{ statusLabel(scope.row.status) }}</el-tag>
