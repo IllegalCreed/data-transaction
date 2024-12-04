@@ -1,56 +1,64 @@
 <template>
-  <div class="news-detail-root-container">
+  <div class="scene-detail-root-container">
     <span class="panel-title">资讯详情</span>
-    <div class="props-container" v-loading="getNewsLoading">
+    <div class="props-container" v-loading="getSceneLoading">
       <div class="prop">
         <span class="label">ID：</span>
-        <span class="value">{{ newsInfo.id }}</span>
+        <span class="value">{{ sceneInfo.id }}</span>
       </div>
       <div class="prop">
         <span class="label">阅读数量：</span>
-        <span class="value">{{ newsInfo.readCount }}</span>
+        <span class="value">{{ sceneInfo.readCount }}</span>
       </div>
       <div class="prop" items-center>
         <span class="label">状态:</span>
-        <el-tag :type="stautsColor(newsInfo.status)">{{ statusLabel(newsInfo.status) }}</el-tag>
+        <el-tag :type="stautsColor(sceneInfo.status)">{{ statusLabel(sceneInfo.status) }}</el-tag>
       </div>
       <div class="prop">
-        <span class="label">发布日期：</span>
-        <span class="value">{{ newsInfo.publicDate }}</span>
+        <span class="label">关联公司</span>
+        <span class="value">{{ sceneInfo.company.name }}</span>
       </div>
       <div class="prop">
         <span class="label">创建时间：</span>
-        <span class="value">{{ newsInfo.createTime }}</span>
+        <span class="value">{{ sceneInfo.createTime }}</span>
       </div>
       <div class="prop">
         <span class="label">更新时间：</span>
-        <span class="value">{{ newsInfo.updateTime }}</span>
+        <span class="value">{{ sceneInfo.updateTime }}</span>
       </div>
       <div class="prop" grid-col-span-3>
         <span class="label">摘要：</span>
-        <span class="value">{{ newsInfo.summary }}</span>
+        <span class="value">{{ sceneInfo.summary }}</span>
       </div>
-      <div class="prop" grid-col-span-3>
-        <span class="label">资讯封面：</span>
+      <div class="prop">
+        <span class="label">场景封面：</span>
         <el-image
           class="w-30 h-30"
-          :src="newsInfo.coverImageUrl"
-          :preview-src-list="newsInfo.coverImageUrl ? [newsInfo.coverImageUrl] : undefined"
+          :src="sceneInfo.coverImageUrl"
+          :preview-src-list="sceneInfo.coverImageUrl ? [sceneInfo.coverImageUrl] : undefined"
+          fit="cover"
+        />
+      </div>
+      <div class="prop">
+        <span class="label">场景头图：</span>
+        <el-image
+          class="w-30 h-30"
+          :src="sceneInfo.headerImageUrl"
+          :preview-src-list="sceneInfo.headerImageUrl ? [sceneInfo.headerImageUrl] : undefined"
           fit="cover"
         />
       </div>
       <div class="prop" grid-col-span-3>
-        <span class="label">资讯头图：</span>
-        <el-image
-          class="w-30 h-30"
-          :src="newsInfo.coverImageUrl"
-          :preview-src-list="newsInfo.headerImageUrl ? [newsInfo.headerImageUrl] : undefined"
-          fit="cover"
-        />
+        <span class="label">是否为外链：</span>
+        <span class="value">{{ sceneInfo.isOuterLink ? '是' : '否' }}</span>
       </div>
-      <div class="prop" grid-col-span-3>
-        <span class="label">资讯正文：</span>
-        <div v-html="newsInfo.content"></div>
+      <div class="prop" grid-col-span-3 v-if="sceneInfo.isOuterLink">
+        <span class="label">外部链接：</span>
+        <span class="value">{{ sceneInfo.link }}</span>
+      </div>
+      <div class="prop" grid-col-span-3 v-else>
+        <span class="label">场景正文：</span>
+        <div v-html="sceneInfo.content"></div>
       </div>
     </div>
   </div>
@@ -59,25 +67,29 @@
 <script setup lang="ts">
 const id = useRouteParams<string | number>('id')
 watch(id, () => {
-  executeGetNewsDetailAction()
+  executeGetSceneAction()
 })
 
-import { useNewsStore } from '@/stores/modules/news'
-const { getNewsDetail: getNewsDetailAction } = useNewsStore()
+import { useSceneStore } from '@/stores/modules/scene'
+const { getScene: getSceneAction } = useSceneStore()
 const {
-  state: newsInfo,
-  isLoading: getNewsLoading,
-  execute: executeGetNewsDetailAction
+  state: sceneInfo,
+  isLoading: getSceneLoading,
+  execute: executeGetSceneAction
 } = useAsyncState(
-  () => getNewsDetailAction(id.value),
+  () => getSceneAction(id.value),
   {
     id: id.value,
     title: '',
     summary: '',
-    content: '',
     status: ActiveStatus.Inactive,
     readCount: 0,
-    publicDate: '',
+    company: {
+      id: '',
+      name: ''
+    },
+    isOuterLink: false,
+    content: '',
     createTime: '',
     updateTime: ''
   },
@@ -91,7 +103,7 @@ const {
 )
 
 onMounted(() => {
-  executeGetNewsDetailAction()
+  executeGetSceneAction()
 })
 
 import { ACTIVE_STATUS_COLOR_MAP, ACTIVE_STATUS_MAP, ActiveStatus } from '@/constants/mapData'
@@ -100,7 +112,7 @@ const statusLabel = (status: ActiveStatus) => ACTIVE_STATUS_MAP[status]
 </script>
 
 <style scoped lang="scss">
-.news-detail-root-container {
+.scene-detail-root-container {
   @apply flex-1 flex flex-col p-4 gap-4 bg-[var(--background-page-color)];
 
   .props-container {

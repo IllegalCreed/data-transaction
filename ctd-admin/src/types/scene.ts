@@ -1,21 +1,32 @@
 import type { ActiveStatus } from '@/constants/mapData'
 import type { ICompany } from './company'
 
-export interface IScene {
+interface IBaseScene {
   id: string | number
   title: string
   summary: string
   company: ICompany
   coverImageUrl?: string
   headerImageUrl?: string
-  content?: string
-  isOuterLink: boolean
-  link?: string
-  status: ActiveStatus
-  readCount: number
   createTime: string
   updateTime: string
+  status: ActiveStatus
+  readCount: number
 }
+
+interface IOuterLinkScene extends IBaseScene {
+  isOuterLink: true
+  link: string
+  content?: string
+}
+
+interface IInnerContentScene extends IBaseScene {
+  isOuterLink: false
+  content: string
+  link?: string
+}
+
+export type IScene = IOuterLinkScene | IInnerContentScene
 
 export interface ISceneItem
   extends Omit<

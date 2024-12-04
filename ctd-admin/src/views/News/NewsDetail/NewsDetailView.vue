@@ -30,7 +30,7 @@
         <span class="label">摘要：</span>
         <span class="value">{{ newsInfo.summary }}</span>
       </div>
-      <div class="prop" grid-col-span-3>
+      <div class="prop">
         <span class="label">资讯封面：</span>
         <el-image
           class="w-30 h-30"
@@ -39,11 +39,11 @@
           fit="cover"
         />
       </div>
-      <div class="prop" grid-col-span-3>
+      <div class="prop">
         <span class="label">资讯头图：</span>
         <el-image
           class="w-30 h-30"
-          :src="newsInfo.coverImageUrl"
+          :src="newsInfo.headerImageUrl"
           :preview-src-list="newsInfo.headerImageUrl ? [newsInfo.headerImageUrl] : undefined"
           fit="cover"
         />
