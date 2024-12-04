@@ -14,11 +14,13 @@ import { ApiResponse } from 'src/common/interfaces/api-response.interface';
 import { VerifyCodeDto } from './dto/verify-code.dto';
 import { SendActivationEmailDto } from './dto/send-activation-email.dto';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import { Public } from 'src/common/decorators/is-public.decorator';
 
 @Controller('mailer')
 export class MailerController {
   constructor(private readonly mailerService: MailerService) {}
 
+  @Public()
   @Post('send-activation')
   @HttpCode(HttpStatus.OK)
   async sendActivationEmail(
@@ -27,6 +29,7 @@ export class MailerController {
     return this.mailerService.sendActivationEmail(sendActivationEmailDto);
   }
 
+  @Public()
   @Post('send-verification-code')
   async sendVerificationCode(
     @Body() sendVerificationCodeDto: SendVerificationCodeDto,
@@ -34,6 +37,7 @@ export class MailerController {
     return this.mailerService.sendVerificationCode(sendVerificationCodeDto);
   }
 
+  @Public()
   @Post('verify-code')
   async verifyCode(
     @Body() verifyCodeDto: VerifyCodeDto,
@@ -46,6 +50,7 @@ export class MailerController {
     this.mailerService.removeExpiredVerificationCode();
   }
 
+  @Public()
   @Get('test/get-code')
   async getVerificationCodeForTesting(
     @Query('email') email: string,

@@ -54,10 +54,10 @@ export class RegisterService {
     });
     if (user) {
       if (user.status === UserStatus.ACTIVE) {
-        this.logger.error('用户注册失败：用户已激活');
+        this.logger.warn('用户注册失败：用户已激活');
         return createErrorResponse(ErrorCode.ACCOUNT_ALREADY_ACTIVATED);
       } else {
-        this.logger.error('用户注册失败：用户已注册但未激活');
+        this.logger.warn('用户注册失败：用户已注册但未激活');
         return createErrorResponse(ErrorCode.ACCOUNT_PENDING_ACTIVATION);
       }
     }
@@ -120,7 +120,7 @@ export class RegisterService {
     );
 
     if (!email) {
-      this.logger.error('激活账户失败：JWT验证失败');
+      this.logger.warn('激活账户失败：JWT验证失败');
       return createErrorResponse(ErrorCode.ACTIVATE_ACCOUNT_FAILED);
     }
 
@@ -132,16 +132,17 @@ export class RegisterService {
         });
 
         if (!activation) {
-          this.logger.error('激活账户失败：无效的激活令牌');
+          this.logger.warn('激活账户失败：无效的激活令牌');
           throw new ExpectedError(ErrorCode.INVALID_ACTIVATION_TOKEN);
         }
 
         if (activation.expireAt < new Date()) {
-          this.logger.error('激活账户失败：激活令牌已过期');
+          this.logger.warn('激活账户失败：激活令牌已过期');
           throw new ExpectedError(ErrorCode.INVALID_ACTIVATION_TOKEN);
         }
 
         if (activation.user.email !== email) {
+          // JWT反解的邮箱和token关联的用户不一致，说明数据异常，有可能JWT被伪造，直接抛出错误
           this.logger.error('激活账户失败：数据异常');
           throw new ExpectedError(ErrorCode.ACTIVATE_ACCOUNT_FAILED);
         }
@@ -180,12 +181,12 @@ export class RegisterService {
     });
 
     if (!user) {
-      this.logger.error('重新发送激活邮件失败：用户未找到');
-      return createErrorResponse(ErrorCode.USER_NOT_FOUND);
+      this.logger.warn('重新发送激活邮件失败：用户未找到');
+      return createErrorResponse(ErrorCode.INVALID_CREDENTIALS);
     }
 
     if (user.status === UserStatus.ACTIVE) {
-      this.logger.error('重新发送激活邮件失败：用户已激活');
+      this.logger.warn('重新发送激活邮件失败：用户已激活');
       return createErrorResponse(ErrorCode.ACCOUNT_ALREADY_ACTIVATED);
     }
 

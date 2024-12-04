@@ -1,32 +1,25 @@
-import {
-  Controller,
-  Post,
-  Body,
-  Get,
-  Query,
-  Request,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Post, Body, Get, Query, Request } from '@nestjs/common';
 import { LoginService } from './login.service';
 import { CheckCaptchaDto } from './dto/check-captcha.dto';
 import { LoginDto } from './dto/login.dto';
 import { GetLoginLogsDto } from './dto/get-login-logs.dto';
 import { LoginLogDto } from './dto/login-log.dto';
-import { AuthGuard } from 'src/common/guards/auth.guard';
+import { Public } from 'src/common/decorators/is-public.decorator';
+import { ApiResponse } from 'src/common/interfaces/api-response.interface';
 
 @Controller('login')
 export class LoginController {
   constructor(private readonly loginService: LoginService) {}
 
-  // 检查是否需要验证码
+  @Public()
   @Post('check-captcha')
   async checkCaptcha(
     @Body() checkCaptchaDto: CheckCaptchaDto,
-  ): Promise<boolean> {
-    return await this.loginService.checkCaptcha(checkCaptchaDto.email);
+  ): Promise<ApiResponse<boolean>> {
+    return this.loginService.checkCaptcha(checkCaptchaDto);
   }
 
-  // 登录
+  @Public()
   @Post()
   async login(
     @Body() loginDto: LoginDto,
@@ -41,7 +34,6 @@ export class LoginController {
   }
 
   @Get('logs')
-  @UseGuards(AuthGuard)
   async getLoginLogs(
     @Request() req,
     @Query() getLoginLogsDto: GetLoginLogsDto,
@@ -51,9 +43,8 @@ export class LoginController {
   }
 
   @Get('last-log')
-  @UseGuards(AuthGuard)
   async getLastLoginLog(@Request() req): Promise<LoginLogDto> {
-    const userId = req.user;
+    const userId = req.user.id;
     return await this.loginService.getLastLoginLog(userId);
   }
 }

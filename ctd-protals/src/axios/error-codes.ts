@@ -1,6 +1,6 @@
 export enum ErrorCode {
   // 通用
-  USER_NOT_FOUND = 9001,
+  INVALID_CREDENTIALS = 9001,
   SEND_EMAIL_FAILED = 9002,
 
   // 注册相关
@@ -14,19 +14,32 @@ export enum ErrorCode {
   ACTIVATION_TOKEN_NOT_FOUND = 1008,
 
   // 忘记密码相关
-  INVALID_VERIFICATION_CODE_TYPE = 1101,
-  SEND_VERIFICATION_CODE_FAILED = 1102,
-  INVALID_VERIFICATION_CODE = 1103,
-  VERIFY_CODE_FAILED = 1104,
-  ACCOUNT_NOT_ACTIVATED = 1105,
-  PASSWORD_RESET_FAILED = 1106,
-  VERIFICATION_CODE_NOT_FOUND = 1107,
-  INVALID_VERIFICATION_TOKEN = 1108,
+  PASSWORD_RESET_FAILED = 1101,
+  INVALID_VERIFICATION_TOKEN = 1102,
+
+  // 图片验证码相关
+  GET_CAPTCHA_FAILED = 1201,
+  GENERATE_CAPTCHA_FAILED = 1202,
+  INVALID_CAPTCHA = 1203,
+  CAPTCHA_INCORRECT = 1204,
+  CAPTCHA_NOT_FOUND = 1205,
+  CAPTCHA_VERIFICATION_FAILED = 1206,
+
+  // 邮件验证码相关
+  INVALID_VERIFICATION_CODE_TYPE = 1301,
+  SEND_VERIFICATION_CODE_FAILED = 1302,
+  INVALID_VERIFICATION_CODE = 1303,
+  VERIFY_CODE_FAILED = 1304,
+  VERIFICATION_CODE_NOT_FOUND = 1305,
+
+  // 登录相关
+  NEED_CAPTCHA = 1401,
+  FREEZE_ACCOUNT = 1402,
 }
 
 export const ErrorCodeMessages: { [key: number]: string } = {
   // 通用
-  [ErrorCode.USER_NOT_FOUND]: '用户不存在',
+  [ErrorCode.INVALID_CREDENTIALS]: '身份验证失败',
   [ErrorCode.SEND_EMAIL_FAILED]: '发送邮件失败',
 
   // 注册相关
@@ -46,8 +59,15 @@ export const ErrorCodeMessages: { [key: number]: string } = {
   [ErrorCode.SEND_VERIFICATION_CODE_FAILED]: '发送验证码失败',
   [ErrorCode.INVALID_VERIFICATION_CODE]: '验证码无效或已过期',
   [ErrorCode.VERIFY_CODE_FAILED]: '验证失败',
-  [ErrorCode.ACCOUNT_NOT_ACTIVATED]: '用户未激活，请先激活账户',
   [ErrorCode.PASSWORD_RESET_FAILED]: '密码重置失败',
   [ErrorCode.VERIFICATION_CODE_NOT_FOUND]: '验证码不存在',
   [ErrorCode.INVALID_VERIFICATION_TOKEN]: '验证凭据无效或已过期',
+
+  // 图片验证码相关
+  [ErrorCode.GET_CAPTCHA_FAILED]: '获取图片验证码失败',
+  [ErrorCode.GENERATE_CAPTCHA_FAILED]: '生成图片验证码失败',
+  [ErrorCode.INVALID_CAPTCHA]: '验证码无效或已过期',
+  [ErrorCode.CAPTCHA_INCORRECT]: '验证码错误',
+  [ErrorCode.CAPTCHA_NOT_FOUND]: '验证码不存在',
+  [ErrorCode.CAPTCHA_VERIFICATION_FAILED]: '验证失败',
 }

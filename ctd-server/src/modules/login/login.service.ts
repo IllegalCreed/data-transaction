@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { LoginDto } from './dto/login.dto';
 import { GetLoginLogsDto } from './dto/get-login-logs.dto';
 import { LoginLogDto } from './dto/login-log.dto';
@@ -7,22 +7,66 @@ import { Repository } from 'typeorm';
 import { User } from '../../entities/user.entity';
 import { LoginLog } from '../../entities/login-log.entity';
 import { CaptchaService } from '../captcha/captcha.service';
+import { CheckCaptchaDto } from './dto/check-captcha.dto';
+import { ApiResponse } from 'src/common/interfaces/api-response.interface';
+import {
+  createErrorResponse,
+  createSuccessResponse,
+} from 'src/common/utils/response';
+import { ConfigService } from '@nestjs/config';
+import { ErrorCode } from 'src/common/constants/error-codes';
+import { UserStatus } from 'src/enums/user-status.enum';
 
 @Injectable()
 export class LoginService {
+  private readonly logger = new Logger(LoginService.name);
+
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     @InjectRepository(LoginLog)
     private readonly loginLogRepository: Repository<LoginLog>,
-    private readonly captchaService: CaptchaService, // 验证码服务
-  ) {}
+    private readonly captchaService: CaptchaService,
 
-  // 检查是否需要验证码
-  async checkCaptcha(email: string): Promise<boolean> {
-    // 方法实现稍后补充
-    console.log(email);
-    return false;
+    private readonly configService: ConfigService,
+  ) {
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('--------------LOGIN CONFIG----------------');
+      console.log(
+        'CAPTCHA_THRESHOLD:',
+        this.configService.get<number>('CAPTCHA_THRESHOLD'),
+      );
+      console.log(
+        'FREEZE_THRESHOLD:',
+        this.configService.get<number>('FREEZE_THRESHOLD'),
+      );
+    }
+  }
+
+  async checkCaptcha(
+    checkCaptchaDto: CheckCaptchaDto,
+  ): Promise<ApiResponse<boolean>> {
+    const CAPTCHA_THRESHOLD = this.configService.get<number>(
+      'CAPTCHA_THRESHOLD',
+      3,
+    );
+
+    const { email } = checkCaptchaDto;
+    const user = await this.userRepository.findOne({ where: { email } });
+    if (!user || user.status !== UserStatus.ACTIVE) {
+      this.logger.warn(`用户不存在或状态异常：${email}`);
+      return createErrorResponse(ErrorCode.INVALID_CREDENTIALS);
+    }
+
+    const failedAttempts = user.failedAttempts || 0;
+
+    if (failedAttempts >= CAPTCHA_THRESHOLD) {
+      this.logger.log(`用户登录失败次数超过验证码阈值，需要验证码：${email}`);
+      return createSuccessResponse(true, 'NEED_CAPTCHA');
+    }
+
+    this.logger.log(`用户不需要验证码：${email}`);
+    return createSuccessResponse(false, 'NO_NEED_CAPTCHA');
   }
 
   // 登录

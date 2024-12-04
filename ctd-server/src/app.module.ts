@@ -26,7 +26,7 @@ const nodeEnv = process.env.NODE_ENV || 'development';
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => {
         if (process.env.NODE_ENV !== 'production') {
-          // 可以在此处编写调试代码
+          console.log('----------------DB CONFIG------------------');
           console.log('DATABASE_HOST', configService.get('DATABASE_HOST'));
           console.log('DATABASE_PORT', configService.get('DATABASE_PORT'));
           console.log(

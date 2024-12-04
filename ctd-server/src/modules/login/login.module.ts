@@ -1,20 +1,39 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { JwtModule } from '@nestjs/jwt';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LoginService } from './login.service';
 import { LoginController } from './login.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from '../../entities/user.entity'; // 假设您有 User 实体
-import { LoginLog } from '../../entities/login-log.entity'; // 登录日志实体
-import { CaptchaModule } from '../captcha/captcha.module'; // 验证码模块
-import { AuthModule } from '../auth/auth.module';
+import { User } from '../../entities/user.entity';
+import { LoginLog } from '../../entities/login-log.entity';
+import { CaptchaModule } from '../captcha/captcha.module';
+import { AuthGuard } from 'src/common/guards/auth.guard';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, LoginLog]),
-    CaptchaModule, // 如果需要使用验证码服务
-    AuthModule,
+    CaptchaModule,
+    JwtModule.registerAsync({
+      global: true,
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        secret: configService.get<string>('JWT_SECRET', 'default_secret'),
+        signOptions: {
+          expiresIn: configService.get<string>('JWT_EXPIRES_IN', '3600s'),
+        },
+      }),
+    }),
   ],
   controllers: [LoginController],
-  providers: [LoginService],
+  providers: [
+    LoginService,
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+  ],
   exports: [LoginService],
 })
 export class LoginModule {}

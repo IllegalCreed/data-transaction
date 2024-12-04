@@ -22,6 +22,7 @@ export class CaptchaService {
     private readonly configService: ConfigService,
   ) {
     if (process.env.NODE_ENV !== 'production') {
+      console.log('--------------CAPTCHA CONFIG---------------');
       console.log(
         'CAPTCHA_SIZE:',
         this.configService.get<number>('CAPTCHA_SIZE'),
@@ -127,10 +128,11 @@ export class CaptchaService {
 
     try {
       await this.validateCaptchaInternally(captchaId, code);
-      this.logger.log('验证码校验成功');
+      this.logger.log('验证码核销成功');
       return createSuccessResponse(null, 'CAPTCHA_VERIFICATION_SUCCEED');
     } catch (error) {
-      this.logger.error(`验证码校验失败，captchaId: ${captchaId}`, error);
+      // 有可能仅为验证码过期，并非程序错误，警告
+      this.logger.warn(`验证码核销失败，captchaId: ${captchaId}`, error);
 
       if (error instanceof ExpectedError) {
         return createErrorResponse(error.errorCode);

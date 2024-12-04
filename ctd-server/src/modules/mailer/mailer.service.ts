@@ -36,6 +36,7 @@ export class MailerService {
   ) {
     // 打印配置以确保正确加载
     if (process.env.NODE_ENV !== 'production') {
+      console.log('--------------MAILER CONFIG----------------');
       console.log(
         'SMTP_SERVER:',
         this.configService.get<string>('SMTP_SERVER'),
@@ -103,14 +104,10 @@ export class MailerService {
       where: { email },
     });
 
-    if (!user) {
-      this.logger.error('发送验证码失败：用户不存在');
-      return createErrorResponse(ErrorCode.USER_NOT_FOUND);
-    }
-
-    if (user.status !== UserStatus.ACTIVE) {
-      this.logger.error('发送验证码失败：用户未激活');
-      return createErrorResponse(ErrorCode.ACCOUNT_NOT_ACTIVATED);
+    if (!user || user.status !== UserStatus.ACTIVE) {
+      // 有可能用户数错，并非程序错误，警告并且不可返回具体错误信息
+      this.logger.warn('发送验证码失败：用户不存在或状态异常');
+      return createErrorResponse(ErrorCode.INVALID_CREDENTIALS);
     }
 
     // 生成验证码
@@ -196,6 +193,7 @@ export class MailerService {
       this.logger.log(`验证码核销成功：${email}`);
       return createSuccessResponse(token, 'VERIFY_CODE_SUCCEED');
     } catch (error) {
+      // 应该是数据库错误或生成token方法错误，属于程序错误
       this.logger.error('验证码核销失败：', error);
 
       if (error instanceof ExpectedError) {
