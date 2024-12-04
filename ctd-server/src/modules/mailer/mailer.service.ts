@@ -105,7 +105,6 @@ export class MailerService {
     });
 
     if (!user || user.status !== UserStatus.ACTIVE) {
-      // 有可能用户数错，并非程序错误，警告并且不可返回具体错误信息
       this.logger.warn('发送验证码失败：用户不存在或状态异常');
       return createErrorResponse(ErrorCode.INVALID_CREDENTIALS);
     }
@@ -142,6 +141,7 @@ export class MailerService {
             content = `您的验证码是: ${code}`;
             break;
           default:
+            this.logger.error('发送验证码失败：未知的验证码类型');
             throw new ExpectedError(ErrorCode.INVALID_VERIFICATION_CODE_TYPE);
         }
 
@@ -151,12 +151,10 @@ export class MailerService {
       this.logger.log(`发送验证码成功：${email}`);
       return createSuccessResponse(null, 'SEND_VERIFICATION_CODE_SUCCEED');
     } catch (error) {
-      this.logger.error('发送验证码失败：', error);
-
       if (error instanceof ExpectedError) {
         return createErrorResponse(error.errorCode);
       }
-
+      this.logger.error('发送验证码失败：', error);
       return createErrorResponse(ErrorCode.SEND_VERIFICATION_CODE_FAILED);
     }
   }
@@ -193,13 +191,10 @@ export class MailerService {
       this.logger.log(`验证码核销成功：${email}`);
       return createSuccessResponse(token, 'VERIFY_CODE_SUCCEED');
     } catch (error) {
-      // 应该是数据库错误或生成token方法错误，属于程序错误
-      this.logger.error('验证码核销失败：', error);
-
       if (error instanceof ExpectedError) {
         return createErrorResponse(error.errorCode);
       }
-
+      this.logger.error('验证码核销失败：', error);
       return createErrorResponse(ErrorCode.VERIFY_CODE_FAILED);
     }
   }

@@ -88,12 +88,10 @@ export class CaptchaService {
         'GET_CAPTCHA_SUCCEED',
       );
     } catch (error) {
-      this.logger.error('获取图片验证码失败', error);
-
       if (error instanceof ExpectedError) {
         return createErrorResponse(error.errorCode);
       }
-
+      this.logger.error('获取图片验证码失败', error);
       return createErrorResponse(ErrorCode.GET_CAPTCHA_FAILED);
     }
   }
@@ -107,11 +105,13 @@ export class CaptchaService {
     });
 
     if (!captcha || captcha.expireAt.getTime() < Date.now() || captcha.isUsed) {
+      this.logger.warn('验证码无效或已使用');
       throw new ExpectedError(ErrorCode.INVALID_CAPTCHA);
     }
 
     // 不区分大小写
     if (captcha.value.toLowerCase() !== code.toLowerCase()) {
+      this.logger.warn('验证码错误');
       throw new ExpectedError(ErrorCode.CAPTCHA_INCORRECT);
     }
 
@@ -131,13 +131,10 @@ export class CaptchaService {
       this.logger.log('验证码核销成功');
       return createSuccessResponse(null, 'CAPTCHA_VERIFICATION_SUCCEED');
     } catch (error) {
-      // 有可能仅为验证码过期，并非程序错误，警告
-      this.logger.warn(`验证码核销失败，captchaId: ${captchaId}`, error);
-
       if (error instanceof ExpectedError) {
         return createErrorResponse(error.errorCode);
       }
-
+      this.logger.error(`验证码核销失败`, error);
       return createErrorResponse(ErrorCode.CAPTCHA_VERIFICATION_FAILED);
     }
   }

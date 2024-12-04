@@ -5,6 +5,7 @@ import { EnterpriseUserInfo } from './enterprise-user-info.entity';
 import { UserActivation } from './user-activation.entity';
 import { UserStatus } from 'src/enums/user-status.enum';
 import { BaseEntity } from './base.entity';
+import { LoginLog } from './login-log.entity';
 
 @Entity()
 export class User extends BaseEntity {
@@ -34,9 +35,6 @@ export class User extends BaseEntity {
   @JoinColumn()
   enterpriseInfo?: EnterpriseUserInfo;
 
-  @OneToMany(() => UserActivation, (activation) => activation.user)
-  activations: UserActivation[];
-
   @Column({
     type: 'enum',
     enum: UserStatus,
@@ -46,4 +44,10 @@ export class User extends BaseEntity {
 
   @Column({ default: 0 })
   failedAttempts: number;
+
+  @OneToMany(() => UserActivation, (activation) => activation.user)
+  activations: UserActivation[];
+
+  @OneToMany(() => LoginLog, (loginLog) => loginLog.user)
+  loginLogs: LoginLog[]; // 定义反向关系
 }

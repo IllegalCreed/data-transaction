@@ -37,7 +37,6 @@ export class ForgotService {
     );
 
     if (!email) {
-      // JWT验证失败，有可能仅仅是过期，并非程序错误，警告即可
       this.logger.warn('重置密码失败：JWT验证失败');
       return createErrorResponse(ErrorCode.INVALID_VERIFICATION_TOKEN);
     }
@@ -57,12 +56,10 @@ export class ForgotService {
       this.logger.log(`密码重置成功：${email}`);
       return createSuccessResponse(null, 'PASSWORD_RESET_SUCCEED');
     } catch (error) {
-      this.logger.error('重置密码失败：', error);
-
       if (error instanceof ExpectedError) {
         return createErrorResponse(error.errorCode);
       }
-
+      this.logger.error('重置密码失败：', error);
       return createErrorResponse(ErrorCode.PASSWORD_RESET_FAILED);
     }
   }

@@ -99,12 +99,10 @@ export class RegisterService {
       this.logger.log(`用户注册成功：${email}`);
       return createSuccessResponse(null, 'REGISTRATION_SUCCEED');
     } catch (error) {
-      this.logger.error('用户注册失败：', error);
-
       if (error instanceof ExpectedError) {
         return createErrorResponse(error.errorCode);
       }
-
+      this.logger.error('用户注册失败：', error);
       return createErrorResponse(ErrorCode.REGISTRATION_FAILED);
     }
   }
@@ -157,8 +155,6 @@ export class RegisterService {
       this.logger.log(`账户激活成功：${email}`);
       return createSuccessResponse(null, 'ACCOUNT_ACTIVATED');
     } catch (error) {
-      this.logger.error('激活账户失败：', error);
-
       if (error instanceof ExpectedError) {
         if (error.errorCode === ErrorCode.INVALID_ACTIVATION_TOKEN) {
           return createErrorResponse(error.errorCode, email);
@@ -166,7 +162,7 @@ export class RegisterService {
           return createErrorResponse(error.errorCode);
         }
       }
-
+      this.logger.error('激活账户失败：', error);
       return createErrorResponse(ErrorCode.ACTIVATE_ACCOUNT_FAILED);
     }
   }
@@ -199,12 +195,10 @@ export class RegisterService {
       this.logger.log(`重新发送激活邮件成功：${email}`);
       return createSuccessResponse(null, 'RESEND_ACTIVATION_EMAIL_SUCCEED');
     } catch (error) {
-      this.logger.error('重新发送激活邮件失败：', error);
-
       if (error instanceof ExpectedError) {
         return createErrorResponse(error.errorCode);
       }
-
+      this.logger.error('重新发送激活邮件失败：', error);
       return createErrorResponse(ErrorCode.RESEND_ACTIVATION_EMAIL_FAILED);
     }
   }

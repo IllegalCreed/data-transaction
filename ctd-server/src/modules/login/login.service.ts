@@ -16,6 +16,9 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { ErrorCode } from 'src/common/constants/error-codes';
 import { UserStatus } from 'src/enums/user-status.enum';
+import { ExpectedError } from 'src/types/error';
+import { verifyPassword } from 'src/common/utils/security';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class LoginService {
@@ -27,7 +30,7 @@ export class LoginService {
     @InjectRepository(LoginLog)
     private readonly loginLogRepository: Repository<LoginLog>,
     private readonly captchaService: CaptchaService,
-
+    private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
   ) {
     if (process.env.NODE_ENV !== 'production') {
@@ -69,27 +72,146 @@ export class LoginService {
     return createSuccessResponse(false, 'NO_NEED_CAPTCHA');
   }
 
-  // 登录
   async login(
     loginDto: LoginDto,
     ipAddress: string,
     userAgent: string,
-  ): Promise<{
-    token?: string;
-    requiresCaptcha?: boolean;
-  }> {
-    // 方法实现稍后补充
-    console.log(loginDto);
-    console.log(ipAddress);
-    console.log(userAgent);
-    return { token: 'dummy_token' };
+  ): Promise<ApiResponse<{ token?: string; requiresCaptcha?: boolean }>> {
+    const { email, password, captchaId, captchaCode } = loginDto;
+
+    // 验证用户是否存在和状态
+    const user = await this.userRepository.findOne({ where: { email } });
+    if (!user) {
+      this.logger.warn(`登录失败，用户不存在：${email}`);
+      // 为了安全性，返回通用错误信息
+      return createErrorResponse(ErrorCode.INVALID_CREDENTIALS);
+    }
+    if (user.status !== UserStatus.ACTIVE) {
+      try {
+        await this.recordLoginLog(
+          user,
+          email,
+          ipAddress,
+          userAgent,
+          false,
+          '用户状态不允许',
+        );
+        this.logger.warn(`登录失败，用户状态不允许：${email}`);
+        return createErrorResponse(ErrorCode.INVALID_CREDENTIALS);
+      } catch (error) {
+        if (error instanceof ExpectedError) {
+          return createErrorResponse(error.errorCode);
+        }
+        this.logger.error('登录失败', error);
+        return createErrorResponse(ErrorCode.LOGIN_FAILED);
+      }
+    }
+
+    // 验证图片验证码 (如果需要)
+    const CAPTCHA_THRESHOLD = this.configService.get<number>(
+      'CAPTCHA_THRESHOLD',
+      3,
+    );
+    if (user.failedAttempts >= CAPTCHA_THRESHOLD) {
+      if (!captchaId || !captchaCode) {
+        // 如果超过次数前端应该带验证码请求，如果没有代表有逻辑错误
+        this.logger.error('登录失败：未提供验证码');
+        return createErrorResponse(ErrorCode.CAPTCHA_REQUIRED, {
+          requiresCaptcha: true,
+        });
+      }
+      try {
+        await this.captchaService.validateCaptchaInternally(
+          captchaId,
+          captchaCode,
+        );
+      } catch (error) {
+        await this.recordLoginLog(
+          user,
+          email,
+          ipAddress,
+          userAgent,
+          false,
+          '验证码验证失败',
+        );
+        if (error instanceof ExpectedError) {
+          return createErrorResponse(error.errorCode, {
+            requiresCaptcha: true,
+          });
+        }
+        this.logger.error('登录失败', error);
+        return createErrorResponse(ErrorCode.LOGIN_FAILED, {
+          requiresCaptcha: true,
+        });
+      }
+    }
+
+    // 验证密码
+    const isPasswordValid = await verifyPassword(password, user.password);
+    if (!isPasswordValid) {
+      try {
+        await this.recordLoginLog(
+          user,
+          email,
+          ipAddress,
+          userAgent,
+          false,
+          '密码错误',
+        );
+        await this.incrementFailedAttempts(user);
+
+        this.logger.warn(`密码验证失败：${email}`);
+        if (user.failedAttempts >= CAPTCHA_THRESHOLD) {
+          return createErrorResponse(ErrorCode.LOGIN_FAILED, {
+            requiresCaptcha: true,
+          });
+        }
+
+        // TODO 如果大于冻结次数需要改一下user的status为冻结
+
+        return createErrorResponse(ErrorCode.LOGIN_FAILED, {
+          requiresCaptcha: false,
+        });
+      } catch (error) {
+        if (error instanceof ExpectedError) {
+          return createErrorResponse(error.errorCode);
+        }
+        this.logger.error('登录失败', error);
+        return createErrorResponse(ErrorCode.LOGIN_FAILED);
+      }
+    }
+
+    // 密码验证成功，重置失败次数
+    if (user.failedAttempts !== 0) {
+      user.failedAttempts = 0;
+      try {
+        await this.userRepository.save(user);
+      } catch (error) {
+        this.logger.error('重置失败次数失败', error);
+        return createErrorResponse(ErrorCode.LOGIN_FAILED);
+      }
+    }
+
+    // 生成 JWT 令牌并返回
+    const payload = { sub: user.id, email: user.email };
+    try {
+      const token = this.jwtService.sign(payload);
+      await this.recordLoginLog(user, email, ipAddress, userAgent, true, null);
+      this.logger.log(`用户登录成功：${email}`);
+      return createSuccessResponse({ token }, 'LOGIN_SUCCEED');
+    } catch (error) {
+      if (error instanceof ExpectedError) {
+        return createErrorResponse(error.errorCode);
+      }
+      this.logger.error('登录失败', error);
+      return createErrorResponse(ErrorCode.LOGIN_FAILED);
+    }
   }
 
-  // 获取登录日志
   async getLoginLogs(
     userId: string,
     getLoginLogsDto: GetLoginLogsDto,
-  ): Promise<{ data: LoginLogDto[]; total: number }> {
+  ): Promise<ApiResponse<{ data: LoginLogDto[]; total: number }>> {
     const {
       pageNum = 1,
       pageSize = 10,
@@ -98,67 +220,116 @@ export class LoginService {
       type,
     } = getLoginLogsDto;
 
-    const query = this.loginLogRepository
-      .createQueryBuilder('log')
-      .where('log.userId = :userId', { userId });
+    try {
+      const query = this.loginLogRepository
+        .createQueryBuilder('log')
+        .where('log.userId = :userId', { userId });
 
-    if (startDate) {
-      query.andWhere('log.loginTime >= :startDate', { startDate });
-    }
-
-    if (endDate) {
-      query.andWhere('log.loginTime <= :endDate', { endDate });
-    }
-
-    if (type) {
-      if (type === 'success') {
-        query.andWhere('log.success = :success', { success: true });
-      } else if (type === 'failure') {
-        query.andWhere('log.success = :success', { success: false });
+      if (startDate) {
+        query.andWhere('log.loginTime >= :startDate', { startDate });
       }
+
+      if (endDate) {
+        query.andWhere('log.loginTime <= :endDate', { endDate });
+      }
+
+      if (type) {
+        if (type === 'success') {
+          query.andWhere('log.success = :success', { success: true });
+        } else if (type === 'failure') {
+          query.andWhere('log.success = :success', { success: false });
+        }
+      }
+
+      const [logs, total] = await query
+        .orderBy('log.loginTime', 'DESC')
+        .skip((pageNum - 1) * pageSize)
+        .take(pageSize)
+        .getManyAndCount();
+
+      const data = logs.map((log) => ({
+        id: log.id,
+        email: log.email,
+        loginTime: log.loginTime,
+        ipAddress: log.ipAddress,
+        userAgent: log.userAgent,
+        success: log.success,
+        failureReason: log.failureReason,
+      }));
+
+      this.logger.log(`获取登录日志成功：${userId}`);
+      return createSuccessResponse(
+        {
+          data,
+          total,
+        },
+        'GET_LOGIN_LOG_SUCCEED',
+      );
+    } catch (error) {
+      if (error instanceof ExpectedError) {
+        return createErrorResponse(error.errorCode);
+      }
+      this.logger.error('获取登录日志失败', error);
+      return createErrorResponse(ErrorCode.GET_LOGIN_LOG_FAILED);
     }
-
-    const [logs, total] = await query
-      .orderBy('log.loginTime', 'DESC')
-      .skip((pageNum - 1) * pageSize)
-      .take(pageSize)
-      .getManyAndCount();
-
-    const data = logs.map((log) => ({
-      id: log.id,
-      userId: log.userId,
-      email: log.email,
-      loginTime: log.loginTime,
-      ipAddress: log.ipAddress,
-      userAgent: log.userAgent,
-      success: log.success,
-      failureReason: log.failureReason,
-    }));
-
-    return { data, total };
   }
 
-  async getLastLoginLog(userId: string): Promise<LoginLogDto> {
+  async getLastLoginLog(userId: number): Promise<ApiResponse<LoginLogDto>> {
     const lastLog = await this.loginLogRepository.findOne({
-      where: { userId },
+      where: { user: { id: userId } },
       order: { loginTime: 'DESC' },
     });
 
     if (!lastLog) {
-      // 如果没有找到日志，可以返回 null 或抛出异常
-      return null;
+      return createErrorResponse(ErrorCode.LOGIN_LOG_NOT_FOUND);
     }
 
-    // 将实体转换为 DTO
-    return {
-      id: lastLog.id,
-      userId: lastLog.userId,
-      email: lastLog.email,
-      loginTime: lastLog.loginTime,
-      ipAddress: lastLog.ipAddress,
-      userAgent: lastLog.userAgent,
-      success: lastLog.success,
-      failureReason: lastLog.failureReason,
-    };
+    this.logger.log(`获取最后一条登录日志成功：${userId}`);
+    return createSuccessResponse(
+      {
+        id: lastLog.id,
+        email: lastLog.email,
+        loginTime: lastLog.loginTime,
+        ipAddress: lastLog.ipAddress,
+        userAgent: lastLog.userAgent,
+        success: lastLog.success,
+        failureReason: lastLog.failureReason,
+      },
+      'GET_LAST_LOGIN_LOG_SUCCEED',
+    );
+  }
+
+  private async recordLoginLog(
+    user: User,
+    email: string,
+    ipAddress: string,
+    userAgent: string,
+    success: boolean,
+    failureReason?: string,
+  ): Promise<void> {
+    try {
+      const log = this.loginLogRepository.create({
+        user,
+        email,
+        ipAddress,
+        userAgent,
+        success,
+        failureReason,
+      });
+      await this.loginLogRepository.save(log);
+    } catch (error) {
+      this.logger.error('记录登录日志失败', error);
+      throw new ExpectedError(ErrorCode.CREATE_LOGIN_LOG_FAILED);
+    }
+  }
+
+  async incrementFailedAttempts(user: User): Promise<void> {
+    user.failedAttempts += 1;
+    try {
+      await this.userRepository.save(user);
+    } catch (error) {
+      this.logger.error('增加登录失败次数失败', error);
+      throw new ExpectedError(ErrorCode.LOGIN_FAILED);
+    }
   }
 }

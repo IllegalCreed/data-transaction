@@ -34,7 +34,11 @@ export enum ErrorCode {
 
   // 登录相关
   NEED_CAPTCHA = 1401,
-  FREEZE_ACCOUNT = 1402,
+  GET_LOGIN_LOG_FAILED = 1402,
+  LOGIN_LOG_NOT_FOUND = 1403,
+  CREATE_LOGIN_LOG_FAILED = 1404,
+  LOGIN_FAILED = 1405,
+  CAPTCHA_REQUIRED = 1406,
 }
 
 export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
@@ -83,5 +87,11 @@ export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
 
   // 登录相关
   [ErrorCode.NEED_CAPTCHA]: 'Need captcha.',
-  [ErrorCode.FREEZE_ACCOUNT]: 'Account is frozen.',
+  [ErrorCode.GET_LOGIN_LOG_FAILED]:
+    'Get login log failed due to unexpected error.',
+  [ErrorCode.LOGIN_LOG_NOT_FOUND]: 'Login log not found.',
+  [ErrorCode.CREATE_LOGIN_LOG_FAILED]:
+    'Create login log failed due to unexpected error.',
+  [ErrorCode.LOGIN_FAILED]: 'Login failed due to unexpected error.',
+  [ErrorCode.CAPTCHA_REQUIRED]: 'Captcha is required.',
 };
