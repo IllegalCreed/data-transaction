@@ -19,8 +19,8 @@ export const news: INews[] = [
     status: ActiveStatus.Active,
     readCount: 1000,
     publicDate: '2024-08-22',
-    createTime: '2024-09-20',
-    updateTime: '2024-09-20'
+    createTime: '2024-09-20 14:30:00',
+    updateTime: '2024-09-20 14:30:00'
   },
   {
     id: 2,
@@ -33,8 +33,8 @@ export const news: INews[] = [
     status: ActiveStatus.Active,
     readCount: 1000,
     publicDate: '2024-08-22',
-    createTime: '2024-08-22',
-    updateTime: '2024-09-20'
+    createTime: '2024-08-22 14:30:00',
+    updateTime: '2024-09-20 14:30:00'
   },
   {
     id: 4,
@@ -47,8 +47,8 @@ export const news: INews[] = [
     status: ActiveStatus.Inactive,
     readCount: 900,
     publicDate: '2024-08-22',
-    createTime: '2024-07-09',
-    updateTime: '2024-09-20'
+    createTime: '2024-07-09 14:30:00',
+    updateTime: '2024-09-20 14:30:00'
   },
   {
     id: 5,
@@ -61,8 +61,8 @@ export const news: INews[] = [
     status: ActiveStatus.Active,
     readCount: 1000,
     publicDate: '2024-08-22',
-    createTime: '2024-07-07',
-    updateTime: '2024-09-20'
+    createTime: '2024-07-07 14:30:00',
+    updateTime: '2024-09-20 14:30:00'
   },
   {
     id: 6,
@@ -75,8 +75,8 @@ export const news: INews[] = [
     status: ActiveStatus.Active,
     readCount: 1000,
     publicDate: '2024-08-22',
-    createTime: '2024-7-02',
-    updateTime: '2024-09-20'
+    createTime: '2024-07-02 14:30:00',
+    updateTime: '2024-09-20 14:30:00'
   },
   {
     id: 7,
@@ -90,7 +90,7 @@ export const news: INews[] = [
     status: ActiveStatus.Active,
     readCount: 1000,
     publicDate: '2024-08-22',
-    createTime: '2024-09-26',
-    updateTime: '2024-09-20'
+    createTime: '2024-09-26 14:30:00',
+    updateTime: '2024-09-20 14:30:00'
   }
 ]

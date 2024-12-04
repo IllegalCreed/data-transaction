@@ -38,5 +38,5 @@ export interface ISceneItem
 
 export interface ISceneDTO
   extends Omit<IScene, 'id' | 'createTime' | 'updateTime' | 'readCount' | 'company'> {
-  companyId: string
+  companyId: string | number
 }

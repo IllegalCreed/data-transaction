@@ -3,8 +3,8 @@
     <span class="panel-title">资讯详情</span>
     <div class="props-container" v-loading="getNewsLoading">
       <div class="prop">
-        <span class="label">ID：</span>
-        <span class="value">{{ newsInfo.id }}</span>
+        <span class="label">资讯标题：</span>
+        <span class="value">{{ newsInfo.title }}</span>
       </div>
       <div class="prop">
         <span class="label">阅读数量：</span>

@@ -39,7 +39,7 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="咨询封面" prop="coverImageUrl">
+      <el-form-item label="资讯封面" prop="coverImageUrl">
         <image-picker v-model="coverImage" />
       </el-form-item>
       <el-form-item label="资讯头图" prop="headerImageUrl">

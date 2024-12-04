@@ -1,36 +1,47 @@
 <template>
-  <div class="news-edit-root-container">
-    <span class="panel-title">{{ id === '-1' ? '新建资讯' : '编辑资讯' }}</span>
+  <div class="scene-edit-root-container">
+    <span class="panel-title">{{ id === '-1' ? '新建场景' : '编辑场景' }}</span>
     <el-form
       @submit.prevent
-      :model="newsInfo"
+      :model="sceneInfo"
       :rules="rules"
       ref="form"
       label-width="auto"
       label-position="top"
     >
-      <el-form-item label="资讯标题" prop="title" max-w-120>
-        <el-input v-model="newsInfo.title" placeholder="请输入" :validate-event="false" />
+      <el-form-item label="场景标题" prop="title" max-w-120>
+        <el-input v-model="sceneInfo.title" placeholder="请输入" :validate-event="false" />
       </el-form-item>
       <el-form-item label="摘要" prop="summary" max-w-120>
         <el-input
-          v-model="newsInfo.summary"
+          v-model="sceneInfo.summary"
           placeholder="请输入"
           type="textarea"
           :autosize="{ minRows: 2, maxRows: 5 }"
           :validate-event="false"
         />
       </el-form-item>
-      <el-form-item label="发布时间" prop="publicDate" max-w-120>
-        <el-date-picker
-          v-model="newsInfo.publicDate"
-          type="date"
-          placeholder="请选择"
-          :validate-event="false"
-        />
+      <el-form-item label="关联公司" prop="companyId" max-w-120>
+        <el-select
+          filterable
+          remote
+          remote-show-suffix
+          clearable
+          :remote-method="remoteMethod"
+          :loading="getCompanyOptionsByNameActionLoading"
+          v-model="sceneInfo.companyId"
+          placeholder="选择公司"
+        >
+          <el-option
+            v-for="item in companyOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item label="状态" prop="status" max-w-120>
-        <el-select v-model="newsInfo.status" placeholder="请选择">
+        <el-select v-model="sceneInfo.status" placeholder="请选择">
           <el-option
             v-for="item in activeStatusOptions"
             :key="item.value"
@@ -39,14 +50,20 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="咨询封面" prop="coverImageUrl">
+      <el-form-item label="场景封面" prop="coverImageUrl">
         <image-picker v-model="coverImage" />
       </el-form-item>
-      <el-form-item label="资讯头图" prop="headerImageUrl">
+      <el-form-item label="场景头图" prop="headerImageUrl">
         <image-picker v-model="headerImage" />
       </el-form-item>
-      <el-form-item label="资讯正文" prop="content">
-        <scene-rich-edit-panel v-model:content="newsInfo.content" />
+      <el-form-item label="是否为外链" prop="hasCount">
+        <el-switch v-model="sceneInfo.isOuterLink" />
+      </el-form-item>
+      <el-form-item v-if="sceneInfo.isOuterLink" label="外部链接" prop="link" max-w-120>
+        <el-input v-model="sceneInfo.link" placeholder="请输入" :validate-event="false" />
+      </el-form-item>
+      <el-form-item v-else label="场景正文" prop="content">
+        <scene-rich-edit-panel v-model:content="sceneInfo.content" />
       </el-form-item>
     </el-form>
     <div>
@@ -60,53 +77,94 @@ import ImagePicker from '@/components/ImagePicker.vue'
 import SceneRichEditPanel from './SceneRichEditPanel.vue'
 import { v4 as uuidv4 } from 'uuid'
 import { type FormInstance, type FormRules } from 'element-plus'
-import type { INews } from '@/types/news'
+import type { IScene, ISceneDTO } from '@/types/scene'
 
 const id = useRouteParams<string>('id')
 const form = useTemplateRef<FormInstance>('form')
-const rules = reactive<FormRules<INews>>({
-  title: [{ required: true, message: '请输入资讯名称', trigger: 'blur' }],
-  summary: [{ required: true, message: '请输入摘要', trigger: 'blur' }],
-  publicDate: [{ required: true, message: '请选择发布时间', trigger: 'blur' }],
-  content: [{ required: true, message: '请输入正文', trigger: 'blur' }]
+const rules = reactive<FormRules<ISceneDTO>>({
+  title: [{ required: true, message: '请输入场景名称', trigger: 'blur' }],
+  summary: [{ required: true, message: '请输入摘要', trigger: 'blur' }]
 })
 
-import { useNewsStore } from '@/stores/modules/news'
-const { getNewsDetail: getNewsDetailAction, upsertNews: upsertNewsAction } = useNewsStore()
-const newsInfo = reactive<INews>({
-  id: id.value,
+import { useSceneStore } from '@/stores/modules/scene'
+const { getScene: getSceneAction, upsertScene: upsertSceneAction } = useSceneStore()
+const sceneInfo = reactive<ISceneDTO>({
   title: '',
   summary: '',
-  content: '',
   status: ActiveStatus.Inactive,
-  readCount: 0,
-  publicDate: '',
-  createTime: '',
-  updateTime: ''
+  companyId: '',
+  isOuterLink: false,
+  content: ''
 })
 
 onMounted(async () => {
   if (id.value !== '-1') {
-    const fetchedNewsDetailData = await getNewsDetailAction(id.value)
-    Object.assign(newsInfo, fetchedNewsDetailData)
-    if (newsInfo.coverImageUrl) {
+    const fetchedNewsDetailData = await getSceneAction(id.value)
+    Object.assign(sceneInfo, mapISceneToISceneDTO(fetchedNewsDetailData))
+    if (sceneInfo.coverImageUrl) {
       coverImage.value = {
         id: uuidv4(),
-        url: newsInfo.coverImageUrl,
-        name: newsInfo.coverImageUrl,
+        url: sceneInfo.coverImageUrl,
+        name: sceneInfo.coverImageUrl,
         raw: undefined
       }
     }
-    if (newsInfo.headerImageUrl) {
+    if (sceneInfo.headerImageUrl) {
       headerImage.value = {
         id: uuidv4(),
-        url: newsInfo.headerImageUrl,
-        name: newsInfo.headerImageUrl,
+        url: sceneInfo.headerImageUrl,
+        name: sceneInfo.headerImageUrl,
         raw: undefined
       }
     }
   }
 })
+
+function mapISceneToISceneDTO(scene: IScene): ISceneDTO {
+  const {
+    title,
+    summary,
+    coverImageUrl,
+    headerImageUrl,
+    isOuterLink,
+    link,
+    content,
+    status,
+    company
+  } = scene
+
+  return {
+    title,
+    summary,
+    coverImageUrl,
+    headerImageUrl,
+    isOuterLink,
+    link: isOuterLink ? link : undefined,
+    content: !isOuterLink ? content : undefined,
+    status,
+    companyId: company.id
+  }
+}
+
+// 公司相关
+import { useCompanyStore } from '@/stores/modules/company'
+const { getCompanyOptionsByName: getCompanyOptionsByNameAction } = useCompanyStore()
+const {
+  state: companyOptions,
+  isLoading: getCompanyOptionsByNameActionLoading,
+  execute: executeGetCompanyOptionsByNameAction
+} = useAsyncState(getCompanyOptionsByNameAction, [], {
+  immediate: false,
+  throwError: true
+})
+
+const remoteMethod = (query: string) => {
+  if (query) {
+    executeGetCompanyOptionsByNameAction(0, query)
+  } else {
+    companyOptions.value = []
+  }
+}
 
 // 图片相关
 const coverImage = ref<IUploadFile>()
@@ -123,7 +181,7 @@ const uploadImage = async () => {
       coverImage.value.url = url
       coverImage.value.name = url
       coverImage.value.raw = undefined
-      newsInfo.coverImageUrl = url
+      sceneInfo.coverImageUrl = url
     }
   }
   if (headerImage.value) {
@@ -132,7 +190,7 @@ const uploadImage = async () => {
       headerImage.value.url = url
       headerImage.value.name = url
       headerImage.value.raw = undefined
-      newsInfo.headerImageUrl = url
+      sceneInfo.headerImageUrl = url
     }
   }
 }
@@ -142,13 +200,13 @@ import { activeStatusOptions } from '@/constants/mapData'
 const submit = async () => {
   if (await form.value?.validate()) {
     await uploadImage()
-    await upsertNewsAction(id.value, newsInfo)
+    await upsertSceneAction(id.value, sceneInfo)
   }
 }
 </script>
 
 <style scoped lang="scss">
-.news-edit-root-container {
+.scene-edit-root-container {
   @apply flex-1 flex flex-col p-4 gap-4 bg-[var(--background-page-color)];
 }
 </style>

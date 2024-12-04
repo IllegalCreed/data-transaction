@@ -1,10 +1,10 @@
 <template>
   <div class="scene-detail-root-container">
-    <span class="panel-title">资讯详情</span>
+    <span class="panel-title">场景详情</span>
     <div class="props-container" v-loading="getSceneLoading">
       <div class="prop">
-        <span class="label">ID：</span>
-        <span class="value">{{ sceneInfo.id }}</span>
+        <span class="label">场景标题：</span>
+        <span class="value">{{ sceneInfo.title }}</span>
       </div>
       <div class="prop">
         <span class="label">阅读数量：</span>
