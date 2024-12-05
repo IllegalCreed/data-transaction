@@ -154,7 +154,7 @@ const router = useRouter()
 const route = useRoute()
 const goBack = () => {
   router.push({
-    name: 'banner'
+    name: 'news'
   })
   deleteView(route)
 }
