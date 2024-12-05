@@ -67,9 +67,7 @@ import { PartnerTypes } from '@/constants/mapData/company'
 const id = useRouteParams<string>('id')
 const form = useTemplateRef<FormInstance>('form')
 const rules = reactive<FormRules<ICompanyDTO>>({
-  name: [{ required: true, message: '请输入公司名称', trigger: 'blur' }],
-  description: [{ required: true, message: '请输入公司简介', trigger: 'blur' }],
-  link: [{ required: true, message: '请输入公司链接', trigger: 'blur' }]
+  name: [{ required: true, message: '请输入公司名称', trigger: 'blur' }]
 })
 
 import { useCompanyStore } from '@/stores/modules/company'
