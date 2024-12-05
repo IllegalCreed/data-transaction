@@ -1,5 +1,5 @@
 <template>
-  <div class="company-root-container">
+  <div class="banner-root-container">
     <div flex flex-row justify-between>
       <el-input
         class="search-input"
@@ -18,7 +18,7 @@
         </template>
       </el-input>
 
-      <el-button class="default-btn" @click="handleCreate">新建公司</el-button>
+      <el-button class="default-btn" @click="handleCreate">新建横幅</el-button>
     </div>
 
     <el-divider class="!my-0" />

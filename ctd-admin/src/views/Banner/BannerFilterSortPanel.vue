@@ -61,12 +61,16 @@
         <el-divider />
         <div class="panel">
           <div flex flex-row justify-between>
-            <span class="label" shrink-0>外链</span>
-            <el-link class="reset" :underline="false" @click="resetIsOuterLinkFilter">重置</el-link>
+            <span class="label" shrink-0>链接类型</span>
+            <el-link class="reset" :underline="false" @click="resetLinkTypeFilter">重置</el-link>
           </div>
-          <el-select clearable v-model="isOuterLinkToBoolean" placeholder="选择是否为外链">
-            <el-option label="是" :value="true" />
-            <el-option label="否" :value="false" />
+          <el-select clearable v-model="linkTypeToString" placeholder="选择链接类型">
+            <el-option
+              v-for="item in linkTypesOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
           </el-select>
         </div>
         <el-divider />
@@ -99,16 +103,16 @@ const statusToString = computed<string | undefined>({
     }
   }
 })
-const isOuterLink = defineModel<boolean | null>('isOuterLink', { default: null })
-const isOuterLinkToBoolean = computed<boolean | undefined>({
+const linkType = defineModel<LinkTypes | null>('linkType', { default: null })
+const linkTypeToString = computed<string | undefined>({
   get() {
-    return isOuterLink.value ?? undefined
+    return linkType.value ?? undefined
   },
   set(newValue) {
     if (newValue === undefined) {
-      isOuterLink.value = null
+      linkType.value = null
     } else {
-      isOuterLink.value = newValue
+      linkType.value = newValue as LinkTypes
     }
   }
 })
@@ -117,6 +121,7 @@ const isOuterLinkToBoolean = computed<boolean | undefined>({
 const filterVisible = ref<boolean>(false)
 
 import { ActiveStatus, activeStatusOptions } from '@/constants/mapData'
+import { LinkTypes, linkTypesOptions } from '@/constants/mapData/banner'
 
 const filterCount = ref(0)
 
@@ -124,22 +129,22 @@ const resetStatusFilter = () => {
   status.value = null
 }
 
-const resetIsOuterLinkFilter = () => {
-  isOuterLink.value = null
+const resetLinkTypeFilter = () => {
+  linkType.value = null
 }
 
 const resetAllFilter = () => {
   resetStatusFilter()
-  resetIsOuterLinkFilter()
+  resetLinkTypeFilter()
 }
 
 const applyFilter = () => {
   filterVisible.value = false
   filterCount.value = 0
-  if (status.value) {
+  if (status.value !== null) {
     filterCount.value++
   }
-  if (isOuterLink.value) {
+  if (linkType.value !== null) {
     filterCount.value++
   }
   emit('refresh')
