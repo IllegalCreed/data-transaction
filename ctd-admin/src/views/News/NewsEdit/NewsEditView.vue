@@ -143,7 +143,20 @@ const submit = async () => {
   if (await form.value?.validate()) {
     await uploadImage()
     await upsertNewsAction(id.value, newsInfo)
+    ElMessage.success('提交成功')
+    goBack()
   }
+}
+
+import { useRouterStore } from '@/stores/modules/router'
+const { deleteView } = useRouterStore()
+const router = useRouter()
+const route = useRoute()
+const goBack = () => {
+  router.push({
+    name: 'banner'
+  })
+  deleteView(route)
 }
 </script>
 

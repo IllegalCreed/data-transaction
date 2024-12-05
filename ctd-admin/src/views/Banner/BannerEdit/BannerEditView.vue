@@ -36,9 +36,16 @@
           bannerInfo.linkType === LinkTypes.Product ||
           bannerInfo.linkType === LinkTypes.Demand
         "
-        label="关联公司"
+        label="关联数据"
         prop="data.id"
         max-w-120
+        :rules="[
+          {
+            required: true,
+            message: '请选择关联数据',
+            trigger: 'blur'
+          }
+        ]"
       >
         <el-select
           filterable
@@ -48,7 +55,7 @@
           :remote-method="remoteMethod"
           :loading="getOptionsLoading"
           v-model="bannerInfo.data.id"
-          placeholder="选择公司"
+          placeholder="请输入关键字搜索"
         >
           <el-option
             v-for="item in dataOptions"
@@ -86,8 +93,22 @@ import type { IBannerDTO } from '@/types/banner'
 
 const id = useRouteParams<string>('id')
 const form = useTemplateRef<FormInstance>('form')
+
+const checkImageRequired = (
+  rule: InternalRuleItem,
+  value: string,
+  callback: (error?: string | Error) => void
+) => {
+  if (!coverImage.value) {
+    callback(new Error('请选择图片'))
+  } else {
+    callback()
+  }
+}
+
 const rules = reactive<FormRules<IBannerDTO>>({
-  title: [{ required: true, message: '请输入场景名称', trigger: 'blur' }]
+  title: [{ required: true, message: '请输入场景名称', trigger: 'blur' }],
+  imageUrl: [{ required: true, validator: checkImageRequired, trigger: 'blur' }]
 })
 
 import { useBannerStore } from '@/stores/modules/banner'
@@ -130,21 +151,21 @@ onMounted(async () => {
       }
       getOptionsLoading.value = false
     }
-    watch(
-      () => bannerInfo.linkType,
-      () => {
-        if (bannerInfo.linkType === LinkTypes.OuterLink) {
-          bannerInfo.data = ''
-        } else if (
-          bannerInfo.linkType === LinkTypes.Scene ||
-          bannerInfo.linkType === LinkTypes.Demand ||
-          bannerInfo.linkType === LinkTypes.Product
-        ) {
-          bannerInfo.data = { id: '' }
-        }
-      }
-    )
   }
+  watch(
+    () => bannerInfo.linkType,
+    () => {
+      if (bannerInfo.linkType === LinkTypes.OuterLink) {
+        bannerInfo.data = ''
+      } else if (
+        bannerInfo.linkType === LinkTypes.Scene ||
+        bannerInfo.linkType === LinkTypes.Demand ||
+        bannerInfo.linkType === LinkTypes.Product
+      ) {
+        bannerInfo.data = { id: '' }
+      }
+    }
+  )
 })
 
 // 内部链接关联选择
@@ -209,13 +230,26 @@ const uploadImage = async () => {
 
 import { activeStatusOptions } from '@/constants/mapData'
 import { LinkTypes, linkTypesOptions } from '@/constants/mapData/banner'
+import type { InternalRuleItem } from 'async-validator'
 
 const submit = async () => {
   if (await form.value?.validate()) {
     await uploadImage()
     await upsertBannerAction(id.value, bannerInfo)
-    console.log(bannerInfo)
+    ElMessage.success('提交成功')
+    goBack()
   }
+}
+
+import { useRouterStore } from '@/stores/modules/router'
+const { deleteView } = useRouterStore()
+const router = useRouter()
+const route = useRoute()
+const goBack = () => {
+  router.push({
+    name: 'banner'
+  })
+  deleteView(route)
 }
 </script>
 
