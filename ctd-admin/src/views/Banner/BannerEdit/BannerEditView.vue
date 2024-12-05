@@ -3,37 +3,55 @@
     <span class="panel-title">{{ id === '-1' ? '新建横幅' : '编辑横幅' }}</span>
     <el-form
       @submit.prevent
-      :model="sceneInfo"
+      :model="bannerInfo"
       :rules="rules"
       ref="form"
       label-width="auto"
       label-position="top"
     >
-      <el-form-item label="场景标题" prop="title" max-w-120>
-        <el-input v-model="sceneInfo.title" placeholder="请输入" :validate-event="false" />
+      <el-form-item label="横幅标题" prop="title" max-w-120>
+        <el-input v-model="bannerInfo.title" placeholder="请输入" :validate-event="false" />
       </el-form-item>
-      <el-form-item label="摘要" prop="summary" max-w-120>
-        <el-input
-          v-model="sceneInfo.summary"
-          placeholder="请输入"
-          type="textarea"
-          :autosize="{ minRows: 2, maxRows: 5 }"
-          :validate-event="false"
-        />
+      <el-form-item label="链接类型" prop="linkType" max-w-120>
+        <el-select v-model="bannerInfo.linkType" placeholder="请选择">
+          <el-option
+            v-for="item in linkTypesOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
       </el-form-item>
-      <el-form-item label="关联公司" prop="companyId" max-w-120>
+      <el-form-item
+        v-if="bannerInfo.linkType === LinkTypes.OuterLink"
+        label="链接地址"
+        prop="data"
+        max-w-120
+      >
+        <el-input v-model="bannerInfo.data" placeholder="请输入" :validate-event="false" />
+      </el-form-item>
+      <el-form-item
+        v-if="
+          bannerInfo.linkType === LinkTypes.Scene ||
+          bannerInfo.linkType === LinkTypes.Product ||
+          bannerInfo.linkType === LinkTypes.Demand
+        "
+        label="关联公司"
+        prop="data.id"
+        max-w-120
+      >
         <el-select
           filterable
           remote
           remote-show-suffix
           clearable
           :remote-method="remoteMethod"
-          :loading="getCompanyOptionsByNameActionLoading"
-          v-model="sceneInfo.companyId"
+          :loading="getOptionsLoading"
+          v-model="bannerInfo.data.id"
           placeholder="选择公司"
         >
           <el-option
-            v-for="item in companyOptions"
+            v-for="item in dataOptions"
             :key="item.value"
             :label="item.label"
             :value="item.value"
@@ -41,7 +59,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="状态" prop="status" max-w-120>
-        <el-select v-model="sceneInfo.status" placeholder="请选择">
+        <el-select v-model="bannerInfo.status" placeholder="请选择">
           <el-option
             v-for="item in activeStatusOptions"
             :key="item.value"
@@ -50,17 +68,8 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="场景封面" prop="coverImageUrl">
+      <el-form-item label="图片" prop="imageUrl">
         <image-picker v-model="coverImage" />
-      </el-form-item>
-      <el-form-item label="场景头图" prop="headerImageUrl">
-        <image-picker v-model="headerImage" />
-      </el-form-item>
-      <el-form-item label="是否为外链" prop="hasCount">
-        <el-switch v-model="sceneInfo.isOuterLink" />
-      </el-form-item>
-      <el-form-item v-if="sceneInfo.isOuterLink" label="外部链接" prop="link" max-w-120>
-        <el-input v-model="sceneInfo.link" placeholder="请输入" :validate-event="false" />
       </el-form-item>
     </el-form>
     <div>
@@ -73,102 +82,118 @@
 import ImagePicker from '@/components/ImagePicker.vue'
 import { v4 as uuidv4 } from 'uuid'
 import { type FormInstance, type FormRules } from 'element-plus'
-import type { IScene, ISceneDTO } from '@/types/scene'
+import type { IBannerDTO } from '@/types/banner'
 
 const id = useRouteParams<string>('id')
 const form = useTemplateRef<FormInstance>('form')
-const rules = reactive<FormRules<ISceneDTO>>({
-  title: [{ required: true, message: '请输入场景名称', trigger: 'blur' }],
-  summary: [{ required: true, message: '请输入摘要', trigger: 'blur' }]
+const rules = reactive<FormRules<IBannerDTO>>({
+  title: [{ required: true, message: '请输入场景名称', trigger: 'blur' }]
 })
 
-import { useSceneStore } from '@/stores/modules/scene'
-const { getScene: getSceneAction, upsertScene: upsertSceneAction } = useSceneStore()
-const sceneInfo = reactive<ISceneDTO>({
+import { useBannerStore } from '@/stores/modules/banner'
+const { getBanner: getBannerAction, upsertBanner: upsertBannerAction } = useBannerStore()
+const bannerInfo = reactive<IBannerDTO>({
   title: '',
-  summary: '',
+  imageUrl: '',
   status: ActiveStatus.Inactive,
-  companyId: '',
-  isOuterLink: false,
-  content: ''
+  linkType: LinkTypes.None
 })
 
 onMounted(async () => {
   if (id.value !== '-1') {
-    const fetchedNewsDetailData = await getSceneAction(id.value)
-    Object.assign(sceneInfo, mapISceneToISceneDTO(fetchedNewsDetailData))
-    if (sceneInfo.coverImageUrl) {
+    const fetchedNewsDetailData = await getBannerAction(id.value)
+    Object.assign(bannerInfo, fetchedNewsDetailData)
+    if (bannerInfo.imageUrl) {
       coverImage.value = {
         id: uuidv4(),
-        url: sceneInfo.coverImageUrl,
-        name: sceneInfo.coverImageUrl,
+        url: bannerInfo.imageUrl,
+        name: bannerInfo.imageUrl,
         raw: undefined
       }
     }
-    if (sceneInfo.headerImageUrl) {
-      headerImage.value = {
-        id: uuidv4(),
-        url: sceneInfo.headerImageUrl,
-        name: sceneInfo.headerImageUrl,
-        raw: undefined
+    if (
+      bannerInfo.linkType === LinkTypes.Scene ||
+      bannerInfo.linkType === LinkTypes.Product ||
+      bannerInfo.linkType === LinkTypes.Demand
+    ) {
+      getOptionsLoading.value = true
+      switch (bannerInfo.linkType) {
+        case LinkTypes.Demand:
+          dataOptions.value = [await getDemandOptionsByIDAction(bannerInfo.data.id)]
+          break
+        case LinkTypes.Product:
+          dataOptions.value = [await getProductOptionsByIDAction(bannerInfo.data.id)]
+          break
+        case LinkTypes.Scene:
+          dataOptions.value = [await getSceneOptionsByIDAction(bannerInfo.data.id)]
+          break
       }
+      getOptionsLoading.value = false
     }
+    watch(
+      () => bannerInfo.linkType,
+      () => {
+        if (bannerInfo.linkType === LinkTypes.OuterLink) {
+          bannerInfo.data = ''
+        } else if (
+          bannerInfo.linkType === LinkTypes.Scene ||
+          bannerInfo.linkType === LinkTypes.Demand ||
+          bannerInfo.linkType === LinkTypes.Product
+        ) {
+          bannerInfo.data = { id: '' }
+        }
+      }
+    )
   }
 })
 
-function mapISceneToISceneDTO(scene: IScene): ISceneDTO {
-  const {
-    title,
-    summary,
-    coverImageUrl,
-    headerImageUrl,
-    isOuterLink,
-    link,
-    content,
-    status,
-    company
-  } = scene
-
-  return {
-    title,
-    summary,
-    coverImageUrl,
-    headerImageUrl,
-    isOuterLink,
-    link: isOuterLink ? link : undefined,
-    content: !isOuterLink ? content : undefined,
-    status,
-    companyId: company.id
-  }
-}
-
-// 公司相关
-import { useCompanyStore } from '@/stores/modules/company'
-const { getCompanyOptionsByName: getCompanyOptionsByNameAction } = useCompanyStore()
+// 内部链接关联选择
+import { useProductStore } from '@/stores/modules/product'
 const {
-  state: companyOptions,
-  isLoading: getCompanyOptionsByNameActionLoading,
-  execute: executeGetCompanyOptionsByNameAction
-} = useAsyncState(getCompanyOptionsByNameAction, [], {
-  immediate: false,
-  throwError: true
-})
+  getProductOptionsByName: getProductOptionsByNameAction,
+  getProductOptionsByID: getProductOptionsByIDAction
+} = useProductStore()
+import { useDemandStore } from '@/stores/modules/demand'
+const {
+  getDemandOptionsByName: getDemandOptionsByNameAction,
+  getDemandOptionsByID: getDemandOptionsByIDAction
+} = useDemandStore()
+import { useSceneStore } from '@/stores/modules/scene'
+const {
+  getSceneOptionsByName: getSceneOptionsByNameAction,
+  getSceneOptionsByID: getSceneOptionsByIDAction
+} = useSceneStore()
+const getOptionsLoading = ref(false)
+const dataOptions = ref<IOption[]>([])
 
-const remoteMethod = (query: string) => {
+const remoteMethod = async (query: string) => {
   if (query) {
-    executeGetCompanyOptionsByNameAction(0, query)
+    getOptionsLoading.value = true
+    switch (bannerInfo.linkType) {
+      case LinkTypes.Demand:
+        dataOptions.value = await getDemandOptionsByNameAction(query)
+        break
+      case LinkTypes.Product:
+        dataOptions.value = await getProductOptionsByNameAction(query)
+        break
+      case LinkTypes.Scene:
+        dataOptions.value = await getSceneOptionsByNameAction(query)
+        break
+      default:
+        break
+    }
+    getOptionsLoading.value = false
   } else {
-    companyOptions.value = []
+    dataOptions.value = []
   }
 }
 
 // 图片相关
 const coverImage = ref<IUploadFile>()
-const headerImage = ref<IUploadFile>()
 
 import { useFileStore } from '@/stores/modules/file'
 import { ActiveStatus } from '@/constants/mapData'
-import type { IUploadFile } from '@/types/common'
+import type { IOption, IUploadFile } from '@/types/common'
 const { uploadFile: uploadFileAction } = useFileStore()
 const uploadImage = async () => {
   if (coverImage.value) {
@@ -177,26 +202,19 @@ const uploadImage = async () => {
       coverImage.value.url = url
       coverImage.value.name = url
       coverImage.value.raw = undefined
-      sceneInfo.coverImageUrl = url
-    }
-  }
-  if (headerImage.value) {
-    if (headerImage.value.raw) {
-      const url = await uploadFileAction(headerImage.value.raw)
-      headerImage.value.url = url
-      headerImage.value.name = url
-      headerImage.value.raw = undefined
-      sceneInfo.headerImageUrl = url
+      bannerInfo.imageUrl = url
     }
   }
 }
 
 import { activeStatusOptions } from '@/constants/mapData'
+import { LinkTypes, linkTypesOptions } from '@/constants/mapData/banner'
 
 const submit = async () => {
   if (await form.value?.validate()) {
     await uploadImage()
-    await upsertSceneAction(id.value, sceneInfo)
+    await upsertBannerAction(id.value, bannerInfo)
+    console.log(bannerInfo)
   }
 }
 </script>

@@ -89,20 +89,18 @@ onMounted(() => {
   executeGetBannerAction()
 })
 
+import type { IBanner, IBannerWithId } from '@/types/banner'
 const nameByID = ref<string>('')
-
-import type { IHasId } from '@/types/banner'
-function isHasId(data: IHasId | string | undefined): data is IHasId {
+function hasIdData(banner: IBanner): banner is IBannerWithId {
   return (
-    typeof data === 'object' &&
-    data !== null &&
-    'id' in data &&
-    (typeof (data as IHasId).id === 'string' || typeof (data as IHasId).id === 'number')
+    banner.linkType === LinkTypes.Scene ||
+    banner.linkType === LinkTypes.Product ||
+    banner.linkType === LinkTypes.Demand
   )
 }
 
 watchEffect(async () => {
-  if (!isHasId(bannerInfo.value.data)) {
+  if (!hasIdData(bannerInfo.value)) {
     return
   }
   const id = bannerInfo.value.data.id
@@ -128,7 +126,6 @@ import { useDemandStore } from '@/stores/modules/demand'
 const { getDemandOptionsByID: getDemandOptionsByIDAction } = useDemandStore()
 import { useSceneStore } from '@/stores/modules/scene'
 const { getSceneOptionsByID: getSceneOptionsByIDAction } = useSceneStore()
-
 import { ACTIVE_STATUS_COLOR_MAP, ACTIVE_STATUS_MAP, ActiveStatus } from '@/constants/mapData'
 const stautsColor = (status: ActiveStatus) => ACTIVE_STATUS_COLOR_MAP[status]
 const statusLabel = (status: ActiveStatus) => ACTIVE_STATUS_MAP[status]
