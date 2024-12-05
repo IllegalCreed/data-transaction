@@ -69,3 +69,29 @@ export const getPriceDefinition = (
     true
   )
 }
+
+export const getProductOptionsByName = (searchQuery: string): Promise<unknown> => {
+  const params = {
+    searchQuery
+  }
+  return request.get(
+    {
+      url: '/product/get-options-by-name',
+      params
+    },
+    true
+  )
+}
+
+export const getProductOptionsByID = (id: string | number): Promise<unknown> => {
+  const params = {
+    id
+  }
+  return request.get(
+    {
+      url: '/product/get-options-by-id',
+      params
+    },
+    true
+  )
+}

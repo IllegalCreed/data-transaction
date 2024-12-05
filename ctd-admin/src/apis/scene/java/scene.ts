@@ -78,3 +78,29 @@ export const deleteScenes = (ids: (string | number)[]): Promise<unknown> => {
     true
   )
 }
+
+export const getSceneOptionsByName = (searchQuery: string): Promise<unknown> => {
+  const params = {
+    searchQuery
+  }
+  return request.get(
+    {
+      url: '/scene/get-options-by-name',
+      params
+    },
+    true
+  )
+}
+
+export const getSceneOptionsByID = (id: string | number): Promise<unknown> => {
+  const params = {
+    id
+  }
+  return request.get(
+    {
+      url: '/scene/get-options-by-id',
+      params
+    },
+    true
+  )
+}

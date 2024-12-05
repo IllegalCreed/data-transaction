@@ -7,7 +7,23 @@ import {
   Region,
   Time
 } from '@/constants/mapData/product'
+import type { IOption } from '@/types/common'
 import type { IProductItem, IProductSpecsPriceDefinition, IProductVersion } from '@/types/product'
+
+export const productOptions: IOption[] = [
+  {
+    value: 1,
+    label: '产品1'
+  },
+  {
+    value: 2,
+    label: '产品2'
+  },
+  {
+    value: 3,
+    label: '产品3'
+  }
+]
 
 export const products: IProductItem[] = [
   {

@@ -1,5 +1,21 @@
 import { ActiveStatus } from '@/constants/mapData'
+import type { IOption } from '@/types/common'
 import type { IScene } from '@/types/scene'
+
+export const sceneOptions: IOption[] = [
+  {
+    value: 1,
+    label: '场景1'
+  },
+  {
+    value: 2,
+    label: '场景2'
+  },
+  {
+    value: 3,
+    label: '场景3'
+  }
+]
 
 export const scenes: IScene[] = [
   {

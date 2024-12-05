@@ -15,6 +15,8 @@ interface ISceneAPI {
   upsertScene: (id: string | number, newsInfo: ISceneDTO) => Promise<unknown>
   changeScenesStatus: (ids: (string | number)[], status: ActiveStatus) => Promise<unknown>
   deleteScenes: (ids: (string | number)[]) => Promise<unknown>
+  getSceneOptionsByName: (searchQuery: string) => Promise<unknown>
+  getSceneOptionsByID: (id: string | number) => Promise<unknown>
 }
 
 type SceneAPIType = ISceneAPI
@@ -29,4 +31,12 @@ const nestAPI: SceneAPIType = {
 
 const newsAPI: SceneAPIType = import.meta.env.VITE_BACK_TYPE === 'java' ? javaAPI : nestAPI
 
-export const { getScenes, getScene, upsertScene, changeScenesStatus, deleteScenes } = newsAPI
+export const {
+  getScenes,
+  getScene,
+  upsertScene,
+  changeScenesStatus,
+  deleteScenes,
+  getSceneOptionsByName,
+  getSceneOptionsByID
+} = newsAPI

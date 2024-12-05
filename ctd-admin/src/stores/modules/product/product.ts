@@ -1,5 +1,5 @@
 import { useSettingsStore } from '../settings'
-import type { apiListResult } from '@/types/common'
+import type { apiListResult, IOption } from '@/types/common'
 import type {
   IProductDetail,
   IProductItem,
@@ -11,12 +11,15 @@ import {
   getProduct as getProductAPI,
   deleteProducts as deleteProductsAPI,
   getVersion as getVersionAPI,
-  getPriceDefinition as getPriceDefinitionAPI
+  getPriceDefinition as getPriceDefinitionAPI,
+  getProductOptionsByName as getProductOptionsByNameAPI,
+  getProductOptionsByID as getProductOptionsByIDAPI
 } from '@/apis/product'
 import {
   products as mockProducts,
   versions as mockVersions,
-  prices as mockPrices
+  prices as mockPrices,
+  productOptions as mockProductOptions
 } from '@/constants/mockData/product'
 import type { ProductStatus } from '@/constants/mapData/product'
 
@@ -156,11 +159,58 @@ export const useProduct = () => {
     })
   }
 
+  const getProductOptionsByName = (searchQuery: string): Promise<IOption[]> => {
+    return new Promise<IOption[]>((resolve, reject) => {
+      if (settingsStore.mockEnabled) {
+        window.setTimeout(() => {
+          resolve(mockProductOptions)
+        }, 1000)
+      } else {
+        getProductOptionsByNameAPI(searchQuery)
+          .then((res) => {
+            const result = res as IOption[]
+            resolve(result)
+          })
+          .catch((error: Error) => {
+            reject(error)
+          })
+          .finally(() => {})
+      }
+    })
+  }
+
+  const getProductOptionsByID = (id: string | number): Promise<IOption> => {
+    return new Promise<IOption>((resolve, reject) => {
+      if (settingsStore.mockEnabled) {
+        window.setTimeout(() => {
+          const result = mockProductOptions.find((item) => item.value === Number(id))
+          if (result) {
+            resolve(result)
+          } else {
+            reject(new Error('Product not found'))
+          }
+        }, 1000)
+      } else {
+        getProductOptionsByIDAPI(id)
+          .then((res) => {
+            const result = res as IOption
+            resolve(result)
+          })
+          .catch((error: Error) => {
+            reject(error)
+          })
+          .finally(() => {})
+      }
+    })
+  }
+
   return {
     getProducts,
     getProduct,
     deleteProducts,
     getVersion,
-    getPriceDefinition
+    getPriceDefinition,
+    getProductOptionsByName,
+    getProductOptionsByID
   }
 }

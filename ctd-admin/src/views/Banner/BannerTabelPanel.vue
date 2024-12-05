@@ -71,7 +71,7 @@ const linkTypeLabel = (linkType: LinkTypes) => LINK_TYPES_MAP[linkType]
 const router = useRouter()
 const edit = (id: number | string) => {
   router.push({
-    name: 'scene-edit',
+    name: 'banner-edit',
     params: {
       id
     }
@@ -80,7 +80,7 @@ const edit = (id: number | string) => {
 
 const goDetail = (id: number | string) => {
   router.push({
-    name: 'scene-detail',
+    name: 'banner-detail',
     params: {
       id
     }

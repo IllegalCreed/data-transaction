@@ -1,15 +1,17 @@
 import { defineStore } from 'pinia'
 import { useSettingsStore } from '../settings'
-import type { apiListResult } from '@/types/common'
+import type { apiListResult, IOption } from '@/types/common'
 import type { IScene, ISceneDTO, ISceneItem } from '@/types/scene'
 import {
   getScenes as getScenesAPI,
   getScene as getSceneAPI,
   upsertScene as upsertSceneAPI,
   changeScenesStatus as changeScenesStatusAPI,
-  deleteScenes as deleteScenesAPI
+  deleteScenes as deleteScenesAPI,
+  getSceneOptionsByName as getSceneOptionsByNameAPI,
+  getSceneOptionsByID as getSceneOptionsByIDAPI
 } from '@/apis/scene'
-import { scenes as mockScenes } from '@/constants/mockData/scene'
+import { scenes as mockScenes, sceneOptions as mockSceneOptions } from '@/constants/mockData/scene'
 import type { ActiveStatus } from '@/constants/mapData'
 
 export const useSceneStore = defineStore('scene', () => {
@@ -134,11 +136,58 @@ export const useSceneStore = defineStore('scene', () => {
     })
   }
 
+  const getSceneOptionsByName = (searchQuery: string): Promise<IOption[]> => {
+    return new Promise<IOption[]>((resolve, reject) => {
+      if (settingsStore.mockEnabled) {
+        window.setTimeout(() => {
+          resolve(mockSceneOptions)
+        }, 1000)
+      } else {
+        getSceneOptionsByNameAPI(searchQuery)
+          .then((res) => {
+            const result = res as IOption[]
+            resolve(result)
+          })
+          .catch((error: Error) => {
+            reject(error)
+          })
+          .finally(() => {})
+      }
+    })
+  }
+
+  const getSceneOptionsByID = (id: string | number): Promise<IOption> => {
+    return new Promise<IOption>((resolve, reject) => {
+      if (settingsStore.mockEnabled) {
+        window.setTimeout(() => {
+          const result = mockSceneOptions.find((item) => item.value === Number(id))
+          if (result) {
+            resolve(result)
+          } else {
+            reject(new Error('Scene not found'))
+          }
+        }, 1000)
+      } else {
+        getSceneOptionsByIDAPI(id)
+          .then((res) => {
+            const result = res as IOption
+            resolve(result)
+          })
+          .catch((error: Error) => {
+            reject(error)
+          })
+          .finally(() => {})
+      }
+    })
+  }
+
   return {
     getScenes,
     getScene,
     upsertScene,
     changeScenesStatus,
-    deleteScenes
+    deleteScenes,
+    getSceneOptionsByName,
+    getSceneOptionsByID
   }
 })
