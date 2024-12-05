@@ -1,48 +1,45 @@
 import { defineStore } from 'pinia'
 import { useSettingsStore } from '../settings'
 import type { apiListResult } from '@/types/common'
-import type { IScene, ISceneDTO, ISceneItem } from '@/types/scene'
+import type { IBanner, IBannerDTO, IBannerItem } from '@/types/banner'
 import {
-  getScenes as getScenesAPI,
-  getScene as getSceneAPI,
-  upsertScene as upsertSceneAPI,
-  changeScenesStatus as changeScenesStatusAPI,
-  deleteScenes as deleteScenesAPI
-} from '@/apis/scene'
-import { scenes as mockScenes } from '@/constants/mockData/scene'
+  getBanners as getBannersAPI,
+  getBanner as getBannerAPI,
+  upsertBanner as upsertBannerAPI,
+  changeBannersStatus as changeBannersStatusAPI,
+  deleteBanners as deleteBannersAPI
+} from '@/apis/banner'
+import { banners as mockBanners } from '@/constants/mockData/banner'
 import type { ActiveStatus } from '@/constants/mapData'
+import type { LinkTypes } from '@/constants/mapData/banner'
 
-export const useSceneStore = defineStore('scene', () => {
+export const useBannerStore = defineStore('banner', () => {
   const settingsStore = useSettingsStore()
 
-  const getScenes = (
+  const getBanners = (
     searchQuery: string,
     status: ActiveStatus,
-    isOuterLink: boolean | undefined,
+    linkType: LinkTypes,
     pageNum: number,
     pageSize: number
-  ): Promise<apiListResult<ISceneItem>> => {
-    return new Promise<apiListResult<ISceneItem>>((resolve, reject) => {
+  ): Promise<apiListResult<IBannerItem>> => {
+    return new Promise<apiListResult<IBannerItem>>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => {
-          const result = mockScenes.filter((item) => {
+          const result = mockBanners.filter((item) => {
             const statusMatch = status ? item.status === status : true
-            const isOuterLinkMatch =
-              isOuterLink !== undefined ? item.isOuterLink === isOuterLink : true
+            const linkTypeMatch = linkType ? item.linkType === linkType : true
             const searchMatch = searchQuery ? item.title.includes(searchQuery) : true
 
-            return statusMatch && searchMatch && isOuterLinkMatch
+            return statusMatch && searchMatch && linkTypeMatch
           })
-          const newArray: ISceneItem[] = result.map((item) => ({
-            ...item,
-            companyName: item.company.name
-          }))
-          resolve({ total: result.length, rows: newArray })
+
+          resolve({ total: result.length, rows: result })
         }, 1000)
       } else {
-        getScenesAPI(searchQuery, status, isOuterLink, pageNum, pageSize)
+        getBannersAPI(searchQuery, status, linkType, pageNum, pageSize)
           .then((res) => {
-            const result = res as apiListResult<ISceneItem>
+            const result = res as apiListResult<IBannerItem>
             resolve(result)
           })
           .catch((error: Error) => {
@@ -53,21 +50,21 @@ export const useSceneStore = defineStore('scene', () => {
     })
   }
 
-  const getScene = (id: string | number): Promise<IScene> => {
-    return new Promise<IScene>((resolve, reject) => {
+  const getBanner = (id: string | number): Promise<IBanner> => {
+    return new Promise<IBanner>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => {
-          const result = mockScenes.find((item) => item.id === Number(id))
+          const result = mockBanners.find((item) => item.id === Number(id))
           if (result) {
             resolve(result)
           } else {
-            reject(new Error('Scene not found'))
+            reject(new Error('Banner not found'))
           }
         }, 1000)
       } else {
-        getSceneAPI(id)
+        getBannerAPI(id)
           .then((res) => {
-            const result = res as IScene
+            const result = res as IBanner
             resolve(result)
           })
           .catch((error: Error) => {
@@ -78,14 +75,14 @@ export const useSceneStore = defineStore('scene', () => {
     })
   }
 
-  const upsertScene = (id: string | number, sceneInfo: ISceneDTO): Promise<void> => {
+  const upsertBanner = (id: string | number, bannerInfo: IBannerDTO): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => {
           resolve()
         }, 1000)
       } else {
-        upsertSceneAPI(id, sceneInfo)
+        upsertBannerAPI(id, bannerInfo)
           .then(() => {
             resolve()
           })
@@ -97,14 +94,14 @@ export const useSceneStore = defineStore('scene', () => {
     })
   }
 
-  const changeScenesStatus = (ids: (string | number)[], status: ActiveStatus): Promise<void> => {
+  const changeBannersStatus = (ids: (string | number)[], status: ActiveStatus): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => {
           resolve()
         }, 1000)
       } else {
-        changeScenesStatusAPI(ids, status)
+        changeBannersStatusAPI(ids, status)
           .then(() => {
             resolve()
           })
@@ -116,14 +113,14 @@ export const useSceneStore = defineStore('scene', () => {
     })
   }
 
-  const deleteScenes = (ids: (string | number)[]): Promise<void> => {
+  const deleteBanners = (ids: (string | number)[]): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => {
           resolve()
         }, 1000)
       } else {
-        deleteScenesAPI(ids)
+        deleteBannersAPI(ids)
           .then(() => {
             resolve()
           })
@@ -136,10 +133,10 @@ export const useSceneStore = defineStore('scene', () => {
   }
 
   return {
-    getScenes,
-    getScene,
-    upsertScene,
-    changeScenesStatus,
-    deleteScenes
+    getBanners,
+    getBanner,
+    upsertBanner,
+    changeBannersStatus,
+    deleteBanners
   }
 })

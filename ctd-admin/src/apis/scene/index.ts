@@ -6,7 +6,7 @@ import type { ISceneDTO } from '@/types/scene'
 interface ISceneAPI {
   getScenes: (
     searchQuery: string,
-    status: string,
+    status: ActiveStatus,
     isOuterLink: boolean | undefined,
     pageNum: number,
     pageSize: number

@@ -171,14 +171,14 @@ export class LoginService {
           this.logger.warn(`冻结用户账户：${email}`);
           user.status = UserStatus.SUSPENDED;
           await this.userRepository.save(user);
-          return createErrorResponse(ErrorCode.LOGIN_FAILED, {
+          return createErrorResponse(ErrorCode.ACCOUNT_SUSPENDED, {
             requiresCaptcha: false,
           });
         }
 
         // 下次登录需要验证码
         if (user.failedAttempts >= CAPTCHA_THRESHOLD) {
-          return createErrorResponse(ErrorCode.ACCOUNT_SUSPENDED, {
+          return createErrorResponse(ErrorCode.LOGIN_FAILED, {
             requiresCaptcha: true,
           });
         }
@@ -337,7 +337,7 @@ export class LoginService {
     }
   }
 
-  async incrementFailedAttempts(user: User): Promise<void> {
+  private async incrementFailedAttempts(user: User): Promise<void> {
     user.failedAttempts += 1;
     try {
       await this.userRepository.save(user);

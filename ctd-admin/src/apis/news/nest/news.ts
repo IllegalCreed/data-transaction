@@ -4,7 +4,7 @@ import type { INewsDTO } from '@/types/news'
 
 export const getNews = (
   searchQuery: string,
-  status: string,
+  status: ActiveStatus,
   pageNum: number,
   pageSize: number
 ): Promise<unknown> => {
@@ -16,7 +16,7 @@ export const getNews = (
   }
   return request.get(
     {
-      url: '/news/get-list',
+      url: '/news',
       params
     },
     true
@@ -26,7 +26,7 @@ export const getNews = (
 export const getNewsDetail = (id: string | number): Promise<unknown> => {
   return request.get(
     {
-      url: `/news/get-detail/${id}`
+      url: `/news/${id}`
     },
     true
   )

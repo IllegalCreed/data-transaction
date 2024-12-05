@@ -6,7 +6,7 @@ import type { INewsDTO } from '@/types/news'
 interface INewsAPI {
   getNews: (
     searchQuery: string,
-    status: string,
+    status: ActiveStatus,
     pageNum: number,
     pageSize: number
   ) => Promise<unknown>

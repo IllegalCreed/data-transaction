@@ -1,78 +1,79 @@
 import request from '@/axios'
 import type { ActiveStatus } from '@/constants/mapData'
-import type { ISceneDTO } from '@/types/scene'
+import type { LinkTypes } from '@/constants/mapData/banner'
+import type { IBannerDTO } from '@/types/banner'
 
-export const getScenes = (
+export const getBanners = (
   searchQuery: string,
   status: ActiveStatus,
-  isOuterLink: boolean | undefined,
+  linkType: LinkTypes,
   pageNum: number,
   pageSize: number
 ): Promise<unknown> => {
   const params = {
     searchQuery,
     status,
-    isOuterLink,
+    linkType,
     pageNum,
     pageSize
   }
   return request.get(
     {
-      url: '/scene',
+      url: '/banner',
       params
     },
     true
   )
 }
 
-export const getScene = (id: string | number): Promise<unknown> => {
+export const getBanner = (id: string | number): Promise<unknown> => {
   return request.get(
     {
-      url: `/scene/${id}`
+      url: `/banner/${id}`
     },
     true
   )
 }
 
-export const upsertScene = (id: string | number, sceneInfo: ISceneDTO): Promise<unknown> => {
+export const upsertBanner = (id: string | number, bannerInfo: IBannerDTO): Promise<unknown> => {
   const data = {
     id,
-    ...sceneInfo
+    ...bannerInfo
   }
 
   return request.post(
     {
-      url: '/scene/upsert',
+      url: '/banner/upsert',
       data
     },
     true
   )
 }
 
-export const changeScenesStatus = (
+export const changeBannersStatus = (
   ids: (string | number)[],
   status: ActiveStatus
 ): Promise<unknown> => {
-  const data = {
+  const params = {
     ids,
     status
   }
   return request.put(
     {
-      url: '/scene/change-status',
-      data
+      url: '/banner/change-status',
+      params
     },
     true
   )
 }
 
-export const deleteScenes = (ids: (string | number)[]): Promise<unknown> => {
+export const deleteBanners = (ids: (string | number)[]): Promise<unknown> => {
   const params = {
     ids
   }
   return request.delete(
     {
-      url: '/scene/delete',
+      url: '/banner/delete',
       params
     },
     true
