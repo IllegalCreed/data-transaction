@@ -32,7 +32,7 @@ export const companies: ICompany[] = [
     updateTime: '2022-01-01 00:00:00'
   },
   {
-    id: 1,
+    id: 2,
     name: '测试公司2',
     description: '测试公司2的描述',
     link: 'www.baidu.com',
@@ -44,7 +44,7 @@ export const companies: ICompany[] = [
     updateTime: '2022-01-01 00:00:00'
   },
   {
-    id: 1,
+    id: 3,
     name: '测试公司3',
     description: '测试公司3的描述',
     link: 'www.baidu.com',

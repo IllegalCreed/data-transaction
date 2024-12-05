@@ -56,7 +56,7 @@
       <el-form-item label="场景头图" prop="headerImageUrl">
         <image-picker v-model="headerImage" />
       </el-form-item>
-      <el-form-item label="是否为外链" prop="hasCount">
+      <el-form-item label="是否为外链" prop="isOuterLink">
         <el-switch v-model="sceneInfo.isOuterLink" />
       </el-form-item>
       <el-form-item v-if="sceneInfo.isOuterLink" label="外部链接" prop="link" max-w-120>
