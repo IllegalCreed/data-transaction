@@ -1,64 +1,51 @@
 <template>
-  <div class="scene-detail-root-container">
-    <span class="panel-title">场景详情</span>
-    <div class="props-container" v-loading="getSceneLoading">
+  <div class="company-detail-root-container">
+    <span class="panel-title">公司详情</span>
+    <div class="props-container" v-loading="getCompanyLoading">
       <div class="prop">
         <span class="label">场景标题：</span>
-        <span class="value">{{ sceneInfo.title }}</span>
+        <span class="value">{{ companyInfo.name }}</span>
       </div>
       <div class="prop">
-        <span class="label">阅读数量：</span>
-        <span class="value">{{ sceneInfo.readCount }}</span>
+        <span class="label">公司链接</span>
+        <span class="value">{{ companyInfo.link }}</span>
       </div>
       <div class="prop" items-center>
         <span class="label">状态:</span>
-        <el-tag :type="stautsColor(sceneInfo.status)">{{ statusLabel(sceneInfo.status) }}</el-tag>
+        <el-tag :type="stautsColor(companyInfo.status)">{{
+          statusLabel(companyInfo.status)
+        }}</el-tag>
       </div>
-      <div class="prop">
-        <span class="label">关联公司</span>
-        <span class="value">{{ sceneInfo.company.name }}</span>
+      <div class="prop" items-center>
+        <span class="label">合作伙伴:</span>
+        <el-tag :type="partnerTypesColor(companyInfo.partnerType)">{{
+          partnerTypesLabel(companyInfo.partnerType)
+        }}</el-tag>
       </div>
       <div class="prop">
         <span class="label">创建时间：</span>
-        <span class="value">{{ sceneInfo.createTime }}</span>
+        <span class="value">{{ companyInfo.createTime }}</span>
       </div>
       <div class="prop">
         <span class="label">更新时间：</span>
-        <span class="value">{{ sceneInfo.updateTime }}</span>
+        <span class="value">{{ companyInfo.updateTime }}</span>
+      </div>
+      <div class="prop">
+        <span class="label">友情链接：</span>
+        <span class="value">{{ companyInfo.isShowInFooter ? '是' : '否' }}</span>
       </div>
       <div class="prop" grid-col-span-3>
         <span class="label">摘要：</span>
-        <span class="value">{{ sceneInfo.summary }}</span>
+        <span class="value">{{ companyInfo.description }}</span>
       </div>
       <div class="prop">
-        <span class="label">场景封面：</span>
+        <span class="label">公司商标：</span>
         <el-image
           class="w-30 h-30"
-          :src="sceneInfo.coverImageUrl"
-          :preview-src-list="sceneInfo.coverImageUrl ? [sceneInfo.coverImageUrl] : undefined"
+          :src="companyInfo.logoUrl"
+          :preview-src-list="companyInfo.logoUrl ? [companyInfo.logoUrl] : undefined"
           fit="cover"
         />
-      </div>
-      <div class="prop">
-        <span class="label">场景头图：</span>
-        <el-image
-          class="w-30 h-30"
-          :src="sceneInfo.headerImageUrl"
-          :preview-src-list="sceneInfo.headerImageUrl ? [sceneInfo.headerImageUrl] : undefined"
-          fit="cover"
-        />
-      </div>
-      <div class="prop" grid-col-span-3>
-        <span class="label">是否为外链：</span>
-        <span class="value">{{ sceneInfo.isOuterLink ? '是' : '否' }}</span>
-      </div>
-      <div class="prop" grid-col-span-3 v-if="sceneInfo.isOuterLink">
-        <span class="label">外部链接：</span>
-        <span class="value">{{ sceneInfo.link }}</span>
-      </div>
-      <div class="prop" grid-col-span-3 v-else>
-        <span class="label">场景正文：</span>
-        <div v-html="sceneInfo.content"></div>
       </div>
     </div>
   </div>
@@ -67,29 +54,25 @@
 <script setup lang="ts">
 const id = useRouteParams<string | number>('id')
 watch(id, () => {
-  executeGetSceneAction()
+  executeGetCompanyAction()
 })
 
-import { useSceneStore } from '@/stores/modules/scene'
-const { getScene: getSceneAction } = useSceneStore()
+import { useCompanyStore } from '@/stores/modules/company'
+const { getCompany: getCompanyAction } = useCompanyStore()
 const {
-  state: sceneInfo,
-  isLoading: getSceneLoading,
-  execute: executeGetSceneAction
+  state: companyInfo,
+  isLoading: getCompanyLoading,
+  execute: executeGetCompanyAction
 } = useAsyncState(
-  () => getSceneAction(id.value),
+  () => getCompanyAction(id.value),
   {
     id: id.value,
-    title: '',
-    summary: '',
+    name: '',
+    description: '',
+    link: '',
     status: ActiveStatus.Inactive,
-    readCount: 0,
-    company: {
-      id: '',
-      name: ''
-    },
-    isOuterLink: false,
-    content: '',
+    partnerType: PartnerTypes.None,
+    isShowInFooter: false,
     createTime: '',
     updateTime: ''
   },
@@ -103,16 +86,23 @@ const {
 )
 
 onMounted(() => {
-  executeGetSceneAction()
+  executeGetCompanyAction()
 })
 
 import { ACTIVE_STATUS_COLOR_MAP, ACTIVE_STATUS_MAP, ActiveStatus } from '@/constants/mapData'
 const stautsColor = (status: ActiveStatus) => ACTIVE_STATUS_COLOR_MAP[status]
 const statusLabel = (status: ActiveStatus) => ACTIVE_STATUS_MAP[status]
+import {
+  PARTNER_TYPES_COLOR_MAP,
+  PARTNER_TYPES_MAP,
+  PartnerTypes
+} from '@/constants/mapData/company'
+const partnerTypesColor = (partnerType: PartnerTypes) => PARTNER_TYPES_COLOR_MAP[partnerType]
+const partnerTypesLabel = (partnerType: PartnerTypes) => PARTNER_TYPES_MAP[partnerType]
 </script>
 
 <style scoped lang="scss">
-.scene-detail-root-container {
+.company-detail-root-container {
   @apply flex-1 flex flex-col p-4 gap-4 bg-[var(--background-page-color)];
 
   .props-container {
