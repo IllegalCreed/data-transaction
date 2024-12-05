@@ -104,12 +104,12 @@ const handleDelete = (id: string | number, title: string) => {
 import { useChangeStatus } from '@/composables/useChangeStatus'
 import { ActiveStatus } from '@/constants/mapData'
 import type { PartnerTypes } from '@/constants/mapData/company'
-const changeTitle = ref('')
+const changeName = ref('')
 const changeId = ref<string | number>('')
 const changeStatus = ref<ActiveStatus>()
 const { doChangeAction } = useChangeStatus(
   () =>
-    `是否确认 ${changeStatus.value === ActiveStatus.Active ? '启用' : '停用'} ${changeTitle.value} ？`,
+    `是否确认 ${changeStatus.value === ActiveStatus.Active ? '启用' : '停用'} ${changeName.value} ？`,
   async () => {
     if (!changeStatus.value) {
       ElMessage.error('请选择状态')
@@ -119,8 +119,8 @@ const { doChangeAction } = useChangeStatus(
     refresh()
   }
 )
-const handleChangeStatus = (id: string | number, title: string, newStatus: ActiveStatus) => {
-  changeTitle.value = title
+const handleChangeStatus = (id: string | number, name: string, newStatus: ActiveStatus) => {
+  changeName.value = name
   changeId.value = id
   changeStatus.value = newStatus
   doChangeAction()
@@ -132,9 +132,9 @@ const handleSearch = () => {
   refresh()
 }
 
-const status = ref<string>('')
-const partnerType = ref<PartnerTypes>()
-const isShowInFooter = ref<boolean>()
+const status = ref<ActiveStatus | null>(null)
+const partnerType = ref<PartnerTypes | null>(null)
+const isShowInFooter = ref<boolean | null>(null)
 const reset = () => {
   pageNum.value = 1
   refresh()

@@ -1,9 +1,10 @@
 import request from '@/axios'
+import type { ProductStatus } from '@/constants/mapData/product'
 
 export const getProducts = (
   searchQuery: string,
-  status: string,
-  sellerId: string | number,
+  status: ProductStatus | null,
+  sellerId: string | number | null,
   pageNum: number,
   pageSize: number
 ): Promise<unknown> => {

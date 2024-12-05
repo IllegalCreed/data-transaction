@@ -49,7 +49,7 @@
             <span class="label" shrink-0>状态</span>
             <el-link class="reset" :underline="false" @click="resetStatusFilter">重置</el-link>
           </div>
-          <el-select clearable v-model="status" placeholder="选择资讯状态">
+          <el-select clearable v-model="statusToString" placeholder="选择资讯状态">
             <el-option
               v-for="item in activeStatusOptions"
               :key="item.value"
@@ -75,17 +75,29 @@ const emit = defineEmits<{
   (e: 'refresh'): void
 }>()
 
-const status = defineModel<string>('status', { default: '' })
+const status = defineModel<ActiveStatus | null>('status', { default: null })
+const statusToString = computed<string | undefined>({
+  get() {
+    return status.value ?? undefined
+  },
+  set(newValue) {
+    if (!newValue) {
+      status.value = null
+    } else {
+      status.value = newValue as ActiveStatus
+    }
+  }
+})
 
 // 筛选
 const filterVisible = ref<boolean>(false)
 
-import { activeStatusOptions } from '@/constants/mapData'
+import { ActiveStatus, activeStatusOptions } from '@/constants/mapData'
 
 const filterCount = ref(0)
 
 const resetStatusFilter = () => {
-  status.value = ''
+  status.value = null
 }
 
 const resetAllFilter = () => {
@@ -95,7 +107,7 @@ const resetAllFilter = () => {
 const applyFilter = () => {
   filterVisible.value = false
   filterCount.value = 0
-  if (status.value) {
+  if (status.value !== null) {
     filterCount.value++
   }
   emit('refresh')

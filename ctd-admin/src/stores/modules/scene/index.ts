@@ -17,8 +17,8 @@ export const useSceneStore = defineStore('scene', () => {
 
   const getScenes = (
     searchQuery: string,
-    status: ActiveStatus,
-    isOuterLink: boolean | undefined,
+    status: ActiveStatus | null,
+    isOuterLink: boolean | null,
     pageNum: number,
     pageSize: number
   ): Promise<apiListResult<ISceneItem>> => {
@@ -27,8 +27,7 @@ export const useSceneStore = defineStore('scene', () => {
         window.setTimeout(() => {
           const result = mockScenes.filter((item) => {
             const statusMatch = status ? item.status === status : true
-            const isOuterLinkMatch =
-              isOuterLink !== undefined ? item.isOuterLink === isOuterLink : true
+            const isOuterLinkMatch = isOuterLink !== null ? item.isOuterLink === isOuterLink : true
             const searchMatch = searchQuery ? item.title.includes(searchQuery) : true
 
             return statusMatch && searchMatch && isOuterLinkMatch

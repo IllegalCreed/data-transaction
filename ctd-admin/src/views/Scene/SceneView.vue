@@ -129,8 +129,8 @@ const handleSearch = () => {
   refresh()
 }
 
-const status = ref<string>('')
-const isOuterLink = ref<boolean>()
+const status = ref<ActiveStatus | null>(null)
+const isOuterLink = ref<boolean | null>(null)
 const reset = () => {
   pageNum.value = 1
   refresh()

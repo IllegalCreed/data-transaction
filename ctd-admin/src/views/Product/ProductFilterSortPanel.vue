@@ -49,7 +49,7 @@
             <span class="label" shrink-0>状态</span>
             <el-link class="reset" :underline="false" @click="resetStatusFilter">重置</el-link>
           </div>
-          <el-select clearable v-model="status" placeholder="选择产品状态">
+          <el-select clearable v-model="statusToString" placeholder="选择产品状态">
             <el-option
               v-for="item in productStatusOptions"
               :key="item.value"
@@ -71,7 +71,7 @@
             clearable
             :remote-method="remoteMethod"
             :loading="getBusinessOptionsByNameActionLoading"
-            v-model="sellerId"
+            v-model="sellerIdToString"
             placeholder="选择商家"
           >
             <el-option
@@ -99,13 +99,37 @@ const emit = defineEmits<{
   (e: 'refresh'): void
 }>()
 
-const status = defineModel<string>('status', { default: '' })
-const sellerId = defineModel<string | number>('sellerId', { default: '' })
+const status = defineModel<ProductStatus | null>('status', { default: null })
+const statusToString = computed<string | undefined>({
+  get() {
+    return status.value ?? undefined
+  },
+  set(newValue) {
+    if (!newValue) {
+      status.value = null
+    } else {
+      status.value = newValue as ProductStatus
+    }
+  }
+})
+const sellerId = defineModel<string | number | null>('sellerId', { default: null })
+const sellerIdToString = computed<string | number | undefined>({
+  get() {
+    return sellerId.value ?? undefined
+  },
+  set(newValue) {
+    if (!newValue) {
+      sellerId.value = null
+    } else {
+      sellerId.value = newValue
+    }
+  }
+})
 
 // 筛选
 const filterVisible = ref<boolean>(false)
 
-import { productStatusOptions } from '@/constants/mapData/product'
+import { ProductStatus, productStatusOptions } from '@/constants/mapData/product'
 import { useBusinessStore } from '@/stores/modules/business'
 const { getBusinessOptionsByName: getBusinessOptionsByNameAction } = useBusinessStore()
 const {
@@ -128,11 +152,11 @@ const remoteMethod = (query: string) => {
 const filterCount = ref(0)
 
 const resetStatusFilter = () => {
-  status.value = ''
+  status.value = null
 }
 
 const resetSellerFilter = () => {
-  sellerId.value = ''
+  sellerId.value = null
 }
 
 const resetAllFilter = () => {
@@ -143,10 +167,10 @@ const resetAllFilter = () => {
 const applyFilter = () => {
   filterVisible.value = false
   filterCount.value = 0
-  if (status.value) {
+  if (status.value !== null) {
     filterCount.value++
   }
-  if (sellerId.value) {
+  if (sellerId.value !== null) {
     filterCount.value++
   }
   emit('refresh')

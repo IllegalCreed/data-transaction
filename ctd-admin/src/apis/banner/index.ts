@@ -7,8 +7,8 @@ import * as nestBanner from './nest/banner'
 interface IBannerAPI {
   getBanners: (
     searchQuery: string,
-    status: ActiveStatus,
-    linkType: LinkTypes,
+    status: ActiveStatus | null,
+    linkType: LinkTypes | null,
     pageNum: number,
     pageSize: number
   ) => Promise<unknown>

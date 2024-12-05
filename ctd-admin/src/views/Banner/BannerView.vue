@@ -60,7 +60,7 @@ const data = ref<IBannerItem[]>([])
 import { useBannerStore } from '@/stores/modules/banner'
 const {
   getBanners: getBannersAction,
-  hangeBannersStatus: changeBannersStatusAction,
+  changeBannersStatus: changeBannersStatusAction,
   deleteBanners: deleteBannersAction
 } = useBannerStore()
 const getList = async (): Promise<apiListResult<IBannerItem>> => {
@@ -130,8 +130,8 @@ const handleSearch = () => {
   refresh()
 }
 
-const status = ref<string>('')
-const linkType = ref<LinkTypes>()
+const status = ref<ActiveStatus | null>(null)
+const linkType = ref<LinkTypes | null>(null)
 const reset = () => {
   pageNum.value = 1
   refresh()

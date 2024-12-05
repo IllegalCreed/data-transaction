@@ -119,7 +119,7 @@ const handleSearch = () => {
   refresh()
 }
 
-const status = ref<string>('')
+const status = ref<ActiveStatus | null>(null)
 const reset = () => {
   pageNum.value = 1
   refresh()

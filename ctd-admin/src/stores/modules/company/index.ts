@@ -7,7 +7,8 @@ import {
   upsertCompany as upsertCompanyAPI,
   changeCompaniesStatus as changeCompaniesStatusAPI,
   deleteCompanies as deleteCompaniesAPI,
-  getCompanyOptionsByName as getCompanyOptionsByNameAPI
+  getCompanyOptionsByName as getCompanyOptionsByNameAPI,
+  getCompanyOptionsByID as getCompanyOptionsByIDAPI
 } from '@/apis/company'
 import {
   companyOptions as mockCompanyOptions,
@@ -22,9 +23,9 @@ export const useCompanyStore = defineStore('company', () => {
 
   const getCompanies = (
     searchQuery: string,
-    status: ActiveStatus,
-    partnerType: PartnerTypes,
-    isShowInFooter: boolean | undefined,
+    status: ActiveStatus | null,
+    partnerType: PartnerTypes | null,
+    isShowInFooter: boolean | null,
     pageNum: number,
     pageSize: number
   ): Promise<apiListResult<ICompanyItem>> => {
@@ -35,7 +36,7 @@ export const useCompanyStore = defineStore('company', () => {
             const statusMatch = status ? item.status === status : true
             const partnerTypeMatch = partnerType ? item.partnerType === partnerType : true
             const isShowInFooterMatch =
-              isShowInFooter !== undefined ? item.isShowInFooter === isShowInFooter : true
+              isShowInFooter !== null ? item.isShowInFooter === isShowInFooter : true
             const searchMatch = searchQuery ? item.name.includes(searchQuery) : true
 
             return statusMatch && searchMatch && partnerTypeMatch && isShowInFooterMatch
@@ -159,12 +160,38 @@ export const useCompanyStore = defineStore('company', () => {
     })
   }
 
+  const getCompanyOptionsByID = (id: string | number): Promise<IOption> => {
+    return new Promise<IOption>((resolve, reject) => {
+      if (settingsStore.mockEnabled) {
+        window.setTimeout(() => {
+          const result = mockCompanyOptions.find((item) => item.value === Number(id))
+          if (result) {
+            resolve(result)
+          } else {
+            reject(new Error('Company not found'))
+          }
+        }, 1000)
+      } else {
+        getCompanyOptionsByIDAPI(id)
+          .then((res) => {
+            const result = res as IOption
+            resolve(result)
+          })
+          .catch((error: Error) => {
+            reject(error)
+          })
+          .finally(() => {})
+      }
+    })
+  }
+
   return {
     getCompanies,
     getCompany,
     upsertCompany,
     changeCompaniesStatus,
     deleteCompanies,
-    getCompanyOptionsByName
+    getCompanyOptionsByName,
+    getCompanyOptionsByID
   }
 })

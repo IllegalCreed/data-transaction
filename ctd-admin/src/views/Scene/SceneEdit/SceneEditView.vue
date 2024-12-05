@@ -30,7 +30,7 @@
           :remote-method="remoteMethod"
           :loading="getCompanyOptionsByNameActionLoading"
           v-model="sceneInfo.companyId"
-          placeholder="选择公司"
+          placeholder="输入公司名称搜索"
         >
           <el-option
             v-for="item in companyOptions"
@@ -101,6 +101,11 @@ onMounted(async () => {
   if (id.value !== '-1') {
     const fetchedNewsDetailData = await getSceneAction(id.value)
     Object.assign(sceneInfo, mapISceneToISceneDTO(fetchedNewsDetailData))
+    if (sceneInfo.companyId) {
+      getCompanyOptionsByNameActionLoading.value = true
+      companyOptions.value = [await getCompanyOptionsByIDAction(sceneInfo.companyId)]
+      getCompanyOptionsByNameActionLoading.value = false
+    }
     if (sceneInfo.coverImageUrl) {
       coverImage.value = {
         id: uuidv4(),
@@ -148,7 +153,10 @@ function mapISceneToISceneDTO(scene: IScene): ISceneDTO {
 
 // 公司相关
 import { useCompanyStore } from '@/stores/modules/company'
-const { getCompanyOptionsByName: getCompanyOptionsByNameAction } = useCompanyStore()
+const {
+  getCompanyOptionsByName: getCompanyOptionsByNameAction,
+  getCompanyOptionsByID: getCompanyOptionsByIDAction
+} = useCompanyStore()
 const {
   state: companyOptions,
   isLoading: getCompanyOptionsByNameActionLoading,

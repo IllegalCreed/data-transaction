@@ -18,8 +18,8 @@ export const useBannerStore = defineStore('banner', () => {
 
   const getBanners = (
     searchQuery: string,
-    status: ActiveStatus,
-    linkType: LinkTypes,
+    status: ActiveStatus | null,
+    linkType: LinkTypes | null,
     pageNum: number,
     pageSize: number
   ): Promise<apiListResult<IBannerItem>> => {

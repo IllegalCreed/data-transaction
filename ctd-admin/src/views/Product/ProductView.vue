@@ -76,6 +76,7 @@ const { pageNum, pageSize, total, refresh } = usePager(getList)
 
 // 删除
 import { useDelete } from '@/composables/useDelete'
+import type { ProductStatus } from '@/constants/mapData/product'
 const delName = ref('')
 const delId = ref<string | number>('')
 const { doDelAction } = useDelete(
@@ -97,8 +98,8 @@ const handleSearch = () => {
   refresh()
 }
 
-const status = ref<string>('')
-const sellerId = ref<string | number>('')
+const status = ref<ProductStatus | null>(null)
+const sellerId = ref<string | number | null>(null)
 const reset = () => {
   pageNum.value = 1
   refresh()

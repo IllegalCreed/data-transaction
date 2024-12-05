@@ -18,14 +18,15 @@ import {
   versions as mockVersions,
   prices as mockPrices
 } from '@/constants/mockData/product'
+import type { ProductStatus } from '@/constants/mapData/product'
 
 export const useProduct = () => {
   const settingsStore = useSettingsStore()
 
   const getProducts = (
     searchQuery: string,
-    status: string,
-    sellerId: string | number,
+    status: ProductStatus | null,
+    sellerId: string | number | null,
     pageNum: number,
     pageSize: number
   ): Promise<apiListResult<IProductItem>> => {

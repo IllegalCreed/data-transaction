@@ -2,12 +2,13 @@ import * as javaProduct from './java/product'
 import * as nestPruduct from './nest/product'
 import * as javaApproval from './java/approval'
 import * as nestApproval from './nest/approval'
+import type { ProductStatus } from '@/constants/mapData/product'
 
 interface IProductAPI {
   getProducts: (
     searchQuery: string,
-    status: string,
-    sellerId: string | number,
+    status: ProductStatus | null,
+    sellerId: string | number | null,
     pageNum: number,
     pageSize: number
   ) => Promise<unknown>

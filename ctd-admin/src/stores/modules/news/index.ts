@@ -17,7 +17,7 @@ export const useNewsStore = defineStore('news', () => {
 
   const getNews = (
     searchQuery: string,
-    status: ActiveStatus,
+    status: ActiveStatus | null,
     pageNum: number,
     pageSize: number
   ): Promise<apiListResult<INewsItem>> => {

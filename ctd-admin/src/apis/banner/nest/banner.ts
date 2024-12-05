@@ -5,8 +5,8 @@ import type { IBannerDTO } from '@/types/banner'
 
 export const getBanners = (
   searchQuery: string,
-  status: ActiveStatus,
-  linkType: LinkTypes,
+  status: ActiveStatus | null,
+  linkType: LinkTypes | null,
   pageNum: number,
   pageSize: number
 ): Promise<unknown> => {

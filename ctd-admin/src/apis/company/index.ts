@@ -7,9 +7,9 @@ import * as nestCompany from './nest/company'
 interface ICompanyAPI {
   getCompanies: (
     searchQuery: string,
-    status: ActiveStatus,
-    partnerType: PartnerTypes,
-    isShowInFooter: boolean | undefined,
+    status: ActiveStatus | null,
+    partnerType: PartnerTypes | null,
+    isShowInFooter: boolean | null,
     pageNum: number,
     pageSize: number
   ) => Promise<unknown>
@@ -18,6 +18,7 @@ interface ICompanyAPI {
   changeCompaniesStatus: (ids: (string | number)[], status: ActiveStatus) => Promise<unknown>
   deleteCompanies: (ids: (string | number)[]) => Promise<unknown>
   getCompanyOptionsByName: (searchQuery: string) => Promise<unknown>
+  getCompanyOptionsByID: (id: string | number) => Promise<unknown>
 }
 
 type CompanyAPIType = ICompanyAPI
@@ -38,5 +39,6 @@ export const {
   upsertCompany,
   changeCompaniesStatus,
   deleteCompanies,
-  getCompanyOptionsByName
+  getCompanyOptionsByName,
+  getCompanyOptionsByID
 } = companyAPI

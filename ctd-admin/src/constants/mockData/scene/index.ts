@@ -7,8 +7,7 @@ export const scenes: IScene[] = [
     title: '三教庙数字剧游场景',
     company: {
       id: 1,
-      name: '北京嘉联科技有限公司',
-      logoUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href
+      name: '北京嘉联科技有限公司'
     },
     summary:
       '数字剧游场景主要面向5-12岁青少年及亲子家庭，在公园、景点、场馆、商业、乡村、古镇等各类场所制作开发“微信小程序+实景线索+剧情任务”形式的沉浸式剧本游戏活动，让亲子出行变得更有趣味性和知识性。通过活动，既可增进亲子关系，又能引导孩子锻炼体能、学习知识、训练思维、培养品格。真正做到寓教于乐、玩中收获。',
@@ -42,8 +41,7 @@ export const scenes: IScene[] = [
     title: '大运河“万舟骈集”数实融合文化体验场景',
     company: {
       id: 1,
-      name: '北京嘉联科技有限公司',
-      logoUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href
+      name: '北京嘉联科技有限公司'
     },
     summary:
       '掘大运河历史文化，使文化传承更生动直观，通过沉浸式体验，增强公众对中华民族精神的认同感，实现了对大运河历史文化资源更广泛的理解与传承，具有重要的社会效益。',
@@ -76,8 +74,7 @@ export const scenes: IScene[] = [
     title: '马驹桥农文旅数字化场景',
     company: {
       id: 1,
-      name: '北京嘉联科技有限公司',
-      logoUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href
+      name: '北京嘉联科技有限公司'
     },
     summary:
       '场景通过数字人、AR、元宇宙等先进技术，为游客提供独特的马驹桥线上线下融合游览体验，打造沉浸式的智慧旅游环境。',

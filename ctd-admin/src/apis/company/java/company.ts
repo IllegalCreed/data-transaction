@@ -5,9 +5,9 @@ import type { ICompanyDTO } from '@/types/company'
 
 export const getCompanies = (
   searchQuery: string,
-  status: ActiveStatus,
-  partnerType: PartnerTypes,
-  isShowInFooter: boolean | undefined,
+  status: ActiveStatus | null,
+  partnerType: PartnerTypes | null,
+  isShowInFooter: boolean | null,
   pageNum: number,
   pageSize: number
 ): Promise<unknown> => {
@@ -88,7 +88,20 @@ export const getCompanyOptionsByName = (searchQuery: string): Promise<unknown> =
   }
   return request.get(
     {
-      url: '/company/getOptionsByName',
+      url: '/company/get-options-by-name',
+      params
+    },
+    true
+  )
+}
+
+export const getCompanyOptionsByID = (id: string | number): Promise<unknown> => {
+  const params = {
+    id
+  }
+  return request.get(
+    {
+      url: '/company/get-options-by-id',
       params
     },
     true
