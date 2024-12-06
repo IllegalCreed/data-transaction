@@ -14,7 +14,7 @@ export const sendVerificationCode = (
       },
       data,
     },
-    true,
+    false,
   )
 }
 
@@ -32,6 +32,6 @@ export const verifyCode = (
       },
       data,
     },
-    true,
+    false,
   )
 }

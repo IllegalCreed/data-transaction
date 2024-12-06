@@ -14,7 +14,7 @@ export const useAccountStore = defineStore('account', () => {
     mockInfoType,
     setMockInfoType,
   } = useAccount()
-  const { login, getCode, getAd, links, getLinks } = useLogin()
+  const { login, getCaptcha, checkCaptcha, getAd, links, getLinks } = useLogin()
   const {
     userType,
     setUserType,
@@ -43,7 +43,8 @@ export const useAccountStore = defineStore('account', () => {
     ...{
       login,
       logout,
-      getCode,
+      getCaptcha,
+      checkCaptcha,
       resetPwd,
       userinfo,
       getUserInfo,

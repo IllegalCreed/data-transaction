@@ -23,11 +23,17 @@ describe('登录', () => {
     activateUser(testUser.email)
   })
 
-  it('登录成功', () => {
-    cy.login(testUser.email)
+  afterEach(() => {
+    cy.login(testUser.email, testUser.password)
+    cy.clearAllLocalStorage()
+    cy.clearAllSessionStorage()
   })
 
-  it('记住密码，登录成功', () => {
+  it('登录成功', () => {
+    cy.login(testUser.email, testUser.password)
+  })
+
+  it('首次登录，记住密码，登录成功', () => {
     cy.visit('/login')
     cy.get('[data-testid="email-input"]').type(testUser.email)
     cy.get('[data-testid="password-input"]').type(testUser.password)
@@ -50,7 +56,7 @@ describe('登录', () => {
     })
   })
 
-  it('不记住密码，登录成功', () => {
+  it('首次登录，不记住密码，登录成功', () => {
     cy.visit('/login')
     cy.get('[data-testid="email-input"]').type(testUser.email)
     cy.get('[data-testid="password-input"]').type(testUser.password)
@@ -73,7 +79,36 @@ describe('登录', () => {
     })
   })
 
-  it.only('登录表单，邮箱不合规，给予对应提示', () => {
+  it('密码错误三次后，显示验证码，正确输入后登录成功', () => {
+    cy.visit('/login')
+    cy.intercept('GET', /\/(?:dev-api\/)?captcha/).as('getCaptchaRequest')
+
+    for (let i = 0; i < 3; i++) {
+      cy.get('[data-testid="email-input"]').clear()
+      cy.get('[data-testid="email-input"]').type(testUser.email)
+      cy.get('[data-testid="password-input"]').clear()
+      cy.get('[data-testid="password-input"]').type('WrongPwd')
+      cy.get('[data-testid="login-button"]').click()
+      cy.contains('身份验证失败').should('be.visible')
+      cy.contains('身份验证失败').should('not.exist')
+    }
+    cy.get('[data-testid="captcha-input"]').should('be.visible')
+
+    cy.wait('@getCaptchaRequest').then(interception => {
+      const captchaId = interception.response?.body?.data.id
+      cy.getCaptchaCode(Cypress.env('serverUrl'), captchaId)
+      cy.get<string>('@captchaCode').then(code => {
+        cy.get('[data-testid="password-input"]').clear()
+        cy.get('[data-testid="password-input"]').type(testUser.password)
+        cy.get('[data-testid="captcha-input"]').clear()
+        cy.get('[data-testid="captcha-input"]').type(code)
+        cy.get('[data-testid="login-button"]').click()
+        cy.get('.home-root-container').should('be.visible')
+      })
+    })
+  })
+
+  it('登录表单，邮箱不合规，给予对应提示', () => {
     cy.visit('/login')
     // 检测必填项
     cy.get('[data-testid="email-input"]').clear()
@@ -89,7 +124,7 @@ describe('登录', () => {
     }
   })
 
-  it.only('登录表单，密码不合规，给予对应提示', () => {
+  it('登录表单，密码不合规，给予对应提示', () => {
     cy.visit('/login')
     // 检测必填项
     cy.get('[data-testid="password-input"]').clear()
@@ -97,7 +132,7 @@ describe('登录', () => {
     cy.contains('请输入密码').should('be.visible')
   })
 
-  it.only('未注册账户登录，给予对应提示', () => {
+  it('未注册账户登录，给予对应提示', () => {
     cy.visit('/login')
     cy.get('[data-testid="email-input"]').type(generateUniqueEmail('testuser'))
     cy.get('[data-testid="password-input"]').type(testUser.password)
@@ -105,7 +140,7 @@ describe('登录', () => {
     cy.contains('用户不存在/密码错误').should('be.visible')
   })
 
-  it.only('已注册未激活账户登录，给予对应提示', () => {
+  it('已注册未激活账户登录，给予对应提示', () => {
     const tempUser: IIndividualUserData = {
       email: generateUniqueEmail('testuser'),
       password: 'Password@123!',
@@ -124,7 +159,7 @@ describe('登录', () => {
     cy.contains('用户未激活').should('be.visible')
   })
 
-  it.only('已注册已激活账户登录，密码错误，给予对应提示', () => {
+  it('已注册已激活账户登录，密码错误，给予对应提示', () => {
     cy.visit('/login')
     cy.get('[data-testid="email-input"]').type(testUser.email)
     cy.get('[data-testid="password-input"]').type('12345678')

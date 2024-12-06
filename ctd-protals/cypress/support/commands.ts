@@ -10,7 +10,8 @@ declare global {
         email: string,
         type: number,
       ): Chainable<void>
-      login(email: string): Chainable<void>
+      getCaptchaCode(baseUrl: string, captchaId: string): Chainable<void>
+      login(email: string, password: string): Chainable<void>
     }
   }
 }
@@ -71,17 +72,41 @@ Cypress.Commands.add(
   },
 )
 
+Cypress.Commands.add('getCaptchaCode', (baseUrl: string, captchaId: string) => {
+  if (Cypress.env('serverType') === 'java') {
+    cy.request(
+      'GET',
+      `${baseUrl}/register/test/getCode?captchaId=${captchaId}`,
+    ).then(response => {
+      expect(response.status).to.eq(200)
+      const captchaCode = response.body
+      cy.wrap(captchaCode).as('captchaCode')
+    })
+  } else {
+    cy.request(
+      'GET',
+      `${baseUrl}/captcha/test/get-code?captchaId=${captchaId}`,
+    ).then(response => {
+      expect(response.status).to.eq(200)
+      const captchaCode = response.body.data
+      cy.wrap(captchaCode).as('captchaCode')
+    })
+  }
+})
+
 /**
  * 登录
  * @param email 用户名
  */
-Cypress.Commands.add('login', email => {
+Cypress.Commands.add('login', (email, password) => {
   cy.session(
-    [email],
+    [email, password],
     () => {
       cy.visit('/login')
+      cy.get('[data-testid="email-input"]').clear()
       cy.get('[data-testid="email-input"]').type(email)
-      cy.get('[data-testid="password-input"]').type('Password@123!')
+      cy.get('[data-testid="password-input"]').clear()
+      cy.get('[data-testid="password-input"]').type(password)
       cy.get('[data-testid="login-button"]').click()
       cy.get('.home-root-container').should('be.visible')
     },

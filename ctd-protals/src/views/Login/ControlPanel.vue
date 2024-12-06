@@ -14,11 +14,12 @@
         label-width="auto"
         label-position="top"
       >
-        <el-form-item label="用户名" prop="account">
+        <el-form-item label="用户名" prop="email">
           <el-input
             data-testid="email-input"
-            v-model="loginInfo.account"
+            v-model="loginInfo.email"
             placeholder="请输入您的邮箱地址"
+            @blur="checkCaptcha"
           />
         </el-form-item>
 
@@ -29,6 +30,33 @@
             type="password"
             placeholder="请输入您的密码"
           />
+        </el-form-item>
+
+        <el-form-item
+          v-if="captchaVisible"
+          label="验证码"
+          prop="captchaCode"
+          :rules="{
+            required: true,
+            message: '请输入证码',
+            trigger: 'blur',
+          }"
+        >
+          <div flex flex-row>
+            <el-input
+              flex-1
+              data-testid="captcha-input"
+              v-model="loginInfo.captchaCode"
+              placeholder="请输入验证码"
+            />
+            <img
+              w-25
+              object-contain
+              cursor-pointer
+              :src="captchaData"
+              @click="getCaptcha"
+            />
+          </div>
         </el-form-item>
       </el-form>
 
@@ -73,24 +101,33 @@ import { useTokenStore } from '@/stores/modules/token'
 import { useAccountStore } from '@/stores/modules/account'
 
 const accountStore = useAccountStore()
-const { login: loginAction } = accountStore
+const {
+  login: loginAction,
+  getCaptcha: getCaptchaAction,
+  checkCaptcha: checkCaptchaAction,
+} = accountStore
 const tokenStore = useTokenStore()
 const { remeberMe } = storeToRefs(tokenStore)
 
 const icon = new URL('@/assets/icon/logo.png', import.meta.url).href
 
 const loginInfo = ref<ILogin>({
-  account: '',
+  email: '',
   password: '',
+  captchaCode: undefined,
+  captchaId: undefined,
 })
+const captchaVisible = ref(false)
+const captchaData = ref<string>()
 
 // 表单验证规则
 const validateOnSubmit = true
 import type { FormInstance, FormRules } from 'element-plus'
+import type { ICommonReturn } from '@/axios/type'
 const loginForm = useTemplateRef<FormInstance>('loginForm')
 
 const rules = reactive<FormRules<ILogin>>({
-  account: [
+  email: [
     { required: true, message: '请输入邮箱地址', trigger: 'blur' },
     { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur'] },
   ],
@@ -126,12 +163,54 @@ const handleLogin = async () => {
       try {
         await executeLoginAction(0, loginInfo.value)
         router.push('/home')
-      } catch {
-        ElMessage.error('登录失败')
+      } catch (error) {
+        if (import.meta.env.VITE_BACK_TYPE === 'java') {
+          ElMessage.error('登录失败')
+        } else {
+          const res = error as ICommonReturn<{
+            token?: string
+            requiresCaptcha?: boolean
+          }>
+          if (res.data.requiresCaptcha) {
+            getCaptcha()
+          } else {
+            closeCaptcha()
+          }
+        }
       }
     }
   } else {
     router.push('/home')
+  }
+}
+
+const getCaptcha = async () => {
+  try {
+    const captcha = await getCaptchaAction()
+    loginInfo.value.captchaId = captcha.id
+    captchaData.value = captcha.data
+    captchaVisible.value = true
+  } catch {
+    ElMessage.error('获取验证码失败')
+  }
+}
+
+const closeCaptcha = () => {
+  loginInfo.value.captchaId = undefined
+  captchaData.value = undefined
+  captchaVisible.value = false
+}
+
+const checkCaptcha = async () => {
+  try {
+    const needShowCaptcha = await checkCaptchaAction(loginInfo.value.email)
+    if (needShowCaptcha) {
+      getCaptcha()
+    } else {
+      closeCaptcha()
+    }
+  } catch {
+    closeCaptcha()
   }
 }
 

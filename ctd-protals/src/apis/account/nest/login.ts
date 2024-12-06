@@ -3,8 +3,7 @@ import type { ILogin } from '@/types/login'
 
 export const login = (login: ILogin): Promise<unknown> => {
   const data = {
-    username: login.account,
-    password: login.password,
+    ...login,
   }
   return request.post(
     {
@@ -15,8 +14,17 @@ export const login = (login: ILogin): Promise<unknown> => {
   )
 }
 
-export const getCode = (): Promise<unknown> => {
-  return request.get({ url: '/captchaImage' })
+export const checkCaptcha = (email: string): Promise<unknown> => {
+  const data = {
+    email,
+  }
+  return request.post(
+    {
+      url: '/login/check-captcha',
+      data,
+    },
+    false,
+  )
 }
 
 export const getLoginAds = (): Promise<unknown> => {

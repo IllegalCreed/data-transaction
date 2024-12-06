@@ -1,13 +1,13 @@
 export interface ILogin {
-  account: string
+  email: string
   password: string
-  code?: string
-  uuid?: string
+  captchaCode?: string
+  captchaId?: string
 }
 
-export interface ILoginCode {
-  uuid: string
-  img: string
+export interface ICaptcha {
+  id: string
+  data: string
 }
 
 export interface IAuthLink {

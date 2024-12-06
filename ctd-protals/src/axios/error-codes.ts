@@ -2,6 +2,7 @@ export enum ErrorCode {
   // 通用
   INVALID_CREDENTIALS = 9001,
   SEND_EMAIL_FAILED = 9002,
+  ACCOUNT_SUSPENDED = 9003,
 
   // 注册相关
   EMAIL_TAKEN = 1001,
@@ -33,14 +34,18 @@ export enum ErrorCode {
   VERIFICATION_CODE_NOT_FOUND = 1305,
 
   // 登录相关
-  NEED_CAPTCHA = 1401,
-  FREEZE_ACCOUNT = 1402,
+  CAPTCHA_REQUIRED = 1401,
+  GET_LOGIN_LOG_FAILED = 1402,
+  LOGIN_LOG_NOT_FOUND = 1403,
+  CREATE_LOGIN_LOG_FAILED = 1404,
+  LOGIN_FAILED = 1405,
 }
 
 export const ErrorCodeMessages: { [key: number]: string } = {
   // 通用
   [ErrorCode.INVALID_CREDENTIALS]: '身份验证失败',
   [ErrorCode.SEND_EMAIL_FAILED]: '发送邮件失败',
+  [ErrorCode.ACCOUNT_SUSPENDED]: '账户已冻结',
 
   // 注册相关
   [ErrorCode.EMAIL_TAKEN]: '邮箱地址已经存在',
@@ -55,13 +60,8 @@ export const ErrorCodeMessages: { [key: number]: string } = {
   [ErrorCode.ACTIVATION_TOKEN_NOT_FOUND]: '激活凭据不存在',
 
   // 忘记密码相关
-  [ErrorCode.INVALID_VERIFICATION_CODE_TYPE]: '无效的验证码类型',
-  [ErrorCode.SEND_VERIFICATION_CODE_FAILED]: '发送验证码失败',
-  [ErrorCode.INVALID_VERIFICATION_CODE]: '验证码无效或已过期',
-  [ErrorCode.VERIFY_CODE_FAILED]: '验证失败',
-  [ErrorCode.PASSWORD_RESET_FAILED]: '密码重置失败',
-  [ErrorCode.VERIFICATION_CODE_NOT_FOUND]: '验证码不存在',
   [ErrorCode.INVALID_VERIFICATION_TOKEN]: '验证凭据无效或已过期',
+  [ErrorCode.PASSWORD_RESET_FAILED]: '密码重置失败',
 
   // 图片验证码相关
   [ErrorCode.GET_CAPTCHA_FAILED]: '获取图片验证码失败',
@@ -70,4 +70,18 @@ export const ErrorCodeMessages: { [key: number]: string } = {
   [ErrorCode.CAPTCHA_INCORRECT]: '验证码错误',
   [ErrorCode.CAPTCHA_NOT_FOUND]: '验证码不存在',
   [ErrorCode.CAPTCHA_VERIFICATION_FAILED]: '验证失败',
+
+  // 邮件验证码相关
+  [ErrorCode.INVALID_VERIFICATION_CODE_TYPE]: '无效的验证码类型',
+  [ErrorCode.SEND_VERIFICATION_CODE_FAILED]: '发送验证码失败',
+  [ErrorCode.INVALID_VERIFICATION_CODE]: '验证码无效或已过期',
+  [ErrorCode.VERIFY_CODE_FAILED]: '验证失败',
+  [ErrorCode.VERIFICATION_CODE_NOT_FOUND]: '验证码不存在',
+
+  // 登录相关
+  [ErrorCode.CAPTCHA_REQUIRED]: '请填写验证码',
+  [ErrorCode.GET_LOGIN_LOG_FAILED]: '获取登录日志失败',
+  [ErrorCode.LOGIN_LOG_NOT_FOUND]: '登录日志未找到',
+  [ErrorCode.CREATE_LOGIN_LOG_FAILED]: '创建登录日志失败',
+  [ErrorCode.LOGIN_FAILED]: '登录失败',
 }

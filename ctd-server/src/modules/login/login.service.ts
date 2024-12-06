@@ -7,7 +7,6 @@ import { Repository } from 'typeorm';
 import { User } from '../../entities/user.entity';
 import { LoginLog } from '../../entities/login-log.entity';
 import { CaptchaService } from '../captcha/captcha.service';
-import { CheckCaptchaDto } from './dto/check-captcha.dto';
 import { ApiResponse } from 'src/common/interfaces/api-response.interface';
 import {
   createErrorResponse,
@@ -19,6 +18,7 @@ import { UserStatus } from 'src/enums/user-status.enum';
 import { ExpectedError } from 'src/types/error';
 import { verifyPassword } from 'src/common/utils/security';
 import { JwtService } from '@nestjs/jwt';
+import { isEmail } from 'class-validator';
 
 @Injectable()
 export class LoginService {
@@ -46,21 +46,22 @@ export class LoginService {
     }
   }
 
-  async checkCaptcha(
-    checkCaptchaDto: CheckCaptchaDto,
-  ): Promise<ApiResponse<boolean>> {
+  async checkCaptcha(email: string): Promise<ApiResponse<boolean>> {
+    if (!email || !isEmail(email)) {
+      this.logger.warn(`是否需要验证码：参数不合法`);
+      return createSuccessResponse(false, 'NO_NEED_CAPTCHA');
+    }
+
+    const user = await this.userRepository.findOne({ where: { email } });
+    if (!user || user.status !== UserStatus.ACTIVE) {
+      this.logger.warn(`是否需要验证码：用户不存在或状态异常：${email}`);
+      return createSuccessResponse(false, 'NO_NEED_CAPTCHA');
+    }
+
     const CAPTCHA_THRESHOLD = this.configService.get<number>(
       'CAPTCHA_THRESHOLD',
       3,
     );
-
-    const { email } = checkCaptchaDto;
-    const user = await this.userRepository.findOne({ where: { email } });
-    if (!user || user.status !== UserStatus.ACTIVE) {
-      this.logger.warn(`用户不存在或状态异常：${email}`);
-      return createErrorResponse(ErrorCode.INVALID_CREDENTIALS);
-    }
-
     const failedAttempts = user.failedAttempts || 0;
 
     if (failedAttempts >= CAPTCHA_THRESHOLD) {

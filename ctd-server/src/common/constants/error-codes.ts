@@ -34,12 +34,11 @@ export enum ErrorCode {
   VERIFICATION_CODE_NOT_FOUND = 1305,
 
   // 登录相关
-  NEED_CAPTCHA = 1401,
+  CAPTCHA_REQUIRED = 1401,
   GET_LOGIN_LOG_FAILED = 1402,
   LOGIN_LOG_NOT_FOUND = 1403,
   CREATE_LOGIN_LOG_FAILED = 1404,
   LOGIN_FAILED = 1405,
-  CAPTCHA_REQUIRED = 1406,
 }
 
 export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
@@ -63,13 +62,10 @@ export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
   [ErrorCode.ACTIVATION_TOKEN_NOT_FOUND]: 'Activation token not found.',
 
   // 忘记密码相关
-  [ErrorCode.INVALID_VERIFICATION_CODE_TYPE]: 'Invalid verification code type.',
-  [ErrorCode.SEND_VERIFICATION_CODE_FAILED]:
-    'Failed to send verification code.',
-  [ErrorCode.INVALID_VERIFICATION_CODE]:
-    'Verification code is invalid or has expired.',
-  [ErrorCode.VERIFY_CODE_FAILED]: 'Verify code failed due to unexpected error.',
-  [ErrorCode.VERIFICATION_CODE_NOT_FOUND]: 'Verification code not found.',
+  [ErrorCode.PASSWORD_RESET_FAILED]:
+    'Password reset failed due to unexpected error.',
+  [ErrorCode.INVALID_VERIFICATION_TOKEN]:
+    'Verification token is invalid or has expired.',
 
   // 图片验证码相关
   [ErrorCode.GET_CAPTCHA_FAILED]: 'Get captcha failed due to unexpected error.',
@@ -82,13 +78,15 @@ export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
     'Captcha verification failed due to unexpected error.',
 
   // 邮件验证码相关
-  [ErrorCode.PASSWORD_RESET_FAILED]:
-    'Password reset failed due to unexpected error.',
-  [ErrorCode.INVALID_VERIFICATION_TOKEN]:
-    'Verification token is invalid or has expired.',
+  [ErrorCode.INVALID_VERIFICATION_CODE_TYPE]: 'Invalid verification code type.',
+  [ErrorCode.SEND_VERIFICATION_CODE_FAILED]:
+    'Failed to send verification code.',
+  [ErrorCode.INVALID_VERIFICATION_CODE]:
+    'Verification code is invalid or has expired.',
+  [ErrorCode.VERIFY_CODE_FAILED]: 'Verify code failed due to unexpected error.',
+  [ErrorCode.VERIFICATION_CODE_NOT_FOUND]: 'Verification code not found.',
 
   // 登录相关
-  [ErrorCode.NEED_CAPTCHA]: 'Need captcha.',
   [ErrorCode.GET_LOGIN_LOG_FAILED]:
     'Get login log failed due to unexpected error.',
   [ErrorCode.LOGIN_LOG_NOT_FOUND]: 'Login log not found.',

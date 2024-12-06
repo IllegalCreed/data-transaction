@@ -13,7 +13,7 @@ export const resetPasswordByToken = (
       },
       data,
     },
-    true,
+    false,
   )
 }
 
@@ -24,6 +24,6 @@ export const getForgotAds = (): Promise<unknown> => {
       url: '/getForgotAds',
       params,
     },
-    true,
+    false,
   )
 }

@@ -78,7 +78,6 @@ axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => {
     const url = response.config.url || ''
     abortControllerMap.delete(url)
-    const code = response.data.code ?? 200
 
     // 二进制数据则直接返回
     if (
@@ -89,6 +88,7 @@ axiosInstance.interceptors.response.use(
     }
 
     if (import.meta.env.VITE_BACK_TYPE === 'java') {
+      const code = response.data.code ?? 200
       if (code === 401) {
         const tokenStore = useTokenStore()
         tokenStore.clearToken()
@@ -103,6 +103,10 @@ axiosInstance.interceptors.response.use(
         return Promise.resolve(response.data)
       }
     } else {
+      const code = response.data.code
+      if (code === undefined || code === null) {
+        throw new Error('服务器返回值数据结构异常')
+      }
       if (code === 0) {
         return Promise.resolve(response.data)
       } else {

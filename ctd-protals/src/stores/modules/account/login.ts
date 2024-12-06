@@ -1,13 +1,18 @@
 import { v4 as uuidv4 } from 'uuid'
 import { useTokenStore } from '../token'
 import { useSettingsStore } from '../settings'
-import type { ILogin, ILoginCode, ILoginAd, IAuthLink } from '@/types/login'
+import type { ILogin, ILoginAd, IAuthLink, ICaptcha } from '@/types/login'
 import {
   code as mockCode,
   ads as mockAds,
   oauthLinks as mockLinks,
 } from '@/constants/mockData/account/login'
-import { login as loginAPI, getCode as getCodeAPI } from '@/apis/account'
+import {
+  login as loginAPI,
+  getCaptcha as getCaptchaAPI,
+  checkCaptcha as checkCaptchaAPI,
+} from '@/apis/account'
+import type { ICommonReturn } from '@/axios/type'
 
 export const useLogin = () => {
   const tokenStore = useTokenStore()
@@ -32,17 +37,36 @@ export const useLogin = () => {
     })
   }
 
-  const getCode = (): Promise<ILoginCode> => {
-    return new Promise<ILoginCode>((resolve, reject) => {
+  const getCaptcha = (): Promise<ICaptcha> => {
+    return new Promise<ICaptcha>((resolve, reject) => {
       if (findMockTreeValueByKey('登录')) {
         resolve({
-          uuid: uuidv4(),
-          img: mockCode,
+          id: uuidv4(),
+          data: mockCode,
         })
       } else {
-        getCodeAPI()
+        getCaptchaAPI()
           .then((res: unknown) => {
-            resolve(res as ILoginCode)
+            const resData = res as ICommonReturn<ICaptcha>
+            resolve(resData.data)
+          })
+          .catch(error => {
+            reject(error)
+          })
+          .finally(() => {})
+      }
+    })
+  }
+
+  const checkCaptcha = (email: string): Promise<boolean> => {
+    return new Promise<boolean>((resolve, reject) => {
+      if (findMockTreeValueByKey('登录')) {
+        resolve(false)
+      } else {
+        checkCaptchaAPI(email)
+          .then((res: unknown) => {
+            const resData = res as ICommonReturn<boolean>
+            resolve(resData.data)
           })
           .catch(error => {
             reject(error)
@@ -67,5 +91,5 @@ export const useLogin = () => {
     })
   }
 
-  return { login, getCode, getAd, links, getLinks }
+  return { login, getCaptcha, checkCaptcha, getAd, links, getLinks }
 }

@@ -1,6 +1,5 @@
 import { Controller, Post, Body, Get, Query, Request } from '@nestjs/common';
 import { LoginService } from './login.service';
-import { CheckCaptchaDto } from './dto/check-captcha.dto';
 import { LoginDto } from './dto/login.dto';
 import { GetLoginLogsDto } from './dto/get-login-logs.dto';
 import { LoginLogDto } from './dto/login-log.dto';
@@ -14,9 +13,9 @@ export class LoginController {
   @Public()
   @Post('check-captcha')
   async checkCaptcha(
-    @Body() checkCaptchaDto: CheckCaptchaDto,
+    @Body() body: { email: string },
   ): Promise<ApiResponse<boolean>> {
-    return this.loginService.checkCaptcha(checkCaptchaDto);
+    return this.loginService.checkCaptcha(body.email);
   }
 
   @Public()
