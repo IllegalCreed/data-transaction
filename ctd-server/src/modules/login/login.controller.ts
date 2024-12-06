@@ -1,4 +1,15 @@
-import { Controller, Post, Body, Get, Query, Request } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Query,
+  Request,
+  HttpCode,
+  Patch,
+  HttpStatus,
+  BadRequestException,
+} from '@nestjs/common';
 import { LoginService } from './login.service';
 import { LoginDto } from './dto/login.dto';
 import { GetLoginLogsDto } from './dto/get-login-logs.dto';
@@ -42,5 +53,26 @@ export class LoginController {
   async getLastLoginLog(@Request() req): Promise<ApiResponse<LoginLogDto>> {
     const userId = req.user?.sub;
     return this.loginService.getLastLoginLog(userId);
+  }
+
+  @Public()
+  @Patch('test/unfreeze')
+  @HttpCode(HttpStatus.OK)
+  async unfreezeUserForTesting(
+    @Body('email') email: string,
+  ): Promise<ApiResponse<string>> {
+    // 在非生产环境中，禁止使用此端点
+    const nodeEnv = process.env.NODE_ENV || 'development';
+    if (nodeEnv !== 'development') {
+      throw new BadRequestException(
+        'This endpoint is only available in testing environments.',
+      );
+    }
+
+    // 测试接口，不使用DTO，简化处理
+    if (!email) {
+      throw new BadRequestException('Email is required.');
+    }
+    return this.loginService.unfreezeUserForTesting(email);
   }
 }

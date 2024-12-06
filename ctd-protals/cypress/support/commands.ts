@@ -11,6 +11,7 @@ declare global {
         type: number,
       ): Chainable<void>
       getCaptchaCode(baseUrl: string, captchaId: string): Chainable<void>
+      unfreezeUser(baseUrl: string, email: string): Chainable<void>
       login(email: string, password: string): Chainable<void>
     }
   }
@@ -90,6 +91,17 @@ Cypress.Commands.add('getCaptchaCode', (baseUrl: string, captchaId: string) => {
       expect(response.status).to.eq(200)
       const captchaCode = response.body.data
       cy.wrap(captchaCode).as('captchaCode')
+    })
+  }
+})
+
+Cypress.Commands.add('unfreezeUser', (baseUrl: string, email: string) => {
+  if (Cypress.env('serverType') === 'java') {
+  } else {
+    cy.request('PATCH', `${baseUrl}/login/test/unfreeze`, {
+      email,
+    }).then(response => {
+      expect(response.status).to.eq(200)
     })
   }
 })

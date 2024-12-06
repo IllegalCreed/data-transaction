@@ -39,6 +39,7 @@ export enum ErrorCode {
   LOGIN_LOG_NOT_FOUND = 1403,
   CREATE_LOGIN_LOG_FAILED = 1404,
   LOGIN_FAILED = 1405,
+  UNFREEZE_USER_FAILED = 1406,
 }
 
 export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
@@ -94,4 +95,6 @@ export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
     'Create login log failed due to unexpected error.',
   [ErrorCode.LOGIN_FAILED]: 'Login failed due to unexpected error.',
   [ErrorCode.CAPTCHA_REQUIRED]: 'Captcha is required.',
+  [ErrorCode.UNFREEZE_USER_FAILED]:
+    'Unfreeze user failed due to unexpected error.',
 };

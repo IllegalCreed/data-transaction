@@ -38,7 +38,7 @@
           prop="captchaCode"
           :rules="{
             required: true,
-            message: '请输入证码',
+            message: '请输入验证码',
             trigger: 'blur',
           }"
         >
@@ -47,7 +47,7 @@
               flex-1
               data-testid="captcha-input"
               v-model="loginInfo.captchaCode"
-              placeholder="请输入验证码"
+              placeholder="验证码"
             />
             <img
               w-25
@@ -171,7 +171,7 @@ const handleLogin = async () => {
             token?: string
             requiresCaptcha?: boolean
           }>
-          if (res.data.requiresCaptcha) {
+          if (res.data?.requiresCaptcha) {
             getCaptcha()
           } else {
             closeCaptcha()
