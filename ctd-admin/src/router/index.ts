@@ -27,25 +27,109 @@ const router = createRouter({
           path: '/home/user',
           component: () => import('@/views/User/UserView.vue'),
           name: 'user',
-          meta: { belong: 'user', title: '用户管理' }
+          meta: { belong: '/home/user', title: '用户管理' }
+        },
+        {
+          path: '/home/banner',
+          component: () => import('@/views/Banner/BannerView.vue'),
+          name: 'banner',
+          meta: { belong: '/home/banner', title: '横幅管理' }
+        },
+        {
+          path: '/home/banner-detail/:id',
+          component: () => import('@/views/Banner/BannerDetail/BannerDetailView.vue'),
+          name: 'banner-detail',
+          meta: { belong: '/home/banner', title: '横幅详情' }
+        },
+        {
+          path: '/home/banner-edit/:id',
+          component: () => import('@/views/Banner/BannerEdit/BannerEditView.vue'),
+          name: 'banner-edit',
+          meta: { belong: '/home/banner', title: '横幅编辑' }
+        },
+        {
+          path: '/home/company',
+          component: () => import('@/views/Company/CompanyView.vue'),
+          name: 'company',
+          meta: { belong: '/home/company', title: '公司管理' }
+        },
+        {
+          path: '/home/company-detail/:id',
+          component: () => import('@/views/Company/CompanyDetail/CompanyDetailView.vue'),
+          name: 'company-detail',
+          meta: { belong: '/home/company', title: '公司详情' }
+        },
+        {
+          path: '/home/company-edit/:id',
+          component: () => import('@/views/Company/CompanyEdit/CompanyEditView.vue'),
+          name: 'company-edit',
+          meta: { belong: '/home/company', title: '公司编辑' }
+        },
+        {
+          path: '/home/scene',
+          component: () => import('@/views/Scene/SceneView.vue'),
+          name: 'scene',
+          meta: { belong: '/home/scene', title: '场景管理' }
+        },
+        {
+          path: '/home/scene-detail/:id',
+          component: () => import('@/views/Scene/SceneDetail/SceneDetailView.vue'),
+          name: 'scene-detail',
+          meta: { belong: '/home/scene', title: '场景详情' }
+        },
+        {
+          path: '/home/scene-edit/:id',
+          component: () => import('@/views/Scene/SceneEdit/SceneEditView.vue'),
+          name: 'scene-edit',
+          meta: { belong: '/home/scene', title: '场景编辑' }
+        },
+        {
+          path: '/home/news',
+          component: () => import('@/views/News/NewsView.vue'),
+          name: 'news',
+          meta: { belong: '/home/news', title: '资讯管理' }
+        },
+        {
+          path: '/home/news-detail/:id',
+          component: () => import('@/views/News/NewsDetail/NewsDetailView.vue'),
+          name: 'news-detail',
+          meta: { belong: '/home/news', title: '资讯详情' }
+        },
+        {
+          path: '/home/news-edit/:id',
+          component: () => import('@/views/News/NewsEdit/NewsEditView.vue'),
+          name: 'news-edit',
+          meta: { belong: '/home/news', title: '资讯编辑' }
         },
         {
           path: '/home/product',
           component: () => import('@/views/Product/ProductView.vue'),
           name: 'product',
-          meta: { belong: 'product', title: '产品管理' }
+          meta: { belong: '/home/product', title: '产品管理' }
+        },
+        {
+          path: '/home/product-detail/:id',
+          component: () => import('@/views/Product/ProductDetail/ProductDetailView.vue'),
+          name: 'product-detail',
+          meta: { belong: '/home/product', title: '产品详情' }
+        },
+        {
+          path: '/home/product-approval/:id',
+          component: () => import('@/views/Product/ProductApproval/ProductApprovalView.vue'),
+          name: 'product-approval',
+          meta: { belong: '/home/product', title: '产品审核' }
         },
         {
           path: '/home/demand',
           component: () => import('@/views/Demand/DemandView.vue'),
           name: 'demand',
-          meta: { belong: 'demand', title: '需求管理' }
+          meta: { belong: '/home/demand', title: '需求管理' }
         },
         {
           path: '/home/setting',
           component: () => import('@/views/Setting/SettingView.vue'),
           name: 'setting',
-          meta: { belong: 'setting', title: '系统配置' }
+          meta: { belong: '/home/setting', title: '系统配置' }
         }
       ]
     }

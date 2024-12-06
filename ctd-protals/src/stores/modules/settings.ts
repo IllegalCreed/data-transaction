@@ -1,3 +1,4 @@
+import type { ITreeNode } from '@/types/common'
 import { useI18n } from 'vue-i18n'
 
 export const useSettingsStore = defineStore('settings', () => {
@@ -37,10 +38,38 @@ export const useSettingsStore = defineStore('settings', () => {
   }
 
   // Mock 相关
-  const mockEnabled = useLocalStorage('app-mock', false)
+  const mockEnabled = useLocalStorage('app-mock', true)
 
   const setMock = (value: boolean) => {
     mockEnabled.value = value
+  }
+
+  const mockTree = useLocalStorage<ITreeNode[]>('app-mock-tree', [
+    { key: '注册', value: false, children: [] },
+    { key: '忘记密码', value: false, children: [] },
+    { key: '登录', value: false, children: [] },
+  ])
+
+  const findMockTreeValueByKey = (key: string) => {
+    return findValueByKey(mockTree.value, key)
+  }
+
+  const findValueByKey = (
+    tree: ITreeNode[],
+    key: string,
+  ): boolean | undefined => {
+    for (const node of tree) {
+      if (node.key === key) {
+        return node.value
+      }
+      if (node.children && node.children.length > 0) {
+        const value = findValueByKey(node.children, key)
+        if (value !== undefined) {
+          return value
+        }
+      }
+    }
+    return undefined
   }
 
   return {
@@ -57,5 +86,7 @@ export const useSettingsStore = defineStore('settings', () => {
 
     mockEnabled,
     setMock,
+    mockTree,
+    findMockTreeValueByKey,
   }
 })

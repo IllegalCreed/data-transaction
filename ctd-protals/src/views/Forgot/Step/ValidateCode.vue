@@ -1,7 +1,7 @@
 <template>
   <div class="validate-code-root-container">
     <span class="title">验证邮箱</span>
-    <p class="desc">我们向您的验证邮箱发送了一封邮件</p>
+    <p class="desc">我们向您的邮箱{{ email }}发送了一封验证邮件</p>
 
     <verification-code-input
       data-testid="verification-code-input"
@@ -10,7 +10,11 @@
     ></verification-code-input>
 
     <div class="step-btn-container">
-      <el-button class="step-btn" type="primary" @click="handlePrevStep"
+      <el-button
+        data-testid="prev-button"
+        class="step-btn"
+        type="primary"
+        @click="handlePrevStep"
         >上一步</el-button
       >
       <el-button
@@ -36,7 +40,6 @@
 </template>
 
 <script setup lang="ts">
-import { ElMessage } from 'element-plus'
 import VerificationCodeInput from '@/components/VerificationCodeInput.vue'
 import { useAccountStore } from '@/stores/modules/account'
 
@@ -61,8 +64,12 @@ const {
 
 const emit = defineEmits(['nextStep', 'prevStep'])
 const handleNextStep = async () => {
-  if (!email.value || !code.value) {
-    ElMessage.error('请输入邮箱和验证码')
+  if (!email.value) {
+    ElMessage.error('未找到邮箱')
+    return
+  }
+  if (!code.value || code.value.length !== 6) {
+    ElMessage.error('请输入完整的验证码')
     return
   }
   try {
@@ -70,8 +77,10 @@ const handleNextStep = async () => {
     ElMessage.success('验证成功')
     setForgotTokenAction(token.value)
     emit('nextStep')
-  } catch {
-    ElMessage.error('验证失败')
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      ElMessage.error('验证失败')
+    }
   }
 }
 const handlePrevStep = () => {
@@ -88,7 +97,7 @@ const {
 
 const reSendEmail = async () => {
   if (!email.value) {
-    ElMessage.error('请输入邮箱')
+    ElMessage.error('未找到邮箱')
     return
   }
   try {

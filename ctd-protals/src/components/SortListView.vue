@@ -20,7 +20,7 @@ defineProps<{
 
 const model = defineModel<ISortValue>({ required: true })
 
-const updateSort = ({ sortType, order }: ISort) => {
+const updateSort = ({ sortType, order }: ISortValue) => {
   model.value = { sortType, order }
 }
 

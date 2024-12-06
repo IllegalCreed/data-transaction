@@ -45,3 +45,10 @@ export interface IDemandContent {
   content: string
   attachments: { name: string; url: string }[]
 }
+
+export interface IBaseInfo {
+  title: string
+  description: string
+  detail: string
+  completionTime: string
+}

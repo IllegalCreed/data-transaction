@@ -39,13 +39,14 @@
 </template>
 
 <script setup lang="ts">
-import { ElMessage } from 'element-plus'
+import { ErrorCode } from '@/axios/error-codes'
+import type { ICommonReturn } from '@/axios/type'
 import { useAccountStore } from '@/stores/modules/account'
 
 const accountStore = useAccountStore()
 const {
   baseInfo,
-  activationAccount: activationAccountAction,
+  activateAccount: activateAccountAction,
   reSendActivationEmail: reSendActivationEmailAction,
   tokenExchangeEmail: tokenExchangeEmailAction,
 } = accountStore
@@ -63,11 +64,32 @@ const router = useRouter()
 // 模拟 API 调用验证激活链接
 const verifyActivation = async (token: string) => {
   try {
-    await activationAccountAction(token)
+    await activateAccountAction(token)
     isActivationSuccess.value = true
-  } catch {
+  } catch (error: unknown) {
     isActivationSuccess.value = false
-    await executeTokenExchangeEmailAction(0, token)
+    if (import.meta.env.VITE_BACK_TYPE === 'java') {
+      try {
+        await executeTokenExchangeEmailAction(0, token)
+      } catch (error2: unknown) {
+        if (error2 instanceof Error) {
+          ElMessage.error(
+            '获取邮件地址失败，请返回注册页手动填写邮件地址后再重新发送激活邮件',
+          )
+        }
+      }
+    } else {
+      const res = error as ICommonReturn<string>
+      if (res.code !== ErrorCode.ACTIVATE_ACCOUNT_FAILED) {
+        const resendEmail = res.data
+        if (resendEmail) {
+          email.value = resendEmail
+        } else {
+          // 如果错误码不是ACTIVATE_ACCOUNT_FAILED，理论上返回值必然有email，除非服务端出bug了
+          ElMessage.error('系统错误，请联系管理员')
+        }
+      }
+    }
   } finally {
     isLoading.value = false
   }

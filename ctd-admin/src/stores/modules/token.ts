@@ -1,4 +1,3 @@
-import { ElMessageBox } from 'element-plus'
 import router from '@/router'
 
 export const useTokenStore = defineStore('token', () => {

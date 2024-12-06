@@ -24,8 +24,6 @@
 </template>
 
 <script setup lang="ts">
-import { ElMessage } from 'element-plus'
-
 import StepGroup from '@/components/StepGroup.vue'
 import BaseInfo from './Step/BaseInfo.vue'
 import TradingModel from './Step/TradingModel.vue'
@@ -38,13 +36,18 @@ const steps = [
   { title: '基本信息' },
   { title: '交易模式' },
   { title: '付款方式' },
-  { title: '其他信息' }
+  { title: '其他信息' },
 ]
 
 const currentStep = ref(0)
 
 const panels = [BaseInfo, TradingModel, PaymentOption, MoreInfo]
-const includePanels = ref(['BaseInfo', 'TradingModel', 'PaymentOption', 'MoreInfo'])
+const includePanels = ref([
+  'BaseInfo',
+  'TradingModel',
+  'PaymentOption',
+  'MoreInfo',
+])
 
 const currentPanel = computed(() => panels[currentStep.value])
 

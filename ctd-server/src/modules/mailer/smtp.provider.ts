@@ -26,7 +26,7 @@ export const SMTP_TRANSPORTER_PROVIDER: Provider = {
       if (error) {
         console.error('SMTP 配置错误：', error);
       } else {
-        console.log('SMTP 配置成功，服务器已准备就绪');
+        console.log('SMTP 配置成功');
       }
     });
 

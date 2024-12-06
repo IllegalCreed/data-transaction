@@ -16,7 +16,7 @@
         <el-input
           data-testid="email-input"
           v-model="baseInfo.email"
-          placeholder="您注册时填写的邮箱地址"
+          placeholder="填写您的邮箱地址"
         />
       </el-form-item>
     </el-form>
@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
+import type { FormInstance, FormRules } from 'element-plus'
 import { useAccountStore } from '@/stores/modules/account'
 
 const accountStore = useAccountStore()
@@ -85,8 +85,10 @@ const handleNextStep = async () => {
         setForgotEmailAction(baseInfo.value.email)
         await executeForgotSendEmailAction(0, baseInfo.value.email)
         emit('nextStep')
-      } catch {
-        ElMessage.error('发送失败，请稍后再试')
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          ElMessage.error('发送失败')
+        }
       }
     } else {
       ElMessage.error('请检查填写的信息是否正确')

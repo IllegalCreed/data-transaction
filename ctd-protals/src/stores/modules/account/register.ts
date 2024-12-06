@@ -2,10 +2,10 @@ import type { IRegisterAdCarouselItem } from '@/types/advertisement'
 import { useSettingsStore } from '../settings'
 import {
   register as registerAPI,
-  activationAccount as activationAccountAPI,
+  activateAccount as activateAccountAPI,
   tokenExchangeEmail as tokenExchangeEmailAPI,
   reSendActivationEmail as reSendActivationEmailAPI,
-} from '@/apis/account/register'
+} from '@/apis/account'
 import { ads as mockAds } from '@/constants/mockData/account/register'
 import {
   GenderType,
@@ -17,9 +17,10 @@ import {
   type RegistrationInfo,
 } from '@/types/register'
 import type { ICommonReturn } from '@/axios/type'
+import { omit } from 'lodash-es'
 
 export const useRegister = () => {
-  const settingsStore = useSettingsStore()
+  const { findMockTreeValueByKey } = useSettingsStore()
 
   const userType = ref<UserType>()
 
@@ -27,7 +28,7 @@ export const useRegister = () => {
     userType.value = value
   }
 
-  const personalInfo = reactive<IIndividualUserInfo>({
+  const individualInfo = reactive<IIndividualUserInfo>({
     fullName: '',
     identificationNumber: '',
     phoneNumber: '',
@@ -57,22 +58,22 @@ export const useRegister = () => {
   const registerInfo = computed((): RegistrationInfo => {
     if (userType.value === UserType.Enterprise) {
       return {
-        ...baseInfo,
-        ...enterpriseInfo,
+        ...omit(baseInfo, ['confirmPassword']),
         userType: UserType.Enterprise,
+        enterpriseInfo: { ...enterpriseInfo },
       }
     } else {
       return {
-        ...baseInfo,
-        ...personalInfo,
+        ...omit(baseInfo, ['confirmPassword']),
         userType: UserType.Individual,
+        individualInfo: { ...individualInfo },
       }
     }
   })
 
   const register = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('注册')) {
         console.log(registerInfo.value)
         window.setTimeout(() => resolve(), 1000)
       } else {
@@ -81,7 +82,6 @@ export const useRegister = () => {
             resolve()
           })
           .catch(error => {
-            console.log(error)
             reject(error)
           })
           .finally(() => {})
@@ -89,12 +89,12 @@ export const useRegister = () => {
     })
   }
 
-  const activationAccount = (token: string): Promise<void> => {
+  const activateAccount = (token: string): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('注册')) {
         window.setTimeout(() => resolve(), 1000)
       } else {
-        activationAccountAPI(token)
+        activateAccountAPI(token)
           .then(() => {
             resolve()
           })
@@ -108,25 +108,29 @@ export const useRegister = () => {
 
   const tokenExchangeEmail = (token: string): Promise<string> => {
     return new Promise<string>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('注册')) {
         window.setTimeout(() => resolve('test@test.com'), 1000)
       } else {
-        tokenExchangeEmailAPI(token)
-          .then((res: unknown) => {
-            const resData = res as ICommonReturn<string>
-            resolve(resData.data)
-          })
-          .catch(error => {
-            reject(error)
-          })
-          .finally(() => {})
+        if (tokenExchangeEmailAPI) {
+          tokenExchangeEmailAPI(token)
+            .then((res: unknown) => {
+              const resData = res as ICommonReturn<string>
+              resolve(resData.data)
+            })
+            .catch(error => {
+              reject(error)
+            })
+            .finally(() => {})
+        } else {
+          reject('tokenExchangeEmailAPI is not defined')
+        }
       }
     })
   }
 
   const reSendActivationEmail = (email: string): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('注册')) {
         window.setTimeout(() => resolve(), 1000)
       } else {
         reSendActivationEmailAPI(email)
@@ -149,13 +153,13 @@ export const useRegister = () => {
 
   return {
     register,
-    activationAccount,
+    activateAccount,
     tokenExchangeEmail,
     reSendActivationEmail,
     getAds,
     userType,
     setUserType,
-    personalInfo,
+    personalInfo: individualInfo,
     enterpriseInfo,
     baseInfo,
   }

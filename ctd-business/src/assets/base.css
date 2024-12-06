@@ -1,0 +1,88 @@
+:root {
+  --color-light-primary: #386ce1;
+  --color-dark-primary: #1d50c3;
+
+  --color-black: #000;
+  --color-black-500: rgba(0, 0, 0, 0.5);
+  --color-white: #fff;
+  --color-white-700: rgba(255, 255, 255, 0.7);
+
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+  --color-gray-950: #090c0e;
+}
+
+:root {
+  --text-color: var(--color-gray-600);
+  --text-btn-primary-color: var(--color-light-primary);
+  --text-white-color: var(--color-gray-100);
+  --text-white-highlight-color: var(--color-white);
+  --text-disable-color: var(--color-gray-400);
+  --text-label-color: var(--color-gray-400);
+
+  --mask-color: var(--color-white-700);
+
+  --background-page-dark-color: var(--color-gray-200);
+  --background-page-color: var(--color-white);
+  --background-header-color: var(--color-light-primary);
+  --background-image-upload-action-color: var(--color-black-500);
+
+  --border-color: var(--color-gray-300);
+  --border-btn-primary-color: var(--color-light-primary);
+
+  --menu-background: var(--page-background-color);
+  --menu-hover: var(--color-gray-300);
+  --menu-text-color: var(--text-color);
+  --menu-active-text-color: var(--el-color-primary);
+}
+
+.dark {
+  --text-color: var(--color-gray-300);
+  --text-btn-primary-color: var(--color-dark-primary);
+  --text-white-color: var(--color-gray-100);
+  --text-white-highlight-color: var(--color-white);
+  --text-disable-color: var(--color-gray-500);
+  --text-label-color: var(--color-gray-400);
+
+  --mask-color: var(--color-white-700);
+
+  --background-page-dark-color: var(--color-gray-900);
+  --background-page-color: var(--color-gray-800);
+  --background-header-color: var(--color-dark-primary);
+
+  --border-color: var(--color-gray-600);
+  --border-btn-primary-color: var(--color-dark-primary);
+
+  --menu-background: var(--page-background-color);
+  --menu-hover: var(--color-gray-800);
+  --menu-text-color: var(--text-color);
+  --menu-active-text-color: var(--el-color-primary);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  min-width: 1200px;
+  position: relative;
+}
+
+body {
+  color: var(--text-color);
+  background: var(--background-page-color);
+}

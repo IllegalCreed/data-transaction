@@ -26,6 +26,7 @@
             w-4
             h-4
             mx-1
+            cursor-pointer
           ></i-oi:collapse-left>
           <i-oi:collapse-right
             v-else
@@ -33,20 +34,20 @@
             w-4
             h-4
             mx-1
+            cursor-pointer
           ></i-oi:collapse-right>
         </div>
         <el-menu
           class="home-menu"
-          @select="handleSelect"
-          :default-active="activeIndex"
+          @select="handleMenuSelect"
+          :default-active="activeMenu"
+          router
           :collapse="isCollapse"
         >
-          <el-menu-item v-for="menu in menuItems" :key="menu.index" :index="menu.index">
-            <el-icon>
-              <component :is="menu.icon"></component>
-            </el-icon>
+          <el-menu-item v-for="item in mainMenus" :key="item.path" :index="item.path">
+            <el-icon><i :class="item.icon" class="icon"></i></el-icon>
             <template #title>
-              <span text-4>{{ menu.label }}</span>
+              <span text-lg ml-10>{{ item.label }}</span>
             </template>
           </el-menu-item>
         </el-menu>
@@ -68,21 +69,17 @@
 </template>
 
 <script setup lang="ts">
-import {
-  RouterView,
-  useRouter,
-  type RouteLocationNormalized,
-  type _RouteLocationBase
-} from 'vue-router'
 import HeaderView from './HeaderView.vue'
-import { ref } from 'vue'
 import { useRouterStore } from '@/stores/modules/router'
 const { cachedViews } = useRouterStore()
-const router = useRouter()
 
-const isCollapse = ref(false)
-const showText = ref(true)
-watch(isCollapse, (value) => {
+const route = useRoute()
+const router = useRouter()
+const activeMenu = ref('')
+
+const isCollapse = ref<boolean>(false)
+const showText = ref<boolean>(true)
+watch(isCollapse, (value: boolean) => {
   if (value) {
     showText.value = false
   } else {
@@ -92,39 +89,39 @@ watch(isCollapse, (value) => {
   }
 })
 
-const activeIndex = ref('user')
-const handleSelect = (key: string, keyPath: string[]) => {
-  activeIndex.value = key
-  router.push({
-    name: key
-  })
+const handleMenuSelect = (path: string) => {
+  router.push(path)
 }
 
-const setCurrentMenu = (route: _RouteLocationBase) => {
-  if (route.name === 'home') {
+const setActiveMenu = () => {
+  if (route.meta.belong) {
+    activeMenu.value = route.meta.belong as string
     return
   }
-  activeIndex.value = route.meta.belong as string
+  activeMenu.value = route.path
 }
 
-router.afterEach((to: RouteLocationNormalized, from: RouteLocationNormalized) => {
-  setCurrentMenu(to)
+watch(
+  () => route.path,
+  () => {
+    setActiveMenu()
+  }
+)
+
+setActiveMenu()
+
+import { useMenuStore } from '@/stores/modules/menu'
+const menuStore = useMenuStore()
+const { mainMenus } = storeToRefs(menuStore)
+const { getMainMenus: getMainMenusAction } = menuStore
+onMounted(() => {
+  getMainMenusAction()
 })
-
-setCurrentMenu(router.currentRoute.value)
-
-// 菜单项数据
-const menuItems = ref([
-  { index: 'user', label: '用户管理', icon: 'i-vaadin:users' },
-  { index: 'product', label: '产品管理', icon: 'i-vaadin:package' },
-  { index: 'demand', label: '需求管理', icon: 'i-vaadin:paperplane' },
-  { index: 'setting', label: '系统配置', icon: 'i-vaadin:cog' }
-])
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .home-root-container {
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -144,12 +141,16 @@ const menuItems = ref([
 .home-menu {
   flex: 1;
   min-height: 0;
+
+  .icon {
+    @apply text-2xl;
+  }
 }
 
 .home-menu-header {
   border-bottom-width: 1px;
   border-bottom-style: solid;
-  border-bottom-color: var(--border);
+  border-bottom-color: var(--border-color);
 }
 
 .home-menu:not(.el-menu--collapse) {
@@ -187,7 +188,7 @@ const menuItems = ref([
   flex-direction: column;
   flex: 1;
   padding: 20px;
-  background-color: var(--page-background-dark-color);
+  background-color: var(--background-page-dark-color);
   overflow-y: scroll;
 }
 

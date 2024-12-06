@@ -46,7 +46,6 @@
 import type { IPassword } from '@/types/forgot'
 import type { InternalRuleItem } from 'async-validator'
 import type { FormInstance, FormRules } from 'element-plus'
-import { ElMessage } from 'element-plus'
 
 import { useAccountStore } from '@/stores/modules/account'
 const accountStore = useAccountStore()
@@ -133,12 +132,18 @@ const handleNextStep = async () => {
         ElMessage.error('系统错误，请刷新后重试')
         return
       }
-      await executeForgotResetPasswordAction(
-        0,
-        token.value,
-        baseInfo.value.password,
-      )
-      emit('nextStep')
+      try {
+        await executeForgotResetPasswordAction(
+          0,
+          token.value,
+          baseInfo.value.password,
+        )
+        emit('nextStep')
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          ElMessage.error('重置密码失败')
+        }
+      }
     } else {
       ElMessage.error('请检查填写的信息是否正确')
     }

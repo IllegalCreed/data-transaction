@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import type { ISortItem } from '@/types/sorting'
+import type { ISortItem, ISortValue } from '@/types/sorting'
 
 const props = withDefaults(
   defineProps<{
@@ -19,14 +19,14 @@ const props = withDefaults(
   }>(),
   {
     active: false,
-    order: 'desc'
-  }
+    order: 'desc',
+  },
 )
 
 const order = ref(props.order)
 
 const emit = defineEmits<{
-  (e: 'update:sort', value: ISort): void
+  (e: 'update:sort', value: ISortValue): void
 }>()
 
 const handleClick = () => {

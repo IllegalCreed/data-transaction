@@ -96,7 +96,6 @@
 </template>
 
 <script setup lang="ts">
-import { ElMessage } from 'element-plus'
 import type { FormInstance, FormRules, UploadProps } from 'element-plus'
 
 const model = defineModel<boolean>({ required: true })

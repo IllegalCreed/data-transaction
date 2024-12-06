@@ -26,8 +26,12 @@ export interface IEnterpriseInfo {
 }
 
 export type RegistrationInfo =
-  | (IBaseInfo & IIndividualUserInfo & { userType: UserType.Individual })
-  | (IBaseInfo & IEnterpriseInfo & { userType: UserType.Enterprise })
+  | (Omit<IBaseInfo, 'confirmPassword'> & { userType: UserType.Individual } & {
+      individualInfo: IIndividualUserInfo
+    })
+  | (Omit<IBaseInfo, 'confirmPassword'> & { userType: UserType.Enterprise } & {
+      enterpriseInfo: IEnterpriseInfo
+    })
 
 export enum UserType {
   Individual = 'individual',

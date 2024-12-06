@@ -1,3 +1,4 @@
+import './commands'
 import type { ICorporateUserData, IIndividualUserData } from './types'
 
 /**

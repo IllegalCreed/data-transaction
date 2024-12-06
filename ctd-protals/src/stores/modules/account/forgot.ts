@@ -1,15 +1,16 @@
 import type { IRegisterAdCarouselItem } from '@/types/advertisement'
 import { useSettingsStore } from '../settings'
 import {
-  forgotSendEmail as forgotSendEmailAPI,
-  forgotVerifyCode as forgotVerifyCodeAPI,
-  forgotResetPassword as forgotResetPasswordAPI,
-} from '@/apis/account/forgot'
+  sendVerificationCode as sendVerificationCodeAPI,
+  verifyCode as verifyCodeAPI,
+  resetPasswordByToken as resetPasswordByTokenAPI,
+} from '@/apis/account'
 import { ads as mockAds } from '@/constants/mockData/account/forgot'
 import type { ICommonReturn } from '@/axios/type'
+import { VerificationCodes } from '@/constants/mapData/mail'
 
 export const useForgot = () => {
-  const settingsStore = useSettingsStore()
+  const { findMockTreeValueByKey } = useSettingsStore()
 
   const email = ref<string>()
 
@@ -25,10 +26,10 @@ export const useForgot = () => {
 
   const sendEmail = (email: string): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('忘记密码')) {
         window.setTimeout(() => resolve(), 1000)
       } else {
-        forgotSendEmailAPI(email)
+        sendVerificationCodeAPI(email, VerificationCodes.ForgotPWD)
           .then(() => {
             resolve()
           })
@@ -42,10 +43,10 @@ export const useForgot = () => {
 
   const verifyCode = (email: string, code: string): Promise<string> => {
     return new Promise<string>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('忘记密码')) {
         window.setTimeout(() => resolve('mockToken'), 1000)
       } else {
-        forgotVerifyCodeAPI(email, code)
+        verifyCodeAPI(email, code, VerificationCodes.ForgotPWD)
           .then(res => {
             const resData = res as ICommonReturn<string>
             resolve(resData.data)
@@ -60,10 +61,10 @@ export const useForgot = () => {
 
   const resetPassword = (code: string, password: string): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('忘记密码')) {
         window.setTimeout(() => resolve(), 1000)
       } else {
-        forgotResetPasswordAPI(code, password)
+        resetPasswordByTokenAPI(code, password)
           .then(() => {
             resolve()
           })

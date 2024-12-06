@@ -8,3 +8,9 @@ export const ACTIVE_STATUS_MAP = {
   [ActiveStatus.Enabled]: '启用',
   [ActiveStatus.Disabled]: '停用',
 }
+
+export interface ITreeNode {
+  key: string
+  value: boolean
+  children?: ITreeNode[]
+}
