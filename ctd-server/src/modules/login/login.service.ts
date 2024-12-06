@@ -178,12 +178,12 @@ export class LoginService {
 
         // 下次登录需要验证码
         if (user.failedAttempts >= CAPTCHA_THRESHOLD) {
-          return createErrorResponse(ErrorCode.LOGIN_FAILED, {
+          return createErrorResponse(ErrorCode.INVALID_CREDENTIALS, {
             requiresCaptcha: true,
           });
         }
 
-        return createErrorResponse(ErrorCode.LOGIN_FAILED, {
+        return createErrorResponse(ErrorCode.INVALID_CREDENTIALS, {
           requiresCaptcha: false,
         });
       } catch (error) {
@@ -195,20 +195,14 @@ export class LoginService {
       }
     }
 
-    // 密码验证成功，重置失败次数
-    if (user.failedAttempts !== 0) {
-      user.failedAttempts = 0;
-      try {
-        await this.userRepository.save(user);
-      } catch (error) {
-        this.logger.error('登录失败：重置失败次数失败', error);
-        return createErrorResponse(ErrorCode.LOGIN_FAILED);
-      }
-    }
-
-    // 生成 JWT 令牌并返回
-    const payload = { sub: user.id, email: user.email };
     try {
+      // 密码验证成功，重置失败次数
+      if (user.failedAttempts !== 0) {
+        this.clearFailedAttempts(user);
+      }
+
+      // 生成 JWT 令牌并返回
+      const payload = { sub: user.id, email: user.email };
       const token = this.jwtService.sign(payload);
       await this.recordLoginLog(user, email, ipAddress, userAgent, true, null);
       this.logger.log(`用户登录成功：${email}`);
@@ -332,7 +326,7 @@ export class LoginService {
       });
       await this.loginLogRepository.save(log);
     } catch (error) {
-      this.logger.error('记录登录日志失败', error);
+      this.logger.error('登录失败：记录登录日志失败', error);
       throw new ExpectedError(ErrorCode.CREATE_LOGIN_LOG_FAILED);
     }
   }
@@ -342,7 +336,17 @@ export class LoginService {
     try {
       await this.userRepository.save(user);
     } catch (error) {
-      this.logger.error('增加登录失败次数失败', error);
+      this.logger.error('登录失败：增加失败次数失败', error);
+      throw new ExpectedError(ErrorCode.LOGIN_FAILED);
+    }
+  }
+
+  private async clearFailedAttempts(user: User): Promise<void> {
+    user.failedAttempts = 0;
+    try {
+      await this.userRepository.save(user);
+    } catch (error) {
+      this.logger.error('登录失败：重置失败次数失败', error);
       throw new ExpectedError(ErrorCode.LOGIN_FAILED);
     }
   }
