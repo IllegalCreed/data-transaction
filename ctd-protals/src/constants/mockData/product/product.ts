@@ -9,6 +9,7 @@ export const products: IProduct[] = [
     description: '包含视频图片音频等不同类型的数据',
     sellerId: 1,
     sellerName: '-----',
+    showPrice: undefined,
     imageUrl: new URL(
       '@/assets/placeholder/productDefault.png',
       import.meta.url,
@@ -21,6 +22,7 @@ export const products: IProduct[] = [
     description: '',
     sellerId: 1,
     sellerName: '-----',
+    showPrice: undefined,
     imageUrl: new URL(
       '@/assets/placeholder/productDefault.png',
       import.meta.url,
@@ -33,6 +35,7 @@ export const products: IProduct[] = [
     description: '',
     sellerId: 1,
     sellerName: '-----',
+    showPrice: undefined,
     imageUrl: new URL(
       '@/assets/placeholder/productDefault.png',
       import.meta.url,
@@ -45,6 +48,7 @@ export const products: IProduct[] = [
     description: '',
     sellerId: 1,
     sellerName: '-----',
+    showPrice: undefined,
     imageUrl: new URL(
       '@/assets/placeholder/productDefault.png',
       import.meta.url,
@@ -57,6 +61,7 @@ export const products: IProduct[] = [
     description: '',
     sellerId: 1,
     sellerName: '-----',
+    showPrice: undefined,
     imageUrl: new URL(
       '@/assets/placeholder/productDefault.png',
       import.meta.url,
@@ -69,6 +74,7 @@ export const products: IProduct[] = [
     description: '',
     sellerId: 1,
     sellerName: '-----',
+    showPrice: undefined,
     imageUrl: new URL(
       '@/assets/placeholder/productDefault.png',
       import.meta.url,
@@ -81,6 +87,7 @@ export const products: IProduct[] = [
     description: '',
     sellerId: 1,
     sellerName: '-----',
+    showPrice: undefined,
     imageUrl: new URL(
       '@/assets/placeholder/productDefault.png',
       import.meta.url,
@@ -93,6 +100,7 @@ export const products: IProduct[] = [
     description: '',
     sellerId: 1,
     sellerName: '-----',
+    showPrice: undefined,
     imageUrl: new URL(
       '@/assets/placeholder/productDefault.png',
       import.meta.url,
