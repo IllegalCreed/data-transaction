@@ -10,10 +10,7 @@ export const products: IProduct[] = [
     sellerId: 1,
     sellerName: '-----',
     showPrice: undefined,
-    imageUrl: new URL(
-      '@/assets/placeholder/productDefault.png',
-      import.meta.url,
-    ).href,
+    imageUrl: 'http://10.105.31.40:9001/img/product/list/1.jpg',
   },
   {
     id: 2,
@@ -23,10 +20,7 @@ export const products: IProduct[] = [
     sellerId: 1,
     sellerName: '-----',
     showPrice: undefined,
-    imageUrl: new URL(
-      '@/assets/placeholder/productDefault.png',
-      import.meta.url,
-    ).href,
+    imageUrl: 'http://10.105.31.40:9001/img/product/list/2.jpg',
   },
   {
     id: 3,
@@ -36,10 +30,7 @@ export const products: IProduct[] = [
     sellerId: 1,
     sellerName: '-----',
     showPrice: undefined,
-    imageUrl: new URL(
-      '@/assets/placeholder/productDefault.png',
-      import.meta.url,
-    ).href,
+    imageUrl: 'http://10.105.31.40:9001/img/product/list/3.jpg',
   },
   {
     id: 4,
@@ -49,10 +40,7 @@ export const products: IProduct[] = [
     sellerId: 1,
     sellerName: '-----',
     showPrice: undefined,
-    imageUrl: new URL(
-      '@/assets/placeholder/productDefault.png',
-      import.meta.url,
-    ).href,
+    imageUrl: 'http://10.105.31.40:9001/img/product/list/4.jpg',
   },
   {
     id: 5,
@@ -62,10 +50,7 @@ export const products: IProduct[] = [
     sellerId: 1,
     sellerName: '-----',
     showPrice: undefined,
-    imageUrl: new URL(
-      '@/assets/placeholder/productDefault.png',
-      import.meta.url,
-    ).href,
+    imageUrl: 'http://10.105.31.40:9001/img/product/list/5.jpg',
   },
   {
     id: 6,
@@ -75,10 +60,7 @@ export const products: IProduct[] = [
     sellerId: 1,
     sellerName: '-----',
     showPrice: undefined,
-    imageUrl: new URL(
-      '@/assets/placeholder/productDefault.png',
-      import.meta.url,
-    ).href,
+    imageUrl: 'http://10.105.31.40:9001/img/product/list/6.jpg',
   },
   {
     id: 7,
@@ -88,10 +70,7 @@ export const products: IProduct[] = [
     sellerId: 1,
     sellerName: '-----',
     showPrice: undefined,
-    imageUrl: new URL(
-      '@/assets/placeholder/productDefault.png',
-      import.meta.url,
-    ).href,
+    imageUrl: 'http://10.105.31.40:9001/img/product/list/7.jpg',
   },
   {
     id: 8,
@@ -101,10 +80,7 @@ export const products: IProduct[] = [
     sellerId: 1,
     sellerName: '-----',
     showPrice: undefined,
-    imageUrl: new URL(
-      '@/assets/placeholder/productDefault.png',
-      import.meta.url,
-    ).href,
+    imageUrl: 'http://10.105.31.40:9001/img/product/list/8.jpg',
   },
 ]
 
@@ -153,7 +129,9 @@ export const productDetails: {
       ],
     },
     imageUrls: [
-      'https://via.placeholder.com/600x400',
+      'http://10.105.31.40:9001/img/product/1-1.jpg',
+      'http://10.105.31.40:9001/img/product/1-2.jpg',
+      'http://10.105.31.40:9001/img/product/1-3.jpg',
     ],
     content: `
       <h3>数据产品介绍</h3>
@@ -211,7 +189,11 @@ export const productDetails: {
       ],
     },
     imageUrls: [
-      'https://via.placeholder.com/600x400',
+      'http://10.105.31.40:9001/img/product/2-1.jpg',
+      'http://10.105.31.40:9001/img/product/2-2.jpg',
+      'http://10.105.31.40:9001/img/product/2-3.jpg',
+      'http://10.105.31.40:9001/img/product/2-4.jpg',
+      'http://10.105.31.40:9001/img/product/2-5.jpg',
     ],
     content: `
       <h3>数据产品介绍</h3>
@@ -268,7 +250,7 @@ export const productDetails: {
       ],
     },
     imageUrls: [
-      'https://via.placeholder.com/600x400',
+      'http://10.105.31.40:9001/img/product/3-2.jpg',
     ],
     content: `
       <h3>数据产品介绍</h3>
@@ -280,6 +262,9 @@ export const productDetails: {
 
       <h4>应用场景</h4>
       <p>面向省文旅厅、市（县）文旅局、文旅景区提供文旅行业结果数据的查询、订阅、调用服务。针对特定围栏区域，结合运营商信令+互联网地图位置数据、用户画像数据进行融合及分析，显示景区的客情数据，包括客流实时监测、热力图展示、客流预测、游客画像及游客偏好分析。全局感知全域产业运行状况，满足客流统计、精准营销、供给侧改革等多场景的数据诉求。 </p>
+
+      <h4>数据示例</h4>
+      <img src="http://10.105.31.40:9001/img/product/3-1.jpg" alt="" style="width:100%"/>
       `,
   },
   {
@@ -307,7 +292,8 @@ export const productDetails: {
       ],
     },
     imageUrls: [
-      'https://via.placeholder.com/600x400',
+      'http://10.105.31.40:9001/img/product/4-2.jpg',
+      'http://10.105.31.40:9001/img/product/4-4.jpg',
     ],
     content: `
       <h3>数据产品介绍</h3>
@@ -321,6 +307,9 @@ export const productDetails: {
       
       <h4>应用场景</h4>
       <p>政府、景区单个重大旅游节日（五一、十一、春节）区域整体出游态势分析；旅游大数据分析月报。</p>
+
+      <h4>数据示例</h4>
+      <img src="http://10.105.31.40:9001/img/product/4-1.jpg" alt="" style="width:100%"/>
       `,
   },
   {
@@ -348,7 +337,8 @@ export const productDetails: {
       ],
     },
     imageUrls: [
-      'https://via.placeholder.com/600x400',
+      'http://10.105.31.40:9001/img/product/5-1.jpg',
+      'http://10.105.31.40:9001/img/product/5-2.jpg',
     ],
     content: `
       <h3>数据产品介绍</h3>
@@ -390,7 +380,7 @@ export const productDetails: {
       ],
     },
     imageUrls: [
-      'https://via.placeholder.com/600x400',
+      'http://10.105.31.40:9001/img/product/6-1.jpg',
     ],
     content: `
       <h3>数据产品介绍</h3>
@@ -408,6 +398,11 @@ export const productDetails: {
       
       <h4>应用场景</h4>
       <p>多场景使用：面向文旅厅局、旅游集散中心(车站、游客集散中心）、大景区周边等，提供文旅宣传、气象发送、游客关怀、旅游形象推广、应急预警等。</p>
+
+      <h4>数据示例</h4>
+      <img src="http://10.105.31.40:9001/img/product/6-2.jpg" alt="" style="width:100%"/>
+      <img src="http://10.105.31.40:9001/img/product/6-3.jpg" alt="" style="width:100%"/>
+      <img src="http://10.105.31.40:9001/img/product/6-4.jpg" alt="" style="width:100%"/>
       `,
   },
   {
@@ -435,7 +430,8 @@ export const productDetails: {
       ],
     },
     imageUrls: [
-      'https://via.placeholder.com/600x400',
+      'http://10.105.31.40:9001/img/product/7-4.jpg',
+      'http://10.105.31.40:9001/img/product/7-5.jpg',
     ],
     content: `
       <h3>数据产品介绍</h3>
@@ -448,17 +444,19 @@ export const productDetails: {
         <li>客流风险前置疏导：融合通信功能，可进行风险告知协同应急疏导工作。</li> 
         <li>旅游行程智能推荐：可在节假日前期给游客推送短信，推荐行程规划。</li> 
       </ul>
+      <img src="http://10.105.31.40:9001/img/product/7-1.jpg" alt="" style="width:100%"/>
 
       <h4>应用场景</h4>
       <p>客流预测：基于课题算法在节假日前有效预测出客流数据，包括全市维度的人流量和网格层面的人流量预测，热力图体现人群流动变化趋势。</p>
       <p>客流监测：包括人流量和游客量监测、网格级人流量和游客量监测、景区客流量实时监测、景区饱和度和密度趋势等数据展示，做到实时监测，随时更新。</p>
       <p>风险预警：涉旅场所、道路、大型活动场景下的各类风险预警提前感知；提前预测拥堵风险指数和风险等级，恶劣天气提前预警，踩踏风险及滞留风险的提前预警。</p>
       <p>调控疏导：通过预测的各景区饱和度差异，进行Al助手行程推荐，帮助游客提前安排旅游行程，从而做到节前客流的有效调控。</p>
+      <img src="http://10.105.31.40:9001/img/product/7-2.jpg" alt="" style="width:100%"/>
+
 
       <h4>数据示例</h4>
       <p>主要功能：监测预测市域旅游网格（360+）、官方推荐景区(200+)、重点监测点(90+个)、易拥堵景区（10+个）</p>
       <p>实现功能：实现每日客流监测、每日客流预测、每1小时/30mins的客流监测、每1小时/30mins的客流预测</p>
-
       `,
   },
   {
@@ -508,7 +506,9 @@ export const productDetails: {
       ],
     },
     imageUrls: [
-      'https://via.placeholder.com/600x400',
+      'http://10.105.31.40:9001/img/product/8-2.jpg',
+      'http://10.105.31.40:9001/img/product/8-3.jpg',
+      'http://10.105.31.40:9001/img/product/8-4.jpg',
     ],
     content: `
       <h3>数据产品介绍</h3>
@@ -530,6 +530,7 @@ export const productDetails: {
       <h4>数据示例</h4>
       <p>主要功能：监测预测市域旅游网格（360+）、官方推荐景区(200+)、重点监测点(90+个)、易拥堵景区（10+个）</p>
       <p>实现功能：实现每日客流监测、每日客流预测、每1小时/30mins的客流监测、每1小时/30mins的客流预测</p>
+      <img src="http://10.105.31.40:9001/img/product/8-1.jpg" alt="" style="width:100%"/>
       `,
   },
 
