@@ -28,6 +28,10 @@ export const checkCaptcha = (email: string): Promise<unknown> => {
   )
 }
 
+export const logout = (): Promise<unknown> => {
+  return request.post({ url: '/logout' }, true)
+}
+
 export const getLoginAds = (): Promise<unknown> => {
   const params = {}
   return request.get(

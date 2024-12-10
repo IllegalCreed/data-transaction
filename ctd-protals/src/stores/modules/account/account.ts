@@ -1,7 +1,7 @@
 import { useTokenStore } from '../token'
 import { useSettingsStore } from '../settings'
 import {
-  // logout as logoutAPI,
+  logout as logoutAPI,
   // resetPwd as resetPwdAPI,
   getInfo as getInfoAPI,
 } from '@/apis/account'
@@ -21,20 +21,25 @@ export const useAccount = () => {
 
   const logout = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('账户')) {
         tokenStore.clearToken()
         resolve()
       } else {
-        logoutAPI()
-          .then(() => {
-            resolve()
-          })
-          .catch(error => {
-            reject(error)
-          })
-          .finally(() => {
-            tokenStore.clearToken()
-          })
+        if (import.meta.env.VITE_BACK_TYPE === 'java' && logoutAPI) {
+          logoutAPI()
+            .then(() => {
+              resolve()
+            })
+            .catch(error => {
+              reject(error)
+            })
+            .finally(() => {
+              tokenStore.clearToken()
+            })
+        } else {
+          tokenStore.clearToken()
+          resolve()
+        }
       }
     })
   }

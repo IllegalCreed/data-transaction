@@ -17,3 +17,19 @@ export const editInfo = (): Promise<unknown> => {
     true,
   )
 }
+
+export const uploadAvatar = (file: File): Promise<unknown> => {
+  const data = {
+    file,
+  }
+  return request.put(
+    {
+      url: '/common/upload',
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      data,
+    },
+    true,
+  )
+}

@@ -41,6 +41,7 @@ interface IForgotAPI {
 
 interface ILoginAPI {
   login: (login: ILogin) => Promise<unknown>
+  logout?: () => Promise<unknown>
   checkCaptcha: (email: string) => Promise<unknown>
   getLoginAds?: () => Promise<unknown> // 目前后台不支持自定义广告
 }
@@ -52,6 +53,7 @@ interface ICaptcha {
 interface IInfoAPI {
   getInfo: () => Promise<unknown>
   editInfo: () => Promise<unknown>
+  uploadAvatar: (file: File) => Promise<unknown>
 }
 
 type AccountAPIType = IMailAPI &
@@ -93,9 +95,11 @@ export const {
   resetPasswordByToken,
   getForgotAds,
   login,
+  logout,
   checkCaptcha,
   getLoginAds,
   getCaptcha,
   getInfo,
   editInfo,
+  uploadAvatar,
 } = accountAPI

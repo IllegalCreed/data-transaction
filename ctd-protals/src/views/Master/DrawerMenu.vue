@@ -105,10 +105,14 @@
         <span>{{ item.label }}</span>
       </div>
 
-      <el-divider />
+      <el-divider v-if="userinfo" />
 
       <!-- 登出 -->
-      <div class="menu-item logout" @click="handleSetting(logoutMenu.path)">
+      <div
+        v-if="userinfo"
+        class="menu-item logout"
+        @click="handleSetting(logoutMenu.path)"
+      >
         <i :class="logoutMenu.icon"></i>
         <span>{{ logoutMenu.label }}</span>
       </div>

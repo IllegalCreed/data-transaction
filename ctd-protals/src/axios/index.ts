@@ -196,6 +196,9 @@ export default {
   put: (option: AxiosRequestConfig, hasToken: boolean = true) => {
     return request({ method: 'put', ...mixConfig(option, hasToken) })
   },
+  patch: (option: AxiosRequestConfig, hasToken: boolean = true) => {
+    return request({ method: 'patch', ...mixConfig(option, hasToken) })
+  },
   cancelRequest: (url: string | string[]) => {
     const urlList = Array.isArray(url) ? url : [url]
     for (const _url of urlList) {
