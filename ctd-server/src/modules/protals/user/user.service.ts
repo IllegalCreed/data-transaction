@@ -73,4 +73,25 @@ export class UserService {
     this.logger.log(`获取用户信息成功：${user.email}`);
     return createSuccessResponse(data, 'GET_USER_INFO_SUCCEED');
   }
+
+  async updateUserAvatar(
+    userId: number,
+    avatarUrl: string,
+  ): Promise<ApiResponse<string>> {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+    if (!user) {
+      this.logger.warn(`更新头像失败：用户不存在：${userId}`);
+      return createErrorResponse(ErrorCode.UPDATE_USER_AVATAR_FAILED);
+    }
+
+    user.avatarUrl = avatarUrl;
+    try {
+      await this.userRepository.save(user);
+      this.logger.log(`更新头像成功：${user.email}`);
+      return createSuccessResponse('AVATAR_UPDATED');
+    } catch (error) {
+      this.logger.error('更新头像失败', error);
+      return createErrorResponse(ErrorCode.UPDATE_USER_AVATAR_FAILED);
+    }
+  }
 }

@@ -21,6 +21,9 @@ export class User extends BaseEntity {
   })
   userType: UserType;
 
+  @Column({ nullable: true })
+  avatarUrl?: string;
+
   @OneToOne(() => IndividualUserInfo, (individualInfo) => individualInfo.user, {
     cascade: true,
     nullable: true,

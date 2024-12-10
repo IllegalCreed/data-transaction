@@ -43,6 +43,7 @@ export enum ErrorCode {
 
   // 用户相关
   GET_USERINFO_FAILED = 1501,
+  UPDATE_USER_AVATAR_FAILED = 1502,
 }
 
 export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
@@ -104,4 +105,6 @@ export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
   // 用户相关
   [ErrorCode.GET_USERINFO_FAILED]:
     'Get user info failed due to unexpected error.',
+  [ErrorCode.UPDATE_USER_AVATAR_FAILED]:
+    'Update user avatar failed due to unexpected error.',
 };
