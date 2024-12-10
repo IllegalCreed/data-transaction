@@ -49,5 +49,5 @@ export class User extends BaseEntity {
   activations: UserActivation[];
 
   @OneToMany(() => LoginLog, (loginLog) => loginLog.user)
-  loginLogs: LoginLog[]; // 定义反向关系
+  loginLogs: LoginLog[];
 }

@@ -26,8 +26,13 @@ export const useLogin = () => {
       } else {
         loginAPI(login)
           .then((res: unknown) => {
-            const result = res as { token: string }
-            tokenStore.setToken(result.token)
+            if (import.meta.env.VITE_BACK_TYPE === 'java') {
+              const result = res as { token: string }
+              tokenStore.setToken(result.token)
+            } else {
+              const result = res as ICommonReturn<{ token: string }>
+              tokenStore.setToken(result.data.token)
+            }
             resolve()
           })
           .catch((error: unknown) => {

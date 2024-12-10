@@ -40,6 +40,9 @@ export enum ErrorCode {
   CREATE_LOGIN_LOG_FAILED = 1404,
   LOGIN_FAILED = 1405,
   UNFREEZE_USER_FAILED = 1406,
+
+  // 用户相关
+  GET_USERINFO_FAILED = 1501,
 }
 
 export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
@@ -97,4 +100,8 @@ export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
   [ErrorCode.CAPTCHA_REQUIRED]: 'Captcha is required.',
   [ErrorCode.UNFREEZE_USER_FAILED]:
     'Unfreeze user failed due to unexpected error.',
+
+  // 用户相关
+  [ErrorCode.GET_USERINFO_FAILED]:
+    'Get user info failed due to unexpected error.',
 };

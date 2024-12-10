@@ -26,7 +26,7 @@ describe('忘记密码', () => {
     activateUser(testUser.email)
   })
 
-  it('重置密码成功', () => {
+  it.only('重置密码成功', () => {
     cy.visit('/forgot')
 
     // 输入邮箱地址

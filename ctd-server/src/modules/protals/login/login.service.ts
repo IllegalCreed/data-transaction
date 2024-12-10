@@ -1,11 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { LoginDto } from './dto/login.dto';
 import { GetLoginLogsDto } from './dto/get-login-logs.dto';
-import { LoginLogDto } from './dto/login-log.dto';
+import { ILoginLog } from './interface/login-log.interface';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from '../../entities/user.entity';
-import { LoginLog } from '../../entities/login-log.entity';
+import { User } from 'src/entities/user.entity';
+import { LoginLog } from 'src/entities/login-log.entity';
 import { CaptchaService } from '../captcha/captcha.service';
 import { ApiResponse } from 'src/common/interfaces/api-response.interface';
 import {
@@ -224,7 +224,7 @@ export class LoginService {
   async getLoginLogs(
     userId: string,
     getLoginLogsDto: GetLoginLogsDto,
-  ): Promise<ApiResponse<{ data: LoginLogDto[]; total: number }>> {
+  ): Promise<ApiResponse<{ data: ILoginLog[]; total: number }>> {
     const {
       pageNum = 1,
       pageSize = 10,
@@ -287,7 +287,7 @@ export class LoginService {
     }
   }
 
-  async getLastLoginLog(userId: number): Promise<ApiResponse<LoginLogDto>> {
+  async getLastLoginLog(userId: number): Promise<ApiResponse<ILoginLog>> {
     const lastLog = await this.loginLogRepository.findOne({
       where: { user: { id: userId } },
       order: { loginTime: 'DESC' },

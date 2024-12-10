@@ -137,9 +137,14 @@ const mixConfig = (
   option: AxiosRequestConfig,
   hasToken: boolean,
 ): AxiosRequestConfig => {
+  let token = useTokenStore().token
+  if (import.meta.env.VITE_BACK_TYPE === 'java') {
+  } else {
+    token = 'Bearer ' + token
+  }
   const headers = {
     'Content-Type': 'application/json;charset=utf-8',
-    Authorization: hasToken ? useTokenStore().token : '',
+    Authorization: hasToken ? token : '',
     ...option.headers,
   }
   return { ...option, headers }

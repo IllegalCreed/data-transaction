@@ -15,6 +15,7 @@ import { UserType } from '@/types/register'
 export const useAccount = () => {
   const tokenStore = useTokenStore()
   const settingsStore = useSettingsStore()
+  const { findMockTreeValueByKey } = settingsStore
 
   const logout = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
@@ -64,7 +65,7 @@ export const useAccount = () => {
   const userinfo = ref<UserInfo>()
   const getUserInfo = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('账户')) {
         window.setTimeout(() => {
           if (mockInfoType.value === UserType.Individual) {
             userinfo.value = mockIndividualUserInfo

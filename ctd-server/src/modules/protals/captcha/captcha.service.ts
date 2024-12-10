@@ -2,7 +2,7 @@ import * as svgCaptcha from 'svg-captcha';
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, LessThan } from 'typeorm';
-import { Captcha } from '../../entities/captcha.entity';
+import { Captcha } from 'src/entities/captcha.entity';
 import { ApiResponse } from 'src/common/interfaces/api-response.interface';
 import { ExpectedError } from 'src/types/error';
 import { ErrorCode } from 'src/common/constants/error-codes';

@@ -29,6 +29,7 @@
             v-model="loginInfo.password"
             type="password"
             placeholder="请输入您的密码"
+            @keyup.enter="handleLogin"
           />
         </el-form-item>
 
@@ -48,6 +49,7 @@
               data-testid="captcha-input"
               v-model="loginInfo.captchaCode"
               placeholder="验证码"
+              @keyup.enter="handleLogin"
             />
             <img
               w-25

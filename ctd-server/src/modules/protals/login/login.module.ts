@@ -5,8 +5,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LoginService } from './login.service';
 import { LoginController } from './login.controller';
-import { User } from '../../entities/user.entity';
-import { LoginLog } from '../../entities/login-log.entity';
+import { User } from 'src/entities/user.entity';
+import { LoginLog } from 'src/entities/login-log.entity';
 import { CaptchaModule } from '../captcha/captcha.module';
 import { AuthGuard } from 'src/common/guards/auth.guard';
 
