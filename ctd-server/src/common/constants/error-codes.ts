@@ -39,7 +39,7 @@ export enum ErrorCode {
   LOGIN_LOG_NOT_FOUND = 1403,
   CREATE_LOGIN_LOG_FAILED = 1404,
   LOGIN_FAILED = 1405,
-  UNFREEZE_USER_FAILED = 1406,
+  RESET_USER_STATUS_FAILED = 1406,
 
   // 用户相关
   GET_USERINFO_FAILED = 1501,
@@ -98,8 +98,8 @@ export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
     'Create login log failed due to unexpected error.',
   [ErrorCode.LOGIN_FAILED]: 'Login failed due to unexpected error.',
   [ErrorCode.CAPTCHA_REQUIRED]: 'Captcha is required.',
-  [ErrorCode.UNFREEZE_USER_FAILED]:
-    'Unfreeze user failed due to unexpected error.',
+  [ErrorCode.RESET_USER_STATUS_FAILED]:
+    'Reset user status failed due to unexpected error.',
 
   // 用户相关
   [ErrorCode.GET_USERINFO_FAILED]:

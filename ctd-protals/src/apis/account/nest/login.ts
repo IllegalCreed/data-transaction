@@ -34,6 +34,6 @@ export const getLoginAds = (): Promise<unknown> => {
       url: '',
       params,
     },
-    true,
+    false,
   )
 }

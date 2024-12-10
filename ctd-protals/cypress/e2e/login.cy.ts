@@ -24,7 +24,7 @@ describe('登录', () => {
   })
 
   afterEach(() => {
-    cy.unfreezeUser(Cypress.env('serverUrl'), testUser.email)
+    cy.resetUserStatus(Cypress.env('serverUrl'), testUser.email)
     cy.clearAllLocalStorage()
     cy.clearAllSessionStorage()
   })

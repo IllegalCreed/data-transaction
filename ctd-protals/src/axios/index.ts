@@ -90,8 +90,8 @@ axiosInstance.interceptors.response.use(
     if (import.meta.env.VITE_BACK_TYPE === 'java') {
       const code = response.data.code ?? 200
       if (code === 401) {
-        const tokenStore = useTokenStore()
-        tokenStore.clearToken()
+        // const tokenStore = useTokenStore()
+        // tokenStore.clearToken()
         return Promise.reject(
           new Error('无效的会话，或者会话已过期，请重新登录。'),
         )
@@ -139,6 +139,7 @@ const mixConfig = (
 ): AxiosRequestConfig => {
   let token = useTokenStore().token
   if (import.meta.env.VITE_BACK_TYPE === 'java') {
+    token = 'Bearer ' + token
   } else {
     token = 'Bearer ' + token
   }

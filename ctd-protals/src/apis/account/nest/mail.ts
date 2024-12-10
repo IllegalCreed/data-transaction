@@ -11,7 +11,7 @@ export const sendVerificationCode = (
       url: '/mailer/send-verification-code',
       data,
     },
-    true,
+    false,
   )
 }
 
@@ -26,6 +26,6 @@ export const verifyCode = (
       url: '/mailer/verify-code',
       data,
     },
-    true,
+    false,
   )
 }

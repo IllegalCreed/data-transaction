@@ -24,7 +24,9 @@
         </template>
         <template #default>
           <div v-if="userinfo" flex flex-row items-center>
-            <img w-14 h-14 rounded-full :src="userinfo.avatar" />
+            <el-avatar :size="60" :src="userinfo.avatar">
+              <img :src="defaultUserAvatar" />
+            </el-avatar>
             <div flex flex-col items-start ml-4 space-y-2>
               <span text-lg font-bold>{{
                 userinfo.userType === UserType.Individual
@@ -122,6 +124,8 @@ import SearchDialog from './Search/SearchDialog.vue'
 import SettingDialog from './SettingDialog.vue'
 import { useAccountStore } from '@/stores/modules/account'
 import { UserType, USER_TYPE_MAP } from '@/types/register'
+const defaultUserAvatar = new URL('@/assets/icon/user.png', import.meta.url)
+  .href
 
 const accountStore = useAccountStore()
 const { userinfo } = storeToRefs(accountStore)

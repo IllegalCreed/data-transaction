@@ -1,9 +1,9 @@
 import request from '@/axios'
 
 export const getInfo = (): Promise<unknown> => {
-  return request.post(
+  return request.get(
     {
-      url: '/system/user',
+      url: '/getInfo',
     },
     true,
   )

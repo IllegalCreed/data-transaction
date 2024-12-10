@@ -26,7 +26,7 @@ describe('忘记密码', () => {
     activateUser(testUser.email)
   })
 
-  it.only('重置密码成功', () => {
+  it('重置密码成功', () => {
     cy.visit('/forgot')
 
     // 输入邮箱地址
@@ -153,14 +153,10 @@ describe('忘记密码', () => {
     cy.get<string>('@verificationCode').then(verificationCode => {
       enterVerificationCode(verificationCode)
       if (Cypress.env('serverType') === 'java') {
-        cy.intercept(
-          'POST',
-          /\/(?:dev-api\/)?register\/forgotPwdVerifyEmailCode/,
-          {
-            statusCode: 200,
-            body: { code: 500, msg: '验证码已失效' },
-          },
-        ).as('verifyCode')
+        cy.intercept('POST', /\/(?:dev-api\/)?register\/verifyCode/, {
+          statusCode: 200,
+          body: { code: 500, msg: '验证码已失效' },
+        }).as('verifyCode')
       } else {
         cy.intercept('POST', /\/(?:dev-api\/)?mailer\/verify-code/, {
           statusCode: 200,

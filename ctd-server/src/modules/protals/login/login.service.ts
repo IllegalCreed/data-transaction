@@ -356,7 +356,7 @@ export class LoginService {
     }
   }
 
-  async unfreezeUserForTesting(email: string): Promise<ApiResponse<string>> {
+  async resetUserStatusForTesting(email: string): Promise<ApiResponse<string>> {
     const user = await this.userRepository.findOne({ where: { email } });
     if (!user) {
       this.logger.warn(`解冻用户失败：用户不存在：${email}`);
@@ -369,15 +369,15 @@ export class LoginService {
       try {
         await this.userRepository.save(user);
         this.logger.log(`解冻用户成功：用户已解冻：${email}`);
-        return createSuccessResponse('USER_UNFROZENED');
+        return createSuccessResponse('RESET_USER_STATUS_SUCCEED');
       } catch (error) {
         this.logger.error('解冻用户失败', error);
-        throw new ExpectedError(ErrorCode.UNFREEZE_USER_FAILED);
+        throw new ExpectedError(ErrorCode.RESET_USER_STATUS_FAILED);
       }
     }
 
     this.logger.log(`解冻用户成功：用户未被冻结：${email}`);
     // 如果用户本身未冻结，则返回无操作状态
-    return createSuccessResponse('USER_NOT_SUSPENDED');
+    return createSuccessResponse('NOT_NEED_TO_RESET');
   }
 }

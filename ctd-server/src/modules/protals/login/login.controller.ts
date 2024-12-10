@@ -56,9 +56,9 @@ export class LoginController {
   }
 
   @Public()
-  @Patch('test/unfreeze')
+  @Patch('test/reset-user-status')
   @HttpCode(HttpStatus.OK)
-  async unfreezeUserForTesting(
+  async resetUserStatusForTesting(
     @Body('email') email: string,
   ): Promise<ApiResponse<string>> {
     // 在非生产环境中，禁止使用此端点
@@ -73,6 +73,6 @@ export class LoginController {
     if (!email) {
       throw new BadRequestException('Email is required.');
     }
-    return this.loginService.unfreezeUserForTesting(email);
+    return this.loginService.resetUserStatusForTesting(email);
   }
 }

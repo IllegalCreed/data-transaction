@@ -10,6 +10,8 @@ import * as javaLogin from './java/login'
 import * as nestLogin from './nest/login'
 import * as javaCaptcha from './java/captcha'
 import * as nestCaptcha from './nest/captcha'
+import * as javaInfo from './java/info'
+import * as nestInfo from './nest/info'
 import type { VerificationCodes } from '@/constants/mapData/mail'
 
 interface IMailAPI {
@@ -47,11 +49,17 @@ interface ICaptcha {
   getCaptcha: () => Promise<unknown>
 }
 
+interface IInfoAPI {
+  getInfo: () => Promise<unknown>
+  editInfo: () => Promise<unknown>
+}
+
 type AccountAPIType = IMailAPI &
   IRegisterAPI &
   IForgotAPI &
   ILoginAPI &
-  ICaptcha
+  ICaptcha &
+  IInfoAPI
 
 const javaAPI: AccountAPIType = {
   ...javaMail,
@@ -59,6 +67,7 @@ const javaAPI: AccountAPIType = {
   ...javaForgot,
   ...javaLogin,
   ...javaCaptcha,
+  ...javaInfo,
 }
 
 const nestAPI: AccountAPIType = {
@@ -67,6 +76,7 @@ const nestAPI: AccountAPIType = {
   ...nestForgot,
   ...nestLogin,
   ...nestCaptcha,
+  ...nestInfo,
 }
 
 const accountAPI: AccountAPIType =
@@ -86,4 +96,6 @@ export const {
   checkCaptcha,
   getLoginAds,
   getCaptcha,
+  getInfo,
+  editInfo,
 } = accountAPI
