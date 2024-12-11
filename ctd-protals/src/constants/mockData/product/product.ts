@@ -4,107 +4,83 @@ import { v4 as uuidv4 } from 'uuid'
 export const products: IProduct[] = [
   {
     id: 1,
-    name: '中国京剧像音像资源数据',
-    tags: ['京剧', '短片', '音像'],
+    name: '文博讲解大模型',
+    tags: ['博物馆讲解', '导游', '大模型'],
     description: '包含视频图片音频等不同类型的数据',
     sellerId: 1,
     sellerName: '-----',
-    showPrice: null,
-    imageUrl: new URL(
-      '@/assets/placeholder/productDefault.png',
-      import.meta.url,
-    ).href,
+    showPrice: undefined,
+    imageUrl: 'http://10.105.31.40:9001/img/product/list/1.jpg',
   },
   {
     id: 2,
-    name: '微班进京200周年影像',
-    tags: ['京剧', '神话京剧', '现代京剧'],
-    description: '《战洪州》《火凤凰》《五台山》等',
+    name: '导游导览大模型',
+    tags: ['旅游导览', '导游', '线路规划'],
+    description: '',
     sellerId: 1,
     sellerName: '-----',
-    showPrice: null,
-    imageUrl: new URL(
-      '@/assets/placeholder/productDefault.png',
-      import.meta.url,
-    ).href,
+    showPrice: undefined,
+    imageUrl: 'http://10.105.31.40:9001/img/product/list/2.jpg',
   },
   {
     id: 3,
-    name: '少儿京剧影像',
-    tags: ['少儿', '京剧'],
-    description: '《沉香习舞》、《乌盆记》、《探阴山》等',
+    name: '文旅大数据API接口服务',
+    tags: ['文旅数据', 'API接口', '信令数据'],
+    description: '',
     sellerId: 1,
     sellerName: '-----',
-    showPrice: null,
-    imageUrl: new URL(
-      '@/assets/placeholder/productDefault.png',
-      import.meta.url,
-    ).href,
+    showPrice: undefined,
+    imageUrl: 'http://10.105.31.40:9001/img/product/list/3.jpg',
   },
   {
     id: 4,
-    name: '北京三维数字地图',
-    tags: ['web', 'API', '小程序'],
-    description: '包含北京地形以及元、明、清等不同时期的三维数字地图',
+    name: '文旅大数据报告',
+    tags: ['数据报告', '节假日报告'],
+    description: '',
     sellerId: 1,
     sellerName: '-----',
-    showPrice: null,
-    imageUrl: new URL(
-      '@/assets/placeholder/productDefault.png',
-      import.meta.url,
-    ).href,
+    showPrice: undefined,
+    imageUrl: 'http://10.105.31.40:9001/img/product/list/4.jpg',
   },
   {
     id: 5,
-    name: '大运河历史遗迹遗址模型',
-    tags: ['三维', '模型', '文化'],
-    description: '大运河北京段河道、水源、桥梁、古建筑等三维模型',
+    name: '经纬数据—文旅商圈/大景区效应分析',
+    tags: ['客流监测', '游客画像分析', '游客热力图'],
+    description: '',
     sellerId: 1,
     sellerName: '-----',
-    showPrice: null,
-    imageUrl: new URL(
-      '@/assets/placeholder/productDefault.png',
-      import.meta.url,
-    ).href,
+    showPrice: undefined,
+    imageUrl: 'http://10.105.31.40:9001/img/product/list/5.jpg',
   },
   {
     id: 6,
-    name: '景区画像数据',
-    tags: ['旅游', '画像', '数据'],
-    description: '景区到访人员旅行偏好等分析数据',
+    name: '翼点触达文旅消息',
+    tags: ['旅游宣传', '文旅应急', '游客关怀'],
+    description: '',
     sellerId: 1,
     sellerName: '-----',
-    showPrice: null,
-    imageUrl: new URL(
-      '@/assets/placeholder/productDefault.png',
-      import.meta.url,
-    ).href,
+    showPrice: undefined,
+    imageUrl: 'http://10.105.31.40:9001/img/product/list/6.jpg',
   },
   {
     id: 7,
-    name: '客流态势检测数据',
-    tags: ['画像', '消费', '数据'],
-    description: '旅游目的地的游客来源、游客数量走势、游客男女和性别画像等数据',
+    name: '城市客流预测与服务',
+    tags: ['客流监测', '调控疏导', '预测预警'],
+    description: '',
     sellerId: 1,
     sellerName: '-----',
-    showPrice: null,
-    imageUrl: new URL(
-      '@/assets/placeholder/productDefault.png',
-      import.meta.url,
-    ).href,
+    showPrice: undefined,
+    imageUrl: 'http://10.105.31.40:9001/img/product/list/7.jpg',
   },
   {
     id: 8,
-    name: '游客画像数据集',
-    tags: ['画像', '数据', '模型'],
-    description: '游客属性、游客消费、游客偏好等类型数据',
+    name: '文旅大数据平台',
+    tags: ['数据治理', '数据分析', '标准化报告'],
+    description: '',
     sellerId: 1,
     sellerName: '-----',
-    showPrice: null,
-    imageUrl: new URL(
-      '@/assets/placeholder/productDefault.png',
-      import.meta.url,
-    ).href,
+    showPrice: undefined,
+    imageUrl: 'http://10.105.31.40:9001/img/product/list/8.jpg',
   },
 ]
 
@@ -117,11 +93,11 @@ export const productDetails: {
   {
     id: 1,
     detailInfo: {
-      name: '文化产品',
-      soldCount: 100,
-      tags: ['热门', '推荐'],
+      name: '文博讲解大模型',
+      soldCount: 0,
+      tags: ['博物馆讲解','导游','大模型'],
       description:
-        '全屋智能家居解决方案，便捷、安全,全屋智能家居解决方案，便捷、安全',
+        '文博讲解大模型，目标打造游客专属私人导游。本产品搭载自然语言处理技术，支持语音、拍照、文字等多种交互方式，让专业解答触手可及。',
       sellerId: 1,
       sellerName: '',
       hasCount: true,
@@ -132,11 +108,11 @@ export const productDetails: {
           specs: [
             {
               key: uuidv4(),
-              label: '完整',
+              label: '套',
             },
             {
               key: uuidv4(),
-              label: '精简',
+              label: '产品服务',
             },
           ],
         },
@@ -146,67 +122,453 @@ export const productDetails: {
           specs: [
             {
               key: uuidv4(),
-              label: '包月',
-            },
-            {
-              key: uuidv4(),
-              label: '包年',
-            },
-            {
-              key: uuidv4(),
-              label: '永久',
+              label: '面议',
             },
           ],
         },
       ],
     },
     imageUrls: [
-      'https://via.placeholder.com/600x400',
-      'https://via.placeholder.com/600x400',
-      'https://via.placeholder.com/600x400',
-      'https://via.placeholder.com/600x400',
-      'https://via.placeholder.com/600x400',
-      'https://via.placeholder.com/600x400',
-      'https://via.placeholder.com/600x400',
-      'https://via.placeholder.com/600x400',
-      'https://via.placeholder.com/600x400',
-      'https://via.placeholder.com/600x400',
-      'https://via.placeholder.com/600x400',
-      'https://via.placeholder.com/600x400',
+      'http://10.105.31.40:9001/img/product/1-1.jpg',
+      'http://10.105.31.40:9001/img/product/1-2.jpg',
+      'http://10.105.31.40:9001/img/product/1-3.jpg',
     ],
     content: `
       <h3>数据产品介绍</h3>
-      <p>我们的最新数据产品 <strong>“智能城市数据包”</strong> 提供了广泛的城市数据，包括交通、天气、人口统计等，适用于各类智能城市项目。</p>
+      <p>文博讲解大模型，目标打造游客专属私人导游。本产品搭载自然语言处理技术，支持语音、拍照、文字等多种交互方式，让专业解答触手可及。创新的主题化游览路线，配合实时定位，为每位游客量身定制逐点讲解。"数字人智能伴游"功能，实时响应您的提问，伴随式讲解让参观体验更加生动。智能导览结合图像识别，实现展品即拍即讲，提升服务效率和互动性。</p>
 
       <h4>产品特点</h4>
       <ul>
-        <li>涵盖多种城市数据：交通、天气、人口统计等。</li>
-        <li>实时数据更新，确保信息的准确性和时效性。</li>
-        <li>易于集成，支持多种开发平台和工具。</li>
+        <li>AI重构文博讲解，提升游客服务体验感知。</li>
+        <li>伴游讲解，边走边讲的随身讲解员</li>
+        <li>内容延伸，满足内容跟知识深度需求</li>
+        <li>资源补充，全领域讲解缓解人手不足</li>
+        <li>数据沉淀，数据赋能智慧博物馆建设</li>
       </ul>
 
       <h4>应用场景</h4>
-      <p>该数据包可用于多个场景，如智能交通管理、城市规划、环境监测等。以下是一个示意图：</p>
-      <img src="https://via.placeholder.com/800x400" alt="智能城市数据图" style="width:100%"/>
-
-      <h4>产品示例</h4>
-      <p>下面的视频展示了如何使用该数据包创建智能交通管理系统：</p>
-      <video controls width="100%">
-        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-        您的浏览器不支持视频标签。
-      </video>
-
-      <h4>潜在危险内容</h4>
-      <p>以下内容是注入的潜在危险内容，用于测试过滤效果：</p>
-      <img src="invalid.jpg" onerror="alert('XSS Attack!')" />
-
-      <h4>客户评价</h4>
-      <blockquote>
-        <p>"这个数据包帮助我们显著提升了交通管理的效率，使得整个城市的通行情况得到了极大的改善。" - 城市交通管理局</p>
-      </blockquote>
-
-      <p>更多详情，请访问我们的官方网站。</p>
-      <a href="https://example.com" target="_blank">点击这里了解更多</a>
+      <p>面相博物馆、展览馆、文化场馆等提提供给游客问答式互动，让游客获得个性按需的讲解体验。通过拟真语音还原、文物拍照识别、实时伴随讲解，发现更多有趣的文物内容，给游客提供专属的私人导游。</p>
     `,
   },
+  {
+    id: 2,
+    detailInfo: {
+      name: '导游导览大模型',
+      soldCount: 0,
+      tags: ['旅游导览','导游','线路规划','旅游问答'],
+      description:
+        '以小程序为载体，以大模型为技术驱动，通过智能问答交互，为游客提供行程规划、智能讲解、内容推荐等服务，有效解决旅游中因为信息不对称和潮汐效应导致的服务质量问题，让每一位游客都有一个随身旅游助手，让旅游更简单。        ',
+      sellerId: 1,
+      sellerName: '',
+      hasCount: true,
+      specGroups: [
+        {
+          key: uuidv4(),
+          label: '数据完整度',
+          specs: [
+            {
+              key: uuidv4(),
+              label: '套',
+            },
+            {
+              key: uuidv4(),
+              label: '产品服务',
+            },
+          ],
+        },
+        {
+          key: uuidv4(),
+          label: '购买方式',
+          specs: [
+            {
+              key: uuidv4(),
+              label: '面议',
+            },
+          ],
+        },
+      ],
+    },
+    imageUrls: [
+      'http://10.105.31.40:9001/img/product/2-1.jpg',
+      'http://10.105.31.40:9001/img/product/2-2.jpg',
+      'http://10.105.31.40:9001/img/product/2-3.jpg',
+      'http://10.105.31.40:9001/img/product/2-4.jpg',
+      'http://10.105.31.40:9001/img/product/2-5.jpg',
+    ],
+    content: `
+      <h3>数据产品介绍</h3>
+      <p>以小程序为载体，以大模型为技术驱动，通过智能问答交互，为游客提供行程规划、智能讲解、内容推荐等服务，有效解决旅游中因为信息不对称和潮汐效应导致的服务质量问题，让每一位游客都有一个随身旅游助手，让旅游更简单。</p>
+      <p>面向文旅厅/局，以提升游客体验为根本，升级现有“一机游”全域旅游服务平台，通过问答式、语音交互，为游客提供高品质服务，同时利用交互数据分析，赋能地方政府实现精准营销。</p>
+
+      <h4>产品特点</h4>
+      <ul>
+        <li>信息内容：传递更真实更实时</li>
+        <li>产品服务：更便捷更人性化</li>
+        <li>文旅资源：适配更高效</li>
+      </ul>
+      
+      <h4>应用场景</h4>
+      <p>AI行程规划，可处理分析大量出行数据，为游客提供个性化出行方案</p>
+      <p>AI攻略生成，根据游客需求，一键生成适合自身需求不同主题的旅游攻略</p>
+      <p>AI智能讲解，根据游客需求，为游客生成定制化可交互的目的地讲解内容</p>
+      <p>AI服务推荐，推理游客咨询问题意图，提供美食个性化服务产品推荐</p>
+      
+      `,
+  },
+  {
+    id: 3,
+    detailInfo: {
+      name: '文旅大数据API接口服务',
+      soldCount: 0,
+      tags: ['API接口','信令数据','旅游分析数据'],
+      description:
+        '中国电信文旅大数据接口产品通过整合运营商信令大数据、互联网定位大户数据，提炼游客出游模型，构建智慧OD体系，沉淀核心游客行程，实现出游能力的精细化、差异化以及平台化。',
+      sellerId: 1,
+      sellerName: '',
+      hasCount: true,
+      specGroups: [
+        {
+          key: uuidv4(),
+          label: '数据完整度',
+          specs: [
+            {
+              key: uuidv4(),
+              label: 'saas展示',
+            },
+          ],
+        },
+        {
+          key: uuidv4(),
+          label: '购买方式',
+          specs: [
+            {
+              key: uuidv4(),
+              label: '面议',
+            },
+          ],
+        },
+      ],
+    },
+    imageUrls: [
+      'http://10.105.31.40:9001/img/product/3-2.jpg',
+    ],
+    content: `
+      <h3>数据产品介绍</h3>
+      <p>中国电信文旅大数据接口产品通过整合运营商信令大数据、互联网定位大户数据，提炼游客出游模型，构建智慧OD体系，沉淀核心游客行程，实现出游能力的精细化、差异化以及平台化。</p>
+      <p>目前以能力开放为主要服务手段，通过API可提供客流分布，客流监测、客流来源、人群画像、游览行为等文旅数据接口，接口覆盖省级、地市级、区县级及景区级四层地域分级，囊括实时、小时、日、周、月等多时间维度统计能力，并可通过数据分类等接口能力提供不同数据分类，全面为行业用户提供文旅行业的数据分析能力支撑。</p>
+
+      <h4>产品特点</h4>
+      <p>中国电信与中国旅游研究院(国家文旅部数据中心)共同制定的数据规则标准，在文旅专业模型算法层面与国家文化和旅游部的算法一致，权威优势明显。</p>
+
+      <h4>应用场景</h4>
+      <p>面向省文旅厅、市（县）文旅局、文旅景区提供文旅行业结果数据的查询、订阅、调用服务。针对特定围栏区域，结合运营商信令+互联网地图位置数据、用户画像数据进行融合及分析，显示景区的客情数据，包括客流实时监测、热力图展示、客流预测、游客画像及游客偏好分析。全局感知全域产业运行状况，满足客流统计、精准营销、供给侧改革等多场景的数据诉求。 </p>
+
+      <h4>数据示例</h4>
+      <img src="http://10.105.31.40:9001/img/product/3-1.jpg" alt="" style="width:100%"/>
+      `,
+  },
+  {
+    id: 4,
+    detailInfo: {
+      name: '文旅大数据报告',
+      soldCount: 0,
+      tags: ['数据报告','节假日报告'],
+      description:
+        '文旅大数据报告基于电信信令大数据为政府、景区提供节假日游客分析报告、月度游客分析报告，帮助政府、景区等管理者及时了解节假日游客流量情况，并可通过报告情况对外发布数据。',
+      sellerId: 1,
+      sellerName: '',
+      hasCount: true,
+      specGroups: [
+        {
+          key: uuidv4(),
+          label: '购买方式',
+          specs: [
+            {
+              key: uuidv4(),
+              label: '面议',
+            },
+          ],
+        },
+      ],
+    },
+    imageUrls: [
+      'http://10.105.31.40:9001/img/product/4-2.jpg',
+      'http://10.105.31.40:9001/img/product/4-4.jpg',
+    ],
+    content: `
+      <h3>数据产品介绍</h3>
+      <p>数据报告包含节假日期间人口流动分析、景区客流监测分析、游客行为与偏好分析三方面的报告内容，具体指标包含人口流入流出、热门目的地、同比环比分析、游客访问偏好、游客画像情况等方面的分析。以报告形式呈现，快速帮助客户了解节假日客流情况，并能快速对外发布数据。</p>
+
+      <h4>产品特点</h4>
+      <ul>
+        <li>报告自动生成：通过电信提供的数据源自动生成报告，无需数据上报与采集</li> 
+        <li>数据连续全面：数据实时连续、数据使用合规合法保障、用户规模覆盖全国样本丰富全面。</li>
+      </ul>
+      
+      <h4>应用场景</h4>
+      <p>政府、景区单个重大旅游节日（五一、十一、春节）区域整体出游态势分析；旅游大数据分析月报。</p>
+
+      <h4>数据示例</h4>
+      <img src="http://10.105.31.40:9001/img/product/4-1.jpg" alt="" style="width:100%"/>
+      `,
+  },
+  {
+    id: 5,
+    detailInfo: {
+      name: '经纬数据—文旅商圈/大景区效应分析',
+      soldCount: 0,
+      tags: ['客流分析','游客画像分析','游客外溢分析','人群热力分析'],
+      description:
+        '产品介绍：基于位置标签数据，融合内外部数据，形成客户位置、轨迹、特征等信息，为政府、景区提供重点区域的游客流量、画像、热力分析等方面的分析，帮助管理单位了解监测客流、了解游客，以及时进行客流调度安排及做出合理的营销测策略，同时也通过热力为游客提供游览建议。',
+      sellerId: 1,
+      sellerName: '',
+      hasCount: true,
+      specGroups: [
+        {
+          key: uuidv4(),
+          label: '购买方式',
+          specs: [
+            {
+              key: uuidv4(),
+              label: '面议',
+            },
+          ],
+        },
+      ],
+    },
+    imageUrls: [
+      'http://10.105.31.40:9001/img/product/5-1.jpg',
+      'http://10.105.31.40:9001/img/product/5-2.jpg',
+    ],
+    content: `
+      <h3>数据产品介绍</h3>
+      <p>产品包含四大维度分析，包括游客监测、游客画像、游客外溢、竞对分析，从指标上包含实时客流量、日间游客分析、夜间游客分析、游客停留时长、游客来源地、游客过夜分析、游客到访频次、上网时长、消费能力分析、某区域的热力分析等。通过游客监测、热力分析帮助管理者及时客流量、拥挤程度，以更好的调度，防范安全风险，同时也为游客提供游览景点参考；通过游客画像可以及时了解游客偏好特征，及更好的进行产业布局或营销；通过游客外溢分析，及时了解热门景区的辐射效应，以更好的制定游客引导策略；通过竞对分析了解相似区域的游客情况，更好的了解友商客流</p>
+
+      <h4>产品特点</h4>
+      <ul>
+        <li>自带数据源：通过电信的信令数据进行大数据分析，无需客户自己搜集数据</li> 
+        <li>数据连续全面：采样频率高、成本低、量化性能好、数据实时连续、数据使用合规合法保障、用户规模覆盖全国样本丰富全面。</li>
+        <li>灵活的数据提供方式：可以通过接口或者大屏报表形式提供，可以以指标为单位提供，根据需求灵活选择</li>
+      </ul>
+      
+      <h4>应用场景</h4>
+      <p>政府客流监测、景区客流监测、游客热力图呈现</p>
+      `,
+  },
+  {
+    id: 6,
+    detailInfo: {
+      name: '翼点触达文旅消息',
+      soldCount: 0,
+      tags: ['旅游宣传','文旅应急','游客关怀','应急预警'],
+      description:
+        '翼点触达大数据文旅信息是基于中国电信实时信令数据和精准大数据模型算法，将大数据能力与文旅监管部门工作场景深度结合的短信触达服务产品，根据不同场景、不同标签等实现围栏数据实时过滤，按照预设条件精准圈定目标用户，满足宣传、城市旅游、 应急预警、游客关怀等多方面需求。',
+      sellerId: 1,
+      sellerName: '',
+      hasCount: true,
+      specGroups: [
+        {
+          key: uuidv4(),
+          label: '购买方式',
+          specs: [
+            {
+              key: uuidv4(),
+              label: '面议',
+            },
+          ],
+        },
+      ],
+    },
+    imageUrls: [
+      'http://10.105.31.40:9001/img/product/6-1.jpg',
+    ],
+    content: `
+      <h3>数据产品介绍</h3>
+      <p>翼点触达大数据文旅信息是基于中国电信实时信令数据和精准大数据模型算法，将大数据能力与文旅监管部门工作场景深度结合的短信触达服务产品，根据不同场景、不同标签等实现围栏数据实时过滤，按照预设条件精准圈定目标用户，满足宣传、城市旅游、 应急预警、游客关怀等多方面需求。</p>
+
+      <h4>产品特点</h4>
+      <ul>
+        <li>精准触达：基于中国电信实时信令数据和精准大数据模型算法的”双引擎“,短信精准触达目标人群，强大的区域热力及人群画像能力，让客户对区域内目标人群了如指掌，做到有的放矢。</li> 
+        <li>及时高效：优化发送流程，设立高速下发通道，保障下发动作及时稳定，高效地触达目标人群。</li> 
+        <li>安全合规：短信内容经过审批，避免重大短信事故发生，做到自审和他审，流程合法合规。</li> 
+        <li>通道稳定：借助中国电信稳定高效的数据处理能力，高并发场景下做到游刃有余，保障发送成功率。</li> 
+        <li>配置灵活：多种配置方式，选择合适的发送方式，灵活发送，全面满足不同客户对不同使用场景的要求。</li> 
+        <li>数据统计：反馈发送结果，已下发量和发送成功率等</li> 
+      </ul>
+      
+      <h4>应用场景</h4>
+      <p>多场景使用：面向文旅厅局、旅游集散中心(车站、游客集散中心）、大景区周边等，提供文旅宣传、气象发送、游客关怀、旅游形象推广、应急预警等。</p>
+
+      <h4>数据示例</h4>
+      <img src="http://10.105.31.40:9001/img/product/6-2.jpg" alt="" style="width:100%"/>
+      <img src="http://10.105.31.40:9001/img/product/6-3.jpg" alt="" style="width:100%"/>
+      <img src="http://10.105.31.40:9001/img/product/6-4.jpg" alt="" style="width:100%"/>
+      `,
+  },
+  {
+    id: 7,
+    detailInfo: {
+      name: '城市客流预测与服务',
+      soldCount: 0,
+      tags: ['客流监测','预测预警','调控疏导'],
+      description:
+        '该产品面向旅游目的地文旅主管单位，围绕城市节假日客流监测和智能疏导场景，动态采集抽取所需的移动通讯、互联网、智慧城市等多元数据，研发关联融合分析算法，形成集约数据库群及统一数据接口，提供专业化、标准化数据服务能力。',
+      sellerId: 1,
+      sellerName: '',
+      hasCount: true,
+      specGroups: [
+        {
+          key: uuidv4(),
+          label: '购买方式',
+          specs: [
+            {
+              key: uuidv4(),
+              label: '面议',
+            },
+          ],
+        },
+      ],
+    },
+    imageUrls: [
+      'http://10.105.31.40:9001/img/product/7-4.jpg',
+      'http://10.105.31.40:9001/img/product/7-5.jpg',
+    ],
+    content: `
+      <h3>数据产品介绍</h3>
+      <p>面向旅游目的地文旅主管单位，围绕城市节假日客流监测和智能疏导场景，动态采集抽取所需的移动通讯、互联网、智慧城市等多元数据，研发关联融合分析算法，形成集约数据库群及统一数据接口，提供专业化、标准化数据服务能力。</p>
+
+      <h4>产品特点</h4>
+      <ul>
+        <li>城市旅游客流提前预测：根据历史客流数据对节假日城市及网格层面的游客进行客流量预测，热力图直观展示客流当前客流情况，及时感知客流动向。</li> 
+        <li>风险预警自动触发：基于客流密度和饱和度等基础数据,制定符合标准指标体系的风险阈值触发机制，系统自动触发预警，减少人工核对成本，更高效。</li> 
+        <li>客流风险前置疏导：融合通信功能，可进行风险告知协同应急疏导工作。</li> 
+        <li>旅游行程智能推荐：可在节假日前期给游客推送短信，推荐行程规划。</li> 
+      </ul>
+      <img src="http://10.105.31.40:9001/img/product/7-1.jpg" alt="" style="width:100%"/>
+
+      <h4>应用场景</h4>
+      <p>客流预测：基于课题算法在节假日前有效预测出客流数据，包括全市维度的人流量和网格层面的人流量预测，热力图体现人群流动变化趋势。</p>
+      <p>客流监测：包括人流量和游客量监测、网格级人流量和游客量监测、景区客流量实时监测、景区饱和度和密度趋势等数据展示，做到实时监测，随时更新。</p>
+      <p>风险预警：涉旅场所、道路、大型活动场景下的各类风险预警提前感知；提前预测拥堵风险指数和风险等级，恶劣天气提前预警，踩踏风险及滞留风险的提前预警。</p>
+      <p>调控疏导：通过预测的各景区饱和度差异，进行Al助手行程推荐，帮助游客提前安排旅游行程，从而做到节前客流的有效调控。</p>
+      <img src="http://10.105.31.40:9001/img/product/7-2.jpg" alt="" style="width:100%"/>
+
+
+      <h4>数据示例</h4>
+      <p>主要功能：监测预测市域旅游网格（360+）、官方推荐景区(200+)、重点监测点(90+个)、易拥堵景区（10+个）</p>
+      <p>实现功能：实现每日客流监测、每日客流预测、每1小时/30mins的客流监测、每1小时/30mins的客流预测</p>
+      `,
+  },
+  {
+    id: 8,
+    detailInfo: {
+      name: '文旅大数据平台',
+      soldCount: 0,
+      tags: ['数据整合治理','数据分析决策','标准化报告'],
+      description:
+        '该产品通过汇聚各类文旅数据，依靠丰富的文旅行业服务经验，建设文旅数据资源库，联动数据中台与算法中台，提供数据“采集-汇聚-治理-管理-服务”全链路文旅大数据服务。',
+      sellerId: 1,
+      sellerName: '',
+      hasCount: true,
+      specGroups: [
+        {
+          key: uuidv4(),
+          label: '数据完整度',
+          specs: [
+            {
+              key: uuidv4(),
+              label: '区县客情分析',
+            },
+            {
+              key: uuidv4(),
+              label: '景区客情分析',
+            },
+          ],
+        },
+        {
+          key: uuidv4(),
+          label: '购买方式',
+          specs: [
+            {
+              key: uuidv4(),
+              label: '区县：25万/年',
+            },
+            {
+              key: uuidv4(),
+              label: '市州：50万/年',
+            },
+            {
+              key: uuidv4(),
+              label: '省份：70万/年',
+            },
+          ],
+        },
+      ],
+    },
+    imageUrls: [
+      'http://10.105.31.40:9001/img/product/8-2.jpg',
+      'http://10.105.31.40:9001/img/product/8-3.jpg',
+      'http://10.105.31.40:9001/img/product/8-4.jpg',
+    ],
+    content: `
+      <h3>数据产品介绍</h3>
+      <p>基于自有运营商BO域数据，汇聚各类文旅行业数据，依靠丰富的文旅行业服务经验，建设文旅数据资源库，联动数据中台与算法中台，提供数据“采集-汇聚-治理-管理-服务”全链路文旅大数据服务。该平台面向各级文旅管理单位、旅发旅投企业、景区度假区，利用数据挖掘和人工智能等手段，提供全域客流、出游行为、人群画像等分析服务，为游前营销辅助决策、游中应急管理、游后分析上报等场景提供数据支撑，有效提升对全域和重点涉旅场所的感知和运营效率。 </p>
+
+      <h4>产品特点</h4>
+      <ul>
+        <li>平台SaaS化服务 ：账号即开即用，标准化报告、标准化大屏可快速应用。</li> 
+        <li>数据口径权威：客流数据口径来源于与中国旅游研究院的数据合作，同时参与研究院课题研究，深入旅游大数据领域的创新，为客户提供持续监管能力升级。</li> 
+        <li>全链路服务体系：依赖丰富的文旅行业服务经验，建设文旅数据资源库，联动数据中台与算法中台，提供数据“采集-汇聚&加工-分析&展示-管理&决策”全链路文旅大数据服务体系。</li> 
+      </ul>
+      
+      <h4>应用场景</h4>
+      <p>游前客流预测：在重点节假日、重大活动之前，监管者需要调动各方资源进行保障，从而需要客观的游客客流预测数据提供依据，辅助保障工作的部署安排。</p>
+      <p>日常运营监管：文旅厅/局一方面关注游客量，另一方面关注旅游带动的消费效益，对客流以及消费的监管是重中之重，通过分析，促进客户了解旅游运营状况。</p>
+      <p>应急指挥管理：文旅包含了大量的资源，其中景区等重点场所的应急保障关乎人、财等民生问题，通过联动景区实时监控信息及时调动资源处理应急事件。</p>
+      <p>游客满意度关注：游客对旅游的体验感受对城市的旅游发展有着重要的影响，通过对网络的舆情与投诉系统的监控，有助客户及时发现问题并进行公关处理，提高客户满意度，促进旅游良性发展。</p>
+      
+      <h4>数据示例</h4>
+      <p>主要功能：监测预测市域旅游网格（360+）、官方推荐景区(200+)、重点监测点(90+个)、易拥堵景区（10+个）</p>
+      <p>实现功能：实现每日客流监测、每日客流预测、每1小时/30mins的客流监测、每1小时/30mins的客流预测</p>
+      <img src="http://10.105.31.40:9001/img/product/8-1.jpg" alt="" style="width:100%"/>
+      `,
+  },
+
+
 ]
+    
+
+// content: `
+    //   <h3>数据产品介绍</h3>
+    //   <p>我们的最新数据产品 <strong>“智能城市数据包”</strong> 提供了广泛的城市数据，包括交通、天气、人口统计等，适用于各类智能城市项目。</p>
+
+    //   <h4>产品特点</h4>
+    //   <ul>
+    //     <li>涵盖多种城市数据：交通、天气、人口统计等。</li>
+    //     <li>实时数据更新，确保信息的准确性和时效性。</li>
+    //     <li>易于集成，支持多种开发平台和工具。</li>
+    //   </ul>
+
+    //   <h4>应用场景</h4>
+    //   <p>该数据包可用于多个场景，如智能交通管理、城市规划、环境监测等。以下是一个示意图：</p>
+    //   <img src="https://via.placeholder.com/800x400" alt="智能城市数据图" style="width:100%"/>
+
+    //   <h4>产品示例</h4>
+    //   <p>下面的视频展示了如何使用该数据包创建智能交通管理系统：</p>
+    //   <video controls width="100%">
+    //     <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+    //     您的浏览器不支持视频标签。
+    //   </video>
+
+    //   <h4>潜在危险内容</h4>
+    //   <p>以下内容是注入的潜在危险内容，用于测试过滤效果：</p>
+    //   <img src="invalid.jpg" onerror="alert('XSS Attack!')" />
+
+    //   <h4>客户评价</h4>
+    //   <blockquote>
+    //     <p>"这个数据包帮助我们显著提升了交通管理的效率，使得整个城市的通行情况得到了极大的改善。" - 城市交通管理局</p>
+    //   </blockquote>
+
+    //   <p>更多详情，请访问我们的官方网站。</p>
+    //   <a href="https://example.com" target="_blank">点击这里了解更多</a>
+    // `,
