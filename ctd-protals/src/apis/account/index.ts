@@ -1,4 +1,4 @@
-import type { RegistrationInfo } from '@/types/register'
+import type { IIndividualUserInfo, RegistrationInfo } from '@/types/register'
 import type { ILogin } from '@/types/login'
 import * as javaMail from './java/mail'
 import * as nestMail from './nest/mail'
@@ -13,7 +13,6 @@ import * as nestCaptcha from './nest/captcha'
 import * as javaInfo from './java/info'
 import * as nestInfo from './nest/info'
 import type { VerificationCodes } from '@/constants/mapData/mail'
-import type { UserInfo } from '@/types/account'
 
 interface IMailAPI {
   sendVerificationCode: (
@@ -53,7 +52,7 @@ interface ICaptcha {
 
 interface IInfoAPI {
   getInfo: () => Promise<unknown>
-  editInfo: (userInfo: UserInfo) => Promise<unknown>
+  editInfo: (userInfo: IIndividualUserInfo) => Promise<unknown>
   uploadAvatar: (file: File) => Promise<unknown>
 }
 

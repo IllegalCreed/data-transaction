@@ -38,7 +38,11 @@
       </div>
       <div flex flex-row>
         <span class="label">头像：</span>
-        <el-avatar :size="100" :src="userinfo.avatarUrl">
+        <el-avatar
+          class="!bg-transparent"
+          :size="100"
+          :src="userinfo.avatarUrl"
+        >
           <img :src="defaultUserAvatar" />
         </el-avatar>
       </div>

@@ -1,5 +1,5 @@
 import request from '@/axios'
-import type { UserInfo } from '@/types/account'
+import type { IIndividualUserInfo } from '@/types/register'
 
 export const getInfo = (): Promise<unknown> => {
   return request.get(
@@ -10,13 +10,13 @@ export const getInfo = (): Promise<unknown> => {
   )
 }
 
-export const editInfo = (userInfo: UserInfo): Promise<unknown> => {
+export const editInfo = (userInfo: IIndividualUserInfo): Promise<unknown> => {
   const data = {
     ...userInfo,
   }
   return request.put(
     {
-      url: '/api/prv/user/edit',
+      url: '/system/user/profile',
       data,
     },
     true,
@@ -27,9 +27,9 @@ export const uploadAvatar = (file: File): Promise<unknown> => {
   const data = {
     avatarfile: file,
   }
-  return request.put(
+  return request.post(
     {
-      url: '/common/upload',
+      url: '/system/user/profile/avatar',
       headers: {
         'Content-Type': 'multipart/form-data',
       },

@@ -24,7 +24,11 @@
         </template>
         <template #default>
           <div v-if="userinfo" flex flex-row items-center>
-            <el-avatar :size="60" :src="userinfo.avatarUrl">
+            <el-avatar
+              class="!bg-transparent"
+              :size="60"
+              :src="userinfo.avatarUrl"
+            >
               <img :src="defaultUserAvatar" />
             </el-avatar>
             <div flex flex-col items-start ml-4 space-y-2>

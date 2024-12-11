@@ -38,6 +38,7 @@ export class UserService {
     let data: IUserInfoData = {
       email: user.email,
       userType: user.userType,
+      avatarUrl: user.avatarUrl,
       status: user.status,
     };
     if (user.userType === UserType.Individual && user.individualInfo) {

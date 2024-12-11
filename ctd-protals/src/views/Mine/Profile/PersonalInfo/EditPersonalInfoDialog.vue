@@ -90,7 +90,12 @@
     <template #footer>
       <div class="dialog-footer">
         <el-button class="btn" @click="model = false">取消</el-button>
-        <el-button class="btn" type="primary" @click="handleSubmit">
+        <el-button
+          class="btn"
+          type="primary"
+          :loading="editInfoActionLoading"
+          @click="handleSubmit"
+        >
           提交
         </el-button>
       </div>
@@ -125,6 +130,11 @@ import {
 } from '@/types/register'
 const accountStore = useAccountStore()
 const { userinfo } = storeToRefs(accountStore)
+const {
+  uploadAvatar: uploadAvatarAction,
+  editInfo: editInfoAction,
+  getUserInfo: getUserInfoAction,
+} = accountStore
 
 const personalInfo = reactive<IIndividualUserInfo & { avatarUrl: string }>({
   fullName: '',
@@ -139,8 +149,8 @@ const personalInfo = reactive<IIndividualUserInfo & { avatarUrl: string }>({
 const personForm = ref<FormInstance | null>(null)
 
 const rules = ref<FormRules>({
-  name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
-  idNumber: [
+  fullName: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+  identificationNumber: [
     { required: true, message: '请输入身份证号', trigger: 'blur' },
     {
       pattern: /^[1-9]\d{14}(\d{2}[0-9xX])?$/,
@@ -148,25 +158,49 @@ const rules = ref<FormRules>({
       trigger: 'blur',
     },
   ],
-  phone: [
+  phoneNumber: [
     { required: true, message: '请输入联系电话', trigger: 'blur' },
     { pattern: /^[1-9]\d{10}$/, message: '手机号格式不正确', trigger: 'blur' },
   ],
 })
 
+const editInfoActionLoading = ref(false)
 async function handleSubmit() {
   if (!personForm.value) return
-  await personForm.value.validate(valid => {
+  await personForm.value.validate(async valid => {
     if (valid) {
-      // 上传接口
+      editInfoActionLoading.value = true
+      try {
+        // 上传接口
+        if (avatarImage.value) {
+          await uploadAvatarAction(avatarImage.value)
+        }
 
-      // 个人信息修改接口
+        // 个人信息修改接口
+        await executeEditInfoAction()
 
-      ElMessage.success('个人信息修改成功')
-      model.value = false
+        await getUserInfoAction()
+
+        ElMessage.success('个人信息修改成功')
+        model.value = false
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          ElMessage.error('个人信息修改失败')
+        }
+      }
+      editInfoActionLoading.value = false
     }
   })
 }
+
+const { execute: executeEditInfoAction } = useAsyncState(
+  () => editInfoAction(personalInfo),
+  undefined,
+  {
+    immediate: false,
+    throwError: true,
+  },
+)
 
 const avatarImage = ref<File>()
 const beforeAvatarUpload: UploadProps['beforeUpload'] = rawFile => {

@@ -7,6 +7,7 @@ import { UserType } from 'src/enums/user-type.enum';
 export interface IUserInfoData {
   email: string;
   userType: UserType;
+  avatarUrl?: string;
   status: UserStatus;
   fullName?: string;
   phoneNumber?: string;

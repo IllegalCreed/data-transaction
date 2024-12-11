@@ -1,5 +1,6 @@
 import request from '@/axios'
-import type { UserInfo } from '@/types/account'
+import { omit } from 'lodash-es'
+import type { IIndividualUserInfo } from '@/types/register'
 
 export const getInfo = (): Promise<unknown> => {
   return request.get(
@@ -10,13 +11,14 @@ export const getInfo = (): Promise<unknown> => {
   )
 }
 
-export const editInfo = (userInfo: UserInfo): Promise<unknown> => {
+export const editInfo = (userInfo: IIndividualUserInfo): Promise<unknown> => {
+  const individualInfo = omit(userInfo, ['avatarUrl'])
   const data = {
-    ...userInfo,
+    ...individualInfo,
   }
   return request.put(
     {
-      url: '/api/prv/user/edit',
+      url: '/user/individual',
       data,
     },
     true,
@@ -25,11 +27,11 @@ export const editInfo = (userInfo: UserInfo): Promise<unknown> => {
 
 export const uploadAvatar = (file: File): Promise<unknown> => {
   const data = {
-    file,
+    avatar: file,
   }
-  return request.put(
+  return request.patch(
     {
-      url: '/common/upload',
+      url: '/user/avatar',
       headers: {
         'Content-Type': 'multipart/form-data',
       },
