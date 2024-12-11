@@ -25,7 +25,7 @@ export const editInfo = (userInfo: UserInfo): Promise<unknown> => {
 
 export const uploadAvatar = (file: File): Promise<unknown> => {
   const data = {
-    file,
+    avatarfile: file,
   }
   return request.put(
     {

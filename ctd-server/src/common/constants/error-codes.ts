@@ -3,6 +3,7 @@ export enum ErrorCode {
   INVALID_CREDENTIALS = 9001,
   SEND_EMAIL_FAILED = 9002,
   ACCOUNT_SUSPENDED = 9003,
+  USER_NOT_FOUND = 9004,
 
   // 注册相关
   EMAIL_TAKEN = 1001,
@@ -44,6 +45,7 @@ export enum ErrorCode {
   // 用户相关
   GET_USERINFO_FAILED = 1501,
   UPDATE_USER_AVATAR_FAILED = 1502,
+  UPDATE_USER_FAILED = 1503,
 }
 
 export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
@@ -51,6 +53,7 @@ export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
   [ErrorCode.INVALID_CREDENTIALS]: 'Invalid credentials.',
   [ErrorCode.SEND_EMAIL_FAILED]: 'Failed to send email.',
   [ErrorCode.ACCOUNT_SUSPENDED]: 'Account is suspended.',
+  [ErrorCode.USER_NOT_FOUND]: 'User not found.',
 
   // 注册相关
   [ErrorCode.EMAIL_TAKEN]: 'Email is already taken.',
@@ -107,4 +110,5 @@ export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
     'Get user info failed due to unexpected error.',
   [ErrorCode.UPDATE_USER_AVATAR_FAILED]:
     'Update user avatar failed due to unexpected error.',
+  [ErrorCode.UPDATE_USER_FAILED]: 'Update user failed due to unexpected error.',
 };

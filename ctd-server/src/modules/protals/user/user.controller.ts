@@ -1,11 +1,13 @@
 import {
   BadRequestException,
+  Body,
   Controller,
   Get,
   HttpCode,
   HttpStatus,
   ParseFilePipeBuilder,
   Patch,
+  Put,
   Request,
   UploadedFile,
   UseInterceptors,
@@ -16,6 +18,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { v4 as uuidv4 } from 'uuid';
 import { extname } from 'path';
+import { UpdateIndividualUserDto } from './dto/update-individual-user.dto';
+import { UpdateEnterpriseUserDto } from './dto/update-enterprise-user.dto';
 
 @Controller('user')
 export class UserController {
@@ -32,6 +36,36 @@ export class UserController {
     }
 
     return this.userService.getUserInfo(Number(userId));
+  }
+
+  @Put('individual')
+  @HttpCode(HttpStatus.OK)
+  async updateIndividualInfo(
+    @Request() req,
+    @Body() dto: UpdateIndividualUserDto,
+  ): Promise<ApiResponse<string>> {
+    const userId = req.user?.sub;
+    if (!userId) {
+      // 理论上走不到这里，因为全局守卫会阻止未登录用户访问
+      throw new BadRequestException('No user id found in token.');
+    }
+
+    return this.userService.updateIndividualInfo(Number(userId), dto);
+  }
+
+  @Put('enterprise')
+  @HttpCode(HttpStatus.OK)
+  async updateEnterpriseInfo(
+    @Request() req,
+    @Body() dto: UpdateEnterpriseUserDto,
+  ): Promise<ApiResponse<string>> {
+    const userId = req.user?.sub;
+    if (!userId) {
+      // 理论上走不到这里，因为全局守卫会阻止未登录用户访问
+      throw new BadRequestException('No user id found in token.');
+    }
+
+    return this.userService.updateEnterpriseInfo(Number(userId), dto);
   }
 
   @Patch('avatar')
