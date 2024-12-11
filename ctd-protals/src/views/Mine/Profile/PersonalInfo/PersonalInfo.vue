@@ -3,6 +3,7 @@
     <div flex flex-row justify-between mb-4>
       <span class="title">个人信息</span>
       <el-button
+        data-testid="edit-button"
         type="primary"
         w-30
         @click="editPersonalInfoDialogVisible = true"
@@ -14,27 +15,39 @@
       class="content"
       v-if="userinfo && userinfo.userType === UserType.Individual"
     >
-      <div flex><span class="label">姓名：</span> {{ userinfo.fullName }}</div>
       <div flex>
-        <span class="label">身份证号：</span>
-        {{ userinfo.identificationNumber }}
+        <span class="label">姓名：</span>
+        <span data-testid="full-name-span">{{ userinfo.fullName }}</span>
       </div>
       <div flex>
-        <span class="label">联系电话：</span> {{ userinfo.phoneNumber }}
+        <span class="label">身份证号：</span>
+        <span data-testid="identification-number-span">{{
+          userinfo.identificationNumber
+        }}</span>
+      </div>
+      <div flex>
+        <span class="label">联系电话：</span>
+        <span data-testid="phone-number-span">{{ userinfo.phoneNumber }}</span>
       </div>
       <div flex>
         <span class="label">性别：</span>
-        {{
-          userinfo.gender
-            ? GENDER_TYPE_MAP[userinfo.gender]
-            : GENDER_TYPE_MAP[GenderType.Other]
-        }}
+        <span data-testid="gender-span">
+          {{
+            userinfo.gender
+              ? GENDER_TYPE_MAP[userinfo.gender]
+              : GENDER_TYPE_MAP[GenderType.Other]
+          }}
+        </span>
       </div>
       <div flex>
-        <span class="label">出生日期：</span> {{ userinfo.dateOfBirth }}
+        <span class="label">出生日期：</span>
+        <span data-testid="date-of-birth-span">{{ userinfo.dateOfBirth }}</span>
       </div>
       <div flex>
-        <span class="label">住址：</span> {{ userinfo.residentialAddress }}
+        <span class="label">住址：</span>
+        <span data-testid="residential-address-span">{{
+          userinfo.residentialAddress
+        }}</span>
       </div>
       <div flex flex-row>
         <span class="label">头像：</span>

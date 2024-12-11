@@ -12,6 +12,7 @@
 
       <i-vaadin:menu
         class="icon"
+        data-testid="main-menu"
         @click="isDrawerMenuVisible = true"
       ></i-vaadin:menu>
     </div>

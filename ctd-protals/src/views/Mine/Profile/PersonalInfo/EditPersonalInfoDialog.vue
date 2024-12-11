@@ -20,6 +20,7 @@
         <!-- 头像上传 -->
         <el-form-item label="头像" prop="avatarUrl">
           <el-upload
+            data-testid="upload-avatar-button"
             class="avatar-uploader"
             action=""
             :show-file-list="false"
@@ -40,12 +41,17 @@
 
         <!-- 姓名 -->
         <el-form-item label="姓名" prop="fullName">
-          <el-input v-model="personalInfo.fullName" placeholder="请输入姓名" />
+          <el-input
+            data-testid="full-name-input"
+            v-model="personalInfo.fullName"
+            placeholder="请输入姓名"
+          />
         </el-form-item>
 
         <!-- 身份证号 -->
         <el-form-item label="身份证号" prop="identificationNumber">
           <el-input
+            data-testid="identification-number-input"
             v-model="personalInfo.identificationNumber"
             placeholder="请输入身份证号"
           />
@@ -54,6 +60,7 @@
         <!-- 联系电话 -->
         <el-form-item label="联系电话" prop="phoneNumber">
           <el-input
+            data-testid="phone-number-input"
             v-model="personalInfo.phoneNumber"
             placeholder="请输入联系电话"
           />
@@ -61,7 +68,11 @@
 
         <!-- 性别 -->
         <el-form-item label="性别">
-          <el-select v-model="personalInfo.gender" placeholder="请选择性别">
+          <el-select
+            data-testid="gender-select"
+            v-model="personalInfo.gender"
+            placeholder="请选择性别"
+          >
             <el-option label="男" value="male"></el-option>
             <el-option label="女" value="female"></el-option>
             <el-option label="其他" value="other"></el-option>
@@ -71,6 +82,7 @@
         <!-- 出生日期 -->
         <el-form-item label="出生日期" prop="dateOfBirth">
           <el-date-picker
+            id="date-of-birth-picker"
             v-model="personalInfo.dateOfBirth"
             type="date"
             placeholder="请选择出生日期"
@@ -80,6 +92,7 @@
         <!-- 住址 -->
         <el-form-item label="住址" prop="residentialAddress">
           <el-input
+            data-testid="residential-address-input"
             v-model="personalInfo.residentialAddress"
             type="textarea"
             placeholder="请输入住址"

@@ -93,6 +93,13 @@ export const useAccount = () => {
               if (result.avatarUrl) {
                 result.avatarUrl = `${import.meta.env.VITE_APP_BASE_API}/${result.avatarUrl}`
               }
+              if (result.userType === UserType.Individual) {
+                if (result.dateOfBirth) {
+                  result.dateOfBirth = dayjs(result.dateOfBirth).format(
+                    'YYYY-MM-DD',
+                  )
+                }
+              }
               userinfo.value = result
             }
             resolve()

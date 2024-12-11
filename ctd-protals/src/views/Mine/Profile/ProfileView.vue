@@ -9,7 +9,7 @@
       >测试按钮，切换个人/企业</el-button
     > -->
 
-    <base-info />
+    <base-info :loading="getUserInfoActionLoading" />
     <el-divider></el-divider>
     <el-skeleton :loading="getUserInfoActionLoading" animated>
       <template #template></template>

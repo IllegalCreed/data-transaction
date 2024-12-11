@@ -73,30 +73,32 @@
 
     <div class="menu-container">
       <!-- 个人相关菜单 -->
+      <template v-if="userinfo">
+        <div
+          class="menu-item"
+          v-for="(item, index) in mineMenus"
+          :key="index"
+          :data-testid="genTestId(item.path)"
+          @click="navigateTo(item.path)"
+        >
+          <i :class="item.icon"></i>
+          <span>{{ item.label }}</span>
+        </div>
+
+        <el-divider />
+      </template>
+
+      <!-- 导航菜单 -->
+
       <div
         class="menu-item"
-        v-for="(item, index) in mineMenus"
+        v-for="(item, index) in mainMenus"
         :key="index"
         @click="navigateTo(item.path)"
       >
         <i :class="item.icon"></i>
         <span>{{ item.label }}</span>
       </div>
-
-      <el-divider v-if="userinfo" />
-
-      <!-- 导航菜单 -->
-      <template v-if="userinfo">
-        <div
-          class="menu-item"
-          v-for="(item, index) in mainMenus"
-          :key="index"
-          @click="navigateTo(item.path)"
-        >
-          <i :class="item.icon"></i>
-          <span>{{ item.label }}</span>
-        </div>
-      </template>
 
       <el-divider />
 
@@ -223,6 +225,15 @@ onMounted(() => {
     }
   }
 })
+
+const genTestId = (path: string) => {
+  switch (path) {
+    case '/mine/profile':
+      return 'menu-profile'
+    default:
+      return 'menu-item'
+  }
+}
 </script>
 
 <style scoped lang="scss">
