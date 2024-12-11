@@ -18,7 +18,7 @@
         max-w-100
       >
         <!-- 头像上传 -->
-        <el-form-item label="头像" prop="avatar">
+        <el-form-item label="头像" prop="avatarUrl">
           <el-upload
             class="avatar-uploader"
             action=""
@@ -26,8 +26,8 @@
             :before-upload="beforeAvatarUpload"
           >
             <img
-              v-if="personalInfo.avatar"
-              :src="personalInfo.avatar"
+              v-if="personalInfo.avatarUrl"
+              :src="personalInfo.avatarUrl"
               w-40
               h-40
               object-contain
@@ -39,21 +39,24 @@
         </el-form-item>
 
         <!-- 姓名 -->
-        <el-form-item label="姓名" prop="name">
-          <el-input v-model="personalInfo.name" placeholder="请输入姓名" />
+        <el-form-item label="姓名" prop="fullName">
+          <el-input v-model="personalInfo.fullName" placeholder="请输入姓名" />
         </el-form-item>
 
         <!-- 身份证号 -->
-        <el-form-item label="身份证号" prop="idNumber">
+        <el-form-item label="身份证号" prop="identificationNumber">
           <el-input
-            v-model="personalInfo.idNumber"
+            v-model="personalInfo.identificationNumber"
             placeholder="请输入身份证号"
           />
         </el-form-item>
 
         <!-- 联系电话 -->
-        <el-form-item label="联系电话" prop="phone">
-          <el-input v-model="personalInfo.phone" placeholder="请输入联系电话" />
+        <el-form-item label="联系电话" prop="phoneNumber">
+          <el-input
+            v-model="personalInfo.phoneNumber"
+            placeholder="请输入联系电话"
+          />
         </el-form-item>
 
         <!-- 性别 -->
@@ -66,18 +69,18 @@
         </el-form-item>
 
         <!-- 出生日期 -->
-        <el-form-item label="出生日期">
+        <el-form-item label="出生日期" prop="dateOfBirth">
           <el-date-picker
-            v-model="personalInfo.birthDate"
+            v-model="personalInfo.dateOfBirth"
             type="date"
             placeholder="请选择出生日期"
           />
         </el-form-item>
 
         <!-- 住址 -->
-        <el-form-item label="住址">
+        <el-form-item label="住址" prop="residentialAddress">
           <el-input
-            v-model="personalInfo.address"
+            v-model="personalInfo.residentialAddress"
             type="textarea"
             placeholder="请输入住址"
           />
@@ -99,15 +102,38 @@
 import type { FormInstance, FormRules, UploadProps } from 'element-plus'
 
 const model = defineModel<boolean>({ required: true })
+watch(model, val => {
+  if (val) {
+    avatarImage.value = undefined
+    if (userinfo.value && userinfo.value.userType === UserType.Individual) {
+      personalInfo.fullName = userinfo.value.fullName
+      personalInfo.identificationNumber = userinfo.value.identificationNumber
+      personalInfo.phoneNumber = userinfo.value.phoneNumber
+      personalInfo.gender = userinfo.value.gender
+      personalInfo.dateOfBirth = userinfo.value.dateOfBirth
+      personalInfo.residentialAddress = userinfo.value.residentialAddress
+      personalInfo.avatarUrl = userinfo.value.avatarUrl
+    }
+  }
+})
 
-const personalInfo = reactive({
-  name: '',
-  idNumber: '',
-  phone: '',
-  gender: '',
-  birthDate: '',
-  address: '',
-  avatar: '',
+import { useAccountStore } from '@/stores/modules/account'
+import {
+  GenderType,
+  UserType,
+  type IIndividualUserInfo,
+} from '@/types/register'
+const accountStore = useAccountStore()
+const { userinfo } = storeToRefs(accountStore)
+
+const personalInfo = reactive<IIndividualUserInfo & { avatarUrl: string }>({
+  fullName: '',
+  identificationNumber: '',
+  phoneNumber: '',
+  gender: GenderType.Male,
+  dateOfBirth: '',
+  residentialAddress: '',
+  avatarUrl: '',
 })
 
 const personForm = ref<FormInstance | null>(null)
@@ -132,14 +158,20 @@ async function handleSubmit() {
   if (!personForm.value) return
   await personForm.value.validate(valid => {
     if (valid) {
+      // 上传接口
+
+      // 个人信息修改接口
+
       ElMessage.success('个人信息修改成功')
       model.value = false
     }
   })
 }
 
+const avatarImage = ref<File>()
 const beforeAvatarUpload: UploadProps['beforeUpload'] = rawFile => {
   const allowedTypes = [
+    'image/jpg',
     'image/jpeg',
     'image/png',
     'image/gif',
@@ -148,16 +180,18 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = rawFile => {
   ]
   const isAllowedType = allowedTypes.includes(rawFile.type)
   if (!isAllowedType) {
-    ElMessage.error('头像图片必须是 JPG、PNG、GIF、BMP 或 WEBP 格式！')
+    ElMessage.error('头像图片必须是 JPG、JPEG、PNG、GIF、BMP 或 WEBP 格式！')
     return false
   } else if (rawFile.size / 1024 / 1024 > 2) {
     ElMessage.error('头像图片大小不能超过 2MB！')
     return false
   }
+
+  avatarImage.value = rawFile
   const reader = new FileReader()
   reader.readAsDataURL(rawFile)
   reader.onload = () => {
-    personalInfo.avatar = reader.result as string
+    personalInfo.avatarUrl = reader.result as string
   }
 
   return false // 阻止自动上传

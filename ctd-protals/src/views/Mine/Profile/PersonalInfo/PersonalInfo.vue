@@ -38,7 +38,9 @@
       </div>
       <div flex flex-row>
         <span class="label">头像：</span>
-        <img :src="userinfo.avatar" alt="头像" />
+        <el-avatar :size="100" :src="userinfo.avatarUrl">
+          <img :src="defaultUserAvatar" />
+        </el-avatar>
       </div>
     </div>
 
@@ -51,6 +53,10 @@ import EditPersonalInfoDialog from './EditPersonalInfoDialog.vue'
 import { UserType } from '@/types/register'
 import { GENDER_TYPE_MAP, GenderType } from '@/types/register'
 import { useAccountStore } from '@/stores/modules/account'
+
+const defaultUserAvatar = new URL('@/assets/icon/user.png', import.meta.url)
+  .href
+
 const accountStore = useAccountStore()
 const { userinfo } = storeToRefs(accountStore)
 
@@ -71,10 +77,6 @@ const editPersonalInfoDialogVisible = ref(false)
 
   .content {
     @apply grid grid-cols-2 gap-4 mt-4;
-
-    img {
-      @apply ml-2 w-24 h-24 rounded-full object-cover;
-    }
 
     @media (max-width: 40rem) {
       @apply grid-cols-1;

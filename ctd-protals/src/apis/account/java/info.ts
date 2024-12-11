@@ -1,4 +1,5 @@
 import request from '@/axios'
+import type { UserInfo } from '@/types/account'
 
 export const getInfo = (): Promise<unknown> => {
   return request.get(
@@ -9,10 +10,14 @@ export const getInfo = (): Promise<unknown> => {
   )
 }
 
-export const editInfo = (): Promise<unknown> => {
-  return request.post(
+export const editInfo = (userInfo: UserInfo): Promise<unknown> => {
+  const data = {
+    ...userInfo,
+  }
+  return request.put(
     {
-      url: '/login',
+      url: '/api/prv/user/edit',
+      data,
     },
     true,
   )

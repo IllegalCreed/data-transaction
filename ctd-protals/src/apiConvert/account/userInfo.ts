@@ -138,7 +138,7 @@ export const userInfoConverter = (info: unknown): UserInfo => {
     return {
       userName: javaRes.user.userName,
       email: javaRes.user.email,
-      avatar: javaRes.user.avatar,
+      avatarUrl: javaRes.user.avatar,
       userType: UserType.Individual,
       fullName: javaRes.user.nickName,
       identificationNumber: javaRes.user.idCard,
@@ -156,7 +156,7 @@ export const userInfoConverter = (info: unknown): UserInfo => {
     return {
       userName: javaRes.user.userName,
       email: javaRes.user.email,
-      avatar: javaRes.user.avatar,
+      avatarUrl: javaRes.user.avatar,
       userType: UserType.Enterprise,
       enterpriseName: javaRes.user.nickName,
       enterpriseDescription: javaRes.user.sysEnterprise.entRemark,

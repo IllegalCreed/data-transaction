@@ -3,6 +3,7 @@ import { useSettingsStore } from '../settings'
 import {
   logout as logoutAPI,
   // resetPwd as resetPwdAPI,
+  uploadAvatar as uploadAvatarAPI,
   getInfo as getInfoAPI,
 } from '@/apis/account'
 import {
@@ -99,6 +100,23 @@ export const useAccount = () => {
     })
   }
 
+  const uploadAvatar = (file: File): Promise<void> => {
+    return new Promise<void>((resolve, reject) => {
+      if (settingsStore.mockEnabled) {
+        resolve()
+      } else {
+        uploadAvatarAPI(file)
+          .then(() => {
+            resolve()
+          })
+          .catch((error: Error) => {
+            reject(error)
+          })
+          .finally(() => {})
+      }
+    })
+  }
+
   return {
     logout,
     resetPwd,
@@ -106,5 +124,6 @@ export const useAccount = () => {
     getUserInfo,
     mockInfoType,
     setMockInfoType,
+    uploadAvatar,
   }
 }
