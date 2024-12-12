@@ -57,7 +57,7 @@ export const useAccount = () => {
             resolve()
             tokenStore.clearToken()
           })
-          .catch((error: Error) => {
+          .catch((error: unknown) => {
             reject(error)
           })
           .finally(() => {})
@@ -104,7 +104,7 @@ export const useAccount = () => {
             }
             resolve()
           })
-          .catch((error: Error) => {
+          .catch((error: unknown) => {
             reject(error)
           })
           .finally(() => {})
@@ -121,7 +121,7 @@ export const useAccount = () => {
           .then(() => {
             resolve()
           })
-          .catch((error: Error) => {
+          .catch((error: unknown) => {
             reject(error)
           })
           .finally(() => {})
@@ -138,7 +138,7 @@ export const useAccount = () => {
           .then(() => {
             resolve()
           })
-          .catch((error: Error) => {
+          .catch((error: unknown) => {
             reject(error)
           })
           .finally(() => {})

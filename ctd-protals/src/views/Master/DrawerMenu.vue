@@ -157,7 +157,10 @@ const {
 const {
   isLoading: getUserInfoActionLoading,
   execute: executeGetUserInfoAction,
-} = useAsyncState(() => getUserInfoAction(), undefined, { immediate: false })
+} = useAsyncState(() => getUserInfoAction(), undefined, {
+  immediate: false,
+  throwError: true,
+})
 
 const model = defineModel<boolean>({ required: true })
 const isSettingDialogVisible = ref(false)
@@ -211,17 +214,23 @@ watchEffect(() => {
 import { useTokenStore } from '@/stores/modules/token'
 const { token } = useTokenStore()
 
-onMounted(() => {
-  getMainMenusAction()
-  getMineMenusAction()
-  getSystemSettingMenusAction()
-  getLogoutMenuAction()
+onMounted(async () => {
+  try {
+    await getMainMenusAction()
+    await getMineMenusAction()
+    await getSystemSettingMenusAction()
+    await getLogoutMenuAction()
+  } catch {
+    console.error('内置数据异常')
+  }
 
   if (token) {
     try {
-      executeGetUserInfoAction()
+      await executeGetUserInfoAction()
     } catch (error: unknown) {
-      console.error(error)
+      if (error instanceof Error) {
+        console.error('获取个人信息失败')
+      }
     }
   }
 })

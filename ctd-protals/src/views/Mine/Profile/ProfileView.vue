@@ -59,11 +59,13 @@ const {
   throwError: true,
 })
 
-onMounted(() => {
+onMounted(async () => {
   try {
-    executeGetUserInfoAction()
+    await executeGetUserInfoAction()
   } catch (error: unknown) {
-    console.error(error)
+    if (error instanceof Error) {
+      console.error('获取个人信息失败')
+    }
   }
 })
 </script>
