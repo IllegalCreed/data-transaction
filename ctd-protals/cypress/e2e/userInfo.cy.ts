@@ -225,7 +225,11 @@ describe('修改个人信息', () => {
 
   it('不登录，进入个人资料页，提示401', () => {
     cy.visit('/mine/profile')
-    cy.contains('401').should('be.visible')
+    if (Cypress.env('serverType') === 'java') {
+      cy.contains('认证失败').should('be.visible')
+    } else {
+      cy.contains('401').should('be.visible')
+    }
   })
 
   it('个人信息表单，姓名不合规，给予对应提示', () => {
@@ -366,10 +370,7 @@ describe('修改个人信息', () => {
         // 断言请求响应成功
         expect(interception.response?.statusCode).to.equal(200)
 
-        expect(interception.response?.body).to.have.property(
-          'msg',
-          'AVATAR_UPDATED',
-        )
+        expect(interception.response?.body).to.have.property('msg', '操作成功')
       })
     } else {
       cy.intercept('PATCH', /\/(?:dev-api\/)?user\/avatar/).as(

@@ -4,6 +4,7 @@ import {
   GenderType,
   IndustryType,
   UserType,
+  type IIndividualUserInfo,
 } from '@/types/register'
 
 // java的返回值离谱，个人和企业的详细信息还差一个层级，nickname居然用来存公司名称，居然密码都给返回来了
@@ -138,7 +139,7 @@ export const userInfoConverter = (info: unknown): UserInfo => {
     return {
       userName: javaRes.user.userName,
       email: javaRes.user.email,
-      avatarUrl: javaRes.user.avatar,
+      avatarUrl: `${import.meta.env.VITE_APP_BASE_API}${javaRes.user.avatar}`,
       userType: UserType.Individual,
       fullName: javaRes.user.nickName,
       identificationNumber: javaRes.user.idCard,
@@ -156,7 +157,7 @@ export const userInfoConverter = (info: unknown): UserInfo => {
     return {
       userName: javaRes.user.userName,
       email: javaRes.user.email,
-      avatarUrl: javaRes.user.avatar,
+      avatarUrl: `${import.meta.env.VITE_APP_BASE_API}${javaRes.user.avatar}`,
       userType: UserType.Enterprise,
       enterpriseName: javaRes.user.nickName,
       enterpriseDescription: javaRes.user.sysEnterprise.entRemark,
@@ -168,5 +169,25 @@ export const userInfoConverter = (info: unknown): UserInfo => {
       industryType: javaRes.user.sysEnterprise.industryCategory as IndustryType,
       companySize: javaRes.user.sysEnterprise.entScale as CompanySizeType,
     }
+  }
+}
+
+export const individualUserInfoConverter = (
+  info: IIndividualUserInfo,
+): {
+  address?: string
+  birthday?: string
+  idCard: string
+  phonenumber: string
+  sex: string
+  nickName: string
+} => {
+  return {
+    nickName: info.fullName,
+    idCard: info.identificationNumber,
+    phonenumber: info.phoneNumber,
+    sex: info.gender === GenderType.Male ? '0' : '1',
+    birthday: dayjs(info.dateOfBirth).format('YYYY-MM-DD'),
+    address: info.residentialAddress,
   }
 }

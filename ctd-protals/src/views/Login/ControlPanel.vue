@@ -204,15 +204,18 @@ const closeCaptcha = () => {
 }
 
 const checkCaptcha = async () => {
-  try {
-    const needShowCaptcha = await checkCaptchaAction(loginInfo.value.email)
-    if (needShowCaptcha) {
-      getCaptcha()
-    } else {
+  if (import.meta.env.VITE_BACK_TYPE === 'java') {
+  } else {
+    try {
+      const needShowCaptcha = await checkCaptchaAction(loginInfo.value.email)
+      if (needShowCaptcha) {
+        getCaptcha()
+      } else {
+        closeCaptcha()
+      }
+    } catch {
       closeCaptcha()
     }
-  } catch {
-    closeCaptcha()
   }
 }
 

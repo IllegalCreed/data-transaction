@@ -229,7 +229,7 @@ onMounted(async () => {
       await executeGetUserInfoAction()
     } catch (error: unknown) {
       if (error instanceof Error) {
-        console.error('获取个人信息失败')
+        ElMessage.error('获取个人信息失败')
       }
     }
   }

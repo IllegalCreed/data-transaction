@@ -1,3 +1,4 @@
+import { individualUserInfoConverter } from '@/apiConvert/account/userInfo'
 import request from '@/axios'
 import type { IIndividualUserInfo } from '@/types/register'
 
@@ -12,7 +13,7 @@ export const getInfo = (): Promise<unknown> => {
 
 export const editInfo = (userInfo: IIndividualUserInfo): Promise<unknown> => {
   const data = {
-    ...userInfo,
+    ...individualUserInfoConverter(userInfo),
   }
   return request.put(
     {
