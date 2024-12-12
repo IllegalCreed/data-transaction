@@ -52,7 +52,7 @@ describe('修改个人信息', () => {
     )
     cy.get('[data-testid="date-of-birth-span"]').should(
       'have.text',
-      formatDate(),
+      formatDate(testUser.birthday),
     )
     cy.get('[data-testid="residential-address-span"]').should(
       'have.text',
@@ -80,11 +80,68 @@ describe('修改个人信息', () => {
       'contain.text',
       GENDER_TYPE_MAP[testUser.gender],
     )
+    cy.get('#date-of-birth-picker').and(
+      'have.value',
+      formatDate(testUser.birthday),
+    )
+    cy.get('[data-testid="residential-address-input"]').should(
+      'have.value',
+      testUser.address,
+    )
+
+    // 修改个人资料
+    cy.get('[data-testid="full-name-input"]').clear()
+    testUser.name = 'test user 2'
+    cy.get('[data-testid="full-name-input"]').type(testUser.name)
+
+    cy.get('[data-testid="identification-number-input"]').clear()
+    testUser.idNumber = '11010119900101111X'
+    cy.get('[data-testid="identification-number-input"]').type(
+      testUser.idNumber,
+    )
+
+    cy.get('[data-testid="phone-number-input"]').clear()
+    testUser.phone = '19999999999'
+    cy.get('[data-testid="phone-number-input"]').type(testUser.phone)
+
+    cy.get('[data-testid="gender-select"]').click()
+    testUser.gender = 'female'
+    cy.get(`[data-testid="gender-option-${testUser.gender}"]`).click()
+
+    cy.get('#date-of-birth-picker').click()
+    testUser.birthday = '16'
+    cy.get('.el-picker-panel__body .el-date-table td.available')
+      .contains(testUser.birthday)
+      .click()
+
+    cy.get('[data-testid="residential-address-input"]').clear()
+    testUser.address = 'test address 2'
+    cy.get('[data-testid="residential-address-input"]').type(testUser.address)
+
+    cy.get('[data-testid="submit-button"]').click()
+    cy.contains('个人信息修改成功').should('be.visible')
+
+    // 验证修改后的值是否正确
+    cy.get('[data-testid="full-name-input"]').should(
+      'have.value',
+      testUser.name,
+    )
+    cy.get('[data-testid="identification-number-input"]').should(
+      'have.value',
+      testUser.idNumber,
+    )
     cy.get('[data-testid="phone-number-input"]').should(
       'have.value',
       testUser.phone,
     )
-    cy.get('#date-of-birth-picker').and('have.value', formatDate())
+    cy.get('[data-testid="gender-select"]').should(
+      'contain.text',
+      GENDER_TYPE_MAP[testUser.gender],
+    )
+    cy.get('#date-of-birth-picker').and(
+      'have.value',
+      formatDate(testUser.birthday),
+    )
     cy.get('[data-testid="residential-address-input"]').should(
       'have.value',
       testUser.address,
@@ -166,13 +223,179 @@ describe('修改个人信息', () => {
     cy.get('[data-testid="menu-profile"]').should('not.exist')
   })
 
-  it.only('不登录，进入个人资料页，提示401', () => {
+  it('不登录，进入个人资料页，提示401', () => {
     cy.visit('/mine/profile')
     cy.contains('401').should('be.visible')
   })
+
+  it('个人信息表单，姓名不合规，给予对应提示', () => {
+    cy.login(testUser.email, testUser.password)
+    cy.visit('/')
+
+    // 点击主菜单，进入个人资料页
+    cy.get('[data-testid="main-menu"]').click()
+    cy.get('[data-testid="menu-profile"]').should('be.visible').click()
+
+    // 点击修改按钮，进入修改页面
+    cy.get('[data-testid="edit-button"]').click()
+    cy.get('.edit-personal-dialog-container').should('be.visible')
+
+    // 检测必填项
+    cy.get('[data-testid="full-name-input"]').clear()
+    cy.get('[data-testid="full-name-input"]').blur()
+    cy.contains('请输入姓名').should('be.visible')
+  })
+
+  it('个人信息表单，身份证号不合规，给予对应提示', () => {
+    cy.login(testUser.email, testUser.password)
+    cy.visit('/')
+
+    // 点击主菜单，进入个人资料页
+    cy.get('[data-testid="main-menu"]').click()
+    cy.get('[data-testid="menu-profile"]').should('be.visible').click()
+
+    // 点击修改按钮，进入修改页面
+    cy.get('[data-testid="edit-button"]').click()
+    cy.get('.edit-personal-dialog-container').should('be.visible')
+
+    // 检测必填项
+    cy.get('[data-testid="identification-number-input"]').clear()
+    cy.get('[data-testid="identification-number-input"]').blur()
+    cy.contains('请输入身份证号').should('be.visible')
+
+    // 检测格式合规
+    const useCase = ['1234', '11010519990101136V']
+    for (const item of useCase) {
+      cy.get('[data-testid="identification-number-input"]').clear()
+      cy.get('[data-testid="identification-number-input"]').type(item)
+      cy.get('[data-testid="identification-number-input"]').blur()
+      cy.contains('身份证号格式不正确').should('be.visible')
+    }
+  })
+
+  it('个人信息表单，手机号不合规，给予对应提示', () => {
+    cy.login(testUser.email, testUser.password)
+    cy.visit('/')
+
+    // 点击主菜单，进入个人资料页
+    cy.get('[data-testid="main-menu"]').click()
+    cy.get('[data-testid="menu-profile"]').should('be.visible').click()
+
+    // 点击修改按钮，进入修改页面
+    cy.get('[data-testid="edit-button"]').click()
+    cy.get('.edit-personal-dialog-container').should('be.visible')
+
+    // 检测必填项
+    cy.get('[data-testid="phone-number-input"]').clear()
+    cy.get('[data-testid="phone-number-input"]').blur()
+    cy.contains('请输入联系电话').should('be.visible')
+
+    // 检测格式合规
+    const useCase = ['1234', '93336666999']
+    for (const item of useCase) {
+      cy.get('[data-testid="phone-number-input"]').clear()
+      cy.get('[data-testid="phone-number-input"]').type(item)
+      cy.get('[data-testid="phone-number-input"]').blur()
+      cy.contains('手机号格式不正确').should('be.visible')
+    }
+  })
+
+  it('个人信息表单，上传头像不合规，给予对应提示', () => {
+    cy.login(testUser.email, testUser.password)
+    cy.visit('/')
+
+    // 点击主菜单，进入个人资料页
+    cy.get('[data-testid="main-menu"]').click()
+    cy.get('[data-testid="menu-profile"]').should('be.visible').click()
+
+    // 点击修改按钮，进入修改页面
+    cy.get('[data-testid="edit-button"]').click()
+    cy.get('.edit-personal-dialog-container').should('be.visible')
+
+    const uploadButton =
+      '[data-testid="upload-avatar-button"] .el-upload__input'
+
+    // 封装上传文件并验证错误消息的函数
+    const uploadAndCheckError = (filePath: string, errorMessage: string) => {
+      cy.get(uploadButton).selectFile(filePath, { force: true })
+      cy.contains(errorMessage).should('be.visible')
+    }
+
+    // 测试1：上传格式错误的文件
+    uploadAndCheckError(
+      'cypress/fixtures/invalid-file.txt', // fixture 文件路径
+      '头像图片必须是 JPG、JPEG、PNG、GIF、BMP 或 WEBP 格式！', // 预期的错误消息
+    )
+
+    // 测试2：上传超过大小限制的图片文件
+    uploadAndCheckError(
+      'cypress/fixtures/large-image.jpg', // fixture 文件路径
+      '头像图片大小不能超过 2MB！', // 预期的错误消息
+    )
+  })
+
+  it('个人信息表单，上传头像，成功触发上传接口', () => {
+    cy.login(testUser.email, testUser.password)
+    cy.visit('/')
+
+    // 点击主菜单，进入个人资料页
+    cy.get('[data-testid="main-menu"]').click()
+    cy.get('[data-testid="menu-profile"]').should('be.visible').click()
+
+    // 点击修改按钮，进入修改页面
+    cy.get('[data-testid="edit-button"]').click()
+    cy.get('.edit-personal-dialog-container').should('be.visible')
+
+    const uploadButton =
+      '[data-testid="upload-avatar-button"] .el-upload__input'
+
+    cy.get(uploadButton).selectFile('cypress/fixtures/normal.png', {
+      force: true,
+    })
+
+    if (Cypress.env('serverType') === 'java') {
+      cy.intercept('POST', /\/(?:dev-api\/)?system\/user\/profile\/avatar/).as(
+        'uploadAvatarRequest',
+      )
+
+      // 点击提交按钮
+      cy.get('[data-testid="submit-button"]').click()
+
+      // 等待上传接口调用完成
+      cy.wait('@uploadAvatarRequest').then(interception => {
+        // 断言请求响应成功
+        expect(interception.response?.statusCode).to.equal(200)
+
+        expect(interception.response?.body).to.have.property(
+          'msg',
+          'AVATAR_UPDATED',
+        )
+      })
+    } else {
+      cy.intercept('PATCH', /\/(?:dev-api\/)?user\/avatar/).as(
+        'uploadAvatarRequest',
+      )
+
+      // 点击提交按钮
+      cy.get('[data-testid="submit-button"]').click()
+
+      // 等待上传接口调用完成
+      cy.wait('@uploadAvatarRequest').then(interception => {
+        // 断言请求响应成功
+        expect(interception.response?.statusCode).to.equal(200)
+
+        expect(interception.response?.body).to.have.property(
+          'msg',
+          'AVATAR_UPDATED',
+        )
+      })
+    }
+
+    cy.contains('个人信息修改成功').should('be.visible')
+  })
 })
 
-const formatDate = () => {
+const formatDate = (birthday: string) => {
   // 获取当前日期
   const now = new Date()
 
@@ -181,7 +404,7 @@ const formatDate = () => {
   const month = now.getMonth() // 注意：月份从0开始，0表示1月
 
   // 创建本月15号的日期对象
-  const date = new Date(year, month, 15)
+  const date = new Date(year, month, Number(birthday))
 
   // 提取年份、月份和日期
   const formattedYear = date.getFullYear()

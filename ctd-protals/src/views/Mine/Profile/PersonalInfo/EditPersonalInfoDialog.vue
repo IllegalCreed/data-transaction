@@ -73,9 +73,13 @@
             v-model="personalInfo.gender"
             placeholder="请选择性别"
           >
-            <el-option label="男" value="male"></el-option>
-            <el-option label="女" value="female"></el-option>
-            <el-option label="其他" value="other"></el-option>
+            <el-option
+              v-for="item in genderTypeOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+              :data-testid="`gender-option-${item.value}`"
+            ></el-option>
           </el-select>
         </el-form-item>
 
@@ -106,6 +110,7 @@
         <el-button
           class="btn"
           type="primary"
+          data-testid="submit-button"
           :loading="editInfoActionLoading"
           @click="handleSubmit"
         >
@@ -137,6 +142,7 @@ watch(model, val => {
 
 import { useAccountStore } from '@/stores/modules/account'
 import {
+  GENDER_TYPE_MAP,
   GenderType,
   UserType,
   type IIndividualUserInfo,
@@ -243,6 +249,11 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = rawFile => {
 
   return false // 阻止自动上传
 }
+
+const genderTypeOptions = Object.values(GenderType).map(value => ({
+  value,
+  label: GENDER_TYPE_MAP[value],
+}))
 </script>
 
 <style lang="scss" scoped>

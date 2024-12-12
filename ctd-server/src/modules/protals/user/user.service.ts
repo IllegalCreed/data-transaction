@@ -108,7 +108,7 @@ export class UserService {
     try {
       await this.userRepository.save(user);
       this.logger.log(`个人信息更新成功：${user.email}`);
-      return createSuccessResponse('USER_INDIVIDUAL_INFO_UPDATED');
+      return createSuccessResponse(null, 'USER_INDIVIDUAL_INFO_UPDATED');
     } catch (error) {
       this.logger.error('更新个人信息失败', error);
       return createErrorResponse(ErrorCode.UPDATE_USER_FAILED);
@@ -157,7 +157,7 @@ export class UserService {
     try {
       await this.userRepository.save(user);
       this.logger.log(`企业信息更新成功：${user.email}`);
-      return createSuccessResponse('USER_ENTERPRISE_INFO_UPDATED');
+      return createSuccessResponse(null, 'USER_ENTERPRISE_INFO_UPDATED');
     } catch (error) {
       this.logger.error('更新企业信息失败', error);
       return createErrorResponse(ErrorCode.UPDATE_USER_FAILED);
@@ -178,7 +178,7 @@ export class UserService {
     try {
       await this.userRepository.save(user);
       this.logger.log(`更新头像成功：${user.email}`);
-      return createSuccessResponse('AVATAR_UPDATED');
+      return createSuccessResponse(null, 'AVATAR_UPDATED');
     } catch (error) {
       this.logger.error('更新头像失败', error);
       return createErrorResponse(ErrorCode.UPDATE_USER_AVATAR_FAILED);

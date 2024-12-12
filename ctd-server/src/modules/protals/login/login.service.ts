@@ -369,7 +369,7 @@ export class LoginService {
       try {
         await this.userRepository.save(user);
         this.logger.log(`解冻用户成功：用户已解冻：${email}`);
-        return createSuccessResponse('RESET_USER_STATUS_SUCCEED');
+        return createSuccessResponse(null, 'RESET_USER_STATUS_SUCCEED');
       } catch (error) {
         this.logger.error('解冻用户失败', error);
         throw new ExpectedError(ErrorCode.RESET_USER_STATUS_FAILED);
@@ -378,6 +378,6 @@ export class LoginService {
 
     this.logger.log(`解冻用户成功：用户未被冻结：${email}`);
     // 如果用户本身未冻结，则返回无操作状态
-    return createSuccessResponse('NOT_NEED_TO_RESET');
+    return createSuccessResponse(null, 'NOT_NEED_TO_RESET');
   }
 }
