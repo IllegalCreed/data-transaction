@@ -5,8 +5,8 @@ export const getLinks = (): Promise<unknown> => {
   return request.get(
     {
       url: '/getLinks',
-      params
+      params,
     },
-    false
+    false,
   )
 }

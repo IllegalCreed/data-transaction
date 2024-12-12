@@ -1,7 +1,10 @@
+import type { BannerType } from '@/constants/mapData/banner'
+
 export interface IBanner {
   id: number | string
   imageUrl: string
-  route?: string
+  type: BannerType
+  payload?: string
 }
 
 export interface IModule {

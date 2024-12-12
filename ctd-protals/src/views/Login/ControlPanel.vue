@@ -92,6 +92,11 @@
           >注册</span
         ></span
       >
+
+      <div flex flex-col mt-4 text-xs>
+        <span>testusereoC2ETRQ@example.com</span>
+        <span>Password@123!</span>
+      </div>
     </div>
   </div>
 </template>

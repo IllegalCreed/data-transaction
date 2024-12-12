@@ -3,22 +3,59 @@
     <el-carousel-item
       v-for="item in banners"
       :key="item.id"
-      :class="{ 'cursor-pointer': item.route }"
-      @click="item.route ? navigateTo(item.route) : null"
+      :class="{ 'cursor-pointer': item.type !== BannerType.None }"
+      @click="item ? navigateTo(item) : null"
     >
-      <img :src="item.imageUrl" alt="Banner" class="home-carousel-banner-image" />
+      <img
+        :src="item.imageUrl"
+        alt="Banner"
+        class="home-carousel-banner-image"
+      />
     </el-carousel-item>
   </el-carousel>
 </template>
 
 <script setup lang="ts">
+import { BannerType } from '@/constants/mapData/banner'
 import { useHomeStore } from '@/stores/modules/home'
+import type { IBanner } from '@/types/home'
 const homeStore = useHomeStore()
 const { banners } = storeToRefs(homeStore)
 
 const router = useRouter()
-const navigateTo = (route: string) => {
-  router.push(route)
+const navigateTo = (data: IBanner) => {
+  switch (data.type) {
+    case BannerType.None:
+      break
+    case BannerType.OuterLink:
+      if (!data.payload) return
+      window.open(data.payload, '_blank')
+      break
+    case BannerType.Scene:
+      router.push({
+        name: 'scene-detail',
+        params: {
+          id: data.payload,
+        },
+      })
+      break
+    case BannerType.Product:
+      router.push({
+        name: 'product-detail',
+        params: {
+          id: data.payload,
+        },
+      })
+      break
+    case BannerType.Demand:
+      router.push({
+        name: 'demand-detail',
+        params: {
+          id: data.payload,
+        },
+      })
+      break
+  }
 }
 
 const carouselArrow = ref<'always' | 'hover' | 'never'>('hover')

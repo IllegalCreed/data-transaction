@@ -14,9 +14,13 @@
         </div>
       </template>
       <template #default>
-        <a class="link-item" v-for="item of links" :key="item.id" :href="item.link">{{
-          item.title
-        }}</a>
+        <a
+          class="link-item"
+          v-for="item of links"
+          :key="item.id"
+          :href="item.link"
+          >{{ item.title }}</a
+        >
       </template>
     </el-skeleton>
   </div>
@@ -28,10 +32,11 @@ const masterStore = useMasterStore()
 const { links } = storeToRefs(masterStore)
 const { getLinks: getLinksAction } = masterStore
 
-const { isLoading: getLinksActionLoading, execute: executeGetLinksAction } = useAsyncState(
-  getLinksAction(),
-  undefined
-)
+const { isLoading: getLinksActionLoading, execute: executeGetLinksAction } =
+  useAsyncState(getLinksAction(), undefined, {
+    immediate: false,
+    throwError: true,
+  })
 
 onMounted(() => {
   try {

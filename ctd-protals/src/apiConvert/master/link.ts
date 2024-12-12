@@ -1,5 +1,5 @@
-import type { IPartner } from '@/types/home'
-export interface IPartnerFetchData {
+import type { ILink } from '@/types/master'
+export interface ILinkFetchData {
   bizCompanyCode: ''
   bizCompanyName: ''
   bizCompanyInfo: ''
@@ -9,14 +9,12 @@ export interface IPartnerFetchData {
   }
 }
 
-export const partnerConvert = (raws: IPartnerFetchData[]) => {
-  const result: IPartner[] = []
+export const linkConvert = (raws: ILinkFetchData[]) => {
+  const result: ILink[] = []
   for (const row of raws) {
     result.push({
       id: row.bizCompanyCode,
       title: row.bizCompanyName,
-      description: row.bizCompanyInfo,
-      imageUrl: row.sysFile?.url,
       link: row.bizUrl ?? '',
     })
   }
