@@ -1,11 +1,11 @@
 import type { ILink } from '@/types/master'
 export interface ILinkFetchData {
-  bizCompanyCode: ''
-  bizCompanyName: ''
-  bizCompanyInfo: ''
-  bizUrl: ''
+  bizCompanyCode: string
+  bizCompanyName: string
+  bizCompanyInfo: string
+  bizUrl: string
   sysFile: {
-    url: ''
+    url: string
   }
 }
 

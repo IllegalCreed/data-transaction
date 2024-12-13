@@ -37,18 +37,23 @@ const { cases } = storeToRefs(sceneStore)
 const { getCases: getCasesAction } = sceneStore
 
 const { isLoading: getCasesActionLoading, execute: executeGetCasesAction } =
-  useAsyncState(() => getCasesAction(), undefined)
+  useAsyncState(() => getCasesAction(1, 20), undefined, {
+    immediate: false,
+    throwError: true,
+  })
 
 const isMobileDevice = useMediaQuery('(max-width: 40rem)')
 const aosDelay = (index: number) => {
   return isMobileDevice.value ? 0 : (index % 4) * 50
 }
 
-onMounted(() => {
+onMounted(async () => {
   try {
-    executeGetCasesAction()
+    await executeGetCasesAction()
   } catch (error: unknown) {
-    console.error(error)
+    if (error instanceof Error) {
+      ElMessage.error('获取场景列表失败')
+    }
   }
 })
 </script>

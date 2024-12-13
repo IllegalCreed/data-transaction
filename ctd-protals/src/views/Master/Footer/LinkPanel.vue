@@ -38,11 +38,13 @@ const { isLoading: getLinksActionLoading, execute: executeGetLinksAction } =
     throwError: true,
   })
 
-onMounted(() => {
+onMounted(async () => {
   try {
-    executeGetLinksAction()
+    await executeGetLinksAction()
   } catch (error: unknown) {
-    console.error(error)
+    if (error instanceof Error) {
+      ElMessage.error('获取友情链接失败')
+    }
   }
 })
 </script>

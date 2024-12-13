@@ -50,6 +50,7 @@ export const useSettingsStore = defineStore('settings', () => {
     { key: '登录', value: false, children: [] },
     { key: '账户', value: false, children: [] },
     { key: '首页', value: false, children: [] },
+    { key: '场景', value: false, children: [] },
   ])
 
   const findMockTreeValueByKey = (key: string) => {

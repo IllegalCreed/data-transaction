@@ -80,12 +80,14 @@ const aosDelay = (index: number) => {
   return isMobileDevice.value ? 0 : index * 100
 }
 
-onMounted(() => {
+onMounted(async () => {
   try {
-    executeGetPartnersAction()
-    executeGetTopPartnersAction()
+    await executeGetPartnersAction()
+    await executeGetTopPartnersAction()
   } catch (error: unknown) {
-    console.error(error)
+    if (error instanceof Error) {
+      ElMessage.error('获取合作伙伴失败')
+    }
   }
 })
 </script>

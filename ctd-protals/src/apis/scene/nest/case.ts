@@ -1,25 +1,31 @@
 import request from '@/axios'
 
-export const getCases = (): Promise<unknown> => {
-  const params = {}
+export const getCases = (
+  pageNum: number,
+  pageSize: number,
+): Promise<unknown> => {
+  const params = {
+    pageNum,
+    pageSize,
+  }
   return request.post(
     {
       url: '/getCases',
-      params
+      params,
     },
-    false
+    false,
   )
 }
 
 export const getScene = (id: number | string): Promise<unknown> => {
   const params = {
-    id
+    id,
   }
   return request.post(
     {
       url: `/getScene/${id}`,
-      params
+      params,
     },
-    false
+    false,
   )
 }

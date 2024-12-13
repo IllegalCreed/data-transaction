@@ -21,6 +21,7 @@ import { useHomeStore } from '@/stores/modules/home'
 import type { IBanner } from '@/types/home'
 const homeStore = useHomeStore()
 const { banners } = storeToRefs(homeStore)
+const { getBanners: getBannersAction } = homeStore
 
 const router = useRouter()
 const navigateTo = (data: IBanner) => {
@@ -69,8 +70,14 @@ watchEffect(() => {
   }
 })
 
-onMounted(() => {
-  homeStore.getBanners()
+onMounted(async () => {
+  try {
+    await getBannersAction()
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      ElMessage.error('获取横幅失败')
+    }
+  }
 })
 </script>
 

@@ -1,11 +1,11 @@
 import type { IPartner } from '@/types/home'
 export interface IPartnerFetchData {
-  bizCompanyCode: ''
-  bizCompanyName: ''
-  bizCompanyInfo: ''
-  bizUrl: ''
+  bizCompanyCode: string
+  bizCompanyName: string
+  bizCompanyInfo: string
+  bizUrl: string
   sysFile: {
-    url: ''
+    url: string
   }
 }
 
