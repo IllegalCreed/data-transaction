@@ -14,7 +14,8 @@ export const individualUsers: IIndividualUser[] = [
     phoneNumber: '111-222-3333',
     gender: GenderType.Male,
     dateOfBirth: '1985-05-12',
-    residentialAddress: '123 Main St, Springfield, IL'
+    residentialAddress: '123 Main St, Springfield, IL',
+    avatarUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href
   },
   {
     id: 2,
@@ -28,7 +29,8 @@ export const individualUsers: IIndividualUser[] = [
     phoneNumber: '222-333-4444',
     gender: GenderType.Female,
     dateOfBirth: '1990-07-20',
-    residentialAddress: '456 Oak St, Chicago, IL'
+    residentialAddress: '456 Oak St, Chicago, IL',
+    avatarUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href
   },
   {
     id: 3,
@@ -42,7 +44,8 @@ export const individualUsers: IIndividualUser[] = [
     phoneNumber: '333-444-5555',
     gender: GenderType.Male,
     dateOfBirth: '1982-02-28',
-    residentialAddress: '789 Pine St, New York, NY'
+    residentialAddress: '789 Pine St, New York, NY',
+    avatarUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href
   },
   {
     id: 4,
@@ -56,7 +59,8 @@ export const individualUsers: IIndividualUser[] = [
     phoneNumber: '444-555-6666',
     gender: GenderType.Female,
     dateOfBirth: '1995-11-15',
-    residentialAddress: '101 Maple Ave, San Francisco, CA'
+    residentialAddress: '101 Maple Ave, San Francisco, CA',
+    avatarUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href
   },
   {
     id: 5,
@@ -70,7 +74,8 @@ export const individualUsers: IIndividualUser[] = [
     phoneNumber: '555-666-7777',
     gender: GenderType.Male,
     dateOfBirth: '1992-09-09',
-    residentialAddress: '202 Birch Rd, Austin, TX'
+    residentialAddress: '202 Birch Rd, Austin, TX',
+    avatarUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href
   },
   {
     id: 6,
