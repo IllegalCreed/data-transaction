@@ -26,12 +26,22 @@
             </div>
           </template>
           <template #default>
-            <news-item v-for="item in newsList?.slice(1, 6)" :key="item.id" :news="item" />
+            <news-item
+              v-for="item in newsList?.slice(1, 6)"
+              :key="item.id"
+              :news="item"
+            />
           </template>
         </el-skeleton>
       </div>
     </div>
-    <el-button class="default-btn" self-center mt-10 round size="large" @click="goNews"
+    <el-button
+      class="default-btn"
+      self-center
+      mt-10
+      round
+      size="large"
+      @click="goNews"
       >查看更多</el-button
     >
   </div>
@@ -49,14 +59,14 @@ const { getNewsList: getNewsListAction } = newsStore
 const router = useRouter()
 const goNews = () => {
   router.push({
-    name: 'news'
+    name: 'news',
   })
 }
 
-const { isLoading: getNewsListActionLoading, execute: executeGetNewsListAction } = useAsyncState(
-  getNewsListAction(1, 10),
-  undefined
-)
+const {
+  isLoading: getNewsListActionLoading,
+  execute: executeGetNewsListAction,
+} = useAsyncState(getNewsListAction(1, 7), undefined)
 
 onMounted(() => {
   try {

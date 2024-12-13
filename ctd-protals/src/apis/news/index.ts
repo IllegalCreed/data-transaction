@@ -1,28 +1,22 @@
-import request from '@/axios'
+import * as javaNews from './java/news'
+import * as nestNews from './nest/news'
 
-export const getNewsList = (pageNum: number, pageSize: number): Promise<unknown> => {
-  const params = {
-    pageNum,
-    pageSize
-  }
-  return request.post(
-    {
-      url: '/getNewsList',
-      params
-    },
-    false
-  )
+interface INewsAPI {
+  getNewsList: (pageNum: number, pageSize: number) => Promise<unknown>
+  getNews: (id: number | string) => Promise<unknown>
 }
 
-export const getNews = (id: string | number): Promise<unknown> => {
-  const params = {
-    id
-  }
-  return request.post(
-    {
-      url: '/getNews',
-      params
-    },
-    false
-  )
+type NewsAPIType = INewsAPI
+
+const javaAPI: NewsAPIType = {
+  ...javaNews,
 }
+
+const nestAPI: NewsAPIType = {
+  ...nestNews,
+}
+
+const newsAPI: NewsAPIType =
+  import.meta.env.VITE_BACK_TYPE === 'java' ? javaAPI : nestAPI
+
+export const { getNewsList, getNews } = newsAPI

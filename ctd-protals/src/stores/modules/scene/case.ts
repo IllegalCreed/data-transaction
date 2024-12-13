@@ -27,7 +27,7 @@ export const useCases = () => {
           .then((res: unknown) => {
             if (import.meta.env.VITE_BACK_TYPE === 'java') {
               const resData = res as ICommonReturn<ISceneFetchData>
-              cases.value = scenesConvert(resData.rows!)
+              cases.value = scenesConvert(resData.rows)
             } else {
               cases.value = res as IScene[]
             }
@@ -56,7 +56,7 @@ export const useCases = () => {
           .then((res: unknown) => {
             if (import.meta.env.VITE_BACK_TYPE === 'java') {
               const resData = res as ICommonReturn<ISceneFetchData>
-              resolve(sceneConvert(resData.data!))
+              resolve(sceneConvert(resData.data))
             } else {
               const result = res as IScene
               resolve(result)

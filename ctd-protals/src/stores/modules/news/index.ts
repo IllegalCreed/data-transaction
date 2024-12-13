@@ -1,14 +1,24 @@
 import { defineStore } from 'pinia'
 import { useSettingsStore } from '@/stores/modules/settings'
 import type { INews, INewsItem } from '@/types/news'
-import { getNewsList as getNewsListAPI, getNews as getNewsAPI } from '@/apis/news'
+import {
+  getNewsList as getNewsListAPI,
+  getNews as getNewsAPI,
+} from '@/apis/news'
 import {
   newsList as mockNewsList,
-  newsDetails as mockNewsDetails
+  newsDetails as mockNewsDetails,
 } from '@/constants/mockData/home/news'
+import type { ICommonReturn } from '@/axios/type'
+import {
+  newsConvert,
+  newsListConvert,
+  type INewsFetchData,
+} from '@/apiConvert/news'
 
 export const useNewsStore = defineStore('news', () => {
   const settingsStore = useSettingsStore()
+  const { findMockTreeValueByKey } = settingsStore
 
   /**
    * 新闻列表
@@ -17,7 +27,7 @@ export const useNewsStore = defineStore('news', () => {
 
   const getNewsList = (pageNum: number, pageSize: number): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('首页')) {
         window.setTimeout(() => {
           newsList.value = mockNewsList
           resolve()
@@ -25,7 +35,12 @@ export const useNewsStore = defineStore('news', () => {
       } else {
         getNewsListAPI(pageNum, pageSize)
           .then((res: unknown) => {
-            newsList.value = res as INewsItem[]
+            if (import.meta.env.VITE_BACK_TYPE === 'java') {
+              const resData = res as ICommonReturn<INewsFetchData>
+              newsList.value = newsListConvert(resData.rows)
+            } else {
+              newsList.value = res as INewsItem[]
+            }
             resolve()
           })
           .catch((error: unknown) => {
@@ -37,9 +52,11 @@ export const useNewsStore = defineStore('news', () => {
 
   const getNews = (id: string | number): Promise<INews> => {
     return new Promise<INews>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('首页')) {
         window.setTimeout(() => {
-          const sceneDetail = mockNewsDetails.find((item) => item.id === Number(id))
+          const sceneDetail = mockNewsDetails.find(
+            item => item.id === Number(id),
+          )
           if (sceneDetail) {
             resolve(sceneDetail)
           } else {
@@ -49,8 +66,13 @@ export const useNewsStore = defineStore('news', () => {
       } else {
         getNewsAPI(id)
           .then((res: unknown) => {
-            const result = res as INews
-            resolve(result)
+            if (import.meta.env.VITE_BACK_TYPE === 'java') {
+              const resData = res as ICommonReturn<INewsFetchData>
+              resolve(newsConvert(resData.data))
+            } else {
+              const result = res as INews
+              resolve(result)
+            }
           })
           .catch((error: unknown) => {
             reject(error)
@@ -62,6 +84,6 @@ export const useNewsStore = defineStore('news', () => {
   return {
     newsList,
     getNewsList,
-    getNews
+    getNews,
   }
 })

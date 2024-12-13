@@ -12,7 +12,7 @@ export interface ISceneFetchData {
   }[]
 }
 
-export const scenesConvert = (raws: ISceneFetchData[]) => {
+export const scenesConvert = (raws: ISceneFetchData[]): IScene[] => {
   const result: IScene[] = []
   for (const row of raws) {
     result.push({
@@ -31,7 +31,7 @@ export const scenesConvert = (raws: ISceneFetchData[]) => {
   return result
 }
 
-export const sceneConvert = (raw: ISceneFetchData) => {
+export const sceneConvert = (raw: ISceneFetchData): IScene => {
   return {
     id: raw.bizSceneCode,
     title: raw.bizSceneName,
