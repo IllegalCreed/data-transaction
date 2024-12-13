@@ -64,15 +64,15 @@ import { USER_STATUS_MAP, USER_STATUS_COLOR_MAP, UserStatus } from '@/constants/
 const stautsColor = (status: UserStatus) => USER_STATUS_COLOR_MAP[status]
 const statusLabel = (status: UserStatus) => USER_STATUS_MAP[status]
 
-import { GENDER_STATUS_MAP, GENDER_STATUS_COLOR_MAP, GenderType } from '@/constants/mapData/user'
-const genderColor = (gender: GenderType) => GENDER_STATUS_COLOR_MAP[gender]
-const genderLabel = (gender: GenderType) => GENDER_STATUS_MAP[gender]
+import { GENDER_TYPES_MAP, GENDER_TYPES_COLOR_MAP, GenderType } from '@/constants/mapData/user'
+const genderColor = (gender: GenderType) => GENDER_TYPES_COLOR_MAP[gender]
+const genderLabel = (gender: GenderType) => GENDER_TYPES_MAP[gender]
 
 const router = useRouter()
 
 const goDetail = (id: number | string) => {
   router.push({
-    name: 'user-detail',
+    name: 'individual-detail',
     params: {
       id
     }

@@ -1,4 +1,4 @@
-import { CompanySize, IndustryType, UserStatus, UserType } from '@/constants/mapData/user'
+import { CompanySizeType, IndustryType, UserStatus, UserType } from '@/constants/mapData/user'
 import type { IEnterpriseUser } from '@/types/user'
 
 export const enterpriseUsers: IEnterpriseUser[] = [
@@ -17,7 +17,7 @@ export const enterpriseUsers: IEnterpriseUser[] = [
     contactPhoneNumber: '123-456-7890',
     enterpriseAddress: '123 Tech Street, Silicon Valley, CA',
     industryType: IndustryType.InformationTechnology,
-    companySize: CompanySize.Large
+    companySize: CompanySizeType.Large
   },
   {
     id: 2,
@@ -34,7 +34,7 @@ export const enterpriseUsers: IEnterpriseUser[] = [
     contactPhoneNumber: '234-567-8901',
     enterpriseAddress: '456 Green Avenue, New York, NY',
     industryType: IndustryType.Utilities,
-    companySize: CompanySize.Medium
+    companySize: CompanySizeType.Medium
   },
   {
     id: 3,
@@ -51,7 +51,7 @@ export const enterpriseUsers: IEnterpriseUser[] = [
     contactPhoneNumber: '345-678-9012',
     enterpriseAddress: '789 Food Road, Chicago, IL',
     industryType: IndustryType.Manufacturing,
-    companySize: CompanySize.Large
+    companySize: CompanySizeType.Large
   },
   {
     id: 4,
@@ -68,7 +68,7 @@ export const enterpriseUsers: IEnterpriseUser[] = [
     contactPhoneNumber: '456-789-0123',
     enterpriseAddress: '321 Eco Lane, San Francisco, CA',
     industryType: IndustryType.Construction,
-    companySize: CompanySize.Medium
+    companySize: CompanySizeType.Medium
   },
   {
     id: 5,
@@ -85,7 +85,7 @@ export const enterpriseUsers: IEnterpriseUser[] = [
     contactPhoneNumber: '567-890-1234',
     enterpriseAddress: '123 Wave Avenue, Los Angeles, CA',
     industryType: IndustryType.CultureEntertainment,
-    companySize: CompanySize.Small
+    companySize: CompanySizeType.Small
   },
   {
     id: 6,
@@ -102,7 +102,7 @@ export const enterpriseUsers: IEnterpriseUser[] = [
     contactPhoneNumber: '678-901-2345',
     enterpriseAddress: '432 Logistics Park, Dallas, TX',
     industryType: IndustryType.Transportation,
-    companySize: CompanySize.Large
+    companySize: CompanySizeType.Large
   },
   {
     id: 7,
@@ -119,7 +119,7 @@ export const enterpriseUsers: IEnterpriseUser[] = [
     contactPhoneNumber: '789-012-3456',
     enterpriseAddress: '654 Aqua Road, Miami, FL',
     industryType: IndustryType.WaterConservancy,
-    companySize: CompanySize.Medium
+    companySize: CompanySizeType.Medium
   },
   {
     id: 8,
@@ -136,7 +136,7 @@ export const enterpriseUsers: IEnterpriseUser[] = [
     contactPhoneNumber: '890-123-4567',
     enterpriseAddress: '987 Fashion Street, Paris, France',
     industryType: IndustryType.WholesaleRetail,
-    companySize: CompanySize.Small
+    companySize: CompanySizeType.Small
   },
   {
     id: 9,
@@ -153,7 +153,7 @@ export const enterpriseUsers: IEnterpriseUser[] = [
     contactPhoneNumber: '123-789-4560',
     enterpriseAddress: '321 FinTech Plaza, London, UK',
     industryType: IndustryType.Finance,
-    companySize: CompanySize.ExtraLarge
+    companySize: CompanySizeType.ExtraLarge
   },
   {
     id: 10,
@@ -170,6 +170,6 @@ export const enterpriseUsers: IEnterpriseUser[] = [
     contactPhoneNumber: '234-567-8901',
     enterpriseAddress: '123 Retail Road, Toronto, Canada',
     industryType: IndustryType.WholesaleRetail,
-    companySize: CompanySize.Medium
+    companySize: CompanySizeType.Medium
   }
 ]

@@ -1,4 +1,9 @@
-import type { CompanySize, GenderType, IndustryType, UserStatus } from '@/constants/mapData/user'
+import type {
+  CompanySizeType,
+  GenderType,
+  IndustryType,
+  UserStatus
+} from '@/constants/mapData/user'
 import type { UserType } from '@/constants/mapData/user'
 
 export interface IUserBase {
@@ -29,7 +34,7 @@ export interface IEnterpriseUser extends IUserBase {
   contactPhoneNumber: string
   enterpriseAddress: string
   industryType: IndustryType
-  companySize: CompanySize
+  companySize: CompanySizeType
 }
 
 export type IIndividualUserItem = Omit<

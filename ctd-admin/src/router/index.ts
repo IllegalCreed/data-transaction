@@ -36,10 +36,24 @@ const router = createRouter({
               meta: { belong: '/home/user/individual', title: '个人用户' }
             },
             {
+              path: 'individual-detail/:id',
+              component: () =>
+                import('@/views/User/Individual/IndividualDetail/IndividualDetailView.vue'),
+              name: 'individual-detail',
+              meta: { belong: '/home/user/individual', title: '个人用户详情' }
+            },
+            {
               path: 'enterprise',
               name: 'user-enterprise',
               component: () => import('@/views/User/Enterprise/EnterpriseUserView.vue'),
               meta: { belong: '/home/user/enterprise', title: '企业用户' }
+            },
+            {
+              path: 'enterprise-detail/:id',
+              component: () =>
+                import('@/views/User/Enterprise/EnterpriseDetail/EnterpriseDetailView.vue'),
+              name: 'enterprise-detail',
+              meta: { belong: '/home/user/enterprise', title: '企业用户详情' }
             }
           ]
         },
