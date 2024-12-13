@@ -67,8 +67,8 @@
 </template>
 
 <script setup lang="ts">
-import type { IIndividualUserItem } from '@/types/user'
-defineProps<{ data: IIndividualUserItem[]; loading: boolean }>()
+import type { IEnterpriseUserItem } from '@/types/user'
+defineProps<{ data: IEnterpriseUserItem[]; loading: boolean }>()
 
 import { USER_STATUS_MAP, USER_STATUS_COLOR_MAP, UserStatus } from '@/constants/mapData/user'
 const stautsColor = (status: UserStatus) => USER_STATUS_COLOR_MAP[status]

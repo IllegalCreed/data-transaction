@@ -17,7 +17,8 @@ export const enterpriseUsers: IEnterpriseUser[] = [
     contactPhoneNumber: '123-456-7890',
     enterpriseAddress: '123 Tech Street, Silicon Valley, CA',
     industryType: IndustryType.InformationTechnology,
-    companySize: CompanySizeType.Large
+    companySize: CompanySizeType.Large,
+    avatarUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href
   },
   {
     id: 2,
@@ -34,7 +35,8 @@ export const enterpriseUsers: IEnterpriseUser[] = [
     contactPhoneNumber: '234-567-8901',
     enterpriseAddress: '456 Green Avenue, New York, NY',
     industryType: IndustryType.Utilities,
-    companySize: CompanySizeType.Medium
+    companySize: CompanySizeType.Medium,
+    avatarUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href
   },
   {
     id: 3,
@@ -51,7 +53,8 @@ export const enterpriseUsers: IEnterpriseUser[] = [
     contactPhoneNumber: '345-678-9012',
     enterpriseAddress: '789 Food Road, Chicago, IL',
     industryType: IndustryType.Manufacturing,
-    companySize: CompanySizeType.Large
+    companySize: CompanySizeType.Large,
+    avatarUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href
   },
   {
     id: 4,
