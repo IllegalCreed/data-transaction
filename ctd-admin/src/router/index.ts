@@ -24,13 +24,27 @@ const router = createRouter({
           redirect: '/home/user'
         },
         {
-          path: '/home/user',
-          component: () => import('@/views/User/UserView.vue'),
+          path: 'user',
           name: 'user',
-          meta: { belong: '/home/user', title: '用户管理' }
+          component: () => import('@/views/User/UserView.vue'),
+          redirect: '/home/user/individual',
+          children: [
+            {
+              path: 'individual',
+              name: 'user-individual',
+              component: () => import('@/views/User/Individual/IndividualUserView.vue'),
+              meta: { belong: '/home/user/individual', title: '个人用户' }
+            },
+            {
+              path: 'enterprise',
+              name: 'user-enterprise',
+              component: () => import('@/views/User/Enterprise/EnterpriseUserView.vue'),
+              meta: { belong: '/home/user/enterprise', title: '企业用户' }
+            }
+          ]
         },
         {
-          path: '/home/banner',
+          path: 'banner',
           component: () => import('@/views/Banner/BannerView.vue'),
           name: 'banner',
           meta: { belong: '/home/banner', title: '横幅管理' }

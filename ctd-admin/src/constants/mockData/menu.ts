@@ -1,7 +1,23 @@
 import type { IMenu } from '@/types/common'
 
 export const mainMenus: IMenu[] = [
-  { path: '/home/user', label: '用户管理', icon: 'i-solar:user-linear' },
+  {
+    path: '/home/user',
+    label: '用户管理',
+    icon: 'i-solar:user-linear',
+    children: [
+      {
+        path: '/home/user/individual',
+        label: '个人用户',
+        icon: 'i-mynaui:users'
+      },
+      {
+        path: '/home/user/enterprise',
+        label: '企业用户',
+        icon: 'i-ph:users-three'
+      }
+    ]
+  },
   { path: '/home/banner', label: '横幅管理', icon: 'i-ph:flag-banner-fold' },
   { path: '/home/company', label: '公司管理', icon: 'i-streamline:business-handshake' },
   { path: '/home/scene', label: '场景管理', icon: 'i-carbon:application-web' },

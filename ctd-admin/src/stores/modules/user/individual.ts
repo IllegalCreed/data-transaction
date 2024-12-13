@@ -1,0 +1,74 @@
+import { useSettingsStore } from '../settings'
+import type { UserStatus } from '@/constants/mapData/user'
+import type { apiListResult } from '@/types/common'
+import type { IIndividualUser, IIndividualUserItem } from '@/types/user'
+import {
+  getIndividualUsers as getIndividualUsersAPI,
+  getIndividualUser as getIndividualUserAPI
+} from '@/apis/user'
+
+import { individualUsers as mockIndividualUsers } from '@/constants/mockData/user/individual'
+
+export const useIndividual = () => {
+  const settingsStore = useSettingsStore()
+
+  const getIndividualUsers = (
+    searchQuery: string,
+    status: UserStatus | null,
+    pageNum: number,
+    pageSize: number
+  ): Promise<apiListResult<IIndividualUserItem>> => {
+    return new Promise<apiListResult<IIndividualUserItem>>((resolve, reject) => {
+      if (settingsStore.mockEnabled) {
+        window.setTimeout(() => {
+          const result = mockIndividualUsers.filter((item) => {
+            const statusMatch = status ? item.status === status : true
+            const searchMatch = searchQuery ? item.fullName.includes(searchQuery) : true
+            return statusMatch && searchMatch
+          })
+          resolve({ total: result.length, rows: result })
+        }, 1000)
+      } else {
+        getIndividualUsersAPI(searchQuery, status, pageNum, pageSize)
+          .then((res) => {
+            const result = res as apiListResult<IIndividualUserItem>
+            resolve(result)
+          })
+          .catch((error: Error) => {
+            reject(error)
+          })
+          .finally(() => {})
+      }
+    })
+  }
+
+  const getIndividualUser = (id: string | number): Promise<IIndividualUser> => {
+    return new Promise<IIndividualUser>((resolve, reject) => {
+      if (settingsStore.mockEnabled) {
+        window.setTimeout(() => {
+          const result = mockIndividualUsers.find((item) => item.id === Number(id))
+          if (result) {
+            resolve(result)
+          } else {
+            reject(new Error('User not found'))
+          }
+        }, 1000)
+      } else {
+        getIndividualUserAPI(id)
+          .then((res) => {
+            const result = res as IIndividualUser
+            resolve(result)
+          })
+          .catch((error: Error) => {
+            reject(error)
+          })
+          .finally(() => {})
+      }
+    })
+  }
+
+  return {
+    getIndividualUsers,
+    getIndividualUser
+  }
+}
