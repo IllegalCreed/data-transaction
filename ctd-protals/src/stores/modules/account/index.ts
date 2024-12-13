@@ -13,6 +13,8 @@ export const useAccountStore = defineStore('account', () => {
     getUserInfo,
     mockInfoType,
     setMockInfoType,
+    uploadAvatar,
+    editInfo,
   } = useAccount()
   const { login, getCaptcha, checkCaptcha, getAd, links, getLinks } = useLogin()
   const {
@@ -50,6 +52,8 @@ export const useAccountStore = defineStore('account', () => {
       getUserInfo,
       mockInfoType,
       setMockInfoType,
+      uploadAvatar,
+      editInfo,
       links,
       getLinks,
       getAd,

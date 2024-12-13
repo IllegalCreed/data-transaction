@@ -21,6 +21,9 @@ export class User extends BaseEntity {
   })
   userType: UserType;
 
+  @Column({ nullable: true })
+  avatarUrl?: string;
+
   @OneToOne(() => IndividualUserInfo, (individualInfo) => individualInfo.user, {
     cascade: true,
     nullable: true,
@@ -49,5 +52,5 @@ export class User extends BaseEntity {
   activations: UserActivation[];
 
   @OneToMany(() => LoginLog, (loginLog) => loginLog.user)
-  loginLogs: LoginLog[]; // 定义反向关系
+  loginLogs: LoginLog[];
 }

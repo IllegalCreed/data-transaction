@@ -1,9 +1,5 @@
 import request from '@/axios'
 
-export const logout = (): Promise<unknown> => {
-  return request.post({ url: '/logout' })
-}
-
 export const resetPwd = (oldPwd: string, newPwd: string): Promise<unknown> => {
   const params = {
     oldPassword: oldPwd,
@@ -16,10 +12,6 @@ export const resetPwd = (oldPwd: string, newPwd: string): Promise<unknown> => {
     },
     true,
   )
-}
-
-export const getInfo = (): Promise<unknown> => {
-  return request.get({ url: '/getInfoAPI' })
 }
 
 export const getSecurityInfo = (): Promise<unknown> => {

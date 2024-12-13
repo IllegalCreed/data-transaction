@@ -10,7 +10,7 @@ export const registInfoConverter = (info: RegistrationInfo) => {
       idCard: info.individualInfo.identificationNumber,
       phonenumber: info.individualInfo.phoneNumber,
       address: info.individualInfo.residentialAddress,
-      birthday: info.individualInfo.dateOfBirth,
+      birthday: dayjs(info.individualInfo.dateOfBirth).format('YYYY-MM-DD'),
       sex: info.individualInfo.gender === GenderType.Male ? '0' : '1',
     }
   } else if (info.userType === UserType.Enterprise) {

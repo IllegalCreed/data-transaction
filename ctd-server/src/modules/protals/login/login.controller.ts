@@ -1,8 +1,19 @@
-import { Controller, Post, Body, Get, Query, Request } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Query,
+  Request,
+  HttpCode,
+  Patch,
+  HttpStatus,
+  BadRequestException,
+} from '@nestjs/common';
 import { LoginService } from './login.service';
 import { LoginDto } from './dto/login.dto';
 import { GetLoginLogsDto } from './dto/get-login-logs.dto';
-import { LoginLogDto } from './dto/login-log.dto';
+import { ILoginLog } from './interface/login-log.interface';
 import { Public } from 'src/common/decorators/is-public.decorator';
 import { ApiResponse } from 'src/common/interfaces/api-response.interface';
 
@@ -33,14 +44,35 @@ export class LoginController {
   async getLoginLogs(
     @Request() req,
     @Query() getLoginLogsDto: GetLoginLogsDto,
-  ): Promise<ApiResponse<{ data: LoginLogDto[]; total: number }>> {
+  ): Promise<ApiResponse<{ data: ILoginLog[]; total: number }>> {
     const userId = req.user?.sub; // 提取 userId
     return this.loginService.getLoginLogs(userId, getLoginLogsDto);
   }
 
   @Get('last-log')
-  async getLastLoginLog(@Request() req): Promise<ApiResponse<LoginLogDto>> {
+  async getLastLoginLog(@Request() req): Promise<ApiResponse<ILoginLog>> {
     const userId = req.user?.sub;
     return this.loginService.getLastLoginLog(userId);
+  }
+
+  @Public()
+  @Patch('test/reset-user-status')
+  @HttpCode(HttpStatus.OK)
+  async resetUserStatusForTesting(
+    @Body('email') email: string,
+  ): Promise<ApiResponse<string>> {
+    // 在非生产环境中，禁止使用此端点
+    const nodeEnv = process.env.NODE_ENV || 'development';
+    if (nodeEnv !== 'development') {
+      throw new BadRequestException(
+        'This endpoint is only available in testing environments.',
+      );
+    }
+
+    // 测试接口，不使用DTO，简化处理
+    if (!email) {
+      throw new BadRequestException('Email is required.');
+    }
+    return this.loginService.resetUserStatusForTesting(email);
   }
 }

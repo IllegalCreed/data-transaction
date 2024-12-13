@@ -90,8 +90,9 @@ axiosInstance.interceptors.response.use(
     if (import.meta.env.VITE_BACK_TYPE === 'java') {
       const code = response.data.code ?? 200
       if (code === 401) {
-        const tokenStore = useTokenStore()
-        tokenStore.clearToken()
+        // const tokenStore = useTokenStore()
+        // tokenStore.clearToken()
+        ElMessage.error(response.data.msg)
         return Promise.reject(
           new Error('无效的会话，或者会话已过期，请重新登录。'),
         )
@@ -137,9 +138,15 @@ const mixConfig = (
   option: AxiosRequestConfig,
   hasToken: boolean,
 ): AxiosRequestConfig => {
+  let token = useTokenStore().token
+  if (import.meta.env.VITE_BACK_TYPE === 'java') {
+    token = 'Bearer ' + token
+  } else {
+    token = 'Bearer ' + token
+  }
   const headers = {
     'Content-Type': 'application/json;charset=utf-8',
-    Authorization: hasToken ? useTokenStore().token : '',
+    Authorization: hasToken ? token : '',
     ...option.headers,
   }
   return { ...option, headers }
@@ -189,6 +196,9 @@ export default {
   },
   put: (option: AxiosRequestConfig, hasToken: boolean = true) => {
     return request({ method: 'put', ...mixConfig(option, hasToken) })
+  },
+  patch: (option: AxiosRequestConfig, hasToken: boolean = true) => {
+    return request({ method: 'patch', ...mixConfig(option, hasToken) })
   },
   cancelRequest: (url: string | string[]) => {
     const urlList = Array.isArray(url) ? url : [url]

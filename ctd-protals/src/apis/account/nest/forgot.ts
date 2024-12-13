@@ -10,6 +10,6 @@ export const resetPasswordByToken = (
       url: '/forgot/reset-password',
       data,
     },
-    true,
+    false,
   )
 }

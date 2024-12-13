@@ -4,9 +4,9 @@ export const getBanners = (): Promise<unknown> => {
   const params = {}
   return request.get(
     {
-      url: '/getBanners',
-      params
+      url: '/api/c/common/listBanner',
+      params,
     },
-    false
+    false,
   )
 }

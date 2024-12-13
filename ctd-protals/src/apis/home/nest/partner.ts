@@ -1,31 +1,23 @@
 import request from '@/axios'
 
 export const getTopPartner = (): Promise<unknown> => {
-  const params = {
-    pageNum: 1,
-    pageSize: 0,
-    noticeType: 5
-  }
+  const params = {}
   return request.get(
     {
       url: '/api/t/common/listNotice',
-      params
+      params,
     },
-    false
+    false,
   )
 }
 
 export const getPartner = (): Promise<unknown> => {
-  const params = {
-    pageNum: 1,
-    pageSize: 8,
-    noticeType: 4
-  }
+  const params = {}
   return request.get(
     {
       url: '/api/t/common/listNotice',
-      params
+      params,
     },
-    false
+    false,
   )
 }

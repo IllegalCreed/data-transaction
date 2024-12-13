@@ -9,7 +9,7 @@ import { IndividualUserInfo } from 'src/entities/individual-user-info.entity';
 import { EnterpriseUserInfo } from 'src/entities/enterprise-user-info.entity';
 import { UserActivation } from 'src/entities/user-activation.entity';
 import { CreateUserDto } from './dto/create-user.dto';
-import { MailerService } from 'src/modules/mailer/mailer.service';
+import { MailerService } from 'src/modules/protals/mailer/mailer.service';
 import { ApiResponse } from 'src/common/interfaces/api-response.interface';
 import {
   generateToken,

@@ -4,7 +4,12 @@
     <el-skeleton :loading="getTopPartnersActionLoading" animated>
       <template #template>
         <div class="partner-top-list-container">
-          <el-skeleton-item v-for="n in 2" :key="n" variant="rect" class="!h-32"></el-skeleton-item>
+          <el-skeleton-item
+            v-for="n in 2"
+            :key="n"
+            variant="rect"
+            class="!h-32"
+          ></el-skeleton-item>
         </div>
       </template>
       <template #default>
@@ -22,7 +27,12 @@
     <el-skeleton :loading="getPartnersActionLoading" animated>
       <template #template>
         <div class="partner-list-container">
-          <el-skeleton-item v-for="n in 8" :key="n" variant="rect" class="!h-32"></el-skeleton-item>
+          <el-skeleton-item
+            v-for="n in 8"
+            :key="n"
+            variant="rect"
+            class="!h-32"
+          ></el-skeleton-item>
         </div>
       </template>
       <template #default>
@@ -47,26 +57,37 @@ import PartnerItem from './PartnerItem.vue'
 import { useHomeStore } from '@/stores/modules/home'
 const homeStore = useHomeStore()
 const { partners, topPartners } = storeToRefs(homeStore)
-const { getPartners: getPartnersAction, getTopPartners: getTopPartnersAction } = homeStore
+const { getPartners: getPartnersAction, getTopPartners: getTopPartnersAction } =
+  homeStore
 
-const { isLoading: getPartnersActionLoading, execute: executeGetPartnersAction } = useAsyncState(
-  getPartnersAction(),
-  undefined
-)
-const { isLoading: getTopPartnersActionLoading, execute: executeGetTopPartnersAction } =
-  useAsyncState(getTopPartnersAction(), undefined)
+const {
+  isLoading: getPartnersActionLoading,
+  execute: executeGetPartnersAction,
+} = useAsyncState(getPartnersAction(), undefined, {
+  immediate: false,
+  throwError: true,
+})
+const {
+  isLoading: getTopPartnersActionLoading,
+  execute: executeGetTopPartnersAction,
+} = useAsyncState(getTopPartnersAction(), undefined, {
+  immediate: false,
+  throwError: true,
+})
 
 const isMobileDevice = useMediaQuery('(max-width: 40rem)')
 const aosDelay = (index: number) => {
   return isMobileDevice.value ? 0 : index * 100
 }
 
-onMounted(() => {
+onMounted(async () => {
   try {
-    executeGetPartnersAction()
-    executeGetTopPartnersAction()
+    await executeGetPartnersAction()
+    await executeGetTopPartnersAction()
   } catch (error: unknown) {
-    console.error(error)
+    if (error instanceof Error) {
+      ElMessage.error('获取合作伙伴失败')
+    }
   }
 })
 </script>

@@ -1,42 +1,23 @@
 import type { IPartner } from '@/types/home'
-interface IAdFetchData {
-  createBy: ''
-  createTime: ''
-  noticeCode: ''
-  noticeContent: ''
-  noticeId: number
-  noticeTime?: ''
-  noticeTitle: ''
-  noticeType: ''
-  remark?: ''
-  status: ''
-  sysFileList: {
-    columnId: number
-    createBy: ''
-    createTime: ''
-    fileCode: ''
-    fileSize: ''
-    fileType: ''
-    name: ''
-    remark?: ''
-    updateBy: ''
-    updateTime?: ''
-    url: ''
-  }[]
-  updateBy: ''
-  updateTime?: ''
+export interface IPartnerFetchData {
+  bizCompanyCode: string
+  bizCompanyName: string
+  bizCompanyInfo: string
+  bizUrl: string
+  sysFile: {
+    url: string
+  }
 }
 
-export const partnerConvert = (raw: unknown) => {
-  const data = raw as IAdFetchData[]
+export const partnerConvert = (raws: IPartnerFetchData[]) => {
   const result: IPartner[] = []
-  for (const row of data) {
+  for (const row of raws) {
     result.push({
-      id: row.noticeCode,
-      title: row.noticeTitle,
-      description: row.noticeContent,
-      imageUrl: row.sysFileList[0].url,
-      link: row.remark ?? '',
+      id: row.bizCompanyCode,
+      title: row.bizCompanyName,
+      description: row.bizCompanyInfo,
+      imageUrl: row.sysFile?.url,
+      link: row.bizUrl ?? '',
     })
   }
   return result

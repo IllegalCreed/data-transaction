@@ -3,6 +3,7 @@
     <div flex flex-row justify-between mb-4>
       <span class="title">个人信息</span>
       <el-button
+        data-testid="edit-button"
         type="primary"
         w-30
         @click="editPersonalInfoDialogVisible = true"
@@ -14,31 +15,49 @@
       class="content"
       v-if="userinfo && userinfo.userType === UserType.Individual"
     >
-      <div flex><span class="label">姓名：</span> {{ userinfo.fullName }}</div>
       <div flex>
-        <span class="label">身份证号：</span>
-        {{ userinfo.identificationNumber }}
+        <span class="label">姓名：</span>
+        <span data-testid="full-name-span">{{ userinfo.fullName }}</span>
       </div>
       <div flex>
-        <span class="label">联系电话：</span> {{ userinfo.phoneNumber }}
+        <span class="label">身份证号：</span>
+        <span data-testid="identification-number-span">{{
+          userinfo.identificationNumber
+        }}</span>
+      </div>
+      <div flex>
+        <span class="label">联系电话：</span>
+        <span data-testid="phone-number-span">{{ userinfo.phoneNumber }}</span>
       </div>
       <div flex>
         <span class="label">性别：</span>
-        {{
-          userinfo.gender
-            ? GENDER_TYPE_MAP[userinfo.gender]
-            : GENDER_TYPE_MAP[GenderType.Other]
-        }}
+        <span data-testid="gender-span">
+          {{
+            userinfo.gender
+              ? GENDER_TYPE_MAP[userinfo.gender]
+              : GENDER_TYPE_MAP[GenderType.Other]
+          }}
+        </span>
       </div>
       <div flex>
-        <span class="label">出生日期：</span> {{ userinfo.dateOfBirth }}
+        <span class="label">出生日期：</span>
+        <span data-testid="date-of-birth-span">{{ userinfo.dateOfBirth }}</span>
       </div>
       <div flex>
-        <span class="label">住址：</span> {{ userinfo.residentialAddress }}
+        <span class="label">住址：</span>
+        <span data-testid="residential-address-span">{{
+          userinfo.residentialAddress
+        }}</span>
       </div>
       <div flex flex-row>
         <span class="label">头像：</span>
-        <img :src="userinfo.avatar" alt="头像" />
+        <el-avatar
+          class="!bg-transparent"
+          :size="100"
+          :src="userinfo.avatarUrl"
+        >
+          <img :src="defaultUserAvatar" />
+        </el-avatar>
       </div>
     </div>
 
@@ -51,6 +70,10 @@ import EditPersonalInfoDialog from './EditPersonalInfoDialog.vue'
 import { UserType } from '@/types/register'
 import { GENDER_TYPE_MAP, GenderType } from '@/types/register'
 import { useAccountStore } from '@/stores/modules/account'
+
+const defaultUserAvatar = new URL('@/assets/icon/user.png', import.meta.url)
+  .href
+
 const accountStore = useAccountStore()
 const { userinfo } = storeToRefs(accountStore)
 
@@ -71,10 +94,6 @@ const editPersonalInfoDialogVisible = ref(false)
 
   .content {
     @apply grid grid-cols-2 gap-4 mt-4;
-
-    img {
-      @apply ml-2 w-24 h-24 rounded-full object-cover;
-    }
 
     @media (max-width: 40rem) {
       @apply grid-cols-1;

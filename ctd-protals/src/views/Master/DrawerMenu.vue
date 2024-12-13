@@ -24,7 +24,13 @@
         </template>
         <template #default>
           <div v-if="userinfo" flex flex-row items-center>
-            <img w-14 h-14 rounded-full :src="userinfo.avatar" />
+            <el-avatar
+              class="!bg-transparent"
+              :size="60"
+              :src="userinfo.avatarUrl"
+            >
+              <img :src="defaultUserAvatar" />
+            </el-avatar>
             <div flex flex-col items-start ml-4 space-y-2>
               <span text-lg font-bold>{{
                 userinfo.userType === UserType.Individual
@@ -67,19 +73,23 @@
 
     <div class="menu-container">
       <!-- 个人相关菜单 -->
-      <div
-        class="menu-item"
-        v-for="(item, index) in mineMenus"
-        :key="index"
-        @click="navigateTo(item.path)"
-      >
-        <i :class="item.icon"></i>
-        <span>{{ item.label }}</span>
-      </div>
+      <template v-if="userinfo">
+        <div
+          class="menu-item"
+          v-for="(item, index) in mineMenus"
+          :key="index"
+          :data-testid="genTestId(item.path)"
+          @click="navigateTo(item.path)"
+        >
+          <i :class="item.icon"></i>
+          <span>{{ item.label }}</span>
+        </div>
 
-      <el-divider />
+        <el-divider />
+      </template>
 
       <!-- 导航菜单 -->
+
       <div
         class="menu-item"
         v-for="(item, index) in mainMenus"
@@ -103,10 +113,14 @@
         <span>{{ item.label }}</span>
       </div>
 
-      <el-divider />
+      <el-divider v-if="userinfo" />
 
       <!-- 登出 -->
-      <div class="menu-item logout" @click="handleSetting(logoutMenu.path)">
+      <div
+        v-if="userinfo"
+        class="menu-item logout"
+        @click="handleSetting(logoutMenu.path)"
+      >
         <i :class="logoutMenu.icon"></i>
         <span>{{ logoutMenu.label }}</span>
       </div>
@@ -122,6 +136,8 @@ import SearchDialog from './Search/SearchDialog.vue'
 import SettingDialog from './SettingDialog.vue'
 import { useAccountStore } from '@/stores/modules/account'
 import { UserType, USER_TYPE_MAP } from '@/types/register'
+const defaultUserAvatar = new URL('@/assets/icon/user.png', import.meta.url)
+  .href
 
 const accountStore = useAccountStore()
 const { userinfo } = storeToRefs(accountStore)
@@ -141,7 +157,10 @@ const {
 const {
   isLoading: getUserInfoActionLoading,
   execute: executeGetUserInfoAction,
-} = useAsyncState(() => getUserInfoAction(), undefined, { immediate: false })
+} = useAsyncState(() => getUserInfoAction(), undefined, {
+  immediate: false,
+  throwError: true,
+})
 
 const model = defineModel<boolean>({ required: true })
 const isSettingDialogVisible = ref(false)
@@ -192,18 +211,38 @@ watchEffect(() => {
   }
 })
 
-onMounted(() => {
-  getMainMenusAction()
-  getMineMenusAction()
-  getSystemSettingMenusAction()
-  getLogoutMenuAction()
+import { useTokenStore } from '@/stores/modules/token'
+const { token } = useTokenStore()
 
+onMounted(async () => {
   try {
-    executeGetUserInfoAction()
-  } catch (error: unknown) {
-    console.error(error)
+    await getMainMenusAction()
+    await getMineMenusAction()
+    await getSystemSettingMenusAction()
+    await getLogoutMenuAction()
+  } catch {
+    console.error('内置数据异常')
+  }
+
+  if (token) {
+    try {
+      await executeGetUserInfoAction()
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        ElMessage.error('获取个人信息失败')
+      }
+    }
   }
 })
+
+const genTestId = (path: string) => {
+  switch (path) {
+    case '/mine/profile':
+      return 'menu-profile'
+    default:
+      return 'menu-item'
+  }
+}
 </script>
 
 <style scoped lang="scss">

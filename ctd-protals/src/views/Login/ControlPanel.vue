@@ -29,6 +29,7 @@
             v-model="loginInfo.password"
             type="password"
             placeholder="请输入您的密码"
+            @keyup.enter="handleLogin"
           />
         </el-form-item>
 
@@ -38,7 +39,7 @@
           prop="captchaCode"
           :rules="{
             required: true,
-            message: '请输入证码',
+            message: '请输入验证码',
             trigger: 'blur',
           }"
         >
@@ -47,7 +48,8 @@
               flex-1
               data-testid="captcha-input"
               v-model="loginInfo.captchaCode"
-              placeholder="请输入验证码"
+              placeholder="验证码"
+              @keyup.enter="handleLogin"
             />
             <img
               w-25
@@ -90,6 +92,11 @@
           >注册</span
         ></span
       >
+
+      <div flex flex-col mt-4 text-xs>
+        <span>testusereoC2ETRQ@example.com</span>
+        <span>Password@123!</span>
+      </div>
     </div>
   </div>
 </template>
@@ -171,7 +178,7 @@ const handleLogin = async () => {
             token?: string
             requiresCaptcha?: boolean
           }>
-          if (res.data.requiresCaptcha) {
+          if (res.data?.requiresCaptcha) {
             getCaptcha()
           } else {
             closeCaptcha()
@@ -202,15 +209,18 @@ const closeCaptcha = () => {
 }
 
 const checkCaptcha = async () => {
-  try {
-    const needShowCaptcha = await checkCaptchaAction(loginInfo.value.email)
-    if (needShowCaptcha) {
-      getCaptcha()
-    } else {
+  if (import.meta.env.VITE_BACK_TYPE === 'java') {
+  } else {
+    try {
+      const needShowCaptcha = await checkCaptchaAction(loginInfo.value.email)
+      if (needShowCaptcha) {
+        getCaptcha()
+      } else {
+        closeCaptcha()
+      }
+    } catch {
       closeCaptcha()
     }
-  } catch {
-    closeCaptcha()
   }
 }
 

@@ -1,4 +1,4 @@
-import type { RegistrationInfo } from '@/types/register'
+import type { IIndividualUserInfo, RegistrationInfo } from '@/types/register'
 import type { ILogin } from '@/types/login'
 import * as javaMail from './java/mail'
 import * as nestMail from './nest/mail'
@@ -10,6 +10,8 @@ import * as javaLogin from './java/login'
 import * as nestLogin from './nest/login'
 import * as javaCaptcha from './java/captcha'
 import * as nestCaptcha from './nest/captcha'
+import * as javaInfo from './java/info'
+import * as nestInfo from './nest/info'
 import type { VerificationCodes } from '@/constants/mapData/mail'
 
 interface IMailAPI {
@@ -39,6 +41,7 @@ interface IForgotAPI {
 
 interface ILoginAPI {
   login: (login: ILogin) => Promise<unknown>
+  logout?: () => Promise<unknown>
   checkCaptcha: (email: string) => Promise<unknown>
   getLoginAds?: () => Promise<unknown> // 目前后台不支持自定义广告
 }
@@ -47,11 +50,18 @@ interface ICaptcha {
   getCaptcha: () => Promise<unknown>
 }
 
+interface IInfoAPI {
+  getInfo: () => Promise<unknown>
+  editInfo: (userInfo: IIndividualUserInfo) => Promise<unknown>
+  uploadAvatar: (file: File) => Promise<unknown>
+}
+
 type AccountAPIType = IMailAPI &
   IRegisterAPI &
   IForgotAPI &
   ILoginAPI &
-  ICaptcha
+  ICaptcha &
+  IInfoAPI
 
 const javaAPI: AccountAPIType = {
   ...javaMail,
@@ -59,6 +69,7 @@ const javaAPI: AccountAPIType = {
   ...javaForgot,
   ...javaLogin,
   ...javaCaptcha,
+  ...javaInfo,
 }
 
 const nestAPI: AccountAPIType = {
@@ -67,6 +78,7 @@ const nestAPI: AccountAPIType = {
   ...nestForgot,
   ...nestLogin,
   ...nestCaptcha,
+  ...nestInfo,
 }
 
 const accountAPI: AccountAPIType =
@@ -83,7 +95,11 @@ export const {
   resetPasswordByToken,
   getForgotAds,
   login,
+  logout,
   checkCaptcha,
   getLoginAds,
   getCaptcha,
+  getInfo,
+  editInfo,
+  uploadAvatar,
 } = accountAPI

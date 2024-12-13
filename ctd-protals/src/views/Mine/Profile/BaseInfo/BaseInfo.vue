@@ -1,7 +1,7 @@
 <template>
   <div class="basic-info-root-container">
     <span class="title">基本信息</span>
-    <el-skeleton :loading="getUserInfoActionLoading" animated>
+    <el-skeleton :loading="loading" animated>
       <template #template>
         <div flex flex-row items-center justify-between pt-6>
           <el-skeleton-item variant="p" class="!w-60"></el-skeleton-item>
@@ -18,7 +18,8 @@
       <template #default>
         <div class="content" mt-6>
           <div flex>
-            <span class="label">用户名：</span> {{ userinfo?.userName }}
+            <span class="label">邮箱：</span>
+            <span data-testid="email-span">{{ userinfo?.email }}</span>
           </div>
           <div class="btn-container">
             <el-button
@@ -46,26 +47,17 @@
 <script setup lang="ts">
 import ChangePasswordDialog from './ChangePasswordDialog.vue'
 import ChangeEmailDialog from './ChangeEmailDialog.vue'
+
+defineProps<{
+  loading: boolean
+}>()
+
 import { useAccountStore } from '@/stores/modules/account'
 const accountStore = useAccountStore()
 const { userinfo } = storeToRefs(accountStore)
-const { getUserInfo: getUserInfoAction } = accountStore
 
 const changePasswordDialogVisiable = ref(false)
 const changeEmailDialogVisiable = ref(false)
-
-const {
-  isLoading: getUserInfoActionLoading,
-  execute: executeGetUserInfoAction,
-} = useAsyncState(() => getUserInfoAction(), undefined, { immediate: false })
-
-onMounted(() => {
-  try {
-    executeGetUserInfoAction()
-  } catch (error: unknown) {
-    console.error(error)
-  }
-})
 </script>
 
 <style lang="scss" scoped>

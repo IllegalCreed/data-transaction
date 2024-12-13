@@ -1,4 +1,4 @@
-export class LoginLogDto {
+export interface ILoginLog {
   id: string;
   email: string;
   loginTime: Date;

@@ -3,7 +3,7 @@ import type { IEnterpriseInfo, IIndividualUserInfo, UserType } from './register'
 export interface IUserBaseInfo {
   userName: string
   email: string
-  avatar: string
+  avatarUrl: string
 }
 
 export type UserInfo =

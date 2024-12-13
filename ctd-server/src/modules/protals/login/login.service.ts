@@ -1,11 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { LoginDto } from './dto/login.dto';
 import { GetLoginLogsDto } from './dto/get-login-logs.dto';
-import { LoginLogDto } from './dto/login-log.dto';
+import { ILoginLog } from './interface/login-log.interface';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from '../../entities/user.entity';
-import { LoginLog } from '../../entities/login-log.entity';
+import { User } from 'src/entities/user.entity';
+import { LoginLog } from 'src/entities/login-log.entity';
 import { CaptchaService } from '../captcha/captcha.service';
 import { ApiResponse } from 'src/common/interfaces/api-response.interface';
 import {
@@ -85,7 +85,9 @@ export class LoginService {
     if (!user) {
       this.logger.warn(`登录失败：用户不存在：${email}`);
       // 为了安全性，返回通用错误信息
-      return createErrorResponse(ErrorCode.INVALID_CREDENTIALS);
+      return createErrorResponse(ErrorCode.INVALID_CREDENTIALS, {
+        requiresCaptcha: false,
+      });
     }
     if (user.status !== UserStatus.ACTIVE) {
       try {
@@ -98,7 +100,9 @@ export class LoginService {
           '用户状态不允许',
         );
         this.logger.warn(`登录失败：用户状态不允许：${email}`);
-        return createErrorResponse(ErrorCode.INVALID_CREDENTIALS);
+        return createErrorResponse(ErrorCode.INVALID_CREDENTIALS, {
+          requiresCaptcha: false,
+        });
       } catch (error) {
         if (error instanceof ExpectedError) {
           return createErrorResponse(error.errorCode);
@@ -220,7 +224,7 @@ export class LoginService {
   async getLoginLogs(
     userId: string,
     getLoginLogsDto: GetLoginLogsDto,
-  ): Promise<ApiResponse<{ data: LoginLogDto[]; total: number }>> {
+  ): Promise<ApiResponse<{ data: ILoginLog[]; total: number }>> {
     const {
       pageNum = 1,
       pageSize = 10,
@@ -283,7 +287,7 @@ export class LoginService {
     }
   }
 
-  async getLastLoginLog(userId: number): Promise<ApiResponse<LoginLogDto>> {
+  async getLastLoginLog(userId: number): Promise<ApiResponse<ILoginLog>> {
     const lastLog = await this.loginLogRepository.findOne({
       where: { user: { id: userId } },
       order: { loginTime: 'DESC' },
@@ -350,5 +354,30 @@ export class LoginService {
       this.logger.error('登录失败：重置失败次数失败', error);
       throw new ExpectedError(ErrorCode.LOGIN_FAILED);
     }
+  }
+
+  async resetUserStatusForTesting(email: string): Promise<ApiResponse<string>> {
+    const user = await this.userRepository.findOne({ where: { email } });
+    if (!user) {
+      this.logger.warn(`解冻用户失败：用户不存在：${email}`);
+      return createErrorResponse(ErrorCode.INVALID_CREDENTIALS);
+    }
+
+    if (user.status === UserStatus.SUSPENDED || user.failedAttempts !== 0) {
+      user.status = UserStatus.ACTIVE;
+      user.failedAttempts = 0; // 重置失败次数，以便下次登录无需验证码
+      try {
+        await this.userRepository.save(user);
+        this.logger.log(`解冻用户成功：用户已解冻：${email}`);
+        return createSuccessResponse(null, 'RESET_USER_STATUS_SUCCEED');
+      } catch (error) {
+        this.logger.error('解冻用户失败', error);
+        throw new ExpectedError(ErrorCode.RESET_USER_STATUS_FAILED);
+      }
+    }
+
+    this.logger.log(`解冻用户成功：用户未被冻结：${email}`);
+    // 如果用户本身未冻结，则返回无操作状态
+    return createSuccessResponse(null, 'NOT_NEED_TO_RESET');
   }
 }

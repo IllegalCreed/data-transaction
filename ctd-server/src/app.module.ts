@@ -2,15 +2,22 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ScheduleModule } from '@nestjs/schedule';
-import { RegisterModule } from './modules/register/register.module';
-import { ForgotModule } from './modules/forgot/forgot.module';
-import { CaptchaModule } from './modules/captcha/captcha.module';
-import { LoginModule } from './modules/login/login.module';
+import { RegisterModule } from './modules/protals/register/register.module';
+import { ForgotModule } from './modules/protals/forgot/forgot.module';
+import { CaptchaModule } from './modules/protals/captcha/captcha.module';
+import { LoginModule } from './modules/protals/login/login.module';
+import { UserModule } from './modules/protals/user/user.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 const nodeEnv = process.env.NODE_ENV || 'development';
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads'),
+      serveRoot: '/uploads',
+    }),
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true, // 全局模块, 不需要在其他模块引入
@@ -59,6 +66,7 @@ const nodeEnv = process.env.NODE_ENV || 'development';
     ForgotModule,
     CaptchaModule,
     LoginModule,
+    UserModule,
   ],
   controllers: [],
   providers: [],

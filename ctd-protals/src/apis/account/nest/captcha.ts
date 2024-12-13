@@ -5,6 +5,6 @@ export const getCaptcha = (): Promise<unknown> => {
     {
       url: '/captcha',
     },
-    true,
+    false,
   )
 }

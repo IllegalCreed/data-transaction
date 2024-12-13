@@ -2,7 +2,11 @@
   <div class="company-info-root-container">
     <div flex flex-row justify-between mb-4>
       <span class="title">企业信息</span>
-      <el-button type="primary" w-30 @click="openEditCompanyInfo"
+      <el-button
+        data-testid="edit-button"
+        type="primary"
+        w-30
+        @click="openEditCompanyInfo"
         >编辑企业信息</el-button
       >
     </div>
@@ -12,41 +16,62 @@
       v-if="userinfo && userinfo.userType === UserType.Enterprise"
     >
       <div flex>
-        <span class="label">企业名称：</span> {{ userinfo.enterpriseName }}
+        <span class="label">企业名称：</span>
+        <span data-testid="enterprise-name-span">{{
+          userinfo.enterpriseName
+        }}</span>
       </div>
       <div flex>
         <span class="label">统一社会信用代码：</span>
-        {{ userinfo.registrationNumber }}
+        <span data-testid="registration-number-span">{{
+          userinfo.registrationNumber
+        }}</span>
       </div>
       <div flex>
-        <span class="label">联系人姓名：</span> {{ userinfo.contactPersonName }}
+        <span class="label">联系人姓名：</span>
+        <span data-testid="contact-person-name-span">{{
+          userinfo.contactPersonName
+        }}</span>
       </div>
       <div flex>
         <span class="label">联系人职位：</span>
-        {{ userinfo.contactPersonTitle }}
+        <span data-testid="contact-person-title-span">{{
+          userinfo.contactPersonTitle
+        }}</span>
       </div>
       <div flex>
         <span class="label">联系人电话：</span>
-        {{ userinfo.contactPhoneNumber }}
+        <span data-testid="contact-phone-number-span">{{
+          userinfo.contactPhoneNumber
+        }}</span>
       </div>
       <div flex>
-        <span class="label">企业地址：</span> {{ userinfo.enterpriseAddress }}
+        <span class="label">企业地址：</span>
+        <span data-testid="enterprise-address-span">{{
+          userinfo.enterpriseAddress
+        }}</span>
       </div>
       <div flex>
         <span class="label">行业类别：</span>
-        {{ INDUSTRY_TYPE_MAP[userinfo.industryType] }}
+        <span data-testid="industry-type-span">
+          {{ INDUSTRY_TYPE_MAP[userinfo.industryType] }}
+        </span>
       </div>
       <div flex>
         <span class="label">企业规模：</span>
-        {{
-          userinfo.companySize
-            ? COMPANY_SIZE_TYPE_MAP[userinfo.companySize]
-            : '--'
-        }}
+        <span data-testid="company-size-span">
+          {{
+            userinfo.companySize
+              ? COMPANY_SIZE_TYPE_MAP[userinfo.companySize]
+              : '--'
+          }}
+        </span>
       </div>
       <div flex>
         <span class="label">企业简介：</span>
-        {{ userinfo.enterpriseDescription }}
+        <span data-testid="enterprise-description-span">
+          {{ userinfo.enterpriseDescription }}
+        </span>
       </div>
     </div>
   </div>

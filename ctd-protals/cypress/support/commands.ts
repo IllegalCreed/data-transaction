@@ -11,6 +11,7 @@ declare global {
         type: number,
       ): Chainable<void>
       getCaptchaCode(baseUrl: string, captchaId: string): Chainable<void>
+      resetUserStatus(baseUrl: string, email: string): Chainable<void>
       login(email: string, password: string): Chainable<void>
     }
   }
@@ -94,6 +95,17 @@ Cypress.Commands.add('getCaptchaCode', (baseUrl: string, captchaId: string) => {
   }
 })
 
+Cypress.Commands.add('resetUserStatus', (baseUrl: string, email: string) => {
+  if (Cypress.env('serverType') === 'java') {
+  } else {
+    cy.request('PATCH', `${baseUrl}/login/test/reset-user-status`, {
+      email,
+    }).then(response => {
+      expect(response.status).to.eq(200)
+    })
+  }
+})
+
 /**
  * 登录
  * @param email 用户名
@@ -122,23 +134,5 @@ Cypress.Commands.add('login', (email, password) => {
     },
   )
 })
-
-/**
- * 获取验证码
- * @param baseUrl 服务器 URL
- * @param email 用户邮箱
- */
-Cypress.Commands.add(
-  'getVerificationCode',
-  (baseUrl: string, email: string) => {
-    cy.request('GET', `${baseUrl}/register/test/getCode?email=${email}`).then(
-      response => {
-        expect(response.status).to.eq(200)
-        const verificationCode = response.body
-        cy.wrap(verificationCode).as('verificationCode')
-      },
-    )
-  },
-)
 
 export {}

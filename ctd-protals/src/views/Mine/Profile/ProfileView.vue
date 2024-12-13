@@ -1,15 +1,15 @@
 <template>
   <div class="profile-root-container">
-    <el-button
+    <!-- <el-button
       w-50
       self-end
       type="primary"
       size="small"
       @click="handleSetMockInfoType"
       >测试按钮，切换个人/企业</el-button
-    >
+    > -->
 
-    <base-info />
+    <base-info :loading="getUserInfoActionLoading" />
     <el-divider></el-divider>
     <el-skeleton :loading="getUserInfoActionLoading" animated>
       <template #template></template>
@@ -37,20 +37,19 @@ import { UserType } from '@/types/register'
 
 import { useAccountStore } from '@/stores/modules/account'
 const accountStore = useAccountStore()
-const { userinfo, mockInfoType } = storeToRefs(accountStore)
-const {
-  setMockInfoType: setMockInfoTypeAction,
-  getUserInfo: getUserInfoAction,
-} = accountStore
+const { userinfo } = storeToRefs(accountStore)
+const { getUserInfo: getUserInfoAction } = accountStore
 
-const handleSetMockInfoType = () => {
-  setMockInfoTypeAction(
-    mockInfoType.value === UserType.Individual
-      ? UserType.Enterprise
-      : UserType.Individual,
-  )
-  executeGetUserInfoAction()
-}
+// const { mockInfoType } = storeToRefs(accountStore)
+// const { setMockInfoType: setMockInfoTypeAction } = accountStore
+// const handleSetMockInfoType = () => {
+//   setMockInfoTypeAction(
+//     mockInfoType.value === UserType.Individual
+//       ? UserType.Enterprise
+//       : UserType.Individual,
+//   )
+//   executeGetUserInfoAction()
+// }
 
 const {
   isLoading: getUserInfoActionLoading,
@@ -60,11 +59,13 @@ const {
   throwError: true,
 })
 
-onMounted(() => {
+onMounted(async () => {
   try {
-    executeGetUserInfoAction()
+    await executeGetUserInfoAction()
   } catch (error: unknown) {
-    console.error(error)
+    if (error instanceof Error) {
+      ElMessage.error('获取个人信息失败')
+    }
   }
 })
 </script>
