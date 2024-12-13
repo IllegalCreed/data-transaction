@@ -14,18 +14,6 @@
         <span class="label">状态:</span>
         <el-tag :type="stautsColor(userInfo.status)">{{ statusLabel(userInfo.status) }}</el-tag>
       </div>
-      <div class="prop" grid-col-span-3>
-        <span class="label">统一社会信用代码：</span>
-        <span class="value">{{ userInfo.registrationNumber }}</span>
-      </div>
-      <div class="prop" grid-col-span-3>
-        <span class="label">企业简介：</span>
-        <span class="value">{{ userInfo.enterpriseDescription }}</span>
-      </div>
-      <div class="prop" grid-col-span-3>
-        <span class="label">企业地址：</span>
-        <span class="value">{{ userInfo.enterpriseAddress }}</span>
-      </div>
       <div class="prop">
         <span class="label">联系人姓名：</span>
         <span class="value">{{ userInfo.contactPersonName }}</span>
@@ -57,6 +45,18 @@
       <div class="prop">
         <span class="label">更新时间：</span>
         <span class="value">{{ userInfo.updateTime }}</span>
+      </div>
+      <div class="prop" grid-col-span-3>
+        <span class="label">统一社会信用代码：</span>
+        <span class="value">{{ userInfo.registrationNumber }}</span>
+      </div>
+      <div class="prop" grid-col-span-3>
+        <span class="label">企业简介：</span>
+        <span class="value">{{ userInfo.enterpriseDescription }}</span>
+      </div>
+      <div class="prop" grid-col-span-3>
+        <span class="label">企业地址：</span>
+        <span class="value">{{ userInfo.enterpriseAddress }}</span>
       </div>
       <div class="prop" grid-col-span-3>
         <span class="label">企业商标：</span>

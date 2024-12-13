@@ -6,7 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from 'src/entities/user.entity';
 import { LoginLog } from 'src/entities/login-log.entity';
-import { CaptchaService } from '../captcha/captcha.service';
+import { CaptchaService } from 'src/modules/common/captcha/captcha.service';
 import { ApiResponse } from 'src/common/interfaces/api-response.interface';
 import {
   createErrorResponse,

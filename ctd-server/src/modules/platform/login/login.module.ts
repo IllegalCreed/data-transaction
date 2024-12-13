@@ -1,19 +1,16 @@
 import { Module } from '@nestjs/common';
-import { APP_GUARD } from '@nestjs/core';
+import { LoginController } from './login.controller';
+import { LoginService } from './login.service';
+import { CaptchaModule } from 'src/modules/common/captcha/captcha.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Admin } from 'src/entities/admin.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { LoginService } from './login.service';
-import { LoginController } from './login.controller';
-import { User } from 'src/entities/user.entity';
-import { LoginLog } from 'src/entities/login-log.entity';
-import { CaptchaModule } from 'src/modules/common/captcha/captcha.module';
-import { AuthGuard } from 'src/common/guards/auth.guard';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, LoginLog]),
     CaptchaModule,
+    TypeOrmModule.forFeature([Admin]),
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -26,13 +23,6 @@ import { AuthGuard } from 'src/common/guards/auth.guard';
     }),
   ],
   controllers: [LoginController],
-  providers: [
-    LoginService,
-    {
-      provide: APP_GUARD,
-      useClass: AuthGuard,
-    },
-  ],
-  exports: [LoginService],
+  providers: [LoginService],
 })
-export class LoginModule {}
+export class PlatformLoginModule {}
