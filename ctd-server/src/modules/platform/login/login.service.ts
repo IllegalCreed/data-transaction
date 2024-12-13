@@ -9,10 +9,11 @@ import { ErrorCode } from 'src/common/constants/error-codes';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Admin } from 'src/entities/admin.entity';
 import { Repository } from 'typeorm';
-import { verifyPassword } from 'src/common/utils/security';
+import { hashPassword, verifyPassword } from 'src/common/utils/security';
 import { JwtService } from '@nestjs/jwt';
 import { ExpectedError } from 'src/types/error';
 import { LoginDto } from './dto/login.dto';
+import { CreateAdminDto } from './dto/create-admin.dto';
 
 @Injectable()
 export class LoginService {
@@ -59,6 +60,38 @@ export class LoginService {
 
       this.logger.error('平台用户登录失败', error);
       return createErrorResponse(ErrorCode.LOGIN_FAILED);
+    }
+  }
+
+  async createAdminForTesting(
+    createDto: CreateAdminDto,
+  ): Promise<ApiResponse<string>> {
+    try {
+      const { username, fullName, password } = createDto;
+
+      // 检查用户名是否已存在
+      const exist = await this.adminRepository.findOne({ where: { username } });
+      if (exist) {
+        this.logger.warn(`创建管理员失败：用户名已存在：${username}`);
+        return createErrorResponse(ErrorCode.ADMIN_ALREADY_EXISTS);
+      }
+
+      const hashedPassword = await hashPassword(password);
+      const admin = this.adminRepository.create({
+        username,
+        fullName,
+        password: hashedPassword,
+      });
+
+      await this.adminRepository.save(admin);
+      this.logger.log(`管理员创建成功：${username}`);
+      return createSuccessResponse(null, 'ADMIN_CREATED_SUCCEED');
+    } catch (error) {
+      if (error instanceof ExpectedError) {
+        return createErrorResponse(error.errorCode);
+      }
+      this.logger.error('创建管理员失败', error);
+      return createErrorResponse(ErrorCode.CREATE_ADMIN_FAILED);
     }
   }
 }
