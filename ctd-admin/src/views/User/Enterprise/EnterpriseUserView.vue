@@ -52,13 +52,13 @@ const getListLoading = ref<boolean>(false)
 const data = ref<IEnterpriseUserItem[]>([])
 import { useUserStore } from '@/stores/modules/user'
 const {
-  getEnterpriseUser: getEnterpriseUserAction,
+  getEnterpriseUsers: getEnterpriseUsersAction,
   changeUsersStatus: changeUsersStatusAction,
   deleteUsers: deleteUsersAction
 } = useUserStore()
 const getList = async (): Promise<apiListResult<IEnterpriseUserItem>> => {
   getListLoading.value = true
-  const res = await getEnterpriseUserAction(
+  const res = await getEnterpriseUsersAction(
     searchQuery.value,
     status.value,
     pageNum.value,
@@ -99,7 +99,7 @@ const changeId = ref<string | number>('')
 const changeStatus = ref<UserStatus>()
 const { doChangeAction } = useChangeStatus(
   () =>
-    `是否确认 ${changeStatus.value === UserStatus.ACTIVE ? '启用' : '停用'} ${changeTitle.value} ？`,
+    `是否确认 ${changeStatus.value === UserStatus.Active ? '启用' : '停用'} ${changeTitle.value} ？`,
   async () => {
     if (!changeStatus.value) {
       ElMessage.error('请选择状态')
@@ -109,10 +109,10 @@ const { doChangeAction } = useChangeStatus(
     refresh()
   }
 )
-const handleChangeStatus = (id: string | number, title: string, userStatus: UserStatus) => {
+const handleChangeStatus = (id: string | number, title: string, newStatus: UserStatus) => {
   changeTitle.value = title
   changeId.value = id
-  changeStatus.value = userStatus
+  changeStatus.value = newStatus
   doChangeAction()
 }
 

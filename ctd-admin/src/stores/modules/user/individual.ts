@@ -32,6 +32,10 @@ export const useIndividual = () => {
         getIndividualUsersAPI(searchQuery, status, pageNum, pageSize)
           .then((res) => {
             const result = res as apiListResult<IIndividualUserItem>
+            for (const item of result.rows) {
+              item.createTime = dayjs(item.createTime).format('YYYY-MM-DD HH:mm:ss')
+              item.updateTime = dayjs(item.updateTime).format('YYYY-MM-DD HH:mm:ss')
+            }
             resolve(result)
           })
           .catch((error: Error) => {

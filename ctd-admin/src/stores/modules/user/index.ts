@@ -9,8 +9,8 @@ import {
 } from '@/apis/user'
 
 export const useUserStore = defineStore('user', () => {
-  const { getIndividualUser } = useIndividual()
-  const { getEnterpriseUser } = useEnterprise()
+  const { getIndividualUsers, getIndividualUser } = useIndividual()
+  const { getEnterpriseUsers, getEnterpriseUser } = useEnterprise()
 
   const settingsStore = useSettingsStore()
 
@@ -54,7 +54,9 @@ export const useUserStore = defineStore('user', () => {
 
   return {
     ...{
+      getIndividualUsers,
       getIndividualUser,
+      getEnterpriseUsers,
       getEnterpriseUser,
       changeUsersStatus,
       deleteUsers

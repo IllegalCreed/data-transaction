@@ -52,13 +52,13 @@ const getListLoading = ref<boolean>(false)
 const data = ref<IIndividualUserItem[]>([])
 import { useUserStore } from '@/stores/modules/user'
 const {
-  getIndividualUser: getIndividualUserAction,
-  changeUserStatus: changeUserStatusAction,
-  deleteUser: deleteUserAction
+  getIndividualUsers: getIndividualUsersAction,
+  changeUsersStatus: changeUsersStatusAction,
+  deleteUsers: deleteUsersAction
 } = useUserStore()
 const getList = async (): Promise<apiListResult<IIndividualUserItem>> => {
   getListLoading.value = true
-  const res = await getIndividualUserAction(
+  const res = await getIndividualUsersAction(
     searchQuery.value,
     status.value,
     pageNum.value,
@@ -81,12 +81,12 @@ const delId = ref<string | number>('')
 const { doDelAction } = useDelete(
   () => `是否确认删除 ${delTitle.value} ？`,
   async () => {
-    await deleteUserAction([delId.value])
+    await deleteUsersAction([delId.value])
     refresh()
   }
 )
-const handleDelete = (id: string | number, title: string) => {
-  delTitle.value = title
+const handleDelete = (id: string | number, fullName: string) => {
+  delTitle.value = fullName
   delId.value = id
   doDelAction()
 }
@@ -99,20 +99,20 @@ const changeId = ref<string | number>('')
 const changeStatus = ref<UserStatus>()
 const { doChangeAction } = useChangeStatus(
   () =>
-    `是否确认 ${changeStatus.value === UserStatus.ACTIVE ? '启用' : '停用'} ${changeTitle.value} ？`,
+    `是否确认 ${changeStatus.value === UserStatus.Active ? '启用' : '停用'} ${changeTitle.value} ？`,
   async () => {
     if (!changeStatus.value) {
       ElMessage.error('请选择状态')
       return
     }
-    await changeUserStatusAction([changeId.value], changeStatus.value)
+    await changeUsersStatusAction([changeId.value], changeStatus.value)
     refresh()
   }
 )
-const handleChangeStatus = (id: string | number, title: string, userStatus: UserStatus) => {
-  changeTitle.value = title
+const handleChangeStatus = (id: string | number, fullName: string, newStatus: UserStatus) => {
+  changeTitle.value = fullName
   changeId.value = id
-  changeStatus.value = userStatus
+  changeStatus.value = newStatus
   doChangeAction()
 }
 
