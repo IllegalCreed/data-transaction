@@ -9,5 +9,6 @@ import { PlatformLoginModule } from 'src/modules/platform/login/login.module';
   imports: [TypeOrmModule.forFeature([Admin]), PlatformLoginModule],
   controllers: [AdminController],
   providers: [AdminService],
+  exports: [AdminService],
 })
 export class AdminModule {}

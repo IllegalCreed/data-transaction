@@ -11,7 +11,7 @@ import { UpdatePasswordDto } from './dto/update-password.dto';
 import { ApiResponse } from 'src/common/interfaces/api-response.interface';
 import { AuthGuard } from 'src/common/guards/auth.guard';
 
-@Controller('admin')
+@Controller('platform/admin')
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
 

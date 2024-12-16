@@ -25,7 +25,6 @@ export class AdminService {
     adminId: number,
     { oldPassword, newPassword }: UpdatePasswordDto,
   ): Promise<ApiResponse<string>> {
-    // 查询管理员信息
     const admin = await this.adminRepository.findOne({
       where: { id: adminId },
     });
@@ -34,7 +33,6 @@ export class AdminService {
       return createErrorResponse(ErrorCode.USER_NOT_FOUND);
     }
 
-    // 验证旧密码
     const isPasswordValid = await verifyPassword(oldPassword, admin.password);
     if (!isPasswordValid) {
       this.logger.warn(`管理员密码更新失败：密码错误，管理员ID: ${adminId}`);
@@ -42,7 +40,6 @@ export class AdminService {
     }
 
     try {
-      // 哈希新密码并保存
       const hashedPassword = await hashPassword(newPassword);
       admin.password = hashedPassword;
       await this.adminRepository.save(admin);

@@ -9,5 +9,6 @@ import { LoginModule } from '../login/login.module';
   imports: [TypeOrmModule.forFeature([User]), LoginModule],
   controllers: [UserController],
   providers: [UserService],
+  exports: [UserService],
 })
 export class UserModule {}
