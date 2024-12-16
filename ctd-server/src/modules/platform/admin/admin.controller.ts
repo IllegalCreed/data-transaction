@@ -5,6 +5,7 @@ import {
   Controller,
   Put,
   UseGuards,
+  Get,
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { UpdatePasswordDto } from './dto/update-password.dto';
@@ -26,5 +27,16 @@ export class AdminController {
       throw new BadRequestException('No admin id found in token.');
     }
     return this.adminService.updatePassword(adminId, updatePasswordDto);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('name')
+  async getAdminName(@Request() req): Promise<ApiResponse<string>> {
+    const adminId = req.user?.sub;
+    if (!adminId) {
+      throw new BadRequestException('No admin id found in token.');
+    }
+
+    return this.adminService.getAdminName(adminId);
   }
 }

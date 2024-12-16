@@ -57,4 +57,26 @@ export class AdminService {
       return createErrorResponse(ErrorCode.UPDATE_ADMIN_PASSWORD_FAILED);
     }
   }
+
+  async getAdminName(adminId: number): Promise<ApiResponse<string>> {
+    try {
+      const admin = await this.adminRepository.findOne({
+        where: { id: adminId },
+        select: ['fullName'],
+      });
+
+      this.logger.log(`获取管理员姓名成功，ID: ${adminId}`);
+      return createSuccessResponse(admin.fullName, 'GET_ADMIN_NAME_SUCCEED');
+    } catch (error) {
+      if (error instanceof ExpectedError) {
+        return createErrorResponse(error.errorCode);
+      }
+
+      this.logger.error(
+        `获取管理员姓名失败：未知错误，管理员ID: ${adminId}`,
+        error,
+      );
+      return createErrorResponse(ErrorCode.GET_ADMIN_NAME_FAILED);
+    }
+  }
 }
