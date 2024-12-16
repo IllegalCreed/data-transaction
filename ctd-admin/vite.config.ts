@@ -19,7 +19,10 @@ export default defineConfig({
     port: 5200,
     proxy: {
       '/dev-api': {
-        target: 'http://localhost:6200',
+        target:
+          process.env.VITE_BACK_TYPE === 'java'
+            ? process.env.VITE_JAVA_SERVER_URL
+            : process.env.VITE_NEST_SERVER_URL,
         changeOrigin: true,
         rewrite: (p) => p.replace(/^\/dev-api/, '')
       }

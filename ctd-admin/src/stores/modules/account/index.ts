@@ -3,13 +3,13 @@ import { useLogin } from './login'
 import { useAccount } from './account'
 
 export const useAccountStore = defineStore('account', () => {
-  const { login, getCode, logout } = useLogin()
+  const { login, getCaptcha, logout } = useLogin()
   const { resetPwd } = useAccount()
 
   return {
     ...{
       login,
-      getCode,
+      getCaptcha,
       logout,
       resetPwd
     }
