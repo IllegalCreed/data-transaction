@@ -25,6 +25,6 @@ import { CaptchaModule } from 'src/modules/common/captcha/captcha.module';
   ],
   controllers: [LoginController],
   providers: [LoginService],
-  exports: [LoginService],
+  exports: [LoginService, JwtModule],
 })
 export class LoginModule {}
