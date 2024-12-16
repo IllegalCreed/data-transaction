@@ -1,14 +1,14 @@
 import request from '@/axios'
 
 export const resetPwd = (oldPwd: string, newPwd: string): Promise<unknown> => {
-  const params = {
+  const data = {
     oldPassword: oldPwd,
     newPassword: newPwd
   }
-  return request.get(
+  return request.put(
     {
-      url: '/user/resetPwd',
-      params
+      url: '/platform/admin/update-password',
+      data
     },
     true
   )

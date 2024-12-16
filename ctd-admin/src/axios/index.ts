@@ -118,9 +118,11 @@ const request = (config: AxiosRequestConfig): Promise<unknown> => {
 }
 
 const mixConfig = (option: AxiosRequestConfig, hasToken: boolean): AxiosRequestConfig => {
+  let token = useTokenStore().token
+  token = 'Bearer ' + token
   const headers = {
     'Content-Type': 'application/json;charset=utf-8',
-    Authorization: hasToken ? useTokenStore().token : '',
+    Authorization: hasToken ? token : '',
     ...option.headers
   }
   return { ...option, headers }
