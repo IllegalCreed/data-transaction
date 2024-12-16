@@ -8,7 +8,6 @@ import {
 } from '@nestjs/common';
 import { LoginService } from './login.service';
 import { ApiResponse } from 'src/common/interfaces/api-response.interface';
-import { Public } from 'src/common/decorators/is-public.decorator';
 import { LoginDto } from './dto/login.dto';
 import { CreateAdminDto } from './dto/create-admin.dto';
 
@@ -16,7 +15,6 @@ import { CreateAdminDto } from './dto/create-admin.dto';
 export class LoginController {
   constructor(private readonly loginService: LoginService) {}
 
-  @Public()
   @Post()
   @HttpCode(HttpStatus.OK)
   async login(
@@ -25,7 +23,6 @@ export class LoginController {
     return this.loginService.login(loginDto);
   }
 
-  @Public()
   @Post('test/create')
   @HttpCode(HttpStatus.OK)
   async createAdminForTesting(

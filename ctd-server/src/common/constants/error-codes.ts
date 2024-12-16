@@ -50,6 +50,7 @@ export enum ErrorCode {
   // 管理员相关
   ADMIN_ALREADY_EXISTS = 5001,
   CREATE_ADMIN_FAILED = 5002,
+  UPDATE_ADMIN_PASSWORD_FAILED = 5003,
 }
 
 export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
@@ -120,4 +121,6 @@ export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
   [ErrorCode.ADMIN_ALREADY_EXISTS]: 'Admin already exists.',
   [ErrorCode.CREATE_ADMIN_FAILED]:
     'Create admin failed due to unexpected error.',
+  [ErrorCode.UPDATE_ADMIN_PASSWORD_FAILED]:
+    'Update admin password failed due to unexpected error.',
 };
