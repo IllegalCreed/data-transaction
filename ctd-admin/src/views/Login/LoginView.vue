@@ -126,8 +126,14 @@ const handleLogin = async () => {
   }
 }
 
-onMounted(() => {
-  getCaptcha()
+onMounted(async () => {
+  try {
+    await getCaptcha()
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      ElMessage.error('获取验证码失败')
+    }
+  }
 })
 </script>
 

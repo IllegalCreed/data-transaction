@@ -13,6 +13,7 @@ interface ILoginAPI {
 
 interface IAccountAPI {
   resetPwd: (oldPwd: string, newPwd: string) => Promise<unknown>
+  getAdminName: () => Promise<unknown>
 }
 
 interface ICaptcha {
@@ -35,4 +36,4 @@ const nestAPI: AccountAPIType = {
 
 const accountAPI: AccountAPIType = import.meta.env.VITE_BACK_TYPE === 'java' ? javaAPI : nestAPI
 
-export const { login, logout, resetPwd, getCaptcha } = accountAPI
+export const { login, logout, resetPwd, getAdminName, getCaptcha } = accountAPI

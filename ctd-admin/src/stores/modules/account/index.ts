@@ -4,14 +4,15 @@ import { useAccount } from './account'
 
 export const useAccountStore = defineStore('account', () => {
   const { login, getCaptcha, logout } = useLogin()
-  const { resetPwd } = useAccount()
+  const { resetPwd, getAdminName } = useAccount()
 
   return {
     ...{
       login,
       getCaptcha,
       logout,
-      resetPwd
+      resetPwd,
+      getAdminName
     }
   }
 })

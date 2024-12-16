@@ -13,3 +13,12 @@ export const resetPwd = (oldPwd: string, newPwd: string): Promise<unknown> => {
     true
   )
 }
+
+export const getAdminName = (): Promise<unknown> => {
+  return request.get(
+    {
+      url: '/platform/admin/name'
+    },
+    true
+  )
+}

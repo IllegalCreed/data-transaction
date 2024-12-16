@@ -7,6 +7,7 @@ import type {
 
 import axios, { AxiosError } from 'axios'
 import { useTokenStore } from '@/stores/modules/token'
+import { ErrorCodeMessages } from './error-codes'
 
 export const PATH_URL = import.meta.env.VITE_APP_BASE_API
 const abortControllerMap: Map<string, AbortController> = new Map()
@@ -77,7 +78,6 @@ axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => {
     const url = response.config.url || ''
     abortControllerMap.delete(url)
-    const code = response.data.code || 200
 
     // 二进制数据则直接返回
     if (
@@ -87,16 +87,31 @@ axiosInstance.interceptors.response.use(
       return response.data
     }
 
-    if (code === 401) {
-      // const tokenStore = useTokenStore()
-      // tokenStore.clearToken()
-      return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
-    } else if (!/^2\d{2}$/.test(code)) {
-      // 如果不是2开头的三位数
-      ElMessage.error(response.data.msg)
-      return Promise.reject(new Error(response.data.msg))
+    if (import.meta.env.VITE_BACK_TYPE === 'java') {
+      const code = response.data.code ?? 200
+      if (code === 401) {
+        // const tokenStore = useTokenStore()
+        // tokenStore.clearToken()
+        ElMessage.error(response.data.msg)
+        return Promise.reject(new Error('无效的会话，或者会话已过期，请重新登录。'))
+      } else if (!/^2\d{2}$/.test(code)) {
+        // 如果不是2开头的三位数
+        ElMessage.error(response.data.msg)
+        return Promise.reject(new Error(response.data.msg))
+      } else {
+        return Promise.resolve(response.data)
+      }
     } else {
-      return Promise.resolve(response.data)
+      const code = response.data.code
+      if (code === undefined || code === null) {
+        throw new Error('服务器返回值数据结构异常')
+      }
+      if (code === 0) {
+        return Promise.resolve(response.data)
+      } else {
+        ElMessage.error(ErrorCodeMessages[response.data.code as number])
+        return Promise.reject(response.data)
+      }
     }
   },
   (error: Error) => {
@@ -119,7 +134,11 @@ const request = (config: AxiosRequestConfig): Promise<unknown> => {
 
 const mixConfig = (option: AxiosRequestConfig, hasToken: boolean): AxiosRequestConfig => {
   let token = useTokenStore().token
-  token = 'Bearer ' + token
+  if (import.meta.env.VITE_BACK_TYPE === 'java') {
+    token = 'Bearer ' + token
+  } else {
+    token = 'Bearer ' + token
+  }
   const headers = {
     'Content-Type': 'application/json;charset=utf-8',
     Authorization: hasToken ? token : '',
@@ -168,6 +187,9 @@ export default {
   },
   put: (option: AxiosRequestConfig, hasToken: boolean = true) => {
     return request({ method: 'put', ...mixConfig(option, hasToken) })
+  },
+  patch: (option: AxiosRequestConfig, hasToken: boolean = true) => {
+    return request({ method: 'patch', ...mixConfig(option, hasToken) })
   },
   cancelRequest: (url: string | string[]) => {
     const urlList = Array.isArray(url) ? url : [url]
