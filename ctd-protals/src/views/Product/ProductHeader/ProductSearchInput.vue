@@ -1,5 +1,11 @@
 <template>
-  <el-input class="search-input" v-model="searchKey" size="large" :placeholder="searchPlaceholder">
+  <el-input
+    class="search-input"
+    v-model="searchKey"
+    size="large"
+    :placeholder="searchPlaceholder"
+    @keydown.enter="handleSearch"
+  >
     <template v-if="showSearchType" #prepend>
       <el-select v-model="searchType" placeholder="Select" size="large">
         <el-option label="产品名称" value="1" />
@@ -7,7 +13,7 @@
       </el-select>
     </template>
     <template #append>
-      <el-button>
+      <el-button @click="handleSearch">
         <template v-slot:icon>
           <i-vaadin:search w-10 h-10></i-vaadin:search>
         </template>
@@ -17,8 +23,8 @@
 </template>
 
 <script setup lang="ts">
-const searchKey = ref('')
-const searchType = ref('1')
+const searchKey = defineModel('searchKey', { type: String, default: '' })
+const searchType = defineModel('searchType', { type: String, default: '1' })
 
 const searchPlaceholder = ref('')
 const showSearchType = ref(true)
@@ -34,6 +40,11 @@ watchEffect(() => {
     searchPlaceholder.value = '请输入'
   }
 })
+
+const emit = defineEmits(['search'])
+const handleSearch = () => {
+  emit('search')
+}
 </script>
 
 <style lang="scss" scoped>

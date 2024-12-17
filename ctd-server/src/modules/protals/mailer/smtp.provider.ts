@@ -8,16 +8,22 @@ import { Transporter } from 'nodemailer';
 export const SMTP_TRANSPORTER_PROVIDER: Provider = {
   provide: 'MAIL_TRANSPORTER',
   useFactory: async (configService: ConfigService): Promise<Transporter> => {
+    const host = configService.get<string>('SMTP_SERVER');
+    const port = configService.get<number>('SMTP_PORT');
+    const user = configService.get<string>('MAIL_USER');
+    const pass = configService.get<string>('MAIL_PASS');
+
     const transporter = nodemailer.createTransport({
-      host: configService.get<string>('SMTP_SERVER'),
-      port: configService.get<number>('SMTP_PORT'),
-      secure: configService.get<number>('SMTP_PORT') === 465, // true for 465, false for other ports
+      host,
+      port,
+      secure: port === 465, // 如果端口是465则使用SSL，否则使用STARTTLS
       auth: {
-        user: configService.get<string>('MAIL_USER'),
-        pass: configService.get<string>('MAIL_PASS'),
+        user,
+        pass,
       },
+      // 如果是自签名证书，可以暂时这么配置：
       tls: {
-        ciphers: 'SSLv3',
+        rejectUnauthorized: false,
       },
     });
 

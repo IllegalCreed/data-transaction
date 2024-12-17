@@ -30,3 +30,11 @@ export interface IProductDetail extends IProductBase {
   hasCount: boolean
   specGroups: IProductSpecGroup[]
 }
+
+// export interface IProductFilter {
+//   'product-form': string
+//   'data-field': string
+//   'data-source': string
+//   region: string
+//   time: string
+// }

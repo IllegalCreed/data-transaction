@@ -1,9 +1,17 @@
 <template>
   <div class="news-root-container">
-    <div class="news-header-container" :style="{ backgroundImage: `url('${bg}')` }">
+    <div
+      class="news-header-container"
+      :style="{ backgroundImage: `url('${bg}')` }"
+    >
       <span class="title">政策与资讯</span>
 
-      <el-input v-model="searchKey" class="search-input" size="large" placeholder="请输入文章名称">
+      <el-input
+        v-model="searchKey"
+        class="search-input"
+        size="large"
+        placeholder="请输入文章名称"
+      >
         <template #append>
           <el-button>
             <template v-slot:icon>
@@ -27,16 +35,22 @@
           </div>
         </template>
         <template #default>
-          <news-item v-for="(item, index) in newsList" :key="index" :news="item" />
+          <news-item
+            v-for="(item, index) in newsList"
+            :key="index"
+            :news="item"
+          />
         </template>
       </el-skeleton>
     </div>
 
     <div class="pager-panel">
       <el-pagination
+        v-model:current-page="pageNum"
+        v-model:page-size="pageSize"
+        :total="total"
         :pager-count="pagerCount"
         :background="showPaginationBackground"
-        :total="1000"
         :layout="paginationLayout"
       />
     </div>
@@ -47,7 +61,9 @@
 import NewsItem from './NewsItem.vue'
 import { useNewsStore } from '@/stores/modules/news'
 
-const bg = ref(new URL('@/assets/background/newsBackground.png', import.meta.url).href)
+const bg = ref(
+  new URL('@/assets/background/newsBackground.png', import.meta.url).href,
+)
 
 const newsStore = useNewsStore()
 const { newsList } = storeToRefs(newsStore)
@@ -55,10 +71,10 @@ const { getNewsList: getNewsListAction } = newsStore
 
 const searchKey = ref('')
 
-const { isLoading: getNewsListActionLoading, execute: executeGetNewsListAction } = useAsyncState(
-  getNewsListAction(1, 10),
-  undefined
-)
+const {
+  isLoading: getNewsListActionLoading,
+  execute: executeGetNewsListAction,
+} = useAsyncState(getNewsListAction(1, 10), undefined)
 
 onMounted(() => {
   try {
@@ -84,6 +100,9 @@ watchEffect(() => {
     pagerCount.value = 7
   }
 })
+
+import { usePager } from '@/composables/usePager'
+const { pageNum, pageSize, total, refresh } = usePager(getList)
 </script>
 
 <style scoped lang="scss">

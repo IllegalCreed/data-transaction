@@ -1,11 +1,15 @@
 <template>
   <div class="product-root-container">
-    <product-header></product-header>
+    <product-header
+      v-model:searchKey="searchKey"
+      v-model:searchType="searchType"
+      @search="handleSearch"
+    ></product-header>
 
     <product-sort-panel mt-5></product-sort-panel>
 
     <el-skeleton
-      :loading="getProductsActionLoading"
+      :loading="getListLoading"
       animated
       self-center
       flex
@@ -24,16 +28,22 @@
       </template>
       <template #default>
         <div class="products-container">
-          <product-item v-for="(product, index) in products" :key="index" :product="product" />
+          <product-item
+            v-for="(product, index) in products"
+            :key="index"
+            :product="product"
+          />
         </div>
       </template>
     </el-skeleton>
 
     <div class="pager-panel">
       <el-pagination
+        v-model:current-page="pageNum"
+        v-model:page-size="pageSize"
+        :total="total"
         :pager-count="pagerCount"
         :background="showPaginationBackground"
-        :total="1000"
         :layout="paginationLayout"
       />
     </div>
@@ -49,6 +59,11 @@ import { useProductStore } from '@/stores/modules/product'
 const productStore = useProductStore()
 const { filters, sortings, products } = storeToRefs(productStore)
 const { getProducts: getProductsAction } = productStore
+
+const total = computed(() => products.value.length)
+
+const searchKey = ref('')
+const searchType = ref('1')
 
 const paginationLayout = ref('total, prev, pager, next')
 const showPaginationBackground = ref(true)
@@ -69,34 +84,42 @@ watchEffect(() => {
 
 watch(
   filters,
-  (newValue) => {
+  newValue => {
     console.log(`Searching with filters: ${JSON.stringify(newValue, null, 2)}`)
-    // 在这里触发搜索逻辑
+    refresh()
   },
-  { deep: true }
+  { deep: true },
 )
 
 watch(
   sortings,
-  (newValue) => {
+  newValue => {
     console.log(`Searching with sort: ${JSON.stringify(newValue, null, 2)}`)
-    // 在这里触发搜索逻辑
+    refresh()
   },
-  { deep: true }
+  { deep: true },
 )
 
-const { isLoading: getProductsActionLoading, execute: executeGetProductsAction } = useAsyncState(
-  () => getProductsAction(),
-  undefined
-)
+const handleSearch = () => {
+  refresh()
+}
 
-onMounted(() => {
-  try {
-    executeGetProductsAction()
-  } catch (error: unknown) {
-    console.error(error)
-  }
-})
+const getListLoading = ref<boolean>(false)
+const getList = async (): Promise<void> => {
+  getListLoading.value = true
+  console.log(searchKey.value)
+  await getProductsAction(
+    pageNum.value,
+    pageSize.value,
+    searchType.value,
+    searchKey.value,
+    filters.value,
+  )
+  getListLoading.value = false
+}
+
+import { usePager } from '@/composables/usePager'
+const { pageNum, pageSize, refresh } = usePager(getList)
 </script>
 
 <style scoped lang="scss">
