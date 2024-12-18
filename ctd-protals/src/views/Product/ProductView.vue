@@ -113,6 +113,7 @@ const getList = async (): Promise<void> => {
     searchType.value,
     searchKey.value,
     filters.value,
+    sortings.value,
   )
   getListLoading.value = false
 }

@@ -20,6 +20,7 @@ import {
   type IProductFetchData,
 } from '@/apiConvert/product'
 import type { ICommonReturn } from '@/axios/type'
+import type { ISortValue } from '@/types/sorting'
 
 export const useProduct = () => {
   const settingsStore = useSettingsStore()
@@ -32,7 +33,8 @@ export const useProduct = () => {
     pageSize: number,
     searchType: string,
     searchValue: string,
-    param: Record<string, string>,
+    filters: Record<string, string>,
+    sorts: ISortValue,
   ): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       if (findMockTreeValueByKey('产品')) {
@@ -41,7 +43,14 @@ export const useProduct = () => {
           resolve()
         }, 1000)
       } else {
-        getProductsAPI(pageNum, pageSize, searchType, searchValue, param)
+        getProductsAPI(
+          pageNum,
+          pageSize,
+          searchType,
+          searchValue,
+          filters,
+          sorts,
+        )
           .then((res: unknown) => {
             if (import.meta.env.VITE_BACK_TYPE === 'java') {
               const resData = res as ICommonReturn<IProductFetchData>

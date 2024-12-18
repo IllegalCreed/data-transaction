@@ -1,3 +1,4 @@
+import type { ISortValue } from '@/types/sorting'
 import * as javaProduct from './java/product'
 import * as nestProduct from './nest/product'
 
@@ -7,7 +8,8 @@ interface IProductAPI {
     pageSize: number,
     searchType: string,
     searchValue: string,
-    param: Record<string, string>,
+    filters: Record<string, string>,
+    sorts: ISortValue,
   ) => Promise<unknown>
   getProduct: (id: number | string) => Promise<unknown>
   getProductImages: (id: number | string) => Promise<unknown>

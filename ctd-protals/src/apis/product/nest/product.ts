@@ -1,16 +1,21 @@
 import request from '@/axios'
+import type { ISortValue } from '@/types/sorting'
 
 export const getProducts = (
   pageNum: number,
   pageSize: number,
   searchType: string,
   searchValue: string,
-  param: Record<string, string>,
+  filters: Record<string, string>,
+  sorts: ISortValue,
 ): Promise<unknown> => {
   const params = {
     pageNum,
     pageSize,
-    params: param,
+    searchType,
+    searchValue,
+    filters,
+    sorts,
   }
   return request.post(
     {

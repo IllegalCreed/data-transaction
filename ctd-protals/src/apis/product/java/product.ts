@@ -1,15 +1,23 @@
 import request from '@/axios'
+import type { ISortValue } from '@/types/sorting'
 
 export const getProducts = (
   pageNum: number,
   pageSize: number,
   searchType: string,
   searchValue: string,
-  param: Record<string, string>,
+  filters: Record<string, string>,
+  sorts: ISortValue,
 ): Promise<unknown> => {
   const javaParam: Record<string, string> = {}
-  Object.assign(javaParam, param)
+  Object.assign(javaParam, filters)
+  for (const key in javaParam) {
+    if (javaParam[key] === 'all') {
+      delete javaParam[key]
+    }
+  }
   javaParam['search-type'] = searchType
+  javaParam[sorts.sortType] = sorts.order === 'asc' ? '1' : '0'
   const params = {
     pageNum,
     pageSize,
