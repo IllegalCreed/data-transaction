@@ -14,7 +14,6 @@ async function bootstrap() {
     }),
   );
   const configService = app.get(ConfigService);
-  const port = configService.get('PORT');
 
   // 从配置中获取白名单域名列表（假设已在.env中或配置文件中定义）
   // 例如在.env: CORS_WHITELIST='http://localhost:3001,http://example.com'
@@ -40,6 +39,7 @@ async function bootstrap() {
     credentials: true, // 如果需要允许发送凭据（cookies、Authorization headers）
   });
 
+  const port = configService.get('PORT');
   await app.listen(port ?? 3000);
 }
 bootstrap();

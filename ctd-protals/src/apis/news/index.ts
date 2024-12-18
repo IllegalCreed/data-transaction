@@ -2,7 +2,11 @@ import * as javaNews from './java/news'
 import * as nestNews from './nest/news'
 
 interface INewsAPI {
-  getNewsList: (pageNum: number, pageSize: number) => Promise<unknown>
+  getNewsList: (
+    pageNum: number,
+    pageSize: number,
+    searchValue: string,
+  ) => Promise<unknown>
   getNews: (id: number | string) => Promise<unknown>
 }
 

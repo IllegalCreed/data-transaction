@@ -11,9 +11,10 @@
         class="search-input"
         size="large"
         placeholder="请输入文章名称"
+        @keydown.enter="handleSearch"
       >
         <template #append>
-          <el-button>
+          <el-button @click="handleSearch">
             <template v-slot:icon>
               <i-vaadin:search></i-vaadin:search>
             </template>
@@ -23,7 +24,7 @@
     </div>
 
     <div class="news-list-container">
-      <el-skeleton :loading="getNewsListActionLoading" animated>
+      <el-skeleton :loading="getListLoading" animated>
         <template #template>
           <div flex flex-col gap-6>
             <el-skeleton-item
@@ -69,20 +70,9 @@ const newsStore = useNewsStore()
 const { newsList } = storeToRefs(newsStore)
 const { getNewsList: getNewsListAction } = newsStore
 
+const total = computed(() => newsList.value.length)
+
 const searchKey = ref('')
-
-const {
-  isLoading: getNewsListActionLoading,
-  execute: executeGetNewsListAction,
-} = useAsyncState(getNewsListAction(1, 10), undefined)
-
-onMounted(() => {
-  try {
-    executeGetNewsListAction()
-  } catch (error: unknown) {
-    console.error(error)
-  }
-})
 
 const paginationLayout = ref('total, prev, pager, next')
 const showPaginationBackground = ref(true)
@@ -101,8 +91,19 @@ watchEffect(() => {
   }
 })
 
+const handleSearch = () => {
+  refresh()
+}
+
+const getListLoading = ref<boolean>(false)
+const getList = async (): Promise<void> => {
+  getListLoading.value = true
+  await getNewsListAction(pageNum.value, pageSize.value, searchKey.value)
+  getListLoading.value = false
+}
+
 import { usePager } from '@/composables/usePager'
-const { pageNum, pageSize, total, refresh } = usePager(getList)
+const { pageNum, pageSize, refresh } = usePager(getList)
 </script>
 
 <style scoped lang="scss">
