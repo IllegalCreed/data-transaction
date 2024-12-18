@@ -2,7 +2,7 @@ import type { IFilter } from '@/types/filter'
 
 export const filterSource: IFilter[] = [
   {
-    id: 'product-form',
+    id: 'product_form',
     label: '产品形态',
     items: [
       { id: 'all', label: '全部' },
@@ -14,7 +14,7 @@ export const filterSource: IFilter[] = [
     ],
   },
   {
-    id: 'data-field',
+    id: 'data_field',
     label: '涉及领域',
     items: [
       { id: 'all', label: '全部' },
@@ -28,7 +28,7 @@ export const filterSource: IFilter[] = [
     ],
   },
   {
-    id: 'data-source',
+    id: 'data_source',
     label: '数据来源',
     items: [
       { id: 'all', label: '全部' },
