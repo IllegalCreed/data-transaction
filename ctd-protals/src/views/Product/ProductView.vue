@@ -107,7 +107,6 @@ const handleSearch = () => {
 const getListLoading = ref<boolean>(false)
 const getList = async (): Promise<void> => {
   getListLoading.value = true
-  console.log(searchKey.value)
   await getProductsAction(
     pageNum.value,
     pageSize.value,
