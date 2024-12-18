@@ -5,6 +5,8 @@ import type {
 } from '@/types/product'
 export interface IProductFetchData {
   id: string
+  prodCode: string
+  prodVersionCode: string
   userId: string
   nickName: string
   proLabelList: { prodLabel: string }[]
@@ -21,6 +23,7 @@ export interface IProductFetchData {
   proSpecificationsTypeList: {
     speTypeKey: string
     speTypeLabel: string
+    affectsPrice: number
     proSpecificationsInfoList: {
       spePronKey: string
       spePronLabel: string
@@ -58,6 +61,8 @@ export const productConvert = (raw: IProductFetchData): IProductDetail => {
     soldCount: raw.saleNum,
     hasCount: raw.proVersion.bizNumSwitch === '1',
     specGroups: transformSpecifications(raw.proSpecificationsTypeList),
+    productCode: raw.prodCode,
+    productVersionCode: raw.prodVersionCode,
   }
 }
 
@@ -65,6 +70,7 @@ function transformSpecifications(
   proSpecificationsTypeList: {
     speTypeKey: string
     speTypeLabel: string
+    affectsPrice: number
     proSpecificationsInfoList: {
       spePronKey: string
       spePronLabel: string
@@ -74,6 +80,7 @@ function transformSpecifications(
   return proSpecificationsTypeList.map(type => ({
     key: type.speTypeKey,
     label: type.speTypeLabel,
+    affectsPrice: type.affectsPrice === 1,
     specs: type.proSpecificationsInfoList.map(info => ({
       key: info.spePronKey,
       label: info.spePronLabel,

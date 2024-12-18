@@ -1,12 +1,14 @@
 import { useSettingsStore } from '@/stores/modules/settings'
-import type { IProduct, IProductDetail } from '@/types/product'
-import {
-  getPrice as getPriceAPI,
-  getRecommendProducts as getRecommendProductsAPI,
-} from '@/apis/product/product'
+import type {
+  IProduct,
+  IProductDetail,
+  IProductPriceQuery,
+} from '@/types/product'
+import { getRecommendProducts as getRecommendProductsAPI } from '@/apis/product/product'
 import {
   getProducts as getProductsAPI,
   getProduct as getProductAPI,
+  getPrice as getPriceAPI,
   getProductImages as getProductImagesAPI,
   getProductContent as getProductContentAPI,
 } from '@/apis/product'
@@ -98,17 +100,26 @@ export const useProduct = () => {
     })
   }
 
-  const getPrice = (specs: Record<string, string>): Promise<number> => {
+  const getPrice = (
+    id: string | number,
+    versionId: string | number,
+    specs: IProductPriceQuery[],
+  ): Promise<number> => {
     return new Promise<number>((resolve, reject) => {
       if (findMockTreeValueByKey('产品')) {
         window.setTimeout(() => {
           resolve(Math.floor(Math.random() * 2000))
         }, 1000)
       } else {
-        getPriceAPI(specs)
+        getPriceAPI(id, versionId, specs)
           .then((res: unknown) => {
-            const price = res as number
-            resolve(price)
+            if (import.meta.env.VITE_BACK_TYPE === 'java') {
+              const resData = res as ICommonReturn<{ price: number }>
+              resolve(resData.data.price)
+            } else {
+              const resData = res as ICommonReturn<{ price: number }>
+              resolve(resData.data.price)
+            }
           })
           .catch((error: unknown) => {
             reject(error)

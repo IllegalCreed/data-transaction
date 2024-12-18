@@ -1,4 +1,5 @@
 import request from '@/axios'
+import type { IProductPriceQuery } from '@/types/product'
 import type { ISortValue } from '@/types/sorting'
 
 export const getProducts = (
@@ -39,7 +40,11 @@ export const getProduct = (id: string | number): Promise<unknown> => {
   )
 }
 
-export const getPrice = (specs: Record<string, string>): Promise<unknown> => {
+export const getPrice = (
+  id: string | number,
+  versionId: string | number,
+  specs: IProductPriceQuery[],
+): Promise<unknown> => {
   const params = {
     specs,
   }

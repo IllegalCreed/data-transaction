@@ -7,6 +7,7 @@ export interface IProductSpec {
 // 产品规格组
 export interface IProductSpecGroup extends IProductSpec {
   specs: IProductSpec[]
+  affectsPrice: boolean
 }
 
 export interface IProductBase {
@@ -29,6 +30,13 @@ export interface IProductDetail extends IProductBase {
   soldCount: number
   hasCount: boolean
   specGroups: IProductSpecGroup[]
+  productCode?: string
+  productVersionCode?: string
+}
+
+export interface IProductPriceQuery {
+  groupKey: string
+  specKey: string
 }
 
 // export interface IProductFilter {
