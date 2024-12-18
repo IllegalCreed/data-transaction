@@ -16,7 +16,7 @@ export const getProducts = (
       delete javaParam[key]
     }
   }
-  javaParam['search-type'] = searchType
+  javaParam['search_type'] = searchType
   javaParam[sorts.sortType] = sorts.order === 'asc' ? '1' : '0'
   const params = {
     pageNum,
