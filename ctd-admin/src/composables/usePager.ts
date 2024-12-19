@@ -1,7 +1,7 @@
-import type { apiListResult } from '@/types/common'
+import { debounce } from 'lodash-es'
 
-export function usePager<T>(
-  getList: () => Promise<apiListResult<T>>,
+export function usePager(
+  getList: () => Promise<number>,
   options?: {
     initPageNum?: number
     initPageSize?: number
@@ -12,16 +12,25 @@ export function usePager<T>(
   const pageSize = ref<number>(options?.initPageSize ?? 10)
   const total = ref<number>(options?.initTotal ?? 0)
 
-  onMounted(() => {
-    refresh()
-  })
-
-  const refresh = async () => {
-    const result = await getList()
-    total.value = result.total
+  const refresh = async (resetPageNum: boolean = true) => {
+    if (resetPageNum && pageNum.value !== 1) {
+      pageNum.value = 1
+    } else {
+      fetchDate()
+    }
   }
 
-  watch([pageNum, pageSize], refresh)
+  const fetchDate = debounce(async () => {
+    total.value = await getList()
+  }, 500)
+
+  onMounted(() => {
+    refresh(false)
+  })
+
+  watch([pageNum, pageSize], () => {
+    refresh(false)
+  })
 
   return { pageNum, pageSize, total, refresh }
 }

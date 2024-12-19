@@ -37,12 +37,12 @@ export const useProduct = () => {
     searchValue: string,
     filters: Record<string, string>,
     sorts: ISortValue,
-  ): Promise<void> => {
-    return new Promise<void>((resolve, reject) => {
+  ): Promise<number> => {
+    return new Promise<number>((resolve, reject) => {
       if (findMockTreeValueByKey('产品')) {
         window.setTimeout(() => {
           products.value = mockProducts
-          resolve()
+          resolve(1000)
         }, 1000)
       } else {
         getProductsAPI(
@@ -57,10 +57,12 @@ export const useProduct = () => {
             if (import.meta.env.VITE_BACK_TYPE === 'java') {
               const resData = res as ICommonReturn<IProductFetchData>
               products.value = productsConvert(resData.rows)
+              resolve(resData.total)
             } else {
-              products.value = res as IProduct[]
+              const resData = res as ICommonReturn<IProduct>
+              products.value = resData.rows
+              resolve(resData.total)
             }
-            resolve()
           })
           .catch((error: unknown) => {
             reject(error)

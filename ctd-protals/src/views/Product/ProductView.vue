@@ -60,8 +60,6 @@ const productStore = useProductStore()
 const { filters, sortings, products } = storeToRefs(productStore)
 const { getProducts: getProductsAction } = productStore
 
-const total = computed(() => products.value.length)
-
 const searchKey = ref('')
 const searchType = ref('1')
 
@@ -105,9 +103,10 @@ const handleSearch = () => {
 }
 
 const getListLoading = ref<boolean>(false)
-const getList = async (): Promise<void> => {
+const getList = async (): Promise<number> => {
   getListLoading.value = true
-  await getProductsAction(
+  // TODO: 异常处理
+  const total = await getProductsAction(
     pageNum.value,
     pageSize.value,
     searchType.value,
@@ -116,10 +115,11 @@ const getList = async (): Promise<void> => {
     sortings.value,
   )
   getListLoading.value = false
+  return total
 }
 
 import { usePager } from '@/composables/usePager'
-const { pageNum, pageSize, refresh } = usePager(getList)
+const { pageNum, pageSize, total, refresh } = usePager(getList)
 </script>
 
 <style scoped lang="scss">

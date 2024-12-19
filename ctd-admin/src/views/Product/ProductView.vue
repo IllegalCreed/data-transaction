@@ -48,14 +48,13 @@
 <script setup lang="ts">
 import ProductFilterSortPanel from './ProductFilterSortPanel.vue'
 import ProductTabelPanel from './ProductTabelPanel.vue'
-import type { apiListResult } from '@/types/common'
 
 // 获取列表
 const getListLoading = ref<boolean>(false)
 const data = ref<IProductItem[]>([])
 import { useProductStore } from '@/stores/modules/product'
 const { getProducts: getProductsAction, deleteProducts: deleteProductsAction } = useProductStore()
-const getList = async (): Promise<apiListResult<IProductItem>> => {
+const getList = async (): Promise<number> => {
   getListLoading.value = true
   const res = await getProductsAction(
     searchQuery.value,
@@ -67,7 +66,7 @@ const getList = async (): Promise<apiListResult<IProductItem>> => {
 
   data.value = res.rows
   getListLoading.value = false
-  return res
+  return res.total
 }
 
 import { usePager } from '@/composables/usePager'

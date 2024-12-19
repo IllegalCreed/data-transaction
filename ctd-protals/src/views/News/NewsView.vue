@@ -60,20 +60,12 @@
 
 <script setup lang="ts">
 import NewsItem from './NewsItem.vue'
-import { useNewsStore } from '@/stores/modules/news'
 
 const bg = ref(
   new URL('@/assets/background/newsBackground.png', import.meta.url).href,
 )
 
-const newsStore = useNewsStore()
-const { newsList } = storeToRefs(newsStore)
-const { getNewsList: getNewsListAction } = newsStore
-
-const total = computed(() => newsList.value.length)
-
-const searchKey = ref('')
-
+// 分页组件相关
 const paginationLayout = ref('total, prev, pager, next')
 const showPaginationBackground = ref(true)
 const pagerCount = ref(7)
@@ -91,19 +83,33 @@ watchEffect(() => {
   }
 })
 
+// 搜索相关
+const searchKey = ref('')
 const handleSearch = () => {
   refresh()
 }
 
+// 数据获取相关
+import { useNewsStore } from '@/stores/modules/news'
+const newsStore = useNewsStore()
+const { newsList } = storeToRefs(newsStore)
+const { getNewsList: getNewsListAction } = newsStore
+
 const getListLoading = ref<boolean>(false)
-const getList = async (): Promise<void> => {
+const getList = async (): Promise<number> => {
   getListLoading.value = true
-  await getNewsListAction(pageNum.value, pageSize.value, searchKey.value)
+  // TODO: 异常处理
+  const total = await getNewsListAction(
+    pageNum.value,
+    pageSize.value,
+    searchKey.value,
+  )
   getListLoading.value = false
+  return total
 }
 
 import { usePager } from '@/composables/usePager'
-const { pageNum, pageSize, refresh } = usePager(getList)
+const { pageNum, pageSize, total, refresh } = usePager(getList)
 </script>
 
 <style scoped lang="scss">

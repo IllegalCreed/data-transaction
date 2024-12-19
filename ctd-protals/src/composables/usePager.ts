@@ -1,32 +1,36 @@
 import { debounce } from 'lodash-es'
 
 export function usePager(
-  getList: () => Promise<void>,
+  getList: () => Promise<number>,
   options?: {
     initPageNum?: number
     initPageSize?: number
+    initTotal?: number
   },
 ) {
   const pageNum = ref<number>(options?.initPageNum ?? 1)
   const pageSize = ref<number>(options?.initPageSize ?? 10)
+  const total = ref<number>(options?.initTotal ?? 0)
 
-  const refresh = async () => {
-    if (pageNum.value !== 1) {
+  const refresh = async (resetPageNum: boolean = true) => {
+    if (resetPageNum && pageNum.value !== 1) {
       pageNum.value = 1
-      return
+    } else {
+      fetchDate()
     }
-    await getList()
   }
 
-  const debouncedRefresh = debounce(refresh, 1000)
+  const fetchDate = debounce(async () => {
+    total.value = await getList()
+  }, 500)
 
   onMounted(() => {
-    debouncedRefresh()
+    refresh(false)
   })
 
   watch([pageNum, pageSize], () => {
-    debouncedRefresh()
+    refresh(false)
   })
 
-  return { pageNum, pageSize, refresh: debouncedRefresh }
+  return { pageNum, pageSize, total, refresh }
 }

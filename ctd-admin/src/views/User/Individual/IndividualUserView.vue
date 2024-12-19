@@ -45,7 +45,6 @@
 <script setup lang="ts">
 import UserFilterSortPanel from './IndividualUserFilterSortPanel.vue'
 import UserTabelPanel from './IndividualUserTabelPanel.vue'
-import type { apiListResult } from '@/types/common'
 
 // 获取列表
 const getListLoading = ref<boolean>(false)
@@ -56,7 +55,7 @@ const {
   changeUsersStatus: changeUsersStatusAction,
   deleteUsers: deleteUsersAction
 } = useUserStore()
-const getList = async (): Promise<apiListResult<IIndividualUserItem>> => {
+const getList = async (): Promise<number> => {
   getListLoading.value = true
   const res = await getIndividualUsersAction(
     searchQuery.value,
@@ -64,10 +63,9 @@ const getList = async (): Promise<apiListResult<IIndividualUserItem>> => {
     pageNum.value,
     pageSize.value
   )
-
   data.value = res.rows
   getListLoading.value = false
-  return res
+  return res.total
 }
 
 import { usePager } from '@/composables/usePager'

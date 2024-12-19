@@ -29,12 +29,12 @@ export const useNewsStore = defineStore('news', () => {
     pageNum: number,
     pageSize: number,
     searchValue: string,
-  ): Promise<void> => {
-    return new Promise<void>((resolve, reject) => {
+  ): Promise<number> => {
+    return new Promise<number>((resolve, reject) => {
       if (findMockTreeValueByKey('首页')) {
         window.setTimeout(() => {
           newsList.value = mockNewsList
-          resolve()
+          resolve(1000)
         }, 1000)
       } else {
         getNewsListAPI(pageNum, pageSize, searchValue)
@@ -42,10 +42,12 @@ export const useNewsStore = defineStore('news', () => {
             if (import.meta.env.VITE_BACK_TYPE === 'java') {
               const resData = res as ICommonReturn<INewsFetchData>
               newsList.value = newsListConvert(resData.rows)
+              resolve(resData.total)
             } else {
-              newsList.value = res as INewsItem[]
+              const resData = res as ICommonReturn<INewsItem>
+              newsList.value = resData.rows
+              resolve(resData.total)
             }
-            resolve()
           })
           .catch((error: unknown) => {
             reject(error)
