@@ -46,6 +46,11 @@
 </template>
 
 <script setup lang="ts">
+defineOptions({
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: 'product'
+})
+
 import ProductFilterSortPanel from './ProductFilterSortPanel.vue'
 import ProductTabelPanel from './ProductTabelPanel.vue'
 

@@ -56,10 +56,13 @@
 </template>
 
 <script setup lang="ts">
-const id = useRouteParams<string | number>('id')
-watch(id, () => {
-  executeGetUserAction()
+defineOptions({
+  name: 'individual-detail'
 })
+const id = useRouteParams<string | number>('id')
+// watch(id, () => {
+//   executeGetUserAction()
+// })
 
 import { useUserStore } from '@/stores/modules/user'
 const { getIndividualUser: getIndividualUserAction } = useUserStore()
@@ -92,8 +95,8 @@ const {
   }
 )
 
-onMounted(() => {
-  executeGetUserAction()
+onMounted(async () => {
+  await executeGetUserAction()
 })
 
 import {

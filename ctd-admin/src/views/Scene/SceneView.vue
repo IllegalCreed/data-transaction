@@ -49,6 +49,11 @@
 </template>
 
 <script setup lang="ts">
+defineOptions({
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: 'scene'
+})
+
 import SceneFilterSortPanel from './SceneFilterSortPanel.vue'
 import SceneTabelPanel from './SceneTabelPanel.vue'
 

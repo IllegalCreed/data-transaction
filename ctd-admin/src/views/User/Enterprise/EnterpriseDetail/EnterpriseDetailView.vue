@@ -72,10 +72,13 @@
 </template>
 
 <script setup lang="ts">
-const id = useRouteParams<string | number>('id')
-watch(id, () => {
-  executeGetUserAction()
+defineOptions({
+  name: 'enterprise-detail'
 })
+const id = useRouteParams<string | number>('id')
+// watch(id, () => {
+//   executeGetUserAction()
+// })
 
 import { useUserStore } from '@/stores/modules/user'
 const { getEnterpriseUser: getEnterpriseUserAction } = useUserStore()

@@ -47,6 +47,10 @@
 </template>
 
 <script setup lang="ts">
+defineOptions({
+  name: 'user-individual'
+})
+
 import FilterSortPanel from '@/components/FilterSortPanel.vue'
 import UserTabelPanel from './IndividualUserTabelPanel.vue'
 

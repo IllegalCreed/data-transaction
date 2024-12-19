@@ -7,12 +7,12 @@ export const mainMenus: IMenu[] = [
     icon: 'i-solar:user-linear',
     children: [
       {
-        path: '/home/user/individual',
+        path: '/home/individual',
         label: '个人用户',
         icon: 'i-mynaui:users'
       },
       {
-        path: '/home/user/enterprise',
+        path: '/home/enterprise',
         label: '企业用户',
         icon: 'i-ph:users-three'
       }

@@ -1,5 +1,5 @@
 <template>
-  <div class="individual-root-container">
+  <div class="enterprise-root-container">
     <div flex flex-row justify-between>
       <el-input
         class="search-input"
@@ -43,6 +43,10 @@
 </template>
 
 <script setup lang="ts">
+defineOptions({
+  name: 'user-enterprise'
+})
+
 import UserFilterSortPanel from './EnterpriseUserFilterSortPanel.vue'
 import UserTabelPanel from './EnterpriseUserTabelPanel.vue'
 
@@ -57,12 +61,7 @@ const {
 } = useUserStore()
 const getList = async (): Promise<number> => {
   getListLoading.value = true
-  const res = await getEnterpriseUsersAction(
-    searchQuery.value,
-    status.value,
-    pageNum.value,
-    pageSize.value
-  )
+  const res = await getEnterpriseUsersAction(searchQuery.value, pageNum.value, pageSize.value)
 
   data.value = res.rows
   getListLoading.value = false
@@ -129,7 +128,7 @@ const reset = () => {
 </script>
 
 <style scoped lang="scss">
-.individual-root-container {
+.enterprise-root-container {
   @apply flex-1 flex flex-col p-4 gap-4 bg-[var(--background-page-color)];
 }
 </style>

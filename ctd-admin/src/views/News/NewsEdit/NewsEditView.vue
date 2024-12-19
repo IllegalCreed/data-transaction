@@ -56,6 +56,10 @@
 </template>
 
 <script setup lang="ts">
+defineOptions({
+  name: 'news-edit'
+})
+
 import ImagePicker from '@/components/ImagePicker.vue'
 import NewsRichEditPanel from './NewsRichEditPanel.vue'
 import { v4 as uuidv4 } from 'uuid'

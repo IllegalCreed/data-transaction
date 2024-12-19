@@ -57,10 +57,13 @@
 </template>
 
 <script setup lang="ts">
-const id = useRouteParams<string | number>('id')
-watch(id, () => {
-  executeGetNewsDetailAction()
+defineOptions({
+  name: 'news-detail'
 })
+const id = useRouteParams<string | number>('id')
+// watch(id, () => {
+//   executeGetNewsDetailAction()
+// })
 
 import { useNewsStore } from '@/stores/modules/news'
 const { getNewsDetail: getNewsDetailAction } = useNewsStore()

@@ -65,10 +65,14 @@
 </template>
 
 <script setup lang="ts">
-const id = useRouteParams<string | number>('id')
-watch(id, () => {
-  executeGetSceneAction()
+defineOptions({
+  name: 'scene-detail'
 })
+
+const id = useRouteParams<string | number>('id')
+// watch(id, () => {
+//   executeGetSceneAction()
+// })
 
 import { useSceneStore } from '@/stores/modules/scene'
 const { getScene: getSceneAction } = useSceneStore()

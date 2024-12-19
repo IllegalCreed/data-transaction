@@ -76,13 +76,13 @@
       <div flex-1 flex flex-col min-w-0>
         <HistoryTab></HistoryTab>
         <div class="router-container">
-          <RouterView v-slot="{ Component, route }">
+          <router-view v-slot="{ Component, route }">
             <transition name="fade" mode="out-in">
               <keep-alive :include="cachedViews">
                 <component :is="Component" :key="route.path" />
               </keep-alive>
             </transition>
-          </RouterView>
+          </router-view>
         </div>
       </div>
     </div>
@@ -92,7 +92,7 @@
 <script setup lang="ts">
 import HeaderView from './HeaderView.vue'
 import { useRouterStore } from '@/stores/modules/router'
-const { cachedViews } = useRouterStore()
+const { cachedViews } = storeToRefs(useRouterStore())
 
 const route = useRoute()
 const router = useRouter()

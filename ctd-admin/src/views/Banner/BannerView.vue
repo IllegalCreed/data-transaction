@@ -51,6 +51,10 @@
 <script setup lang="ts">
 import BannerFilterSortPanel from './BannerFilterSortPanel.vue'
 import BannerTabelPanel from './BannerTabelPanel.vue'
+defineOptions({
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: 'banner'
+})
 
 // 获取列表
 import type { IBannerItem } from '@/types/banner'

@@ -54,10 +54,14 @@
 </template>
 
 <script setup lang="ts">
-const id = useRouteParams<string | number>('id')
-watch(id, () => {
-  executeGetBannerAction()
+defineOptions({
+  name: 'banner-detail'
 })
+
+const id = useRouteParams<string | number>('id')
+// watch(id, () => {
+//   executeGetBannerAction()
+// })
 
 import { useBannerStore } from '@/stores/modules/banner'
 const { getBanner: getBannerAction } = useBannerStore()

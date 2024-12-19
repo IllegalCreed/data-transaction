@@ -50,6 +50,11 @@
 </template>
 
 <script setup lang="ts">
+defineOptions({
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: 'company'
+})
+
 import CompanyFilterSortPanel from './CompanyFilterSortPanel.vue'
 import CompanyTabelPanel from './CompanyTabelPanel.vue'
 

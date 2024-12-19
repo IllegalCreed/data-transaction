@@ -47,6 +47,10 @@
 <script setup lang="ts">
 import NewsFilterSortPanel from './NewsFilterSortPanel.vue'
 import NewsTabelPanel from './NewsTabelPanel.vue'
+defineOptions({
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: 'news'
+})
 
 // 获取列表
 const getListLoading = ref<boolean>(false)
