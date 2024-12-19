@@ -1,5 +1,4 @@
 import { useSettingsStore } from '../settings'
-import type { UserStatus } from '@/constants/mapData/user'
 import type { apiListResult } from '@/types/common'
 import type { IEnterpriseUser, IEnterpriseUserItem } from '@/types/user'
 import {
@@ -7,13 +6,15 @@ import {
   getEnterpriseUser as getEnterpriseUserAPI
 } from '@/apis/user'
 import { enterpriseUsers as mockEnterpriseUsers } from '@/constants/mockData/user/enterprise'
+import type { IFilterDTO, ISortDTO } from '@/types/table'
 
 export const useEnterprise = () => {
   const settingsStore = useSettingsStore()
 
   const getEnterpriseUsers = (
     searchQuery: string,
-    status: UserStatus | null,
+    filters: IFilterDTO[],
+    sorts: ISortDTO[],
     pageNum: number,
     pageSize: number
   ): Promise<apiListResult<IEnterpriseUserItem>> => {
@@ -28,7 +29,7 @@ export const useEnterprise = () => {
           resolve({ total: result.length, rows: result })
         }, 1000)
       } else {
-        getEnterpriseUsersAPI(searchQuery, status, pageNum, pageSize)
+        getEnterpriseUsersAPI(searchQuery, filters, sorts, pageNum, pageSize)
           .then((res) => {
             const result = res as apiListResult<IEnterpriseUserItem>
             resolve(result)

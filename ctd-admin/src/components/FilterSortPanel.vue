@@ -71,7 +71,7 @@
           <template v-if="filter.columns.type === 'enum'">
             <el-select clearable v-model="filter.value" placeholder="选择筛选项">
               <el-option
-                v-for="item in userStatusOptions"
+                v-for="item in filter.options"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -108,7 +108,6 @@
 
 <script setup lang="ts">
 import { VueDraggable } from 'vue-draggable-plus'
-import { userStatusOptions } from '@/constants/mapData/user'
 
 const emit = defineEmits<{
   (e: 'refresh'): void

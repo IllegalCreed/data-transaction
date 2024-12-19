@@ -5,11 +5,13 @@ import * as javaEnterprise from './java/enterprise'
 import * as nestEnterprise from './nest/enterprise'
 import * as javaUser from './java/user'
 import * as nestUser from './nest/user'
+import type { IFilterDTO, ISortDTO } from '@/types/table'
 
 interface IIndividualAPI {
   getIndividualUsers: (
     searchQuery: string,
-    status: UserStatus | null,
+    filters: IFilterDTO[],
+    sorts: ISortDTO[],
     pageNum: number,
     pageSize: number
   ) => Promise<unknown>
@@ -19,7 +21,8 @@ interface IIndividualAPI {
 interface IEnterpriseAPI {
   getEnterpriseUsers: (
     searchQuery: string,
-    status: UserStatus | null,
+    filters: IFilterDTO[],
+    sorts: ISortDTO[],
     pageNum: number,
     pageSize: number
   ) => Promise<unknown>

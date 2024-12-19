@@ -1,15 +1,17 @@
 import request from '@/axios'
-import type { UserStatus } from '@/constants/mapData/user'
+import type { IFilterDTO, ISortDTO } from '@/types/table'
 
 export const getEnterpriseUsers = (
   searchQuery: string,
-  status: UserStatus | null,
+  filters: IFilterDTO[],
+  sorts: ISortDTO[],
   pageNum: number,
   pageSize: number
 ): Promise<unknown> => {
   const params = {
     searchQuery,
-    status,
+    filters,
+    sorts,
     pageNum,
     pageSize
   }

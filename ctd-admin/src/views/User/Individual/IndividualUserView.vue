@@ -21,7 +21,11 @@
 
     <el-divider class="!my-0" />
 
-    <user-filter-sort-panel v-model:status="status" @refresh="reset" />
+    <filter-sort-panel
+      v-model:filter-list="filterList"
+      v-model:sort-list="sortList"
+      @refresh="reset"
+    />
 
     <user-tabel-panel
       :data="data"
@@ -43,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import UserFilterSortPanel from './IndividualUserFilterSortPanel.vue'
+import FilterSortPanel from '@/components/FilterSortPanel.vue'
 import UserTabelPanel from './IndividualUserTabelPanel.vue'
 
 // 获取列表
@@ -59,7 +63,8 @@ const getList = async (): Promise<number> => {
   getListLoading.value = true
   const res = await getIndividualUsersAction(
     searchQuery.value,
-    status.value,
+    filterDTO.value,
+    sortDTO.value,
     pageNum.value,
     pageSize.value
   )
@@ -120,9 +125,52 @@ const handleSearch = () => {
   refresh()
 }
 
-const status = ref<UserStatus | null>(null)
+const { sortList, filterList, sortDTO, filterDTO } = useSortAndFilter(
+  [
+    {
+      columns: {
+        key: 'fullName',
+        label: '姓名'
+      },
+      order: undefined
+    },
+    {
+      columns: {
+        key: 'status',
+        label: '状态'
+      },
+      order: undefined
+    }
+  ],
+  [
+    {
+      columns: {
+        key: 'status',
+        label: '状态',
+        type: 'enum' as const
+      },
+      options: userStatusOptions
+    },
+    {
+      columns: {
+        key: 'createdDate',
+        label: '创建日期',
+        type: 'date' as const
+      }
+    },
+    {
+      columns: {
+        key: 'name',
+        label: '姓名',
+        type: 'input' as const
+      }
+    }
+  ]
+)
+import { userStatusOptions } from '@/constants/mapData/user'
+import { useSortAndFilter } from '@/composables/useSortAndFilter'
+
 const reset = () => {
-  pageNum.value = 1
   refresh()
 }
 </script>

@@ -52,6 +52,9 @@ export enum ErrorCode {
   CREATE_ADMIN_FAILED = 5002,
   UPDATE_ADMIN_PASSWORD_FAILED = 5003,
   GET_ADMIN_NAME_FAILED = 5004,
+
+  // 用户管理相关
+  GET_USER_FAILED = 6001,
 }
 
 export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
@@ -126,4 +129,7 @@ export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
     'Update admin password failed due to unexpected error.',
   [ErrorCode.GET_ADMIN_NAME_FAILED]:
     'Get admin name failed due to unexpected error.',
+
+  // 用户管理相关
+  [ErrorCode.GET_USER_FAILED]: 'Get user failed due to unexpected error.',
 };

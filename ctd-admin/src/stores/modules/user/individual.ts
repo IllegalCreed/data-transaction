@@ -1,5 +1,4 @@
 import { useSettingsStore } from '../settings'
-import type { UserStatus } from '@/constants/mapData/user'
 import type { apiListResult } from '@/types/common'
 import type { IIndividualUser, IIndividualUserItem } from '@/types/user'
 import {
@@ -8,13 +7,15 @@ import {
 } from '@/apis/user'
 
 import { individualUsers as mockIndividualUsers } from '@/constants/mockData/user/individual'
+import type { IFilterDTO, ISortDTO } from '@/types/table'
 
 export const useIndividual = () => {
   const settingsStore = useSettingsStore()
 
   const getIndividualUsers = (
     searchQuery: string,
-    status: UserStatus | null,
+    filters: IFilterDTO[],
+    sorts: ISortDTO[],
     pageNum: number,
     pageSize: number
   ): Promise<apiListResult<IIndividualUserItem>> => {
@@ -29,7 +30,7 @@ export const useIndividual = () => {
           resolve({ total: result.length, rows: result })
         }, 1000)
       } else {
-        getIndividualUsersAPI(searchQuery, status, pageNum, pageSize)
+        getIndividualUsersAPI(searchQuery, filters, sorts, pageNum, pageSize)
           .then((res) => {
             const result = res as apiListResult<IIndividualUserItem>
             for (const item of result.rows) {
