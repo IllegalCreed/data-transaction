@@ -138,11 +138,14 @@ export const usePriceGroup = (priceInfo: IProductSpecsPriceDefinition) => {
     // 监听 spec.affectsPrice 的变化
     const unwatchAffectsPrice = watch(
       () => spec.affectsPrice,
-      () => {
+      (newValue) => {
         // 当 affectsPrice 为 true 时，只能成为一个从规格，那么必然会影响所有价格的key，所以价格需要清空
         // 当 affectsPrice 为 false 时，如果为主规格，则必然会切换主规格，那么必然会影响所有价格的key，所以价格需要清空
         // 当 affectsPrice 为 false 时，如果不为主规格，也必然不会影响所有价格的key，所以价格需要清空
         // 也就是所有情况下当affectsPrice发生变化时，价格设定都需要清空
+        if (newValue === false && priceInfo.mainSpecGroupId === spec.id) {
+          priceInfo.mainSpecGroupId = undefined
+        }
         priceInfo.prices = []
         genPriceList()
       }

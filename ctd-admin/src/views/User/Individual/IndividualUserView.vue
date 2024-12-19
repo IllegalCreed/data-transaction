@@ -125,50 +125,9 @@ const handleSearch = () => {
   refresh()
 }
 
-const { sortList, filterList, sortDTO, filterDTO } = useSortAndFilter(
-  [
-    {
-      columns: {
-        key: 'fullName',
-        label: '姓名'
-      },
-      order: undefined
-    },
-    {
-      columns: {
-        key: 'status',
-        label: '状态'
-      },
-      order: undefined
-    }
-  ],
-  [
-    {
-      columns: {
-        key: 'status',
-        label: '状态',
-        type: 'enum' as const
-      },
-      options: userStatusOptions
-    },
-    {
-      columns: {
-        key: 'createdDate',
-        label: '创建日期',
-        type: 'date' as const
-      }
-    },
-    {
-      columns: {
-        key: 'name',
-        label: '姓名',
-        type: 'input' as const
-      }
-    }
-  ]
-)
-import { userStatusOptions } from '@/constants/mapData/user'
 import { useSortAndFilter } from '@/composables/useSortAndFilter'
+import { sortList as sortDate, filterList as filterDate } from './IndividualUserSortFilterDate'
+const { sortList, filterList, sortDTO, filterDTO } = useSortAndFilter(sortDate, filterDate)
 
 const reset = () => {
   refresh()
