@@ -1,8 +1,15 @@
 import { userStatusOptions } from '@/constants/mapData/user'
-import type { ITableColumn } from '@/types/table'
+import type { IFilter, ISort, ITableColumn } from '@/types/table'
 import type { IIndividualUserItem } from '@/types/user'
 
-export const sortList = [
+export const sortList: ISort<IIndividualUserItem>[] = [
+  {
+    columns: {
+      key: 'email',
+      label: '邮件'
+    },
+    order: undefined
+  },
   {
     columns: {
       key: 'fullName',
@@ -19,7 +26,7 @@ export const sortList = [
   }
 ]
 
-export const filterList = [
+export const filterList: IFilter<IIndividualUserItem>[] = [
   {
     columns: {
       key: 'status',
@@ -30,14 +37,14 @@ export const filterList = [
   },
   {
     columns: {
-      key: 'createdDate',
+      key: 'createTime',
       label: '创建日期',
       type: 'date' as const
     }
   },
   {
     columns: {
-      key: 'name',
+      key: 'fullName',
       label: '姓名',
       type: 'input' as const
     }

@@ -108,21 +108,20 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" generic="T">
 import { cloneDeep } from 'lodash-es'
 import { VueDraggable } from 'vue-draggable-plus'
+import type { IFilter } from '@/types/table'
+import type { ISort } from '@/types/table'
 
 const emit = defineEmits<{
   (e: 'refresh'): void
 }>()
 
-// 筛选
-import type { IFilter } from '@/types/table'
-
-const filterList = defineModel<IFilter[]>('filterList', {
+const filterList = defineModel<IFilter<T>[]>('filterList', {
   default: undefined
 })
-const filterListBackup = ref<IFilter[]>([])
+const filterListBackup = ref<IFilter<T>[]>([])
 const filterVisible = ref<boolean>(false)
 const filterCount = ref(0)
 
@@ -131,7 +130,7 @@ const openFilterPopover = () => {
   filterVisible.value = true
 }
 
-const resetFilter = (filter: IFilter) => {
+const resetFilter = (filter: IFilter<T>) => {
   filter.value = undefined
 }
 
@@ -153,12 +152,10 @@ const applyFilter = () => {
 }
 
 // 排序
-import type { ISort } from '@/types/table'
-
-const sortList = defineModel<ISort[]>('sortList', {
+const sortList = defineModel<ISort<T>[]>('sortList', {
   default: undefined
 })
-const sortListBackup = ref<ISort[]>([])
+const sortListBackup = ref<ISort<T>[]>([])
 const sortingVisible = ref<boolean>(false)
 const sortingCount = ref(0)
 
@@ -167,7 +164,7 @@ const openSortingPopover = () => {
   sortingVisible.value = true
 }
 
-const resetSorting = (item: ISort) => {
+const resetSorting = (item: ISort<T>) => {
   item.order = undefined
 }
 
@@ -189,14 +186,13 @@ const applySorting = () => {
 }
 
 const cancelChanges = () => {
-  // 判断哪个 popover 是 visible，单独回退对应的内容
   if (filterVisible.value) {
-    filterList.value = cloneDeep(filterListBackup.value) // 只回退筛选数据
+    filterList.value = cloneDeep(filterListBackup.value) as IFilter<T>[]
     filterVisible.value = false
   }
 
   if (sortingVisible.value) {
-    sortList.value = cloneDeep(sortListBackup.value) // 只回退排序数据
+    sortList.value = cloneDeep(sortListBackup.value) as ISort<T>[]
     sortingVisible.value = false
   }
 }

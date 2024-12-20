@@ -14,8 +14,8 @@ export const useIndividual = () => {
 
   const getIndividualUsers = (
     searchQuery: string,
-    filters: IFilterDTO[],
-    sorts: ISortDTO[],
+    filters: IFilterDTO<IIndividualUserItem>[],
+    sorts: ISortDTO<IIndividualUserItem>[],
     pageNum: number,
     pageSize: number
   ): Promise<apiListResult<IIndividualUserItem>> => {

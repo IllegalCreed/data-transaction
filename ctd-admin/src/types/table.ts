@@ -1,21 +1,21 @@
 import type { TableColumnCtx } from 'element-plus'
 
-export interface ISort {
+export interface ISort<T> {
   columns: {
-    key: string
+    key: keyof T
     label: string
   }
   order?: 'asc' | 'desc'
 }
 
-export interface ISortDTO {
-  key: string
+export interface ISortDTO<T> {
+  key: keyof T
   order?: 'asc' | 'desc'
 }
 
-export interface IFilter {
+export interface IFilter<T> {
   columns: {
-    key: string
+    key: keyof T
     label: string
     type: 'enum' | 'date' | 'input'
   }
@@ -27,8 +27,8 @@ export interface IFilter {
   }[]
 }
 
-export interface IFilterDTO {
-  key: string
+export interface IFilterDTO<T> {
+  key: keyof T
   type: 'enum' | 'date' | 'input'
   value?: string | [string, string]
 }
