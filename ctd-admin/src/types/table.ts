@@ -1,24 +1,13 @@
 import type { TableColumnCtx } from 'element-plus'
 
 export interface ISort<T> {
-  columns: {
-    key: keyof T
-    label: string
-  }
-  order?: 'asc' | 'desc'
-}
-
-export interface ISortDTO<T> {
-  key: keyof T
+  prop: keyof T
   order?: 'asc' | 'desc'
 }
 
 export interface IFilter<T> {
-  columns: {
-    key: keyof T
-    label: string
-    type: 'enum' | 'date' | 'input'
-  }
+  prop: keyof T
+  type: 'enum' | 'date' | 'input'
   value?: string | [string, string]
   options?: {
     // 当 type 为 'enum' 时，可能会有 options
@@ -27,15 +16,10 @@ export interface IFilter<T> {
   }[]
 }
 
-export interface IFilterDTO<T> {
-  key: keyof T
-  type: 'enum' | 'date' | 'input'
-  value?: string | [string, string]
-}
+export type IFilterDTO<T> = Omit<IFilter<T>, 'options'>
 
 export interface ITableColumn<T> {
   prop: keyof T
-  label: string
   width?: string
   minWidth?: string
   slot?: string

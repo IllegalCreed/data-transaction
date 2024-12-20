@@ -3,19 +3,23 @@
     :data="data"
     :loading="loading"
     :columns="columns"
-    :propLabelMap="INDIVIDUAL_USER_PROP_LABEL_MAP"
+    :propLabelMap="ENTERPRISE_USER_PROP_LABEL_MAP"
   >
-    <!-- Gender Column Custom Rendering -->
-    <template #gender="{ scope }">
-      <el-tag :type="genderColor(scope.row.gender)">{{ genderLabel(scope.row.gender) }}</el-tag>
+    <template #industryType="{ scope }">
+      <el-tag :type="industryTypeColor(scope.row.industryType)">{{
+        industryTypeLabel(scope.row.industryType)
+      }}</el-tag>
+    </template>
+    <template #companySize="{ scope }">
+      <el-tag :type="companySizeColor(scope.row.companySize)">{{
+        companySizeLabel(scope.row.companySize)
+      }}</el-tag>
     </template>
 
-    <!-- Status Column Custom Rendering -->
     <template #status="{ scope }">
       <el-tag :type="statusColor(scope.row.status)">{{ statusLabel(scope.row.status) }}</el-tag>
     </template>
 
-    <!-- Actions Column Custom Rendering -->
     <template #actions="{ scope }">
       <el-button
         v-if="scope.row.status === UserStatus.Suspended"
@@ -52,24 +56,32 @@
 
 <script setup lang="ts">
 import BaseTable from '@/components/BaseTable.vue'
-import type { IIndividualUserItem } from '@/types/user'
-import { INDIVIDUAL_USER_PROP_LABEL_MAP } from '@/constants/mapData/user'
+import type { IEnterpriseUserItem } from '@/types/user'
+import { ENTERPRISE_USER_PROP_LABEL_MAP } from '@/constants/mapData/user'
 import { columns } from './config'
-defineProps<{ data: IIndividualUserItem[]; loading: boolean }>()
+defineProps<{ data: IEnterpriseUserItem[]; loading: boolean }>()
 
 import { USER_STATUS_MAP, USER_STATUS_COLOR_MAP, UserStatus } from '@/constants/mapData/user'
 const statusColor = (status: UserStatus) => USER_STATUS_COLOR_MAP[status]
 const statusLabel = (status: UserStatus) => USER_STATUS_MAP[status]
 
-import { GENDER_TYPES_MAP, GENDER_TYPES_COLOR_MAP, GenderType } from '@/constants/mapData/user'
-const genderColor = (gender: GenderType) => GENDER_TYPES_COLOR_MAP[gender]
-const genderLabel = (gender: GenderType) => GENDER_TYPES_MAP[gender]
+import { INDUSTRY_TYPE_MAP, INDUSTRY_TYPE_COLOR_MAP, IndustryType } from '@/constants/mapData/user'
+const industryTypeColor = (industry: IndustryType) => INDUSTRY_TYPE_COLOR_MAP[industry]
+const industryTypeLabel = (industry: IndustryType) => INDUSTRY_TYPE_MAP[industry]
+
+import {
+  COMPANY_SIZE_TYPE_MAP,
+  COMPANY_SIZE_TYPE_COLOR_MAP,
+  CompanySizeType
+} from '@/constants/mapData/user'
+const companySizeColor = (companySize: CompanySizeType) => COMPANY_SIZE_TYPE_COLOR_MAP[companySize]
+const companySizeLabel = (companySize: CompanySizeType) => COMPANY_SIZE_TYPE_MAP[companySize]
 
 const router = useRouter()
 
 const goDetail = (id: number | string) => {
   router.push({
-    name: 'individual-detail',
+    name: 'enterprise-detail',
     params: {
       id
     }

@@ -1,4 +1,5 @@
-import type { IOption } from '@/types/common'
+import type { IOption, IPropLabelMap } from '@/types/common'
+import type { IEnterpriseUserItem, IIndividualUserItem } from '@/types/user'
 
 export enum UserType {
   Individual = 'individual',
@@ -156,3 +157,31 @@ export const companySizeTypesOptions: IOption[] = Object.values(CompanySizeType)
   value,
   label: COMPANY_SIZE_TYPE_MAP[value]
 }))
+
+export const INDIVIDUAL_USER_PROP_LABEL_MAP: IPropLabelMap<IIndividualUserItem> = {
+  id: 'ID',
+  userType: '用户类型',
+  email: '邮件',
+  fullName: '姓名',
+  identificationNumber: '身份证号',
+  phoneNumber: '手机号',
+  gender: '性别',
+  status: '状态',
+  createTime: '创建时间',
+  updateTime: '更新时间'
+}
+
+export const ENTERPRISE_USER_PROP_LABEL_MAP: IPropLabelMap<IEnterpriseUserItem> = {
+  id: 'ID',
+  userType: '用户类型',
+  email: '邮件',
+  enterpriseName: '企业名称',
+  registrationNumber: '统一社会信用代码',
+  contactPersonName: '联系人姓名',
+  contactPhoneNumber: '联系人电话',
+  industryType: '行业类别',
+  companySize: '企业规模',
+  status: '状态',
+  createTime: '创建时间',
+  updateTime: '更新时间'
+}

@@ -38,3 +38,7 @@ export interface ITreeNode {
   value: boolean
   children?: ITreeNode[]
 }
+
+export type IPropLabelMap<T> = {
+  [key in keyof T]: string
+}

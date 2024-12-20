@@ -24,6 +24,7 @@
     <filter-sort-panel
       v-model:filter-list="filterList"
       v-model:sort-list="sortList"
+      :propLabelMap="INDIVIDUAL_USER_PROP_LABEL_MAP"
       @refresh="reset"
     />
 
@@ -53,6 +54,7 @@ defineOptions({
 
 import FilterSortPanel from '@/components/FilterSortPanel.vue'
 import IndividualUserTabel from './IndividualUserTabel.vue'
+import { INDIVIDUAL_USER_PROP_LABEL_MAP } from '@/constants/mapData/user'
 
 // 获取列表
 const getListLoading = ref<boolean>(false)
@@ -68,7 +70,7 @@ const getList = async (): Promise<number> => {
   const res = await getIndividualUsersAction(
     searchQuery.value,
     filterDTO.value,
-    sortDTO.value,
+    sortList.value,
     pageNum.value,
     pageSize.value
   )
@@ -83,17 +85,17 @@ const { pageNum, pageSize, total, refresh } = usePager(getList)
 
 // 删除
 import { useDelete } from '@/composables/useDelete'
-const delTitle = ref('')
+const delLabel = ref('')
 const delId = ref<string | number>('')
 const { doDelAction } = useDelete(
-  () => `是否确认删除 ${delTitle.value} ？`,
+  () => `是否确认删除 ${delLabel.value} ？`,
   async () => {
     await deleteUsersAction([delId.value])
     refresh()
   }
 )
 const handleDelete = (id: string | number, fullName: string) => {
-  delTitle.value = fullName
+  delLabel.value = fullName
   delId.value = id
   doDelAction()
 }
@@ -101,12 +103,12 @@ const handleDelete = (id: string | number, fullName: string) => {
 // 修改状态
 import { useChangeStatus } from '@/composables/useChangeStatus'
 import { UserStatus } from '@/constants/mapData/user'
-const changeTitle = ref('')
+const changeLabel = ref('')
 const changeId = ref<string | number>('')
 const changeStatus = ref<UserStatus>()
 const { doChangeAction } = useChangeStatus(
   () =>
-    `是否确认 ${changeStatus.value === UserStatus.Active ? '启用' : '停用'} ${changeTitle.value} ？`,
+    `是否确认 ${changeStatus.value === UserStatus.Active ? '启用' : '停用'} ${changeLabel.value} ？`,
   async () => {
     if (!changeStatus.value) {
       ElMessage.error('请选择状态')
@@ -117,7 +119,7 @@ const { doChangeAction } = useChangeStatus(
   }
 )
 const handleChangeStatus = (id: string | number, fullName: string, newStatus: UserStatus) => {
-  changeTitle.value = fullName
+  changeLabel.value = fullName
   changeId.value = id
   changeStatus.value = newStatus
   doChangeAction()
@@ -131,7 +133,7 @@ const handleSearch = () => {
 
 import { useSortAndFilter } from '@/composables/useSortAndFilter'
 import { sortList as sortDate, filterList as filterDate } from './config'
-const { sortList, filterList, sortDTO, filterDTO } = useSortAndFilter(sortDate, filterDate)
+const { sortList, filterList, filterDTO } = useSortAndFilter(sortDate, filterDate)
 
 const reset = () => {
   refresh()

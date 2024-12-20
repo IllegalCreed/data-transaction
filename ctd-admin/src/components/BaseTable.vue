@@ -9,7 +9,7 @@
       v-for="column in columns"
       :key="column.prop"
       :prop="String(column.prop)"
-      :label="column.label"
+      :label="getColumnLabel(column.prop)"
       :width="column.width"
       :min-width="column.minWidth"
       :align="column.align"
@@ -31,13 +31,20 @@
 </template>
 
 <script setup lang="ts" generic="T">
+import type { IPropLabelMap } from '@/types/common'
 import type { ITableColumn } from '@/types/table'
 
-defineProps<{
+const { propLabelMap } = defineProps<{
   data: T[]
   loading: boolean
+  propLabelMap: IPropLabelMap<T>
   columns: ITableColumn<T>[]
 }>()
+
+const getColumnLabel = (key: keyof T) => {
+  const result = propLabelMap[key] || key
+  return String(result)
+}
 </script>
 
 <style scoped lang="scss"></style>

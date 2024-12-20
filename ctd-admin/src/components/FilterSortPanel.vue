@@ -22,17 +22,17 @@
         <el-divider />
         <VueDraggable v-model="sortList" :animation="150" handle=".handle" class="flex flex-col">
           <div
-            v-for="item in sortList"
-            :key="item.columns.key"
+            v-for="sort in sortList"
+            :key="sort.prop"
             class="flex flex-row items-center border-b border-b-solid border-b-[var(--el-border-color)]"
           >
             <i-radix-icons:drag-handle-dots-2 class="handle" cursor-pointer ml-2 h-6 w-6 />
             <div class="panel" flex-1>
               <div flex flex-row justify-between>
-                <span class="label" shrink-0>{{ item.columns.label }}</span>
-                <el-link class="reset" :underline="false" @click="resetSorting(item)">重置</el-link>
+                <span class="label" shrink-0>{{ getColumnLabel(sort.prop) }}</span>
+                <el-link class="reset" :underline="false" @click="resetSorting(sort)">重置</el-link>
               </div>
-              <el-select clearable v-model="item.order" placeholder="选择排序方式">
+              <el-select clearable v-model="sort.order" placeholder="选择排序方式">
                 <el-option label="升序" value="asc" />
                 <el-option label="降序" value="desc" />
               </el-select>
@@ -65,12 +65,12 @@
       <div flex flex-col>
         <span class="title">筛选</span>
         <el-divider />
-        <div v-for="filter in filterList" :key="filter.columns.key" class="panel">
+        <div v-for="filter in filterList" :key="filter.prop" class="panel">
           <div flex flex-row justify-between>
-            <span class="label" shrink-0>{{ filter.columns.label }}</span>
+            <span class="label" shrink-0>{{ getColumnLabel(filter.prop) }}</span>
             <el-link class="reset" :underline="false" @click="resetFilter(filter)">重置</el-link>
           </div>
-          <template v-if="filter.columns.type === 'enum'">
+          <template v-if="filter.type === 'enum'">
             <el-select clearable v-model="filter.value" placeholder="选择筛选项">
               <el-option
                 v-for="item in filter.options"
@@ -81,7 +81,7 @@
             </el-select>
           </template>
 
-          <template v-else-if="filter.columns.type === 'date'">
+          <template v-else-if="filter.type === 'date'">
             <el-date-picker
               v-model="filter.value"
               type="daterange"
@@ -92,7 +92,7 @@
             />
           </template>
 
-          <template v-else-if="filter.columns.type === 'input'">
+          <template v-else-if="filter.type === 'input'">
             <el-input v-model="filter.value as string | undefined" placeholder="输入筛选内容" />
           </template>
         </div>
@@ -113,11 +113,22 @@ import { cloneDeep } from 'lodash-es'
 import { VueDraggable } from 'vue-draggable-plus'
 import type { IFilter } from '@/types/table'
 import type { ISort } from '@/types/table'
+import type { IPropLabelMap } from '@/types/common'
+
+const { propLabelMap } = defineProps<{
+  propLabelMap: IPropLabelMap<T>
+}>()
 
 const emit = defineEmits<{
   (e: 'refresh'): void
 }>()
 
+const getColumnLabel = (key: keyof T) => {
+  const result = propLabelMap[key] || key
+  return String(result)
+}
+
+// 筛选
 const filterList = defineModel<IFilter<T>[]>('filterList', {
   default: undefined
 })

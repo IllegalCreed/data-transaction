@@ -1,23 +1,18 @@
-import type { IFilter, IFilterDTO, ISort, ISortDTO } from '@/types/table'
+import type { IFilter, IFilterDTO, ISort } from '@/types/table'
 
-export const useSortAndFilter = (initialSortList: ISort[], initialFilterList: IFilter[]) => {
-  const sortList = ref<ISort[]>(initialSortList)
-  const filterList = ref<IFilter[]>(initialFilterList)
+export const useSortAndFilter = <T>(
+  initialSortList: ISort<T>[],
+  initialFilterList: IFilter<T>[]
+) => {
+  const sortList = ref<ISort<T>[]>(initialSortList)
+  const filterList = ref<IFilter<T>[]>(initialFilterList)
 
-  const sortDTO = computed(() => convertToSortDTO(sortList.value))
-  const filterDTO = computed(() => convertToFilterDTO(filterList.value))
+  const filterDTO = computed(() => convertToFilterDTO(filterList.value as IFilter<T>[]))
 
-  const convertToSortDTO = (sort: ISort[]): ISortDTO[] => {
-    return sort.map((item) => ({
-      key: item.columns.key,
-      order: item.order
-    }))
-  }
-
-  const convertToFilterDTO = (filters: IFilter[]): IFilterDTO[] => {
+  const convertToFilterDTO = (filters: IFilter<T>[]): IFilterDTO<T>[] => {
     return filters.map((item) => ({
-      key: item.columns.key,
-      type: item.columns.type,
+      prop: item.prop,
+      type: item.type,
       value: item.value
     }))
   }
@@ -25,7 +20,6 @@ export const useSortAndFilter = (initialSortList: ISort[], initialFilterList: IF
   return {
     sortList,
     filterList,
-    sortDTO,
     filterDTO
   }
 }

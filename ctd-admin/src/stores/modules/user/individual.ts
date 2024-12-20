@@ -7,7 +7,7 @@ import {
 } from '@/apis/user'
 
 import { individualUsers as mockIndividualUsers } from '@/constants/mockData/user/individual'
-import type { IFilterDTO, ISortDTO } from '@/types/table'
+import type { IFilterDTO, ISort } from '@/types/table'
 
 export const useIndividual = () => {
   const settingsStore = useSettingsStore()
@@ -15,7 +15,7 @@ export const useIndividual = () => {
   const getIndividualUsers = (
     searchQuery: string,
     filters: IFilterDTO<IIndividualUserItem>[],
-    sorts: ISortDTO<IIndividualUserItem>[],
+    sorts: ISort<IIndividualUserItem>[],
     pageNum: number,
     pageSize: number
   ): Promise<apiListResult<IIndividualUserItem>> => {

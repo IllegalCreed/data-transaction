@@ -6,15 +6,15 @@ import {
   getEnterpriseUser as getEnterpriseUserAPI
 } from '@/apis/user'
 import { enterpriseUsers as mockEnterpriseUsers } from '@/constants/mockData/user/enterprise'
-import type { IFilterDTO, ISortDTO } from '@/types/table'
+import type { IFilterDTO, ISort } from '@/types/table'
 
 export const useEnterprise = () => {
   const settingsStore = useSettingsStore()
 
   const getEnterpriseUsers = (
     searchQuery: string,
-    filters: IFilterDTO[],
-    sorts: ISortDTO[],
+    filters: IFilterDTO<IEnterpriseUserItem>[],
+    sorts: ISort<IEnterpriseUserItem>[],
     pageNum: number,
     pageSize: number
   ): Promise<apiListResult<IEnterpriseUserItem>> => {

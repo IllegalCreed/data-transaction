@@ -1,10 +1,11 @@
 import request from '@/axios'
-import type { IFilterDTO, ISortDTO } from '@/types/table'
+import type { IFilterDTO, ISort } from '@/types/table'
+import type { IEnterpriseUserItem } from '@/types/user'
 
 export const getEnterpriseUsers = (
   searchQuery: string,
-  filters: IFilterDTO[],
-  sorts: ISortDTO[],
+  filters: IFilterDTO<IEnterpriseUserItem>[],
+  sorts: ISort<IEnterpriseUserItem>[],
   pageNum: number,
   pageSize: number
 ): Promise<unknown> => {

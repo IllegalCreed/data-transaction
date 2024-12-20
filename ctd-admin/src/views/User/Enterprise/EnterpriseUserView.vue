@@ -21,9 +21,14 @@
 
     <el-divider class="!my-0" />
 
-    <user-filter-sort-panel v-model:status="status" @refresh="reset" />
+    <filter-sort-panel
+      v-model:filter-list="filterList"
+      v-model:sort-list="sortList"
+      :propLabelMap="ENTERPRISE_USER_PROP_LABEL_MAP"
+      @refresh="reset"
+    />
 
-    <user-tabel-panel
+    <enterprise-user-tabel
       :data="data"
       :loading="getListLoading"
       @delete="handleDelete"
@@ -47,8 +52,9 @@ defineOptions({
   name: 'user-enterprise'
 })
 
-import UserFilterSortPanel from './EnterpriseUserFilterSortPanel.vue'
-import UserTabelPanel from './EnterpriseUserTabelPanel.vue'
+import FilterSortPanel from '@/components/FilterSortPanel.vue'
+import EnterpriseUserTabel from './EnterpriseUserTabel.vue'
+import { ENTERPRISE_USER_PROP_LABEL_MAP } from '@/constants/mapData/user'
 
 // 获取列表
 const getListLoading = ref<boolean>(false)
@@ -61,7 +67,13 @@ const {
 } = useUserStore()
 const getList = async (): Promise<number> => {
   getListLoading.value = true
-  const res = await getEnterpriseUsersAction(searchQuery.value, pageNum.value, pageSize.value)
+  const res = await getEnterpriseUsersAction(
+    searchQuery.value,
+    filterDTO.value,
+    sortList.value,
+    pageNum.value,
+    pageSize.value
+  )
 
   data.value = res.rows
   getListLoading.value = false
@@ -74,17 +86,17 @@ const { pageNum, pageSize, total, refresh } = usePager(getList)
 
 // 删除
 import { useDelete } from '@/composables/useDelete'
-const delTitle = ref('')
+const delLabel = ref('')
 const delId = ref<string | number>('')
 const { doDelAction } = useDelete(
-  () => `是否确认删除 ${delTitle.value} ？`,
+  () => `是否确认删除 ${delLabel.value} ？`,
   async () => {
     await deleteUsersAction([delId.value])
     refresh()
   }
 )
 const handleDelete = (id: string | number, title: string) => {
-  delTitle.value = title
+  delLabel.value = title
   delId.value = id
   doDelAction()
 }
@@ -92,12 +104,12 @@ const handleDelete = (id: string | number, title: string) => {
 // 修改状态
 import { useChangeStatus } from '@/composables/useChangeStatus'
 import { UserStatus } from '@/constants/mapData/user'
-const changeTitle = ref('')
+const changeLabel = ref('')
 const changeId = ref<string | number>('')
 const changeStatus = ref<UserStatus>()
 const { doChangeAction } = useChangeStatus(
   () =>
-    `是否确认 ${changeStatus.value === UserStatus.Active ? '启用' : '停用'} ${changeTitle.value} ？`,
+    `是否确认 ${changeStatus.value === UserStatus.Active ? '启用' : '停用'} ${changeLabel.value} ？`,
   async () => {
     if (!changeStatus.value) {
       ElMessage.error('请选择状态')
@@ -108,7 +120,7 @@ const { doChangeAction } = useChangeStatus(
   }
 )
 const handleChangeStatus = (id: string | number, title: string, newStatus: UserStatus) => {
-  changeTitle.value = title
+  changeLabel.value = title
   changeId.value = id
   changeStatus.value = newStatus
   doChangeAction()
@@ -120,9 +132,11 @@ const handleSearch = () => {
   refresh()
 }
 
-const status = ref<UserStatus | null>(null)
+import { useSortAndFilter } from '@/composables/useSortAndFilter'
+import { sortList as sortDate, filterList as filterDate } from './config'
+const { sortList, filterList, filterDTO } = useSortAndFilter(sortDate, filterDate)
+
 const reset = () => {
-  pageNum.value = 1
   refresh()
 }
 </script>
