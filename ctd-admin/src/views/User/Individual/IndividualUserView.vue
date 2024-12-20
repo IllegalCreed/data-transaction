@@ -27,7 +27,7 @@
       @refresh="reset"
     />
 
-    <user-tabel-panel
+    <individual-user-tabel
       :data="data"
       :loading="getListLoading"
       @delete="handleDelete"
@@ -52,7 +52,7 @@ defineOptions({
 })
 
 import FilterSortPanel from '@/components/FilterSortPanel.vue'
-import UserTabelPanel from './IndividualUserTabelPanel.vue'
+import IndividualUserTabel from './IndividualUserTabel.vue'
 
 // 获取列表
 const getListLoading = ref<boolean>(false)
@@ -130,7 +130,7 @@ const handleSearch = () => {
 }
 
 import { useSortAndFilter } from '@/composables/useSortAndFilter'
-import { sortList as sortDate, filterList as filterDate } from './IndividualUserSortFilterDate'
+import { sortList as sortDate, filterList as filterDate } from './config'
 const { sortList, filterList, sortDTO, filterDTO } = useSortAndFilter(sortDate, filterDate)
 
 const reset = () => {

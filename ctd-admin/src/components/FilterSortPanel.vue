@@ -5,6 +5,7 @@
       popper-class="sorting-popover"
       placement="bottom"
       :width="300"
+      @show="openSortingPopover"
     >
       <template #reference>
         <el-badge :value="sortingCount" :show-zero="false">
@@ -49,6 +50,7 @@
       popper-class="filter-popover"
       placement="bottom"
       :width="300"
+      @show="openFilterPopover"
     >
       <template #reference>
         <el-badge :value="filterCount" :show-zero="false">
@@ -102,11 +104,12 @@
       </div>
     </el-popover>
 
-    <div v-if="sortingVisible || filterVisible" class="modal-mask"></div>
+    <div v-if="sortingVisible || filterVisible" class="modal-mask" @click="cancelChanges"></div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { cloneDeep } from 'lodash-es'
 import { VueDraggable } from 'vue-draggable-plus'
 
 const emit = defineEmits<{
@@ -119,9 +122,14 @@ import type { IFilter } from '@/types/table'
 const filterList = defineModel<IFilter[]>('filterList', {
   default: undefined
 })
-
+const filterListBackup = ref<IFilter[]>([])
 const filterVisible = ref<boolean>(false)
 const filterCount = ref(0)
+
+const openFilterPopover = () => {
+  filterListBackup.value = cloneDeep(filterList.value)
+  filterVisible.value = true
+}
 
 const resetFilter = (filter: IFilter) => {
   filter.value = undefined
@@ -131,7 +139,6 @@ const resetAllFilter = () => {
   filterList.value.forEach((filter) => {
     filter.value = undefined
   })
-  filterCount.value = 0
 }
 
 const applyFilter = () => {
@@ -151,9 +158,14 @@ import type { ISort } from '@/types/table'
 const sortList = defineModel<ISort[]>('sortList', {
   default: undefined
 })
-
+const sortListBackup = ref<ISort[]>([])
 const sortingVisible = ref<boolean>(false)
 const sortingCount = ref(0)
+
+const openSortingPopover = () => {
+  sortListBackup.value = cloneDeep(sortList.value)
+  sortingVisible.value = true
+}
 
 const resetSorting = (item: ISort) => {
   item.order = undefined
@@ -163,7 +175,6 @@ const resetAllSorting = () => {
   sortList.value.forEach((item) => {
     item.order = undefined
   })
-  sortingCount.value = 0
 }
 
 const applySorting = () => {
@@ -175,6 +186,19 @@ const applySorting = () => {
     }
   })
   emit('refresh')
+}
+
+const cancelChanges = () => {
+  // 判断哪个 popover 是 visible，单独回退对应的内容
+  if (filterVisible.value) {
+    filterList.value = cloneDeep(filterListBackup.value) // 只回退筛选数据
+    filterVisible.value = false
+  }
+
+  if (sortingVisible.value) {
+    sortList.value = cloneDeep(sortListBackup.value) // 只回退排序数据
+    sortingVisible.value = false
+  }
 }
 </script>
 

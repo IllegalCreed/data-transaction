@@ -1,3 +1,5 @@
+import type { TableColumnCtx } from 'element-plus'
+
 export interface ISort {
   columns: {
     key: string
@@ -29,4 +31,15 @@ export interface IFilterDTO {
   key: string
   type: 'enum' | 'date' | 'input'
   value?: string | [string, string]
+}
+
+export interface ITableColumn<T> {
+  prop: keyof T
+  label: string
+  width?: string
+  minWidth?: string
+  slot?: string
+  align?: 'left' | 'center' | 'right'
+  showOverflowTooltip?: boolean
+  formatter?: (row: T, column: TableColumnCtx<T>) => string
 }
