@@ -139,6 +139,7 @@ import { sortList as sortDate, filterList as filterDate, columnList as columnDat
 const { sortList, filterList, columnList, filterDTO } = useTable(sortDate, filterDate, columnDate)
 
 const reset = () => {
+  searchQuery.value = ''
   refresh()
 }
 </script>

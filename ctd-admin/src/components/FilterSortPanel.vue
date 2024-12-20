@@ -150,6 +150,13 @@
       </div>
     </el-popover>
 
+    <el-button class="default-btn" @click="resetAll">
+      <template v-slot:icon>
+        <i-carbon:reset />
+      </template>
+      重置全部
+    </el-button>
+
     <div
       v-if="sortingVisible || filterVisible || columnVisible"
       class="modal-mask"
@@ -176,6 +183,16 @@ const emit = defineEmits<{
 const getColumnLabel = (key: keyof T) => {
   const result = propLabelMap[key] || key
   return String(result)
+}
+
+const resetAll = () => {
+  resetAllColumn()
+  resetAllFilter()
+  resetAllSorting()
+  columnCount.value = 0
+  filterCount.value = 0
+  sortingCount.value = 0
+  emit('refresh')
 }
 
 // 列选择

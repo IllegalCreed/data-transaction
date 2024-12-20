@@ -44,6 +44,7 @@ declare module 'vue' {
     FilterSortPanel: typeof import('./src/components/FilterSortPanel.vue')['default']
     HistoryTab: typeof import('./src/components/HistoryTab.vue')['default']
     HistoryTabItem: typeof import('./src/components/HistoryTabItem.vue')['default']
+    'ICarbon:reset': typeof import('~icons/carbon/reset')['default']
     'IFaSolid:user': typeof import('~icons/fa-solid/user')['default']
     'IHeroiconsOutline:refresh': typeof import('~icons/heroicons-outline/refresh')['default']
     'IHugeicons:filterHorizontal': typeof import('~icons/hugeicons/filter-horizontal')['default']

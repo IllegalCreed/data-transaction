@@ -1,5 +1,11 @@
 <template>
-  <BaseTable :data="data" :loading="loading" :columns="columnList" :propLabelMap="propLabelMap">
+  <BaseTable
+    :data="data"
+    :loading="loading"
+    :rowKey="rowKey"
+    :columns="columnList"
+    :propLabelMap="propLabelMap"
+  >
     <template #industryType="{ scope }">
       <el-tag :type="industryTypeColor(scope.row.industryType)">{{
         industryTypeLabel(scope.row.industryType)
@@ -58,6 +64,8 @@ defineProps<{
   columnList: ITableColumn<IEnterpriseUserItem>[]
   propLabelMap: IPropLabelMap<IEnterpriseUserItem>
 }>()
+
+const rowKey = (row: IEnterpriseUserItem) => String(row.id)
 
 import { USER_STATUS_MAP, USER_STATUS_COLOR_MAP, UserStatus } from '@/constants/mapData/user'
 const statusColor = (status: UserStatus) => USER_STATUS_COLOR_MAP[status]

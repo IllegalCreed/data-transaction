@@ -4,7 +4,13 @@
     v-loading="loading"
     header-cell-class-name="table-header-row"
     cell-class-name="table-row-cell"
+    @selection-change="handleSelectionChange"
+    :row-key="rowKey"
   >
+    <!-- 多选列 -->
+    <el-table-column type="selection" width="55" />
+
+    <!-- 数据列 -->
     <el-table-column
       v-for="column in visibleColumns"
       :key="column.prop"
@@ -34,12 +40,21 @@
 import type { IPropLabelMap } from '@/types/common'
 import type { ITableColumn } from '@/types/table'
 
-const { propLabelMap, columns } = defineProps<{
+const { propLabelMap, columns, rowKey } = defineProps<{
   data: T[]
+  rowKey: (row: T) => string
   loading: boolean
   columns: ITableColumn<T>[]
   propLabelMap: IPropLabelMap<T>
 }>()
+
+const selectedIds = defineModel<string[]>({
+  default: []
+})
+
+const handleSelectionChange = (selectedItems: T[]) => {
+  selectedIds.value = selectedItems.map(rowKey)
+}
 
 const getColumnLabel = (key: keyof T) => {
   const result = propLabelMap[key] || key

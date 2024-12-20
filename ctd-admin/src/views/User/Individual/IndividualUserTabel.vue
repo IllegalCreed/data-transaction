@@ -1,5 +1,11 @@
 <template>
-  <BaseTable :data="data" :loading="loading" :columns="columnList" :propLabelMap="propLabelMap">
+  <BaseTable
+    :data="data"
+    :rowKey="rowKey"
+    :loading="loading"
+    :columns="columnList"
+    :propLabelMap="propLabelMap"
+  >
     <!-- Gender Column Custom Rendering -->
     <template #gender="{ scope }">
       <el-tag :type="genderColor(scope.row.gender)">{{ genderLabel(scope.row.gender) }}</el-tag>
@@ -54,6 +60,8 @@ defineProps<{
   columnList: ITableColumn<IIndividualUserItem>[]
   propLabelMap: IPropLabelMap<IIndividualUserItem>
 }>()
+
+const rowKey = (row: IIndividualUserItem) => String(row.id)
 
 import { USER_STATUS_MAP, USER_STATUS_COLOR_MAP, UserStatus } from '@/constants/mapData/user'
 const statusColor = (status: UserStatus) => USER_STATUS_COLOR_MAP[status]

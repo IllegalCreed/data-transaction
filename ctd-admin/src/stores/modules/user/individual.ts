@@ -23,11 +23,14 @@ export const useIndividual = () => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => {
           const result = mockIndividualUsers.filter((item) => {
-            const statusMatch = status ? item.status === status : true
             const searchMatch = searchQuery ? item.fullName.includes(searchQuery) : true
-            return statusMatch && searchMatch
+            return searchMatch
           })
-          resolve({ total: result.length, rows: result })
+          if (pageNum === 1) {
+            resolve({ total: 20, rows: result.slice(0, 5) })
+          } else {
+            resolve({ total: 20, rows: result.splice(5) })
+          }
         }, 1000)
       } else {
         getIndividualUsersAPI(searchQuery, filters, sorts, pageNum, pageSize)
