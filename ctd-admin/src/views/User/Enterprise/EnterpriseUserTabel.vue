@@ -1,10 +1,5 @@
 <template>
-  <BaseTable
-    :data="data"
-    :loading="loading"
-    :columns="columns"
-    :propLabelMap="ENTERPRISE_USER_PROP_LABEL_MAP"
-  >
+  <BaseTable :data="data" :loading="loading" :columns="columnList" :propLabelMap="propLabelMap">
     <template #industryType="{ scope }">
       <el-tag :type="industryTypeColor(scope.row.industryType)">{{
         industryTypeLabel(scope.row.industryType)
@@ -57,9 +52,12 @@
 <script setup lang="ts">
 import BaseTable from '@/components/BaseTable.vue'
 import type { IEnterpriseUserItem } from '@/types/user'
-import { ENTERPRISE_USER_PROP_LABEL_MAP } from '@/constants/mapData/user'
-import { columns } from './config'
-defineProps<{ data: IEnterpriseUserItem[]; loading: boolean }>()
+defineProps<{
+  data: IEnterpriseUserItem[]
+  loading: boolean
+  columnList: ITableColumn<IEnterpriseUserItem>[]
+  propLabelMap: IPropLabelMap<IEnterpriseUserItem>
+}>()
 
 import { USER_STATUS_MAP, USER_STATUS_COLOR_MAP, UserStatus } from '@/constants/mapData/user'
 const statusColor = (status: UserStatus) => USER_STATUS_COLOR_MAP[status]
@@ -74,6 +72,8 @@ import {
   COMPANY_SIZE_TYPE_COLOR_MAP,
   CompanySizeType
 } from '@/constants/mapData/user'
+import type { ITableColumn } from '@/types/table'
+import type { IPropLabelMap } from '@/types/common'
 const companySizeColor = (companySize: CompanySizeType) => COMPANY_SIZE_TYPE_COLOR_MAP[companySize]
 const companySizeLabel = (companySize: CompanySizeType) => COMPANY_SIZE_TYPE_MAP[companySize]
 

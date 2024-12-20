@@ -24,6 +24,7 @@
     <filter-sort-panel
       v-model:filter-list="filterList"
       v-model:sort-list="sortList"
+      v-model:column-list="columnList"
       :propLabelMap="ENTERPRISE_USER_PROP_LABEL_MAP"
       @refresh="reset"
     />
@@ -31,6 +32,8 @@
     <enterprise-user-tabel
       :data="data"
       :loading="getListLoading"
+      :column-list="columnList"
+      :propLabelMap="ENTERPRISE_USER_PROP_LABEL_MAP"
       @delete="handleDelete"
       @changeStatus="handleChangeStatus"
     />
@@ -132,9 +135,9 @@ const handleSearch = () => {
   refresh()
 }
 
-import { useSortAndFilter } from '@/composables/useSortAndFilter'
-import { sortList as sortDate, filterList as filterDate } from './config'
-const { sortList, filterList, filterDTO } = useSortAndFilter(sortDate, filterDate)
+import { useTable } from '@/composables/useTable'
+import { sortList as sortDate, filterList as filterDate, columnList as columnDate } from './config'
+const { sortList, filterList, columnList, filterDTO } = useTable(sortDate, filterDate, columnDate)
 
 const reset = () => {
   refresh()

@@ -1,6 +1,48 @@
 <template>
   <div flex flex-row justify-end gap-3>
     <el-popover
+      :visible="columnVisible"
+      popper-class="column-popover"
+      placement="bottom"
+      :width="300"
+      @show="openColumnPopover"
+    >
+      <template #reference>
+        <el-badge :value="columnCount" :show-zero="false">
+          <el-button class="default-btn" @click="columnVisible = true">
+            <template v-slot:icon>
+              <i-streamline:visible />
+            </template>
+            列选择
+          </el-button>
+        </el-badge>
+      </template>
+      <div flex flex-col>
+        <span class="title">选择列</span>
+        <el-divider />
+        <VueDraggable v-model="columnList" :animation="150" handle=".handle" class="flex flex-col">
+          <div
+            v-for="column in columnList"
+            :key="column.prop"
+            class="flex flex-row items-center border-b border-b-solid border-b-[var(--el-border-color)]"
+          >
+            <i-radix-icons:drag-handle-dots-2 class="handle" cursor-pointer ml-2 h-6 w-6 />
+            <div class="panel" flex-1>
+              <div flex flex-row items-center justify-between>
+                <span class="label" shrink-0>{{ getColumnLabel(column.prop) }}</span>
+                <el-switch v-model="column.visible" />
+              </div>
+            </div>
+          </div>
+        </VueDraggable>
+        <div flex flex-row justify-between p-3>
+          <el-button class="default-btn" size="small" @click="resetAllColumn">重置全部</el-button>
+          <el-button type="primary" size="small" @click="applyColumn">应用</el-button>
+        </div>
+      </div>
+    </el-popover>
+
+    <el-popover
       :visible="sortingVisible"
       popper-class="sorting-popover"
       placement="bottom"
@@ -28,7 +70,7 @@
           >
             <i-radix-icons:drag-handle-dots-2 class="handle" cursor-pointer ml-2 h-6 w-6 />
             <div class="panel" flex-1>
-              <div flex flex-row justify-between>
+              <div flex flex-row items-center justify-between>
                 <span class="label" shrink-0>{{ getColumnLabel(sort.prop) }}</span>
                 <el-link class="reset" :underline="false" @click="resetSorting(sort)">重置</el-link>
               </div>
@@ -45,6 +87,7 @@
         </div>
       </div>
     </el-popover>
+
     <el-popover
       :visible="filterVisible"
       popper-class="filter-popover"
@@ -65,8 +108,12 @@
       <div flex flex-col>
         <span class="title">筛选</span>
         <el-divider />
-        <div v-for="filter in filterList" :key="filter.prop" class="panel">
-          <div flex flex-row justify-between>
+        <div
+          v-for="filter in filterList"
+          :key="filter.prop"
+          class="panel border-b border-b-solid border-b-[var(--el-border-color)]"
+        >
+          <div flex flex-row items-center justify-between>
             <span class="label" shrink-0>{{ getColumnLabel(filter.prop) }}</span>
             <el-link class="reset" :underline="false" @click="resetFilter(filter)">重置</el-link>
           </div>
@@ -96,7 +143,6 @@
             <el-input v-model="filter.value as string | undefined" placeholder="输入筛选内容" />
           </template>
         </div>
-        <el-divider />
         <div flex flex-row justify-between p-3>
           <el-button class="default-btn" size="small" @click="resetAllFilter">重置全部</el-button>
           <el-button type="primary" size="small" @click="applyFilter">应用</el-button>
@@ -104,14 +150,18 @@
       </div>
     </el-popover>
 
-    <div v-if="sortingVisible || filterVisible" class="modal-mask" @click="cancelChanges"></div>
+    <div
+      v-if="sortingVisible || filterVisible || columnVisible"
+      class="modal-mask"
+      @click="cancelChanges"
+    ></div>
   </div>
 </template>
 
 <script setup lang="ts" generic="T">
 import { cloneDeep } from 'lodash-es'
 import { VueDraggable } from 'vue-draggable-plus'
-import type { IFilter } from '@/types/table'
+import type { IFilter, ITableColumn } from '@/types/table'
 import type { ISort } from '@/types/table'
 import type { IPropLabelMap } from '@/types/common'
 
@@ -126,6 +176,36 @@ const emit = defineEmits<{
 const getColumnLabel = (key: keyof T) => {
   const result = propLabelMap[key] || key
   return String(result)
+}
+
+// 列选择
+const columnList = defineModel<ITableColumn<T>[]>('columnList', {
+  default: undefined
+})
+const columnListBackup = ref<ITableColumn<T>[]>([])
+const columnVisible = ref<boolean>(false)
+const columnCount = ref(0)
+
+const openColumnPopover = () => {
+  columnListBackup.value = cloneDeep(columnList.value)
+  columnVisible.value = true
+}
+
+const resetAllColumn = () => {
+  columnList.value.forEach((column) => {
+    column.visible = true
+  })
+}
+
+const applyColumn = () => {
+  columnVisible.value = false
+  columnCount.value = 0
+  columnList.value.forEach((item) => {
+    if (item.visible === false) {
+      columnCount.value++
+    }
+  })
+  emit('refresh')
 }
 
 // 筛选
@@ -197,6 +277,11 @@ const applySorting = () => {
 }
 
 const cancelChanges = () => {
+  if (columnVisible.value) {
+    columnList.value = cloneDeep(columnListBackup.value) as ITableColumn<T>[]
+    columnVisible.value = false
+  }
+
   if (filterVisible.value) {
     filterList.value = cloneDeep(filterListBackup.value) as IFilter<T>[]
     filterVisible.value = false

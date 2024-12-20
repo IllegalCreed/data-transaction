@@ -34,15 +34,15 @@ export const filterList: IFilter<IEnterpriseUserItem>[] = [
   }
 ]
 
-export const columns = ref<ITableColumn<IEnterpriseUserItem>[]>([
-  { prop: 'email', minWidth: '220' },
-  { prop: 'enterpriseName', width: '200' },
-  { prop: 'registrationNumber', width: '200' },
-  { prop: 'contactPersonName', width: '180' },
-  { prop: 'contactPhoneNumber', width: '120' },
-  { prop: 'industryType', width: '250', slot: 'industryType' },
-  { prop: 'companySize', width: '200', slot: 'companySize' },
-  { prop: 'status', width: '120', slot: 'status' },
-  { prop: 'createTime', width: '130' },
-  { prop: 'updateTime', width: '130' }
-])
+export const columnList: ITableColumn<IEnterpriseUserItem>[] = [
+  { prop: 'email', minWidth: '220', visible: true },
+  { prop: 'enterpriseName', width: '200', visible: true },
+  { prop: 'registrationNumber', width: '200', visible: true },
+  { prop: 'contactPersonName', width: '180', visible: true },
+  { prop: 'contactPhoneNumber', width: '120', visible: true },
+  { prop: 'industryType', width: '250', slot: 'industryType', visible: true },
+  { prop: 'companySize', width: '200', slot: 'companySize', visible: true },
+  { prop: 'status', width: '120', slot: 'status', visible: true },
+  { prop: 'createTime', width: '130', visible: true },
+  { prop: 'updateTime', width: '130', visible: true }
+]

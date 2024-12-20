@@ -26,4 +26,5 @@ export interface ITableColumn<T> {
   align?: 'left' | 'center' | 'right'
   showOverflowTooltip?: boolean
   formatter?: (row: T, column: TableColumnCtx<T>) => string
+  visible: boolean
 }

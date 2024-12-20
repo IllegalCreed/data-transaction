@@ -34,13 +34,13 @@ export const filterList: IFilter<IIndividualUserItem>[] = [
   }
 ]
 
-export const columns = ref<ITableColumn<IIndividualUserItem>[]>([
-  { prop: 'email', minWidth: '200' },
-  { prop: 'fullName', width: '120' },
-  { prop: 'identificationNumber', width: '200' },
-  { prop: 'phoneNumber', width: '180' },
-  { prop: 'gender', width: '120', slot: 'gender' },
-  { prop: 'status', width: '120', slot: 'status' },
-  { prop: 'createTime', width: '130' },
-  { prop: 'updateTime', width: '130' }
-])
+export const columnList: ITableColumn<IIndividualUserItem>[] = [
+  { prop: 'email', width: '200', visible: true },
+  { prop: 'fullName', width: '120', visible: true },
+  { prop: 'identificationNumber', width: '200', visible: true },
+  { prop: 'phoneNumber', width: '180', visible: true },
+  { prop: 'gender', width: '120', slot: 'gender', visible: true },
+  { prop: 'status', width: '120', slot: 'status', visible: true },
+  { prop: 'createTime', width: '130', visible: true },
+  { prop: 'updateTime', width: '130', visible: true }
+]

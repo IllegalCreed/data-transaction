@@ -1,10 +1,5 @@
 <template>
-  <BaseTable
-    :data="data"
-    :loading="loading"
-    :columns="columns"
-    :propLabelMap="INDIVIDUAL_USER_PROP_LABEL_MAP"
-  >
+  <BaseTable :data="data" :loading="loading" :columns="columnList" :propLabelMap="propLabelMap">
     <!-- Gender Column Custom Rendering -->
     <template #gender="{ scope }">
       <el-tag :type="genderColor(scope.row.gender)">{{ genderLabel(scope.row.gender) }}</el-tag>
@@ -53,15 +48,20 @@
 <script setup lang="ts">
 import BaseTable from '@/components/BaseTable.vue'
 import type { IIndividualUserItem } from '@/types/user'
-import { INDIVIDUAL_USER_PROP_LABEL_MAP } from '@/constants/mapData/user'
-import { columns } from './config'
-defineProps<{ data: IIndividualUserItem[]; loading: boolean }>()
+defineProps<{
+  data: IIndividualUserItem[]
+  loading: boolean
+  columnList: ITableColumn<IIndividualUserItem>[]
+  propLabelMap: IPropLabelMap<IIndividualUserItem>
+}>()
 
 import { USER_STATUS_MAP, USER_STATUS_COLOR_MAP, UserStatus } from '@/constants/mapData/user'
 const statusColor = (status: UserStatus) => USER_STATUS_COLOR_MAP[status]
 const statusLabel = (status: UserStatus) => USER_STATUS_MAP[status]
 
 import { GENDER_TYPES_MAP, GENDER_TYPES_COLOR_MAP, GenderType } from '@/constants/mapData/user'
+import type { ITableColumn } from '@/types/table'
+import type { IPropLabelMap } from '@/types/common'
 const genderColor = (gender: GenderType) => GENDER_TYPES_COLOR_MAP[gender]
 const genderLabel = (gender: GenderType) => GENDER_TYPES_MAP[gender]
 

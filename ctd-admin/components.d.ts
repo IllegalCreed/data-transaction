@@ -60,6 +60,7 @@ declare module 'vue' {
     'IPepiconsPencil:file': typeof import('~icons/pepicons-pencil/file')['default']
     'IRadixIcons:dragHandleDots2': typeof import('~icons/radix-icons/drag-handle-dots2')['default']
     'IRi:zoomInLine': typeof import('~icons/ri/zoom-in-line')['default']
+    'IStreamline:visible': typeof import('~icons/streamline/visible')['default']
     'IVaadin:search': typeof import('~icons/vaadin/search')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

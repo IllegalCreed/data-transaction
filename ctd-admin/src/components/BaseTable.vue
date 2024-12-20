@@ -6,7 +6,7 @@
     cell-class-name="table-row-cell"
   >
     <el-table-column
-      v-for="column in columns"
+      v-for="column in visibleColumns"
       :key="column.prop"
       :prop="String(column.prop)"
       :label="getColumnLabel(column.prop)"
@@ -34,17 +34,19 @@
 import type { IPropLabelMap } from '@/types/common'
 import type { ITableColumn } from '@/types/table'
 
-const { propLabelMap } = defineProps<{
+const { propLabelMap, columns } = defineProps<{
   data: T[]
   loading: boolean
-  propLabelMap: IPropLabelMap<T>
   columns: ITableColumn<T>[]
+  propLabelMap: IPropLabelMap<T>
 }>()
 
 const getColumnLabel = (key: keyof T) => {
   const result = propLabelMap[key] || key
   return String(result)
 }
+
+const visibleColumns = computed(() => columns.filter((column) => column.visible))
 </script>
 
 <style scoped lang="scss"></style>
