@@ -118,7 +118,15 @@
             <el-link class="reset" :underline="false" @click="resetFilter(filter)">重置</el-link>
           </div>
           <template v-if="filter.type === 'enum'">
-            <el-select clearable v-model="filter.value" placeholder="选择筛选项">
+            <el-select
+              v-model="filter.value"
+              multiple
+              collapse-tags
+              collapse-tags-tooltip
+              :max-collapse-tags="4"
+              clearable
+              placeholder="选择筛选项"
+            >
               <el-option
                 v-for="item in filter.options"
                 :key="item.value"

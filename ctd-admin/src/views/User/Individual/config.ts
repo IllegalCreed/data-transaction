@@ -1,4 +1,4 @@
-import { userStatusOptions } from '@/constants/mapData/user'
+import { userStatusOptions, genderTypesOptions } from '@/constants/mapData/user'
 import type { IFilter, ISort, ITableColumn } from '@/types/table'
 import type { IIndividualUserItem } from '@/types/user'
 
@@ -12,16 +12,56 @@ export const sortList: ISort<IIndividualUserItem>[] = [
     order: undefined
   },
   {
+    prop: 'identificationNumber',
+    order: undefined
+  },
+  {
+    prop: 'phoneNumber',
+    order: undefined
+  },
+  {
+    prop: 'gender',
+    order: undefined
+  },
+  {
     prop: 'status',
+    order: undefined
+  },
+  {
+    prop: 'createTime',
+    order: undefined
+  },
+  {
+    prop: 'updateTime',
     order: undefined
   }
 ]
 
 export const filterList: IFilter<IIndividualUserItem>[] = [
   {
+    prop: 'email',
+    type: 'input' as const
+  },
+  {
+    prop: 'fullName',
+    type: 'input' as const
+  },
+  {
+    prop: 'identificationNumber',
+    type: 'input' as const
+  },
+  {
+    prop: 'phoneNumber',
+    type: 'input' as const
+  },
+  {
+    prop: 'gender',
+    type: 'enum' as const,
+    options: genderTypesOptions
+  },
+  {
     prop: 'status',
     type: 'enum' as const,
-
     options: userStatusOptions
   },
   {
@@ -29,8 +69,8 @@ export const filterList: IFilter<IIndividualUserItem>[] = [
     type: 'date' as const
   },
   {
-    prop: 'fullName',
-    type: 'input' as const
+    prop: 'updateTime',
+    type: 'date' as const
   }
 ]
 
