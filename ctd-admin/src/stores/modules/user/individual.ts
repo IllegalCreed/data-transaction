@@ -7,7 +7,7 @@ import {
 } from '@/apis/user'
 
 import { individualUsers as mockIndividualUsers } from '@/constants/mockData/user/individual'
-import type { IFilterDTO, ISort } from '@/types/table'
+import type { IFilterDTO, ISort, ITableColumn } from '@/types/table'
 
 export const useIndividual = () => {
   const settingsStore = useSettingsStore()
@@ -16,6 +16,7 @@ export const useIndividual = () => {
     searchQuery: string,
     filters: IFilterDTO<IIndividualUserItem>[],
     sorts: ISort<IIndividualUserItem>[],
+    columns: ITableColumn<IIndividualUserItem>[],
     pageNum: number,
     pageSize: number
   ): Promise<apiListResult<IIndividualUserItem>> => {
@@ -33,7 +34,7 @@ export const useIndividual = () => {
           }
         }, 1000)
       } else {
-        getIndividualUsersAPI(searchQuery, filters, sorts, pageNum, pageSize)
+        getIndividualUsersAPI(searchQuery, filters, sorts, columns, pageNum, pageSize)
           .then((res) => {
             const result = res as apiListResult<IIndividualUserItem>
             for (const item of result.rows) {

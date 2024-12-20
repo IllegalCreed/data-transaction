@@ -78,6 +78,7 @@ const getList = async (): Promise<number> => {
     searchQuery.value,
     filterDTO.value,
     sortList.value,
+    columnList.value,
     pageNum.value,
     pageSize.value
   )

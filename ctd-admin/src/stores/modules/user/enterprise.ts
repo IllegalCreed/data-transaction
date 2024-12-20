@@ -6,7 +6,7 @@ import {
   getEnterpriseUser as getEnterpriseUserAPI
 } from '@/apis/user'
 import { enterpriseUsers as mockEnterpriseUsers } from '@/constants/mockData/user/enterprise'
-import type { IFilterDTO, ISort } from '@/types/table'
+import type { IFilterDTO, ISort, ITableColumn } from '@/types/table'
 
 export const useEnterprise = () => {
   const settingsStore = useSettingsStore()
@@ -15,6 +15,7 @@ export const useEnterprise = () => {
     searchQuery: string,
     filters: IFilterDTO<IEnterpriseUserItem>[],
     sorts: ISort<IEnterpriseUserItem>[],
+    columns: ITableColumn<IEnterpriseUserItem>[],
     pageNum: number,
     pageSize: number
   ): Promise<apiListResult<IEnterpriseUserItem>> => {
@@ -29,7 +30,7 @@ export const useEnterprise = () => {
           resolve({ total: result.length, rows: result })
         }, 1000)
       } else {
-        getEnterpriseUsersAPI(searchQuery, filters, sorts, pageNum, pageSize)
+        getEnterpriseUsersAPI(searchQuery, filters, sorts, columns, pageNum, pageSize)
           .then((res) => {
             const result = res as apiListResult<IEnterpriseUserItem>
             resolve(result)
