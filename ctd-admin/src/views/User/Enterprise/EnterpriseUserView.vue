@@ -3,14 +3,14 @@
     <div flex flex-row justify-between>
       <el-input
         class="search-input"
-        @keyup.enter="handleSearch"
-        @clear="handleSearch"
+        @keyup.enter="refresh"
+        @clear="refresh"
         v-model="searchQuery"
         placeholder="请输入关键字搜索"
         clearable
       >
         <template #append>
-          <el-button @click="handleSearch" :loading="getListLoading">
+          <el-button @click="() => refresh()" :loading="getListLoading">
             <template v-slot:icon>
               <i-vaadin:search></i-vaadin:search>
             </template>
@@ -61,16 +61,17 @@ defineOptions({
 import FilterSortPanel from '@/components/FilterSortPanel.vue'
 import EnterpriseUserTabel from './EnterpriseUserTabel.vue'
 import { ENTERPRISE_USER_PROP_LABEL_MAP } from '@/constants/mapData/user'
+import { useChangeUserStatus, useDeleteUser, useSearchUser } from '../useUserCommon'
 
 // 获取列表
 const getListLoading = ref<boolean>(false)
+
+import type { IEnterpriseUserItem } from '@/types/user'
 const data = ref<IEnterpriseUserItem[]>([])
+
 import { useUserStore } from '@/stores/modules/user'
-const {
-  getEnterpriseUsers: getEnterpriseUsersAction,
-  changeUsersStatus: changeUsersStatusAction,
-  deleteUsers: deleteUsersAction
-} = useUserStore()
+const { getEnterpriseUsers: getEnterpriseUsersAction } = useUserStore()
+
 const getList = async (): Promise<number> => {
   getListLoading.value = true
   const res = await getEnterpriseUsersAction(
@@ -86,66 +87,23 @@ const getList = async (): Promise<number> => {
   return res.total
 }
 
-import { usePager } from '@/composables/usePager'
-import type { IEnterpriseUserItem } from '@/types/user'
-const { pageNum, pageSize, total, refresh } = usePager(getList)
-
-// 删除
-import { useDelete } from '@/composables/useDelete'
-const delLabel = ref('')
-const delIds = ref<(string | number)[]>([])
-const { doDelAction } = useDelete(
-  () => `是否确认删除 ${delLabel.value} ？`,
-  async () => {
-    await deleteUsersAction(delIds.value)
-    refresh()
-  }
-)
-const handleDelete = (ids: (string | number)[], fullName: string) => {
-  delLabel.value = fullName
-  delIds.value = ids
-  doDelAction()
-}
-
-// 修改状态
-import { useChangeStatus } from '@/composables/useChangeStatus'
-import { UserStatus } from '@/constants/mapData/user'
-const changeLabel = ref('')
-const changeIds = ref<(string | number)[]>([])
-const changeStatus = ref<UserStatus>()
-const { doChangeAction } = useChangeStatus(
-  () =>
-    `是否确认将 ${changeStatus.value === UserStatus.Active ? '启用' : '停用'} ${changeLabel.value} ？`,
-  async () => {
-    if (!changeStatus.value) {
-      ElMessage.error('请选择状态')
-      return
-    }
-    await changeUsersStatusAction(changeIds.value, changeStatus.value)
-    refresh()
-  }
-)
-const handleChangeStatus = (ids: (string | number)[], fullName: string, newStatus: UserStatus) => {
-  changeLabel.value = fullName
-  changeIds.value = ids
-  changeStatus.value = newStatus
-  doChangeAction()
-}
-
-// 搜索
-const searchQuery = ref<string>('')
-const handleSearch = () => {
-  refresh()
-}
-
+// 筛选和表格
 import { useTable } from '@/composables/useTable'
 import { sortList as sortDate, filterList as filterDate, columnList as columnDate } from './config'
 const { sortList, filterList, columnList, filterDTO } = useTable(sortDate, filterDate, columnDate)
 
-const reset = () => {
-  searchQuery.value = ''
-  refresh()
-}
+// 分页
+import { usePager } from '@/composables/usePager'
+const { pageNum, pageSize, total, refresh } = usePager(getList)
+
+// 删除
+const { handleDelete } = useDeleteUser(refresh)
+
+// 修改状态
+const { handleChangeStatus } = useChangeUserStatus(refresh)
+
+// 搜索
+const { searchQuery, reset } = useSearchUser(refresh)
 </script>
 
 <style scoped lang="scss">
