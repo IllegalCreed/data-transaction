@@ -61,7 +61,7 @@ defineOptions({
 import FilterSortPanel from '@/components/FilterSortPanel.vue'
 import IndividualUserTabel from './IndividualUserTabel.vue'
 import { INDIVIDUAL_USER_PROP_LABEL_MAP } from '@/constants/mapData/user'
-import { useChangeUserStatus, useDeleteUser, useSearchUser } from '../useUserCommon'
+import { useChangeUserStatus, useDeleteUser, useSearchUser } from '../useUser'
 
 // 获取列表
 const getListLoading = ref<boolean>(false)
