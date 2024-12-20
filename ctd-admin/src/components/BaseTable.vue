@@ -28,7 +28,7 @@
     </el-table-column>
 
     <!-- 操作列 -->
-    <el-table-column fixed="right" label="操作" align="right" width="220">
+    <el-table-column fixed="right" label="操作" align="right" min-width="220">
       <template #default="scope">
         <slot name="actions" :scope="scope" />
       </template>

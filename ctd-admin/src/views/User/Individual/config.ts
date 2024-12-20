@@ -35,12 +35,12 @@ export const filterList: IFilter<IIndividualUserItem>[] = [
 ]
 
 export const columnList: ITableColumn<IIndividualUserItem>[] = [
-  { prop: 'email', width: '200', visible: true },
-  { prop: 'fullName', width: '120', visible: true },
-  { prop: 'identificationNumber', width: '200', visible: true },
-  { prop: 'phoneNumber', width: '180', visible: true },
-  { prop: 'gender', width: '120', slot: 'gender', visible: true },
-  { prop: 'status', width: '120', slot: 'status', visible: true },
-  { prop: 'createTime', width: '130', visible: true },
-  { prop: 'updateTime', width: '130', visible: true }
+  { prop: 'email', minWidth: '200', visible: true },
+  { prop: 'fullName', minWidth: '120', visible: true },
+  { prop: 'identificationNumber', minWidth: '200', visible: true },
+  { prop: 'phoneNumber', minWidth: '180', visible: true },
+  { prop: 'gender', minWidth: '120', slot: 'gender', visible: true },
+  { prop: 'status', minWidth: '120', slot: 'status', visible: true },
+  { prop: 'createTime', minWidth: '130', visible: true },
+  { prop: 'updateTime', minWidth: '130', visible: true }
 ]

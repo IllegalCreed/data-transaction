@@ -35,7 +35,8 @@
           v-model:sort-list="sortList"
           v-model:column-list="columnList"
           :propLabelMap="INDIVIDUAL_USER_PROP_LABEL_MAP"
-          @refresh="reset"
+          @reset="reset"
+          @apply="refresh"
         />
       </template>
     </individual-user-tabel>

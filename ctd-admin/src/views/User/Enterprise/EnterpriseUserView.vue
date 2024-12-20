@@ -21,14 +21,6 @@
 
     <el-divider class="!my-0" />
 
-    <filter-sort-panel
-      v-model:filter-list="filterList"
-      v-model:sort-list="sortList"
-      v-model:column-list="columnList"
-      :propLabelMap="ENTERPRISE_USER_PROP_LABEL_MAP"
-      @refresh="reset"
-    />
-
     <enterprise-user-tabel
       :data="data"
       :loading="getListLoading"
@@ -36,7 +28,18 @@
       :propLabelMap="ENTERPRISE_USER_PROP_LABEL_MAP"
       @delete="handleDelete"
       @changeStatus="handleChangeStatus"
-    />
+    >
+      <template #filter>
+        <filter-sort-panel
+          v-model:filter-list="filterList"
+          v-model:sort-list="sortList"
+          v-model:column-list="columnList"
+          :propLabelMap="ENTERPRISE_USER_PROP_LABEL_MAP"
+          @reset="reset"
+          @apply="refresh"
+        />
+      </template>
+    </enterprise-user-tabel>
 
     <el-pagination
       self-center
@@ -90,17 +93,17 @@ const { pageNum, pageSize, total, refresh } = usePager(getList)
 // 删除
 import { useDelete } from '@/composables/useDelete'
 const delLabel = ref('')
-const delId = ref<string | number>('')
+const delIds = ref<(string | number)[]>([])
 const { doDelAction } = useDelete(
   () => `是否确认删除 ${delLabel.value} ？`,
   async () => {
-    await deleteUsersAction([delId.value])
+    await deleteUsersAction(delIds.value)
     refresh()
   }
 )
-const handleDelete = (id: string | number, title: string) => {
-  delLabel.value = title
-  delId.value = id
+const handleDelete = (ids: (string | number)[], fullName: string) => {
+  delLabel.value = fullName
+  delIds.value = ids
   doDelAction()
 }
 
@@ -108,23 +111,23 @@ const handleDelete = (id: string | number, title: string) => {
 import { useChangeStatus } from '@/composables/useChangeStatus'
 import { UserStatus } from '@/constants/mapData/user'
 const changeLabel = ref('')
-const changeId = ref<string | number>('')
+const changeIds = ref<(string | number)[]>([])
 const changeStatus = ref<UserStatus>()
 const { doChangeAction } = useChangeStatus(
   () =>
-    `是否确认 ${changeStatus.value === UserStatus.Active ? '启用' : '停用'} ${changeLabel.value} ？`,
+    `是否确认将 ${changeStatus.value === UserStatus.Active ? '启用' : '停用'} ${changeLabel.value} ？`,
   async () => {
     if (!changeStatus.value) {
       ElMessage.error('请选择状态')
       return
     }
-    await changeUsersStatusAction([changeId.value], changeStatus.value)
+    await changeUsersStatusAction(changeIds.value, changeStatus.value)
     refresh()
   }
 )
-const handleChangeStatus = (id: string | number, title: string, newStatus: UserStatus) => {
-  changeLabel.value = title
-  changeId.value = id
+const handleChangeStatus = (ids: (string | number)[], fullName: string, newStatus: UserStatus) => {
+  changeLabel.value = fullName
+  changeIds.value = ids
   changeStatus.value = newStatus
   doChangeAction()
 }
@@ -140,6 +143,7 @@ import { sortList as sortDate, filterList as filterDate, columnList as columnDat
 const { sortList, filterList, columnList, filterDTO } = useTable(sortDate, filterDate, columnDate)
 
 const reset = () => {
+  searchQuery.value = ''
   refresh()
 }
 </script>

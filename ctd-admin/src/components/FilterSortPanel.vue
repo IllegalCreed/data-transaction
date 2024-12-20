@@ -177,7 +177,8 @@ const { propLabelMap } = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'refresh'): void
+  (e: 'reset'): void
+  (e: 'apply'): void
 }>()
 
 const getColumnLabel = (key: keyof T) => {
@@ -192,7 +193,7 @@ const resetAll = () => {
   columnCount.value = 0
   filterCount.value = 0
   sortingCount.value = 0
-  emit('refresh')
+  emit('reset')
 }
 
 // 列选择
@@ -222,7 +223,7 @@ const applyColumn = () => {
       columnCount.value++
     }
   })
-  emit('refresh')
+  emit('apply')
 }
 
 // 筛选
@@ -256,7 +257,7 @@ const applyFilter = () => {
       filterCount.value++
     }
   })
-  emit('refresh')
+  emit('apply')
 }
 
 // 排序
@@ -290,7 +291,7 @@ const applySorting = () => {
       sortingCount.value++
     }
   })
-  emit('refresh')
+  emit('apply')
 }
 
 const cancelChanges = () => {
