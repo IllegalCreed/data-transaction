@@ -12,10 +12,11 @@ import { ErrorCode } from 'src/common/constants/error-codes';
 import { UserType } from 'src/enums/user-type.enum';
 import { ExpectedError } from 'src/types/error';
 import { USER_INDIVIDUAL_FIELD_MAP } from './config/field-map.config'; // 关键映射
-import { IndividualUserItem } from './types/individual-user-item.type';
+import { IndividualUserItem } from './interface/individual-user-item.interface';
 import { USER_ALIAS, INFO_ALIAS } from './config/alias.config';
 import { FUZZY_SEARCH_MAP } from './config/search-fields.config';
 import { AbstractListService } from 'src/common/services/abstract-list.service';
+import { IIndividualUserDetailData } from './interface/individual-user-detail.interface';
 
 @Injectable()
 export class UserService extends AbstractListService<User, IndividualUserItem> {
@@ -60,30 +61,43 @@ export class UserService extends AbstractListService<User, IndividualUserItem> {
     });
   }
 
-  // 获取个人用户详细信息
-  async getIndividualUser(userId: number): Promise<ApiResponse> {
+  async getIndividualUser(
+    userId: number,
+  ): Promise<ApiResponse<IIndividualUserDetailData>> {
     try {
-      // 根据userId查找用户及其个人信息
+      // 1) 查询User + 关联的 IndividualUserInfo
       const user = await this.userRepository.findOne({
-        where: { id: userId },
+        where: { id: userId, userType: UserType.Individual },
         relations: ['individualInfo'],
       });
 
       if (!user || !user.individualInfo) {
-        this.logger.warn(`个人用户信息不存在：${userId}`);
+        this.logger.warn(`个人用户信息不存在: userId=${userId}`);
         return createErrorResponse(ErrorCode.USER_NOT_FOUND);
       }
 
-      this.logger.log(`获取个人用户信息成功：${userId}`);
-      return createSuccessResponse(
-        user.individualInfo,
-        'GET_INDIVIDUAL_USER_SUCCEED',
-      );
+      // 2) 构造需要返回的数据(可根据前端需求组装)
+      const data: IIndividualUserDetailData = {
+        id: user.id,
+        email: user.email,
+        avatarUrl: user.avatarUrl,
+        status: user.status,
+        fullName: user.individualInfo.fullName,
+        phoneNumber: user.individualInfo.phoneNumber,
+        identificationNumber: user.individualInfo.identificationNumber,
+        gender: user.individualInfo.gender,
+        dateOfBirth: user.individualInfo.dateOfBirth,
+        residentialAddress: user.individualInfo.residentialAddress,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+      };
+
+      this.logger.log(`个人用户信息获取成功: userId=${userId}`);
+      return createSuccessResponse(data, 'GET_INDIVIDUAL_USER_SUCCEED');
     } catch (error) {
       if (error instanceof ExpectedError) {
         return createErrorResponse(error.errorCode);
       }
-
       this.logger.error('获取个人用户信息失败', error);
       return createErrorResponse(ErrorCode.GET_USER_FAILED);
     }

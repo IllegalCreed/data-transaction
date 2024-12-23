@@ -1,4 +1,4 @@
-import type { IndividualUserItem } from '../types/individual-user-item.type';
+import type { IndividualUserItem } from '../interface/individual-user-item.interface';
 import { USER_ALIAS, INFO_ALIAS } from './alias.config';
 
 export const USER_INDIVIDUAL_FIELD_MAP: Record<

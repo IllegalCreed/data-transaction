@@ -1,5 +1,5 @@
 import { SubsetRecordOf } from 'src/types/common';
-import { IndividualUserItem } from '../types/individual-user-item.type';
+import { IndividualUserItem } from '../interface/individual-user-item.interface';
 import { USER_ALIAS, INFO_ALIAS } from './alias.config';
 
 /**

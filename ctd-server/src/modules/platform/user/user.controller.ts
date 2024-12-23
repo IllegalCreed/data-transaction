@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
@@ -9,7 +10,6 @@ import {
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ApiResponse } from 'src/common/interfaces/api-response.interface';
-import { UserInfoDto } from './dto/user-info.dto';
 import { AuthGuard } from 'src/common/guards/auth.guard';
 import { GetListDto } from 'src/common/dto/get-list.dto';
 import {
@@ -18,6 +18,7 @@ import {
 } from 'src/common/utils/response';
 import { ExpectedError } from 'src/types/error';
 import { ErrorCode } from 'src/common/constants/error-codes';
+import { IIndividualUserDetailData } from './interface/individual-user-detail.interface';
 
 @Controller('platform/user')
 export class UserController {
@@ -55,11 +56,21 @@ export class UserController {
     }
   }
 
-  // 获取个人用户信息
-  @Get(':userId')
+  /**
+   * 获取个人用户详情
+   * GET /platform/user/individual/:id
+   */
+  @UseGuards(AuthGuard)
+  @Get('individual/:userId')
   async getIndividualUser(
-    @Param('userId') userId: number,
-  ): Promise<ApiResponse<UserInfoDto>> {
-    return this.userService.getIndividualUser(userId);
+    @Param('userId') userId: string,
+  ): Promise<ApiResponse<IIndividualUserDetailData>> {
+    const idNum = parseInt(userId, 10);
+    if (Number.isNaN(idNum)) {
+      throw new BadRequestException(
+        'Invalid user ID. Please provide a valid user ID.',
+      );
+    }
+    return this.userService.getIndividualUser(idNum);
   }
 }
