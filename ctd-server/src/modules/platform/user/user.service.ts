@@ -40,27 +40,7 @@ export class UserService {
         .leftJoinAndSelect(`${USER_ALIAS}.individualInfo`, INFO_ALIAS)
         .where(`${USER_ALIAS}.userType = :type`, { type: UserType.Individual });
 
-      // 2) 搜索(在 email, fullName, identificationNumber, phoneNumber 上模糊搜索)
-      if (searchQuery) {
-        qb.andWhere(
-          new Brackets((qb1) => {
-            qb1
-              .where(`${USER_ALIAS}.email LIKE :search`, {
-                search: `%${searchQuery}%`,
-              })
-              .orWhere(`${INFO_ALIAS}.fullName LIKE :search`, {
-                search: `%${searchQuery}%`,
-              })
-              .orWhere(`${INFO_ALIAS}.identificationNumber LIKE :search`, {
-                search: `%${searchQuery}%`,
-              })
-              .orWhere(`${INFO_ALIAS}.phoneNumber LIKE :search`, {
-                search: `%${searchQuery}%`,
-              });
-          }),
-        );
-      }
-
+      // 2) 搜索
       if (searchQuery) {
         qb.andWhere(
           new Brackets((qb1) => {
@@ -75,7 +55,7 @@ export class UserService {
         );
       }
 
-      // 3) 筛选 filters
+      // 3) 筛选
       if (filters && filters.length > 0) {
         for (const f of filters) {
           // 通过 fieldMap 查找SQL字段
@@ -117,7 +97,7 @@ export class UserService {
         }
       }
 
-      // 4) 多字段排序 sorts
+      // 4) 多字段排序
       if (sorts && sorts.length > 0) {
         for (const s of sorts) {
           const fieldSql = USER_INDIVIDUAL_FIELD_MAP[s.prop];
@@ -160,7 +140,6 @@ export class UserService {
 
       // 8) 构造返回
       const data = rows.map((user) => {
-        // 先组装全部字段(后面可加/减字段)
         const item: IndividualUserItem = {
           id: user.id,
           email: user.email,
