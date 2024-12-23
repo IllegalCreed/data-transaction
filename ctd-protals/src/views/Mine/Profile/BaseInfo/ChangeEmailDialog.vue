@@ -25,10 +25,10 @@
 
 <script setup lang="ts">
 import StepGroup from '@/components/StepGroup.vue'
-import ValidateIdentify from './Step/ValidateIdentify.vue'
-import ChangeEmail from './Step/ChangeEmail.vue'
-import ValidateEmail from './Step/ValidateEmail.vue'
-import ChangeCompleted from './Step/ChangeCompleted.vue'
+import ValidateIdentify from './ChangeEmailStep/ValidateIdentify.vue'
+import ChangeEmail from './ChangeEmailStep/ChangeEmail.vue'
+import ValidateEmail from './ChangeEmailStep/ValidateEmail.vue'
+import ChangeCompleted from './ChangeEmailStep/ChangeCompleted.vue'
 
 const model = defineModel<boolean>({ required: true })
 
@@ -36,13 +36,18 @@ const steps = [
   { title: '验证身份' },
   { title: '修改邮箱' },
   { title: '验证邮箱' },
-  { title: '修改完成' }
+  { title: '修改完成' },
 ]
 
 const currentStep = ref(0)
 
 const panels = [ValidateIdentify, ChangeEmail, ValidateEmail, ChangeCompleted]
-const includePanels = ref(['ValidateIdentify', 'ChangeEmail', 'ValidateEmail', 'ChangeCompleted'])
+const includePanels = ref([
+  'ValidateIdentify',
+  'ChangeEmail',
+  'ValidateEmail',
+  'ChangeCompleted',
+])
 
 const currentPanel = computed(() => panels[currentStep.value])
 

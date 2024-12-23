@@ -6,117 +6,87 @@
     :close-on-click-modal="false"
     title="修改密码"
   >
-    <el-form
-      @submit.prevent
-      :model="userPwd"
-      :rules="rules"
-      ref="formRef"
-      label-width="auto"
-      max-w-100
-    >
-      <el-form-item label="旧密码" prop="oldPwd">
-        <el-input v-model="userPwd.oldPwd" placeholder="请输入" />
-      </el-form-item>
-      <el-form-item label="新密码" prop="newPwd">
-        <el-input
-          v-model="userPwd.newPwd"
-          type="password"
-          placeholder="请输入"
-        />
-      </el-form-item>
-      <el-form-item label="重复密码" prop="repeatPwd">
-        <el-input
-          v-model="userPwd.repeatPwd"
-          type="password"
-          placeholder="请输入"
-        />
-      </el-form-item>
-    </el-form>
-    <template #footer>
-      <div class="dialog-footer">
-        <el-button class="btn" @click="model = false">取消</el-button>
-        <el-button class="btn" type="primary" @click="handleResetPwd">
-          确认
-        </el-button>
+    <div flex flex-col justify-start min-h-full>
+      <step-group :steps="steps" :currentStep="currentStep" self-stretch />
+
+      <div flex-1 w-full mt-10>
+        <keep-alive :include="includePanels">
+          <component
+            :is="currentPanel"
+            @nextStep="nextStep"
+            @prevStep="prevStep"
+            @complete="changePasswordComplete"
+          />
+        </keep-alive>
       </div>
-    </template>
+    </div>
   </el-dialog>
 </template>
 
 <script setup lang="ts">
-import type { FormInstance, FormRules } from 'element-plus'
-
-import { useAccountStore } from '@/stores/modules/account'
-const { resetPwd } = useAccountStore()
+import StepGroup from '@/components/StepGroup.vue'
+import ValidatePassword from './ChangePasswordStep/ValidatePassword.vue'
+import ValidateEmail from './ChangePasswordStep/ValidateEmail.vue'
+import ChangePassword from './ChangePasswordStep/ChangePassword.vue'
+import ChangeCompleted from './ChangePasswordStep/ChangeCompleted.vue'
 
 const model = defineModel<boolean>({ required: true })
 
-const userPwd = ref({
-  oldPwd: '',
-  newPwd: '',
-  repeatPwd: '',
-})
+const steps = [
+  { title: '验证密码' },
+  { title: '验证邮箱' },
+  { title: '设置密码' },
+  { title: '修改完成' },
+]
 
-const formRef = useTemplateRef<FormInstance>('formRef')
-const validateNewPwd = (rule: any, value: any, callback: any) => {
-  const regex =
-    /^(?![A-Za-z0-9]+$)(?![a-z0-9\W]+$)(?![A-Za-z\W]+$)(?![A-Z0-9\W]+$)[a-zA-Z0-9\W]{8,20}$/
-  if (!regex.test(userPwd.value.newPwd)) {
-    callback(new Error('密码必须大于8位，且至少包含大小写字母数字及特殊字符'))
-  } else {
-    callback()
+const currentStep = ref(0)
+
+const panels = [
+  ValidatePassword,
+  ValidateEmail,
+  ChangePassword,
+  ChangeCompleted,
+]
+const includePanels = ref([
+  'ValidatePassword',
+  'ChangePassword',
+  'ValidateEmail',
+  'ChangeCompleted',
+])
+
+const currentPanel = computed(() => panels[currentStep.value])
+
+const nextStep = () => {
+  if (currentStep.value < steps.length - 1) {
+    currentStep.value++
   }
 }
 
-const validateRepeatPwd = (rule: any, value: any, callback: any) => {
-  if (userPwd.value.newPwd !== userPwd.value.repeatPwd) {
-    callback(new Error('请保证两次输入的密码一致'))
-  } else {
-    callback()
+const prevStep = () => {
+  if (currentStep.value > 0) {
+    currentStep.value--
   }
 }
 
-const rules = reactive<FormRules<any>>({
-  oldPwd: [{ required: true, message: '密码不能为空', trigger: 'blur' }],
-  newPwd: [
-    { required: true, message: '密码不能为空', trigger: 'blur' },
-    { validator: validateNewPwd, trigger: 'blur' },
-  ],
-  repeatPwd: [
-    { required: true, message: '重复密码不能为空', trigger: 'blur' },
-    { validator: validateRepeatPwd, trigger: 'blur' },
-  ],
-})
-
-async function handleResetPwd() {
-  if (!formRef.value) return
-  await formRef.value.validate((valid, fields) => {
-    if (valid) {
-      resetPwd(userPwd.value.oldPwd, userPwd.value.newPwd).then(() => {
-        ElMessage.success('密码修改成功')
-        model.value = false
-      })
-    }
-  })
+const changePasswordComplete = () => {
+  model.value = false
 }
 </script>
 
 <style lang="scss" scoped>
 :global(.change-password-dialog-container) {
-  @apply flex flex-col min-w-80 w-140;
+  @apply fixed left-20 right-20 top-20 bottom-20 my-0 mx-auto min-w-80 w-[calc(100%-10rem)] max-w-300 flex flex-col;
 
   @media (max-width: 40rem) {
-    @apply fixed left-0 right-0 top-auto bottom-0 mb-0 w-full;
+    @apply left-0 right-0 top-auto bottom-0 w-full h-80%;
   }
 }
 
-.dialog-footer {
-  @apply flex flex-row items-center justify-end;
+:global(.change-password-dialog-container .el-dialog__body) {
+  @apply h-full overflow-y-auto p-10;
 
   @media (max-width: 40rem) {
-    .btn {
-      @apply flex-1;
-    }
+    @apply p-0 pt-5;
   }
 }
 </style>

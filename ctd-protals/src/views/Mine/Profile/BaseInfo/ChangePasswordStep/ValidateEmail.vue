@@ -1,8 +1,8 @@
 <template>
   <div flex flex-col items-center>
-    <span text-3xl font-bold mt-10>验证身份</span>
+    <span text-3xl font-bold mt-10>验证邮箱</span>
     <p text-sm text-gray-400>
-      我们向您的邮箱<strong mx-2>{{ email }}</strong
+      我们向您的新邮箱<strong mx-2>{{ email }}</strong
       >发送了一封邮件
     </p>
 
@@ -33,7 +33,7 @@
 import VerificationCodeInput from '@/components/VerificationCodeInput.vue'
 
 const code = ref('')
-const email = ref('someone@email.com')
+const email = ref('new@email.com')
 
 const emit = defineEmits(['nextStep', 'prevStep'])
 const handleNextStep = async () => {
