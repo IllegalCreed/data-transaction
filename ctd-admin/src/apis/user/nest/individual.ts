@@ -20,7 +20,7 @@ export const getIndividualUsers = (
   }
   return request.get(
     {
-      url: '/user/individual',
+      url: '/platform/user/individual',
       params
     },
     true
@@ -30,7 +30,7 @@ export const getIndividualUsers = (
 export const getIndividualUser = (id: string | number): Promise<unknown> => {
   return request.get(
     {
-      url: `/user/individual/${id}`
+      url: `/platform/user/individual/${id}`
     },
     true
   )

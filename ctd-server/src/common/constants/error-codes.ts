@@ -55,6 +55,7 @@ export enum ErrorCode {
 
   // 用户管理相关
   GET_USER_FAILED = 6001,
+  GET_USER_LIST_FAILED = 6002,
 }
 
 export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
@@ -132,4 +133,6 @@ export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
 
   // 用户管理相关
   [ErrorCode.GET_USER_FAILED]: 'Get user failed due to unexpected error.',
+  [ErrorCode.GET_USER_LIST_FAILED]:
+    'Get user list failed due to unexpected error.',
 };

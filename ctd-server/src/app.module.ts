@@ -11,6 +11,7 @@ import { LoginModule } from './modules/protals/login/login.module';
 import { UserModule } from './modules/protals/user/user.module';
 import { PlatformLoginModule } from './modules/platform/login/login.module';
 import { AdminModule } from './modules/platform/admin/admin.module';
+import { PlatformUserModule } from './modules/platform/user/user.module';
 
 const nodeEnv = process.env.NODE_ENV || 'development';
 
@@ -71,6 +72,7 @@ const nodeEnv = process.env.NODE_ENV || 'development';
     UserModule,
     PlatformLoginModule,
     AdminModule,
+    PlatformUserModule,
   ],
   controllers: [],
   providers: [],
