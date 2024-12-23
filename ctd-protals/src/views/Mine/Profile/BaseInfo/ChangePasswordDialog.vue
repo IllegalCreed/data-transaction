@@ -42,8 +42,8 @@ const steps = [
 const currentStep = ref(0)
 
 const panels = [
-  ValidatePassword,
   ValidateEmail,
+  ValidatePassword,
   ChangePassword,
   ChangeCompleted,
 ]
