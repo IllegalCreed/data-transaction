@@ -178,7 +178,10 @@ export const useProduct = () => {
               resolve(
                 resData.data.proVersion.productImgs
                   .split(',')
-                  .map(item => item.trim()),
+                  .map(
+                    item =>
+                      `${import.meta.env.VITE_APP_BASE_API}/${item.trim()}`,
+                  ),
               )
             } else {
               const images = res as string[]

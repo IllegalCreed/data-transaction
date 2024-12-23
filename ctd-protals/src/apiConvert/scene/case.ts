@@ -20,10 +20,8 @@ export const scenesConvert = (raws: ISceneFetchData[]): IScene[] => {
       title: row.bizSceneName,
       companyName: row.bizCompanyName,
       description: row.bizSceneInfo,
-      imageUrl:
-        row.sysFileList.find(item => item.fileType === '场景封面')?.url ?? '',
-      bannerUrl:
-        row.sysFileList.find(item => item.fileType === '场景头图')?.url ?? '',
+      imageUrl: `${import.meta.env.VITE_APP_BASE_API}/${row.sysFileList.find(item => item.fileType === '场景封面')?.url ?? ''}`,
+      bannerUrl: `${import.meta.env.VITE_APP_BASE_API}/${row.sysFileList.find(item => item.fileType === '场景头图')?.url ?? ''}`,
       link: row.bizUrl,
       content: row.bizSceneContent,
     })
@@ -37,10 +35,8 @@ export const sceneConvert = (raw: ISceneFetchData): IScene => {
     title: raw.bizSceneName,
     companyName: raw.bizCompanyName,
     description: raw.bizSceneInfo,
-    imageUrl:
-      raw.sysFileList.find(item => item.fileType === '场景封面')?.url ?? '',
-    bannerUrl:
-      raw.sysFileList.find(item => item.fileType === '场景头图')?.url ?? '',
+    imageUrl: `${import.meta.env.VITE_APP_BASE_API}/${raw.sysFileList.find(item => item.fileType === '场景封面')?.url ?? ''}`,
+    bannerUrl: `${import.meta.env.VITE_APP_BASE_API}/${raw.sysFileList.find(item => item.fileType === '场景头图')?.url ?? ''}`,
     link: raw.bizUrl,
     content: raw.bizSceneContent,
   }

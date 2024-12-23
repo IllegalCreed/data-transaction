@@ -43,7 +43,7 @@ export const productsConvert = (raws: IProductFetchData[]): IProduct[] => {
       tags: row.proLabelList.map(
         (item: { prodLabel: string }) => item.prodLabel,
       ),
-      imageUrl: row.proVersion.productCover,
+      imageUrl: `${import.meta.env.VITE_APP_BASE_API}/${row.proVersion.productCover}`,
       showPrice: row.proVersion.prodDisplayPrice,
     })
   }
@@ -57,7 +57,7 @@ export const productConvert = (raw: IProductFetchData): IProductDetail => {
     sellerId: raw.userId,
     sellerName: raw.nickName,
     tags: raw.proLabelList.map((item: { prodLabel: string }) => item.prodLabel),
-    imageUrl: raw.proVersion.productCover,
+    imageUrl: `${import.meta.env.VITE_APP_BASE_API}/${raw.proVersion.productCover}`,
     soldCount: raw.saleNum,
     hasCount: raw.proVersion.bizNumSwitch === '1',
     specGroups: transformSpecifications(raw.proSpecificationsTypeList),

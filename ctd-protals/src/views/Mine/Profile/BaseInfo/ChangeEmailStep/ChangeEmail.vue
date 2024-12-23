@@ -37,7 +37,7 @@ const baseInfo = ref({
   email: '',
 })
 
-const rules = reactive<FormRules<any>>({
+const rules = reactive<FormRules<{ email: string }>>({
   email: [{ required: true, message: '请输入邮箱', trigger: 'blur' }],
 })
 

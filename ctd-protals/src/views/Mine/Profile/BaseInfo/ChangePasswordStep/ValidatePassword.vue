@@ -14,10 +14,10 @@
       mt-10
       w-60
     >
-      <el-form-item label="密码" prop="email">
+      <el-form-item label="密码" prop="password">
         <el-input
           v-model="baseInfo.password"
-          type="email"
+          type="password"
           placeholder="请输入密码"
         />
       </el-form-item>

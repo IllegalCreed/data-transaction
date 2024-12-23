@@ -16,7 +16,7 @@ export const bannerConvert = (raws: IBannerFetchData[]) => {
   for (const row of raws) {
     result.push({
       id: row.bizBannerCode,
-      imageUrl: row.sysFile.url,
+      imageUrl: `${import.meta.env.VITE_APP_BASE_API}/${row.sysFile.url}`,
       type: Number(row.bizType),
       payload: Number(row.bizType) === 1 ? row.bizUrl : row.bizCode,
     })
