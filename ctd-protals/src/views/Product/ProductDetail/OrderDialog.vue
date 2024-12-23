@@ -107,6 +107,10 @@ const {
       getFilteredSpecs(),
     ),
   undefined,
+  {
+    throwError: true,
+    immediate: false,
+  },
 )
 const executeGetPriceAction = useDebounceFn(executeGetPriceActionRaw, 1000)
 
