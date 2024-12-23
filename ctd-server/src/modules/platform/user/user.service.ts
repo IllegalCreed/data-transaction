@@ -166,7 +166,7 @@ export class UserService {
       this.logger.log(`获取个人用户列表成功`);
       return createSuccessResponse(
         {
-          records: data,
+          rows: data,
           total,
           pageNum,
           pageSize,

@@ -25,7 +25,7 @@ export const filterList: IFilter<IEnterpriseUserItem>[] = [
     options: userStatusOptions
   },
   {
-    prop: 'createTime',
+    prop: 'createdAt',
     type: 'date' as const
   },
   {
@@ -43,6 +43,6 @@ export const columnList: ITableColumn<IEnterpriseUserItem>[] = [
   { prop: 'industryType', minWidth: '250', slot: 'industryType', visible: true },
   { prop: 'companySize', minWidth: '200', slot: 'companySize', visible: true },
   { prop: 'status', minWidth: '120', slot: 'status', visible: true },
-  { prop: 'createTime', minWidth: '130', visible: true },
-  { prop: 'updateTime', minWidth: '130', visible: true }
+  { prop: 'createdAt', minWidth: '130', visible: true },
+  { prop: 'updatedAt', minWidth: '130', visible: true }
 ]

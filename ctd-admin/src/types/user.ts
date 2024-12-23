@@ -12,8 +12,8 @@ export interface IUserBase {
   avatarUrl?: string
   userType: UserType
   status: UserStatus
-  createTime: string
-  updateTime: string
+  createdAt: string
+  updatedAt: string
 }
 
 export interface IIndividualUser extends IUserBase {

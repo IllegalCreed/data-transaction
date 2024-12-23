@@ -32,11 +32,11 @@
       </div>
       <div class="prop">
         <span class="label">创建时间：</span>
-        <span class="value">{{ userInfo.createTime }}</span>
+        <span class="value">{{ userInfo.createdAt }}</span>
       </div>
       <div class="prop">
         <span class="label">更新时间：</span>
-        <span class="value">{{ userInfo.updateTime }}</span>
+        <span class="value">{{ userInfo.updatedAt }}</span>
       </div>
       <div class="prop" grid-col-span-3>
         <span class="label">住址</span>
@@ -77,8 +77,8 @@ const {
     email: '',
     userType: UserType.Individual,
     status: UserStatus.Active,
-    createTime: '',
-    updateTime: '',
+    createdAt: '',
+    updatedAt: '',
     fullName: '',
     identificationNumber: '',
     phoneNumber: '',

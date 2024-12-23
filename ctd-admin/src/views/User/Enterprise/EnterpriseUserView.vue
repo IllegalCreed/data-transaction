@@ -77,8 +77,8 @@ const getList = async (): Promise<number> => {
   const res = await getEnterpriseUsersAction(
     searchQuery.value,
     filterDTO.value,
-    sortList.value,
-    columnList.value,
+    sortDTO.value,
+    columnDTO.value,
     pageNum.value,
     pageSize.value
   )
@@ -91,7 +91,11 @@ const getList = async (): Promise<number> => {
 // 筛选和表格
 import { useTable } from '@/composables/useTable'
 import { sortList as sortDate, filterList as filterDate, columnList as columnDate } from './config'
-const { sortList, filterList, columnList, filterDTO } = useTable(sortDate, filterDate, columnDate)
+const { sortList, filterList, columnList, filterDTO, columnDTO, sortDTO } = useTable(
+  sortDate,
+  filterDate,
+  columnDate
+)
 
 // 分页
 import { usePager } from '@/composables/usePager'

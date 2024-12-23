@@ -167,8 +167,8 @@ export const INDIVIDUAL_USER_PROP_LABEL_MAP: IPropLabelMap<IIndividualUserItem> 
   phoneNumber: '手机号',
   gender: '性别',
   status: '状态',
-  createTime: '创建时间',
-  updateTime: '更新时间'
+  createdAt: '创建时间',
+  updatedAt: '更新时间'
 }
 
 export const ENTERPRISE_USER_PROP_LABEL_MAP: IPropLabelMap<IEnterpriseUserItem> = {
@@ -182,6 +182,6 @@ export const ENTERPRISE_USER_PROP_LABEL_MAP: IPropLabelMap<IEnterpriseUserItem> 
   industryType: '行业类别',
   companySize: '企业规模',
   status: '状态',
-  createTime: '创建时间',
-  updateTime: '更新时间'
+  createdAt: '创建时间',
+  updatedAt: '更新时间'
 }

@@ -77,20 +77,24 @@ const getList = async (): Promise<number> => {
   const res = await getIndividualUsersAction(
     searchQuery.value,
     filterDTO.value,
-    sortList.value,
-    columnList.value,
+    sortDTO.value,
+    columnDTO.value,
     pageNum.value,
     pageSize.value
   )
-  data.value = res.rows
+  data.value = res.data.rows
   getListLoading.value = false
-  return res.total
+  return res.data.total
 }
 
 // 筛选和表格
 import { useTable } from '@/composables/useTable'
 import { sortList as sortDate, filterList as filterDate, columnList as columnDate } from './config'
-const { sortList, filterList, columnList, filterDTO } = useTable(sortDate, filterDate, columnDate)
+const { sortList, filterList, columnList, filterDTO, columnDTO, sortDTO } = useTable(
+  sortDate,
+  filterDate,
+  columnDate
+)
 
 // 分页
 import { usePager } from '@/composables/usePager'

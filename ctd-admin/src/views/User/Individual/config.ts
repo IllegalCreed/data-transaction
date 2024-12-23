@@ -28,11 +28,11 @@ export const sortList: ISort<IIndividualUserItem>[] = [
     order: undefined
   },
   {
-    prop: 'createTime',
+    prop: 'createdAt',
     order: undefined
   },
   {
-    prop: 'updateTime',
+    prop: 'updatedAt',
     order: undefined
   }
 ]
@@ -65,11 +65,11 @@ export const filterList: IFilter<IIndividualUserItem>[] = [
     options: userStatusOptions
   },
   {
-    prop: 'createTime',
+    prop: 'createdAt',
     type: 'date' as const
   },
   {
-    prop: 'updateTime',
+    prop: 'updatedAt',
     type: 'date' as const
   }
 ]
@@ -81,6 +81,20 @@ export const columnList: ITableColumn<IIndividualUserItem>[] = [
   { prop: 'phoneNumber', minWidth: '180', visible: true },
   { prop: 'gender', minWidth: '120', slot: 'gender', visible: true },
   { prop: 'status', minWidth: '120', slot: 'status', visible: true },
-  { prop: 'createTime', minWidth: '130', visible: true },
-  { prop: 'updateTime', minWidth: '130', visible: true }
+  {
+    prop: 'createdAt',
+    minWidth: '130',
+    visible: true,
+    formatter: (row: IIndividualUserItem) => {
+      return dayjs(row.createdAt).format('YYYY-MM-DD HH:mm:ss')
+    }
+  },
+  {
+    prop: 'updatedAt',
+    minWidth: '130',
+    visible: true,
+    formatter: (row: IIndividualUserItem) => {
+      return dayjs(row.updatedAt).format('YYYY-MM-DD HH:mm:ss')
+    }
+  }
 ]

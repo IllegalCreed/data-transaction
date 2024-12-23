@@ -1,12 +1,12 @@
 import request from '@/axios'
-import type { IFilterDTO, ISort, ITableColumn } from '@/types/table'
+import type { IFilterDTO, ISort, ITableColumnDTO } from '@/types/table'
 import type { IEnterpriseUserItem } from '@/types/user'
 
 export const getEnterpriseUsers = (
   searchQuery: string,
   filters: IFilterDTO<IEnterpriseUserItem>[],
   sorts: ISort<IEnterpriseUserItem>[],
-  columns: ITableColumn<IEnterpriseUserItem>[],
+  columns: ITableColumnDTO<IEnterpriseUserItem>[],
   pageNum: number,
   pageSize: number
 ): Promise<unknown> => {

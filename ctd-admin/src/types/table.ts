@@ -28,3 +28,8 @@ export interface ITableColumn<T> {
   formatter?: (row: T, column: TableColumnCtx<T>) => string
   visible: boolean
 }
+
+export type ITableColumnDTO<T> = Omit<
+  ITableColumn<T>,
+  'width|minWidth|slot|align|showOverflowTooltip|formatter'
+>
