@@ -15,6 +15,7 @@ import { ExpectedError } from 'src/types/error';
 import { USER_INDIVIDUAL_FIELD_MAP } from './config/field-map.config'; // 关键映射
 import { IndividualUserItem } from './types/individual-user-item.type';
 import { USER_ALIAS, INFO_ALIAS } from './config/alias.config';
+import { FUZZY_SEARCH_MAP } from './config/search-fields.config';
 
 @Injectable()
 export class UserService {
@@ -56,6 +57,20 @@ export class UserService {
               .orWhere(`${INFO_ALIAS}.phoneNumber LIKE :search`, {
                 search: `%${searchQuery}%`,
               });
+          }),
+        );
+      }
+
+      if (searchQuery) {
+        qb.andWhere(
+          new Brackets((qb1) => {
+            qb1.where('1=0'); // 1=0 保证下面的 orWhere 生效
+            for (const prop in FUZZY_SEARCH_MAP) {
+              const fieldSql = FUZZY_SEARCH_MAP[prop];
+              qb1.orWhere(`${fieldSql} LIKE :search`, {
+                search: `%${searchQuery}%`,
+              });
+            }
           }),
         );
       }
