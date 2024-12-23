@@ -12,25 +12,13 @@ import { ErrorCode } from 'src/common/constants/error-codes';
 import { GetIndividualUsersDto } from './dto/get-individual-users.dto';
 import { UserType } from 'src/enums/user-type.enum';
 import { ExpectedError } from 'src/types/error';
+import { USER_INDIVIDUAL_FIELD_MAP } from './config/field-map.config'; // 关键映射
+import { IndividualUserItem } from './types/individual-user-item.type';
+import { USER_ALIAS, INFO_ALIAS } from './config/alias.config';
 
 @Injectable()
 export class UserService {
   private readonly logger = new Logger(UserService.name);
-  private readonly fieldMap: Record<string, string> = {
-    // User表字段
-    id: 'user.id',
-    email: 'user.email',
-    status: 'user.status',
-    createdAt: 'user.createdAt',
-    updatedAt: 'user.updatedAt',
-    // IndividualInfo表字段
-    fullName: 'info.fullName',
-    identificationNumber: 'info.identificationNumber',
-    phoneNumber: 'info.phoneNumber',
-    gender: 'info.gender',
-    dateOfBirth: 'info.dateOfBirth',
-    residentialAddress: 'info.residentialAddress',
-  };
 
   constructor(
     @InjectRepository(User)
@@ -47,23 +35,25 @@ export class UserService {
     try {
       // 1) 构建查询
       const qb = this.userRepository
-        .createQueryBuilder('user')
-        .leftJoinAndSelect('user.individualInfo', 'info')
-        .where('user.userType = :type', { type: UserType.Individual });
+        .createQueryBuilder(USER_ALIAS)
+        .leftJoinAndSelect(`${USER_ALIAS}.individualInfo`, INFO_ALIAS)
+        .where(`${USER_ALIAS}.userType = :type`, { type: UserType.Individual });
 
       // 2) 搜索(在 email, fullName, identificationNumber, phoneNumber 上模糊搜索)
       if (searchQuery) {
         qb.andWhere(
           new Brackets((qb1) => {
             qb1
-              .where('user.email LIKE :search', { search: `%${searchQuery}%` })
-              .orWhere('info.fullName LIKE :search', {
+              .where(`${USER_ALIAS}.email LIKE :search`, {
                 search: `%${searchQuery}%`,
               })
-              .orWhere('info.identificationNumber LIKE :search', {
+              .orWhere(`${INFO_ALIAS}.fullName LIKE :search`, {
                 search: `%${searchQuery}%`,
               })
-              .orWhere('info.phoneNumber LIKE :search', {
+              .orWhere(`${INFO_ALIAS}.identificationNumber LIKE :search`, {
+                search: `%${searchQuery}%`,
+              })
+              .orWhere(`${INFO_ALIAS}.phoneNumber LIKE :search`, {
                 search: `%${searchQuery}%`,
               });
           }),
@@ -74,32 +64,40 @@ export class UserService {
       if (filters && filters.length > 0) {
         for (const f of filters) {
           // 通过 fieldMap 查找SQL字段
-          const fieldSql = this.fieldMap[f.prop];
-          if (fieldSql) {
-            switch (f.type) {
-              case 'input':
-                // input => LIKE 查询
+          const fieldSql = USER_INDIVIDUAL_FIELD_MAP[f.prop];
+          if (!fieldSql) {
+            this.logger.warn(`无效的筛选字段prop: ${f.prop}`);
+            continue;
+          }
+          switch (f.type) {
+            case 'input':
+              // 当 f.value 是空串/undefined/null 时跳过
+              if (typeof f.value === 'string' && f.value.trim().length > 0) {
                 qb.andWhere(`${fieldSql} LIKE :val`, { val: `%${f.value}%` });
-                break;
+              }
+              break;
 
-              case 'enum':
-                // enum => string[] => In([...]) 查询
+            case 'enum':
+              // 当 f.value 不是数组或数组为空 => 跳过
+              if (Array.isArray(f.value) && f.value.length > 0) {
                 qb.andWhere(`${fieldSql} IN (:...vals)`, { vals: f.value });
-                break;
+              }
+              break;
 
-              case 'date':
-                // date => [start, end] => Between(start, end)
-                {
-                  const [start, end] = f.value;
-                  qb.andWhere(`${fieldSql} BETWEEN :start AND :end`, {
-                    start,
-                    end,
-                  });
-                }
-                break;
-            }
-          } else {
-            this.logger.warn(`筛选字段无效：${f.prop}`);
+            case 'date':
+              // 当 f.value 不是 [start, end] => 跳过
+              if (Array.isArray(f.value) && f.value.length === 2) {
+                const [start, end] = f.value;
+                qb.andWhere(`${fieldSql} BETWEEN :start AND :end`, {
+                  start,
+                  end,
+                });
+              }
+              break;
+
+            default:
+              this.logger.warn(`未知的filter类型: ${f.type}`);
+              break;
           }
         }
       }
@@ -107,13 +105,20 @@ export class UserService {
       // 4) 多字段排序 sorts
       if (sorts && sorts.length > 0) {
         for (const s of sorts) {
-          const order = s.order === 'desc' ? 'DESC' : 'ASC';
-          const fieldSql = this.fieldMap[s.prop];
-          if (fieldSql) {
-            qb.addOrderBy(fieldSql, order);
-          } else {
-            this.logger.warn(`排序字段无效：${s.prop}`);
+          const fieldSql = USER_INDIVIDUAL_FIELD_MAP[s.prop];
+          if (!fieldSql) {
+            this.logger.warn(`无效的排序字段: ${s.prop}`);
+            continue;
           }
+          const order =
+            s.order === 'desc' || s.order === 'asc'
+              ? s.order.toUpperCase()
+              : null;
+          if (!order) {
+            this.logger.warn(`排序字段 ${s.prop} 的order无效, 跳过`);
+            continue;
+          }
+          qb.addOrderBy(fieldSql, order as 'ASC' | 'DESC');
         }
       } else {
         qb.addOrderBy('user.id', 'DESC'); // 默认排序
@@ -128,24 +133,25 @@ export class UserService {
       // 7) 列可见性处理（强制返回id）
       const alwaysIncluded = ['id'];
       const visibleProps = new Set(alwaysIncluded);
-      if (columns && columns.length > 0) {
-        columns.forEach((col) => {
-          if (col.visible) {
-            visibleProps.add(col.prop as string);
+
+      if (Array.isArray(columns)) {
+        for (const col of columns) {
+          const v = col.visible === undefined ? true : col.visible; // 如果未定义就true
+          if (v) {
+            visibleProps.add(col.prop.toString());
           }
-        });
+        }
       }
 
       // 8) 构造返回
       const data = rows.map((user) => {
         // 先组装全部字段(后面可加/减字段)
-        const item: any = {
+        const item: IndividualUserItem = {
           id: user.id,
           email: user.email,
           status: user.status,
           createdAt: user.createdAt,
           updatedAt: user.updatedAt,
-          // individualInfo fields
           fullName: user.individualInfo?.fullName,
           identificationNumber: user.individualInfo?.identificationNumber,
           phoneNumber: user.individualInfo?.phoneNumber,

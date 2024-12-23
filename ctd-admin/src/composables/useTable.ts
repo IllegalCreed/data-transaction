@@ -20,7 +20,7 @@ export const useTable = <T>(
         type: item.type,
         value: item.value
       }))
-      .filter((item) => item.value)
+      .filter((item) => item.value && item.value.length > 0)
   }
 
   const convertToColumnDTO = (columnList: ITableColumn<T>[]): ITableColumnDTO<T>[] => {
