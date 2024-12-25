@@ -24,13 +24,13 @@ app.use(store)
 app.use(router)
 app.use(i18n)
 app.use(Particles, {
-  init: async (engine) => {
+  init: async engine => {
     await loadSlim(engine)
-  }
+  },
 })
 
 AOS.init({
-  once: true
+  once: true,
 })
 
 app.mount('#app')
