@@ -11,8 +11,6 @@
       ref="baseForm"
       label-width="auto"
       label-position="top"
-      mt-10
-      w-60
     >
       <el-form-item label="密码" prop="password">
         <el-input
@@ -73,10 +71,20 @@ const handleNextStep = async () => {
 </script>
 
 <style lang="scss" scoped>
+.form {
+  @apply mt-10 w-80;
+}
+
 .step-btn-container {
   @apply flex flex-row items-center mt-10;
   .step-btn {
-    @apply w-30;
+    @apply w-60;
+  }
+}
+
+@media (max-width: 30rem) {
+  .form {
+    @apply w-70;
   }
 }
 </style>

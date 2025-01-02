@@ -31,14 +31,16 @@
       </el-form-item>
     </el-form>
 
-    <el-button
-      data-testid="next-button"
-      :loading="forgotResetPasswordActionLoading"
-      class="btn"
-      type="primary"
-      @click="handleNextStep"
-      >下一步</el-button
-    >
+    <div class="step-btn-container">
+      <el-button
+        class="step-btn"
+        data-testid="next-button"
+        :loading="forgotResetPasswordActionLoading"
+        type="primary"
+        @click="handleNextStep"
+        >下一步</el-button
+      >
+    </div>
   </div>
 </template>
 
@@ -169,16 +171,15 @@ const handleNextStep = async () => {
     @apply w-80;
   }
 
-  .btn {
-    @apply mt-5 w-80;
+  .step-btn-container {
+    @apply flex flex-row items-center mt-10;
+    .step-btn {
+      @apply w-60;
+    }
   }
 
   @media (max-width: 30rem) {
     .form {
-      @apply w-70;
-    }
-
-    .btn {
       @apply w-70;
     }
   }

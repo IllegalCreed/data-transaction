@@ -9,9 +9,6 @@
     <verification-code-input mt-4 v-model="code"></verification-code-input>
 
     <div class="step-btn-container">
-      <el-button class="step-btn" type="primary" @click="handlePrevStep"
-        >上一步</el-button
-      >
       <el-button class="step-btn" type="primary" @click="handleNextStep"
         >下一步</el-button
       >
@@ -39,9 +36,6 @@ const emit = defineEmits(['nextStep', 'prevStep'])
 const handleNextStep = async () => {
   emit('nextStep')
 }
-const handlePrevStep = () => {
-  emit('prevStep')
-}
 
 const reSendEmail = () => {
   ElMessage.success('重新发送成功')
@@ -52,7 +46,7 @@ const reSendEmail = () => {
 .step-btn-container {
   @apply flex flex-row items-center mt-10;
   .step-btn {
-    @apply w-30;
+    @apply w-60;
   }
 }
 </style>
