@@ -10,19 +10,16 @@ import { CaptchaService } from './captcha.service';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { ApiResponse } from 'src/common/interfaces/api-response.interface';
 import { VerifyCaptchaDto } from './dto/verify-captcha.dto';
-import { Public } from 'src/common/decorators/is-public.decorator';
 
 @Controller('captcha')
 export class CaptchaController {
   constructor(private readonly captchaService: CaptchaService) {}
 
-  @Public()
   @Get()
   async getCaptcha(): Promise<ApiResponse<{ id: string; data: string }>> {
     return this.captchaService.getCaptcha();
   }
 
-  @Public()
   @Post('verify')
   async verifyCaptcha(
     @Body() verifyCaptchaDto: VerifyCaptchaDto,
@@ -35,7 +32,6 @@ export class CaptchaController {
     this.captchaService.removeExpiredCaptcha();
   }
 
-  @Public()
   @Get('test/get-code')
   async getCodeForTesting(
     @Query('captchaId') captchaId: string,

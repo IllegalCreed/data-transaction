@@ -10,9 +10,7 @@ import { ErrorCode } from 'src/common/constants/error-codes';
 import { VerificationCode } from 'src/entities/verification-code.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, LessThan, MoreThan, Repository } from 'typeorm';
-import { SendVerificationCodeDto } from './dto/send-verification-code.dto';
 import { VerificationCodes } from 'src/enums/verification-codes.enum';
-import { VerifyCodeDto } from './dto/verify-code.dto';
 import { ExpectedError } from 'src/types/error';
 import { generateRandomCode, generateToken } from 'src/common/utils/security';
 import { SendActivationEmailDto } from './dto/send-activation-email.dto';
@@ -95,10 +93,9 @@ export class MailerService {
   }
 
   async sendVerificationCode(
-    sendVerificationCodeDto: SendVerificationCodeDto,
+    email: string,
+    type: VerificationCodes,
   ): Promise<ApiResponse<string>> {
-    const { email, type } = sendVerificationCodeDto;
-
     // 验证用户是否存在以及是否已激活
     const user = await this.userRepository.findOne({
       where: { email },
@@ -159,9 +156,11 @@ export class MailerService {
     }
   }
 
-  async verifyCode(verifyCodeDto: VerifyCodeDto): Promise<ApiResponse<string>> {
-    const { email, code, type } = verifyCodeDto;
-
+  async verifyCode(
+    email: string,
+    code: string,
+    type: VerificationCodes,
+  ): Promise<ApiResponse<string>> {
     // 查找验证码记录
     const verificationCode = await this.verificationCodeRepository.findOne({
       where: {
