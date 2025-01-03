@@ -4,26 +4,12 @@ import { LoginService } from './login.service';
 import { CaptchaModule } from 'src/modules/common/captcha/captcha.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Admin } from 'src/entities/admin.entity';
-import { JwtModule } from '@nestjs/jwt';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
-  imports: [
-    CaptchaModule,
-    TypeOrmModule.forFeature([Admin]),
-    JwtModule.registerAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET', 'default_secret'),
-        signOptions: {
-          expiresIn: configService.get<string>('JWT_EXPIRES_IN', '3600s'),
-        },
-      }),
-    }),
-  ],
+  imports: [CaptchaModule, TypeOrmModule.forFeature([Admin]), AuthModule],
   controllers: [LoginController],
   providers: [LoginService],
-  exports: [LoginService, JwtModule],
+  exports: [LoginService],
 })
 export class PlatformLoginModule {}
