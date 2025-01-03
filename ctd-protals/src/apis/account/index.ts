@@ -24,6 +24,8 @@ interface IMailAPI {
     code: string,
     type: VerificationCodes,
   ) => Promise<unknown>
+  sendVerificationCodeAuth: (type: VerificationCodes) => Promise<unknown>
+  verifyCodeAuth: (code: string, type: VerificationCodes) => Promise<unknown>
 }
 
 interface IRegisterAPI {
@@ -92,6 +94,8 @@ export const {
   getRegisterAds,
   sendVerificationCode,
   verifyCode,
+  sendVerificationCodeAuth,
+  verifyCodeAuth,
   resetPasswordByToken,
   getForgotAds,
   login,

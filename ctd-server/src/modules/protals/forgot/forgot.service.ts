@@ -13,6 +13,7 @@ import { ErrorCode } from 'src/common/constants/error-codes';
 import { ConfigService } from '@nestjs/config';
 import { ExpectedError } from 'src/types/error';
 import { UserStatus } from 'src/enums/user-status.enum';
+import { VerificationCodes } from 'src/enums/verification-codes.enum';
 
 @Injectable()
 export class ForgotService {
@@ -31,12 +32,12 @@ export class ForgotService {
   ): Promise<ApiResponse<string>> {
     const { token, newPassword } = resetPasswordDto;
 
-    const email = await verifyToken<string>(
-      token,
-      this.configService.get<string>('JWT_SECRET'),
-    );
+    const { email, type } = await verifyToken<{
+      email: string;
+      type: VerificationCodes;
+    }>(token, this.configService.get<string>('JWT_SECRET'));
 
-    if (!email) {
+    if (!email || type !== VerificationCodes.ForgotPWD) {
       this.logger.warn('重置密码失败：JWT验证失败');
       return createErrorResponse(ErrorCode.INVALID_VERIFICATION_TOKEN);
     }

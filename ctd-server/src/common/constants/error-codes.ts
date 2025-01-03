@@ -47,6 +47,10 @@ export enum ErrorCode {
   UPDATE_USER_AVATAR_FAILED = 1502,
   UPDATE_USER_FAILED = 1503,
 
+  // 修改密码相关
+  VERIFY_PASSWORD_FAILED = 1601,
+  CHANGE_PASSWORD_FAILED = 1602,
+
   // 管理员相关
   ADMIN_ALREADY_EXISTS = 5001,
   CREATE_ADMIN_FAILED = 5002,
@@ -121,6 +125,12 @@ export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
   [ErrorCode.UPDATE_USER_AVATAR_FAILED]:
     'Update user avatar failed due to unexpected error.',
   [ErrorCode.UPDATE_USER_FAILED]: 'Update user failed due to unexpected error.',
+
+  // 修改密码相关
+  [ErrorCode.VERIFY_PASSWORD_FAILED]:
+    'Verify password failed due to unexpected error.',
+  [ErrorCode.CHANGE_PASSWORD_FAILED]:
+    'Change password failed due to unexpected error.',
 
   // 管理员相关
   [ErrorCode.ADMIN_ALREADY_EXISTS]: 'Admin already exists.',

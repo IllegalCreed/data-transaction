@@ -181,8 +181,11 @@ export class MailerService {
       verificationCode.isUsed = true;
       await this.verificationCodeRepository.save(verificationCode);
 
-      const token = await generateToken<string>(
-        email,
+      const token = await generateToken<{
+        email: string;
+        type: VerificationCodes;
+      }>(
+        { email, type },
         this.configService.get<string>('JWT_SECRET', { infer: true }),
         '10m',
       );

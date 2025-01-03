@@ -1,7 +1,7 @@
-import { IsString, IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 import { IsStrongPassword } from 'src/common/decorators/is-strong-password.decorator';
 
-export class ResetPasswordDto {
+export class ChangePasswordDto {
   @IsString()
   @IsNotEmpty({ message: '凭据不能为空' })
   token: string;
