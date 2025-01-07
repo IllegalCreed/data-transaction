@@ -2,7 +2,9 @@
   <div flex flex-col items-center>
     <span text-3xl font-bold mt-10>验证邮箱</span>
     <p text-sm text-gray-400>
-      我们向您的新邮箱<strong mx-2>{{ userinfo?.email }}</strong
+      我们向您的新邮箱<strong mx-2 data-testid="send-email-address">{{
+        userinfo?.email
+      }}</strong
       >发送了一封邮件
     </p>
 
@@ -10,6 +12,7 @@
 
     <div class="step-btn-container">
       <el-button
+        data-testid="next-button"
         class="step-btn"
         :loading="verifyCodeActionLoading"
         type="primary"
@@ -20,7 +23,13 @@
 
     <span text-xs my-4>
       没有收到邮件？点击
-      <span @click="reSendEmail" class="resend-email"> 重新发送邮件 </span>
+      <span
+        @click="reSendEmail"
+        class="resend-email"
+        data-testid="resend-email-button"
+      >
+        重新发送邮件
+      </span>
     </span>
   </div>
 </template>

@@ -212,6 +212,7 @@ export class MailerService {
     });
 
     if (!verificationCode) {
+      this.logger.warn(`获取验证码失败：${email}`);
       return createErrorResponse(ErrorCode.VERIFICATION_CODE_NOT_FOUND);
     }
 

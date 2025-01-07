@@ -14,6 +14,7 @@
     >
       <el-form-item label="密码" prop="password">
         <el-input
+          data-testid="current-password-input"
           v-model="baseInfo.password"
           type="password"
           placeholder="请输入密码"
@@ -23,6 +24,7 @@
 
     <div class="step-btn-container">
       <el-button
+        data-testid="next-button"
         class="step-btn"
         :loading="verifyPasswordActionLoading"
         type="primary"
