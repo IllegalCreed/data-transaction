@@ -3,6 +3,7 @@ export enum ErrorCode {
   INVALID_CREDENTIALS = 9001,
   SEND_EMAIL_FAILED = 9002,
   ACCOUNT_SUSPENDED = 9003,
+  USER_NOT_FOUND = 9004,
 
   // 注册相关
   EMAIL_TAKEN = 1001,
@@ -39,6 +40,16 @@ export enum ErrorCode {
   LOGIN_LOG_NOT_FOUND = 1403,
   CREATE_LOGIN_LOG_FAILED = 1404,
   LOGIN_FAILED = 1405,
+  RESET_USER_STATUS_FAILED = 1406,
+
+  // 用户相关
+  GET_USERINFO_FAILED = 1501,
+  UPDATE_USER_AVATAR_FAILED = 1502,
+  UPDATE_USER_FAILED = 1503,
+
+  // 修改密码相关
+  VERIFY_PASSWORD_FAILED = 1601,
+  CHANGE_PASSWORD_FAILED = 1602,
 }
 
 export const ErrorCodeMessages: { [key: number]: string } = {
@@ -46,6 +57,7 @@ export const ErrorCodeMessages: { [key: number]: string } = {
   [ErrorCode.INVALID_CREDENTIALS]: '身份验证失败',
   [ErrorCode.SEND_EMAIL_FAILED]: '发送邮件失败',
   [ErrorCode.ACCOUNT_SUSPENDED]: '账户已冻结',
+  [ErrorCode.USER_NOT_FOUND]: '未找到用户',
 
   // 注册相关
   [ErrorCode.EMAIL_TAKEN]: '邮箱地址已经存在',
@@ -84,4 +96,14 @@ export const ErrorCodeMessages: { [key: number]: string } = {
   [ErrorCode.LOGIN_LOG_NOT_FOUND]: '登录日志未找到',
   [ErrorCode.CREATE_LOGIN_LOG_FAILED]: '创建登录日志失败',
   [ErrorCode.LOGIN_FAILED]: '登录失败',
+  [ErrorCode.RESET_USER_STATUS_FAILED]: '重置用户状态失败',
+
+  // 用户相关
+  [ErrorCode.GET_USERINFO_FAILED]: '获取用户信息失败',
+  [ErrorCode.UPDATE_USER_AVATAR_FAILED]: '更新用户头像失败',
+  [ErrorCode.UPDATE_USER_FAILED]: '更新用户信息失败',
+
+  // 修改密码相关
+  [ErrorCode.VERIFY_PASSWORD_FAILED]: '验证密码失败',
+  [ErrorCode.CHANGE_PASSWORD_FAILED]: '修改密码失败',
 }

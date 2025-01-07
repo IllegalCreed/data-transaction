@@ -10,7 +10,7 @@ export const verifyPassword = (
       url: '/change-password/verify-password',
       data,
     },
-    false,
+    true,
   )
 }
 
@@ -24,6 +24,6 @@ export const changePassword = (
       url: '/change-password/change-password',
       data,
     },
-    false,
+    true,
   )
 }

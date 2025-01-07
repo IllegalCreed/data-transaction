@@ -35,7 +35,7 @@
       <el-button
         class="step-btn"
         data-testid="next-button"
-        :loading="forgotResetPasswordActionLoading"
+        :loading="changePasswordActionLoading"
         type="primary"
         @click="handleNextStep"
         >下一步</el-button
@@ -51,8 +51,7 @@ import type { FormInstance, FormRules } from 'element-plus'
 
 import { useAccountStore } from '@/stores/modules/account'
 const accountStore = useAccountStore()
-const { forgotToken: token } = storeToRefs(accountStore)
-const { forgotResetPassword: forgotResetPasswordAction } = accountStore
+const { changePassword: changePasswordAction } = accountStore
 
 const baseForm = useTemplateRef<FormInstance>('baseForm')
 const baseInfo = ref({
@@ -103,7 +102,7 @@ const rules = reactive<FormRules<IPassword>>({
   ],
 })
 
-const validateOnSubmit = false
+const validateOnSubmit = true
 const handleSubmit = async (): Promise<boolean> => {
   if (!baseForm.value) return Promise.resolve(false)
 
@@ -119,31 +118,27 @@ const handleSubmit = async (): Promise<boolean> => {
 }
 
 const {
-  isLoading: forgotResetPasswordActionLoading,
-  execute: executeForgotResetPasswordAction,
-} = useAsyncState(forgotResetPasswordAction, undefined, {
-  immediate: false,
-  throwError: true,
-})
+  isLoading: changePasswordActionLoading,
+  execute: executeChangePasswordAction,
+} = useAsyncState(
+  () => changePasswordAction(baseInfo.value.password),
+  undefined,
+  {
+    immediate: false,
+    throwError: true,
+  },
+)
 
 const emit = defineEmits(['nextStep'])
 const handleNextStep = async () => {
   if (validateOnSubmit) {
     if (await handleSubmit()) {
-      if (!token.value) {
-        ElMessage.error('系统错误，请刷新后重试')
-        return
-      }
       try {
-        await executeForgotResetPasswordAction(
-          0,
-          token.value,
-          baseInfo.value.password,
-        )
+        await executeChangePasswordAction()
         emit('nextStep')
       } catch (error: unknown) {
         if (error instanceof Error) {
-          ElMessage.error('重置密码失败')
+          ElMessage.error('修改密码失败')
         }
       }
     } else {

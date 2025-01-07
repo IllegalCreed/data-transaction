@@ -9,16 +9,19 @@
     <verification-code-input mt-4 v-model="code"></verification-code-input>
 
     <div class="step-btn-container">
-      <el-button class="step-btn" type="primary" @click="handleNextStep"
+      <el-button
+        class="step-btn"
+        :loading="verifyCodeActionLoading"
+        type="primary"
+        @click="handleNextStep"
         >下一步</el-button
       >
     </div>
 
-    <span text-xs my-4
-      >没有收到邮件？点击<span @click="reSendEmail" class="resend-email"
-        >重新发送邮件</span
-      ></span
-    >
+    <span text-xs my-4>
+      没有收到邮件？点击
+      <span @click="reSendEmail" class="resend-email"> 重新发送邮件 </span>
+    </span>
   </div>
 </template>
 
@@ -26,15 +29,27 @@
 import VerificationCodeInput from '@/components/VerificationCodeInput.vue'
 import { useAccountStore } from '@/stores/modules/account'
 const accountStore = useAccountStore()
-const { sendEmail: sendEmailAction, verifyCode: verifyCodeAPI } = accountStore
+const { sendEmail: sendEmailAction, verifyCode: verifyCodeAction } =
+  accountStore
 const { userinfo } = storeToRefs(accountStore)
 
 const code = ref('')
 
+const { isLoading: verifyCodeActionLoading, execute: executeVerifyCodeAction } =
+  useAsyncState(() => verifyCodeAction(code.value), undefined, {
+    immediate: false,
+    throwError: true,
+  })
+
 const emit = defineEmits(['nextStep'])
 const handleNextStep = async () => {
+  if (!code.value || code.value.length !== 6) {
+    ElMessage.error('请输入完整的验证码')
+    return
+  }
+
   try {
-    await verifyCodeAPI(code.value)
+    await executeVerifyCodeAction()
     emit('nextStep')
   } catch (error: unknown) {
     if (error instanceof Error) {
