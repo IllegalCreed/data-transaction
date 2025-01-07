@@ -97,6 +97,27 @@ describe('修改密码', () => {
       testUser.password = 'NewPassword@123!'
     })
   })
+
+  it.only('在邮件验证码页面，验证码不合规，给予对应提示', () => {
+    cy.visit('/mine/profile')
+
+    // 点击修改密码按钮，进入修改密码页面
+    cy.get('[data-testid="change-password-btn"]').click()
+    cy.get('.change-password-dialog-container').should('be.visible')
+
+    // 验证修改页面的初始值是否正确
+    cy.get('[data-testid="send-email-address"]').should(
+      'contain.text',
+      testUser.email,
+    )
+
+    cy.get('[data-testid="next-button"]').click()
+    cy.contains('请输入完整的验证码').should('be.visible')
+    cy.contains('请输入完整的验证码').should('not.visible')
+    enterVerificationCode('12345')
+    cy.get('[data-testid="next-button"]').click()
+    cy.contains('请输入完整的验证码').should('be.visible')
+  })
 })
 
 function enterVerificationCode(verificationCode: string) {
