@@ -2,7 +2,6 @@ import { useTokenStore } from '../token'
 import { useSettingsStore } from '../settings'
 import {
   logout as logoutAPI,
-  // resetPwd as resetPwdAPI,
   uploadAvatar as uploadAvatarAPI,
   getInfo as getInfoAPI,
   editInfo as editInfoAPI,
@@ -42,25 +41,6 @@ export const useAccount = () => {
           tokenStore.clearToken()
           resolve()
         }
-      }
-    })
-  }
-
-  const resetPwd = (oldPwd: string, newPwd: string): Promise<void> => {
-    return new Promise<void>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
-        resolve()
-        tokenStore.clearToken()
-      } else {
-        resetPwdAPI(oldPwd, newPwd)
-          .then(() => {
-            resolve()
-            tokenStore.clearToken()
-          })
-          .catch((error: unknown) => {
-            reject(error)
-          })
-          .finally(() => {})
       }
     })
   }
@@ -148,7 +128,6 @@ export const useAccount = () => {
 
   return {
     logout,
-    resetPwd,
     userinfo,
     getUserInfo,
     mockInfoType,

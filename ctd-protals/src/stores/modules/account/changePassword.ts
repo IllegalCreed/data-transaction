@@ -2,7 +2,8 @@ import { useSettingsStore } from '../settings'
 import {
   sendVerificationCodeAuth as sendVerificationCodeAuthAPI,
   verifyCodeAuth as verifyCodeAuthAPI,
-  resetPasswordByToken as resetPasswordByTokenAPI,
+  verifyPassword as verifyPasswordAPI,
+  changePassword as changePasswordAPI,
 } from '@/apis/account'
 import type { ICommonReturn } from '@/axios/type'
 import { VerificationCodes } from '@/constants/mapData/mail'
@@ -48,30 +49,31 @@ export const useChangePassword = () => {
     })
   }
 
-  const verifyPassword = (password: string): Promise<void> => {
+  const verifyPassword = (currentPassword: string): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       if (findMockTreeValueByKey('修改密码')) {
         window.setTimeout(() => resolve(), 1000)
       } else {
-        // verifyCodeAPI( code, password)
-        //   .then(res => {
-        //     const resData = res as ICommonReturn<string>
-        //     resolve(resData.data)
-        //   })
-        //   .catch(error => {
-        //     reject(error)
-        //   })
-        //   .finally(() => {})
+        verifyPasswordAPI(currentPassword, token.value)
+          .then(res => {
+            const resData = res as ICommonReturn<string>
+            token.value = resData.data
+            resolve()
+          })
+          .catch(error => {
+            reject(error)
+          })
+          .finally(() => {})
       }
     })
   }
 
-  const resetPassword = (password: string): Promise<void> => {
+  const changePassword = (currentPassword: string): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       if (findMockTreeValueByKey('修改密码')) {
         window.setTimeout(() => resolve(), 1000)
       } else {
-        resetPasswordByTokenAPI(token.value, password)
+        changePasswordAPI(currentPassword, token.value)
           .then(() => {
             resolve()
           })
@@ -87,6 +89,6 @@ export const useChangePassword = () => {
     sendEmail,
     verifyCode,
     verifyPassword,
-    resetPassword,
+    changePassword,
   }
 }

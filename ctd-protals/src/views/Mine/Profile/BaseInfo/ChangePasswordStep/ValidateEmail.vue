@@ -2,7 +2,7 @@
   <div flex flex-col items-center>
     <span text-3xl font-bold mt-10>验证邮箱</span>
     <p text-sm text-gray-400>
-      我们向您的新邮箱<strong mx-2>{{ email }}</strong
+      我们向您的新邮箱<strong mx-2>{{ userinfo?.email }}</strong
       >发送了一封邮件
     </p>
 
@@ -15,11 +15,7 @@
     </div>
 
     <span text-xs my-4
-      >没有收到邮件？点击<span
-        @click="reSendEmail"
-        text-red-500
-        cursor-pointer
-        select-none
+      >没有收到邮件？点击<span @click="reSendEmail" class="resend-email"
         >重新发送邮件</span
       ></span
     >
@@ -28,17 +24,42 @@
 
 <script setup lang="ts">
 import VerificationCodeInput from '@/components/VerificationCodeInput.vue'
+import { useAccountStore } from '@/stores/modules/account'
+const accountStore = useAccountStore()
+const { sendEmail: sendEmailAction, verifyCode: verifyCodeAPI } = accountStore
+const { userinfo } = storeToRefs(accountStore)
 
 const code = ref('')
-const email = ref('new@email.com')
 
-const emit = defineEmits(['nextStep', 'prevStep'])
+const emit = defineEmits(['nextStep'])
 const handleNextStep = async () => {
-  emit('nextStep')
+  try {
+    await verifyCodeAPI(code.value)
+    emit('nextStep')
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      ElMessage.error('验证失败')
+    }
+  }
 }
 
-const reSendEmail = () => {
+const reSendEmail = async () => {
+  await sendEmail()
   ElMessage.success('重新发送成功')
+}
+
+onMounted(async () => {
+  sendEmail()
+})
+
+const sendEmail = async () => {
+  try {
+    await sendEmailAction()
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      ElMessage.error('发送邮件失败')
+    }
+  }
 }
 </script>
 
@@ -48,5 +69,9 @@ const reSendEmail = () => {
   .step-btn {
     @apply w-60;
   }
+}
+
+.resend-email {
+  @apply text-[var(--color-primary)] cursor-pointer select-none;
 }
 </style>

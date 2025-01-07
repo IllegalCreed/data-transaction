@@ -33,8 +33,8 @@ import ChangeCompleted from './ChangePasswordStep/ChangeCompleted.vue'
 const model = defineModel<boolean>({ required: true })
 
 const steps = [
-  { title: '验证密码' },
   { title: '验证邮箱' },
+  { title: '验证密码' },
   { title: '设置密码' },
   { title: '修改完成' },
 ]
