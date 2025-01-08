@@ -177,6 +177,7 @@ export class RegisterService {
         recoveryCodesToSend,
       );
 
+      // TODO: 后续应当返回所有救援代码，必变用户在界面直观的看到。
       this.logger.log(`账户激活成功：${email}`);
       return createSuccessResponse(null, 'ACCOUNT_ACTIVATED');
     } catch (error) {

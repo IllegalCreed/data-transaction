@@ -51,6 +51,10 @@ export enum ErrorCode {
   VERIFY_PASSWORD_FAILED = 1601,
   CHANGE_PASSWORD_FAILED = 1602,
 
+  // 修改验证邮箱相关
+  RECOVERY_CODE_NOT_FOUND = 1701,
+  GET_RECOVERY_CODE_FAILED = 1702,
+
   // 管理员相关
   ADMIN_ALREADY_EXISTS = 5001,
   CREATE_ADMIN_FAILED = 5002,
@@ -131,6 +135,11 @@ export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
     'Verify password failed due to unexpected error.',
   [ErrorCode.CHANGE_PASSWORD_FAILED]:
     'Change password failed due to unexpected error.',
+
+  // 修改验证邮箱相关
+  [ErrorCode.RECOVERY_CODE_NOT_FOUND]: 'Recovery code not found.',
+  [ErrorCode.GET_RECOVERY_CODE_FAILED]:
+    'Get recovery code failed due to unexpected error.',
 
   // 管理员相关
   [ErrorCode.ADMIN_ALREADY_EXISTS]: 'Admin already exists.',
