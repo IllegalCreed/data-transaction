@@ -66,3 +66,18 @@ export function generateRandomCode(): string {
   const randomNumber = Math.floor(Math.random() * 1000000);
   return randomNumber.toString().padStart(6, '0');
 }
+
+export function generateRecoveryCode(): string {
+  // 可用字符池
+  const chars =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const length = 5;
+  let result = '';
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * chars.length);
+    result += chars[randomIndex];
+  }
+
+  return result;
+}

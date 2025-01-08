@@ -3,4 +3,5 @@ export enum VerificationCodes {
   ChangePWD = 2,
   ResetEmail = 3,
   verifyPWD = 4,
+  verifyRecoveryCodes = 5,
 }

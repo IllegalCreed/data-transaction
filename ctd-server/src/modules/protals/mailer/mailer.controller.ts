@@ -9,6 +9,7 @@ import {
   Request,
   BadRequestException,
   UseGuards,
+  Logger,
 } from '@nestjs/common';
 import { MailerService } from './mailer.service';
 import { SendVerificationCodeDto } from './dto/send-verification-code.dto';
@@ -19,9 +20,16 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 import { AuthGuard } from 'src/common/guards/auth.guard';
 import { SendVerificationCodeAuthDto } from './dto/send-verification-code-auth.dto';
 import { VerifyCodeAuthDto } from './dto/verify-code-auth.dto';
+import { ExpectedError } from 'src/types/error';
+import {
+  createErrorResponse,
+  createSuccessResponse,
+} from 'src/common/utils/response';
+import { ErrorCode } from 'src/common/constants/error-codes';
 
 @Controller('mailer')
 export class MailerController {
+  private readonly logger = new Logger(MailerController.name);
   constructor(private readonly mailerService: MailerService) {}
 
   @Post('send-activation')
@@ -37,7 +45,17 @@ export class MailerController {
     @Body() sendVerificationCodeDto: SendVerificationCodeDto,
   ): Promise<ApiResponse<string>> {
     const { email, type } = sendVerificationCodeDto;
-    return this.mailerService.sendVerificationCode(email, type);
+
+    try {
+      await this.mailerService.sendVerificationCode(email, type);
+      return createSuccessResponse(null, 'SEND_VERIFICATION_CODE_SUCCEED');
+    } catch (error) {
+      if (error instanceof ExpectedError) {
+        return createErrorResponse(error.errorCode);
+      }
+      this.logger.error('验证码核销失败：', error);
+      return createErrorResponse(ErrorCode.VERIFY_CODE_FAILED);
+    }
   }
 
   @Post('verify-code')
@@ -45,7 +63,16 @@ export class MailerController {
     @Body() verifyCodeDto: VerifyCodeDto,
   ): Promise<ApiResponse<string>> {
     const { email, code, type } = verifyCodeDto;
-    return this.mailerService.verifyCode(email, code, type);
+    try {
+      const token = await this.mailerService.verifyCode(email, code, type);
+      return createSuccessResponse(token, 'VERIFY_CODE_SUCCEED');
+    } catch (error) {
+      if (error instanceof ExpectedError) {
+        return createErrorResponse(error.errorCode);
+      }
+      this.logger.error('验证码核销失败：', error);
+      return createErrorResponse(ErrorCode.VERIFY_CODE_FAILED);
+    }
   }
 
   @UseGuards(AuthGuard)
@@ -56,10 +83,20 @@ export class MailerController {
   ): Promise<ApiResponse<string>> {
     const email = req.user?.email;
     if (!email) {
+      this.logger.error('发送验证码失败：token解析错误');
       throw new BadRequestException('No email found in token.');
     }
     const { type } = sendVerificationCodeAuthDto;
-    return this.mailerService.sendVerificationCode(email, type);
+    try {
+      await this.mailerService.sendVerificationCode(email, type);
+      return createSuccessResponse(null, 'SEND_VERIFICATION_CODE_SUCCEED');
+    } catch (error) {
+      if (error instanceof ExpectedError) {
+        return createErrorResponse(error.errorCode);
+      }
+      this.logger.error('验证码核销失败：', error);
+      return createErrorResponse(ErrorCode.VERIFY_CODE_FAILED);
+    }
   }
 
   @UseGuards(AuthGuard)
@@ -70,10 +107,20 @@ export class MailerController {
   ): Promise<ApiResponse<string>> {
     const email = req.user?.email;
     if (!email) {
+      this.logger.error('验证码核销失败：token解析错误');
       throw new BadRequestException('No email found in token.');
     }
     const { code, type } = verifyCodeAuthDto;
-    return this.mailerService.verifyCode(email, code, type);
+    try {
+      const token = await this.mailerService.verifyCode(email, code, type);
+      return createSuccessResponse(token, 'VERIFY_CODE_SUCCEED');
+    } catch (error) {
+      if (error instanceof ExpectedError) {
+        return createErrorResponse(error.errorCode);
+      }
+      this.logger.error('验证码核销失败：', error);
+      return createErrorResponse(ErrorCode.VERIFY_CODE_FAILED);
+    }
   }
 
   @Cron(CronExpression.EVERY_DAY_AT_3AM)

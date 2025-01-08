@@ -36,7 +36,7 @@
     </div>
 
     <span text-xs my-4
-      >如果未能提供 救援代码，请<span text-red-500 cursor-pointer select-none
+      >如果未能提供 救援代码，请<span class="resend-email"
         >联系管理员</span
       ></span
     >
@@ -94,5 +94,9 @@ const handleNextStep = async () => {
   .step-btn {
     @apply w-30;
   }
+}
+
+.resend-email {
+  @apply text-[var(--color-primary)] cursor-pointer select-none;
 }
 </style>

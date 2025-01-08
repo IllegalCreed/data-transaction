@@ -77,6 +77,35 @@ export class MailerService {
     await this.sendMail(to, '激活账号', html);
   }
 
+  /**
+   * 发送恢复/救援代码邮件（内部方法）
+   * @param to 收件人邮箱地址
+   * @param codes 恢复代码数组
+   */
+  async sendRecoveryCodesEmailInternal(
+    to: string,
+    codes: string[],
+  ): Promise<void> {
+    const subject = '您的救援代码';
+    const codesList = codes.join('<br>');
+
+    const html = `
+    <p>您好，这些是您账户的重要救援代码。</p>
+    <p>请妥善保存并确保安全</p>
+    <p>如果今后您无法通过常规方式验证身份，可以使用救援代码来辅助验证。</p>
+    <hr>
+    <p><strong>您的恢复代码：</strong></p>
+    <p style="font-family: monospace;">
+      ${codesList}
+    </p>
+    <hr>
+    <p>每个代码只能使用一次，使用之后将失效。</p>
+    <p>祝您使用愉快！</p>
+  `;
+
+    await this.sendMail(to, subject, html);
+  }
+
   // 外部方法，供 API 调用，返回统一的 ApiResponse<string>
   async sendActivationEmail(
     sendActivationEmailDto: SendActivationEmailDto,
@@ -95,7 +124,7 @@ export class MailerService {
   async sendVerificationCode(
     email: string,
     type: VerificationCodes,
-  ): Promise<ApiResponse<string>> {
+  ): Promise<void> {
     // 验证用户是否存在以及是否已激活
     const user = await this.userRepository.findOne({
       where: { email },
@@ -103,64 +132,55 @@ export class MailerService {
 
     if (!user || user.status !== UserStatus.ACTIVE) {
       this.logger.warn('发送验证码失败：用户不存在或状态异常');
-      return createErrorResponse(ErrorCode.INVALID_CREDENTIALS);
+      throw new ExpectedError(ErrorCode.INVALID_CREDENTIALS);
     }
 
     // 生成验证码
     const code = generateRandomCode();
 
-    try {
-      await this.dataSource.transaction(async (manager) => {
-        // 创建验证码记录
-        const verificationCode = this.verificationCodeRepository.create({
-          email,
-          code,
-          type,
-          isUsed: false,
-          expireAt: new Date(Date.now() + 10 * 60 * 1000), // 有效期10分钟
-        });
-        await manager.save(verificationCode);
-
-        // 发送验证码邮件
-        let subject = '';
-        let content = '';
-        switch (type) {
-          case VerificationCodes.ForgotPWD:
-            subject = '重置密码验证码';
-            content = `您的验证码是: ${code}`;
-            break;
-          case VerificationCodes.ChangePWD:
-            subject = '修改密码验证码';
-            content = `您的验证码是: ${code}`;
-            break;
-          case VerificationCodes.ResetEmail:
-            subject = '修改邮箱验证码';
-            content = `您的验证码是: ${code}`;
-            break;
-          default:
-            this.logger.error('发送验证码失败：未知的验证码类型');
-            throw new ExpectedError(ErrorCode.INVALID_VERIFICATION_CODE_TYPE);
-        }
-
-        await this.sendMail(email, subject, content);
+    await this.dataSource.transaction(async (manager) => {
+      // 创建验证码记录
+      const verificationCode = this.verificationCodeRepository.create({
+        email,
+        code,
+        type,
+        isUsed: false,
+        expireAt: new Date(Date.now() + 10 * 60 * 1000), // 有效期10分钟
       });
+      await manager.save(verificationCode);
 
-      this.logger.log(`发送验证码成功：${email}`);
-      return createSuccessResponse(null, 'SEND_VERIFICATION_CODE_SUCCEED');
-    } catch (error) {
-      if (error instanceof ExpectedError) {
-        return createErrorResponse(error.errorCode);
+      // 发送验证码邮件
+      let subject = '';
+      let content = '';
+      switch (type) {
+        case VerificationCodes.ForgotPWD:
+          subject = '重置密码验证码';
+          content = `您的验证码是: ${code}`;
+          break;
+        case VerificationCodes.ChangePWD:
+          subject = '修改密码验证码';
+          content = `您的验证码是: ${code}`;
+          break;
+        case VerificationCodes.ResetEmail:
+          subject = '修改邮箱验证码';
+          content = `您的验证码是: ${code}`;
+          break;
+        default:
+          this.logger.error('发送验证码失败：未知的验证码类型');
+          throw new ExpectedError(ErrorCode.INVALID_VERIFICATION_CODE_TYPE);
       }
-      this.logger.error('发送验证码失败：', error);
-      return createErrorResponse(ErrorCode.SEND_VERIFICATION_CODE_FAILED);
-    }
+
+      await this.sendMail(email, subject, content);
+    });
+
+    this.logger.log(`发送验证码成功：${email}`);
   }
 
   async verifyCode(
     email: string,
     code: string,
     type: VerificationCodes,
-  ): Promise<ApiResponse<string>> {
+  ): Promise<string> {
     // 查找验证码记录
     const verificationCode = await this.verificationCodeRepository.findOne({
       where: {
@@ -173,32 +193,20 @@ export class MailerService {
     });
 
     if (!verificationCode) {
-      return createErrorResponse(ErrorCode.INVALID_VERIFICATION_CODE);
+      throw new ExpectedError(ErrorCode.INVALID_VERIFICATION_CODE);
     }
 
-    try {
-      // 标记验证码已使用
-      verificationCode.isUsed = true;
-      await this.verificationCodeRepository.save(verificationCode);
+    // 标记验证码已使用
+    verificationCode.isUsed = true;
+    await this.verificationCodeRepository.save(verificationCode);
 
-      const token = await generateToken<{
-        email: string;
-        type: VerificationCodes;
-      }>(
-        { email, type },
-        this.configService.get<string>('JWT_SECRET', { infer: true }),
-        '10m',
-      );
+    const token = await generateToken<{
+      email: string;
+      type: VerificationCodes;
+    }>({ email, type }, this.configService.get<string>('JWT_SECRET'), '10m');
 
-      this.logger.log(`验证码核销成功：${email}`);
-      return createSuccessResponse(token, 'VERIFY_CODE_SUCCEED');
-    } catch (error) {
-      if (error instanceof ExpectedError) {
-        return createErrorResponse(error.errorCode);
-      }
-      this.logger.error('验证码核销失败：', error);
-      return createErrorResponse(ErrorCode.VERIFY_CODE_FAILED);
-    }
+    this.logger.log(`验证码核销成功：${email}`);
+    return token;
   }
 
   async getVerificationCodeForTesting(

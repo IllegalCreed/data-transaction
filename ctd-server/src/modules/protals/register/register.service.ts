@@ -15,6 +15,7 @@ import {
   generateToken,
   verifyToken,
   hashPassword,
+  generateRecoveryCode,
 } from 'src/common/utils/security';
 import {
   createSuccessResponse,
@@ -24,6 +25,7 @@ import { ErrorCode } from 'src/common/constants/error-codes';
 import { ActivateAccountDto } from './dto/activate-account.dto';
 import { ResendActivationEmailDto } from './dto/resend-activation-email.dto';
 import { ExpectedError } from 'src/types/error';
+import { RecoveryCode } from 'src/entities/recovery-code.entity';
 
 @Injectable()
 export class RegisterService {
@@ -66,7 +68,7 @@ export class RegisterService {
 
     try {
       await this.dataSource.transaction(async (manager) => {
-        const user = this.userRepository.create({
+        const user = manager.create(User, {
           email,
           password: hashedPassword,
           userType,
@@ -122,9 +124,11 @@ export class RegisterService {
       return createErrorResponse(ErrorCode.ACTIVATE_ACCOUNT_FAILED);
     }
 
+    let recoveryCodesToSend: string[] = [];
+
     try {
       await this.dataSource.transaction(async (manager) => {
-        const activation = await this.activationRepository.findOne({
+        const activation = await manager.findOne(UserActivation, {
           where: { activationToken, isActivated: false },
           relations: ['user'],
         });
@@ -150,7 +154,28 @@ export class RegisterService {
 
         await manager.save(activation.user);
         await manager.save(activation);
+
+        // 生成并保存 10 个救援代码
+        const codes: RecoveryCode[] = [];
+        for (let i = 0; i < 10; i++) {
+          const code = generateRecoveryCode();
+          const recoveryCode = manager.create(RecoveryCode, {
+            code,
+            user: activation.user,
+            isUsed: false,
+          });
+          codes.push(recoveryCode);
+        }
+        await manager.save(codes);
+
+        recoveryCodesToSend = codes.map((rc) => rc.code);
       });
+
+      // 发送邮件
+      await this.mailerService.sendRecoveryCodesEmailInternal(
+        email,
+        recoveryCodesToSend,
+      );
 
       this.logger.log(`账户激活成功：${email}`);
       return createSuccessResponse(null, 'ACCOUNT_ACTIVATED');
@@ -244,28 +269,25 @@ export class RegisterService {
     user: User,
     saveActivation: (activation: UserActivation) => Promise<void>,
   ): Promise<void> {
-    const email = user.email;
-
-    // 生成新的激活令牌
+    // 1) 生成激活令牌
     const activationToken = await generateToken<string>(
-      email,
-      this.configService.get<string>('JWT_SECRET', { infer: true }),
+      user.email,
+      this.configService.get<string>('JWT_SECRET'),
     );
 
-    // 创建新的激活记录
-    const activation = this.activationRepository.create({
-      activationToken,
-      user,
-      expireAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
-      isActivated: false,
-    });
+    // 2) 手动创建 UserActivation 实例并赋值
+    const activation = new UserActivation();
+    activation.activationToken = activationToken;
+    activation.user = user;
+    activation.expireAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
+    activation.isActivated = false;
 
-    // 保存激活记录，使用传入的保存函数
+    // 3) 将实体保存的逻辑交由调用方 (回调) 来执行
     await saveActivation(activation);
 
-    // 发送激活邮件
+    // 4) 调用 MailerService 发送激活邮件
     await this.mailerService.sendActivationEmailInternal(
-      email,
+      user.email,
       activationToken,
     );
   }
