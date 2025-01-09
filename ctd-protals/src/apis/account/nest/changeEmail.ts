@@ -2,9 +2,9 @@ import request from '@/axios'
 
 export const verifyPassword = (
   currentPassword: string,
-  RecoveryCode: string,
+  recoveryCode: string,
 ): Promise<unknown> => {
-  const data = { currentPassword, RecoveryCode }
+  const data = { currentPassword, recoveryCode }
   return request.post(
     {
       url: '/change-email/verify-password',
@@ -15,10 +15,10 @@ export const verifyPassword = (
 }
 
 export const sendToNewEmail = (
-  email: string,
+  newEmail: string,
   token: string,
 ): Promise<unknown> => {
-  const data = { email, token }
+  const data = { newEmail, token }
   return request.post(
     {
       url: '/change-email/send-to-new-email',

@@ -51,12 +51,20 @@ export class ChangePasswordService {
     }
 
     // 验证token
-    const { email, type } = await verifyToken<{
+    const payload = await verifyToken<{
       email: string;
       type: VerificationCodes;
     }>(token, this.configService.get<string>('JWT_SECRET'));
 
-    if (email !== user.email || type !== VerificationCodes.ChangePWD) {
+    if (!payload) {
+      this.logger.warn('验证密码失败：JWT验证失败');
+      return createErrorResponse(ErrorCode.INVALID_VERIFICATION_TOKEN);
+    }
+
+    if (
+      payload.email !== user.email ||
+      payload.type !== VerificationCodes.ChangePWD
+    ) {
       this.logger.warn('验证密码失败：JWT验证失败');
       return createErrorResponse(ErrorCode.INVALID_VERIFICATION_TOKEN);
     }
@@ -67,7 +75,7 @@ export class ChangePasswordService {
       user.password,
     );
     if (!isPasswordValid) {
-      this.logger.warn(`验证密码失败，密码错误：邮箱 ${email}`);
+      this.logger.warn(`验证密码失败，密码错误：邮箱 ${user.email}`);
       return createErrorResponse(ErrorCode.VERIFY_PASSWORD_FAILED);
     }
 
@@ -76,7 +84,7 @@ export class ChangePasswordService {
       email: string;
       type: VerificationCodes;
     }>(
-      { email, type: VerificationCodes.verifyPWD },
+      { email: user.email, type: VerificationCodes.verifyPWD },
       this.configService.get<string>('JWT_SECRET'),
       '10m',
     );
@@ -105,12 +113,20 @@ export class ChangePasswordService {
     }
 
     // 验证token
-    const { email, type } = await verifyToken<{
+    const payload = await verifyToken<{
       email: string;
       type: VerificationCodes;
     }>(token, this.configService.get<string>('JWT_SECRET'));
 
-    if (email !== user.email || type !== VerificationCodes.verifyPWD) {
+    if (!payload) {
+      this.logger.warn('修改密码失败：JWT验证失败');
+      return createErrorResponse(ErrorCode.INVALID_VERIFICATION_TOKEN);
+    }
+
+    if (
+      payload.email !== user.email ||
+      payload.type !== VerificationCodes.verifyPWD
+    ) {
       this.logger.warn('修改密码失败：JWT验证失败');
       return createErrorResponse(ErrorCode.INVALID_VERIFICATION_TOKEN);
     }

@@ -7,6 +7,8 @@ import {
   Request,
   BadRequestException,
   UseGuards,
+  Post,
+  Body,
 } from '@nestjs/common';
 import { ChangeEmailService } from './change-email.service';
 import { AuthGuard } from 'src/common/guards/auth.guard';
@@ -17,6 +19,8 @@ import {
 } from 'src/common/utils/response';
 import { ErrorCode } from 'src/common/constants/error-codes';
 import { ExpectedError } from 'src/types/error';
+import { VerifyPasswordDto } from './dto/verify-password.dto';
+import { SendToNewEmailDto } from './dto/send-to-new-email.dto';
 
 @Controller('change-email')
 export class ChangeEmailController {
@@ -49,6 +53,79 @@ export class ChangeEmailController {
       }
       this.logger.error('获取救援代码失败：', error);
       return createErrorResponse(ErrorCode.GET_RECOVERY_CODE_FAILED);
+    }
+  }
+
+  /**
+   * 验证当前密码和救援码
+   * POST /change-email/verify-password
+   * @param verifyDto 包含 currentPassword, recoveryCode
+   * @returns ApiResponse<string> 成功时返回新的 JWT 令牌
+   */
+  @UseGuards(AuthGuard)
+  @Post('verify-password')
+  @HttpCode(HttpStatus.OK)
+  async verifyPassword(
+    @Body() verifyDto: VerifyPasswordDto,
+    @Request() req,
+  ): Promise<ApiResponse<string>> {
+    const email = req.user?.email;
+    if (!email) {
+      throw new BadRequestException('No email found in token.');
+    }
+
+    const { currentPassword, recoveryCode } = verifyDto;
+
+    try {
+      const token = await this.changeEmailService.verifyPassword(
+        email,
+        currentPassword,
+        recoveryCode,
+      );
+      this.logger.log(`身份验证成功：email=${email}`);
+      return createSuccessResponse(token, 'VERIFY_PASSWORD_SUCCEED');
+    } catch (error) {
+      this.logger.error(`身份验证失败：email=${email}`, error);
+      if (error instanceof ExpectedError) {
+        return createErrorResponse(error.errorCode);
+      }
+      this.logger.error('身份验证失败：', error);
+      return createErrorResponse(ErrorCode.VERIFY_PASSWORD_FAILED);
+    }
+  }
+
+  /**
+   * 发送验证码到新邮箱
+   * POST /change-email/send-to-new-email
+   * @param dto 包含 newEmail, token
+   * @returns ApiResponse<string> 成功时仅返回成功消息
+   */
+  @UseGuards(AuthGuard)
+  @Post('send-to-new-email')
+  @HttpCode(HttpStatus.OK)
+  async sendToNewEmail(
+    @Body() dto: SendToNewEmailDto,
+    @Request() req,
+  ): Promise<ApiResponse<string>> {
+    const email = req.user?.email;
+    if (!email) {
+      throw new BadRequestException('No email found in token.');
+    }
+
+    const { token, newEmail } = dto;
+
+    try {
+      await this.changeEmailService.sendToNewEmail(email, token, newEmail);
+      this.logger.log(
+        `发送验证码到新邮箱成功: email=${email}, newEmail=${newEmail}`,
+      );
+      return createSuccessResponse(null, 'SEND_CODE_TO_NEW_EMAIL_SUCCEED');
+    } catch (error) {
+      this.logger.error(`发送验证码到新邮箱失败: email=${email}`, error);
+      if (error instanceof ExpectedError) {
+        return createErrorResponse(error.errorCode);
+      }
+      return createErrorResponse(ErrorCode.SEND_EMAIL_FAILED);
     }
   }
 }
