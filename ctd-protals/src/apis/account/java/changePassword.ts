@@ -21,7 +21,7 @@ export const changePassword = (
   const data = { newPassword, token }
   return request.post(
     {
-      url: '/change-password/change-password',
+      url: '/change-password',
       data,
     },
     true,

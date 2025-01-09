@@ -124,15 +124,18 @@ export class MailerService {
   async sendVerificationCode(
     email: string,
     type: VerificationCodes,
+    needToCheckEmailExited: boolean = true,
   ): Promise<void> {
     // 验证用户是否存在以及是否已激活
-    const user = await this.userRepository.findOne({
-      where: { email },
-    });
+    if (needToCheckEmailExited) {
+      const user = await this.userRepository.findOne({
+        where: { email },
+      });
 
-    if (!user || user.status !== UserStatus.ACTIVE) {
-      this.logger.warn('发送验证码失败：用户不存在或状态异常');
-      throw new ExpectedError(ErrorCode.INVALID_CREDENTIALS);
+      if (!user || user.status !== UserStatus.ACTIVE) {
+        this.logger.warn('发送验证码失败：用户不存在或状态异常');
+        throw new ExpectedError(ErrorCode.INVALID_CREDENTIALS);
+      }
     }
 
     // 生成验证码

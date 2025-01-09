@@ -86,7 +86,7 @@ export class ChangeEmailService {
     });
     if (!codeEntity) {
       this.logger.warn(`身份验证失败：救援码无效 email=${email}`);
-      throw new ExpectedError(ErrorCode.VERIFICATION_CODE_NOT_FOUND);
+      throw new ExpectedError(ErrorCode.RECOVERY_CODE_NOT_FOUND);
     }
 
     // 4) 标记救援码已使用
@@ -105,8 +105,7 @@ export class ChangeEmailService {
   }
 
   /**
-   * 发送验证码到新邮箱，用于下一步改邮箱
-   * 验证 token 是否为 verifyRecoveryCodes
+   * 发送验证码到新邮箱
    * @param userId 当前登录用户ID
    * @param token 上一步的令牌
    * @param newEmail 用户填写的新邮箱
@@ -129,7 +128,7 @@ export class ChangeEmailService {
 
     if (
       payload.email !== email ||
-      payload.type !== VerificationCodes.ResetEmail
+      payload.type !== VerificationCodes.verifyRecoveryCodes
     ) {
       this.logger.warn('发送验证码到新邮箱失败: JWT验证失败');
       throw new ExpectedError(ErrorCode.INVALID_VERIFICATION_TOKEN);
@@ -162,6 +161,47 @@ export class ChangeEmailService {
     await this.mailerService.sendVerificationCode(
       newEmail,
       VerificationCodes.ResetEmail,
+      false,
     );
+  }
+
+  /**
+   * 修改登录邮箱
+   */
+  async changeEmail(
+    email: string,
+    newEmail: string,
+    code: string,
+  ): Promise<void> {
+    // 1) 获取用户
+    const user = await this.userRepository.findOne({ where: { email } });
+    if (!user) {
+      this.logger.warn(`修改登录邮箱失败: 用户不存在 email=${email}`);
+      throw new ExpectedError(ErrorCode.USER_NOT_FOUND);
+    }
+    if (user.status !== UserStatus.ACTIVE) {
+      this.logger.warn(`修改登录邮箱失败: 用户状态异常 email=${email}`);
+      throw new ExpectedError(ErrorCode.INVALID_CREDENTIALS);
+    }
+
+    // 2) 调用 mailerService.verifyCode(newEmail, code, VerificationCodes.ResetEmail)
+    await this.mailerService.verifyCode(
+      newEmail,
+      code,
+      VerificationCodes.ResetEmail,
+    );
+
+    // 3) 如果 newEmail 已被使用，可再查一次数据库
+    const existUser = await this.userRepository.findOne({
+      where: { email: newEmail },
+    });
+    if (existUser) {
+      this.logger.warn(`修改登录邮箱失败: 新邮箱已被占用 newEmail=${newEmail}`);
+      throw new ExpectedError(ErrorCode.EMAIL_TAKEN);
+    }
+
+    // 4) 更新用户的 email
+    user.email = newEmail;
+    await this.userRepository.save(user);
   }
 }

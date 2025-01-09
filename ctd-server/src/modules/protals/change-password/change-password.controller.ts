@@ -43,13 +43,13 @@ export class ChangePasswordController {
 
   /**
    * 修改用户密码
-   * POST /change-password/change-password
+   * POST /change-password
    * @param changePasswordDto 修改密码的DTO
    * @param req 请求对象，包含用户信息
    * @returns ApiResponse<string>
    */
   @UseGuards(AuthGuard)
-  @Post('change-password')
+  @Post('')
   @HttpCode(HttpStatus.OK)
   async changePassword(
     @Body() changePasswordDto: ChangePasswordDto,

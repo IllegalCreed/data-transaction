@@ -28,11 +28,14 @@ export const sendToNewEmail = (
   )
 }
 
-export const changeEmail = (email: string, code: string): Promise<unknown> => {
-  const data = { email, code }
+export const changeEmail = (
+  newEmail: string,
+  code: string,
+): Promise<unknown> => {
+  const data = { newEmail, code }
   return request.post(
     {
-      url: '/change-email/change-password',
+      url: '/change-email/change-email',
       data,
     },
     true,

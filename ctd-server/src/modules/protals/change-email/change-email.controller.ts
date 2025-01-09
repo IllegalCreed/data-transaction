@@ -21,6 +21,7 @@ import { ErrorCode } from 'src/common/constants/error-codes';
 import { ExpectedError } from 'src/types/error';
 import { VerifyPasswordDto } from './dto/verify-password.dto';
 import { SendToNewEmailDto } from './dto/send-to-new-email.dto';
+import { ChangeEmailDto } from './dto/change-email.dto';
 
 @Controller('change-email')
 export class ChangeEmailController {
@@ -126,6 +127,39 @@ export class ChangeEmailController {
         return createErrorResponse(error.errorCode);
       }
       return createErrorResponse(ErrorCode.SEND_EMAIL_FAILED);
+    }
+  }
+
+  /**
+   * 修改邮箱
+   * POST /change-email
+   * @param changeEmailDto { newEmail, code }
+   * @returns ApiResponse<string> 成功时返回成功消息
+   */
+  @UseGuards(AuthGuard)
+  @Post()
+  @HttpCode(HttpStatus.OK)
+  async changeEmail(
+    @Body() changeEmailDto: ChangeEmailDto,
+    @Request() req,
+  ): Promise<ApiResponse<string>> {
+    const email = req.user?.email;
+    if (!email) {
+      throw new BadRequestException('No email found in token.');
+    }
+
+    const { newEmail, code } = changeEmailDto;
+
+    try {
+      await this.changeEmailService.changeEmail(email, newEmail, code);
+      this.logger.log(`邮箱修改成功: email=${email}, newEmail=${newEmail}`);
+      return createSuccessResponse(null, 'CHANGE_EMAIL_SUCCEED');
+    } catch (error) {
+      this.logger.error(`邮箱修改失败: email=${email}`, error);
+      if (error instanceof ExpectedError) {
+        return createErrorResponse(error.errorCode);
+      }
+      return createErrorResponse(ErrorCode.CHANGE_EMAIL_FAILED);
     }
   }
 }
