@@ -14,6 +14,8 @@ import * as javaInfo from './java/info'
 import * as nestInfo from './nest/info'
 import * as javaChangePassword from './java/changePassword'
 import * as nestChangePassword from './nest/changePassword'
+import * as javaChangeEmail from './java/changeEmail'
+import * as nestChangeEmail from './nest/changeEmail'
 import type { VerificationCodes } from '@/constants/mapData/mail'
 
 interface IMailAPI {
@@ -65,13 +67,23 @@ interface IChangePasswordAPI {
   changePassword: (newPassword: string, token: string) => Promise<unknown>
 }
 
+interface IChangeEmailAPI {
+  verifyPassword: (
+    currentPassword: string,
+    recoveryCode: string,
+  ) => Promise<unknown>
+  sendToNewEmail: (newEmail: string, token: string) => Promise<unknown>
+  changeEmail: (newEmail: string, code: string) => Promise<unknown>
+}
+
 type AccountAPIType = IMailAPI &
   IRegisterAPI &
   IForgotAPI &
   ILoginAPI &
   ICaptcha &
   IInfoAPI &
-  IChangePasswordAPI
+  IChangePasswordAPI &
+  IChangeEmailAPI
 
 const javaAPI: AccountAPIType = {
   ...javaMail,
@@ -81,6 +93,7 @@ const javaAPI: AccountAPIType = {
   ...javaCaptcha,
   ...javaInfo,
   ...javaChangePassword,
+  ...javaChangeEmail,
 }
 
 const nestAPI: AccountAPIType = {
@@ -91,6 +104,7 @@ const nestAPI: AccountAPIType = {
   ...nestCaptcha,
   ...nestInfo,
   ...nestChangePassword,
+  ...nestChangeEmail,
 }
 
 const accountAPI: AccountAPIType =
@@ -118,4 +132,7 @@ export const {
   uploadAvatar,
   verifyPassword,
   changePassword,
+  verifyPassword: verifyRecoveryCode,
+  sendToNewEmail,
+  changeEmail,
 } = accountAPI

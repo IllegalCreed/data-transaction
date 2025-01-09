@@ -5,6 +5,7 @@ import { useRegister } from './register'
 import { useForgot } from './forgot'
 import { useSecurity } from './security'
 import { useChangePassword } from './changePassword'
+import { useChangeEmail } from './changeEmail'
 
 export const useAccountStore = defineStore('account', () => {
   const {
@@ -42,6 +43,12 @@ export const useAccountStore = defineStore('account', () => {
   const { sendEmail, verifyCode, verifyPassword, changePassword } =
     useChangePassword()
   const { securityInfo, getSecurityInfo } = useSecurity()
+  const {
+    verifyRecoveryCode,
+    sendToNewEmail,
+    changeEmail,
+    email: newEmail,
+  } = useChangeEmail()
 
   return {
     ...{
@@ -86,6 +93,12 @@ export const useAccountStore = defineStore('account', () => {
       verifyCode,
       verifyPassword,
       changePassword,
+    },
+    ...{
+      verifyRecoveryCode,
+      sendToNewEmail,
+      changeEmail,
+      newEmail,
     },
     ...{
       securityInfo,

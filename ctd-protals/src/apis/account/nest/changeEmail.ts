@@ -35,7 +35,7 @@ export const changeEmail = (
   const data = { newEmail, code }
   return request.post(
     {
-      url: '/change-email/change-email',
+      url: '/change-email',
       data,
     },
     true,

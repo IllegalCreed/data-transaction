@@ -23,7 +23,12 @@
       </el-form-item>
     </el-form>
 
-    <el-button w-60 mt-4 type="primary" @click="handleNextStep"
+    <el-button
+      w-60
+      mt-4
+      type="primary"
+      :loading="sendToNewEmailActionLoading"
+      @click="handleNextStep"
       >下一步</el-button
     >
   </div>
@@ -31,6 +36,9 @@
 
 <script setup lang="ts">
 import type { FormInstance, FormRules } from 'element-plus'
+import { useAccountStore } from '@/stores/modules/account'
+const accountStore = useAccountStore()
+const { sendToNewEmail: sendToNewEmailAction } = accountStore
 
 const baseForm = useTemplateRef<FormInstance>('baseForm')
 const baseInfo = ref({
@@ -41,7 +49,7 @@ const rules = reactive<FormRules<{ email: string }>>({
   email: [{ required: true, message: '请输入邮箱', trigger: 'blur' }],
 })
 
-const validateOnSubmit = false
+const validateOnSubmit = true
 const handleSubmit = async (): Promise<boolean> => {
   if (!baseForm.value) return Promise.resolve(false)
 
@@ -56,11 +64,26 @@ const handleSubmit = async (): Promise<boolean> => {
   return Promise.resolve(true)
 }
 
+const {
+  isLoading: sendToNewEmailActionLoading,
+  execute: executeSendToNewEmailAction,
+} = useAsyncState(() => sendToNewEmailAction(baseInfo.value.email), undefined, {
+  immediate: false,
+  throwError: true,
+})
+
 const emit = defineEmits(['nextStep'])
 const handleNextStep = async () => {
   if (validateOnSubmit) {
     if (await handleSubmit()) {
-      emit('nextStep')
+      try {
+        await executeSendToNewEmailAction()
+        emit('nextStep')
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          ElMessage.error('设置失败')
+        }
+      }
     } else {
       ElMessage.error('请检查填写的信息是否正确')
     }

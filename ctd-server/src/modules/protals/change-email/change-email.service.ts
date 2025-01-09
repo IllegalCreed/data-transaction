@@ -184,7 +184,7 @@ export class ChangeEmailService {
       throw new ExpectedError(ErrorCode.INVALID_CREDENTIALS);
     }
 
-    // 2) 调用 mailerService.verifyCode(newEmail, code, VerificationCodes.ResetEmail)
+    // 2) 校验邮箱验证码
     await this.mailerService.verifyCode(
       newEmail,
       code,

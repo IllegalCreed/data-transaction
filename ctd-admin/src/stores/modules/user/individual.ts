@@ -48,7 +48,7 @@ export const useIndividual = () => {
 
   const getIndividualUser = (id: string | number): Promise<IIndividualUser> => {
     return new Promise<IIndividualUser>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('user')) {
         window.setTimeout(() => {
           const result = mockIndividualUsers.find((item) => item.id === Number(id))
           if (result) {

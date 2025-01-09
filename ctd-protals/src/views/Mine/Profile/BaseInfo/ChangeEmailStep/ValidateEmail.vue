@@ -2,45 +2,52 @@
   <div flex flex-col items-center>
     <span text-3xl font-bold mt-10>验证邮箱</span>
     <p text-sm text-gray-400>
-      我们向您的新邮箱<strong mx-2>{{ email }}</strong
+      我们向您的新邮箱<strong mx-2>{{ newEmail }}</strong
       >发送了一封邮件
     </p>
 
     <verification-code-input mt-4 v-model="code"></verification-code-input>
 
     <div class="step-btn-container">
-      <el-button class="step-btn" type="primary" @click="handlePrevStep"
-        >上一步</el-button
-      >
-      <el-button class="step-btn" type="primary" @click="handleNextStep"
+      <el-button
+        class="step-btn"
+        type="primary"
+        :loading="changeEmailActionLoading"
+        @click="handleNextStep"
         >下一步</el-button
       >
     </div>
-
-    <span text-xs my-4
-      >没有收到邮件？点击<span @click="reSendEmail" class="resend-email"
-        >重新发送邮件</span
-      ></span
-    >
   </div>
 </template>
 
 <script setup lang="ts">
 import VerificationCodeInput from '@/components/VerificationCodeInput.vue'
 
+import { useAccountStore } from '@/stores/modules/account'
+const accountStore = useAccountStore()
+const { newEmail } = storeToRefs(accountStore)
+const { changeEmail: changeEmailAction } = accountStore
+
 const code = ref('')
-const email = ref('new@email.com')
+
+const {
+  isLoading: changeEmailActionLoading,
+  execute: executeChangeEmailAction,
+} = useAsyncState(() => changeEmailAction(code.value), undefined, {
+  immediate: false,
+  throwError: true,
+})
 
 const emit = defineEmits(['nextStep', 'prevStep'])
 const handleNextStep = async () => {
-  emit('nextStep')
-}
-const handlePrevStep = () => {
-  emit('prevStep')
-}
-
-const reSendEmail = () => {
-  ElMessage.success('重新发送成功')
+  try {
+    await executeChangeEmailAction()
+    emit('nextStep')
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      ElMessage.error('修改失败')
+    }
+  }
 }
 </script>
 

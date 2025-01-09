@@ -30,7 +30,11 @@
     </el-form>
 
     <div class="step-btn-container">
-      <el-button class="step-btn" type="primary" @click="handleNextStep"
+      <el-button
+        class="step-btn"
+        type="primary"
+        :loading="verifyRecoveryCodeActionLoading"
+        @click="handleNextStep"
         >下一步</el-button
       >
     </div>
@@ -45,6 +49,9 @@
 
 <script setup lang="ts">
 import type { FormInstance, FormRules } from 'element-plus'
+import { useAccountStore } from '@/stores/modules/account'
+const accountStore = useAccountStore()
+const { verifyRecoveryCode: verifyRecoveryCodeAction } = accountStore
 
 const baseForm = useTemplateRef<FormInstance>('baseForm')
 const baseInfo = ref({
@@ -59,7 +66,7 @@ const rules = reactive<FormRules<{ password: string; recoveryCode: string }>>({
   ],
 })
 
-const validateOnSubmit = false
+const validateOnSubmit = true
 const handleSubmit = async (): Promise<boolean> => {
   if (!baseForm.value) return Promise.resolve(false)
 
@@ -74,11 +81,34 @@ const handleSubmit = async (): Promise<boolean> => {
   return Promise.resolve(true)
 }
 
+const {
+  isLoading: verifyRecoveryCodeActionLoading,
+  execute: executeVerifyRecoveryCodeAction,
+} = useAsyncState(
+  () =>
+    verifyRecoveryCodeAction(
+      baseInfo.value.password,
+      baseInfo.value.recoveryCode,
+    ),
+  undefined,
+  {
+    immediate: false,
+    throwError: true,
+  },
+)
+
 const emit = defineEmits(['nextStep'])
 const handleNextStep = async () => {
   if (validateOnSubmit) {
     if (await handleSubmit()) {
-      emit('nextStep')
+      try {
+        await executeVerifyRecoveryCodeAction()
+        emit('nextStep')
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          ElMessage.error('验证失败')
+        }
+      }
     } else {
       ElMessage.error('请检查填写的信息是否正确')
     }
