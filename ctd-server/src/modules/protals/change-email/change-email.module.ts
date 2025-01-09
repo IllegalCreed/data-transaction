@@ -5,10 +5,15 @@ import { ChangeEmailController } from './change-email.controller';
 import { User } from 'src/entities/user.entity';
 import { AuthModule } from '../auth/auth.module';
 import { MailerModule } from '../mailer/mailer.module';
+import { RecoveryCode } from 'src/entities/recovery-code.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), AuthModule, MailerModule],
+  imports: [
+    TypeOrmModule.forFeature([User, RecoveryCode]),
+    AuthModule,
+    MailerModule,
+  ],
   controllers: [ChangeEmailController],
   providers: [ChangeEmailService],
 })
-export class ChangePasswordModule {}
+export class ChangeEmailModule {}

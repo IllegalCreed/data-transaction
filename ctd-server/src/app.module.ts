@@ -13,6 +13,7 @@ import { PlatformLoginModule } from './modules/platform/login/login.module';
 import { AdminModule } from './modules/platform/admin/admin.module';
 import { PlatformUserModule } from './modules/platform/user/user.module';
 import { ChangePasswordModule } from './modules/protals/change-password/change-password.module';
+import { ChangeEmailModule } from './modules/protals/change-email/change-email.module';
 
 const nodeEnv = process.env.NODE_ENV || 'development';
 
@@ -72,6 +73,7 @@ const nodeEnv = process.env.NODE_ENV || 'development';
     LoginModule,
     UserModule,
     ChangePasswordModule,
+    ChangeEmailModule,
     PlatformLoginModule,
     AdminModule,
     PlatformUserModule,
