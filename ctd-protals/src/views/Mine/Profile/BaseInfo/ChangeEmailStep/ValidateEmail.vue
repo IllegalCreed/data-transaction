@@ -43,6 +43,11 @@ const {
 
 const emit = defineEmits(['nextStep', 'prevStep'])
 const handleNextStep = async () => {
+  if (!code.value || code.value.length !== 6) {
+    ElMessage.error('请输入完整的验证码')
+    return
+  }
+
   try {
     await executeChangeEmailAction()
     emit('nextStep')
