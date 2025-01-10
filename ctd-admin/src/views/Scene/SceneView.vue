@@ -49,9 +49,13 @@
 </template>
 
 <script setup lang="ts">
+defineOptions({
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: 'scene'
+})
+
 import SceneFilterSortPanel from './SceneFilterSortPanel.vue'
 import SceneTabelPanel from './SceneTabelPanel.vue'
-import type { apiListResult } from '@/types/common'
 
 // 获取列表
 import type { ISceneItem } from '@/types/scene'
@@ -63,7 +67,7 @@ const {
   changeScenesStatus: changeScenesStatusAction,
   deleteScenes: deleteScenesAction
 } = useSceneStore()
-const getList = async (): Promise<apiListResult<ISceneItem>> => {
+const getList = async (): Promise<number> => {
   getListLoading.value = true
   const res = await getScenesAction(
     searchQuery.value,
@@ -75,7 +79,7 @@ const getList = async (): Promise<apiListResult<ISceneItem>> => {
 
   data.value = res.rows
   getListLoading.value = false
-  return res
+  return res.total
 }
 
 import { usePager } from '@/composables/usePager'

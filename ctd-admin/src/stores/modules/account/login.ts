@@ -1,34 +1,26 @@
 import { v4 as uuidv4 } from 'uuid'
 import { useSettingsStore } from '../settings'
 import { useTokenStore } from '../token'
-import type { ILogin, ILoginCode } from '@/types/login'
-import { login as loginAPI, getCode as getCodeAPI, logout as logoutAPI } from '@/apis/account'
+import type { ILogin, ICaptcha } from '@/types/login'
+import { login as loginAPI, getCaptcha as getCaptchaAPI } from '@/apis/account'
 import { code as mockCode, token as mockToken } from '@/constants/mockData/account/login'
+import type { ICommonReturn } from '@/types/common'
 
 export const useLogin = () => {
   const tokenStore = useTokenStore()
   const settingsStore = useSettingsStore()
+  const { findMockTreeValueByKey } = settingsStore
 
   const login = (login: ILogin): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('login')) {
         tokenStore.setToken(mockToken)
         resolve()
       } else {
         loginAPI(login)
           .then((res: unknown) => {
-            const result = res as { token: string; warning?: number }
-            tokenStore.setToken(result.token)
-
-            if (result.warning === 1) {
-              ElNotification({
-                title: '密码过期',
-                message: '超过三个月未修改密码，请及时修改',
-                type: 'warning',
-                duration: 0
-              })
-            }
-
+            const result = res as ICommonReturn<{ token: string }>
+            tokenStore.setToken(result.data.token)
             resolve()
           })
           .catch((error: unknown) => {
@@ -38,17 +30,18 @@ export const useLogin = () => {
     })
   }
 
-  const getCode = (): Promise<ILoginCode> => {
-    return new Promise<ILoginCode>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+  const getCaptcha = (): Promise<ICaptcha> => {
+    return new Promise<ICaptcha>((resolve, reject) => {
+      if (findMockTreeValueByKey('login')) {
         resolve({
-          uuid: uuidv4(),
-          img: mockCode
+          id: uuidv4(),
+          data: mockCode
         })
       } else {
-        getCodeAPI()
+        getCaptchaAPI()
           .then((res: unknown) => {
-            resolve(res as ILoginCode)
+            const resData = res as ICommonReturn<ICaptcha>
+            resolve(resData.data)
           })
           .catch((error) => {
             reject(error)
@@ -59,24 +52,11 @@ export const useLogin = () => {
   }
 
   const logout = (): Promise<void> => {
-    return new Promise<void>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
-        tokenStore.clearToken()
-        resolve()
-      } else {
-        logoutAPI()
-          .then(() => {
-            resolve()
-          })
-          .catch((error) => {
-            reject(error)
-          })
-          .finally(() => {
-            tokenStore.clearToken()
-          })
-      }
+    return new Promise<void>((resolve) => {
+      tokenStore.clearToken()
+      resolve()
     })
   }
 
-  return { login, getCode, logout }
+  return { login, getCaptcha, logout }
 }

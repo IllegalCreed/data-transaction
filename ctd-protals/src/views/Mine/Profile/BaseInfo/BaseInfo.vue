@@ -25,12 +25,14 @@
             <el-button
               type="primary"
               size="default"
+              data-testid="change-password-btn"
               @click="changePasswordDialogVisiable = true"
               >修改密码</el-button
             >
             <el-button
               type="default"
               size="default"
+              data-testid="change-email-btn"
               @click="changeEmailDialogVisiable = true"
               >修改验证邮箱</el-button
             >

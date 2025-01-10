@@ -12,8 +12,8 @@
             <template v-slot:icon>
               <i-hugeicons:sorting-05></i-hugeicons:sorting-05>
             </template>
-            排序</el-button
-          >
+            排序
+          </el-button>
         </el-badge>
       </template>
       <div flex flex-col>

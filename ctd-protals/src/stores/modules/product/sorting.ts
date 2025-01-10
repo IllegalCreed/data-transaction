@@ -5,17 +5,20 @@ export const useSorting = () => {
   const sortingSource = ref<ISortItem[]>([])
 
   const getSortingSource = (): Promise<void> => {
-    return new Promise<void>((resolve) => {
+    return new Promise<void>(resolve => {
       sortingSource.value = mockSortingSource
       resolve()
     })
   }
 
-  const sortings = ref<ISortValue>({ sortType: 'comprehensive', order: 'desc' as const })
+  const sortings = ref<ISortValue>({
+    sortType: 'comprehensive',
+    order: 'desc' as const,
+  })
 
   return {
     sortingSource,
     getSortingSource,
-    sortings
+    sortings,
   }
 }

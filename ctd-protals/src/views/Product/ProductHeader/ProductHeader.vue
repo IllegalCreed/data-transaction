@@ -1,6 +1,13 @@
 <template>
-  <div class="product-header-container" :style="{ backgroundImage: `url('${bg}')` }">
-    <product-search-input></product-search-input>
+  <div
+    class="product-header-container"
+    :style="{ backgroundImage: `url('${bg}')` }"
+  >
+    <product-search-input
+      v-model:searchKey="searchKey"
+      v-model:searchType="searchType"
+      @search="handleSearch"
+    ></product-search-input>
     <filter-list-view
       class="filter-panel"
       v-model="filters"
@@ -16,14 +23,21 @@ import ProductSearchInput from './ProductSearchInput.vue'
 import FilterListView from '@/components/FilterListView.vue'
 import { useProductStore } from '@/stores/modules/product'
 
-const bg = ref(new URL('@/assets/background/productBackground.png', import.meta.url).href)
+const bg = ref(
+  new URL('@/assets/background/productBackground.png', import.meta.url).href,
+)
+
+const searchKey = defineModel('searchKey', { type: String, default: '' })
+const searchType = defineModel('searchType', { type: String, default: '1' })
 
 const productStore = useProductStore()
 const { filters, filterSource } = storeToRefs(productStore)
 const { getFilterSource: getFilterSourceAction } = productStore
 
-const { isLoading: getFilterSourceActionLoading, execute: executeGetFilterSourceAction } =
-  useAsyncState(getFilterSourceAction(), undefined)
+const {
+  isLoading: getFilterSourceActionLoading,
+  execute: executeGetFilterSourceAction,
+} = useAsyncState(getFilterSourceAction(), undefined)
 
 onMounted(() => {
   try {
@@ -32,6 +46,11 @@ onMounted(() => {
     console.error(error)
   }
 })
+
+const emit = defineEmits(['search'])
+const handleSearch = () => {
+  emit('search')
+}
 </script>
 
 <style lang="scss" scoped>

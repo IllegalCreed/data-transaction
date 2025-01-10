@@ -46,6 +46,25 @@ export enum ErrorCode {
   GET_USERINFO_FAILED = 1501,
   UPDATE_USER_AVATAR_FAILED = 1502,
   UPDATE_USER_FAILED = 1503,
+
+  // 修改密码相关
+  VERIFY_PASSWORD_FAILED = 1601,
+  CHANGE_PASSWORD_FAILED = 1602,
+
+  // 修改验证邮箱相关
+  RECOVERY_CODE_NOT_FOUND = 1701,
+  GET_RECOVERY_CODE_FAILED = 1702,
+  CHANGE_EMAIL_FAILED = 1703,
+
+  // 管理员相关
+  ADMIN_ALREADY_EXISTS = 5001,
+  CREATE_ADMIN_FAILED = 5002,
+  UPDATE_ADMIN_PASSWORD_FAILED = 5003,
+  GET_ADMIN_NAME_FAILED = 5004,
+
+  // 用户管理相关
+  GET_USER_FAILED = 6001,
+  GET_USER_LIST_FAILED = 6002,
 }
 
 export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
@@ -111,4 +130,31 @@ export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
   [ErrorCode.UPDATE_USER_AVATAR_FAILED]:
     'Update user avatar failed due to unexpected error.',
   [ErrorCode.UPDATE_USER_FAILED]: 'Update user failed due to unexpected error.',
+
+  // 修改密码相关
+  [ErrorCode.VERIFY_PASSWORD_FAILED]:
+    'Verify password failed due to unexpected error.',
+  [ErrorCode.CHANGE_PASSWORD_FAILED]:
+    'Change password failed due to unexpected error.',
+
+  // 修改验证邮箱相关
+  [ErrorCode.RECOVERY_CODE_NOT_FOUND]: 'Recovery code not found.',
+  [ErrorCode.GET_RECOVERY_CODE_FAILED]:
+    'Get recovery code failed due to unexpected error.',
+  [ErrorCode.CHANGE_EMAIL_FAILED]:
+    'Change email failed due to unexpected error.',
+
+  // 管理员相关
+  [ErrorCode.ADMIN_ALREADY_EXISTS]: 'Admin already exists.',
+  [ErrorCode.CREATE_ADMIN_FAILED]:
+    'Create admin failed due to unexpected error.',
+  [ErrorCode.UPDATE_ADMIN_PASSWORD_FAILED]:
+    'Update admin password failed due to unexpected error.',
+  [ErrorCode.GET_ADMIN_NAME_FAILED]:
+    'Get admin name failed due to unexpected error.',
+
+  // 用户管理相关
+  [ErrorCode.GET_USER_FAILED]: 'Get user failed due to unexpected error.',
+  [ErrorCode.GET_USER_LIST_FAILED]:
+    'Get user list failed due to unexpected error.',
 };

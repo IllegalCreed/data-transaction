@@ -1,3 +1,4 @@
+import type { ITreeNode } from '@/types/common'
 import { useI18n } from 'vue-i18n'
 
 export const useSettingsStore = defineStore('settings', () => {
@@ -43,6 +44,31 @@ export const useSettingsStore = defineStore('settings', () => {
     mockEnabled.value = value
   }
 
+  const mockTree = useLocalStorage<ITreeNode[]>('app-mock-tree', [
+    { key: 'login', value: false, children: [] },
+    { key: 'admin', value: false, children: [] },
+    { key: 'user', value: false, children: [] }
+  ])
+
+  const findMockTreeValueByKey = (key: string) => {
+    return findValueByKey(mockTree.value, key)
+  }
+
+  const findValueByKey = (tree: ITreeNode[], key: string): boolean | undefined => {
+    for (const node of tree) {
+      if (node.key === key) {
+        return node.value
+      }
+      if (node.children && node.children.length > 0) {
+        const value = findValueByKey(node.children, key)
+        if (value !== undefined) {
+          return value
+        }
+      }
+    }
+    return undefined
+  }
+
   return {
     watermarkEnabled,
     setWatermark,
@@ -56,6 +82,8 @@ export const useSettingsStore = defineStore('settings', () => {
     setLanguage,
 
     mockEnabled,
-    setMock
+    setMock,
+    mockTree,
+    findMockTreeValueByKey
   }
 })

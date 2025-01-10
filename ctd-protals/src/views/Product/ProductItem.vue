@@ -1,7 +1,7 @@
 <template>
   <div class="product-item-root-container" @click="goToProductDetail">
     <div class="img-container">
-      <img :src="product.imageUrl" object-contain w-full />
+      <img :src="product.imageUrl" object-cover w-full h-full />
     </div>
     <div class="text-container">
       <span class="title">{{ product.name }}</span>

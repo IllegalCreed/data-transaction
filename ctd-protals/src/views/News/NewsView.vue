@@ -1,11 +1,20 @@
 <template>
   <div class="news-root-container">
-    <div class="news-header-container" :style="{ backgroundImage: `url('${bg}')` }">
+    <div
+      class="news-header-container"
+      :style="{ backgroundImage: `url('${bg}')` }"
+    >
       <span class="title">政策与资讯</span>
 
-      <el-input v-model="searchKey" class="search-input" size="large" placeholder="请输入文章名称">
+      <el-input
+        v-model="searchKey"
+        class="search-input"
+        size="large"
+        placeholder="请输入文章名称"
+        @keydown.enter="handleSearch"
+      >
         <template #append>
-          <el-button>
+          <el-button @click="handleSearch">
             <template v-slot:icon>
               <i-vaadin:search></i-vaadin:search>
             </template>
@@ -15,7 +24,7 @@
     </div>
 
     <div class="news-list-container">
-      <el-skeleton :loading="getNewsListActionLoading" animated>
+      <el-skeleton :loading="getListLoading" animated>
         <template #template>
           <div flex flex-col gap-6>
             <el-skeleton-item
@@ -27,16 +36,22 @@
           </div>
         </template>
         <template #default>
-          <news-item v-for="(item, index) in newsList" :key="index" :news="item" />
+          <news-item
+            v-for="(item, index) in newsList"
+            :key="index"
+            :news="item"
+          />
         </template>
       </el-skeleton>
     </div>
 
     <div class="pager-panel">
       <el-pagination
+        v-model:current-page="pageNum"
+        v-model:page-size="pageSize"
+        :total="total"
         :pager-count="pagerCount"
         :background="showPaginationBackground"
-        :total="1000"
         :layout="paginationLayout"
       />
     </div>
@@ -45,29 +60,12 @@
 
 <script setup lang="ts">
 import NewsItem from './NewsItem.vue'
-import { useNewsStore } from '@/stores/modules/news'
 
-const bg = ref(new URL('@/assets/background/newsBackground.png', import.meta.url).href)
-
-const newsStore = useNewsStore()
-const { newsList } = storeToRefs(newsStore)
-const { getNewsList: getNewsListAction } = newsStore
-
-const searchKey = ref('')
-
-const { isLoading: getNewsListActionLoading, execute: executeGetNewsListAction } = useAsyncState(
-  getNewsListAction(1, 10),
-  undefined
+const bg = ref(
+  new URL('@/assets/background/newsBackground.png', import.meta.url).href,
 )
 
-onMounted(() => {
-  try {
-    executeGetNewsListAction()
-  } catch (error: unknown) {
-    console.error(error)
-  }
-})
-
+// 分页组件相关
 const paginationLayout = ref('total, prev, pager, next')
 const showPaginationBackground = ref(true)
 const pagerCount = ref(7)
@@ -84,6 +82,34 @@ watchEffect(() => {
     pagerCount.value = 7
   }
 })
+
+// 搜索相关
+const searchKey = ref('')
+const handleSearch = () => {
+  refresh()
+}
+
+// 数据获取相关
+import { useNewsStore } from '@/stores/modules/news'
+const newsStore = useNewsStore()
+const { newsList } = storeToRefs(newsStore)
+const { getNewsList: getNewsListAction } = newsStore
+
+const getListLoading = ref<boolean>(false)
+const getList = async (): Promise<number> => {
+  getListLoading.value = true
+  // TODO: 异常处理
+  const total = await getNewsListAction(
+    pageNum.value,
+    pageSize.value,
+    searchKey.value,
+  )
+  getListLoading.value = false
+  return total
+}
+
+import { usePager } from '@/composables/usePager'
+const { pageNum, pageSize, total, refresh } = usePager(getList)
 </script>
 
 <style scoped lang="scss">

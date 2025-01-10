@@ -47,7 +47,10 @@
 <script setup lang="ts">
 import NewsFilterSortPanel from './NewsFilterSortPanel.vue'
 import NewsTabelPanel from './NewsTabelPanel.vue'
-import type { apiListResult } from '@/types/common'
+defineOptions({
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: 'news'
+})
 
 // 获取列表
 const getListLoading = ref<boolean>(false)
@@ -58,13 +61,13 @@ const {
   changeNewsStatus: changeNewsStatusAction,
   deleteNews: deleteNewsAction
 } = useNewsStore()
-const getList = async (): Promise<apiListResult<INewsItem>> => {
+const getList = async (): Promise<number> => {
   getListLoading.value = true
   const res = await getNewsAction(searchQuery.value, status.value, pageNum.value, pageSize.value)
 
   data.value = res.rows
   getListLoading.value = false
-  return res
+  return res.total
 }
 
 import { usePager } from '@/composables/usePager'

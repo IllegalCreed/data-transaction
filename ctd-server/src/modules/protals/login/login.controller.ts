@@ -9,19 +9,19 @@ import {
   Patch,
   HttpStatus,
   BadRequestException,
+  UseGuards,
 } from '@nestjs/common';
 import { LoginService } from './login.service';
 import { LoginDto } from './dto/login.dto';
 import { GetLoginLogsDto } from './dto/get-login-logs.dto';
 import { ILoginLog } from './interface/login-log.interface';
-import { Public } from 'src/common/decorators/is-public.decorator';
 import { ApiResponse } from 'src/common/interfaces/api-response.interface';
+import { AuthGuard } from 'src/common/guards/auth.guard';
 
 @Controller('login')
 export class LoginController {
   constructor(private readonly loginService: LoginService) {}
 
-  @Public()
   @Post('check-captcha')
   async checkCaptcha(
     @Body() body: { email: string },
@@ -29,7 +29,6 @@ export class LoginController {
     return this.loginService.checkCaptcha(body.email);
   }
 
-  @Public()
   @Post()
   async login(
     @Body() loginDto: LoginDto,
@@ -40,6 +39,7 @@ export class LoginController {
     return this.loginService.login(loginDto, ipAddress, userAgent);
   }
 
+  @UseGuards(AuthGuard)
   @Get('logs')
   async getLoginLogs(
     @Request() req,
@@ -55,7 +55,6 @@ export class LoginController {
     return this.loginService.getLastLoginLog(userId);
   }
 
-  @Public()
   @Patch('test/reset-user-status')
   @HttpCode(HttpStatus.OK)
   async resetUserStatusForTesting(

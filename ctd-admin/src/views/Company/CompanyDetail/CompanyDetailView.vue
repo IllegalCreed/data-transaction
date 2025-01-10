@@ -52,10 +52,13 @@
 </template>
 
 <script setup lang="ts">
-const id = useRouteParams<string | number>('id')
-watch(id, () => {
-  executeGetCompanyAction()
+defineOptions({
+  name: 'company-detail'
 })
+const id = useRouteParams<string | number>('id')
+// watch(id, () => {
+//   executeGetCompanyAction()
+// })
 
 import { useCompanyStore } from '@/stores/modules/company'
 const { getCompany: getCompanyAction } = useCompanyStore()

@@ -12,6 +12,7 @@ declare global {
       ): Chainable<void>
       getCaptchaCode(baseUrl: string, captchaId: string): Chainable<void>
       resetUserStatus(baseUrl: string, email: string): Chainable<void>
+      getRecoveryCode(baseUrl: string, email: string): Chainable<void>
       login(email: string, password: string): Chainable<void>
     }
   }
@@ -102,6 +103,19 @@ Cypress.Commands.add('resetUserStatus', (baseUrl: string, email: string) => {
       email,
     }).then(response => {
       expect(response.status).to.eq(200)
+    })
+  }
+})
+
+Cypress.Commands.add('getRecoveryCode', (baseUrl: string, email: string) => {
+  if (Cypress.env('serverType') === 'java') {
+  } else {
+    cy.request('GET', `${baseUrl}/change-email/test/get-recovery-code`, {
+      email,
+    }).then(response => {
+      expect(response.status).to.eq(200)
+      const recoveryCode = response.body.data
+      cy.wrap(recoveryCode).as('recoveryCode')
     })
   }
 })

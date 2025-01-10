@@ -44,24 +44,45 @@
           router
           :collapse="isCollapse"
         >
-          <el-menu-item v-for="item in mainMenus" :key="item.path" :index="item.path">
-            <el-icon><i :class="item.icon" class="icon"></i></el-icon>
-            <template #title>
-              <span text-lg ml-10>{{ item.label }}</span>
-            </template>
-          </el-menu-item>
+          <template v-for="item in mainMenus">
+            <!-- 有子菜单的项 -->
+            <el-sub-menu
+              v-if="item.children && item.children.length"
+              :key="item.path + '-submenu'"
+              :index="item.path"
+            >
+              <template #title>
+                <el-icon><i :class="item.icon" class="icon"></i></el-icon>
+                <span text-lg ml-10>{{ item.label }}</span>
+              </template>
+              <!-- 子菜单项 -->
+              <el-menu-item v-for="child in item.children" :key="child.path" :index="child.path">
+                <el-icon><i :class="child.icon" class="icon"></i></el-icon>
+                <template #title>
+                  <span text-lg ml-10>{{ child.label }}</span>
+                </template>
+              </el-menu-item>
+            </el-sub-menu>
+            <!-- 无子菜单的项 -->
+            <el-menu-item v-else :key="item.path" :index="item.path">
+              <el-icon><i :class="item.icon" class="icon"></i></el-icon>
+              <template #title>
+                <span text-lg ml-10>{{ item.label }}</span>
+              </template>
+            </el-menu-item>
+          </template>
         </el-menu>
       </div>
       <div flex-1 flex flex-col min-w-0>
         <HistoryTab></HistoryTab>
         <div class="router-container">
-          <RouterView v-slot="{ Component, route }">
+          <router-view v-slot="{ Component, route }">
             <transition name="fade" mode="out-in">
               <keep-alive :include="cachedViews">
                 <component :is="Component" :key="route.path" />
               </keep-alive>
             </transition>
-          </RouterView>
+          </router-view>
         </div>
       </div>
     </div>
@@ -71,7 +92,7 @@
 <script setup lang="ts">
 import HeaderView from './HeaderView.vue'
 import { useRouterStore } from '@/stores/modules/router'
-const { cachedViews } = useRouterStore()
+const { cachedViews } = storeToRefs(useRouterStore())
 
 const route = useRoute()
 const router = useRouter()

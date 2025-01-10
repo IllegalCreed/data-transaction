@@ -406,6 +406,8 @@
     "getFavoriteProducts": true,
     "getDemandComments": true,
     "getProductComments": true,
-    "ElMessageBox": true
+    "ElMessageBox": true,
+    "usePreferredReducedTransparency": true,
+    "useSSRWidth": true
   }
 }

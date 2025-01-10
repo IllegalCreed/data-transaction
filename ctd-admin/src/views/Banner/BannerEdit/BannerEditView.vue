@@ -86,6 +86,10 @@
 </template>
 
 <script setup lang="ts">
+defineOptions({
+  name: 'banner-edit'
+})
+
 import ImagePicker from '@/components/ImagePicker.vue'
 import { v4 as uuidv4 } from 'uuid'
 import { type FormInstance, type FormRules } from 'element-plus'

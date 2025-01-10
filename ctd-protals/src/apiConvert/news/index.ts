@@ -19,10 +19,8 @@ export const newsListConvert = (raws: INewsFetchData[]): INews[] => {
       id: row.id,
       title: row.bizInfoTitle,
       summary: row.bizInfoAbstract,
-      imageUrl:
-        row.sysFileList.find(item => item.fileType === '资讯封面')?.url ?? '',
-      bannerUrl:
-        row.sysFileList.find(item => item.fileType === '资讯头图')?.url ?? '',
+      imageUrl: `${import.meta.env.VITE_APP_BASE_API}/${row.sysFileList.find(item => item.fileType === '资讯封面')?.url ?? ''}`,
+      bannerUrl: `${import.meta.env.VITE_APP_BASE_API}/${row.sysFileList.find(item => item.fileType === '资讯头图')?.url ?? ''}`,
       createTime: row.releaseTime,
       content: row.bizInfoContent,
     })
@@ -35,10 +33,8 @@ export const newsConvert = (raw: INewsFetchData): INews => {
     id: raw.id,
     title: raw.bizInfoTitle,
     summary: raw.bizInfoAbstract,
-    imageUrl:
-      raw.sysFileList.find(item => item.fileType === '资讯封面')?.url ?? '',
-    bannerUrl:
-      raw.sysFileList.find(item => item.fileType === '资讯头图')?.url ?? '',
+    imageUrl: `${import.meta.env.VITE_APP_BASE_API}/${raw.sysFileList.find(item => item.fileType === '资讯封面')?.url ?? ''}`,
+    bannerUrl: `${import.meta.env.VITE_APP_BASE_API}/${raw.sysFileList.find(item => item.fileType === '资讯头图')?.url ?? ''}`,
     createTime: raw.releaseTime,
     content: raw.bizInfoContent,
   }

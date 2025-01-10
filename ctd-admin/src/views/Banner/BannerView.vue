@@ -51,7 +51,10 @@
 <script setup lang="ts">
 import BannerFilterSortPanel from './BannerFilterSortPanel.vue'
 import BannerTabelPanel from './BannerTabelPanel.vue'
-import type { apiListResult } from '@/types/common'
+defineOptions({
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: 'banner'
+})
 
 // 获取列表
 import type { IBannerItem } from '@/types/banner'
@@ -63,7 +66,7 @@ const {
   changeBannersStatus: changeBannersStatusAction,
   deleteBanners: deleteBannersAction
 } = useBannerStore()
-const getList = async (): Promise<apiListResult<IBannerItem>> => {
+const getList = async (): Promise<number> => {
   getListLoading.value = true
   const res = await getBannersAction(
     searchQuery.value,
@@ -75,7 +78,7 @@ const getList = async (): Promise<apiListResult<IBannerItem>> => {
 
   data.value = res.rows
   getListLoading.value = false
-  return res
+  return res.total
 }
 
 import { usePager } from '@/composables/usePager'

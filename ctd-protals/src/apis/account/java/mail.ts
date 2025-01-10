@@ -35,3 +35,36 @@ export const verifyCode = (
     false,
   )
 }
+
+export const sendVerificationCodeAuth = (
+  type: VerificationCodes,
+): Promise<unknown> => {
+  const data = { type }
+  return request.post(
+    {
+      url: '/mailer/send-verification-code/auth',
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      data,
+    },
+    true,
+  )
+}
+
+export const verifyCodeAuth = (
+  code: string,
+  type: VerificationCodes,
+): Promise<unknown> => {
+  const data = { code, type }
+  return request.post(
+    {
+      url: '/mailer/verify-code/auth',
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      data,
+    },
+    true,
+  )
+}

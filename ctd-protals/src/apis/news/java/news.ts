@@ -3,10 +3,12 @@ import request from '@/axios'
 export const getNewsList = (
   pageNum: number,
   pageSize: number,
+  searchValue: string,
 ): Promise<unknown> => {
   const params = {
     pageNum,
     pageSize,
+    bizInfoTitle: searchValue,
   }
   return request.get(
     {

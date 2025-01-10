@@ -17,6 +17,23 @@
   background-color: var(--background-page-color) !important;
 }
 
+.panel-title {
+  @apply text-lg font-bold;
+}
+
+.prop {
+  @apply flex flex-row gap-4 items-start;
+
+  .label {
+    @apply text-base text-[var(--text-label-color)] min-w-20;
+  }
+
+  .value {
+    @apply text-base;
+  }
+}
+
+.column-popover,
 .sorting-popover,
 .filter-popover {
   padding: 0 !important;
@@ -39,22 +56,6 @@
 
   .reset {
     @apply text-sm text-[var(--text-btn-primary-color)];
-  }
-}
-
-.panel-title {
-  @apply text-lg font-bold;
-}
-
-.prop {
-  @apply flex flex-row gap-4 items-start;
-
-  .label {
-    @apply text-base text-[var(--text-label-color)] min-w-20;
-  }
-
-  .value {
-    @apply text-base;
   }
 }
 

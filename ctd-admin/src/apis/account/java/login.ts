@@ -3,10 +3,10 @@ import type { ILogin } from '@/types/login'
 
 export const login = (login: ILogin): Promise<unknown> => {
   const data = {
-    username: login.account,
+    username: login.username,
     password: login.password,
-    code: login.code,
-    uuid: login.uuid
+    code: login.captchaCode,
+    uuid: login.captchaId
   }
   return request.post(
     {
@@ -15,10 +15,6 @@ export const login = (login: ILogin): Promise<unknown> => {
     },
     false
   )
-}
-
-export const getCode = (): Promise<unknown> => {
-  return request.get({ url: '/captchaImage' })
 }
 
 export const logout = (): Promise<unknown> => {

@@ -12,13 +12,11 @@ import { ApiResponse } from 'src/common/interfaces/api-response.interface';
 import { ActivateAccountDto } from './dto/activate-account.dto';
 import { ResendActivationEmailDto } from './dto/resend-activation-email.dto';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { Public } from 'src/common/decorators/is-public.decorator';
 
 @Controller('register')
 export class RegisterController {
   constructor(private readonly registerService: RegisterService) {}
 
-  @Public()
   @Post()
   async register(
     @Body() createUserDto: CreateUserDto,
@@ -26,7 +24,6 @@ export class RegisterController {
     return this.registerService.register(createUserDto);
   }
 
-  @Public()
   @Post('activate')
   async activateAccount(
     @Body() activateAccountDto: ActivateAccountDto,
@@ -34,7 +31,6 @@ export class RegisterController {
     return this.registerService.activateAccount(activateAccountDto);
   }
 
-  @Public()
   @Post('resend-activation-email')
   async resendActivationEmail(
     @Body() resendActivationEmailDto: ResendActivationEmailDto,
@@ -47,7 +43,6 @@ export class RegisterController {
     this.registerService.removeExpiredToken();
   }
 
-  @Public()
   @Get('test/get-activation-token')
   async getActivationTokenForTesting(
     @Query('email') email: string,

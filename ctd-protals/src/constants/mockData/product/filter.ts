@@ -2,76 +2,77 @@ import type { IFilter } from '@/types/filter'
 
 export const filterSource: IFilter[] = [
   {
-    id: 'product-form',
+    id: 'product_form',
     label: '产品形态',
     items: [
       { id: 'all', label: '全部' },
-      { id: 'package', label: '数据集' },
-      { id: 'api', label: 'API' },
-      { id: 'multimedia', label: '多媒体' },
-      { id: 'virtual-art', label: '虚拟艺术品' },
-      { id: 'other', label: '其他' }
-    ]
+      { id: '3', label: '数据集' },
+      { id: '5', label: 'API' },
+      { id: '4', label: '多媒体' },
+      { id: '6', label: '虚拟艺术品' },
+      { id: '12', label: '其他' },
+    ],
   },
   {
-    id: 'data-field',
+    id: 'data_field',
     label: '涉及领域',
     items: [
       { id: 'all', label: '全部' },
-      { id: 'scenic-spot', label: '景区' },
-      { id: 'traffic', label: '交通' },
-      { id: 'hotel', label: '酒店' },
-      { id: 'shop', label: '商铺' },
-      { id: 'weather', label: '气象' },
-      { id: 'performance', label: '演出' },
-      { id: 'other', label: '其他' }
-    ]
+      { id: '1', label: '景区' },
+      { id: '2', label: '交通' },
+      { id: '3', label: '酒店' },
+      { id: '4', label: '商铺' },
+      { id: '5', label: '气象' },
+      { id: '6', label: '演出' },
+      { id: '7', label: '其他' },
+    ],
   },
   {
-    id: 'data-source',
+    id: 'data_source',
     label: '数据来源',
     items: [
       { id: 'all', label: '全部' },
-      { id: 'platform-data', label: '平台数据' },
-      { id: 'government-data', label: '政府数据' },
-      { id: 'third-party-data', label: '第三方可信数据' },
-      { id: 'open-data', label: '公开数据' },
-      { id: 'other', label: '其他' }
-    ]
+      { id: '1', label: '平台数据' },
+      { id: '2', label: '政府数据' },
+      { id: '3', label: '第三方可信数据' },
+      { id: '4', label: '公开数据' },
+      { id: '5', label: '其他' },
+    ],
   },
   {
     id: 'region',
     label: '区域',
     items: [
       { id: 'all', label: '全部' },
-      { id: 'xicheng', label: '西城区' },
-      { id: 'dongcheng', label: '东城区' },
-      { id: 'chaoyang', label: '朝阳区' },
-      { id: 'fengtai', label: '丰台区' },
-      { id: 'shijingshan', label: '石景山区' },
-      { id: 'haidian', label: '海淀区' },
-      { id: 'tongzhou', label: '通州区' },
-      { id: 'daxing', label: '大兴区' },
-      { id: 'fangshan', label: '房山区' },
-      { id: 'mentougou', label: '门头沟区' },
-      { id: 'changping', label: '昌平区' },
-      { id: 'shunyi', label: '顺义区' },
-      { id: 'pinggu', label: '平谷区' },
-      { id: 'yanqing', label: '延庆区' },
-      { id: 'huairou', label: '怀柔区' },
-      { id: 'miyun', label: '密云区' }
-    ]
+      { id: '1', label: '西城区' },
+      { id: '2', label: '东城区' },
+      { id: '3', label: '朝阳区' },
+      { id: '4', label: '丰台区' },
+      { id: '5', label: '石景山区' },
+      { id: '6', label: '海淀区' },
+      { id: '7', label: '通州区' },
+      { id: '8', label: '大兴区' },
+      { id: '9', label: '房山区' },
+      { id: '10', label: '门头沟区' },
+      { id: '11', label: '昌平区' },
+      { id: '12', label: '顺义区' },
+      { id: '13', label: '平谷区' },
+      { id: '14', label: '延庆区' },
+      { id: '15', label: '怀柔区' },
+      { id: '16', label: '密云区' },
+      { id: '17', label: '其他' },
+    ],
   },
   {
-    id: 'time',
+    id: 'product_date',
     label: '时间',
     items: [
       { id: 'all', label: '全部' },
-      { id: 'holiday', label: '节假日' },
-      { id: 'weekday', label: '平日' },
-      { id: 'peak-season', label: '旺季' },
-      { id: 'off-season', label: '淡季' },
-      { id: 'other', label: '其他' }
-    ]
-  }
+      { id: '0', label: '节假日' },
+      { id: '1', label: '平日' },
+      { id: '2', label: '旺季' },
+      { id: '3', label: '淡季' },
+      { id: '4', label: '其他' },
+    ],
+  },
 ]

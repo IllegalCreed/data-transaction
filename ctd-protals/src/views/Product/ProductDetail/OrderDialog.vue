@@ -22,7 +22,7 @@
               :key="prop.key"
               :class="[
                 'custom-radio-button',
-                { selected: selectedSpecs[group.key] === prop.key },
+                { selected: isSelectedSpec(group.key, prop.key) },
               ]"
               @click="selectSpec(group.key, prop.key)"
             >
@@ -62,7 +62,7 @@
 
 <script setup lang="ts">
 import NumberInput from '@/components/NumberInput.vue'
-import type { IProductDetail } from '@/types/product'
+import type { IProductDetail, IProductPriceQuery } from '@/types/product'
 import { useProductStore } from '@/stores/modules/product'
 const productStore = useProductStore()
 const { getPrice: getPriceAction } = productStore
@@ -83,25 +83,35 @@ const price = computed(() => {
   }
 })
 
-const selectedSpecs = ref<Record<string, string>>({})
+const selectedSpecs = ref<IProductPriceQuery[]>([])
 watch(
   () => baseInfo,
   (newValue: IProductDetail) => {
-    selectedSpecs.value = newValue.specGroups.reduce(
-      (acc, group) => {
-        acc[group.key] = group.specs[0].key
-        return acc
-      },
-      {} as Record<string, string>,
-    )
+    selectedSpecs.value = newValue.specGroups.map(group => ({
+      groupKey: group.key,
+      specKey: group.specs[0].key,
+    }))
   },
+  { immediate: true },
 )
 
 const {
   state: priceRaw,
   isLoading: getPriceActionLoading,
   execute: executeGetPriceActionRaw,
-} = useAsyncState(() => getPriceAction(selectedSpecs.value), undefined)
+} = useAsyncState(
+  () =>
+    getPriceAction(
+      baseInfo.productCode!,
+      baseInfo.productVersionCode!,
+      getFilteredSpecs(),
+    ),
+  undefined,
+  {
+    throwError: true,
+    immediate: false,
+  },
+)
 const executeGetPriceAction = useDebounceFn(executeGetPriceActionRaw, 1000)
 
 watch(
@@ -116,7 +126,29 @@ watch(
 )
 
 const selectSpec = (groupKey: string, propKey: string) => {
-  selectedSpecs.value[groupKey] = propKey
+  const spec = selectedSpecs.value.find(item => item.groupKey === groupKey)
+  if (spec) {
+    spec.specKey = propKey
+  } else {
+    selectedSpecs.value.push({ groupKey, specKey: propKey })
+  }
+}
+
+// 获取过滤后的规格（只包含 affectsPrice 为 true 的规格组）
+const getFilteredSpecs = () => {
+  return selectedSpecs.value.filter(group => {
+    const groupDef = baseInfo.specGroups.find(
+      groupItem => groupItem.key === group.groupKey,
+    )
+    return groupDef && groupDef.affectsPrice // 过滤掉 affectsPrice 为 false 的规格组
+  })
+}
+
+// 辅助方法，判断规格是否被选中
+const isSelectedSpec = (groupKey: string, propKey: string) => {
+  return selectedSpecs.value.some(
+    spec => spec.groupKey === groupKey && spec.specKey === propKey,
+  )
 }
 
 const placeOrder = () => {}

@@ -19,24 +19,33 @@
       <el-switch v-model="darkModeEnabled"></el-switch>
     </div>
 
+    <!-- 水印开关 -->
+    <div class="setting-item">
+      <span>测试水印(debug)</span>
+      <el-switch v-model="watermarkEnabled"></el-switch>
+    </div>
+
     <!-- 模拟数据开关 -->
     <div class="setting-item">
       <span>模拟数据</span>
       <el-switch v-model="mockEnabled"></el-switch>
     </div>
 
-    <!-- 水印开关 -->
-    <div class="setting-item">
-      <span>测试水印(debug)</span>
-      <el-switch v-model="watermarkEnabled"></el-switch>
-    </div>
+    <el-tree :data="mockTree" :props="{ label: 'key', children: 'children' }">
+      <template #default="{ node, data }">
+        <div flex flex-row justify-between items-center w-full>
+          <span>{{ node.label }}</span>
+          <el-switch v-model="data.value" />
+        </div>
+      </template>
+    </el-tree>
   </el-dialog>
 </template>
 
 <script setup lang="ts">
 import { useSettingsStore } from '@/stores/modules/settings'
 const settingStore = useSettingsStore()
-const { currentLanguage, darkModeEnabled, watermarkEnabled, mockEnabled } =
+const { currentLanguage, darkModeEnabled, watermarkEnabled, mockEnabled, mockTree } =
   storeToRefs(settingStore)
 const { getLanguageArray } = settingStore
 

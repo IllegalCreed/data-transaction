@@ -95,7 +95,7 @@ export const productDetails: {
     detailInfo: {
       name: '文博讲解大模型',
       soldCount: 0,
-      tags: ['博物馆讲解','导游','大模型'],
+      tags: ['博物馆讲解', '导游', '大模型'],
       description:
         '文博讲解大模型，目标打造游客专属私人导游。本产品搭载自然语言处理技术，支持语音、拍照、文字等多种交互方式，让专业解答触手可及。',
       sellerId: 1,
@@ -105,6 +105,7 @@ export const productDetails: {
         {
           key: uuidv4(),
           label: '数据完整度',
+          affectsPrice: true,
           specs: [
             {
               key: uuidv4(),
@@ -119,6 +120,7 @@ export const productDetails: {
         {
           key: uuidv4(),
           label: '购买方式',
+          affectsPrice: true,
           specs: [
             {
               key: uuidv4(),
@@ -155,7 +157,7 @@ export const productDetails: {
     detailInfo: {
       name: '导游导览大模型',
       soldCount: 0,
-      tags: ['旅游导览','导游','线路规划','旅游问答'],
+      tags: ['旅游导览', '导游', '线路规划', '旅游问答'],
       description:
         '以小程序为载体，以大模型为技术驱动，通过智能问答交互，为游客提供行程规划、智能讲解、内容推荐等服务，有效解决旅游中因为信息不对称和潮汐效应导致的服务质量问题，让每一位游客都有一个随身旅游助手，让旅游更简单。        ',
       sellerId: 1,
@@ -165,6 +167,7 @@ export const productDetails: {
         {
           key: uuidv4(),
           label: '数据完整度',
+          affectsPrice: true,
           specs: [
             {
               key: uuidv4(),
@@ -179,6 +182,7 @@ export const productDetails: {
         {
           key: uuidv4(),
           label: '购买方式',
+          affectsPrice: true,
           specs: [
             {
               key: uuidv4(),
@@ -220,7 +224,7 @@ export const productDetails: {
     detailInfo: {
       name: '文旅大数据API接口服务',
       soldCount: 0,
-      tags: ['API接口','信令数据','旅游分析数据'],
+      tags: ['API接口', '信令数据', '旅游分析数据'],
       description:
         '中国电信文旅大数据接口产品通过整合运营商信令大数据、互联网定位大户数据，提炼游客出游模型，构建智慧OD体系，沉淀核心游客行程，实现出游能力的精细化、差异化以及平台化。',
       sellerId: 1,
@@ -230,6 +234,7 @@ export const productDetails: {
         {
           key: uuidv4(),
           label: '数据完整度',
+          affectsPrice: true,
           specs: [
             {
               key: uuidv4(),
@@ -240,6 +245,7 @@ export const productDetails: {
         {
           key: uuidv4(),
           label: '购买方式',
+          affectsPrice: true,
           specs: [
             {
               key: uuidv4(),
@@ -249,9 +255,7 @@ export const productDetails: {
         },
       ],
     },
-    imageUrls: [
-      'http://10.105.31.40:9001/img/product/3-2.jpg',
-    ],
+    imageUrls: ['http://10.105.31.40:9001/img/product/3-2.jpg'],
     content: `
       <h3>数据产品介绍</h3>
       <p>中国电信文旅大数据接口产品通过整合运营商信令大数据、互联网定位大户数据，提炼游客出游模型，构建智慧OD体系，沉淀核心游客行程，实现出游能力的精细化、差异化以及平台化。</p>
@@ -272,7 +276,7 @@ export const productDetails: {
     detailInfo: {
       name: '文旅大数据报告',
       soldCount: 0,
-      tags: ['数据报告','节假日报告'],
+      tags: ['数据报告', '节假日报告'],
       description:
         '文旅大数据报告基于电信信令大数据为政府、景区提供节假日游客分析报告、月度游客分析报告，帮助政府、景区等管理者及时了解节假日游客流量情况，并可通过报告情况对外发布数据。',
       sellerId: 1,
@@ -282,6 +286,7 @@ export const productDetails: {
         {
           key: uuidv4(),
           label: '购买方式',
+          affectsPrice: true,
           specs: [
             {
               key: uuidv4(),
@@ -317,7 +322,7 @@ export const productDetails: {
     detailInfo: {
       name: '经纬数据—文旅商圈/大景区效应分析',
       soldCount: 0,
-      tags: ['客流分析','游客画像分析','游客外溢分析','人群热力分析'],
+      tags: ['客流分析', '游客画像分析', '游客外溢分析', '人群热力分析'],
       description:
         '产品介绍：基于位置标签数据，融合内外部数据，形成客户位置、轨迹、特征等信息，为政府、景区提供重点区域的游客流量、画像、热力分析等方面的分析，帮助管理单位了解监测客流、了解游客，以及时进行客流调度安排及做出合理的营销测策略，同时也通过热力为游客提供游览建议。',
       sellerId: 1,
@@ -327,6 +332,7 @@ export const productDetails: {
         {
           key: uuidv4(),
           label: '购买方式',
+          affectsPrice: true,
           specs: [
             {
               key: uuidv4(),
@@ -360,7 +366,7 @@ export const productDetails: {
     detailInfo: {
       name: '翼点触达文旅消息',
       soldCount: 0,
-      tags: ['旅游宣传','文旅应急','游客关怀','应急预警'],
+      tags: ['旅游宣传', '文旅应急', '游客关怀', '应急预警'],
       description:
         '翼点触达大数据文旅信息是基于中国电信实时信令数据和精准大数据模型算法，将大数据能力与文旅监管部门工作场景深度结合的短信触达服务产品，根据不同场景、不同标签等实现围栏数据实时过滤，按照预设条件精准圈定目标用户，满足宣传、城市旅游、 应急预警、游客关怀等多方面需求。',
       sellerId: 1,
@@ -370,6 +376,7 @@ export const productDetails: {
         {
           key: uuidv4(),
           label: '购买方式',
+          affectsPrice: true,
           specs: [
             {
               key: uuidv4(),
@@ -379,9 +386,7 @@ export const productDetails: {
         },
       ],
     },
-    imageUrls: [
-      'http://10.105.31.40:9001/img/product/6-1.jpg',
-    ],
+    imageUrls: ['http://10.105.31.40:9001/img/product/6-1.jpg'],
     content: `
       <h3>数据产品介绍</h3>
       <p>翼点触达大数据文旅信息是基于中国电信实时信令数据和精准大数据模型算法，将大数据能力与文旅监管部门工作场景深度结合的短信触达服务产品，根据不同场景、不同标签等实现围栏数据实时过滤，按照预设条件精准圈定目标用户，满足宣传、城市旅游、 应急预警、游客关怀等多方面需求。</p>
@@ -410,7 +415,7 @@ export const productDetails: {
     detailInfo: {
       name: '城市客流预测与服务',
       soldCount: 0,
-      tags: ['客流监测','预测预警','调控疏导'],
+      tags: ['客流监测', '预测预警', '调控疏导'],
       description:
         '该产品面向旅游目的地文旅主管单位，围绕城市节假日客流监测和智能疏导场景，动态采集抽取所需的移动通讯、互联网、智慧城市等多元数据，研发关联融合分析算法，形成集约数据库群及统一数据接口，提供专业化、标准化数据服务能力。',
       sellerId: 1,
@@ -420,6 +425,7 @@ export const productDetails: {
         {
           key: uuidv4(),
           label: '购买方式',
+          affectsPrice: true,
           specs: [
             {
               key: uuidv4(),
@@ -464,7 +470,7 @@ export const productDetails: {
     detailInfo: {
       name: '文旅大数据平台',
       soldCount: 0,
-      tags: ['数据整合治理','数据分析决策','标准化报告'],
+      tags: ['数据整合治理', '数据分析决策', '标准化报告'],
       description:
         '该产品通过汇聚各类文旅数据，依靠丰富的文旅行业服务经验，建设文旅数据资源库，联动数据中台与算法中台，提供数据“采集-汇聚-治理-管理-服务”全链路文旅大数据服务。',
       sellerId: 1,
@@ -474,6 +480,7 @@ export const productDetails: {
         {
           key: uuidv4(),
           label: '数据完整度',
+          affectsPrice: true,
           specs: [
             {
               key: uuidv4(),
@@ -488,6 +495,7 @@ export const productDetails: {
         {
           key: uuidv4(),
           label: '购买方式',
+          affectsPrice: true,
           specs: [
             {
               key: uuidv4(),
@@ -533,42 +541,39 @@ export const productDetails: {
       <img src="http://10.105.31.40:9001/img/product/8-1.jpg" alt="" style="width:100%"/>
       `,
   },
-
-
 ]
-    
 
 // content: `
-    //   <h3>数据产品介绍</h3>
-    //   <p>我们的最新数据产品 <strong>“智能城市数据包”</strong> 提供了广泛的城市数据，包括交通、天气、人口统计等，适用于各类智能城市项目。</p>
+//   <h3>数据产品介绍</h3>
+//   <p>我们的最新数据产品 <strong>“智能城市数据包”</strong> 提供了广泛的城市数据，包括交通、天气、人口统计等，适用于各类智能城市项目。</p>
 
-    //   <h4>产品特点</h4>
-    //   <ul>
-    //     <li>涵盖多种城市数据：交通、天气、人口统计等。</li>
-    //     <li>实时数据更新，确保信息的准确性和时效性。</li>
-    //     <li>易于集成，支持多种开发平台和工具。</li>
-    //   </ul>
+//   <h4>产品特点</h4>
+//   <ul>
+//     <li>涵盖多种城市数据：交通、天气、人口统计等。</li>
+//     <li>实时数据更新，确保信息的准确性和时效性。</li>
+//     <li>易于集成，支持多种开发平台和工具。</li>
+//   </ul>
 
-    //   <h4>应用场景</h4>
-    //   <p>该数据包可用于多个场景，如智能交通管理、城市规划、环境监测等。以下是一个示意图：</p>
-    //   <img src="https://via.placeholder.com/800x400" alt="智能城市数据图" style="width:100%"/>
+//   <h4>应用场景</h4>
+//   <p>该数据包可用于多个场景，如智能交通管理、城市规划、环境监测等。以下是一个示意图：</p>
+//   <img src="https://via.placeholder.com/800x400" alt="智能城市数据图" style="width:100%"/>
 
-    //   <h4>产品示例</h4>
-    //   <p>下面的视频展示了如何使用该数据包创建智能交通管理系统：</p>
-    //   <video controls width="100%">
-    //     <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-    //     您的浏览器不支持视频标签。
-    //   </video>
+//   <h4>产品示例</h4>
+//   <p>下面的视频展示了如何使用该数据包创建智能交通管理系统：</p>
+//   <video controls width="100%">
+//     <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+//     您的浏览器不支持视频标签。
+//   </video>
 
-    //   <h4>潜在危险内容</h4>
-    //   <p>以下内容是注入的潜在危险内容，用于测试过滤效果：</p>
-    //   <img src="invalid.jpg" onerror="alert('XSS Attack!')" />
+//   <h4>潜在危险内容</h4>
+//   <p>以下内容是注入的潜在危险内容，用于测试过滤效果：</p>
+//   <img src="invalid.jpg" onerror="alert('XSS Attack!')" />
 
-    //   <h4>客户评价</h4>
-    //   <blockquote>
-    //     <p>"这个数据包帮助我们显著提升了交通管理的效率，使得整个城市的通行情况得到了极大的改善。" - 城市交通管理局</p>
-    //   </blockquote>
+//   <h4>客户评价</h4>
+//   <blockquote>
+//     <p>"这个数据包帮助我们显著提升了交通管理的效率，使得整个城市的通行情况得到了极大的改善。" - 城市交通管理局</p>
+//   </blockquote>
 
-    //   <p>更多详情，请访问我们的官方网站。</p>
-    //   <a href="https://example.com" target="_blank">点击这里了解更多</a>
-    // `,
+//   <p>更多详情，请访问我们的官方网站。</p>
+//   <a href="https://example.com" target="_blank">点击这里了解更多</a>
+// `,

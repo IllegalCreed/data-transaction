@@ -5,9 +5,10 @@ import { SMTP_TRANSPORTER_PROVIDER } from './smtp.provider';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { VerificationCode } from 'src/entities/verification-code.entity';
 import { User } from 'src/entities/user.entity';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([VerificationCode, User])],
+  imports: [TypeOrmModule.forFeature([VerificationCode, User]), AuthModule],
   controllers: [MailerController],
   providers: [MailerService, SMTP_TRANSPORTER_PROVIDER],
   exports: [MailerService], // 导出 MailerService 使其可以在其他模块中注入

@@ -50,9 +50,13 @@
 </template>
 
 <script setup lang="ts">
+defineOptions({
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: 'company'
+})
+
 import CompanyFilterSortPanel from './CompanyFilterSortPanel.vue'
 import CompanyTabelPanel from './CompanyTabelPanel.vue'
-import type { apiListResult } from '@/types/common'
 
 // 获取列表
 import type { ICompanyItem } from '@/types/company'
@@ -64,7 +68,7 @@ const {
   changeCompaniesStatus: changeCompaniesStatusAction,
   deleteCompanies: deleteCompaniesAction
 } = useCompanyStore()
-const getList = async (): Promise<apiListResult<ICompanyItem>> => {
+const getList = async (): Promise<number> => {
   getListLoading.value = true
   const res = await getCompaniesAction(
     searchQuery.value,
@@ -77,7 +81,7 @@ const getList = async (): Promise<apiListResult<ICompanyItem>> => {
 
   data.value = res.rows
   getListLoading.value = false
-  return res
+  return res.total
 }
 
 import { usePager } from '@/composables/usePager'

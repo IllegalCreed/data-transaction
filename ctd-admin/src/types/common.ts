@@ -1,3 +1,9 @@
+export interface ICommonReturn<T> {
+  code: number
+  msg: string
+  data: T
+}
+
 export interface apiListResult<T> {
   rows: T[]
   total: number
@@ -25,4 +31,14 @@ export interface IUploadFile {
   name: string
   url: string
   raw?: File
+}
+
+export interface ITreeNode {
+  key: string
+  value: boolean
+  children?: ITreeNode[]
+}
+
+export type IPropLabelMap<T> = {
+  [key in keyof T]: string
 }

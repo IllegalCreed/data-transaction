@@ -12,6 +12,10 @@ import * as javaCaptcha from './java/captcha'
 import * as nestCaptcha from './nest/captcha'
 import * as javaInfo from './java/info'
 import * as nestInfo from './nest/info'
+import * as javaChangePassword from './java/changePassword'
+import * as nestChangePassword from './nest/changePassword'
+import * as javaChangeEmail from './java/changeEmail'
+import * as nestChangeEmail from './nest/changeEmail'
 import type { VerificationCodes } from '@/constants/mapData/mail'
 
 interface IMailAPI {
@@ -24,6 +28,8 @@ interface IMailAPI {
     code: string,
     type: VerificationCodes,
   ) => Promise<unknown>
+  sendVerificationCodeAuth: (type: VerificationCodes) => Promise<unknown>
+  verifyCodeAuth: (code: string, type: VerificationCodes) => Promise<unknown>
 }
 
 interface IRegisterAPI {
@@ -56,12 +62,28 @@ interface IInfoAPI {
   uploadAvatar: (file: File) => Promise<unknown>
 }
 
+interface IChangePasswordAPI {
+  verifyPassword: (currentPassword: string, token: string) => Promise<unknown>
+  changePassword: (newPassword: string, token: string) => Promise<unknown>
+}
+
+interface IChangeEmailAPI {
+  verifyPassword: (
+    currentPassword: string,
+    recoveryCode: string,
+  ) => Promise<unknown>
+  sendToNewEmail: (newEmail: string, token: string) => Promise<unknown>
+  changeEmail: (newEmail: string, code: string) => Promise<unknown>
+}
+
 type AccountAPIType = IMailAPI &
   IRegisterAPI &
   IForgotAPI &
   ILoginAPI &
   ICaptcha &
-  IInfoAPI
+  IInfoAPI &
+  IChangePasswordAPI &
+  IChangeEmailAPI
 
 const javaAPI: AccountAPIType = {
   ...javaMail,
@@ -70,6 +92,8 @@ const javaAPI: AccountAPIType = {
   ...javaLogin,
   ...javaCaptcha,
   ...javaInfo,
+  ...javaChangePassword,
+  ...javaChangeEmail,
 }
 
 const nestAPI: AccountAPIType = {
@@ -79,6 +103,8 @@ const nestAPI: AccountAPIType = {
   ...nestLogin,
   ...nestCaptcha,
   ...nestInfo,
+  ...nestChangePassword,
+  ...nestChangeEmail,
 }
 
 const accountAPI: AccountAPIType =
@@ -92,6 +118,8 @@ export const {
   getRegisterAds,
   sendVerificationCode,
   verifyCode,
+  sendVerificationCodeAuth,
+  verifyCodeAuth,
   resetPasswordByToken,
   getForgotAds,
   login,
@@ -102,4 +130,9 @@ export const {
   getInfo,
   editInfo,
   uploadAvatar,
+  verifyPassword,
+  changePassword,
+  verifyPassword: verifyRecoveryCode,
+  sendToNewEmail,
+  changeEmail,
 } = accountAPI

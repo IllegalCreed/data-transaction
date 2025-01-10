@@ -16,7 +16,7 @@ export const partnerConvert = (raws: IPartnerFetchData[]) => {
       id: row.bizCompanyCode,
       title: row.bizCompanyName,
       description: row.bizCompanyInfo,
-      imageUrl: row.sysFile?.url,
+      imageUrl: `${import.meta.env.VITE_APP_BASE_API}/${row.sysFile.url}`,
       link: row.bizUrl ?? '',
     })
   }

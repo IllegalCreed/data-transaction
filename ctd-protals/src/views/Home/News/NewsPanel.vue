@@ -66,7 +66,7 @@ const goNews = () => {
 const {
   isLoading: getNewsListActionLoading,
   execute: executeGetNewsListAction,
-} = useAsyncState(getNewsListAction(1, 7), undefined)
+} = useAsyncState(getNewsListAction(1, 7, ''), undefined)
 
 onMounted(() => {
   try {

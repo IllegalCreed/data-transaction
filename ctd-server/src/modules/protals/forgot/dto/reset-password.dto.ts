@@ -3,7 +3,7 @@ import { IsStrongPassword } from 'src/common/decorators/is-strong-password.decor
 
 export class ResetPasswordDto {
   @IsString()
-  @IsNotEmpty({ message: '平局不能为空' })
+  @IsNotEmpty({ message: '凭据不能为空' })
   token: string;
 
   @IsString({ message: '密码必须为字符串' })

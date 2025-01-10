@@ -14,3 +14,8 @@ export interface ITreeNode {
   value: boolean
   children?: ITreeNode[]
 }
+
+export interface apiListResult<T> {
+  rows: T[]
+  total: number
+}

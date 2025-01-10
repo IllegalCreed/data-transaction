@@ -7,7 +7,7 @@
       </div>
       <el-dropdown trigger="click" @command="handleCommand">
         <div flex flex-row items-center space-x-2>
-          <span class="user-text" cursor-pointer>欢迎，管理员 </span>
+          <span class="user-text" cursor-pointer>欢迎，{{ adminName }} </span>
           <i-mingcute:down-line color-white></i-mingcute:down-line>
         </div>
         <template #dropdown>
@@ -32,7 +32,7 @@ import { useAccountStore } from '@/stores/modules/account'
 
 const logo = ref(new URL('@/assets/logo_big.png', import.meta.url).href)
 
-const { logout } = useAccountStore()
+const { logout, getAdminName: getAdminNameAction } = useAccountStore()
 const isSettingDialogVisible = ref(false)
 const isResetPasswordDialogVisible = ref(false)
 
@@ -50,6 +50,17 @@ const handleCommand = (command: string) => {
     default:
   }
 }
+
+const adminName = ref('')
+onMounted(async () => {
+  try {
+    adminName.value = await getAdminNameAction()
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      ElMessage.error('获取管理员姓名失败')
+    }
+  }
+})
 </script>
 
 <style scoped lang="scss">

@@ -1,35 +1,68 @@
 import { useSettingsStore } from '@/stores/modules/settings'
-import type { IProduct, IProductDetail } from '@/types/product'
+import type {
+  IProduct,
+  IProductDetail,
+  IProductPriceQuery,
+} from '@/types/product'
+import { getRecommendProducts as getRecommendProductsAPI } from '@/apis/product/product'
 import {
   getProducts as getProductsAPI,
   getProduct as getProductAPI,
   getPrice as getPriceAPI,
-  getRecommendProducts as getRecommendProductsAPI,
   getProductImages as getProductImagesAPI,
   getProductContent as getProductContentAPI,
-} from '@/apis/product/product'
+} from '@/apis/product'
 import {
   products as mockProducts,
   productDetails as mockProductDetails,
 } from '@/constants/mockData/product/product'
+import {
+  productConvert,
+  productsConvert,
+  type IProductFetchData,
+} from '@/apiConvert/product'
+import type { ICommonReturn } from '@/axios/type'
+import type { ISortValue } from '@/types/sorting'
 
 export const useProduct = () => {
   const settingsStore = useSettingsStore()
+  const { findMockTreeValueByKey } = settingsStore
 
   const products = ref<IProduct[]>([])
 
-  const getProducts = (): Promise<void> => {
-    return new Promise<void>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+  const getProducts = (
+    pageNum: number,
+    pageSize: number,
+    searchType: string,
+    searchValue: string,
+    filters: Record<string, string>,
+    sorts: ISortValue,
+  ): Promise<number> => {
+    return new Promise<number>((resolve, reject) => {
+      if (findMockTreeValueByKey('产品')) {
         window.setTimeout(() => {
           products.value = mockProducts
-          resolve()
+          resolve(1000)
         }, 1000)
       } else {
-        getProductsAPI()
+        getProductsAPI(
+          pageNum,
+          pageSize,
+          searchType,
+          searchValue,
+          filters,
+          sorts,
+        )
           .then((res: unknown) => {
-            products.value = res as IProduct[]
-            resolve()
+            if (import.meta.env.VITE_BACK_TYPE === 'java') {
+              const resData = res as ICommonReturn<IProductFetchData>
+              products.value = productsConvert(resData.rows)
+              resolve(resData.total)
+            } else {
+              const resData = res as ICommonReturn<IProduct>
+              products.value = resData.rows
+              resolve(resData.total)
+            }
           })
           .catch((error: unknown) => {
             reject(error)
@@ -40,7 +73,7 @@ export const useProduct = () => {
 
   const getProduct = (id: string | number): Promise<IProductDetail> => {
     return new Promise<IProductDetail>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('产品')) {
         window.setTimeout(() => {
           const productDetail = mockProductDetails.find(
             item => item.id === Number(id),
@@ -54,8 +87,13 @@ export const useProduct = () => {
       } else {
         getProductAPI(id)
           .then((res: unknown) => {
-            const product = res as IProductDetail
-            resolve(product)
+            if (import.meta.env.VITE_BACK_TYPE === 'java') {
+              const resData = res as ICommonReturn<IProductFetchData>
+              resolve(productConvert(resData.data))
+            } else {
+              const result = res as IProductDetail
+              resolve(result)
+            }
           })
           .catch((error: unknown) => {
             reject(error)
@@ -64,17 +102,26 @@ export const useProduct = () => {
     })
   }
 
-  const getPrice = (specs: Record<string, string>): Promise<number> => {
+  const getPrice = (
+    id: string | number,
+    versionId: string | number,
+    specs: IProductPriceQuery[],
+  ): Promise<number> => {
     return new Promise<number>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('产品')) {
         window.setTimeout(() => {
           resolve(Math.floor(Math.random() * 2000))
         }, 1000)
       } else {
-        getPriceAPI(specs)
+        getPriceAPI(id, versionId, specs)
           .then((res: unknown) => {
-            const price = res as number
-            resolve(price)
+            if (import.meta.env.VITE_BACK_TYPE === 'java') {
+              const resData = res as ICommonReturn<{ price: number }>
+              resolve(resData.data.price)
+            } else {
+              const resData = res as ICommonReturn<{ price: number }>
+              resolve(resData.data.price)
+            }
           })
           .catch((error: unknown) => {
             reject(error)
@@ -112,7 +159,7 @@ export const useProduct = () => {
 
   const getProductImages = (id: string | number): Promise<string[]> => {
     return new Promise<string[]>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('产品')) {
         window.setTimeout(() => {
           const productDetail = mockProductDetails.find(
             item => item.id === Number(id),
@@ -126,8 +173,20 @@ export const useProduct = () => {
       } else {
         getProductImagesAPI(id)
           .then((res: unknown) => {
-            const images = res as string[]
-            resolve(images)
+            if (import.meta.env.VITE_BACK_TYPE === 'java') {
+              const resData = res as ICommonReturn<IProductFetchData>
+              resolve(
+                resData.data.proVersion.productImgs
+                  .split(',')
+                  .map(
+                    item =>
+                      `${import.meta.env.VITE_APP_BASE_API}/${item.trim()}`,
+                  ),
+              )
+            } else {
+              const images = res as string[]
+              resolve(images)
+            }
           })
           .catch((error: unknown) => {
             reject(error)
@@ -138,7 +197,7 @@ export const useProduct = () => {
 
   const getProductContent = (id: string | number): Promise<string> => {
     return new Promise<string>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('产品')) {
         window.setTimeout(() => {
           const productDetail = mockProductDetails.find(
             item => item.id === Number(id),
@@ -152,8 +211,13 @@ export const useProduct = () => {
       } else {
         getProductContentAPI(id)
           .then((res: unknown) => {
-            const content = res as string
-            resolve(content)
+            if (import.meta.env.VITE_BACK_TYPE === 'java') {
+              const resData = res as ICommonReturn<IProductFetchData>
+              resolve(resData.data.proVersion.prodContent)
+            } else {
+              const content = res as string
+              resolve(content)
+            }
           })
           .catch((error: unknown) => {
             reject(error)

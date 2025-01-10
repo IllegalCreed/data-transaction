@@ -19,15 +19,19 @@
 </template>
 
 <script lang="ts" setup>
+defineOptions({
+  name: 'product-detail'
+})
+
 import ProductDetailBaseInfoPanel from './ProductDetailBaseInfoPanel.vue'
 import ProductDetailVersionInfoPanel from './ProductDetailVersionInfoPanel.vue'
 import ProductDetailPriceInfoPanel from './ProductDetailPriceInfoPanel.vue'
 import ProductDetailApprovalLogPanel from './ProductDetailApprovalLogPanel.vue'
 
 const id = useRouteParams<string | number>('id')
-watch(id, () => {
-  executeGetProductAction()
-})
+// watch(id, () => {
+//   executeGetProductAction()
+// })
 
 onMounted(() => {
   executeGetProductAction()

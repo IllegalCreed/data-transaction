@@ -10,6 +10,7 @@ import {
   Put,
   Request,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { UserService } from './user.service';
@@ -20,12 +21,14 @@ import { v4 as uuidv4 } from 'uuid';
 import { extname } from 'path';
 import { UpdateIndividualUserDto } from './dto/update-individual-user.dto';
 import { UpdateEnterpriseUserDto } from './dto/update-enterprise-user.dto';
+import { AuthGuard } from 'src/common/guards/auth.guard';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get('info')
+  @UseGuards(AuthGuard)
   async getInfo(
     @Request() req,
   ): Promise<ApiResponse<{ email: string; userType: string; status: string }>> {
@@ -39,6 +42,7 @@ export class UserController {
   }
 
   @Put('individual')
+  @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.OK)
   async updateIndividualInfo(
     @Request() req,
@@ -54,6 +58,7 @@ export class UserController {
   }
 
   @Put('enterprise')
+  @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.OK)
   async updateEnterpriseInfo(
     @Request() req,
@@ -69,6 +74,7 @@ export class UserController {
   }
 
   @Patch('avatar')
+  @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.OK)
   @UseInterceptors(
     FileInterceptor('avatar', {

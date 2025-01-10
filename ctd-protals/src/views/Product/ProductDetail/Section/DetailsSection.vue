@@ -1,11 +1,21 @@
 <template>
-  <el-skeleton :loading="getProductContentActionLoading" animated flex flex-col gap-4>
+  <el-skeleton
+    :loading="getProductContentActionLoading"
+    animated
+    flex
+    flex-col
+    gap-4
+  >
     <template #template>
       <el-skeleton-item v-for="n in 20" :key="n" variant="p"></el-skeleton-item>
     </template>
 
     <template #default>
-      <div class="product-detail-content" v-html="sanitizedContent" overflow-hidden></div>
+      <div
+        class="product-detail-content"
+        v-html="sanitizedContent"
+        overflow-hidden
+      ></div>
     </template>
   </el-skeleton>
 </template>
@@ -24,16 +34,16 @@ const { getProductContent: getProductContentAction } = productStore
 const {
   state: content,
   isLoading: getProductContentActionLoading,
-  execute: executeGetProductContentAction
+  execute: executeGetProductContentAction,
 } = useAsyncState(() => getProductContentAction(productId), '')
 
 const sanitizedContent = computed(() => {
   return content.value ? DOMPurify.sanitize(content.value) : ''
 })
 
-onMounted(() => {
+onMounted(async () => {
   try {
-    executeGetProductContentAction()
+    await executeGetProductContentAction()
   } catch (error: unknown) {
     console.error(error)
   }

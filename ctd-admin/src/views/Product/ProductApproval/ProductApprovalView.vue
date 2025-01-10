@@ -21,13 +21,17 @@
 </template>
 
 <script setup lang="ts">
+defineOptions({
+  name: 'product-approval'
+})
+
 import ProductApprovalComparePanel from './ProductApprovalComparePanel.vue'
 import ProductRejectDialog from '../ProductRejectDialog.vue'
 
 const id = useRouteParams<string | number>('id')
-watch(id, () => {
-  executeGetProductAction()
-})
+// watch(id, () => {
+//   executeGetProductAction()
+// })
 
 onMounted(() => {
   executeGetProductAction()
