@@ -22,6 +22,7 @@ import { ExpectedError } from 'src/types/error';
 import { VerifyPasswordDto } from './dto/verify-password.dto';
 import { SendToNewEmailDto } from './dto/send-to-new-email.dto';
 import { ChangeEmailDto } from './dto/change-email.dto';
+import { GetRecoveryCodeForTestDto } from './dto/get-recovery-code-for-test.dto';
 
 @Controller('change-email')
 export class ChangeEmailController {
@@ -32,23 +33,19 @@ export class ChangeEmailController {
    * 测试方法：获取一个可用的救援代码
    * 用于前端 E2E 测试
    */
-  @UseGuards(AuthGuard)
   @Get('test/get-recovery-code')
   @HttpCode(HttpStatus.OK)
-  async getUsableRecoveryCodeForTest(
-    @Request() req,
+  async getRecoveryCodeForTest(
+    @Body() getRecoveryCodeForTestDto: GetRecoveryCodeForTestDto,
   ): Promise<ApiResponse<string>> {
-    const userId = req.user?.sub;
-    if (!userId) {
-      throw new BadRequestException('No user id found in token.');
-    }
+    const { email } = getRecoveryCodeForTestDto;
 
     try {
-      const code = await this.changeEmailService.getRecoveryCodeForTest(userId);
-      this.logger.log(`获取救援代码成功：userId=${userId}, code=${code}`);
+      const code = await this.changeEmailService.getRecoveryCodeForTest(email);
+      this.logger.log(`获取救援代码成功：email=${email}, code=${code}`);
       return createSuccessResponse(code, 'GET_RECOVERY_CODE_SUCCEED');
     } catch (error) {
-      this.logger.error(`测试方法：获取可用恢复码失败 userId=${userId}`, error);
+      this.logger.error(`测试方法：获取可用恢复码失败 email=${email}`, error);
       if (error instanceof ExpectedError) {
         return createErrorResponse(error.errorCode);
       }

@@ -16,6 +16,7 @@
     >
       <el-form-item label="新邮箱" prop="email">
         <el-input
+          data-testid="email-input"
           v-model="baseInfo.email"
           type="email"
           placeholder="请输入邮箱地址"
@@ -23,14 +24,16 @@
       </el-form-item>
     </el-form>
 
-    <el-button
-      w-60
-      mt-4
-      type="primary"
-      :loading="sendToNewEmailActionLoading"
-      @click="handleNextStep"
-      >下一步</el-button
-    >
+    <div class="step-btn-container">
+      <el-button
+        data-testid="next-button"
+        class="step-btn"
+        type="primary"
+        :loading="sendToNewEmailActionLoading"
+        @click="handleNextStep"
+        >下一步</el-button
+      >
+    </div>
   </div>
 </template>
 
@@ -93,4 +96,11 @@ const handleNextStep = async () => {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.step-btn-container {
+  @apply flex flex-row items-center mt-10;
+  .step-btn {
+    @apply w-60;
+  }
+}
+</style>

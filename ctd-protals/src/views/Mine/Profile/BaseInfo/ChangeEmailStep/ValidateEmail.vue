@@ -2,7 +2,9 @@
   <div flex flex-col items-center>
     <span text-3xl font-bold mt-10>验证邮箱</span>
     <p text-sm text-gray-400>
-      我们向您的新邮箱<strong mx-2>{{ newEmail }}</strong
+      我们向您的新邮箱<strong mx-2 data-testid="send-email-address">{{
+        newEmail
+      }}</strong
       >发送了一封邮件
     </p>
 
@@ -10,6 +12,7 @@
 
     <div class="step-btn-container">
       <el-button
+        data-testid="next-button"
         class="step-btn"
         type="primary"
         :loading="changeEmailActionLoading"

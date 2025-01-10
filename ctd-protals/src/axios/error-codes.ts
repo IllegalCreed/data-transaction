@@ -50,6 +50,11 @@ export enum ErrorCode {
   // 修改密码相关
   VERIFY_PASSWORD_FAILED = 1601,
   CHANGE_PASSWORD_FAILED = 1602,
+
+  // 修改验证邮箱相关
+  RECOVERY_CODE_NOT_FOUND = 1701,
+  GET_RECOVERY_CODE_FAILED = 1702,
+  CHANGE_EMAIL_FAILED = 1703,
 }
 
 export const ErrorCodeMessages: { [key: number]: string } = {
@@ -106,4 +111,9 @@ export const ErrorCodeMessages: { [key: number]: string } = {
   // 修改密码相关
   [ErrorCode.VERIFY_PASSWORD_FAILED]: '验证密码失败',
   [ErrorCode.CHANGE_PASSWORD_FAILED]: '修改密码失败',
+
+  // 修改验证邮箱相关
+  [ErrorCode.RECOVERY_CODE_NOT_FOUND]: '未找到救援代码',
+  [ErrorCode.GET_RECOVERY_CODE_FAILED]: '获取救援代码失败',
+  [ErrorCode.CHANGE_EMAIL_FAILED]: '修改邮箱失败',
 }

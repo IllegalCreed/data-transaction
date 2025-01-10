@@ -32,6 +32,7 @@
             <el-button
               type="default"
               size="default"
+              data-testid="change-email-btn"
               @click="changeEmailDialogVisiable = true"
               >修改验证邮箱</el-button
             >

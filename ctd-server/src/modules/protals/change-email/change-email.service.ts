@@ -34,10 +34,10 @@ export class ChangeEmailService {
   /**
    * 仅供 E2E 测试：获取当前用户任意一条未使用的恢复码
    */
-  async getRecoveryCodeForTest(userId: number): Promise<string> {
-    // 根据 userId 找到一条未使用的恢复码
+  async getRecoveryCodeForTest(email: string): Promise<string> {
+    // 根据 email 找到一条未使用的恢复码
     const recoveryCode = await this.recoveryCodeRepository.findOne({
-      where: { user: { id: userId }, isUsed: false },
+      where: { user: { email }, isUsed: false },
       order: { createdAt: 'DESC' },
     });
 

@@ -1,7 +1,7 @@
 <template>
   <div flex flex-col items-center>
     <span text-3xl font-bold mt-10>验证身份</span>
-    <p text-sm text-gray-400>请输入登录密码</p>
+    <p text-sm text-gray-400>请输入登录密码及救援代码</p>
 
     <el-form
       @submit.prevent
@@ -19,18 +19,21 @@
           v-model="baseInfo.password"
           type="password"
           placeholder="请输入密码"
+          data-testid="password-input"
         />
       </el-form-item>
       <el-form-item label="救援代码" prop="recoveryCode">
         <el-input
           v-model="baseInfo.recoveryCode"
           placeholder="请输入救援代码"
+          data-testid="recovery-code-input"
         />
       </el-form-item>
     </el-form>
 
     <div class="step-btn-container">
       <el-button
+        data-testid="next-button"
         class="step-btn"
         type="primary"
         :loading="verifyRecoveryCodeActionLoading"
