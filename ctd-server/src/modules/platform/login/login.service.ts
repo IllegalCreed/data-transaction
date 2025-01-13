@@ -14,6 +14,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ExpectedError } from 'src/types/error';
 import { LoginDto } from './dto/login.dto';
 import { CreateAdminDto } from './dto/create-admin.dto';
+import { UserRole } from 'src/enums/user-role.enum';
 
 @Injectable()
 export class LoginService {
@@ -48,7 +49,11 @@ export class LoginService {
       }
 
       // 生成JWT
-      const payload = { sub: admin.id, username: admin.username };
+      const payload = {
+        sub: admin.id,
+        username: admin.username,
+        role: UserRole.Admin,
+      };
       const token = this.jwtService.sign(payload);
 
       this.logger.log(`平台用户登录成功：${username}`);

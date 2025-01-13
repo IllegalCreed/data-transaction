@@ -1,15 +1,7 @@
-export interface IndividualUserItem {
-  // user表
-  id: number;
-  email: string;
-  status: string;
-  createdAt: Date;
-  updatedAt: Date;
-  // info表
-  fullName?: string;
-  identificationNumber?: string;
-  phoneNumber?: string;
-  gender?: string;
-  dateOfBirth?: string;
-  residentialAddress?: string;
-}
+import { IndividualUserDetailData } from './individual-user-detail.interface';
+
+// 返回值可选，所以所有属性都可选
+export type IndividualUserItem = Omit<
+  Partial<IndividualUserDetailData>,
+  'avatarUrl'
+>;

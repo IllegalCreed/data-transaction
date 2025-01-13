@@ -20,26 +20,37 @@ import {
 } from 'src/common/utils/response';
 import { ExpectedError } from 'src/types/error';
 import { ErrorCode } from 'src/common/constants/error-codes';
-import { IIndividualUserDetailData } from './interface/individual-user-detail.interface';
+import { IndividualUserDetailData } from './interface/individual-user-detail.interface';
 import { ChangeUserStatusDto } from './dto/change-user-status.dto';
 import { DeleteUserDto } from './dto/delete-user.dto';
+import { IndividualService } from './Individual.service';
+import { EnterpriseService } from './enterprise.service';
+import { EnterpriseUserDetailData } from './interface/enterprise-user-detail.interface';
+import { UserRole } from 'src/enums/user-role.enum';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { RolesGuard } from 'src/common/guards/role.guard';
 
 @Controller('platform/user')
 export class UserController {
   private readonly logger = new Logger(UserService.name);
 
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly individualService: IndividualService,
+    private readonly enterpriseService: EnterpriseService,
+  ) {}
 
   /**
    * 获取个人用户列表
    * POST /platform/user/individual
    */
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(UserRole.Admin)
   @Post('individual')
   async getIndividualUsers(@Body() dto: GetListDto): Promise<ApiResponse<any>> {
     try {
       const { records, total, pageNum, pageSize } =
-        await this.userService.getList(dto);
+        await this.individualService.getList(dto);
       this.logger.log(`获取个人用户列表成功`);
       return createSuccessResponse(
         {
@@ -64,11 +75,12 @@ export class UserController {
    * 获取个人用户详情
    * GET /platform/user/individual/:id
    */
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(UserRole.Admin)
   @Get('individual/:userId')
   async getIndividualUser(
     @Param('userId') userId: string,
-  ): Promise<ApiResponse<IIndividualUserDetailData>> {
+  ): Promise<ApiResponse<IndividualUserDetailData>> {
     const idNum = parseInt(userId, 10);
     if (Number.isNaN(idNum)) {
       throw new BadRequestException(
@@ -77,8 +89,8 @@ export class UserController {
     }
 
     try {
-      const data = await this.userService.getIndividualUser(idNum);
-      this.logger.log(`个人用户信息获取成功: userId=${userId}`);
+      const data = await this.individualService.getIndividualUser(idNum);
+      this.logger.log(`获取个人用户详情成功: userId=${userId}`);
       return createSuccessResponse(data, 'GET_INDIVIDUAL_USER_SUCCEED');
     } catch (error) {
       if (error instanceof ExpectedError) {
@@ -91,11 +103,74 @@ export class UserController {
   }
 
   /**
+   * 获取企业用户列表
+   * POST /platform/user/enterprise
+   */
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(UserRole.Admin)
+  @Post('enterprise')
+  async getEnterpriseUsers(@Body() dto: GetListDto): Promise<ApiResponse<any>> {
+    try {
+      const { records, total, pageNum, pageSize } =
+        await this.enterpriseService.getList(dto);
+      this.logger.log(`获取企业用户列表成功`);
+      return createSuccessResponse(
+        {
+          rows: records,
+          total,
+          pageNum,
+          pageSize,
+        },
+        'GET_ENTERPRISE_USERS_SUCCEED',
+      );
+    } catch (error) {
+      if (error instanceof ExpectedError) {
+        return createErrorResponse(error.errorCode);
+      }
+
+      this.logger.error('获取企业用户列表失败', error);
+      return createErrorResponse(ErrorCode.GET_USER_LIST_FAILED);
+    }
+  }
+
+  /**
+   * 获取企业用户详情
+   * GET /platform/user/enterprise/:id
+   */
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(UserRole.Admin)
+  @Get('enterprise/:userId')
+  async getEnterpriseUser(
+    @Param('userId') userId: string,
+  ): Promise<ApiResponse<EnterpriseUserDetailData>> {
+    const idNum = parseInt(userId, 10);
+    if (Number.isNaN(idNum)) {
+      throw new BadRequestException(
+        'Invalid user ID. Please provide a valid user ID.',
+      );
+    }
+
+    try {
+      const data = await this.enterpriseService.getEnterpriseUser(idNum);
+      this.logger.log(`获取企业用户详情成功: userId=${userId}`);
+      return createSuccessResponse(data, 'GET_ENTERPRISE_USER_SUCCEED');
+    } catch (error) {
+      if (error instanceof ExpectedError) {
+        return createErrorResponse(error.errorCode);
+      }
+
+      this.logger.error('获取企业用户详情失败', error);
+      return createErrorResponse(ErrorCode.GET_USER_DETAIL_FAILED);
+    }
+  }
+
+  /**
    * 批量修改用户状态
    * POST /platform/user/change-status
    * @param dto 包含 { ids, status }
    */
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(UserRole.Admin)
   @Post('change-status')
   @HttpCode(HttpStatus.OK)
   async changeUserStatus(
@@ -121,7 +196,8 @@ export class UserController {
    * POST /platform/user/delete
    * @param dto { ids: number[] } 要删除的用户 ID
    */
-  @UseGuards(AuthGuard) // 若仅限已登录且有特定权限的管理员可调用
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(UserRole.Admin)
   @Post('delete')
   @HttpCode(HttpStatus.OK)
   async deleteUser(@Body() dto: DeleteUserDto): Promise<ApiResponse<string>> {

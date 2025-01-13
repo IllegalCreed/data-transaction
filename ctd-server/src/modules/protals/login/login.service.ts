@@ -19,6 +19,7 @@ import { ExpectedError } from 'src/types/error';
 import { verifyPassword } from 'src/common/utils/security';
 import { JwtService } from '@nestjs/jwt';
 import { isEmail } from 'class-validator';
+import { UserRole } from 'src/enums/user-role.enum';
 
 @Injectable()
 export class LoginService {
@@ -207,7 +208,7 @@ export class LoginService {
       }
 
       // 生成 JWT 令牌并返回
-      const payload = { sub: user.id, email: user.email };
+      const payload = { sub: user.id, email: user.email, role: UserRole.User };
       const token = this.jwtService.sign(payload);
       await this.recordLoginLog(user, email, ipAddress, userAgent, true, null);
       this.logger.log(`用户登录成功：${email}`);
