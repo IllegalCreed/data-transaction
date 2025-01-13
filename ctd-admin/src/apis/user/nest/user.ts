@@ -19,13 +19,13 @@ export const changeUsersStatus = (
 }
 
 export const deleteUsers = (ids: (string | number)[]): Promise<unknown> => {
-  const params = {
+  const data = {
     ids
   }
-  return request.delete(
+  return request.post(
     {
       url: '/platform/user/delete',
-      params
+      data
     },
     true
   )
