@@ -1,13 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { User } from 'src/entities/user.entity';
 import { IndividualUserInfo } from 'src/entities/individual-user-info.entity';
-import { ApiResponse } from 'src/common/interfaces/api-response.interface';
-import {
-  createErrorResponse,
-  createSuccessResponse,
-} from 'src/common/utils/response';
 import { ErrorCode } from 'src/common/constants/error-codes';
 import { UserType } from 'src/enums/user-type.enum';
 import { ExpectedError } from 'src/types/error';
@@ -17,6 +12,7 @@ import { USER_ALIAS, INFO_ALIAS } from './config/alias.config';
 import { FUZZY_SEARCH_MAP } from './config/search-fields.config';
 import { AbstractListService } from 'src/common/services/abstract-list.service';
 import { IIndividualUserDetailData } from './interface/individual-user-detail.interface';
+import { UserStatus } from 'src/enums/user-status.enum';
 
 @Injectable()
 export class UserService extends AbstractListService<User, IndividualUserItem> {
@@ -61,45 +57,67 @@ export class UserService extends AbstractListService<User, IndividualUserItem> {
     });
   }
 
-  async getIndividualUser(
-    userId: number,
-  ): Promise<ApiResponse<IIndividualUserDetailData>> {
+  async getIndividualUser(userId: number): Promise<IIndividualUserDetailData> {
+    // 1) 查询User + 关联的 IndividualUserInfo
+    const user = await this.userRepository.findOne({
+      where: { id: userId, userType: UserType.Individual },
+      relations: ['individualInfo'],
+    });
+
+    if (!user || !user.individualInfo) {
+      this.logger.warn(`个人用户信息不存在: userId=${userId}`);
+      throw new ExpectedError(ErrorCode.USER_NOT_FOUND);
+    }
+
+    // 2) 构造需要返回的数据(可根据前端需求组装)
+    const data: IIndividualUserDetailData = {
+      id: user.id,
+      email: user.email,
+      avatarUrl: user.avatarUrl,
+      status: user.status,
+      fullName: user.individualInfo.fullName,
+      phoneNumber: user.individualInfo.phoneNumber,
+      identificationNumber: user.individualInfo.identificationNumber,
+      gender: user.individualInfo.gender,
+      dateOfBirth: user.individualInfo.dateOfBirth,
+      residentialAddress: user.individualInfo.residentialAddress,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    };
+
+    return data;
+  }
+
+  /**
+   * 批量修改用户状态
+   * @param ids 用户id列表
+   * @param status 目标状态
+   */
+  async changeUserStatus(
+    ids: (string | number)[],
+    status: UserStatus,
+  ): Promise<void> {
+    // 1) 查询要更新的用户
+    const users = await this.userRepository.find({
+      where: { id: In(ids) },
+    });
+
+    if (!users || users.length === 0) {
+      this.logger.warn(`修改用户状态失败: 未找到任何匹配的用户: [${ids}]`);
+      throw new ExpectedError(ErrorCode.USER_NOT_FOUND);
+    }
+
+    // 2) 更新用户的状态
+    for (const user of users) {
+      user.status = status;
+    }
+
+    // 3) 保存
     try {
-      // 1) 查询User + 关联的 IndividualUserInfo
-      const user = await this.userRepository.findOne({
-        where: { id: userId, userType: UserType.Individual },
-        relations: ['individualInfo'],
-      });
-
-      if (!user || !user.individualInfo) {
-        this.logger.warn(`个人用户信息不存在: userId=${userId}`);
-        return createErrorResponse(ErrorCode.USER_NOT_FOUND);
-      }
-
-      // 2) 构造需要返回的数据(可根据前端需求组装)
-      const data: IIndividualUserDetailData = {
-        id: user.id,
-        email: user.email,
-        avatarUrl: user.avatarUrl,
-        status: user.status,
-        fullName: user.individualInfo.fullName,
-        phoneNumber: user.individualInfo.phoneNumber,
-        identificationNumber: user.individualInfo.identificationNumber,
-        gender: user.individualInfo.gender,
-        dateOfBirth: user.individualInfo.dateOfBirth,
-        residentialAddress: user.individualInfo.residentialAddress,
-        createdAt: user.createdAt,
-        updatedAt: user.updatedAt,
-      };
-
-      this.logger.log(`个人用户信息获取成功: userId=${userId}`);
-      return createSuccessResponse(data, 'GET_INDIVIDUAL_USER_SUCCEED');
+      await this.userRepository.save(users);
     } catch (error) {
-      if (error instanceof ExpectedError) {
-        return createErrorResponse(error.errorCode);
-      }
-      this.logger.error('获取个人用户信息失败', error);
-      return createErrorResponse(ErrorCode.GET_USER_FAILED);
+      this.logger.error('修改用户状态失败: 数据库保存失败', error);
+      throw new ExpectedError(ErrorCode.UPDATE_USER_STATUS_FAILED);
     }
   }
 }

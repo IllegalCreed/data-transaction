@@ -4,13 +4,13 @@
     <div class="props-container" v-loading="getUserLoading">
       <div class="prop">
         <span class="label">邮箱：</span>
-        <span class="value">{{ userInfo.email }}</span>
+        <span class="value" break-all>{{ userInfo.email }}</span>
       </div>
       <div class="prop">
         <span class="label">姓名：</span>
         <span class="value">{{ userInfo.fullName }}</span>
       </div>
-      <div class="prop" items-center>
+      <div class="prop">
         <span class="label">状态:</span>
         <el-tag :type="stautsColor(userInfo.status)">{{ statusLabel(userInfo.status) }}</el-tag>
       </div>

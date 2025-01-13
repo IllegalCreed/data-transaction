@@ -10,7 +10,7 @@
         <span class="label">企业名称：</span>
         <span class="value">{{ userInfo.enterpriseName }}</span>
       </div>
-      <div class="prop" items-center>
+      <div class="prop">
         <span class="label">状态:</span>
         <el-tag :type="stautsColor(userInfo.status)">{{ statusLabel(userInfo.status) }}</el-tag>
       </div>
@@ -26,13 +26,13 @@
         <span class="label">联系人电话：</span>
         <span class="value">{{ userInfo.contactPhoneNumber }}</span>
       </div>
-      <div class="prop" items-center>
+      <div class="prop">
         <span class="label">行业类别:</span>
         <el-tag :type="industryTypeColor(userInfo.industryType)">{{
           industryTypeLabel(userInfo.industryType)
         }}</el-tag>
       </div>
-      <div class="prop" items-center>
+      <div class="prop">
         <span class="label">企业规模:</span>
         <el-tag :type="companySizeColor(userInfo.companySize)">{{
           companySizeLabel(userInfo.companySize)

@@ -13,10 +13,11 @@ export const useUserStore = defineStore('user', () => {
   const { getEnterpriseUsers, getEnterpriseUser } = useEnterprise()
 
   const settingsStore = useSettingsStore()
+  const { findMockTreeValueByKey } = settingsStore
 
   const changeUsersStatus = (ids: (string | number)[], status: UserStatus): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('user')) {
         window.setTimeout(() => {
           resolve()
         }, 1000)
@@ -35,7 +36,7 @@ export const useUserStore = defineStore('user', () => {
 
   const deleteUsers = (ids: (string | number)[]): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('user')) {
         window.setTimeout(() => {
           resolve()
         }, 1000)

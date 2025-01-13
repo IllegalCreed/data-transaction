@@ -63,8 +63,9 @@ export enum ErrorCode {
   GET_ADMIN_NAME_FAILED = 5004,
 
   // 用户管理相关
-  GET_USER_FAILED = 6001,
   GET_USER_LIST_FAILED = 6002,
+  GET_USER_DETAIL_FAILED = 6003,
+  UPDATE_USER_STATUS_FAILED = 6004,
 }
 
 export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
@@ -154,7 +155,10 @@ export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
     'Get admin name failed due to unexpected error.',
 
   // 用户管理相关
-  [ErrorCode.GET_USER_FAILED]: 'Get user failed due to unexpected error.',
   [ErrorCode.GET_USER_LIST_FAILED]:
     'Get user list failed due to unexpected error.',
+  [ErrorCode.GET_USER_DETAIL_FAILED]:
+    'Get user detail failed due to unexpected error.',
+  [ErrorCode.UPDATE_USER_STATUS_FAILED]:
+    'Update user status failed due to unexpected error.',
 };

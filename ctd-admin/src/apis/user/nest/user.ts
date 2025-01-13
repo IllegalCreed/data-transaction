@@ -9,9 +9,9 @@ export const changeUsersStatus = (
     ids,
     status
   }
-  return request.put(
+  return request.post(
     {
-      url: '/user/change-status',
+      url: '/platform/user/change-status',
       data
     },
     true
@@ -24,7 +24,7 @@ export const deleteUsers = (ids: (string | number)[]): Promise<unknown> => {
   }
   return request.delete(
     {
-      url: '/user/delete',
+      url: '/platform/user/delete',
       params
     },
     true

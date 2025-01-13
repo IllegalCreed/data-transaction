@@ -3,6 +3,8 @@ import {
   Body,
   Controller,
   Get,
+  HttpCode,
+  HttpStatus,
   Logger,
   Param,
   Post,
@@ -19,6 +21,7 @@ import {
 import { ExpectedError } from 'src/types/error';
 import { ErrorCode } from 'src/common/constants/error-codes';
 import { IIndividualUserDetailData } from './interface/individual-user-detail.interface';
+import { ChangeUserStatusDto } from './dto/change-user-status.dto';
 
 @Controller('platform/user')
 export class UserController {
@@ -71,6 +74,44 @@ export class UserController {
         'Invalid user ID. Please provide a valid user ID.',
       );
     }
-    return this.userService.getIndividualUser(idNum);
+
+    try {
+      const data = await this.userService.getIndividualUser(idNum);
+      this.logger.log(`个人用户信息获取成功: userId=${userId}`);
+      return createSuccessResponse(data, 'GET_INDIVIDUAL_USER_SUCCEED');
+    } catch (error) {
+      if (error instanceof ExpectedError) {
+        return createErrorResponse(error.errorCode);
+      }
+
+      this.logger.error('获取个人用户详情失败', error);
+      return createErrorResponse(ErrorCode.GET_USER_DETAIL_FAILED);
+    }
+  }
+
+  /**
+   * 批量修改用户状态
+   * POST /platform/user/change-status
+   * @param dto 包含 { ids, status }
+   */
+  @UseGuards(AuthGuard)
+  @Post('change-status')
+  @HttpCode(HttpStatus.OK)
+  async changeUserStatus(
+    @Body() dto: ChangeUserStatusDto,
+  ): Promise<ApiResponse<string>> {
+    const { ids, status } = dto;
+
+    try {
+      await this.userService.changeUserStatus(ids, status);
+      this.logger.log(`修改用户状态成功: ids=[${ids}], status=${status}`);
+      return createSuccessResponse(null, 'CHANGE_USER_STATUS_SUCCEED');
+    } catch (error) {
+      this.logger.error(`修改用户状态失败: ids=[${ids}]`, error);
+      if (error instanceof ExpectedError) {
+        return createErrorResponse(error.errorCode);
+      }
+      return createErrorResponse(ErrorCode.UPDATE_USER_STATUS_FAILED);
+    }
   }
 }

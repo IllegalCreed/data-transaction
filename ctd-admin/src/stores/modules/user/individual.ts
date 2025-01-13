@@ -60,8 +60,8 @@ export const useIndividual = () => {
       } else {
         getIndividualUserAPI(id)
           .then((res) => {
-            const result = res as IIndividualUser
-            resolve(result)
+            const result = res as ICommonReturn<IIndividualUser>
+            resolve(result.data)
           })
           .catch((error: Error) => {
             reject(error)
