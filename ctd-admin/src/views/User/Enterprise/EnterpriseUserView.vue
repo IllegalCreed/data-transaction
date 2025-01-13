@@ -83,9 +83,9 @@ const getList = async (): Promise<number> => {
     pageSize.value
   )
 
-  data.value = res.rows
+  data.value = res.data.rows
   getListLoading.value = false
-  return res.total
+  return res.data.total
 }
 
 // 筛选和表格

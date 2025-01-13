@@ -1,5 +1,5 @@
 import { useSettingsStore } from '../settings'
-import type { apiListResult } from '@/types/common'
+import type { apiListResult, ICommonReturn } from '@/types/common'
 import type { IEnterpriseUser, IEnterpriseUserItem } from '@/types/user'
 import {
   getEnterpriseUsers as getEnterpriseUsersAPI,
@@ -10,6 +10,7 @@ import type { IFilterDTO, ISort, ITableColumnDTO } from '@/types/table'
 
 export const useEnterprise = () => {
   const settingsStore = useSettingsStore()
+  const { findMockTreeValueByKey } = settingsStore
 
   const getEnterpriseUsers = (
     searchQuery: string,
@@ -18,21 +19,22 @@ export const useEnterprise = () => {
     columns: ITableColumnDTO<IEnterpriseUserItem>[],
     pageNum: number,
     pageSize: number
-  ): Promise<apiListResult<IEnterpriseUserItem>> => {
-    return new Promise<apiListResult<IEnterpriseUserItem>>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+  ): Promise<ICommonReturn<apiListResult<IEnterpriseUserItem>>> => {
+    return new Promise<ICommonReturn<apiListResult<IEnterpriseUserItem>>>((resolve, reject) => {
+      if (findMockTreeValueByKey('user')) {
         window.setTimeout(() => {
           const result = mockEnterpriseUsers.filter((item) => {
-            const statusMatch = status ? item.status === status : true
             const searchMatch = searchQuery ? item.enterpriseName.includes(searchQuery) : true
-            return statusMatch && searchMatch
+            return searchMatch
           })
-          resolve({ total: result.length, rows: result })
+          if (pageNum === 1) {
+            resolve({ data: { total: 10, rows: result }, code: 0, msg: 'success' })
+          }
         }, 1000)
       } else {
         getEnterpriseUsersAPI(searchQuery, filters, sorts, columns, pageNum, pageSize)
           .then((res) => {
-            const result = res as apiListResult<IEnterpriseUserItem>
+            const result = res as ICommonReturn<apiListResult<IEnterpriseUserItem>>
             resolve(result)
           })
           .catch((error: Error) => {
@@ -45,7 +47,7 @@ export const useEnterprise = () => {
 
   const getEnterpriseUser = (id: string | number): Promise<IEnterpriseUser> => {
     return new Promise<IEnterpriseUser>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('user')) {
         window.setTimeout(() => {
           const result = mockEnterpriseUsers.find((item) => item.id === Number(id))
           if (result) {
@@ -57,8 +59,8 @@ export const useEnterprise = () => {
       } else {
         getEnterpriseUserAPI(id)
           .then((res) => {
-            const result = res as IEnterpriseUser
-            resolve(result)
+            const result = res as ICommonReturn<IEnterpriseUser>
+            resolve(result.data)
           })
           .catch((error: Error) => {
             reject(error)

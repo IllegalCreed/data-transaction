@@ -4,7 +4,7 @@
     <div class="props-container" v-loading="getUserLoading">
       <div class="prop">
         <span class="label">邮箱：</span>
-        <span class="value">{{ userInfo.email }}</span>
+        <span class="value" break-all>{{ userInfo.email }}</span>
       </div>
       <div class="prop">
         <span class="label">企业名称：</span>

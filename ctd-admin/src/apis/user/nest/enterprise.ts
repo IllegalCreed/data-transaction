@@ -10,7 +10,7 @@ export const getEnterpriseUsers = (
   pageNum: number,
   pageSize: number
 ): Promise<unknown> => {
-  const params = {
+  const data = {
     searchQuery,
     filters,
     sorts,
@@ -18,10 +18,10 @@ export const getEnterpriseUsers = (
     pageNum,
     pageSize
   }
-  return request.get(
+  return request.post(
     {
-      url: '/user/enterprise',
-      params
+      url: '/platform/user/enterprise',
+      data
     },
     true
   )
@@ -30,7 +30,7 @@ export const getEnterpriseUsers = (
 export const getEnterpriseUser = (id: string | number): Promise<unknown> => {
   return request.get(
     {
-      url: `/user/enterprise/${id}`
+      url: `/platform/user/enterprise/${id}`
     },
     true
   )
