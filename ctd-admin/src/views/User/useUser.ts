@@ -44,12 +44,8 @@ export const useChangeUserStatus = (refresh: () => void) => {
       refresh()
     }
   )
-  const handleChangeStatus = (
-    ids: (string | number)[],
-    fullName: string,
-    newStatus: UserStatus
-  ) => {
-    changeLabel.value = fullName
+  const handleChangeStatus = (ids: (string | number)[], label: string, newStatus: UserStatus) => {
+    changeLabel.value = label
     changeIds.value = ids
     changeStatus.value = newStatus
     doChangeAction()

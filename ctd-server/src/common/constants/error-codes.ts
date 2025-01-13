@@ -66,6 +66,7 @@ export enum ErrorCode {
   GET_USER_LIST_FAILED = 6002,
   GET_USER_DETAIL_FAILED = 6003,
   UPDATE_USER_STATUS_FAILED = 6004,
+  DELETE_USER_FAILED = 6005,
 }
 
 export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
@@ -161,4 +162,5 @@ export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
     'Get user detail failed due to unexpected error.',
   [ErrorCode.UPDATE_USER_STATUS_FAILED]:
     'Update user status failed due to unexpected error.',
+  [ErrorCode.DELETE_USER_FAILED]: 'Delete user failed due to unexpected error.',
 };

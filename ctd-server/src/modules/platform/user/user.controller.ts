@@ -22,6 +22,7 @@ import { ExpectedError } from 'src/types/error';
 import { ErrorCode } from 'src/common/constants/error-codes';
 import { IIndividualUserDetailData } from './interface/individual-user-detail.interface';
 import { ChangeUserStatusDto } from './dto/change-user-status.dto';
+import { DeleteUserDto } from './dto/delete-user.dto';
 
 @Controller('platform/user')
 export class UserController {
@@ -112,6 +113,30 @@ export class UserController {
         return createErrorResponse(error.errorCode);
       }
       return createErrorResponse(ErrorCode.UPDATE_USER_STATUS_FAILED);
+    }
+  }
+
+  /**
+   * 批量删除用户（软删除）
+   * POST /platform/user/delete
+   * @param dto { ids: number[] } 要删除的用户 ID
+   */
+  @UseGuards(AuthGuard) // 若仅限已登录且有特定权限的管理员可调用
+  @Post('delete')
+  @HttpCode(HttpStatus.OK)
+  async deleteUser(@Body() dto: DeleteUserDto): Promise<ApiResponse<string>> {
+    const { ids } = dto;
+
+    try {
+      await this.userService.deleteUser(ids);
+      this.logger.log(`删除用户成功: ids=[${ids}]`);
+      return createSuccessResponse(null, 'DELETE_USER_SUCCEED');
+    } catch (error) {
+      this.logger.error(`删除用户失败: ids=[${ids}]`, error);
+      if (error instanceof ExpectedError) {
+        return createErrorResponse(error.errorCode);
+      }
+      return createErrorResponse(ErrorCode.DELETE_USER_FAILED);
     }
   }
 }

@@ -120,4 +120,34 @@ export class UserService extends AbstractListService<User, IndividualUserItem> {
       throw new ExpectedError(ErrorCode.UPDATE_USER_STATUS_FAILED);
     }
   }
+
+  /**
+   * 批量删除用户（软删除）
+   * @param ids 用户 ID 数组
+   */
+  async deleteUser(ids: (string | number)[]): Promise<void> {
+    // 1) 检查是否存在这些用户
+    const users = await this.userRepository.find({
+      where: { id: In(ids) },
+      withDeleted: false, // 只查未软删除的
+    });
+
+    if (!users || users.length === 0) {
+      this.logger.warn(`deleteUser: 未找到任何匹配的用户: [${ids}]`);
+      throw new ExpectedError(ErrorCode.USER_NOT_FOUND);
+    }
+
+    // 2) 软删除
+    try {
+      // 方式一：使用 repository.softRemove(users)
+      await this.userRepository.softRemove(users);
+
+      // 方式二：也可使用 softDelete:
+      // await this.userRepository.softDelete({ id: In(ids) });
+      // 具体看您是否需要在此读取 user 实体
+    } catch (error) {
+      this.logger.error('deleteUser: 软删除数据库失败', error);
+      throw new ExpectedError(ErrorCode.DELETE_USER_FAILED);
+    }
+  }
 }
