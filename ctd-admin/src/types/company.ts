@@ -6,6 +6,9 @@ export interface ICompanyOption {
   name: string
 }
 
+/**
+ * 公司
+ */
 export interface ICompany {
   id: string | number
   name: string
@@ -20,6 +23,12 @@ export interface ICompany {
   updateTime: string
 }
 
+/**
+ * 公司列表项
+ */
 export type ICompanyItem = Omit<ICompany, 'description' | 'content'>
 
+/**
+ * 新增修改公司
+ */
 export type ICompanyDTO = Omit<ICompany, 'id' | 'createTime' | 'updateTime'>

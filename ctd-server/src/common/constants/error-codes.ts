@@ -63,10 +63,13 @@ export enum ErrorCode {
   GET_ADMIN_NAME_FAILED = 5004,
 
   // 用户管理相关
-  GET_USER_LIST_FAILED = 6002,
-  GET_USER_DETAIL_FAILED = 6003,
-  UPDATE_USER_STATUS_FAILED = 6004,
-  DELETE_USER_FAILED = 6005,
+  GET_USER_LIST_FAILED = 5102,
+  GET_USER_DETAIL_FAILED = 5103,
+  UPDATE_USER_STATUS_FAILED = 5104,
+  DELETE_USER_FAILED = 5105,
+
+  // 公司管理相关
+  GET_COMPANY_LIST_FAILED = 5201,
 }
 
 export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
@@ -163,4 +166,8 @@ export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
   [ErrorCode.UPDATE_USER_STATUS_FAILED]:
     'Update user status failed due to unexpected error.',
   [ErrorCode.DELETE_USER_FAILED]: 'Delete user failed due to unexpected error.',
+
+  // 公司管理相关
+  [ErrorCode.GET_COMPANY_LIST_FAILED]:
+    'Get company list failed due to unexpected error.',
 };

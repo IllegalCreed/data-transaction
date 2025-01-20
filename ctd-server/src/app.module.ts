@@ -9,11 +9,12 @@ import { ForgotModule } from './modules/protals/forgot/forgot.module';
 import { CaptchaModule } from './modules/common/captcha/captcha.module';
 import { LoginModule } from './modules/protals/login/login.module';
 import { UserModule } from './modules/protals/user/user.module';
-import { PlatformLoginModule } from './modules/platform/login/login.module';
-import { AdminModule } from './modules/platform/admin/admin.module';
-import { PlatformUserModule } from './modules/platform/user/user.module';
 import { ChangePasswordModule } from './modules/protals/change-password/change-password.module';
 import { ChangeEmailModule } from './modules/protals/change-email/change-email.module';
+import { AdminModule } from './modules/platform/admin/admin.module';
+import { PlatformLoginModule } from './modules/platform/login/login.module';
+import { PlatformUserModule } from './modules/platform/user/user.module';
+import { PlatformCompanyModule } from './modules/platform/company/company.module';
 
 const nodeEnv = process.env.NODE_ENV || 'development';
 
@@ -77,6 +78,7 @@ const nodeEnv = process.env.NODE_ENV || 'development';
     PlatformLoginModule,
     AdminModule,
     PlatformUserModule,
+    PlatformCompanyModule,
   ],
   controllers: [],
   providers: [],
