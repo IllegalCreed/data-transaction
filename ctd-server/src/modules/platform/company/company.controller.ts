@@ -6,6 +6,9 @@ import {
   HttpStatus,
   Logger,
   UseGuards,
+  Get,
+  Param,
+  BadRequestException,
 } from '@nestjs/common';
 import { CompanyService } from './company.service';
 import { AuthGuard } from 'src/common/guards/auth.guard';
@@ -19,6 +22,9 @@ import { ErrorCode } from 'src/common/constants/error-codes';
 import { GetListDto } from 'src/common/dto/get-list.dto';
 import { UpsertCompanyDto } from './dto/upsert-company.dto';
 import { Company } from 'src/entities/company.entity';
+import { UserRole } from 'src/enums/user-role.enum';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { RolesGuard } from 'src/common/guards/role.guard';
 
 @Controller('platform/company')
 export class CompanyController {
@@ -33,7 +39,8 @@ export class CompanyController {
    * @param dto GetListDto
    * @returns ApiResponse
    */
-  @UseGuards(AuthGuard) // 若此接口需要登录后才能访问
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(UserRole.Admin)
   @Post('list')
   @HttpCode(HttpStatus.OK)
   async getCompanies(@Body() dto: GetListDto): Promise<ApiResponse<any>> {
@@ -65,6 +72,8 @@ export class CompanyController {
    * POST /platform/company/upsert
    * @param dto 包含 { id, companyInfo }
    */
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(UserRole.Admin)
   @Post('upsert')
   @HttpCode(HttpStatus.OK)
   async upsertCompany(
@@ -73,13 +82,43 @@ export class CompanyController {
     try {
       const company = await this.companyService.upsertCompany(dto);
       this.logger.log(`公司信息保存成功: ${company.id}`);
-      return createSuccessResponse(company, 'UPSERT_COMPANY_SUCCEED');
+      return createSuccessResponse(null, 'UPSERT_COMPANY_SUCCEED');
     } catch (error) {
       if (error instanceof ExpectedError) {
         return createErrorResponse(error.errorCode);
       }
       this.logger.error('公司信息保存失败', error);
       return createErrorResponse(ErrorCode.UPSERT_COMPANY_FAILED);
+    }
+  }
+
+  /**
+   * 获取公司详情
+   * GET /platform/company/:id
+   */
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(UserRole.Admin)
+  @Get(':id')
+  @HttpCode(HttpStatus.OK)
+  async getCompanyDetail(
+    @Param('id') id: string,
+  ): Promise<ApiResponse<Company>> {
+    const companyId = parseInt(id, 10);
+    if (Number.isNaN(companyId)) {
+      throw new BadRequestException('Invalid company ID');
+    }
+
+    try {
+      const companyDetail = await this.companyService.getCompany(companyId);
+      this.logger.log(`获取公司详情成功: id=${id}`);
+      return createSuccessResponse(companyDetail, 'GET_COMPANY_DETAIL_SUCCEED');
+    } catch (error) {
+      if (error instanceof ExpectedError) {
+        return createErrorResponse(error.errorCode);
+      }
+
+      this.logger.error(`获取公司详情失败: id=${id}`, error);
+      return createErrorResponse(ErrorCode.GET_COMPANY_DETAIL_FAILED);
     }
   }
 }

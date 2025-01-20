@@ -1,28 +1,28 @@
 import request from '@/axios'
 import type { ActiveStatus } from '@/constants/mapData'
-import type { PartnerTypes } from '@/constants/mapData/company'
-import type { ICompanyDTO } from '@/types/company'
+import type { ICompanyDTO, ICompanyItem } from '@/types/company'
+import type { IFilterDTO, ISort, ITableColumnDTO } from '@/types/table'
 
 export const getCompanies = (
   searchQuery: string,
-  status: ActiveStatus | null,
-  partnerType: PartnerTypes | null,
-  isShowInFooter: boolean | null,
+  filters: IFilterDTO<ICompanyItem>[],
+  sorts: ISort<ICompanyItem>[],
+  columns: ITableColumnDTO<ICompanyItem>[],
   pageNum: number,
   pageSize: number
 ): Promise<unknown> => {
-  const params = {
+  const data = {
     searchQuery,
-    status,
-    partnerType,
-    isShowInFooter,
+    filters,
+    sorts,
+    columns,
     pageNum,
     pageSize
   }
-  return request.get(
+  return request.post(
     {
-      url: '/company',
-      params
+      url: '/company/list',
+      data
     },
     true
   )

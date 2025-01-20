@@ -4,10 +4,8 @@ import {
   IsEnum,
   IsBoolean,
   IsUrl,
-  ValidateNested,
   IsNumber,
 } from 'class-validator';
-import { Type } from 'class-transformer';
 import { PartnerTypes } from 'src/enums/partner-types.enum';
 import { ActiveStatus } from 'src/enums/active-status.enum';
 
@@ -19,15 +17,6 @@ export class UpsertCompanyDto {
   @IsNumber()
   id: number; // 用于判断是插入还是更新
 
-  @ValidateNested()
-  @Type(() => CompanyInfoDto)
-  companyInfo: CompanyInfoDto; // 嵌套验证
-}
-
-/**
- * 用于公司信息验证的DTO
- */
-class CompanyInfoDto {
   @IsString()
   name: string;
 

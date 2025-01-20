@@ -8,6 +8,8 @@ import { COMPANY_FUZZY_SEARCH_MAP } from './config/search-fields.config';
 import { COMPANY_FIELD_MAP } from './config/field-map.config';
 import { COMPANY_ALIAS } from './config/alias.config';
 import { UpsertCompanyDto } from './dto/upsert-company.dto';
+import { ExpectedError } from 'src/types/error';
+import { ErrorCode } from 'src/common/constants/error-codes';
 
 @Injectable()
 export class CompanyService extends AbstractListService<Company, CompanyItem> {
@@ -54,7 +56,7 @@ export class CompanyService extends AbstractListService<Company, CompanyItem> {
    * @returns 返回更新后的公司对象
    */
   async upsertCompany(dto: UpsertCompanyDto): Promise<Company> {
-    const { id, companyInfo } = dto;
+    const { id, ...companyInfo } = dto;
 
     let company: Company;
 
@@ -64,8 +66,8 @@ export class CompanyService extends AbstractListService<Company, CompanyItem> {
         where: { id },
       });
       if (!company) {
-        this.logger.warn(`更新失败：未找到公司 ID ${id}`);
-        throw new Error('Company not found');
+        this.logger.warn(`公司信息保存失败：未找到公司 id=${id}`);
+        throw new ExpectedError(ErrorCode.COMPANY_NOT_FOUND);
       }
 
       // 更新公司信息
@@ -86,5 +88,38 @@ export class CompanyService extends AbstractListService<Company, CompanyItem> {
     }
 
     return company;
+  }
+
+  /**
+   * 获取公司详情
+   * @param id 公司ID
+   * @returns 公司详情
+   */
+  async getCompany(id: number): Promise<Company> {
+    const company = await this.companyRepository.findOne({
+      where: { id },
+    });
+
+    if (!company) {
+      this.logger.warn(`获取公司详情失败: 未找到公司 id=${id}`);
+      throw new ExpectedError(ErrorCode.COMPANY_NOT_FOUND);
+    }
+
+    // 返回公司详情
+    const companyDetail: Company = {
+      id: company.id,
+      name: company.name,
+      description: company.description,
+      content: company.content,
+      link: company.link,
+      logoUrl: company.logoUrl,
+      partnerType: company.partnerType,
+      isShowInFooter: company.isShowInFooter,
+      status: company.status,
+      createdAt: company.createdAt,
+      updatedAt: company.updatedAt,
+    };
+
+    return companyDetail;
   }
 }
