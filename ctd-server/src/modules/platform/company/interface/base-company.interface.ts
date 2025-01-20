@@ -4,9 +4,9 @@ import { PartnerTypes } from 'src/enums/partner-types.enum';
 export interface BaseCompany {
   id: string | number;
   name: string;
-  description: string;
+  description?: string;
   content?: string;
-  link: string;
+  link?: string;
   logoUrl?: string;
   partnerType: PartnerTypes;
   isShowInFooter: boolean;

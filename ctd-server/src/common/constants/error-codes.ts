@@ -70,6 +70,7 @@ export enum ErrorCode {
 
   // 公司管理相关
   GET_COMPANY_LIST_FAILED = 5201,
+  UPSERT_COMPANY_FAILED = 5202,
 }
 
 export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
@@ -170,4 +171,6 @@ export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
   // 公司管理相关
   [ErrorCode.GET_COMPANY_LIST_FAILED]:
     'Get company list failed due to unexpected error.',
+  [ErrorCode.UPSERT_COMPANY_FAILED]:
+    'Upsert company failed due to unexpected error.',
 };

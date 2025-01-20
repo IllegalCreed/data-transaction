@@ -7,6 +7,7 @@ import { CompanyItem } from './interface/company-item.interface';
 import { COMPANY_FUZZY_SEARCH_MAP } from './config/search-fields.config';
 import { COMPANY_FIELD_MAP } from './config/field-map.config';
 import { COMPANY_ALIAS } from './config/alias.config';
+import { UpsertCompanyDto } from './dto/upsert-company.dto';
 
 @Injectable()
 export class CompanyService extends AbstractListService<Company, CompanyItem> {
@@ -44,5 +45,46 @@ export class CompanyService extends AbstractListService<Company, CompanyItem> {
         updatedAt: c.updatedAt,
       };
     });
+  }
+
+  /**
+   * Upsert（插入或更新）公司信息
+   * @param id 公司ID，若是新增则传入空值或负值
+   * @param companyInfo 公司详细信息
+   * @returns 返回更新后的公司对象
+   */
+  async upsertCompany(dto: UpsertCompanyDto): Promise<Company> {
+    const { id, companyInfo } = dto;
+
+    let company: Company;
+
+    // 如果id是正整数，则执行更新
+    if (id > 0) {
+      company = await this.companyRepository.findOne({
+        where: { id },
+      });
+      if (!company) {
+        this.logger.warn(`更新失败：未找到公司 ID ${id}`);
+        throw new Error('Company not found');
+      }
+
+      // 更新公司信息
+      company.name = companyInfo.name;
+      company.description = companyInfo.description;
+      company.content = companyInfo.content;
+      company.link = companyInfo.link;
+      company.logoUrl = companyInfo.logoUrl;
+      company.partnerType = companyInfo.partnerType;
+      company.status = companyInfo.status;
+      company.isShowInFooter = companyInfo.isShowInFooter;
+
+      await this.companyRepository.save(company); // 保存更新
+    } else {
+      // 如果id无效，则执行插入操作
+      company = this.companyRepository.create(companyInfo);
+      await this.companyRepository.save(company); // 保存插入的新公司
+    }
+
+    return company;
   }
 }
