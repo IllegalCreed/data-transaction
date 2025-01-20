@@ -25,6 +25,8 @@ import { Company } from 'src/entities/company.entity';
 import { UserRole } from 'src/enums/user-role.enum';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { RolesGuard } from 'src/common/guards/role.guard';
+import { ChangeStatusDto } from 'src/common/dto/change-status.dto';
+import { DeleteDto } from 'src/common/dto/delete.dto';
 
 @Controller('platform/company')
 export class CompanyController {
@@ -119,6 +121,56 @@ export class CompanyController {
 
       this.logger.error(`获取公司详情失败: id=${id}`, error);
       return createErrorResponse(ErrorCode.GET_COMPANY_DETAIL_FAILED);
+    }
+  }
+
+  /**
+   * 批量修改公司状态
+   * POST /platform/company/change-status
+   */
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(UserRole.Admin) // 仅管理员可操作
+  @Post('change-status')
+  @HttpCode(HttpStatus.OK)
+  async changeStatus(
+    @Body() dto: ChangeStatusDto,
+  ): Promise<ApiResponse<string>> {
+    const { ids, status } = dto;
+
+    try {
+      await this.companyService.changeStatus(ids, status);
+      this.logger.log(`修改公司状态成功: ids=[${ids}], status=${status}`);
+      return createSuccessResponse(null, 'UPDATE_COMPANY_STATUS_SUCCEED');
+    } catch (error) {
+      if (error instanceof ExpectedError) {
+        return createErrorResponse(error.errorCode);
+      }
+      this.logger.error(`修改公司状态失败: ids=[${ids}]`, error);
+      return createErrorResponse(ErrorCode.UPDATE_COMPANY_STATUS_FAILED);
+    }
+  }
+
+  /**
+   * 批量删除公司（软删除）
+   * POST /platform/company/delete
+   */
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(UserRole.Admin) // 仅管理员可操作
+  @Post('delete')
+  @HttpCode(HttpStatus.OK)
+  async delete(@Body() dto: DeleteDto): Promise<ApiResponse<string>> {
+    const { ids } = dto;
+
+    try {
+      await this.companyService.delete(ids);
+      this.logger.log(`删除公司成功: ids=[${ids}]`);
+      return createSuccessResponse(null, 'DELETE_COMPANY_SUCCEED');
+    } catch (error) {
+      if (error instanceof ExpectedError) {
+        return createErrorResponse(error.errorCode);
+      }
+      this.logger.error(`删除公司失败: ids=[${ids}]`, error);
+      return createErrorResponse(ErrorCode.DELETE_COMPANY_FAILED);
     }
   }
 }

@@ -60,7 +60,7 @@ export class UserService {
     });
 
     if (!users || users.length === 0) {
-      this.logger.warn(`deleteUser: 未找到任何匹配的用户: [${ids}]`);
+      this.logger.warn(`删除用户失败: 未找到任何匹配的用户: [${ids}]`);
       throw new ExpectedError(ErrorCode.USER_NOT_FOUND);
     }
 
@@ -73,7 +73,7 @@ export class UserService {
       // await this.userRepository.softDelete({ id: In(ids) });
       // 具体看您是否需要在此读取 user 实体
     } catch (error) {
-      this.logger.error('deleteUser: 软删除数据库失败', error);
+      this.logger.error('删除用户失败: 数据库删除失败', error);
       throw new ExpectedError(ErrorCode.DELETE_USER_FAILED);
     }
   }

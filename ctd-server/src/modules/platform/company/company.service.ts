@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { Company } from 'src/entities/company.entity';
 import { AbstractListService } from 'src/common/services/abstract-list.service'; // 引入基类
 import { CompanyItem } from './interface/company-item.interface';
@@ -10,6 +10,7 @@ import { COMPANY_ALIAS } from './config/alias.config';
 import { UpsertCompanyDto } from './dto/upsert-company.dto';
 import { ExpectedError } from 'src/types/error';
 import { ErrorCode } from 'src/common/constants/error-codes';
+import { ActiveStatus } from 'src/enums/active-status.enum';
 
 @Injectable()
 export class CompanyService extends AbstractListService<Company, CompanyItem> {
@@ -121,5 +122,63 @@ export class CompanyService extends AbstractListService<Company, CompanyItem> {
     };
 
     return companyDetail;
+  }
+
+  /**
+   * 批量修改公司状态
+   * @param ids 公司ID列表
+   * @param status 目标状态
+   */
+  async changeStatus(
+    ids: (string | number)[],
+    status: ActiveStatus,
+  ): Promise<void> {
+    // 查找要更新的公司
+    const companies = await this.companyRepository.find({
+      where: { id: In(ids) },
+    });
+
+    if (!companies || companies.length === 0) {
+      this.logger.warn(`修改公司状态失败: 未找到任何匹配的公司: [${ids}]`);
+      throw new ExpectedError(ErrorCode.COMPANY_NOT_FOUND);
+    }
+
+    // 更新状态
+    for (const company of companies) {
+      company.status = status;
+    }
+
+    // 保存更新后的公司
+    try {
+      await this.companyRepository.save(companies);
+    } catch (error) {
+      this.logger.error('修改公司状态失败: 数据库保存失败', error);
+      throw new ExpectedError(ErrorCode.UPDATE_COMPANY_STATUS_FAILED);
+    }
+  }
+
+  /**
+   * 批量删除公司（软删除）
+   * @param ids 公司ID列表
+   */
+  async delete(ids: (string | number)[]): Promise<void> {
+    // 查找要删除的公司
+    const companies = await this.companyRepository.find({
+      where: { id: In(ids) },
+      withDeleted: false,
+    });
+
+    if (!companies || companies.length === 0) {
+      this.logger.warn(`删除公司失败: 未找到任何匹配的公司: [${ids}]`);
+      throw new ExpectedError(ErrorCode.COMPANY_NOT_FOUND);
+    }
+
+    // 软删除
+    try {
+      await this.companyRepository.softRemove(companies);
+    } catch (error) {
+      this.logger.error('删除公司失败: 数据库删除失败', error);
+      throw new ExpectedError(ErrorCode.DELETE_COMPANY_FAILED);
+    }
   }
 }

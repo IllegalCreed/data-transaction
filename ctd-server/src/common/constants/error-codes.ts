@@ -73,6 +73,8 @@ export enum ErrorCode {
   UPSERT_COMPANY_FAILED = 5202,
   GET_COMPANY_DETAIL_FAILED = 5203,
   COMPANY_NOT_FOUND = 5204,
+  UPDATE_COMPANY_STATUS_FAILED = 5205,
+  DELETE_COMPANY_FAILED = 5206,
 }
 
 export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
@@ -178,4 +180,8 @@ export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
   [ErrorCode.GET_COMPANY_DETAIL_FAILED]:
     'Get company detail failed due to unexpected error.',
   [ErrorCode.COMPANY_NOT_FOUND]: 'Company not found.',
+  [ErrorCode.UPDATE_COMPANY_STATUS_FAILED]:
+    'Update company status failed due to unexpected error.',
+  [ErrorCode.DELETE_COMPANY_FAILED]:
+    'Delete company failed due to unexpected error.',
 };
