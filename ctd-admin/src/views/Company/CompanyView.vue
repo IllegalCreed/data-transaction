@@ -3,14 +3,14 @@
     <div flex flex-row justify-between>
       <el-input
         class="search-input"
-        @keyup.enter="handleSearch"
-        @clear="handleSearch"
+        @keyup.enter="refresh"
+        @clear="refresh"
         v-model="searchQuery"
         placeholder="请输入关键字搜索"
         clearable
       >
         <template #append>
-          <el-button @click="handleSearch" :loading="getListLoading">
+          <el-button @click="() => refresh()" :loading="getListLoading">
             <template v-slot:icon>
               <i-vaadin:search></i-vaadin:search>
             </template>
@@ -23,19 +23,25 @@
 
     <el-divider class="!my-0" />
 
-    <company-filter-sort-panel
-      v-model:status="status"
-      v-model:partner-type="partnerType"
-      v-model:is-show-in-footer="isShowInFooter"
-      @refresh="reset"
-    />
-
-    <company-tabel-panel
+    <company-tabel
       :data="data"
       :loading="getListLoading"
+      :column-list="columnList"
+      :propLabelMap="COMPANY_PROP_LABEL_MAP"
       @delete="handleDelete"
       @changeStatus="handleChangeStatus"
-    />
+    >
+      <template #filter>
+        <filter-sort-panel
+          v-model:filter-list="filterList"
+          v-model:sort-list="sortList"
+          v-model:column-list="columnList"
+          :propLabelMap="COMPANY_PROP_LABEL_MAP"
+          @reset="reset"
+          @apply="refresh"
+        />
+      </template>
+    </company-tabel>
 
     <el-pagination
       self-center
@@ -55,94 +61,56 @@ defineOptions({
   name: 'company'
 })
 
-import CompanyFilterSortPanel from './CompanyFilterSortPanel.vue'
-import CompanyTabelPanel from './CompanyTabelPanel.vue'
+import FilterSortPanel from '@/components/FilterSortPanel.vue'
+import CompanyTabel from './CompanyTabel.vue'
+import { COMPANY_PROP_LABEL_MAP } from '@/constants/mapData/company'
+import { useChangeCompaniesStatus, useDeleteCompanies, useSearchCompany } from './composables'
 
 // 获取列表
-import type { ICompanyItem } from '@/types/company'
 const getListLoading = ref<boolean>(false)
+
+import type { ICompanyItem } from '@/types/company'
 const data = ref<ICompanyItem[]>([])
+
 import { useCompanyStore } from '@/stores/modules/company'
-const {
-  getCompanies: getCompaniesAction,
-  changeCompaniesStatus: changeCompaniesStatusAction,
-  deleteCompanies: deleteCompaniesAction
-} = useCompanyStore()
+const { getCompanies: getCompaniesAction } = useCompanyStore()
+
 const getList = async (): Promise<number> => {
   getListLoading.value = true
   const res = await getCompaniesAction(
     searchQuery.value,
-    status.value,
-    partnerType.value,
-    isShowInFooter.value,
+    filterDTO.value,
+    sortDTO.value,
+    columnDTO.value,
     pageNum.value,
     pageSize.value
   )
-
-  data.value = res.rows
+  data.value = res.data.rows
   getListLoading.value = false
-  return res.total
+  return res.data.total
 }
 
+// 筛选和表格
+import { useTable } from '@/composables/useTable'
+import { sortList as sortDate, filterList as filterDate, columnList as columnDate } from './config'
+const { sortList, filterList, columnList, filterDTO, columnDTO, sortDTO } = useTable(
+  sortDate,
+  filterDate,
+  columnDate
+)
+
+// 分页
 import { usePager } from '@/composables/usePager'
 const { pageNum, pageSize, total, refresh } = usePager(getList)
 
 // 删除
-import { useDelete } from '@/composables/useDelete'
-const delTitle = ref('')
-const delId = ref<string | number>('')
-const { doDelAction } = useDelete(
-  () => `是否确认删除 ${delTitle.value} ？`,
-  async () => {
-    await deleteCompaniesAction([delId.value])
-    refresh()
-  }
-)
-const handleDelete = (id: string | number, title: string) => {
-  delTitle.value = title
-  delId.value = id
-  doDelAction()
-}
+const { handleDelete } = useDeleteCompanies(refresh)
 
 // 修改状态
-import { useChangeStatus } from '@/composables/useChangeStatus'
-import { ActiveStatus } from '@/constants/mapData'
-import type { PartnerTypes } from '@/constants/mapData/company'
-const changeName = ref('')
-const changeId = ref<string | number>('')
-const changeStatus = ref<ActiveStatus>()
-const { doChangeAction } = useChangeStatus(
-  () =>
-    `是否确认 ${changeStatus.value === ActiveStatus.Active ? '启用' : '停用'} ${changeName.value} ？`,
-  async () => {
-    if (!changeStatus.value) {
-      ElMessage.error('请选择状态')
-      return
-    }
-    await changeCompaniesStatusAction([changeId.value], changeStatus.value)
-    refresh()
-  }
-)
-const handleChangeStatus = (id: string | number, name: string, newStatus: ActiveStatus) => {
-  changeName.value = name
-  changeId.value = id
-  changeStatus.value = newStatus
-  doChangeAction()
-}
+const { handleChangeStatus } = useChangeCompaniesStatus(refresh)
 
 // 搜索
-const searchQuery = ref<string>('')
-const handleSearch = () => {
-  refresh()
-}
-
-const status = ref<ActiveStatus | null>(null)
-const partnerType = ref<PartnerTypes | null>(null)
-const isShowInFooter = ref<boolean | null>(null)
-const reset = () => {
-  pageNum.value = 1
-  refresh()
-}
+const { searchQuery, reset } = useSearchCompany(refresh)
 
 // 新建
 const router = useRouter()

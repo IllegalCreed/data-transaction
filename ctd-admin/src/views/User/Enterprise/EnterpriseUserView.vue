@@ -61,7 +61,7 @@ defineOptions({
 import FilterSortPanel from '@/components/FilterSortPanel.vue'
 import EnterpriseUserTabel from './EnterpriseUserTabel.vue'
 import { ENTERPRISE_USER_PROP_LABEL_MAP } from '@/constants/mapData/user'
-import { useChangeUserStatus, useDeleteUser, useSearchUser } from '../useUser'
+import { useChangeUserStatus, useDeleteUser, useSearchUser } from '../composables'
 
 // 获取列表
 const getListLoading = ref<boolean>(false)

@@ -1,4 +1,5 @@
-import type { IOption } from '@/types/common'
+import type { IOption, IPropLabelMap } from '@/types/common'
+import type { ICompanyItem } from '@/types/company'
 export enum PartnerTypes {
   None = 'none',
   Partner = 'partner',
@@ -21,3 +22,15 @@ export const partnerTypesOptions: IOption[] = Object.values(PartnerTypes).map((v
   value,
   label: PARTNER_TYPES_MAP[value]
 }))
+
+export const COMPANY_PROP_LABEL_MAP: IPropLabelMap<ICompanyItem> = {
+  id: 'ID',
+  name: '公司名称',
+  link: '链接',
+  logoUrl: '商标',
+  partnerType: '合作伙伴',
+  isShowInFooter: '友情链接',
+  status: '状态',
+  createdAt: '创建时间',
+  updatedAt: '更新时间'
+}

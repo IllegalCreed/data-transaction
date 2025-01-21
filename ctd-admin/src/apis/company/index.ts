@@ -1,15 +1,15 @@
-import type { PartnerTypes } from '@/constants/mapData/company'
-import type { ICompanyDTO } from '@/types/company'
+import type { ICompanyDTO, ICompanyItem } from '@/types/company'
 import type { ActiveStatus } from '@/constants/mapData'
 import * as javaCompany from './java/company'
 import * as nestCompany from './nest/company'
+import type { IFilterDTO, ISort, ITableColumnDTO } from '@/types/table'
 
 interface ICompanyAPI {
   getCompanies: (
     searchQuery: string,
-    status: ActiveStatus | null,
-    partnerType: PartnerTypes | null,
-    isShowInFooter: boolean | null,
+    filters: IFilterDTO<ICompanyItem>[],
+    sorts: ISort<ICompanyItem>[],
+    columns: ITableColumnDTO<ICompanyItem>[],
     pageNum: number,
     pageSize: number
   ) => Promise<unknown>

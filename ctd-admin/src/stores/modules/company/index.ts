@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { useSettingsStore } from '../settings'
-import type { apiListResult, IOption } from '@/types/common'
+import type { apiListResult, ICommonReturn, IOption } from '@/types/common'
 import {
   getCompanies as getCompaniesAPI,
   getCompany as getCompanyAPI,
@@ -15,39 +15,36 @@ import {
   companies as mockCompanies
 } from '@/constants/mockData/company'
 import type { ActiveStatus } from '@/constants/mapData'
-import type { PartnerTypes } from '@/constants/mapData/company'
 import type { ICompany, ICompanyDTO, ICompanyItem } from '@/types/company'
+import type { IFilterDTO, ISort, ITableColumnDTO } from '@/types/table'
 
 export const useCompanyStore = defineStore('company', () => {
   const settingsStore = useSettingsStore()
+  const { findMockTreeValueByKey } = settingsStore
 
   const getCompanies = (
     searchQuery: string,
-    status: ActiveStatus | null,
-    partnerType: PartnerTypes | null,
-    isShowInFooter: boolean | null,
+    filters: IFilterDTO<ICompanyItem>[],
+    sorts: ISort<ICompanyItem>[],
+    columns: ITableColumnDTO<ICompanyItem>[],
     pageNum: number,
     pageSize: number
-  ): Promise<apiListResult<ICompanyItem>> => {
-    return new Promise<apiListResult<ICompanyItem>>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+  ): Promise<ICommonReturn<apiListResult<ICompanyItem>>> => {
+    return new Promise<ICommonReturn<apiListResult<ICompanyItem>>>((resolve, reject) => {
+      if (findMockTreeValueByKey('company')) {
         window.setTimeout(() => {
           const result = mockCompanies.filter((item) => {
-            const statusMatch = status ? item.status === status : true
-            const partnerTypeMatch = partnerType ? item.partnerType === partnerType : true
-            const isShowInFooterMatch =
-              isShowInFooter !== null ? item.isShowInFooter === isShowInFooter : true
             const searchMatch = searchQuery ? item.name.includes(searchQuery) : true
 
-            return statusMatch && searchMatch && partnerTypeMatch && isShowInFooterMatch
+            return searchMatch
           })
 
-          resolve({ total: result.length, rows: result })
+          resolve({ data: { total: 10, rows: result }, code: 0, msg: 'success' })
         }, 1000)
       } else {
-        getCompaniesAPI(searchQuery, status, partnerType, isShowInFooter, pageNum, pageSize)
+        getCompaniesAPI(searchQuery, filters, sorts, columns, pageNum, pageSize)
           .then((res) => {
-            const result = res as apiListResult<ICompanyItem>
+            const result = res as ICommonReturn<apiListResult<ICompanyItem>>
             resolve(result)
           })
           .catch((error: Error) => {
@@ -60,7 +57,7 @@ export const useCompanyStore = defineStore('company', () => {
 
   const getCompany = (id: string | number): Promise<ICompany> => {
     return new Promise<ICompany>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('company')) {
         window.setTimeout(() => {
           const result = mockCompanies.find((item) => item.id === Number(id))
           if (result) {
@@ -72,8 +69,8 @@ export const useCompanyStore = defineStore('company', () => {
       } else {
         getCompanyAPI(id)
           .then((res) => {
-            const result = res as ICompany
-            resolve(result)
+            const result = res as ICommonReturn<ICompany>
+            resolve(result.data)
           })
           .catch((error: Error) => {
             reject(error)
@@ -85,7 +82,7 @@ export const useCompanyStore = defineStore('company', () => {
 
   const upsertCompany = (id: string | number, CompanyInfo: ICompanyDTO): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('company')) {
         window.setTimeout(() => {
           resolve()
         }, 1000)
@@ -104,7 +101,7 @@ export const useCompanyStore = defineStore('company', () => {
 
   const changeCompaniesStatus = (ids: (string | number)[], status: ActiveStatus): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('company')) {
         window.setTimeout(() => {
           resolve()
         }, 1000)
@@ -123,7 +120,7 @@ export const useCompanyStore = defineStore('company', () => {
 
   const deleteCompanies = (ids: (string | number)[]): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('company')) {
         window.setTimeout(() => {
           resolve()
         }, 1000)

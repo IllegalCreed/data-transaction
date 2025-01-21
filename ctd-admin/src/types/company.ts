@@ -19,8 +19,8 @@ export interface ICompany {
   partnerType: PartnerTypes
   isShowInFooter: boolean
   status: ActiveStatus
-  createTime: string
-  updateTime: string
+  createdAt: string
+  updatedAt: string
 }
 
 /**
