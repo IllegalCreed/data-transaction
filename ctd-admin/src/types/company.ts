@@ -12,9 +12,9 @@ export interface ICompanyOption {
 export interface ICompany {
   id: string | number
   name: string
-  description: string
+  description?: string
   content?: string
-  link: string
+  link?: string
   logoUrl?: string
   partnerType: PartnerTypes
   isShowInFooter: boolean

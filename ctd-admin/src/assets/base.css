@@ -3,6 +3,7 @@
   --color-dark-primary: #950b0f;
 
   --color-black: #000;
+  --color-black-500: rgba(0, 0, 0, 0.5);
   --color-white: #fff;
   --color-white-700: rgba(255, 255, 255, 0.7);
 
@@ -28,6 +29,7 @@
   --text-label-color: var(--color-gray-400);
 
   --mask-color: var(--color-white-700);
+  --upload-background-color: var(--color-black-500);
 
   --background-page-dark-color: var(--color-gray-200);
   --background-page-color: var(--color-white);

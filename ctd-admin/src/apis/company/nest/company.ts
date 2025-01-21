@@ -42,7 +42,6 @@ export const upsertCompany = (id: string | number, companyInfo: ICompanyDTO): Pr
     id,
     ...companyInfo
   }
-
   return request.post(
     {
       url: '/platform/company/upsert',

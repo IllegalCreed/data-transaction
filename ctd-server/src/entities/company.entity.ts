@@ -17,7 +17,7 @@ export class Company extends BaseEntity {
   @Column({ type: 'text', nullable: true })
   content?: string;
 
-  @Column()
+  @Column({ nullable: true })
   link: string;
 
   @Column({ nullable: true })

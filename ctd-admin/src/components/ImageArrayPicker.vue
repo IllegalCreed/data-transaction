@@ -120,7 +120,7 @@ onBeforeUnmount(() => {
     }
 
     .actions-container {
-      @apply absolute left-0 top-0 w-full h-full cursor-default flex justify-center items-center opacity-0 text-white text-xl gap-4 bg-[var(--background-image-upload-action-color)] transition-opacity;
+      @apply absolute left-0 top-0 w-full h-full cursor-default flex justify-center items-center opacity-0 text-white text-xl gap-4 bg-[var(--upload-background-color)] transition-opacity;
     }
   }
 }
