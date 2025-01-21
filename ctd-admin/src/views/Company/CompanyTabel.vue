@@ -33,7 +33,13 @@
       :propLabelMap="propLabelMap"
     >
       <template #logoUrl="{ scope }">
-        <el-image v-if="scope.row.logoUrl" class="icon" :src="scope.row.logoUrl"> </el-image>
+        <el-image
+          class="w-14 h-14"
+          :src="scope.row.logoUrl"
+          :preview-src-list="scope.row.logoUrl ? [scope.row.logoUrl] : undefined"
+          fit="cover"
+        >
+        </el-image>
       </template>
 
       <template #isShowInFooter="{ scope }">
@@ -173,8 +179,4 @@ const changeAllStatus = (newStatus: ActiveStatus) => {
 }
 </script>
 
-<style scoped lang="scss">
-.icon {
-  @apply w-14 h-14 object-cover;
-}
-</style>
+<style scoped lang="scss"></style>

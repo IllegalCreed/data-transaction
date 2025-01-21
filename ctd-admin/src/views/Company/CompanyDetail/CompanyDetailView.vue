@@ -24,11 +24,11 @@
       </div>
       <div class="prop">
         <span class="label">创建时间：</span>
-        <span class="value">{{ companyInfo.createTime }}</span>
+        <span class="value">{{ dayjs(companyInfo.createdAt).format('YYYY-MM-DD HH:mm:ss') }}</span>
       </div>
       <div class="prop">
         <span class="label">更新时间：</span>
-        <span class="value">{{ companyInfo.updateTime }}</span>
+        <span class="value">{{ dayjs(companyInfo.updatedAt).format('YYYY-MM-DD HH:mm:ss') }}</span>
       </div>
       <div class="prop">
         <span class="label">友情链接：</span>
@@ -55,6 +55,7 @@
 defineOptions({
   name: 'company-detail'
 })
+import dayjs from 'dayjs'
 const id = useRouteParams<string | number>('id')
 // watch(id, () => {
 //   executeGetCompanyAction()
@@ -76,8 +77,8 @@ const {
     status: ActiveStatus.Inactive,
     partnerType: PartnerTypes.None,
     isShowInFooter: false,
-    createTime: '',
-    updateTime: ''
+    createdAt: '',
+    updatedAt: ''
   },
   {
     immediate: false,

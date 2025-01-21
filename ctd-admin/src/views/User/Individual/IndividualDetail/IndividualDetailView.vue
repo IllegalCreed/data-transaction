@@ -32,11 +32,11 @@
       </div>
       <div class="prop">
         <span class="label">创建时间：</span>
-        <span class="value">{{ userInfo.createdAt }}</span>
+        <span class="value">{{ dayjs(userInfo.createdAt).format('YYYY-MM-DD HH:mm:ss') }}</span>
       </div>
       <div class="prop">
         <span class="label">更新时间：</span>
-        <span class="value">{{ userInfo.updatedAt }}</span>
+        <span class="value">{{ dayjs(userInfo.updatedAt).format('YYYY-MM-DD HH:mm:ss') }}</span>
       </div>
       <div class="prop" grid-col-span-3>
         <span class="label">住址</span>
@@ -59,6 +59,7 @@
 defineOptions({
   name: 'individual-detail'
 })
+import dayjs from 'dayjs'
 const id = useRouteParams<string | number>('id')
 // watch(id, () => {
 //   executeGetUserAction()
