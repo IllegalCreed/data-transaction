@@ -41,9 +41,9 @@
         <el-tag v-else type="warning">{{ '否' }}</el-tag>
       </template>
 
-      <template #gender="{ scope }">
-        <el-tag :type="partnerColor(scope.row.partner)">{{
-          partnerLabel(scope.row.partner)
+      <template #partnerType="{ scope }">
+        <el-tag :type="partnerColor(scope.row.partnerType)">{{
+          partnerLabel(scope.row.partnerType)
         }}</el-tag>
       </template>
 
@@ -58,7 +58,7 @@
           link
           type="primary"
           size="small"
-          @click="changeStatus(scope.row.id, scope.row.fullName, ActiveStatus.Active)"
+          @click="changeStatus(scope.row.id, scope.row.name, ActiveStatus.Active)"
         >
           启用
         </el-button>
@@ -67,7 +67,7 @@
           link
           type="primary"
           size="small"
-          @click="changeStatus(scope.row.id, scope.row.fullName, ActiveStatus.Inactive)"
+          @click="changeStatus(scope.row.id, scope.row.name, ActiveStatus.Inactive)"
         >
           停用
         </el-button>
@@ -78,7 +78,7 @@
           link
           type="primary"
           size="small"
-          @click="deleteRow(scope.row.id, scope.row.fullName)"
+          @click="deleteRow(scope.row.id, scope.row.name)"
         >
           删除
         </el-button>

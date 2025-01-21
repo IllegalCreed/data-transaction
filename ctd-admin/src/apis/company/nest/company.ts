@@ -21,7 +21,7 @@ export const getCompanies = (
   }
   return request.post(
     {
-      url: '/company/list',
+      url: '/platform/company/list',
       data
     },
     true
@@ -31,7 +31,7 @@ export const getCompanies = (
 export const getCompany = (id: string | number): Promise<unknown> => {
   return request.get(
     {
-      url: `/company/${id}`
+      url: `/platform/company/${id}`
     },
     true
   )
@@ -45,7 +45,7 @@ export const upsertCompany = (id: string | number, companyInfo: ICompanyDTO): Pr
 
   return request.post(
     {
-      url: '/company/upsert',
+      url: '/platform/company/upsert',
       data
     },
     true
@@ -56,27 +56,27 @@ export const changeCompaniesStatus = (
   ids: (string | number)[],
   status: ActiveStatus
 ): Promise<unknown> => {
-  const params = {
+  const data = {
     ids,
     status
   }
-  return request.put(
+  return request.post(
     {
-      url: '/company/change-status',
-      params
+      url: '/platform/company/change-status',
+      data
     },
     true
   )
 }
 
 export const deleteCompanies = (ids: (string | number)[]): Promise<unknown> => {
-  const params = {
+  const data = {
     ids
   }
-  return request.delete(
+  return request.post(
     {
-      url: '/company/delete',
-      params
+      url: '/platform/company/delete',
+      data
     },
     true
   )
@@ -88,7 +88,7 @@ export const getCompanyOptionsByName = (searchQuery: string): Promise<unknown> =
   }
   return request.get(
     {
-      url: '/company/get-options-by-name',
+      url: '/platform/company/get-options-by-name',
       params
     },
     true
@@ -101,7 +101,7 @@ export const getCompanyOptionsByID = (id: string | number): Promise<unknown> => 
   }
   return request.get(
     {
-      url: '/company/get-options-by-id',
+      url: '/platform/company/get-options-by-id',
       params
     },
     true

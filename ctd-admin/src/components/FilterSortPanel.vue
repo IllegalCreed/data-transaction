@@ -262,7 +262,13 @@ const applyFilter = () => {
   filterCount.value = 0
   filterList.value.forEach((item) => {
     if (item.value !== undefined && item.value !== '') {
-      filterCount.value++
+      if (item.type === 'enum' || item.type === 'date') {
+        if (item.value.length !== 0) {
+          filterCount.value++
+        }
+      } else {
+        filterCount.value++
+      }
     }
   })
   emit('apply')

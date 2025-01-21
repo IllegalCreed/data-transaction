@@ -8,7 +8,7 @@ export interface ISort<T> {
 export interface IFilter<T> {
   prop: keyof T
   type: 'enum' | 'date' | 'input'
-  value?: string | [string, string]
+  value?: string | [string, string] | Array<string>
   options?: {
     // 当 type 为 'enum' 时，可能会有 options
     label: string

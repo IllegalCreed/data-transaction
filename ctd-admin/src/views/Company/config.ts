@@ -69,10 +69,10 @@ export const filterList: IFilter<ICompanyItem>[] = [
 ]
 
 export const columnList: ITableColumn<ICompanyItem>[] = [
-  { prop: 'logoUrl', minWidth: '200', visible: true },
+  { prop: 'logoUrl', minWidth: '80', visible: true },
   { prop: 'name', minWidth: '200', visible: true },
-  { prop: 'link', minWidth: '120', visible: true },
-  { prop: 'partnerType', minWidth: '200', slot: 'partnerType', visible: true },
+  { prop: 'link', minWidth: '200', visible: true },
+  { prop: 'partnerType', minWidth: '150', slot: 'partnerType', visible: true },
   { prop: 'isShowInFooter', minWidth: '120', slot: 'isShowInFooter', visible: true },
   { prop: 'status', minWidth: '120', slot: 'status', visible: true },
   {
