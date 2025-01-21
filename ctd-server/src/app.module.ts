@@ -15,11 +15,13 @@ import { AdminModule } from './modules/platform/admin/admin.module';
 import { PlatformLoginModule } from './modules/platform/login/login.module';
 import { PlatformUserModule } from './modules/platform/user/user.module';
 import { PlatformCompanyModule } from './modules/platform/company/company.module';
+import { FileModule } from './modules/common/file/file.module';
 
 const nodeEnv = process.env.NODE_ENV || 'development';
 
 @Module({
   imports: [
+    // 静态文件服务
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'uploads'),
       serveRoot: '/uploads',
@@ -68,9 +70,10 @@ const nodeEnv = process.env.NODE_ENV || 'development';
       },
       inject: [ConfigService],
     }),
+    CaptchaModule,
+    FileModule,
     RegisterModule,
     ForgotModule,
-    CaptchaModule,
     LoginModule,
     UserModule,
     ChangePasswordModule,
