@@ -28,8 +28,8 @@ export const companies: ICompany[] = [
     partnerType: PartnerTypes.None,
     isShowInFooter: false,
     status: ActiveStatus.Inactive,
-    createTime: '2022-01-01 00:00:00',
-    updateTime: '2022-01-01 00:00:00'
+    createdAt: '2022-01-01 00:00:00',
+    updatedAt: '2022-01-01 00:00:00'
   },
   {
     id: 2,
@@ -40,8 +40,8 @@ export const companies: ICompany[] = [
     partnerType: PartnerTypes.Partner,
     isShowInFooter: false,
     status: ActiveStatus.Active,
-    createTime: '2022-01-01 00:00:00',
-    updateTime: '2022-01-01 00:00:00'
+    createdAt: '2022-01-01 00:00:00',
+    updatedAt: '2022-01-01 00:00:00'
   },
   {
     id: 3,
@@ -52,7 +52,7 @@ export const companies: ICompany[] = [
     partnerType: PartnerTypes.TopPartner,
     isShowInFooter: true,
     status: ActiveStatus.Active,
-    createTime: '2022-01-01 00:00:00',
-    updateTime: '2022-01-01 00:00:00'
+    createdAt: '2022-01-01 00:00:00',
+    updatedAt: '2022-01-01 00:00:00'
   }
 ]
