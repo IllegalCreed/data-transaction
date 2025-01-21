@@ -31,4 +31,4 @@ export type ICompanyItem = Omit<ICompany, 'description' | 'content'>
 /**
  * 新增修改公司
  */
-export type ICompanyDTO = Omit<ICompany, 'id' | 'createTime' | 'updateTime'>
+export type ICompanyDTO = Omit<ICompany, 'id' | 'createdAt' | 'updatedAt'>
