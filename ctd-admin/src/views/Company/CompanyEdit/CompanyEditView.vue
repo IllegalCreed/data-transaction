@@ -68,7 +68,6 @@ import { PartnerTypes } from '@/constants/mapData/company'
 import type { ICompanyDTO } from '@/types/company'
 
 const id = useRouteParams<number>('id', -1, { transform: Number })
-console.log(typeof id.value)
 const form = useTemplateRef<FormInstance>('form')
 const rules = reactive<FormRules<ICompanyDTO>>({
   name: [{ required: true, message: '请输入公司名称', trigger: 'blur' }]

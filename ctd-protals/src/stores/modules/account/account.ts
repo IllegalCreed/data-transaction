@@ -71,7 +71,7 @@ export const useAccount = () => {
             } else {
               const result = (res as ICommonReturn<UserInfo>).data
               if (result.avatarUrl) {
-                result.avatarUrl = `${import.meta.env.VITE_APP_BASE_API}/${result.avatarUrl}`
+                result.avatarUrl = `${import.meta.env.VITE_APP_BASE_API}${result.avatarUrl}`
               }
               if (result.userType === UserType.Individual) {
                 if (result.dateOfBirth) {

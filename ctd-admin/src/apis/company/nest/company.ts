@@ -2,6 +2,7 @@ import request from '@/axios'
 import type { ActiveStatus } from '@/constants/mapData'
 import type { ICompanyDTO, ICompanyItem } from '@/types/company'
 import type { IFilterDTO, ISort, ITableColumnDTO } from '@/types/table'
+import { omit } from 'lodash-es'
 
 export const getCompanies = (
   searchQuery: string,
@@ -37,7 +38,11 @@ export const getCompany = (id: string | number): Promise<unknown> => {
   )
 }
 
-export const upsertCompany = (id: string | number, companyInfo: ICompanyDTO): Promise<unknown> => {
+export const upsertCompany = (
+  id: string | number,
+  companyInfoRaw: ICompanyDTO
+): Promise<unknown> => {
+  const companyInfo = omit(companyInfoRaw, ['createdAt', 'updatedAt'])
   const data = {
     id,
     ...companyInfo

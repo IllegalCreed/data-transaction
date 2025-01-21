@@ -40,6 +40,7 @@ export class CompanyService extends AbstractListService<Company, CompanyItem> {
         id: c.id,
         name: c.name,
         link: c.link,
+        logoUrl: c.logoUrl,
         partnerType: c.partnerType,
         isShowInFooter: c.isShowInFooter,
         status: c.status,

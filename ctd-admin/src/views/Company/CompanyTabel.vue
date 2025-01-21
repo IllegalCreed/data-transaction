@@ -33,7 +33,7 @@
       :propLabelMap="propLabelMap"
     >
       <template #logoUrl="{ scope }">
-        <img class="icon" :src="scope.row.logoUrl" />
+        <el-image v-if="scope.row.logoUrl" class="icon" :src="scope.row.logoUrl"> </el-image>
       </template>
 
       <template #isShowInFooter="{ scope }">

@@ -55,7 +55,7 @@ export class FileController {
     }
 
     // 构造文件访问URL路径
-    const fileUrl = `uploads/files/${file.filename}`;
+    const fileUrl = `/uploads/files/${file.filename}`;
     this.logger.log(`上传文件成功`);
     return createSuccessResponse(fileUrl, 'UPLOAD_FILE_SUCCEED');
   }

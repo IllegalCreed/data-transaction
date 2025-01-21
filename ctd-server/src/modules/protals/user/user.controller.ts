@@ -116,7 +116,7 @@ export class UserController {
     }
 
     // 构造文件访问URL路径
-    const avatarUrl = `uploads/avatars/${file.filename}`;
+    const avatarUrl = `/uploads/avatars/${file.filename}`;
     return this.userService.updateUserAvatar(userId, avatarUrl);
   }
 }
