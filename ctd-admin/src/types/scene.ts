@@ -30,7 +30,7 @@ export type IScene = IOuterLinkScene | IInnerContentScene
 
 export interface ISceneItem
   extends Omit<IScene, 'summary' | 'headerImageUrl' | 'content' | 'link' | 'company'> {
-  companyName: string
+  companyName?: string
 }
 
 export interface ISceneDTO

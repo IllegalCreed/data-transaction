@@ -1,13 +1,15 @@
 import type { ActiveStatus } from '@/constants/mapData'
 import * as javaScene from './java/scene'
 import * as nestScene from './nest/scene'
-import type { ISceneDTO } from '@/types/scene'
+import type { ISceneDTO, ISceneItem } from '@/types/scene'
+import type { IFilterDTO, ISort, ITableColumnDTO } from '@/types/table'
 
 interface ISceneAPI {
   getScenes: (
     searchQuery: string,
-    status: ActiveStatus | null,
-    isOuterLink: boolean | null,
+    filters: IFilterDTO<ISceneItem>[],
+    sorts: ISort<ISceneItem>[],
+    columns: ITableColumnDTO<ISceneItem>[],
     pageNum: number,
     pageSize: number
   ) => Promise<unknown>

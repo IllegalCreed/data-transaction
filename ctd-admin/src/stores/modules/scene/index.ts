@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { useSettingsStore } from '../settings'
-import type { apiListResult, IOption } from '@/types/common'
+import type { apiListResult, ICommonReturn, IOption } from '@/types/common'
 import type { IScene, ISceneDTO, ISceneItem } from '@/types/scene'
 import {
   getScenes as getScenesAPI,
@@ -13,37 +13,46 @@ import {
 } from '@/apis/scene'
 import { scenes as mockScenes, sceneOptions as mockSceneOptions } from '@/constants/mockData/scene'
 import type { ActiveStatus } from '@/constants/mapData'
+import type { IFilterDTO, ISort, ITableColumnDTO } from '@/types/table'
 
 export const useSceneStore = defineStore('scene', () => {
   const settingsStore = useSettingsStore()
 
   const getScenes = (
     searchQuery: string,
-    status: ActiveStatus | null,
-    isOuterLink: boolean | null,
+    filters: IFilterDTO<ISceneItem>[],
+    sorts: ISort<ISceneItem>[],
+    columns: ITableColumnDTO<ISceneItem>[],
     pageNum: number,
     pageSize: number
-  ): Promise<apiListResult<ISceneItem>> => {
-    return new Promise<apiListResult<ISceneItem>>((resolve, reject) => {
+  ): Promise<ICommonReturn<apiListResult<ISceneItem>>> => {
+    return new Promise<ICommonReturn<apiListResult<ISceneItem>>>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => {
           const result = mockScenes.filter((item) => {
-            const statusMatch = status ? item.status === status : true
-            const isOuterLinkMatch = isOuterLink !== null ? item.isOuterLink === isOuterLink : true
             const searchMatch = searchQuery ? item.title.includes(searchQuery) : true
 
-            return statusMatch && searchMatch && isOuterLinkMatch
+            return searchMatch
           })
           const newArray: ISceneItem[] = result.map((item) => ({
             ...item,
-            companyName: item.company.label
+            companyName: item.company?.label
           }))
-          resolve({ total: result.length, rows: newArray })
+          resolve({ data: { total: result.length, rows: newArray }, code: 0, msg: 'success' })
         }, 1000)
       } else {
-        getScenesAPI(searchQuery, status, isOuterLink, pageNum, pageSize)
+        getScenesAPI(searchQuery, filters, sorts, columns, pageNum, pageSize)
           .then((res) => {
-            const result = res as apiListResult<ISceneItem>
+            const result = res as ICommonReturn<apiListResult<ISceneItem>>
+            result.data.rows.forEach((item) => {
+              if (item.coverImageUrl) {
+                if (import.meta.env.VITE_BACK_TYPE === 'nest') {
+                  item.coverImageUrl = `${import.meta.env.VITE_NEST_SERVER_URL}${item.coverImageUrl}`
+                } else if (import.meta.env.VITE_BACK_TYPE === 'java') {
+                  item.coverImageUrl = `${import.meta.env.VITE_JAVA_SERVER_URL}${item.coverImageUrl}`
+                }
+              }
+            })
             resolve(result)
           })
           .catch((error: Error) => {
@@ -68,8 +77,23 @@ export const useSceneStore = defineStore('scene', () => {
       } else {
         getSceneAPI(id)
           .then((res) => {
-            const result = res as IScene
-            resolve(result)
+            const result = res as ICommonReturn<IScene>
+            if (result.data.coverImageUrl) {
+              if (import.meta.env.VITE_BACK_TYPE === 'nest') {
+                result.data.coverImageUrl = `${import.meta.env.VITE_NEST_SERVER_URL}${result.data.coverImageUrl}`
+              } else if (import.meta.env.VITE_BACK_TYPE === 'java') {
+                result.data.coverImageUrl = `${import.meta.env.VITE_JAVA_SERVER_URL}${result.data.coverImageUrl}`
+              }
+            }
+            if (result.data.headerImageUrl) {
+              if (import.meta.env.VITE_BACK_TYPE === 'nest') {
+                result.data.headerImageUrl = `${import.meta.env.VITE_NEST_SERVER_URL}${result.data.headerImageUrl}`
+              } else if (import.meta.env.VITE_BACK_TYPE === 'java') {
+                result.data.headerImageUrl = `${import.meta.env.VITE_JAVA_SERVER_URL}${result.data.headerImageUrl}`
+              }
+            }
+
+            resolve(result.data)
           })
           .catch((error: Error) => {
             reject(error)

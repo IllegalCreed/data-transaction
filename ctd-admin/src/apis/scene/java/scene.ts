@@ -1,25 +1,29 @@
 import request from '@/axios'
 import type { ActiveStatus } from '@/constants/mapData'
-import type { ISceneDTO } from '@/types/scene'
+import type { ISceneDTO, ISceneItem } from '@/types/scene'
+import type { IFilterDTO, ISort, ITableColumnDTO } from '@/types/table'
+import { omit } from 'lodash-es'
 
 export const getScenes = (
   searchQuery: string,
-  status: ActiveStatus | null,
-  isOuterLink: boolean | null,
+  filters: IFilterDTO<ISceneItem>[],
+  sorts: ISort<ISceneItem>[],
+  columns: ITableColumnDTO<ISceneItem>[],
   pageNum: number,
   pageSize: number
 ): Promise<unknown> => {
-  const params = {
+  const data = {
     searchQuery,
-    status,
-    isOuterLink,
+    filters,
+    sorts,
+    columns,
     pageNum,
     pageSize
   }
-  return request.get(
+  return request.post(
     {
-      url: '/scene',
-      params
+      url: '/platform/scene/list',
+      data
     },
     true
   )
@@ -28,13 +32,14 @@ export const getScenes = (
 export const getScene = (id: string | number): Promise<unknown> => {
   return request.get(
     {
-      url: `/scene/${id}`
+      url: `/platform/scene/${id}`
     },
     true
   )
 }
 
-export const upsertScene = (id: string | number, sceneInfo: ISceneDTO): Promise<unknown> => {
+export const upsertScene = (id: string | number, sceneInfoRaw: ISceneDTO): Promise<unknown> => {
+  const sceneInfo = omit(sceneInfoRaw, ['createdAt', 'updatedAt', 'readCount', 'company'])
   const data = {
     id,
     ...sceneInfo
@@ -57,9 +62,9 @@ export const changeScenesStatus = (
     ids,
     status
   }
-  return request.put(
+  return request.post(
     {
-      url: '/scene/change-status',
+      url: '/platform/scene/change-status',
       data
     },
     true
@@ -67,25 +72,25 @@ export const changeScenesStatus = (
 }
 
 export const deleteScenes = (ids: (string | number)[]): Promise<unknown> => {
-  const params = {
+  const data = {
     ids
   }
-  return request.delete(
+  return request.post(
     {
-      url: '/scene/delete',
-      params
+      url: '/platform/scene/delete',
+      data
     },
     true
   )
 }
 
-export const getSceneOptionsByName = (searchQuery: string): Promise<unknown> => {
+export const getSceneOptionsByName = (name: string): Promise<unknown> => {
   const params = {
-    searchQuery
+    name
   }
   return request.get(
     {
-      url: '/scene/get-options-by-name',
+      url: '/platform/scene/get-options-by-name',
       params
     },
     true
@@ -98,7 +103,7 @@ export const getSceneOptionsByID = (id: string | number): Promise<unknown> => {
   }
   return request.get(
     {
-      url: '/scene/get-options-by-id',
+      url: '/platform/scene/get-options-by-id',
       params
     },
     true
