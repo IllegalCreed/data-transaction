@@ -9,6 +9,7 @@ import {
   Get,
   Param,
   BadRequestException,
+  Query,
 } from '@nestjs/common';
 import { CompanyService } from './company.service';
 import { AuthGuard } from 'src/common/guards/auth.guard';
@@ -27,6 +28,9 @@ import { Roles } from 'src/common/decorators/roles.decorator';
 import { RolesGuard } from 'src/common/guards/role.guard';
 import { ChangeStatusDto } from 'src/common/dto/change-status.dto';
 import { DeleteDto } from 'src/common/dto/delete.dto';
+import { GetOptionsByNameDto } from './dto/get-options-by-name.dto';
+import { IOption } from 'src/common/interfaces/option.interface';
+import { GetOptionsByIdDto } from './dto/get-options-by-id.dto';
 
 @Controller('platform/company')
 export class CompanyController {
@@ -171,6 +175,66 @@ export class CompanyController {
       }
       this.logger.error(`删除公司失败: ids=[${ids}]`, error);
       return createErrorResponse(ErrorCode.DELETE_COMPANY_FAILED);
+    }
+  }
+
+  /**
+   * 根据公司名称进行模糊搜索，返回 IOption 数组
+   * GET /platform/company/get-options-by-name?name=xxx
+   */
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(UserRole.Admin)
+  @Get('get-options-by-name')
+  @HttpCode(HttpStatus.OK)
+  async getOptionsByName(
+    @Query() dto: GetOptionsByNameDto,
+  ): Promise<ApiResponse<IOption[]>> {
+    const { name } = dto;
+
+    try {
+      const options = await this.companyService.getOptionsByName(name);
+      this.logger.log(
+        `根据名称搜索公司成功: name=${name}, found=${options.length}`,
+      );
+      return createSuccessResponse(
+        options,
+        'GET_COMPANY_OPTIONS_BY_NAME_SUCCEED',
+      );
+    } catch (error) {
+      if (error instanceof ExpectedError) {
+        return createErrorResponse(error.errorCode);
+      }
+      this.logger.error(`根据名称搜索公司失败: name=${name}`, error);
+      return createErrorResponse(ErrorCode.GET_COMPANY_OPTIONS_BY_NAME_FAILED);
+    }
+  }
+
+  /**
+   * 根据公司ID查询，返回 IOption 数组
+   * GET /platform/company/get-options-by-id?id=xxx
+   */
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(UserRole.Admin)
+  @Get('get-options-by-id')
+  @HttpCode(HttpStatus.OK)
+  async getOptionsById(
+    @Query() dto: GetOptionsByIdDto,
+  ): Promise<ApiResponse<IOption[]>> {
+    const { id } = dto;
+
+    try {
+      const options = await this.companyService.getOptionsById(id);
+      this.logger.log(`根据ID查询公司成功: id=${id}`);
+      return createSuccessResponse(
+        options,
+        'GET_COMPANY_OPTIONS_BY_ID_SUCCEED',
+      );
+    } catch (error) {
+      if (error instanceof ExpectedError) {
+        return createErrorResponse(error.errorCode);
+      }
+      this.logger.error(`根据ID查询公司失败: id=${id}`, error);
+      return createErrorResponse(ErrorCode.GET_COMPANY_OPTIONS_BY_ID_FAILED);
     }
   }
 }

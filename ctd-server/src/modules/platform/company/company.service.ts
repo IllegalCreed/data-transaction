@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Repository } from 'typeorm';
+import { In, Like, Repository } from 'typeorm';
 import { Company } from 'src/entities/company.entity';
 import { AbstractListService } from 'src/common/services/abstract-list.service'; // 引入基类
 import { CompanyItem } from './interface/company-item.interface';
@@ -11,6 +11,7 @@ import { UpsertCompanyDto } from './dto/upsert-company.dto';
 import { ExpectedError } from 'src/types/error';
 import { ErrorCode } from 'src/common/constants/error-codes';
 import { ActiveStatus } from 'src/enums/active-status.enum';
+import { IOption } from 'src/common/interfaces/option.interface';
 
 @Injectable()
 export class CompanyService extends AbstractListService<Company, CompanyItem> {
@@ -115,19 +116,20 @@ export class CompanyService extends AbstractListService<Company, CompanyItem> {
    * @param status 目标状态
    */
   async changeStatus(ids: number[], status: ActiveStatus): Promise<void> {
+    let updateResult;
     try {
-      const updateResult = await this.companyRepository.update(
+      updateResult = await this.companyRepository.update(
         { id: In(ids) },
         { status },
       );
-
-      if (updateResult.affected === 0) {
-        this.logger.warn(`修改公司状态失败: 未找到任何匹配的公司: [${ids}]`);
-        throw new ExpectedError(ErrorCode.COMPANY_NOT_FOUND);
-      }
     } catch (error) {
       this.logger.error('修改公司状态失败', error);
       throw new ExpectedError(ErrorCode.UPDATE_COMPANY_STATUS_FAILED);
+    }
+
+    if (updateResult.affected === 0) {
+      this.logger.warn(`修改公司状态失败: 未找到任何匹配的公司: [${ids}]`);
+      throw new ExpectedError(ErrorCode.COMPANY_NOT_FOUND);
     }
   }
 
@@ -154,5 +156,58 @@ export class CompanyService extends AbstractListService<Company, CompanyItem> {
       this.logger.error('删除公司失败: 数据库删除失败', error);
       throw new ExpectedError(ErrorCode.DELETE_COMPANY_FAILED);
     }
+  }
+
+  /**
+   * 根据公司名称进行模糊搜索，返回 IOption 数组
+   * @param name 公司名称
+   * @returns IOption[]
+   */
+  async getOptionsByName(name: string): Promise<IOption[]> {
+    try {
+      const companies = await this.companyRepository.find({
+        where: { name: Like(`%${name}%`) },
+        select: ['id', 'name'],
+        order: { name: 'ASC' },
+      });
+
+      return companies.map((company) => ({
+        value: company.id,
+        label: company.name,
+      }));
+    } catch (error) {
+      this.logger.error(`根据名称搜索公司失败: name=${name}`, error);
+      throw new ExpectedError(ErrorCode.GET_COMPANY_OPTIONS_BY_NAME_FAILED);
+    }
+  }
+
+  /**
+   * 根据公司ID查询，返回 IOption 数组
+   * @param id 公司ID
+   * @returns IOption[]
+   */
+  async getOptionsById(id: number): Promise<IOption[]> {
+    let company;
+    try {
+      company = await this.companyRepository.findOne({
+        where: { id },
+        select: ['id', 'name'],
+      });
+    } catch (error) {
+      this.logger.error(`根据ID查询公司失败: id=${id}`, error);
+      throw new ExpectedError(ErrorCode.GET_COMPANY_OPTIONS_BY_ID_FAILED);
+    }
+
+    if (!company) {
+      this.logger.warn(`根据ID查询公司失败: 未找到公司 id=${id}`);
+      throw new ExpectedError(ErrorCode.COMPANY_NOT_FOUND);
+    }
+
+    return [
+      {
+        value: company.id,
+        label: company.name,
+      },
+    ];
   }
 }

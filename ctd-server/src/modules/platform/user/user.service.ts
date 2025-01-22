@@ -21,19 +21,20 @@ export class UserService {
    * @param status 目标状态
    */
   async changeUserStatus(ids: number[], status: UserStatus): Promise<void> {
+    let updateResult;
     try {
-      const updateResult = await this.userRepository.update(
+      updateResult = await this.userRepository.update(
         { id: In(ids) },
         { status },
       );
-
-      if (updateResult.affected === 0) {
-        this.logger.warn(`修改用户状态失败: 未找到任何匹配的用户: [${ids}]`);
-        throw new ExpectedError(ErrorCode.USER_NOT_FOUND);
-      }
     } catch (error) {
       this.logger.error('修改用户状态失败: 数据库保存失败', error);
       throw new ExpectedError(ErrorCode.UPDATE_USER_STATUS_FAILED);
+    }
+
+    if (updateResult.affected === 0) {
+      this.logger.warn(`修改用户状态失败: 未找到任何匹配的用户: [${ids}]`);
+      throw new ExpectedError(ErrorCode.USER_NOT_FOUND);
     }
   }
 

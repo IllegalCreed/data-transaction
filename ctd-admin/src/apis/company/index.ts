@@ -17,7 +17,7 @@ interface ICompanyAPI {
   upsertCompany: (id: string | number, companyInfo: ICompanyDTO) => Promise<unknown>
   changeCompaniesStatus: (ids: (string | number)[], status: ActiveStatus) => Promise<unknown>
   deleteCompanies: (ids: (string | number)[]) => Promise<unknown>
-  getCompanyOptionsByName: (searchQuery: string) => Promise<unknown>
+  getCompanyOptionsByName: (name: string) => Promise<unknown>
   getCompanyOptionsByID: (id: string | number) => Promise<unknown>
 }
 

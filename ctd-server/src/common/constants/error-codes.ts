@@ -75,6 +75,8 @@ export enum ErrorCode {
   COMPANY_NOT_FOUND = 5204,
   UPDATE_COMPANY_STATUS_FAILED = 5205,
   DELETE_COMPANY_FAILED = 5206,
+  GET_COMPANY_OPTIONS_BY_NAME_FAILED = 5207,
+  GET_COMPANY_OPTIONS_BY_ID_FAILED = 5208,
 }
 
 export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
@@ -184,4 +186,8 @@ export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
     'Update company status failed due to unexpected error.',
   [ErrorCode.DELETE_COMPANY_FAILED]:
     'Delete company failed due to unexpected error.',
+  [ErrorCode.GET_COMPANY_OPTIONS_BY_NAME_FAILED]:
+    'Get company options by name failed due to unexpected error.',
+  [ErrorCode.GET_COMPANY_OPTIONS_BY_ID_FAILED]:
+    'Get company options by id failed due to unexpected error.',
 };

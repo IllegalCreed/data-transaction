@@ -86,9 +86,9 @@ export const deleteCompanies = (ids: (string | number)[]): Promise<unknown> => {
   )
 }
 
-export const getCompanyOptionsByName = (searchQuery: string): Promise<unknown> => {
+export const getCompanyOptionsByName = (name: string): Promise<unknown> => {
   const params = {
-    searchQuery
+    name
   }
   return request.get(
     {
