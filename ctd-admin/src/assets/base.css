@@ -18,6 +18,18 @@
   --color-gray-800: #1f2937;
   --color-gray-900: #111827;
   --color-gray-950: #090c0e;
+
+  --color-zinc-50: #fafafa;
+  --color-zinc-100: #f4f4f5;
+  --color-zinc-200: #e4e4e7;
+  --color-zinc-300: #d4d4d8;
+  --color-zinc-400: #a1a1aa;
+  --color-zinc-500: #71717a;
+  --color-zinc-600: #52525b;
+  --color-zinc-700: #3f3f46;
+  --color-zinc-800: #27272a;
+  --color-zinc-900: #18181b;
+  --color-zinc-950: #09090b;
 }
 
 :root {
@@ -45,24 +57,24 @@
 }
 
 .dark {
-  --text-color: var(--color-gray-300);
+  --text-color: var(--color-zinc-300);
   --text-btn-primary-color: var(--color-light-primary);
-  --text-white-color: var(--color-gray-100);
+  --text-white-color: var(--color-zinc-100);
   --text-white-highlight-color: var(--color-white);
-  --text-disable-color: var(--color-gray-500);
-  --text-label-color: var(--color-gray-400);
+  --text-disable-color: var(--color-zinc-500);
+  --text-label-color: var(--color-zinc-400);
 
   --mask-color: var(--color-white-700);
 
-  --background-page-dark-color: var(--color-gray-900);
-  --background-page-color: var(--color-gray-800);
+  --background-page-dark-color: var(--color-zinc-900);
+  --background-page-color: var(--color-zinc-800);
   --background-header-color: var(--color-dark-primary);
 
-  --border-color: var(--color-gray-600);
+  --border-color: var(--color-zinc-600);
   --border-btn-primary-color: var(--color-dark-primary);
 
   --menu-background: var(--page-background-color);
-  --menu-hover: var(--color-gray-700);
+  --menu-hover: var(--color-zinc-700);
   --menu-text-color: var(--text-color);
   --menu-active-text-color: var(--color-light-primary);
 }
