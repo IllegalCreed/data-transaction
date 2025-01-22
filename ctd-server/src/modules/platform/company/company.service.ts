@@ -53,7 +53,6 @@ export class CompanyService extends AbstractListService<Company, CompanyItem> {
 
   /**
    * Upsert（插入或更新）公司信息
-   * @param id 公司ID，若是新增则传入空值或负值
    * @param companyInfo 公司详细信息
    * @returns 返回更新后的公司对象
    */

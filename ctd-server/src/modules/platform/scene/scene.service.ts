@@ -11,6 +11,7 @@ import { Company } from 'src/entities/company.entity';
 import { IOption } from 'src/common/interfaces/option.interface';
 import { ErrorCode } from 'src/common/constants/error-codes';
 import { ExpectedError } from 'src/types/error';
+import { UpsertSceneDto } from './dto/upsert-scene.dto';
 
 @Injectable()
 export class SceneService extends AbstractListService<Scene, SceneItem> {
@@ -51,6 +52,66 @@ export class SceneService extends AbstractListService<Scene, SceneItem> {
         updatedAt: item.updatedAt,
       };
     });
+  }
+
+  /**
+   * 创建或更新场景
+   * @param dto UpsertSceneDto
+   * @returns Scene
+   */
+  async upsertScene(dto: UpsertSceneDto): Promise<Scene> {
+    const { id, ...sceneInfo } = dto;
+
+    let scene: Scene;
+
+    if (id > 0) {
+      scene = await this.sceneRepository.findOne({
+        where: { id },
+      });
+      if (!scene) {
+        this.logger.warn(`更新场景失败: 未找到场景 id=${dto.id}`);
+        throw new ExpectedError(ErrorCode.SCENE_NOT_FOUND);
+      }
+
+      scene.title = sceneInfo.title;
+      scene.summary = sceneInfo.summary;
+      scene.companyId = sceneInfo.companyId;
+      scene.coverImageUrl = sceneInfo.coverImageUrl;
+      scene.headerImageUrl = sceneInfo.headerImageUrl;
+      scene.isOuterLink = sceneInfo.isOuterLink;
+      scene.link = sceneInfo.isOuterLink ? sceneInfo.link : undefined;
+      scene.content = sceneInfo.isOuterLink ? undefined : sceneInfo.content;
+      scene.status = sceneInfo.status;
+
+      await this.sceneRepository.save(scene);
+    } else {
+      // 创建操作
+      scene = this.sceneRepository.create({
+        ...sceneInfo,
+        readCount: 0, // 初始阅读次数
+      });
+      await this.sceneRepository.save(scene);
+    }
+    return scene;
+  }
+
+  /**
+   * 获取场景详情
+   * @param id 场景ID
+   * @returns Scene
+   */
+  async getSceneDetail(id: number): Promise<Scene> {
+    const scene = await this.sceneRepository.findOne({
+      where: { id },
+      relations: ['company'],
+    });
+
+    if (!scene) {
+      this.logger.warn(`获取场景详情失败: 未找到场景 id=${id}`);
+      throw new ExpectedError(ErrorCode.SCENE_NOT_FOUND);
+    }
+
+    return scene;
   }
 
   /**

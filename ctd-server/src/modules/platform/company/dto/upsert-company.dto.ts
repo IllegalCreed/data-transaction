@@ -5,6 +5,7 @@ import {
   IsBoolean,
   IsUrl,
   IsNumber,
+  IsNotEmpty,
 } from 'class-validator';
 import { PartnerTypes } from 'src/enums/partner-types.enum';
 import { ActiveStatus } from 'src/enums/active-status.enum';
@@ -18,6 +19,7 @@ export class UpsertCompanyDto {
   id: number; // 用于判断是插入还是更新
 
   @IsString()
+  @IsNotEmpty({ message: '名称不能为空' })
   name: string;
 
   @IsString()

@@ -83,6 +83,8 @@ export enum ErrorCode {
   GET_SCENE_OPTIONS_BY_TITLE_FAILED = 5302,
   GET_SCENE_OPTIONS_BY_ID_FAILED = 5303,
   SCENE_NOT_FOUND = 5304,
+  UPSERT_SCENE_FAILED = 5305,
+  GET_SCENE_DETAIL_FAILED = 5306,
 }
 
 export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
@@ -205,4 +207,8 @@ export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
   [ErrorCode.GET_SCENE_OPTIONS_BY_ID_FAILED]:
     'Get scene options by id failed due to unexpected error.',
   [ErrorCode.SCENE_NOT_FOUND]: 'Scene not found.',
+  [ErrorCode.UPSERT_SCENE_FAILED]:
+    'Upsert scene failed due to unexpected error.',
+  [ErrorCode.GET_SCENE_DETAIL_FAILED]:
+    'Get scene detail failed due to unexpected error.',
 };

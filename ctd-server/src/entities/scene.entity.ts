@@ -11,6 +11,9 @@ export class Scene extends BaseEntity {
   @Column({ type: 'text', nullable: true })
   summary?: string;
 
+  @Column({ name: 'companyId', type: 'int', nullable: true })
+  companyId?: number;
+
   @ManyToOne(() => Company, (company) => company.scenes, {
     eager: true,
     nullable: true,

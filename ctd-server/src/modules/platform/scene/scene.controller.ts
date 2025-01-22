@@ -1,10 +1,12 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
   HttpCode,
   HttpStatus,
   Logger,
+  Param,
   Post,
   Query,
   UseGuards,
@@ -25,6 +27,8 @@ import { ErrorCode } from 'src/common/constants/error-codes';
 import { GetOptionsByTitleDto } from './dto/get-options-by-title.dto';
 import { IOption } from 'src/common/interfaces/option.interface';
 import { GetOptionsByIdDto } from './dto/get-options-by-id.dto';
+import { Scene } from 'src/entities/scene.entity';
+import { UpsertSceneDto } from './dto/upsert-scene.dto';
 
 @Controller('platform/scene')
 export class SceneController {
@@ -64,6 +68,28 @@ export class SceneController {
 
       this.logger.error('获取场景列表失败', error);
       return createErrorResponse(ErrorCode.GET_SCENE_LIST_FAILED);
+    }
+  }
+
+  /**
+   * 创建或更新场景
+   * POST /platform/scene/upsert
+   */
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(UserRole.Admin)
+  @Post('upsert')
+  @HttpCode(HttpStatus.OK)
+  async upsertScene(@Body() dto: UpsertSceneDto): Promise<ApiResponse<Scene>> {
+    try {
+      const scene = await this.sceneService.upsertScene(dto);
+      this.logger.log(`场景信息保存成功: ${scene.id}`);
+      return createSuccessResponse(scene, 'UPSERT_SCENE_SUCCEED');
+    } catch (error) {
+      if (error instanceof ExpectedError) {
+        return createErrorResponse(error.errorCode);
+      }
+      this.logger.error(`场景信息保存失败`, error);
+      return createErrorResponse(ErrorCode.UPSERT_SCENE_FAILED);
     }
   }
 
@@ -121,6 +147,34 @@ export class SceneController {
       }
       this.logger.error(`根据ID查询场景失败: id=${id}`, error);
       return createErrorResponse(ErrorCode.GET_SCENE_OPTIONS_BY_ID_FAILED);
+    }
+  }
+
+  /**
+   * 获取场景详情
+   * GET /platform/scene/:id
+   */
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(UserRole.Admin)
+  @Get(':id')
+  @HttpCode(HttpStatus.OK)
+  async getSceneDetail(@Param('id') id: string): Promise<ApiResponse<Scene>> {
+    const sceneId = parseInt(id, 10);
+    if (Number.isNaN(sceneId)) {
+      throw new BadRequestException('Invalid scene ID');
+    }
+
+    try {
+      const sceneDetail = await this.sceneService.getSceneDetail(sceneId);
+      this.logger.log(`获取场景详情成功: id=${id}`);
+      return createSuccessResponse(sceneDetail, 'GET_SCENE_DETAIL_SUCCEED');
+    } catch (error) {
+      if (error instanceof ExpectedError) {
+        return createErrorResponse(error.errorCode);
+      }
+
+      this.logger.error(`获取场景详情失败: id=${id}`, error);
+      return createErrorResponse(ErrorCode.GET_SCENE_DETAIL_FAILED);
     }
   }
 }
