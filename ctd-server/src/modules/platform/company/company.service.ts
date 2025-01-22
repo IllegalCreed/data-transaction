@@ -106,22 +106,7 @@ export class CompanyService extends AbstractListService<Company, CompanyItem> {
       throw new ExpectedError(ErrorCode.COMPANY_NOT_FOUND);
     }
 
-    // 返回公司详情
-    const companyDetail: Company = {
-      id: company.id,
-      name: company.name,
-      description: company.description,
-      content: company.content,
-      link: company.link,
-      logoUrl: company.logoUrl,
-      partnerType: company.partnerType,
-      isShowInFooter: company.isShowInFooter,
-      status: company.status,
-      createdAt: company.createdAt,
-      updatedAt: company.updatedAt,
-    };
-
-    return companyDetail;
+    return company;
   }
 
   /**
@@ -129,30 +114,19 @@ export class CompanyService extends AbstractListService<Company, CompanyItem> {
    * @param ids 公司ID列表
    * @param status 目标状态
    */
-  async changeStatus(
-    ids: (string | number)[],
-    status: ActiveStatus,
-  ): Promise<void> {
-    // 查找要更新的公司
-    const companies = await this.companyRepository.find({
-      where: { id: In(ids) },
-    });
-
-    if (!companies || companies.length === 0) {
-      this.logger.warn(`修改公司状态失败: 未找到任何匹配的公司: [${ids}]`);
-      throw new ExpectedError(ErrorCode.COMPANY_NOT_FOUND);
-    }
-
-    // 更新状态
-    for (const company of companies) {
-      company.status = status;
-    }
-
-    // 保存更新后的公司
+  async changeStatus(ids: number[], status: ActiveStatus): Promise<void> {
     try {
-      await this.companyRepository.save(companies);
+      const updateResult = await this.companyRepository.update(
+        { id: In(ids) },
+        { status },
+      );
+
+      if (updateResult.affected === 0) {
+        this.logger.warn(`修改公司状态失败: 未找到任何匹配的公司: [${ids}]`);
+        throw new ExpectedError(ErrorCode.COMPANY_NOT_FOUND);
+      }
     } catch (error) {
-      this.logger.error('修改公司状态失败: 数据库保存失败', error);
+      this.logger.error('修改公司状态失败', error);
       throw new ExpectedError(ErrorCode.UPDATE_COMPANY_STATUS_FAILED);
     }
   }
@@ -161,7 +135,7 @@ export class CompanyService extends AbstractListService<Company, CompanyItem> {
    * 批量删除公司（软删除）
    * @param ids 公司ID列表
    */
-  async delete(ids: (string | number)[]): Promise<void> {
+  async delete(ids: number[]): Promise<void> {
     // 查找要删除的公司
     const companies = await this.companyRepository.find({
       where: { id: In(ids) },

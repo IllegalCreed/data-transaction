@@ -5,7 +5,7 @@ export class ChangeStatusDto {
   @IsArray()
   @ArrayNotEmpty()
   @IsInt({ each: true })
-  ids: (string | number)[];
+  ids: number[];
 
   @IsEnum(ActiveStatus)
   status: ActiveStatus;

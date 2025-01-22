@@ -7,5 +7,5 @@ export class DeleteDto {
   @IsArray()
   @ArrayNotEmpty()
   @IsInt({ each: true })
-  ids: (string | number)[];
+  ids: number[];
 }
