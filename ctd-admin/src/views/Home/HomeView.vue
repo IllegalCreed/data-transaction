@@ -204,6 +204,10 @@ onMounted(() => {
   background-color: var(--menu-hover);
 }
 
+:deep(.el-sub-menu__title:hover) {
+  background-color: var(--menu-hover);
+}
+
 .router-container {
   display: flex;
   flex-direction: column;

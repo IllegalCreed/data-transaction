@@ -62,7 +62,7 @@
   --border-btn-primary-color: var(--color-dark-primary);
 
   --menu-background: var(--page-background-color);
-  --menu-hover: var(--color-gray-800);
+  --menu-hover: var(--color-gray-700);
   --menu-text-color: var(--text-color);
   --menu-active-text-color: var(--color-light-primary);
 }
