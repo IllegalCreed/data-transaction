@@ -16,6 +16,7 @@ import { PlatformLoginModule } from './modules/platform/login/login.module';
 import { PlatformUserModule } from './modules/platform/user/user.module';
 import { PlatformCompanyModule } from './modules/platform/company/company.module';
 import { FileModule } from './modules/common/file/file.module';
+import { PlatformSceneModule } from './modules/platform/scene/scene.module';
 
 const nodeEnv = process.env.NODE_ENV || 'development';
 
@@ -82,6 +83,7 @@ const nodeEnv = process.env.NODE_ENV || 'development';
     AdminModule,
     PlatformUserModule,
     PlatformCompanyModule,
+    PlatformSceneModule,
   ],
   controllers: [],
   providers: [],

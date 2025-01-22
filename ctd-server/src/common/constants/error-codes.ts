@@ -77,6 +77,9 @@ export enum ErrorCode {
   DELETE_COMPANY_FAILED = 5206,
   GET_COMPANY_OPTIONS_BY_NAME_FAILED = 5207,
   GET_COMPANY_OPTIONS_BY_ID_FAILED = 5208,
+
+  // 场景管理相关
+  GET_SCENE_LIST_FAILED = 5301,
 }
 
 export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
@@ -190,4 +193,8 @@ export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
     'Get company options by name failed due to unexpected error.',
   [ErrorCode.GET_COMPANY_OPTIONS_BY_ID_FAILED]:
     'Get company options by id failed due to unexpected error.',
+
+  // 场景管理相关
+  [ErrorCode.GET_SCENE_LIST_FAILED]:
+    'Get scene list failed due to unexpected error.',
 };

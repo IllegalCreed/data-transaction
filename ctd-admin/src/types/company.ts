@@ -1,11 +1,6 @@
 import type { ActiveStatus } from '@/constants/mapData'
 import type { PartnerTypes } from '@/constants/mapData/company'
 
-export interface ICompanyOption {
-  id: string | number
-  name: string
-}
-
 /**
  * 公司
  */

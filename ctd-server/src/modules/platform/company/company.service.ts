@@ -176,7 +176,7 @@ export class CompanyService extends AbstractListService<Company, CompanyItem> {
         label: company.name,
       }));
     } catch (error) {
-      this.logger.error(`根据名称搜索公司失败: name=${name}`, error);
+      this.logger.error(`根据名称查询公司失败: name=${name}`, error);
       throw new ExpectedError(ErrorCode.GET_COMPANY_OPTIONS_BY_NAME_FAILED);
     }
   }

@@ -36,7 +36,7 @@ export const useSceneStore = defineStore('scene', () => {
           })
           const newArray: ISceneItem[] = result.map((item) => ({
             ...item,
-            companyName: item.company.name
+            companyName: item.company.label
           }))
           resolve({ total: result.length, rows: newArray })
         }, 1000)

@@ -99,36 +99,6 @@ export class CompanyController {
   }
 
   /**
-   * 获取公司详情
-   * GET /platform/company/:id
-   */
-  @UseGuards(AuthGuard, RolesGuard)
-  @Roles(UserRole.Admin)
-  @Get(':id')
-  @HttpCode(HttpStatus.OK)
-  async getCompanyDetail(
-    @Param('id') id: string,
-  ): Promise<ApiResponse<Company>> {
-    const companyId = parseInt(id, 10);
-    if (Number.isNaN(companyId)) {
-      throw new BadRequestException('Invalid company ID');
-    }
-
-    try {
-      const companyDetail = await this.companyService.getCompany(companyId);
-      this.logger.log(`获取公司详情成功: id=${id}`);
-      return createSuccessResponse(companyDetail, 'GET_COMPANY_DETAIL_SUCCEED');
-    } catch (error) {
-      if (error instanceof ExpectedError) {
-        return createErrorResponse(error.errorCode);
-      }
-
-      this.logger.error(`获取公司详情失败: id=${id}`, error);
-      return createErrorResponse(ErrorCode.GET_COMPANY_DETAIL_FAILED);
-    }
-  }
-
-  /**
    * 批量修改公司状态
    * POST /platform/company/change-status
    */
@@ -194,7 +164,7 @@ export class CompanyController {
     try {
       const options = await this.companyService.getOptionsByName(name);
       this.logger.log(
-        `根据名称搜索公司成功: name=${name}, found=${options.length}`,
+        `根据名称查询公司成功: name=${name}, found=${options.length}`,
       );
       return createSuccessResponse(
         options,
@@ -204,7 +174,7 @@ export class CompanyController {
       if (error instanceof ExpectedError) {
         return createErrorResponse(error.errorCode);
       }
-      this.logger.error(`根据名称搜索公司失败: name=${name}`, error);
+      this.logger.error(`根据名称查询公司失败: name=${name}`, error);
       return createErrorResponse(ErrorCode.GET_COMPANY_OPTIONS_BY_NAME_FAILED);
     }
   }
@@ -235,6 +205,36 @@ export class CompanyController {
       }
       this.logger.error(`根据ID查询公司失败: id=${id}`, error);
       return createErrorResponse(ErrorCode.GET_COMPANY_OPTIONS_BY_ID_FAILED);
+    }
+  }
+
+  /**
+   * 获取公司详情
+   * GET /platform/company/:id
+   */
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(UserRole.Admin)
+  @Get(':id')
+  @HttpCode(HttpStatus.OK)
+  async getCompanyDetail(
+    @Param('id') id: string,
+  ): Promise<ApiResponse<Company>> {
+    const companyId = parseInt(id, 10);
+    if (Number.isNaN(companyId)) {
+      throw new BadRequestException('Invalid company ID');
+    }
+
+    try {
+      const companyDetail = await this.companyService.getCompany(companyId);
+      this.logger.log(`获取公司详情成功: id=${id}`);
+      return createSuccessResponse(companyDetail, 'GET_COMPANY_DETAIL_SUCCEED');
+    } catch (error) {
+      if (error instanceof ExpectedError) {
+        return createErrorResponse(error.errorCode);
+      }
+
+      this.logger.error(`获取公司详情失败: id=${id}`, error);
+      return createErrorResponse(ErrorCode.GET_COMPANY_DETAIL_FAILED);
     }
   }
 }

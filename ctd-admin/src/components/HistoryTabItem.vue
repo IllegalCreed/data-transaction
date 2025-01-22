@@ -58,6 +58,6 @@ function change() {
 }
 
 .active {
-  color: var(--el-color-primary);
+  color: var(--color-light-primary);
 }
 </style>

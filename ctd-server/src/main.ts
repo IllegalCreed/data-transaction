@@ -11,6 +11,10 @@ async function bootstrap() {
       whitelist: true, // 过滤掉未在 DTO 中定义的属性
       forbidNonWhitelisted: true, // 如果有未定义的属性，抛出错误
       transform: true, // 自动转换请求体为 DTO 实例
+      // 允许隐式转换
+      // transformOptions: {
+      //   enableImplicitConversion: true,
+      // },
     }),
   );
   const configService = app.get(ConfigService);

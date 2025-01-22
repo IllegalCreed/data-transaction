@@ -1,15 +1,15 @@
 import type { ActiveStatus } from '@/constants/mapData'
-import type { ICompanyOption } from './company'
+import type { IOption } from './common'
 
 interface IBaseScene {
   id: string | number
   title: string
-  summary: string
-  company: ICompanyOption
+  summary?: string
+  company?: IOption
   coverImageUrl?: string
   headerImageUrl?: string
-  createTime: string
-  updateTime: string
+  createdAt: string
+  updatedAt: string
   status: ActiveStatus
   readCount: number
 }
@@ -29,14 +29,11 @@ interface IInnerContentScene extends IBaseScene {
 export type IScene = IOuterLinkScene | IInnerContentScene
 
 export interface ISceneItem
-  extends Omit<
-    IScene,
-    'summary' | 'coverImageUrl' | 'headerImageUrl' | 'content' | 'link' | 'company'
-  > {
+  extends Omit<IScene, 'summary' | 'headerImageUrl' | 'content' | 'link' | 'company'> {
   companyName: string
 }
 
 export interface ISceneDTO
-  extends Omit<IScene, 'id' | 'createTime' | 'updateTime' | 'readCount' | 'company'> {
+  extends Omit<IScene, 'id' | 'createdAt' | 'updatedAt' | 'readCount' | 'company'> {
   companyId: string | number
 }

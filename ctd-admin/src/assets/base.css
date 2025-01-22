@@ -46,7 +46,7 @@
 
 .dark {
   --text-color: var(--color-gray-300);
-  --text-btn-primary-color: var(--color-dark-primary);
+  --text-btn-primary-color: var(--color-light-primary);
   --text-white-color: var(--color-gray-100);
   --text-white-highlight-color: var(--color-white);
   --text-disable-color: var(--color-gray-500);
@@ -64,7 +64,7 @@
   --menu-background: var(--page-background-color);
   --menu-hover: var(--color-gray-800);
   --menu-text-color: var(--text-color);
-  --menu-active-text-color: var(--el-color-primary);
+  --menu-active-text-color: var(--color-light-primary);
 }
 
 *,

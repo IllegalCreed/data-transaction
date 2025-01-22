@@ -1,7 +1,8 @@
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, OneToMany } from 'typeorm';
 import { PartnerTypes } from '../enums/partner-types.enum';
 import { ActiveStatus } from '../enums/active-status.enum';
 import { BaseEntity } from './base.entity';
+import { Scene } from './scene.entity';
 
 /**
  * 公司表
@@ -39,4 +40,7 @@ export class Company extends BaseEntity {
     default: ActiveStatus.Active,
   })
   status: ActiveStatus;
+
+  @OneToMany(() => Scene, (scene) => scene.company)
+  scenes: Scene[];
 }
