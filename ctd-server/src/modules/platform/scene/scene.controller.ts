@@ -29,6 +29,9 @@ import { IOption } from 'src/common/interfaces/option.interface';
 import { GetOptionsByIdDto } from './dto/get-options-by-id.dto';
 import { Scene } from 'src/entities/scene.entity';
 import { UpsertSceneDto } from './dto/upsert-scene.dto';
+import { SceneDetail } from './interface/scene-detail.interface';
+import { DeleteDto } from 'src/common/dto/delete.dto';
+import { ChangeStatusDto } from 'src/common/dto/change-status.dto';
 
 @Controller('platform/scene')
 export class SceneController {
@@ -83,13 +86,63 @@ export class SceneController {
     try {
       const scene = await this.sceneService.upsertScene(dto);
       this.logger.log(`场景信息保存成功: ${scene.id}`);
-      return createSuccessResponse(scene, 'UPSERT_SCENE_SUCCEED');
+      return createSuccessResponse(null, 'UPSERT_SCENE_SUCCEED');
     } catch (error) {
       if (error instanceof ExpectedError) {
         return createErrorResponse(error.errorCode);
       }
       this.logger.error(`场景信息保存失败`, error);
       return createErrorResponse(ErrorCode.UPSERT_SCENE_FAILED);
+    }
+  }
+
+  /**
+   * 批量修改场景状态
+   * POST /platform/scene/change-status
+   */
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(UserRole.Admin) // 仅管理员可操作
+  @Post('change-status')
+  @HttpCode(HttpStatus.OK)
+  async changeStatus(
+    @Body() dto: ChangeStatusDto,
+  ): Promise<ApiResponse<string>> {
+    const { ids, status } = dto;
+
+    try {
+      await this.sceneService.changeStatus(ids, status);
+      this.logger.log(`修改场景状态成功: ids=[${ids}], status=${status}`);
+      return createSuccessResponse(null, 'UPDATE_SCENE_STATUS_SUCCEED');
+    } catch (error) {
+      if (error instanceof ExpectedError) {
+        return createErrorResponse(error.errorCode);
+      }
+      this.logger.error(`修改场景状态失败: ids=[${ids}]`, error);
+      return createErrorResponse(ErrorCode.UPDATE_SCENE_STATUS_FAILED);
+    }
+  }
+
+  /**
+   * 批量删除场景（软删除）
+   * POST /platform/scene/delete
+   */
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(UserRole.Admin) // 仅管理员可操作
+  @Post('delete')
+  @HttpCode(HttpStatus.OK)
+  async delete(@Body() dto: DeleteDto): Promise<ApiResponse<string>> {
+    const { ids } = dto;
+
+    try {
+      await this.sceneService.delete(ids);
+      this.logger.log(`删除场景成功: ids=[${ids}]`);
+      return createSuccessResponse(null, 'DELETE_SCENE_SUCCEED');
+    } catch (error) {
+      if (error instanceof ExpectedError) {
+        return createErrorResponse(error.errorCode);
+      }
+      this.logger.error(`删除场景失败: ids=[${ids}]`, error);
+      return createErrorResponse(ErrorCode.DELETE_SCENE_FAILED);
     }
   }
 
@@ -158,7 +211,9 @@ export class SceneController {
   @Roles(UserRole.Admin)
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async getSceneDetail(@Param('id') id: string): Promise<ApiResponse<Scene>> {
+  async getSceneDetail(
+    @Param('id') id: string,
+  ): Promise<ApiResponse<SceneDetail>> {
     const sceneId = parseInt(id, 10);
     if (Number.isNaN(sceneId)) {
       throw new BadRequestException('Invalid scene ID');

@@ -1,11 +1,10 @@
 import type { ActiveStatus } from '@/constants/mapData'
-import type { IOption } from './common'
 
 interface IBaseScene {
   id: string | number
   title: string
   summary?: string
-  company?: IOption
+  company?: { id: number; name: string }
   coverImageUrl?: string
   headerImageUrl?: string
   createdAt: string

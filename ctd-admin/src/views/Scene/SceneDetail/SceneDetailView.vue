@@ -16,15 +16,15 @@
       </div>
       <div class="prop">
         <span class="label">关联公司</span>
-        <span class="value">{{ sceneInfo.company.name }}</span>
+        <span class="value">{{ sceneInfo.company?.name }}</span>
       </div>
       <div class="prop">
         <span class="label">创建时间：</span>
-        <span class="value">{{ sceneInfo.createTime }}</span>
+        <span class="value">{{ sceneInfo.createdAt }}</span>
       </div>
       <div class="prop">
         <span class="label">更新时间：</span>
-        <span class="value">{{ sceneInfo.updateTime }}</span>
+        <span class="value">{{ sceneInfo.updatedAt }}</span>
       </div>
       <div class="prop" grid-col-span-3>
         <span class="label">摘要：</span>
@@ -89,13 +89,13 @@ const {
     status: ActiveStatus.Inactive,
     readCount: 0,
     company: {
-      id: '',
+      id: 0,
       name: ''
     },
     isOuterLink: false,
     content: '',
-    createTime: '',
-    updateTime: ''
+    createdAt: '',
+    updatedAt: ''
   },
   {
     immediate: false,

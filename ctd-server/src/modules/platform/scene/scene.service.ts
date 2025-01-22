@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AbstractListService } from 'src/common/services/abstract-list.service';
 import { Scene } from 'src/entities/scene.entity';
-import { Like, Repository } from 'typeorm';
+import { In, Like, Repository } from 'typeorm';
 import { SceneItem } from './interface/scene-item.interface';
 import { COMPANY_ALIAS, SCENE_ALIAS } from './config/alias.config';
 import { SCENE_FUZZY_SEARCH_MAP } from './config/search-fields.config';
@@ -12,6 +12,9 @@ import { IOption } from 'src/common/interfaces/option.interface';
 import { ErrorCode } from 'src/common/constants/error-codes';
 import { ExpectedError } from 'src/types/error';
 import { UpsertSceneDto } from './dto/upsert-scene.dto';
+import { SceneDetail } from './interface/scene-detail.interface';
+import { exclude } from 'src/common/utils/exclude';
+import { ActiveStatus } from 'src/enums/active-status.enum';
 
 @Injectable()
 export class SceneService extends AbstractListService<Scene, SceneItem> {
@@ -100,7 +103,7 @@ export class SceneService extends AbstractListService<Scene, SceneItem> {
    * @param id 场景ID
    * @returns Scene
    */
-  async getSceneDetail(id: number): Promise<Scene> {
+  async getSceneDetail(id: number): Promise<SceneDetail> {
     const scene = await this.sceneRepository.findOne({
       where: { id },
       relations: ['company'],
@@ -111,7 +114,67 @@ export class SceneService extends AbstractListService<Scene, SceneItem> {
       throw new ExpectedError(ErrorCode.SCENE_NOT_FOUND);
     }
 
-    return scene;
+    const sceneData = exclude(scene, ['deletedAt', 'companyId']);
+
+    const sceneDetail = {
+      ...sceneData,
+      company: scene.company
+        ? {
+            id: scene.company.id,
+            name: scene.company.name,
+          }
+        : undefined,
+    };
+
+    return sceneDetail;
+  }
+
+  /**
+   * 修改场景状态
+   * @param dto ChangeStatusDto
+   * @returns Scene
+   */
+  async changeStatus(ids: number[], status: ActiveStatus): Promise<void> {
+    let updateResult;
+    try {
+      updateResult = await this.sceneRepository.update(
+        { id: In(ids) },
+        { status },
+      );
+    } catch (error) {
+      this.logger.error('修改场景状态失败', error);
+      throw new ExpectedError(ErrorCode.UPDATE_SCENE_STATUS_FAILED);
+    }
+
+    if (updateResult.affected === 0) {
+      this.logger.warn(`修改场景状态失败: 未找到任何匹配的场景: [${ids}]`);
+      throw new ExpectedError(ErrorCode.SCENE_NOT_FOUND);
+    }
+  }
+
+  /**
+   * 删除场景（软删除）
+   * @param dto DeleteSceneDto
+   * @returns void
+   */
+  async delete(ids: number[]): Promise<void> {
+    const scenes = await this.sceneRepository.find({
+      where: { id: In(ids) },
+      withDeleted: false,
+    });
+
+    if (!scenes || scenes.length === 0) {
+      this.logger.warn(`删除场景失败: 未找到任何匹配的场景: [${ids}]`);
+      throw new ExpectedError(ErrorCode.SCENE_NOT_FOUND);
+    }
+
+    // 软删除
+    try {
+      await this.companyRepository.softRemove(scenes);
+    } catch (error) {
+      this.logger.error('删除场景失败: 数据库删除失败', error);
+      throw new ExpectedError(ErrorCode.DELETE_SCENE_FAILED);
+    }
   }
 
   /**

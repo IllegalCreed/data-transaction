@@ -85,6 +85,8 @@ export enum ErrorCode {
   SCENE_NOT_FOUND = 5304,
   UPSERT_SCENE_FAILED = 5305,
   GET_SCENE_DETAIL_FAILED = 5306,
+  UPDATE_SCENE_STATUS_FAILED = 5307,
+  DELETE_SCENE_FAILED = 5308,
 }
 
 export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
@@ -211,4 +213,8 @@ export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
     'Upsert scene failed due to unexpected error.',
   [ErrorCode.GET_SCENE_DETAIL_FAILED]:
     'Get scene detail failed due to unexpected error.',
+  [ErrorCode.UPDATE_SCENE_STATUS_FAILED]:
+    'Update scene status failed due to unexpected error.',
+  [ErrorCode.DELETE_SCENE_FAILED]:
+    'Delete scene failed due to unexpected error.',
 };

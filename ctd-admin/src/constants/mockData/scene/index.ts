@@ -49,8 +49,8 @@ export const scenes: IScene[] = [
 <p style="border-style:none;margin-bottom:0pt;margin-top:0pt;mso-border-between:none;mso-pagination:none;text-align:justify;text-indent:32pt;">&nbsp;</p>
     `,
     readCount: 100,
-    createTime: '2023-09-08 14:30:00',
-    updateTime: '2023-09-08 14:30:00'
+    createdAt: '2023-09-08 14:30:00',
+    updatedAt: '2023-09-08 14:30:00'
   },
   {
     id: 2,
@@ -82,8 +82,8 @@ export const scenes: IScene[] = [
 </div>
     `,
     readCount: 100,
-    createTime: '2023-09-08 14:30:00',
-    updateTime: '2023-09-08 14:30:00'
+    createdAt: '2023-09-08 14:30:00',
+    updatedAt: '2023-09-08 14:30:00'
   },
   {
     id: 3,
@@ -100,7 +100,7 @@ export const scenes: IScene[] = [
     isOuterLink: true,
     link: 'https://www.baidu.com',
     readCount: 100,
-    createTime: '2023-09-08 14:30:00',
-    updateTime: '2023-09-08 14:30:00'
+    createdAt: '2023-09-08 14:30:00',
+    updatedAt: '2023-09-08 14:30:00'
   }
 ]
