@@ -22,13 +22,13 @@ import { ExpectedError } from 'src/types/error';
 import { ErrorCode } from 'src/common/constants/error-codes';
 import { IndividualUserDetailData } from './interface/individual-user-detail.interface';
 import { ChangeUserStatusDto } from './dto/change-user-status.dto';
-import { DeleteUserDto } from './dto/delete-user.dto';
 import { IndividualService } from './Individual.service';
 import { EnterpriseService } from './enterprise.service';
 import { EnterpriseUserDetailData } from './interface/enterprise-user-detail.interface';
 import { UserRole } from 'src/enums/user-role.enum';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { RolesGuard } from 'src/common/guards/role.guard';
+import { DeleteDto } from 'src/common/dto/delete.dto';
 
 @Controller('platform/user')
 export class UserController {
@@ -200,7 +200,7 @@ export class UserController {
   @Roles(UserRole.Admin)
   @Post('delete')
   @HttpCode(HttpStatus.OK)
-  async deleteUser(@Body() dto: DeleteUserDto): Promise<ApiResponse<string>> {
+  async deleteUser(@Body() dto: DeleteDto): Promise<ApiResponse<string>> {
     const { ids } = dto;
 
     try {

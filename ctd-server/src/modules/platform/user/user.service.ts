@@ -20,28 +20,17 @@ export class UserService {
    * @param ids 用户id列表
    * @param status 目标状态
    */
-  async changeUserStatus(
-    ids: (string | number)[],
-    status: UserStatus,
-  ): Promise<void> {
-    // 1) 查询要更新的用户
-    const users = await this.userRepository.find({
-      where: { id: In(ids) },
-    });
-
-    if (!users || users.length === 0) {
-      this.logger.warn(`修改用户状态失败: 未找到任何匹配的用户: [${ids}]`);
-      throw new ExpectedError(ErrorCode.USER_NOT_FOUND);
-    }
-
-    // 2) 更新用户的状态
-    for (const user of users) {
-      user.status = status;
-    }
-
-    // 3) 保存
+  async changeUserStatus(ids: number[], status: UserStatus): Promise<void> {
     try {
-      await this.userRepository.save(users);
+      const updateResult = await this.userRepository.update(
+        { id: In(ids) },
+        { status },
+      );
+
+      if (updateResult.affected === 0) {
+        this.logger.warn(`修改用户状态失败: 未找到任何匹配的用户: [${ids}]`);
+        throw new ExpectedError(ErrorCode.USER_NOT_FOUND);
+      }
     } catch (error) {
       this.logger.error('修改用户状态失败: 数据库保存失败', error);
       throw new ExpectedError(ErrorCode.UPDATE_USER_STATUS_FAILED);
@@ -52,7 +41,7 @@ export class UserService {
    * 批量删除用户（软删除）
    * @param ids 用户 ID 数组
    */
-  async deleteUser(ids: (string | number)[]): Promise<void> {
+  async deleteUser(ids: number[]): Promise<void> {
     // 1) 检查是否存在这些用户
     const users = await this.userRepository.find({
       where: { id: In(ids) },
