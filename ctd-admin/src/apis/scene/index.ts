@@ -17,7 +17,7 @@ interface ISceneAPI {
   upsertScene: (id: string | number, newsInfo: ISceneDTO) => Promise<unknown>
   changeScenesStatus: (ids: (string | number)[], status: ActiveStatus) => Promise<unknown>
   deleteScenes: (ids: (string | number)[]) => Promise<unknown>
-  getSceneOptionsByName: (searchQuery: string) => Promise<unknown>
+  getSceneOptionsByTitle: (searchQuery: string) => Promise<unknown>
   getSceneOptionsByID: (id: string | number) => Promise<unknown>
 }
 
@@ -39,6 +39,6 @@ export const {
   upsertScene,
   changeScenesStatus,
   deleteScenes,
-  getSceneOptionsByName,
+  getSceneOptionsByTitle,
   getSceneOptionsByID
 } = newsAPI

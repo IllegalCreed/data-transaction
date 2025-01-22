@@ -80,6 +80,9 @@ export enum ErrorCode {
 
   // 场景管理相关
   GET_SCENE_LIST_FAILED = 5301,
+  GET_SCENE_OPTIONS_BY_TITLE_FAILED = 5302,
+  GET_SCENE_OPTIONS_BY_ID_FAILED = 5303,
+  SCENE_NOT_FOUND = 5304,
 }
 
 export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
@@ -197,4 +200,9 @@ export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
   // 场景管理相关
   [ErrorCode.GET_SCENE_LIST_FAILED]:
     'Get scene list failed due to unexpected error.',
+  [ErrorCode.GET_SCENE_OPTIONS_BY_TITLE_FAILED]:
+    'Get scene options by title failed due to unexpected error.',
+  [ErrorCode.GET_SCENE_OPTIONS_BY_ID_FAILED]:
+    'Get scene options by id failed due to unexpected error.',
+  [ErrorCode.SCENE_NOT_FOUND]: 'Scene not found.',
 };

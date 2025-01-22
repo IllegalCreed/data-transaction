@@ -8,7 +8,7 @@ import {
   upsertScene as upsertSceneAPI,
   changeScenesStatus as changeScenesStatusAPI,
   deleteScenes as deleteScenesAPI,
-  getSceneOptionsByName as getSceneOptionsByNameAPI,
+  getSceneOptionsByTitle as getSceneOptionsByTitleAPI,
   getSceneOptionsByID as getSceneOptionsByIDAPI
 } from '@/apis/scene'
 import { scenes as mockScenes, sceneOptions as mockSceneOptions } from '@/constants/mockData/scene'
@@ -160,14 +160,14 @@ export const useSceneStore = defineStore('scene', () => {
     })
   }
 
-  const getSceneOptionsByName = (searchQuery: string): Promise<IOption[]> => {
+  const getSceneOptionsByTitle = (searchQuery: string): Promise<IOption[]> => {
     return new Promise<IOption[]>((resolve, reject) => {
       if (settingsStore.mockEnabled) {
         window.setTimeout(() => {
           resolve(mockSceneOptions)
         }, 1000)
       } else {
-        getSceneOptionsByNameAPI(searchQuery)
+        getSceneOptionsByTitleAPI(searchQuery)
           .then((res) => {
             const result = res as IOption[]
             resolve(result)
@@ -211,7 +211,7 @@ export const useSceneStore = defineStore('scene', () => {
     upsertScene,
     changeScenesStatus,
     deleteScenes,
-    getSceneOptionsByName,
+    getSceneOptionsByTitle,
     getSceneOptionsByID
   }
 })

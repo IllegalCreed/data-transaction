@@ -84,13 +84,13 @@ export const deleteScenes = (ids: (string | number)[]): Promise<unknown> => {
   )
 }
 
-export const getSceneOptionsByName = (name: string): Promise<unknown> => {
+export const getSceneOptionsByTitle = (name: string): Promise<unknown> => {
   const params = {
     name
   }
   return request.get(
     {
-      url: '/platform/scene/get-options-by-name',
+      url: '/platform/scene/get-options-by-title',
       params
     },
     true
