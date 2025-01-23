@@ -7,7 +7,6 @@ import { SceneItem } from './interface/scene-item.interface';
 import { COMPANY_ALIAS, SCENE_ALIAS } from './config/alias.config';
 import { SCENE_FUZZY_SEARCH_MAP } from './config/search-fields.config';
 import { SCENE_FIELD_MAP } from './config/field-map.config';
-import { Company } from 'src/entities/company.entity';
 import { IOption } from 'src/common/interfaces/option.interface';
 import { ErrorCode } from 'src/common/constants/error-codes';
 import { ExpectedError } from 'src/types/error';
@@ -27,8 +26,6 @@ export class SceneService extends AbstractListService<Scene, SceneItem> {
   constructor(
     @InjectRepository(Scene)
     private readonly sceneRepository: Repository<Scene>,
-    @InjectRepository(Company)
-    private readonly companyRepository: Repository<Company>,
   ) {
     super();
   }
@@ -170,7 +167,7 @@ export class SceneService extends AbstractListService<Scene, SceneItem> {
 
     // 软删除
     try {
-      await this.companyRepository.softRemove(scenes);
+      await this.sceneRepository.softRemove(scenes);
     } catch (error) {
       this.logger.error('删除场景失败: 数据库删除失败', error);
       throw new ExpectedError(ErrorCode.DELETE_SCENE_FAILED);
