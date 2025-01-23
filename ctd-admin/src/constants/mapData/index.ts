@@ -20,13 +20,13 @@ export const activeStatusOptions: IOption[] = Object.values(ActiveStatus).map((v
   label: ACTIVE_STATUS_MAP[value]
 }))
 
-export const boolenaTypesOptions: IOption[] = [
+export const booleanTypesOptions: IOption[] = [
   {
     label: '是',
-    value: 1
+    value: true
   },
   {
     label: '否',
-    value: 0
+    value: false
   }
 ]

@@ -35,8 +35,10 @@
       <template #logoUrl="{ scope }">
         <el-image
           class="w-14 h-14"
-          :src="scope.row.logoUrl"
-          :preview-src-list="scope.row.logoUrl ? [scope.row.logoUrl] : undefined"
+          :src="convertFileUrl(scope.row.logoUrl)"
+          :preview-src-list="
+            scope.row.logoUrl ? [convertFileUrl(scope.row.logoUrl) as string] : undefined
+          "
           fit="cover"
         >
         </el-image>
@@ -105,6 +107,7 @@
 </template>
 
 <script setup lang="ts">
+import { convertFileUrl } from '@/utils/convertUrl'
 import BaseTable from '@/components/BaseTable.vue'
 import type { ITableColumn } from '@/types/table'
 import type { IPropLabelMap } from '@/types/common'

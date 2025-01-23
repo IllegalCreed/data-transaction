@@ -1,6 +1,6 @@
 <template>
   <div class="scene-edit-root-container">
-    <span class="panel-title">{{ id === '-1' ? '新建场景' : '编辑场景' }}</span>
+    <span class="panel-title">{{ id > 0 ? '编辑场景' : '新建场景' }}</span>
     <el-form
       @submit.prevent
       :model="sceneInfo"
@@ -10,7 +10,7 @@
       label-position="top"
     >
       <el-form-item label="场景标题" prop="title" max-w-120>
-        <el-input v-model="sceneInfo.title" placeholder="请输入" :validate-event="false" />
+        <el-input v-model="sceneInfo.title" placeholder="请输入" />
       </el-form-item>
       <el-form-item label="摘要" prop="summary" max-w-120>
         <el-input
@@ -18,7 +18,6 @@
           placeholder="请输入"
           type="textarea"
           :autosize="{ minRows: 2, maxRows: 5 }"
-          :validate-event="false"
         />
       </el-form-item>
       <el-form-item label="关联公司" prop="companyId" max-w-120>
@@ -34,7 +33,7 @@
         >
           <el-option
             v-for="item in companyOptions"
-            :key="item.value"
+            :key="item.label"
             :label="item.label"
             :value="item.value"
           />
@@ -44,23 +43,23 @@
         <el-select v-model="sceneInfo.status" placeholder="请选择">
           <el-option
             v-for="item in activeStatusOptions"
-            :key="item.value"
+            :key="item.label"
             :label="item.label"
             :value="item.value"
           />
         </el-select>
       </el-form-item>
       <el-form-item label="场景封面" prop="coverImageUrl">
-        <image-picker v-model="coverImage" />
+        <image-picker v-model="coverImageRef" />
       </el-form-item>
       <el-form-item label="场景头图" prop="headerImageUrl">
-        <image-picker v-model="headerImage" />
+        <image-picker v-model="headerImageRef" />
       </el-form-item>
       <el-form-item label="是否为外链" prop="isOuterLink">
         <el-switch v-model="sceneInfo.isOuterLink" />
       </el-form-item>
       <el-form-item v-if="sceneInfo.isOuterLink" label="外部链接" prop="link" max-w-120>
-        <el-input v-model="sceneInfo.link" placeholder="请输入" :validate-event="false" />
+        <el-input v-model="sceneInfo.link" placeholder="请输入" />
       </el-form-item>
       <el-form-item v-else label="场景正文" prop="content">
         <scene-rich-edit-panel v-model:content="sceneInfo.content" />
@@ -73,13 +72,17 @@
 </template>
 
 <script setup lang="ts">
+defineOptions({
+  name: 'scene-edit'
+})
+
+import { type FormInstance, type FormRules } from 'element-plus'
 import ImagePicker from '@/components/ImagePicker.vue'
 import SceneRichEditPanel from './SceneRichEditPanel.vue'
-import { v4 as uuidv4 } from 'uuid'
-import { type FormInstance, type FormRules } from 'element-plus'
+import { ActiveStatus } from '@/constants/mapData'
 import type { IScene, ISceneDTO } from '@/types/scene'
 
-const id = useRouteParams<string>('id')
+const id = useRouteParams<number>('id', -1, { transform: Number })
 const form = useTemplateRef<FormInstance>('form')
 const rules = reactive<FormRules<ISceneDTO>>({
   title: [{ required: true, message: '请输入场景名称', trigger: 'blur' }]
@@ -90,36 +93,23 @@ const { getScene: getSceneAction, upsertScene: upsertSceneAction } = useSceneSto
 const sceneInfo = reactive<ISceneDTO>({
   title: '',
   summary: '',
+  coverImageUrl: undefined,
+  headerImageUrl: undefined,
   status: ActiveStatus.Inactive,
   companyId: undefined,
   isOuterLink: false,
-  content: ''
+  content: '',
+  link: ''
 })
 
 onMounted(async () => {
-  if (id.value !== '-1') {
+  if (id.value > 0) {
     const fetchedNewsDetailData = await getSceneAction(id.value)
     Object.assign(sceneInfo, mapISceneToISceneDTO(fetchedNewsDetailData))
     if (sceneInfo.companyId) {
       getCompanyOptionsByNameActionLoading.value = true
       companyOptions.value = await getCompanyOptionsByIDAction(sceneInfo.companyId)
       getCompanyOptionsByNameActionLoading.value = false
-    }
-    if (sceneInfo.coverImageUrl) {
-      coverImage.value = {
-        id: uuidv4(),
-        url: sceneInfo.coverImageUrl,
-        name: sceneInfo.coverImageUrl,
-        raw: undefined
-      }
-    }
-    if (sceneInfo.headerImageUrl) {
-      headerImage.value = {
-        id: uuidv4(),
-        url: sceneInfo.headerImageUrl,
-        name: sceneInfo.headerImageUrl,
-        raw: undefined
-      }
     }
   }
 })
@@ -150,6 +140,18 @@ function mapISceneToISceneDTO(scene: IScene): ISceneDTO {
   }
 }
 
+// 图片相关
+import { useSingleImage } from '@/composables/useSingleImage'
+const { imageRef: coverImageRef, uploadImage: uploadCoverImage } = useSingleImage(
+  computed(() => sceneInfo.coverImageUrl)
+)
+const { imageRef: headerImageRef, uploadImage: uploadHeaderImage } = useSingleImage(
+  computed(() => sceneInfo.headerImageUrl)
+)
+
+// 选项相关
+import { activeStatusOptions } from '@/constants/mapData'
+
 // 公司相关
 import { useCompanyStore } from '@/stores/modules/company'
 const {
@@ -173,46 +175,30 @@ const remoteMethod = (query: string) => {
   }
 }
 
-// 图片相关
-const coverImage = ref<IUploadFile>()
-const headerImage = ref<IUploadFile>()
-
-import { useFileStore } from '@/stores/modules/file'
-import { ActiveStatus } from '@/constants/mapData'
-import type { IUploadFile } from '@/types/common'
-const { uploadFile: uploadFileAction } = useFileStore()
-const uploadImage = async () => {
-  if (coverImage.value) {
-    if (coverImage.value.raw) {
-      const url = await uploadFileAction(coverImage.value.raw)
-      coverImage.value.url = url
-      coverImage.value.name = url
-      coverImage.value.raw = undefined
-      sceneInfo.coverImageUrl = url
-    }
-  }
-  if (headerImage.value) {
-    if (headerImage.value.raw) {
-      const url = await uploadFileAction(headerImage.value.raw)
-      headerImage.value.url = url
-      headerImage.value.name = url
-      headerImage.value.raw = undefined
-      sceneInfo.headerImageUrl = url
-    }
-  }
-}
-
-import { activeStatusOptions } from '@/constants/mapData'
-
+// 提交
 const submit = async () => {
   if (await form.value?.validate()) {
-    await uploadImage()
-    await upsertSceneAction(id.value, sceneInfo)
-    ElMessage.success('提交成功')
-    goBack()
+    const newCoverUrl = await uploadCoverImage()
+    if (newCoverUrl) {
+      sceneInfo.coverImageUrl = newCoverUrl
+    }
+    const newHeaderUrl = await uploadHeaderImage()
+    if (newHeaderUrl) {
+      sceneInfo.headerImageUrl = newHeaderUrl
+    }
+    try {
+      await upsertSceneAction(id.value, sceneInfo)
+      ElMessage.success('提交成功')
+      goBack()
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        ElMessage.error('提交失败')
+      }
+    }
   }
 }
 
+// 返回
 import { useRouterStore } from '@/stores/modules/router'
 const { deleteView } = useRouterStore()
 const router = useRouter()

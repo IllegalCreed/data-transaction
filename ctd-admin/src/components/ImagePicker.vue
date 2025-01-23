@@ -1,7 +1,7 @@
 <template>
   <div class="image-picker-root-container">
     <div v-if="model" w-full h-full>
-      <img :src="model.url" object-cover w-full h-full />
+      <img :src="convertFileUrl(model.url)" object-cover w-full h-full />
       <div class="actions-container">
         <span cursor-pointer @click.stop="handleImagePreview()">
           <i-ri:zoom-in-line />
@@ -28,6 +28,7 @@
 
 <script lang="ts" setup>
 import { v4 as uuidv4 } from 'uuid'
+import { convertFileUrl } from '@/utils/convertUrl'
 import type { IUploadFile } from '@/types/common'
 
 const model = defineModel<IUploadFile>()

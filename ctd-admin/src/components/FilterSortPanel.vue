@@ -129,7 +129,7 @@
             >
               <el-option
                 v-for="item in filter.options"
-                :key="item.value"
+                :key="item.label"
                 :label="item.label"
                 :value="item.value"
               />
@@ -153,8 +153,12 @@
 
           <template v-else-if="filter.type === 'boolean'">
             <el-select v-model="filter.value" clearable placeholder="选择筛选项">
-              <el-option label="是" :value="true" />
-              <el-option label="否" :value="false" />
+              <el-option
+                v-for="item in booleanTypesOptions"
+                :key="item.label"
+                :label="item.label"
+                :value="item.value"
+              />
             </el-select>
           </template>
 
@@ -206,6 +210,7 @@ import { VueDraggable } from 'vue-draggable-plus'
 import type { IFilter, ITableColumn } from '@/types/table'
 import type { ISort } from '@/types/table'
 import type { IPropLabelMap } from '@/types/common'
+import { booleanTypesOptions } from '@/constants/mapData'
 
 const { propLabelMap } = defineProps<{
   propLabelMap: IPropLabelMap<T>

@@ -3,7 +3,6 @@ import {
   IsOptional,
   IsEnum,
   IsBoolean,
-  IsUrl,
   IsNumber,
   IsNotEmpty,
 } from 'class-validator';
@@ -30,7 +29,7 @@ export class UpsertCompanyDto {
   @IsOptional()
   content?: string;
 
-  @IsUrl()
+  @IsString()
   @IsOptional()
   link?: string;
 

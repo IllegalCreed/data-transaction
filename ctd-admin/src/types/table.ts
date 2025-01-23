@@ -1,4 +1,5 @@
 import type { TableColumnCtx } from 'element-plus'
+import type { IOption } from './common'
 
 export interface ISort<T> {
   prop: keyof T
@@ -39,10 +40,7 @@ export interface InputFilter<T> extends BaseFilter<T> {
 export interface EnumFilter<T> extends BaseFilter<T> {
   type: 'enum'
   value?: Array<string | number>
-  options?: {
-    label: string
-    value: string | number
-  }[]
+  options?: IOption[]
 }
 
 // 日期类型筛选

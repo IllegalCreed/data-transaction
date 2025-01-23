@@ -2,7 +2,6 @@ import request from '@/axios'
 import type { ActiveStatus } from '@/constants/mapData'
 import type { ISceneDTO, ISceneItem } from '@/types/scene'
 import type { IFilterDTO, ISort, ITableColumnDTO } from '@/types/table'
-import { omit } from 'lodash-es'
 
 export const getScenes = (
   searchQuery: string,
@@ -38,8 +37,7 @@ export const getScene = (id: string | number): Promise<unknown> => {
   )
 }
 
-export const upsertScene = (id: string | number, sceneInfoRaw: ISceneDTO): Promise<unknown> => {
-  const sceneInfo = omit(sceneInfoRaw, ['createdAt', 'updatedAt', 'readCount', 'company'])
+export const upsertScene = (id: string | number, sceneInfo: ISceneDTO): Promise<unknown> => {
   const data = {
     id,
     ...sceneInfo

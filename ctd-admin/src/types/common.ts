@@ -10,7 +10,7 @@ export interface apiListResult<T> {
 }
 
 export interface IOption {
-  value: string | number
+  value: string | number | boolean
   label: string
 }
 

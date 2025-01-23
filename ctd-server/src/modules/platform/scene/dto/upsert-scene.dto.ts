@@ -4,7 +4,6 @@ import {
   IsNotEmpty,
   IsInt,
   IsBoolean,
-  IsUrl,
   ValidateIf,
   IsNumber,
   IsEnum,
@@ -29,18 +28,18 @@ export class UpsertSceneDto {
   companyId?: number;
 
   @IsOptional()
-  @IsUrl({}, { message: '封面图片URL必须是有效的URL' })
+  @IsString({ message: '封面图片URL必须是字符串' })
   coverImageUrl?: string;
 
   @IsOptional()
-  @IsUrl({}, { message: '头图URL必须是有效的URL' })
+  @IsString({ message: '头图URL必须是字符串' })
   headerImageUrl?: string;
 
   @IsBoolean({ message: '是否外部链接必须是布尔值' })
   isOuterLink: boolean;
 
   @IsOptional()
-  @IsUrl({}, { message: '链接必须是有效的URL' })
+  @IsString({ message: '链接必须是字符串' })
   @ValidateIf((o) => o.isOuterLink)
   link?: string;
 

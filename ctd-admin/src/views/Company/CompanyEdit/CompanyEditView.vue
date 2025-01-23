@@ -27,7 +27,7 @@
         <el-select v-model="companyInfo.partnerType" placeholder="请选择">
           <el-option
             v-for="item in partnerTypesOptions"
-            :key="item.value"
+            :key="item.label"
             :label="item.label"
             :value="item.value"
           />
@@ -37,7 +37,7 @@
         <el-select v-model="companyInfo.status" placeholder="请选择">
           <el-option
             v-for="item in activeStatusOptions"
-            :key="item.value"
+            :key="item.label"
             :label="item.label"
             :value="item.value"
           />
@@ -65,7 +65,7 @@ import { type FormInstance, type FormRules } from 'element-plus'
 import ImagePicker from '@/components/ImagePicker.vue'
 import { ActiveStatus } from '@/constants/mapData'
 import { PartnerTypes } from '@/constants/mapData/company'
-import type { ICompanyDTO } from '@/types/company'
+import type { ICompany, ICompanyDTO } from '@/types/company'
 
 const id = useRouteParams<number>('id', -1, { transform: Number })
 const form = useTemplateRef<FormInstance>('form')
@@ -79,6 +79,8 @@ const companyInfo = reactive<ICompanyDTO>({
   name: '',
   description: undefined,
   link: undefined,
+  logoUrl: undefined,
+  content: undefined,
   status: ActiveStatus.Inactive,
   partnerType: PartnerTypes.None,
   isShowInFooter: false
@@ -87,9 +89,24 @@ const companyInfo = reactive<ICompanyDTO>({
 onMounted(async () => {
   if (id.value > 0) {
     const fetchedNewsDetailData = await getCompanyAction(id.value)
-    Object.assign(companyInfo, fetchedNewsDetailData)
+    Object.assign(companyInfo, mapICompanyToICompanyDTO(fetchedNewsDetailData))
   }
 })
+
+function mapICompanyToICompanyDTO(company: ICompany): ICompanyDTO {
+  const { name, description, link, logoUrl, content, partnerType, isShowInFooter, status } = company
+
+  return {
+    name,
+    description,
+    link,
+    logoUrl,
+    content,
+    partnerType,
+    isShowInFooter,
+    status
+  }
+}
 
 // 图片相关
 import { useSingleImage } from '@/composables/useSingleImage'
@@ -102,10 +119,19 @@ import { partnerTypesOptions } from '@/constants/mapData/company'
 // 提交
 const submit = async () => {
   if (await form.value?.validate()) {
-    companyInfo.logoUrl = await uploadImage()
-    await upsertCompanyAction(id.value, companyInfo)
-    ElMessage.success('提交成功')
-    goBack()
+    const newUrl = await uploadImage()
+    if (newUrl) {
+      companyInfo.logoUrl = newUrl
+    }
+    try {
+      await upsertCompanyAction(id.value, companyInfo)
+      ElMessage.success('提交成功')
+      goBack()
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        ElMessage.error('提交失败')
+      }
+    }
   }
 }
 

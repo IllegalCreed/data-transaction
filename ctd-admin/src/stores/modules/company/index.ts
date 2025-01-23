@@ -45,15 +45,6 @@ export const useCompanyStore = defineStore('company', () => {
         getCompaniesAPI(searchQuery, filters, sorts, columns, pageNum, pageSize)
           .then((res) => {
             const result = res as ICommonReturn<apiListResult<ICompanyItem>>
-            result.data.rows.forEach((item) => {
-              if (item.logoUrl) {
-                if (import.meta.env.VITE_BACK_TYPE === 'nest') {
-                  item.logoUrl = `${import.meta.env.VITE_NEST_SERVER_URL}${item.logoUrl}`
-                } else if (import.meta.env.VITE_BACK_TYPE === 'java') {
-                  item.logoUrl = `${import.meta.env.VITE_JAVA_SERVER_URL}${item.logoUrl}`
-                }
-              }
-            })
             resolve(result)
           })
           .catch((error: Error) => {
@@ -79,14 +70,6 @@ export const useCompanyStore = defineStore('company', () => {
         getCompanyAPI(id)
           .then((res) => {
             const result = res as ICommonReturn<ICompany>
-            if (result.data.logoUrl) {
-              if (import.meta.env.VITE_BACK_TYPE === 'nest') {
-                result.data.logoUrl = `${import.meta.env.VITE_NEST_SERVER_URL}${result.data.logoUrl}`
-              } else if (import.meta.env.VITE_BACK_TYPE === 'java') {
-                result.data.logoUrl = `${import.meta.env.VITE_JAVA_SERVER_URL}${result.data.logoUrl}`
-              }
-            }
-
             resolve(result.data)
           })
           .catch((error: Error) => {

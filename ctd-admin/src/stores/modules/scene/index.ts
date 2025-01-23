@@ -45,15 +45,6 @@ export const useSceneStore = defineStore('scene', () => {
         getScenesAPI(searchQuery, filters, sorts, columns, pageNum, pageSize)
           .then((res) => {
             const result = res as ICommonReturn<apiListResult<ISceneItem>>
-            result.data.rows.forEach((item) => {
-              if (item.coverImageUrl) {
-                if (import.meta.env.VITE_BACK_TYPE === 'nest') {
-                  item.coverImageUrl = `${import.meta.env.VITE_NEST_SERVER_URL}${item.coverImageUrl}`
-                } else if (import.meta.env.VITE_BACK_TYPE === 'java') {
-                  item.coverImageUrl = `${import.meta.env.VITE_JAVA_SERVER_URL}${item.coverImageUrl}`
-                }
-              }
-            })
             resolve(result)
           })
           .catch((error: Error) => {
@@ -79,21 +70,6 @@ export const useSceneStore = defineStore('scene', () => {
         getSceneAPI(id)
           .then((res) => {
             const result = res as ICommonReturn<IScene>
-            if (result.data.coverImageUrl) {
-              if (import.meta.env.VITE_BACK_TYPE === 'nest') {
-                result.data.coverImageUrl = `${import.meta.env.VITE_NEST_SERVER_URL}${result.data.coverImageUrl}`
-              } else if (import.meta.env.VITE_BACK_TYPE === 'java') {
-                result.data.coverImageUrl = `${import.meta.env.VITE_JAVA_SERVER_URL}${result.data.coverImageUrl}`
-              }
-            }
-            if (result.data.headerImageUrl) {
-              if (import.meta.env.VITE_BACK_TYPE === 'nest') {
-                result.data.headerImageUrl = `${import.meta.env.VITE_NEST_SERVER_URL}${result.data.headerImageUrl}`
-              } else if (import.meta.env.VITE_BACK_TYPE === 'java') {
-                result.data.headerImageUrl = `${import.meta.env.VITE_JAVA_SERVER_URL}${result.data.headerImageUrl}`
-              }
-            }
-
             resolve(result.data)
           })
           .catch((error: Error) => {
