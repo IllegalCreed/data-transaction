@@ -49,7 +49,8 @@ export const useSettingsStore = defineStore('settings', () => {
     { key: 'admin', value: false, children: [] },
     { key: 'file', value: false, children: [] },
     { key: 'user', value: false, children: [] },
-    { key: 'company', value: false, children: [] }
+    { key: 'company', value: false, children: [] },
+    { key: 'scene', value: false, children: [] }
   ])
 
   const findMockTreeValueByKey = (key: string) => {

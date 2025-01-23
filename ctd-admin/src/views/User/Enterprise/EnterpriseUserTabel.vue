@@ -50,6 +50,7 @@
       <template #actions="{ scope }">
         <el-button
           v-if="scope.row.status === UserStatus.Suspended"
+          class="default-btn"
           link
           type="primary"
           size="small"
@@ -59,6 +60,7 @@
         </el-button>
         <el-button
           v-if="scope.row.status === UserStatus.Active"
+          class="default-btn"
           link
           type="primary"
           size="small"
@@ -66,10 +68,17 @@
         >
           停用
         </el-button>
-        <el-button link type="primary" size="small" @click="goDetail(scope.row.id)">
+        <el-button
+          class="default-btn"
+          link
+          type="primary"
+          size="small"
+          @click="goDetail(scope.row.id)"
+        >
           查看详情
         </el-button>
         <el-button
+          class="default-btn"
           link
           type="primary"
           size="small"

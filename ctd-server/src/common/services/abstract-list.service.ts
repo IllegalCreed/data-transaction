@@ -61,10 +61,35 @@ export abstract class AbstractListService<Entity, ReturnType> {
           // 当 f.value 不是 [start, end] => 跳过
           if (Array.isArray(f.value) && f.value.length === 2) {
             const [start, end] = f.value;
-            qb.andWhere(`${fieldSql} BETWEEN :start AND :end`, {
-              start,
-              end,
-            });
+            if (start && end) {
+              qb.andWhere(`${fieldSql} BETWEEN :start AND :end`, {
+                start,
+                end,
+              });
+            } else if (start) {
+              qb.andWhere(`${fieldSql} >= :start`, { start });
+            } else if (end) {
+              qb.andWhere(`${fieldSql} <= :end`, { end });
+            }
+          }
+          break;
+
+        case 'boolean':
+          if (typeof f.value === 'boolean') {
+            qb.andWhere(`${fieldSql} = :val`, { val: f.value });
+          }
+          break;
+
+        case 'number':
+          if (Array.isArray(f.value)) {
+            const [min, max] = f.value;
+            if (min !== null && max !== null) {
+              qb.andWhere(`${fieldSql} BETWEEN :min AND :max`, { min, max });
+            } else if (min !== null) {
+              qb.andWhere(`${fieldSql} >= :min`, { min });
+            } else if (max !== null) {
+              qb.andWhere(`${fieldSql} <= :max`, { max });
+            }
           }
           break;
 

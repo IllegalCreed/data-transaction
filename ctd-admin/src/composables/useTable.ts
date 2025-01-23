@@ -20,7 +20,25 @@ export const useTable = <T>(
         type: item.type,
         value: item.value
       }))
-      .filter((item) => item.value && item.value.length > 0)
+      .filter((item) => {
+        if (item.type === 'input') {
+          return item.value !== undefined && item.value !== ''
+        } else if (item.type === 'boolean') {
+          return item.value !== undefined
+        } else if (item.type === 'enum') {
+          if (Array.isArray(item.value)) {
+            return item.value.length > 0
+          } else {
+            return item.value !== undefined
+          }
+        } else if (item.type === 'date') {
+          return item.value !== undefined
+        } else if (item.type === 'number') {
+          return Array.isArray(item.value) && (item.value[0] !== null || item.value[1] !== null)
+        } else {
+          return false
+        }
+      })
   }
 
   const convertToColumnDTO = (columnList: ITableColumn<T>[]): ITableColumnDTO<T>[] => {

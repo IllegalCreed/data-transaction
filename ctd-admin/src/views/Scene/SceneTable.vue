@@ -8,13 +8,13 @@
           </template>
           批量删除
         </el-button>
-        <el-button class="default-btn" @click="changeAllStatus(UserStatus.Active)">
+        <el-button class="default-btn" @click="changeAllStatus(ActiveStatus.Active)">
           <template v-slot:icon>
             <i-qlementine-icons:success-16 />
           </template>
           批量启用
         </el-button>
-        <el-button class="default-btn" @click="changeAllStatus(UserStatus.Suspended)">
+        <el-button class="default-btn" @click="changeAllStatus(ActiveStatus.Inactive)">
           <template v-slot:icon>
             <i-qlementine-icons:minus-circle-16 />
           </template>
@@ -32,35 +32,46 @@
       :columns="columnList"
       :propLabelMap="propLabelMap"
     >
-      <!-- Gender Column Custom Rendering -->
-      <template #gender="{ scope }">
-        <el-tag :type="genderColor(scope.row.gender)">{{ genderLabel(scope.row.gender) }}</el-tag>
+      <template #coverImageUrl="{ scope }">
+        <el-image
+          class="w-14 h-14"
+          :src="scope.row.coverImageUrl"
+          :preview-src-list="scope.row.coverImageUrl ? [scope.row.coverImageUrl] : undefined"
+          fit="cover"
+        >
+        </el-image>
       </template>
 
-      <!-- Status Column Custom Rendering -->
+      <template #isOuterLink="{ scope }">
+        <el-tag v-if="scope.row.isOuterLink" type="success">{{ '是' }}</el-tag>
+        <el-tag v-else type="warning">{{ '否' }}</el-tag>
+      </template>
+
       <template #status="{ scope }">
         <el-tag :type="statusColor(scope.row.status)">{{ statusLabel(scope.row.status) }}</el-tag>
       </template>
 
-      <!-- Actions Column Custom Rendering -->
       <template #actions="{ scope }">
+        <el-button class="default-btn" link type="primary" size="small" @click="edit(scope.row.id)">
+          编辑
+        </el-button>
         <el-button
-          v-if="scope.row.status === UserStatus.Suspended"
+          v-if="scope.row.status === ActiveStatus.Inactive"
           class="default-btn"
           link
           type="primary"
           size="small"
-          @click="changeStatus(scope.row.id, scope.row.fullName, UserStatus.Active)"
+          @click="changeStatus(scope.row.id, scope.row.name, ActiveStatus.Active)"
         >
           启用
         </el-button>
         <el-button
-          v-if="scope.row.status === UserStatus.Active"
+          v-if="scope.row.status === ActiveStatus.Active"
           class="default-btn"
           link
           type="primary"
           size="small"
-          @click="changeStatus(scope.row.id, scope.row.fullName, UserStatus.Suspended)"
+          @click="changeStatus(scope.row.id, scope.row.name, ActiveStatus.Inactive)"
         >
           停用
         </el-button>
@@ -78,7 +89,7 @@
           link
           type="primary"
           size="small"
-          @click="deleteRow(scope.row.id, scope.row.fullName)"
+          @click="deleteRow(scope.row.id, scope.row.name)"
         >
           删除
         </el-button>
@@ -89,33 +100,37 @@
 
 <script setup lang="ts">
 import BaseTable from '@/components/BaseTable.vue'
-import type { IIndividualUserItem } from '@/types/user'
+import type { ITableColumn } from '@/types/table'
+import type { IPropLabelMap } from '@/types/common'
+import type { ISceneItem } from '@/types/scene'
 const { data } = defineProps<{
-  data: IIndividualUserItem[]
+  data: ISceneItem[]
   loading: boolean
-  columnList: ITableColumn<IIndividualUserItem>[]
-  propLabelMap: IPropLabelMap<IIndividualUserItem>
+  columnList: ITableColumn<ISceneItem>[]
+  propLabelMap: IPropLabelMap<ISceneItem>
 }>()
 
 const selectedIds = ref<string[]>([])
 
-const rowKey = (row: IIndividualUserItem) => String(row.id)
+const rowKey = (row: ISceneItem) => String(row.id)
 
-import { USER_STATUS_MAP, USER_STATUS_COLOR_MAP, UserStatus } from '@/constants/mapData/user'
-const statusColor = (status: UserStatus) => USER_STATUS_COLOR_MAP[status]
-const statusLabel = (status: UserStatus) => USER_STATUS_MAP[status]
-
-import { GENDER_TYPES_MAP, GENDER_TYPES_COLOR_MAP, GenderType } from '@/constants/mapData/user'
-import type { ITableColumn } from '@/types/table'
-import type { IPropLabelMap } from '@/types/common'
-const genderColor = (gender: GenderType) => GENDER_TYPES_COLOR_MAP[gender]
-const genderLabel = (gender: GenderType) => GENDER_TYPES_MAP[gender]
+import { ACTIVE_STATUS_MAP, ACTIVE_STATUS_COLOR_MAP, ActiveStatus } from '@/constants/mapData'
+const statusColor = (status: ActiveStatus) => ACTIVE_STATUS_COLOR_MAP[status]
+const statusLabel = (status: ActiveStatus) => ACTIVE_STATUS_MAP[status]
 
 const router = useRouter()
+const edit = (id: number | string) => {
+  router.push({
+    name: 'scene-edit',
+    params: {
+      id
+    }
+  })
+}
 
 const goDetail = (id: number | string) => {
   router.push({
-    name: 'individual-detail',
+    name: 'scene-detail',
     params: {
       id
     }
@@ -124,42 +139,40 @@ const goDetail = (id: number | string) => {
 
 const emit = defineEmits<{
   (e: 'delete', id: (number | string)[], label: string): void
-  (e: 'changeStatus', id: (number | string)[], label: string, newStatus: UserStatus): void
+  (e: 'changeStatus', id: (number | string)[], label: string, newStatus: ActiveStatus): void
 }>()
 
 const deleteRow = (id: number | string, label: string) => {
   emit('delete', [id], label)
 }
-const changeStatus = (id: number | string, label: string, newStatus: UserStatus) => {
+const changeStatus = (id: number | string, label: string, newStatus: ActiveStatus) => {
   emit('changeStatus', [id], label, newStatus)
 }
 
 const deleteAll = () => {
-  emit('delete', selectedIds.value, '选中用户')
+  emit('delete', selectedIds.value, '选中场景')
 }
-const changeAllStatus = (newStatus: UserStatus) => {
-  const filteredUsers = selectedIds.value
+const changeAllStatus = (newStatus: ActiveStatus) => {
+  const filteredScenes = selectedIds.value
     .map((id) => data.find((user) => String(user.id) === id))
     .filter((user) => {
       if (!user) return false
 
-      // 如果 newStatus 为 'active'，筛选出状态是 'Suspended' 的用户
-      if (newStatus === UserStatus.Active) {
-        return user.status === UserStatus.Suspended
+      if (newStatus === ActiveStatus.Active) {
+        return user.status === ActiveStatus.Inactive
       }
 
-      // 如果 newStatus 为 'Suspended'，筛选出状态是 'Active' 的用户
-      if (newStatus === UserStatus.Suspended) {
-        return user.status === UserStatus.Active
+      if (newStatus === ActiveStatus.Inactive) {
+        return user.status === ActiveStatus.Active
       }
 
       return false
     })
 
-  const filteredIds = filteredUsers.map((user) => (user ? String(user.id) : ''))
-  const userNames = filteredUsers.map((user) => (user ? user.fullName : '')).join(', ')
+  const filteredIds = filteredScenes.map((scene) => (scene ? String(scene.id) : ''))
+  const sceneTitles = filteredScenes.map((scene) => (scene ? scene.title : '')).join(', ')
 
-  emit('changeStatus', filteredIds, userNames, newStatus)
+  emit('changeStatus', filteredIds, sceneTitles, newStatus)
 }
 </script>
 

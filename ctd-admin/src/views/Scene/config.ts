@@ -1,23 +1,22 @@
 import { activeStatusOptions } from '@/constants/mapData'
-import { partnerTypesOptions } from '@/constants/mapData/company'
-import type { ICompanyItem } from '@/types/company'
+import type { ISceneItem } from '@/types/scene'
 import type { IFilter, ISort, ITableColumn } from '@/types/table'
 
-export const sortList: ISort<ICompanyItem>[] = [
+export const sortList: ISort<ISceneItem>[] = [
   {
-    prop: 'name',
+    prop: 'title',
     order: undefined
   },
   {
-    prop: 'link',
+    prop: 'companyName',
     order: undefined
   },
   {
-    prop: 'partnerType',
+    prop: 'readCount',
     order: undefined
   },
   {
-    prop: 'isShowInFooter',
+    prop: 'isOuterLink',
     order: undefined
   },
   {
@@ -34,23 +33,23 @@ export const sortList: ISort<ICompanyItem>[] = [
   }
 ]
 
-export const filterList: IFilter<ICompanyItem>[] = [
+export const filterList: IFilter<ISceneItem>[] = [
   {
-    prop: 'name',
+    prop: 'title',
     type: 'input' as const
   },
   {
-    prop: 'link',
+    prop: 'companyName',
     type: 'input' as const
   },
   {
-    prop: 'isShowInFooter',
+    prop: 'readCount',
+    type: 'number' as const,
+    value: [null, null]
+  },
+  {
+    prop: 'isOuterLink',
     type: 'boolean' as const
-  },
-  {
-    prop: 'partnerType',
-    type: 'enum' as const,
-    options: partnerTypesOptions
   },
   {
     prop: 'status',
@@ -67,18 +66,18 @@ export const filterList: IFilter<ICompanyItem>[] = [
   }
 ]
 
-export const columnList: ITableColumn<ICompanyItem>[] = [
-  { prop: 'logoUrl', minWidth: '80', slot: 'logoUrl', visible: true },
-  { prop: 'name', minWidth: '200', visible: true },
-  { prop: 'link', minWidth: '200', visible: true },
-  { prop: 'partnerType', minWidth: '150', slot: 'partnerType', visible: true },
-  { prop: 'isShowInFooter', minWidth: '120', slot: 'isShowInFooter', visible: true },
+export const columnList: ITableColumn<ISceneItem>[] = [
+  { prop: 'coverImageUrl', minWidth: '80', slot: 'coverImageUrl', visible: true },
+  { prop: 'title', minWidth: '200', visible: true },
+  { prop: 'companyName', minWidth: '200', visible: true },
+  { prop: 'readCount', minWidth: '100', visible: true },
+  { prop: 'isOuterLink', minWidth: '100', slot: 'isOuterLink', visible: true },
   { prop: 'status', minWidth: '120', slot: 'status', visible: true },
   {
     prop: 'createdAt',
     minWidth: '130',
     visible: true,
-    formatter: (row: ICompanyItem) => {
+    formatter: (row: ISceneItem) => {
       return dayjs(row.createdAt).format('YYYY-MM-DD HH:mm:ss')
     }
   },
@@ -86,7 +85,7 @@ export const columnList: ITableColumn<ICompanyItem>[] = [
     prop: 'updatedAt',
     minWidth: '130',
     visible: true,
-    formatter: (row: ICompanyItem) => {
+    formatter: (row: ISceneItem) => {
       return dayjs(row.updatedAt).format('YYYY-MM-DD HH:mm:ss')
     }
   }

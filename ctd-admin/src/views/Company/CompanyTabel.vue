@@ -58,9 +58,12 @@
       </template>
 
       <template #actions="{ scope }">
-        <el-button link type="primary" size="small" @click="edit(scope.row.id)"> 编辑 </el-button>
+        <el-button class="default-btn" link type="primary" size="small" @click="edit(scope.row.id)">
+          编辑
+        </el-button>
         <el-button
           v-if="scope.row.status === ActiveStatus.Inactive"
+          class="default-btn"
           link
           type="primary"
           size="small"
@@ -70,6 +73,7 @@
         </el-button>
         <el-button
           v-if="scope.row.status === ActiveStatus.Active"
+          class="default-btn"
           link
           type="primary"
           size="small"
@@ -77,10 +81,17 @@
         >
           停用
         </el-button>
-        <el-button link type="primary" size="small" @click="goDetail(scope.row.id)">
+        <el-button
+          class="default-btn"
+          link
+          type="primary"
+          size="small"
+          @click="goDetail(scope.row.id)"
+        >
           查看详情
         </el-button>
         <el-button
+          class="default-btn"
           link
           type="primary"
           size="small"

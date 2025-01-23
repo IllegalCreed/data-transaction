@@ -148,7 +148,34 @@
           </template>
 
           <template v-else-if="filter.type === 'input'">
-            <el-input v-model="filter.value as string | undefined" placeholder="输入筛选内容" />
+            <el-input v-model="filter.value" placeholder="输入筛选内容"></el-input>
+          </template>
+
+          <template v-else-if="filter.type === 'boolean'">
+            <el-select v-model="filter.value" clearable placeholder="选择筛选项">
+              <el-option label="是" :value="true" />
+              <el-option label="否" :value="false" />
+            </el-select>
+          </template>
+
+          <template v-else-if="filter.type === 'number'">
+            <div flex flex-row items-center justify-around gap-4>
+              <el-input
+                flex-1
+                type="number"
+                clearable
+                v-model.number="filter.value[0]"
+                placeholder="最小值"
+              />
+              <span>至</span>
+              <el-input
+                flex-1
+                type="number"
+                clearable
+                v-model.number="filter.value[1]"
+                placeholder="最大值"
+              />
+            </div>
           </template>
         </div>
         <div flex flex-row justify-between p-3>
@@ -248,12 +275,16 @@ const openFilterPopover = () => {
 }
 
 const resetFilter = (filter: IFilter<T>) => {
-  filter.value = undefined
+  if (filter.type === 'number') {
+    filter.value = [null, null]
+  } else {
+    filter.value = undefined
+  }
 }
 
 const resetAllFilter = () => {
   filterList.value.forEach((filter) => {
-    filter.value = undefined
+    resetFilter(filter)
   })
 }
 
@@ -264,6 +295,10 @@ const applyFilter = () => {
     if (item.value !== undefined && item.value !== '') {
       if (item.type === 'enum' || item.type === 'date') {
         if (item.value.length !== 0) {
+          filterCount.value++
+        }
+      } else if (item.type === 'number') {
+        if (item.value[0] !== null || item.value[1] !== null) {
           filterCount.value++
         }
       } else {

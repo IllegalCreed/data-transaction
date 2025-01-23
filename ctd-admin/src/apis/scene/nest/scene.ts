@@ -47,7 +47,7 @@ export const upsertScene = (id: string | number, sceneInfoRaw: ISceneDTO): Promi
 
   return request.post(
     {
-      url: '/scene/upsert',
+      url: '/platform/scene/upsert',
       data
     },
     true

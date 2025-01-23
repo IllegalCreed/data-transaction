@@ -3,14 +3,14 @@
     <div flex flex-row justify-between>
       <el-input
         class="search-input"
-        @keyup.enter="handleSearch"
-        @clear="handleSearch"
+        @keyup.enter="refresh"
+        @clear="refresh"
         v-model="searchQuery"
         placeholder="请输入关键字搜索"
         clearable
       >
         <template #append>
-          <el-button @click="handleSearch" :loading="getListLoading">
+          <el-button @click="() => refresh()" :loading="getListLoading">
             <template v-slot:icon>
               <i-vaadin:search></i-vaadin:search>
             </template>
@@ -23,18 +23,25 @@
 
     <el-divider class="!my-0" />
 
-    <scene-filter-sort-panel
-      v-model:status="status"
-      v-model:is-outer-link="isOuterLink"
-      @refresh="reset"
-    />
-
-    <scene-tabel-panel
+    <scene-tabel
       :data="data"
       :loading="getListLoading"
+      :column-list="columnList"
+      :propLabelMap="SCENE_PROP_LABEL_MAP"
       @delete="handleDelete"
       @changeStatus="handleChangeStatus"
-    />
+    >
+      <template #filter>
+        <filter-sort-panel
+          v-model:filter-list="filterList"
+          v-model:sort-list="sortList"
+          v-model:column-list="columnList"
+          :propLabelMap="SCENE_PROP_LABEL_MAP"
+          @reset="reset"
+          @apply="refresh"
+        />
+      </template>
+    </scene-tabel>
 
     <el-pagination
       self-center
@@ -54,91 +61,57 @@ defineOptions({
   name: 'scene'
 })
 
-import SceneFilterSortPanel from './SceneFilterSortPanel.vue'
-import SceneTabelPanel from './SceneTabelPanel.vue'
+import FilterSortPanel from '@/components/FilterSortPanel.vue'
+import SceneTabel from './SceneTable.vue'
+import { SCENE_PROP_LABEL_MAP } from '@/constants/mapData/scene'
+import { useChangeScenesStatus, useDeleteScenes, useSearchScene } from './composables'
 
 // 获取列表
-import type { ISceneItem } from '@/types/scene'
 const getListLoading = ref<boolean>(false)
+
+import type { ISceneItem } from '@/types/scene'
 const data = ref<ISceneItem[]>([])
+
 import { useSceneStore } from '@/stores/modules/scene'
-const {
-  getScenes: getScenesAction,
-  changeScenesStatus: changeScenesStatusAction,
-  deleteScenes: deleteScenesAction
-} = useSceneStore()
+const { getScenes: getScenesAction } = useSceneStore()
+
 const getList = async (): Promise<number> => {
   getListLoading.value = true
   const res = await getScenesAction(
     searchQuery.value,
-    status.value,
-    isOuterLink.value,
+    filterDTO.value,
+    sortDTO.value,
+    columnDTO.value,
     pageNum.value,
     pageSize.value
   )
 
-  data.value = res.rows
+  data.value = res.data.rows
   getListLoading.value = false
-  return res.total
+  return res.data.total
 }
 
+// 筛选和表格
+import { useTable } from '@/composables/useTable'
+import { sortList as sortDate, filterList as filterDate, columnList as columnDate } from './config'
+const { sortList, filterList, columnList, filterDTO, columnDTO, sortDTO } = useTable(
+  sortDate,
+  filterDate,
+  columnDate
+)
+
+// 分页
 import { usePager } from '@/composables/usePager'
 const { pageNum, pageSize, total, refresh } = usePager(getList)
 
 // 删除
-import { useDelete } from '@/composables/useDelete'
-const delTitle = ref('')
-const delId = ref<string | number>('')
-const { doDelAction } = useDelete(
-  () => `是否确认删除 ${delTitle.value} ？`,
-  async () => {
-    await deleteScenesAction([delId.value])
-    refresh()
-  }
-)
-const handleDelete = (id: string | number, title: string) => {
-  delTitle.value = title
-  delId.value = id
-  doDelAction()
-}
+const { handleDelete } = useDeleteScenes(refresh)
 
 // 修改状态
-import { useChangeStatus } from '@/composables/useChangeStatus'
-import { ActiveStatus } from '@/constants/mapData'
-const changeTitle = ref('')
-const changeId = ref<string | number>('')
-const changeStatus = ref<ActiveStatus>()
-const { doChangeAction } = useChangeStatus(
-  () =>
-    `是否确认 ${changeStatus.value === ActiveStatus.Active ? '启用' : '停用'} ${changeTitle.value} ？`,
-  async () => {
-    if (!changeStatus.value) {
-      ElMessage.error('请选择状态')
-      return
-    }
-    await changeScenesStatusAction([changeId.value], changeStatus.value)
-    refresh()
-  }
-)
-const handleChangeStatus = (id: string | number, title: string, newStatus: ActiveStatus) => {
-  changeTitle.value = title
-  changeId.value = id
-  changeStatus.value = newStatus
-  doChangeAction()
-}
+const { handleChangeStatus } = useChangeScenesStatus(refresh)
 
 // 搜索
-const searchQuery = ref<string>('')
-const handleSearch = () => {
-  refresh()
-}
-
-const status = ref<ActiveStatus | null>(null)
-const isOuterLink = ref<boolean | null>(null)
-const reset = () => {
-  pageNum.value = 1
-  refresh()
-}
+const { searchQuery, reset } = useSearchScene(refresh)
 
 // 新建
 const router = useRouter()

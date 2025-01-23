@@ -17,6 +17,7 @@ import type { IFilterDTO, ISort, ITableColumnDTO } from '@/types/table'
 
 export const useSceneStore = defineStore('scene', () => {
   const settingsStore = useSettingsStore()
+  const { findMockTreeValueByKey } = settingsStore
 
   const getScenes = (
     searchQuery: string,
@@ -27,7 +28,7 @@ export const useSceneStore = defineStore('scene', () => {
     pageSize: number
   ): Promise<ICommonReturn<apiListResult<ISceneItem>>> => {
     return new Promise<ICommonReturn<apiListResult<ISceneItem>>>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('scene')) {
         window.setTimeout(() => {
           const result = mockScenes.filter((item) => {
             const searchMatch = searchQuery ? item.title.includes(searchQuery) : true
@@ -65,7 +66,7 @@ export const useSceneStore = defineStore('scene', () => {
 
   const getScene = (id: string | number): Promise<IScene> => {
     return new Promise<IScene>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('scene')) {
         window.setTimeout(() => {
           const result = mockScenes.find((item) => item.id === Number(id))
           if (result) {
@@ -105,7 +106,7 @@ export const useSceneStore = defineStore('scene', () => {
 
   const upsertScene = (id: string | number, sceneInfo: ISceneDTO): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('scene')) {
         window.setTimeout(() => {
           resolve()
         }, 1000)
@@ -124,7 +125,7 @@ export const useSceneStore = defineStore('scene', () => {
 
   const changeScenesStatus = (ids: (string | number)[], status: ActiveStatus): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('scene')) {
         window.setTimeout(() => {
           resolve()
         }, 1000)
@@ -143,7 +144,7 @@ export const useSceneStore = defineStore('scene', () => {
 
   const deleteScenes = (ids: (string | number)[]): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('scene')) {
         window.setTimeout(() => {
           resolve()
         }, 1000)
@@ -162,7 +163,7 @@ export const useSceneStore = defineStore('scene', () => {
 
   const getSceneOptionsByTitle = (searchQuery: string): Promise<IOption[]> => {
     return new Promise<IOption[]>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('scene')) {
         window.setTimeout(() => {
           resolve(mockSceneOptions)
         }, 1000)
@@ -182,7 +183,7 @@ export const useSceneStore = defineStore('scene', () => {
 
   const getSceneOptionsByID = (id: string | number): Promise<IOption> => {
     return new Promise<IOption>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('scene')) {
         window.setTimeout(() => {
           const result = mockSceneOptions.find((item) => item.value === Number(id))
           if (result) {

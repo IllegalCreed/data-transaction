@@ -82,8 +82,7 @@ import type { IScene, ISceneDTO } from '@/types/scene'
 const id = useRouteParams<string>('id')
 const form = useTemplateRef<FormInstance>('form')
 const rules = reactive<FormRules<ISceneDTO>>({
-  title: [{ required: true, message: '请输入场景名称', trigger: 'blur' }],
-  summary: [{ required: true, message: '请输入摘要', trigger: 'blur' }]
+  title: [{ required: true, message: '请输入场景名称', trigger: 'blur' }]
 })
 
 import { useSceneStore } from '@/stores/modules/scene'
@@ -92,7 +91,7 @@ const sceneInfo = reactive<ISceneDTO>({
   title: '',
   summary: '',
   status: ActiveStatus.Inactive,
-  companyId: '',
+  companyId: undefined,
   isOuterLink: false,
   content: ''
 })
@@ -103,7 +102,7 @@ onMounted(async () => {
     Object.assign(sceneInfo, mapISceneToISceneDTO(fetchedNewsDetailData))
     if (sceneInfo.companyId) {
       getCompanyOptionsByNameActionLoading.value = true
-      companyOptions.value = [await getCompanyOptionsByIDAction(sceneInfo.companyId)]
+      companyOptions.value = await getCompanyOptionsByIDAction(sceneInfo.companyId)
       getCompanyOptionsByNameActionLoading.value = false
     }
     if (sceneInfo.coverImageUrl) {
@@ -147,7 +146,7 @@ function mapISceneToISceneDTO(scene: IScene): ISceneDTO {
     link: isOuterLink ? link : undefined,
     content: !isOuterLink ? content : undefined,
     status,
-    companyId: company.id
+    companyId: company?.id
   }
 }
 

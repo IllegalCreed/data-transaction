@@ -156,15 +156,16 @@ export const useCompanyStore = defineStore('company', () => {
 
   const getCompanyOptionsByName = (searchQuery: string): Promise<IOption[]> => {
     return new Promise<IOption[]>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('company')) {
         window.setTimeout(() => {
           resolve(mockCompanyOptions)
         }, 1000)
       } else {
         getCompanyOptionsByNameAPI(searchQuery)
           .then((res) => {
-            const result = res as IOption[]
-            resolve(result)
+            const result = res as ICommonReturn<IOption[]>
+            console.log(result.data)
+            resolve(result.data)
           })
           .catch((error: Error) => {
             reject(error)
@@ -174,13 +175,13 @@ export const useCompanyStore = defineStore('company', () => {
     })
   }
 
-  const getCompanyOptionsByID = (id: string | number): Promise<IOption> => {
-    return new Promise<IOption>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+  const getCompanyOptionsByID = (id: string | number): Promise<IOption[]> => {
+    return new Promise<IOption[]>((resolve, reject) => {
+      if (findMockTreeValueByKey('company')) {
         window.setTimeout(() => {
           const result = mockCompanyOptions.find((item) => item.value === Number(id))
           if (result) {
-            resolve(result)
+            resolve([result])
           } else {
             reject(new Error('Company not found'))
           }
@@ -188,8 +189,8 @@ export const useCompanyStore = defineStore('company', () => {
       } else {
         getCompanyOptionsByIDAPI(id)
           .then((res) => {
-            const result = res as IOption
-            resolve(result)
+            const result = res as ICommonReturn<IOption[]>
+            resolve(result.data)
           })
           .catch((error: Error) => {
             reject(error)

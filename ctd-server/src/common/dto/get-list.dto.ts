@@ -35,7 +35,12 @@ export class FilterItem {
   type: FilterType;
 
   @IsOptional()
-  value?: string | string[] | [string, string];
+  value?:
+    | string
+    | string[]
+    | [string, string]
+    | boolean
+    | [number | null, number | null];
 }
 
 export class ColumnItem {
