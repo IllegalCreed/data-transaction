@@ -33,7 +33,7 @@
         <el-select v-model="newsInfo.status" placeholder="请选择">
           <el-option
             v-for="item in activeStatusOptions"
-            :key="item.value"
+            :key="item.label"
             :label="item.label"
             :value="item.value"
           />

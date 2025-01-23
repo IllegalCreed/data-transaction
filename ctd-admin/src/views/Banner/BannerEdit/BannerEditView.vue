@@ -16,7 +16,7 @@
         <el-select v-model="bannerInfo.linkType" placeholder="请选择">
           <el-option
             v-for="item in linkTypesOptions"
-            :key="item.value"
+            :key="item.label"
             :label="item.label"
             :value="item.value"
           />
@@ -59,7 +59,7 @@
         >
           <el-option
             v-for="item in dataOptions"
-            :key="item.value"
+            :key="item.label"
             :label="item.label"
             :value="item.value"
           />
@@ -69,7 +69,7 @@
         <el-select v-model="bannerInfo.status" placeholder="请选择">
           <el-option
             v-for="item in activeStatusOptions"
-            :key="item.value"
+            :key="item.label"
             :label="item.label"
             :value="item.value"
           />
@@ -185,7 +185,7 @@ const {
 } = useDemandStore()
 import { useSceneStore } from '@/stores/modules/scene'
 const {
-  getSceneOptionsByName: getSceneOptionsByNameAction,
+  getSceneOptionsByTitle: getSceneOptionsByTitleAction,
   getSceneOptionsByID: getSceneOptionsByIDAction
 } = useSceneStore()
 const getOptionsLoading = ref(false)
@@ -202,7 +202,7 @@ const remoteMethod = async (query: string) => {
         dataOptions.value = await getProductOptionsByNameAction(query)
         break
       case LinkTypes.Scene:
-        dataOptions.value = await getSceneOptionsByNameAction(query)
+        dataOptions.value = await getSceneOptionsByTitleAction(query)
         break
       default:
         break

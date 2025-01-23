@@ -52,7 +52,7 @@
           <el-select clearable v-model="statusToString" placeholder="选择产品状态">
             <el-option
               v-for="item in productStatusOptions"
-              :key="item.value"
+              :key="item.label"
               :label="item.label"
               :value="item.value"
             />
@@ -76,7 +76,7 @@
           >
             <el-option
               v-for="item in businessOptions"
-              :key="item.value"
+              :key="item.label"
               :label="item.label"
               :value="item.value"
             />

@@ -52,7 +52,7 @@
           <el-select clearable v-model="statusToString" placeholder="选择资讯状态">
             <el-option
               v-for="item in activeStatusOptions"
-              :key="item.value"
+              :key="item.label"
               :label="item.label"
               :value="item.value"
             />

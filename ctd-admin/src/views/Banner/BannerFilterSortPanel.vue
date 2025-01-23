@@ -52,7 +52,7 @@
           <el-select clearable v-model="statusToString" placeholder="选择场景状态">
             <el-option
               v-for="item in activeStatusOptions"
-              :key="item.value"
+              :key="item.label"
               :label="item.label"
               :value="item.value"
             />
@@ -67,7 +67,7 @@
           <el-select clearable v-model="linkTypeToString" placeholder="选择链接类型">
             <el-option
               v-for="item in linkTypesOptions"
-              :key="item.value"
+              :key="item.label"
               :label="item.label"
               :value="item.value"
             />
