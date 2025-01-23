@@ -46,8 +46,10 @@
         <span class="label">头像：</span>
         <el-image
           class="w-30 h-30"
-          :src="userInfo.avatarUrl"
-          :preview-src-list="userInfo.avatarUrl ? [userInfo.avatarUrl] : undefined"
+          :src="convertFileUrl(userInfo.avatarUrl)"
+          :preview-src-list="
+            userInfo.avatarUrl ? [convertFileUrl(userInfo.avatarUrl) as string] : undefined
+          "
           fit="cover"
         />
       </div>
@@ -59,6 +61,7 @@
 defineOptions({
   name: 'individual-detail'
 })
+import { convertFileUrl } from '@/utils/convertUrl'
 import dayjs from 'dayjs'
 const id = useRouteParams<string | number>('id')
 // watch(id, () => {

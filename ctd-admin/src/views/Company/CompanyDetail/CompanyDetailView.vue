@@ -42,8 +42,10 @@
         <span class="label">公司商标：</span>
         <el-image
           class="w-30 h-30"
-          :src="companyInfo.logoUrl"
-          :preview-src-list="companyInfo.logoUrl ? [companyInfo.logoUrl] : undefined"
+          :src="convertFileUrl(companyInfo.logoUrl)"
+          :preview-src-list="
+            companyInfo.logoUrl ? [convertFileUrl(companyInfo.logoUrl) as string] : undefined
+          "
           fit="cover"
         />
       </div>
@@ -55,6 +57,7 @@
 defineOptions({
   name: 'company-detail'
 })
+import { convertFileUrl } from '@/utils/convertUrl'
 import dayjs from 'dayjs'
 const id = useRouteParams<string | number>('id')
 // watch(id, () => {

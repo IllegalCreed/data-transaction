@@ -1,4 +1,4 @@
-export function convertFileUrl(url: string) {
+export function convertFileUrl(url: string | undefined) {
   if (!url) return undefined
   if (url.startsWith('http') || url.startsWith('blob')) {
     return url

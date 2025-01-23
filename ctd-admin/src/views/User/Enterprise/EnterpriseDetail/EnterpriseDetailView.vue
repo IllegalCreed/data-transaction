@@ -62,8 +62,10 @@
         <span class="label">企业商标：</span>
         <el-image
           class="w-30 h-30"
-          :src="userInfo.avatarUrl"
-          :preview-src-list="userInfo.avatarUrl ? [userInfo.avatarUrl] : undefined"
+          :src="convertFileUrl(userInfo.avatarUrl)"
+          :preview-src-list="
+            userInfo.avatarUrl ? [convertFileUrl(userInfo.avatarUrl) as string] : undefined
+          "
           fit="cover"
         />
       </div>
@@ -75,6 +77,7 @@
 defineOptions({
   name: 'enterprise-detail'
 })
+import { convertFileUrl } from '@/utils/convertUrl'
 const id = useRouteParams<string | number>('id')
 // watch(id, () => {
 //   executeGetUserAction()

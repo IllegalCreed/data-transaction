@@ -34,8 +34,12 @@
         <span class="label">场景封面：</span>
         <el-image
           class="w-30 h-30"
-          :src="sceneInfo.coverImageUrl"
-          :preview-src-list="sceneInfo.coverImageUrl ? [sceneInfo.coverImageUrl] : undefined"
+          :src="convertFileUrl(sceneInfo.coverImageUrl)"
+          :preview-src-list="
+            sceneInfo.coverImageUrl
+              ? [convertFileUrl(sceneInfo.coverImageUrl) as string]
+              : undefined
+          "
           fit="cover"
         />
       </div>
@@ -43,8 +47,12 @@
         <span class="label">场景头图：</span>
         <el-image
           class="w-30 h-30"
-          :src="sceneInfo.headerImageUrl"
-          :preview-src-list="sceneInfo.headerImageUrl ? [sceneInfo.headerImageUrl] : undefined"
+          :src="convertFileUrl(sceneInfo.headerImageUrl)"
+          :preview-src-list="
+            sceneInfo.headerImageUrl
+              ? [convertFileUrl(sceneInfo.headerImageUrl) as string]
+              : undefined
+          "
           fit="cover"
         />
       </div>
@@ -68,7 +76,7 @@
 defineOptions({
   name: 'scene-detail'
 })
-
+import { convertFileUrl } from '@/utils/convertUrl'
 const id = useRouteParams<string | number>('id')
 // watch(id, () => {
 //   executeGetSceneAction()
