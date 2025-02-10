@@ -16,7 +16,7 @@
       </div>
       <div class="prop">
         <span class="label">发布日期：</span>
-        <span class="value">{{ newsInfo.publicDate }}</span>
+        <span class="value">{{ newsInfo.publishedAt }}</span>
       </div>
       <div class="prop">
         <span class="label">创建时间：</span>
@@ -80,7 +80,7 @@ const {
     content: '',
     status: ActiveStatus.Inactive,
     readCount: 0,
-    publicDate: '',
+    publishedAt: '',
     createTime: '',
     updateTime: ''
   },

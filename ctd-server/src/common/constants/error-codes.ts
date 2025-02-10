@@ -87,6 +87,9 @@ export enum ErrorCode {
   GET_SCENE_DETAIL_FAILED = 5306,
   UPDATE_SCENE_STATUS_FAILED = 5307,
   DELETE_SCENE_FAILED = 5308,
+
+  // 资讯管理相关
+  LIST_NEWS_FAILED = 5401,
 }
 
 export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
@@ -217,4 +220,7 @@ export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
     'Update scene status failed due to unexpected error.',
   [ErrorCode.DELETE_SCENE_FAILED]:
     'Delete scene failed due to unexpected error.',
+
+  // 资讯管理相关
+  [ErrorCode.LIST_NEWS_FAILED]: 'List news failed due to unexpected error.',
 };

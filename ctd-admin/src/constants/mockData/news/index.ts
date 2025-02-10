@@ -18,7 +18,7 @@ export const news: INews[] = [
     headerImageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
     status: ActiveStatus.Active,
     readCount: 1000,
-    publicDate: '2024-08-22',
+    publishedAt: '2024-08-22',
     createTime: '2024-09-20 14:30:00',
     updateTime: '2024-09-20 14:30:00'
   },
@@ -32,7 +32,7 @@ export const news: INews[] = [
     headerImageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
     status: ActiveStatus.Active,
     readCount: 1000,
-    publicDate: '2024-08-22',
+    publishedAt: '2024-08-22',
     createTime: '2024-08-22 14:30:00',
     updateTime: '2024-09-20 14:30:00'
   },
@@ -46,7 +46,7 @@ export const news: INews[] = [
     headerImageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
     status: ActiveStatus.Inactive,
     readCount: 900,
-    publicDate: '2024-08-22',
+    publishedAt: '2024-08-22',
     createTime: '2024-07-09 14:30:00',
     updateTime: '2024-09-20 14:30:00'
   },
@@ -60,7 +60,7 @@ export const news: INews[] = [
     headerImageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
     status: ActiveStatus.Active,
     readCount: 1000,
-    publicDate: '2024-08-22',
+    publishedAt: '2024-08-22',
     createTime: '2024-07-07 14:30:00',
     updateTime: '2024-09-20 14:30:00'
   },
@@ -74,7 +74,7 @@ export const news: INews[] = [
     headerImageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
     status: ActiveStatus.Active,
     readCount: 1000,
-    publicDate: '2024-08-22',
+    publishedAt: '2024-08-22',
     createTime: '2024-07-02 14:30:00',
     updateTime: '2024-09-20 14:30:00'
   },
@@ -89,7 +89,7 @@ export const news: INews[] = [
     headerImageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
     status: ActiveStatus.Active,
     readCount: 1000,
-    publicDate: '2024-08-22',
+    publishedAt: '2024-08-22',
     createTime: '2024-09-26 14:30:00',
     updateTime: '2024-09-20 14:30:00'
   }

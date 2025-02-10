@@ -64,6 +64,7 @@ const id = useRouteParams<string | number>('id')
 //   executeGetCompanyAction()
 // })
 
+// 数据获取
 import { useCompanyStore } from '@/stores/modules/company'
 const { getCompany: getCompanyAction } = useCompanyStore()
 const {
@@ -96,6 +97,7 @@ onMounted(() => {
   executeGetCompanyAction()
 })
 
+// 数据映射
 import { ACTIVE_STATUS_COLOR_MAP, ACTIVE_STATUS_MAP, ActiveStatus } from '@/constants/mapData'
 const stautsColor = (status: ActiveStatus) => ACTIVE_STATUS_COLOR_MAP[status]
 const statusLabel = (status: ActiveStatus) => ACTIVE_STATUS_MAP[status]

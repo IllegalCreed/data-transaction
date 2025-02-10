@@ -68,11 +68,14 @@ import { PartnerTypes } from '@/constants/mapData/company'
 import type { ICompany, ICompanyDTO } from '@/types/company'
 
 const id = useRouteParams<number>('id', -1, { transform: Number })
+
+// 表单验证
 const form = useTemplateRef<FormInstance>('form')
 const rules = reactive<FormRules<ICompanyDTO>>({
   name: [{ required: true, message: '请输入公司名称', trigger: 'blur' }]
 })
 
+// 表单数据
 import { useCompanyStore } from '@/stores/modules/company'
 const { getCompany: getCompanyAction, upsertCompany: upsertCompanyAction } = useCompanyStore()
 const companyInfo = reactive<ICompanyDTO>({
@@ -93,6 +96,7 @@ onMounted(async () => {
   }
 })
 
+// 数据映射
 function mapICompanyToICompanyDTO(company: ICompany): ICompanyDTO {
   const { name, description, link, logoUrl, content, partnerType, isShowInFooter, status } = company
 

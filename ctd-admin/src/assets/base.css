@@ -46,6 +46,7 @@
   --background-page-dark-color: var(--color-gray-200);
   --background-page-color: var(--color-white);
   --background-header-color: var(--color-light-primary);
+  --background-light-color: var(--color-zinc-100);
 
   --border-color: var(--color-gray-300);
   --border-btn-primary-color: var(--color-light-primary);
@@ -69,6 +70,7 @@
   --background-page-dark-color: var(--color-zinc-900);
   --background-page-color: var(--color-zinc-800);
   --background-header-color: var(--color-dark-primary);
+  --background-light-color: var(--color-zinc-300);
 
   --border-color: var(--color-zinc-600);
   --border-btn-primary-color: var(--color-dark-primary);

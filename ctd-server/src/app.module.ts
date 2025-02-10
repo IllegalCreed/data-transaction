@@ -12,11 +12,12 @@ import { UserModule } from './modules/protals/user/user.module';
 import { ChangePasswordModule } from './modules/protals/change-password/change-password.module';
 import { ChangeEmailModule } from './modules/protals/change-email/change-email.module';
 import { AdminModule } from './modules/platform/admin/admin.module';
+import { FileModule } from './modules/common/file/file.module';
 import { PlatformLoginModule } from './modules/platform/login/login.module';
 import { PlatformUserModule } from './modules/platform/user/user.module';
 import { PlatformCompanyModule } from './modules/platform/company/company.module';
-import { FileModule } from './modules/common/file/file.module';
 import { PlatformSceneModule } from './modules/platform/scene/scene.module';
+import { PlatformNewsModule } from './modules/platform/news/news.module';
 
 const nodeEnv = process.env.NODE_ENV || 'development';
 
@@ -84,6 +85,7 @@ const nodeEnv = process.env.NODE_ENV || 'development';
     PlatformUserModule,
     PlatformCompanyModule,
     PlatformSceneModule,
+    PlatformNewsModule,
   ],
   controllers: [],
   providers: [],

@@ -32,14 +32,22 @@
           trigger: 'blur'
         }"
       >
-        <div flex flex-row>
+        <div flex flex-row gap-2>
           <el-input
             flex-1
             v-model="loginInfo.captchaCode"
             placeholder="验证码"
             @keyup.enter="handleLogin"
           />
-          <img w-25 object-contain cursor-pointer :src="captchaData" @click="getCaptcha" />
+          <img
+            w-25
+            rounded
+            object-contain
+            cursor-pointer
+            class="bg-[var(--background-light-color)]"
+            :src="captchaData"
+            @click="getCaptcha"
+          />
         </div>
       </el-form-item>
     </el-form>

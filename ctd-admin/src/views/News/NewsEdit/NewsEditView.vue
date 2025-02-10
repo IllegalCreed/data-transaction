@@ -23,7 +23,7 @@
       </el-form-item>
       <el-form-item label="发布时间" prop="publicDate" max-w-120>
         <el-date-picker
-          v-model="newsInfo.publicDate"
+          v-model="newsInfo.publishedAt"
           type="date"
           placeholder="请选择"
           :validate-event="false"
@@ -84,7 +84,7 @@ const newsInfo = reactive<INews>({
   content: '',
   status: ActiveStatus.Inactive,
   readCount: 0,
-  publicDate: '',
+  publishedAt: '',
   createTime: '',
   updateTime: ''
 })

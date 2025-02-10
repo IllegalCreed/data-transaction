@@ -20,11 +20,11 @@
       </div>
       <div class="prop">
         <span class="label">创建时间：</span>
-        <span class="value">{{ sceneInfo.createdAt }}</span>
+        <span class="value">{{ dayjs(sceneInfo.createdAt).format('YYYY-MM-DD HH:mm:ss') }}</span>
       </div>
       <div class="prop">
         <span class="label">更新时间：</span>
-        <span class="value">{{ sceneInfo.updatedAt }}</span>
+        <span class="value">{{ dayjs(sceneInfo.updatedAt).format('YYYY-MM-DD HH:mm:ss') }}</span>
       </div>
       <div class="prop" grid-col-span-3>
         <span class="label">摘要：</span>
@@ -77,6 +77,7 @@ defineOptions({
   name: 'scene-detail'
 })
 import { convertFileUrl } from '@/utils/convertUrl'
+import dayjs from 'dayjs'
 const id = useRouteParams<string | number>('id')
 // watch(id, () => {
 //   executeGetSceneAction()
