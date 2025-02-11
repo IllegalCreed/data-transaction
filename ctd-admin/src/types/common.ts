@@ -36,6 +36,7 @@ export interface IUploadFile {
 export interface ITreeNode {
   key: string
   value: boolean
+  label: string
   children?: ITreeNode[]
 }
 

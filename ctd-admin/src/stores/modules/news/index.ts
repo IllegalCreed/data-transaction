@@ -1,41 +1,46 @@
 import { defineStore } from 'pinia'
 import { useSettingsStore } from '../settings'
-import type { apiListResult } from '@/types/common'
+import type { apiListResult, ICommonReturn, IOption } from '@/types/common'
 import type { INews, INewsDTO, INewsItem } from '@/types/news'
 import {
-  getNews as getNewsAPI,
+  getNewsList as getNewsListAPI,
   getNewsDetail as getNewsDetailAPI,
   upsertNews as upsertNewsAPI,
   changeNewsStatus as changeNewsStatusAPI,
-  deleteNews as deleteNewsAPI
+  deleteNews as deleteNewsAPI,
+  getNewsOptionsByTitle as getNewsOptionsByTitleAPI,
+  getNewsOptionsByID as getNewsOptionsByIDAPI
 } from '@/apis/news'
-import { news as mockNews } from '@/constants/mockData/news'
+import { news as mockNews, newsOptions as mockNewsOptions } from '@/constants/mockData/news'
 import type { ActiveStatus } from '@/constants/mapData'
+import type { IFilterDTO, ISort, ITableColumnDTO } from '@/types/table'
 
 export const useNewsStore = defineStore('news', () => {
   const settingsStore = useSettingsStore()
+  const { findMockTreeValueByKey } = settingsStore
 
-  const getNews = (
+  const getNewsList = (
     searchQuery: string,
-    status: ActiveStatus | null,
+    filters: IFilterDTO<INewsItem>[],
+    sorts: ISort<INewsItem>[],
+    columns: ITableColumnDTO<INewsItem>[],
     pageNum: number,
     pageSize: number
-  ): Promise<apiListResult<INewsItem>> => {
-    return new Promise<apiListResult<INewsItem>>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+  ): Promise<ICommonReturn<apiListResult<INewsItem>>> => {
+    return new Promise<ICommonReturn<apiListResult<INewsItem>>>((resolve, reject) => {
+      if (findMockTreeValueByKey('news')) {
         window.setTimeout(() => {
           const result = mockNews.filter((item) => {
-            const statusMatch = status ? item.status === status : true
             const searchMatch = searchQuery ? item.title.includes(searchQuery) : true
 
-            return statusMatch && searchMatch
+            return searchMatch
           })
-          resolve({ total: result.length, rows: result })
+          resolve({ data: { total: result.length, rows: result }, code: 0, msg: 'success' })
         }, 1000)
       } else {
-        getNewsAPI(searchQuery, status, pageNum, pageSize)
+        getNewsListAPI(searchQuery, filters, sorts, columns, pageNum, pageSize)
           .then((res) => {
-            const result = res as apiListResult<INewsItem>
+            const result = res as ICommonReturn<apiListResult<INewsItem>>
             resolve(result)
           })
           .catch((error: Error) => {
@@ -48,7 +53,7 @@ export const useNewsStore = defineStore('news', () => {
 
   const getNewsDetail = (id: string | number): Promise<INews> => {
     return new Promise<INews>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('news')) {
         window.setTimeout(() => {
           const result = mockNews.find((item) => item.id === Number(id))
           if (result) {
@@ -60,8 +65,8 @@ export const useNewsStore = defineStore('news', () => {
       } else {
         getNewsDetailAPI(id)
           .then((res) => {
-            const result = res as INews
-            resolve(result)
+            const result = res as ICommonReturn<INews>
+            resolve(result.data)
           })
           .catch((error: Error) => {
             reject(error)
@@ -73,7 +78,7 @@ export const useNewsStore = defineStore('news', () => {
 
   const upsertNews = (id: string | number, newsInfo: INewsDTO): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('news')) {
         window.setTimeout(() => {
           resolve()
         }, 1000)
@@ -92,7 +97,7 @@ export const useNewsStore = defineStore('news', () => {
 
   const changeNewsStatus = (ids: (string | number)[], status: ActiveStatus): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('news')) {
         window.setTimeout(() => {
           resolve()
         }, 1000)
@@ -111,7 +116,7 @@ export const useNewsStore = defineStore('news', () => {
 
   const deleteNews = (ids: (string | number)[]): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('news')) {
         window.setTimeout(() => {
           resolve()
         }, 1000)
@@ -128,11 +133,58 @@ export const useNewsStore = defineStore('news', () => {
     })
   }
 
+  const getNewsOptionsByTitle = (searchQuery: string): Promise<IOption[]> => {
+    return new Promise<IOption[]>((resolve, reject) => {
+      if (findMockTreeValueByKey('news')) {
+        window.setTimeout(() => {
+          resolve(mockNewsOptions)
+        }, 1000)
+      } else {
+        getNewsOptionsByTitleAPI(searchQuery)
+          .then((res) => {
+            const result = res as IOption[]
+            resolve(result)
+          })
+          .catch((error: Error) => {
+            reject(error)
+          })
+          .finally(() => {})
+      }
+    })
+  }
+
+  const getNewsOptionsByID = (id: string | number): Promise<IOption> => {
+    return new Promise<IOption>((resolve, reject) => {
+      if (findMockTreeValueByKey('news')) {
+        window.setTimeout(() => {
+          const result = mockNewsOptions.find((item) => item.value === Number(id))
+          if (result) {
+            resolve(result)
+          } else {
+            reject(new Error('News not found'))
+          }
+        }, 1000)
+      } else {
+        getNewsOptionsByIDAPI(id)
+          .then((res) => {
+            const result = res as IOption
+            resolve(result)
+          })
+          .catch((error: Error) => {
+            reject(error)
+          })
+          .finally(() => {})
+      }
+    })
+  }
+
   return {
-    getNews,
+    getNewsList,
     getNewsDetail,
     upsertNews,
     changeNewsStatus,
-    deleteNews
+    deleteNews,
+    getNewsOptionsByTitle,
+    getNewsOptionsByID
   }
 })

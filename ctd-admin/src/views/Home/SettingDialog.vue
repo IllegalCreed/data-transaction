@@ -31,7 +31,7 @@
       <el-switch v-model="mockEnabled"></el-switch>
     </div>
 
-    <el-tree :data="mockTree" :props="{ label: 'key', children: 'children' }">
+    <el-tree :data="mockTree" :props="{ label: 'label', children: 'children' }">
       <template #default="{ node, data }">
         <div flex flex-row justify-between items-center w-full>
           <span>{{ node.label }}</span>

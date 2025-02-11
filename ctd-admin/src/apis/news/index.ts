@@ -1,12 +1,15 @@
 import type { ActiveStatus } from '@/constants/mapData'
 import * as javaNews from './java/news'
 import * as nestNews from './nest/news'
-import type { INewsDTO } from '@/types/news'
+import type { INewsDTO, INewsItem } from '@/types/news'
+import type { IFilterDTO, ISort, ITableColumnDTO } from '@/types/table'
 
 interface INewsAPI {
-  getNews: (
+  getNewsList: (
     searchQuery: string,
-    status: ActiveStatus | null,
+    filters: IFilterDTO<INewsItem>[],
+    sorts: ISort<INewsItem>[],
+    columns: ITableColumnDTO<INewsItem>[],
     pageNum: number,
     pageSize: number
   ) => Promise<unknown>
@@ -14,6 +17,8 @@ interface INewsAPI {
   upsertNews: (id: string | number, newsInfo: INewsDTO) => Promise<unknown>
   changeNewsStatus: (ids: (string | number)[], status: ActiveStatus) => Promise<unknown>
   deleteNews: (ids: (string | number)[]) => Promise<unknown>
+  getNewsOptionsByTitle: (searchQuery: string) => Promise<unknown>
+  getNewsOptionsByID: (id: string | number) => Promise<unknown>
 }
 
 type NewsAPIType = INewsAPI
@@ -28,4 +33,12 @@ const nestAPI: NewsAPIType = {
 
 const newsAPI: NewsAPIType = import.meta.env.VITE_BACK_TYPE === 'java' ? javaAPI : nestAPI
 
-export const { getNews, getNewsDetail, upsertNews, changeNewsStatus, deleteNews } = newsAPI
+export const {
+  getNewsList,
+  getNewsDetail,
+  upsertNews,
+  changeNewsStatus,
+  deleteNews,
+  getNewsOptionsByTitle,
+  getNewsOptionsByID
+} = newsAPI

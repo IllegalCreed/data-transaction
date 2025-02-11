@@ -1,23 +1,28 @@
 import request from '@/axios'
 import type { ActiveStatus } from '@/constants/mapData'
-import type { INewsDTO } from '@/types/news'
+import type { INewsDTO, INewsItem } from '@/types/news'
+import type { IFilterDTO, ISort, ITableColumnDTO } from '@/types/table'
 
-export const getNews = (
+export const getNewsList = (
   searchQuery: string,
-  status: ActiveStatus | null,
+  filters: IFilterDTO<INewsItem>[],
+  sorts: ISort<INewsItem>[],
+  columns: ITableColumnDTO<INewsItem>[],
   pageNum: number,
   pageSize: number
 ): Promise<unknown> => {
-  const params = {
+  const data = {
     searchQuery,
-    status,
+    filters,
+    sorts,
+    columns,
     pageNum,
     pageSize
   }
-  return request.get(
+  return request.post(
     {
-      url: '/news',
-      params
+      url: '/platform/news/list',
+      data
     },
     true
   )
@@ -26,7 +31,7 @@ export const getNews = (
 export const getNewsDetail = (id: string | number): Promise<unknown> => {
   return request.get(
     {
-      url: `/news/${id}`
+      url: `/platform/news/${id}`
     },
     true
   )
@@ -40,7 +45,7 @@ export const upsertNews = (id: string | number, newsInfo: INewsDTO): Promise<unk
 
   return request.post(
     {
-      url: '/news/upsert',
+      url: '/platform/news/upsert',
       data
     },
     true
@@ -55,9 +60,9 @@ export const changeNewsStatus = (
     ids,
     status
   }
-  return request.put(
+  return request.post(
     {
-      url: '/news/change-status',
+      url: '/platform/news/change-status',
       data
     },
     true
@@ -65,12 +70,38 @@ export const changeNewsStatus = (
 }
 
 export const deleteNews = (ids: (string | number)[]): Promise<unknown> => {
-  const params = {
+  const data = {
     ids
   }
-  return request.delete(
+  return request.post(
     {
-      url: '/news/delete',
+      url: '/platform/news/delete',
+      data
+    },
+    true
+  )
+}
+
+export const getNewsOptionsByTitle = (name: string): Promise<unknown> => {
+  const params = {
+    name
+  }
+  return request.get(
+    {
+      url: '/platform/news/get-options-by-title',
+      params
+    },
+    true
+  )
+}
+
+export const getNewsOptionsByID = (id: string | number): Promise<unknown> => {
+  const params = {
+    id
+  }
+  return request.get(
+    {
+      url: '/platform/news/get-options-by-id',
       params
     },
     true

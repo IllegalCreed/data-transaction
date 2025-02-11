@@ -45,12 +45,13 @@ export const useSettingsStore = defineStore('settings', () => {
   }
 
   const mockTree = useLocalStorage<ITreeNode[]>('app-mock-tree', [
-    { key: 'login', value: false, children: [] },
-    { key: 'admin', value: false, children: [] },
-    { key: 'file', value: false, children: [] },
-    { key: 'user', value: false, children: [] },
-    { key: 'company', value: false, children: [] },
-    { key: 'scene', value: false, children: [] }
+    { key: 'login', label: '登录相关', value: false, children: [] },
+    { key: 'admin', label: '管理员相关', value: false, children: [] },
+    { key: 'file', label: '文件相关', value: false, children: [] },
+    { key: 'user', label: '用户相关', value: false, children: [] },
+    { key: 'company', label: '公司相关', value: false, children: [] },
+    { key: 'scene', label: '场景相关', value: false, children: [] },
+    { key: 'news', label: '资讯相关', value: false, children: [] }
   ])
 
   const findMockTreeValueByKey = (key: string) => {

@@ -69,7 +69,7 @@ export class SceneService extends AbstractListService<Scene, SceneItem> {
         where: { id },
       });
       if (!scene) {
-        this.logger.warn(`更新场景失败: 未找到场景 id=${dto.id}`);
+        this.logger.warn(`更新场景失败: 未找到场景 id=${id}`);
         throw new ExpectedError(ErrorCode.SCENE_NOT_FOUND);
       }
 

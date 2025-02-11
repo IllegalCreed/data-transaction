@@ -5,14 +5,13 @@ import {
   IsInt,
   IsBoolean,
   ValidateIf,
-  IsNumber,
   IsEnum,
 } from 'class-validator';
 import { ActiveStatus } from 'src/enums/active-status.enum';
 
 export class UpsertSceneDto {
   @IsOptional()
-  @IsNumber()
+  @IsInt()
   id: number; // 用于判断是插入还是更新
 
   @IsString({ message: '标题必须是字符串' })

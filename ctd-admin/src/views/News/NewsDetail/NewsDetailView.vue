@@ -16,15 +16,15 @@
       </div>
       <div class="prop">
         <span class="label">发布日期：</span>
-        <span class="value">{{ newsInfo.publishedAt }}</span>
+        <span class="value">{{ dayjs(newsInfo.publishedAt).format('YYYY-MM-DD HH:mm:ss') }}</span>
       </div>
       <div class="prop">
         <span class="label">创建时间：</span>
-        <span class="value">{{ newsInfo.createTime }}</span>
+        <span class="value">{{ dayjs(newsInfo.createdAt).format('YYYY-MM-DD HH:mm:ss') }}</span>
       </div>
       <div class="prop">
         <span class="label">更新时间：</span>
-        <span class="value">{{ newsInfo.updateTime }}</span>
+        <span class="value">{{ dayjs(newsInfo.updatedAt).format('YYYY-MM-DD HH:mm:ss') }}</span>
       </div>
       <div class="prop" grid-col-span-3>
         <span class="label">摘要：</span>
@@ -34,8 +34,10 @@
         <span class="label">资讯封面：</span>
         <el-image
           class="w-30 h-30"
-          :src="newsInfo.coverImageUrl"
-          :preview-src-list="newsInfo.coverImageUrl ? [newsInfo.coverImageUrl] : undefined"
+          :src="convertFileUrl(newsInfo.coverImageUrl)"
+          :preview-src-list="
+            newsInfo.coverImageUrl ? [convertFileUrl(newsInfo.coverImageUrl) as string] : undefined
+          "
           fit="cover"
         />
       </div>
@@ -43,8 +45,12 @@
         <span class="label">资讯头图：</span>
         <el-image
           class="w-30 h-30"
-          :src="newsInfo.headerImageUrl"
-          :preview-src-list="newsInfo.headerImageUrl ? [newsInfo.headerImageUrl] : undefined"
+          :src="convertFileUrl(newsInfo.headerImageUrl)"
+          :preview-src-list="
+            newsInfo.headerImageUrl
+              ? [convertFileUrl(newsInfo.headerImageUrl) as string]
+              : undefined
+          "
           fit="cover"
         />
       </div>
@@ -60,6 +66,9 @@
 defineOptions({
   name: 'news-detail'
 })
+
+import { convertFileUrl } from '@/utils/convertUrl'
+import dayjs from 'dayjs'
 const id = useRouteParams<string | number>('id')
 // watch(id, () => {
 //   executeGetNewsDetailAction()
@@ -76,13 +85,14 @@ const {
   {
     id: id.value,
     title: '',
+    author: '',
     summary: '',
     content: '',
     status: ActiveStatus.Inactive,
     readCount: 0,
     publishedAt: '',
-    createTime: '',
-    updateTime: ''
+    createdAt: '',
+    updatedAt: ''
   },
   {
     immediate: false,

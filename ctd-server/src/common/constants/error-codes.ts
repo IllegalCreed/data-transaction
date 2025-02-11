@@ -90,6 +90,13 @@ export enum ErrorCode {
 
   // 资讯管理相关
   LIST_NEWS_FAILED = 5401,
+  UPSERT_NEWS_FAILED = 5402,
+  NEWS_NOT_FOUND = 5403,
+  UPDATE_NEWS_STATUS_FAILED = 5404,
+  DELETE_NEWS_FAILED = 5405,
+  GET_NEWS_OPTIONS_BY_TITLE_FAILED = 5406,
+  GET_NEWS_OPTIONS_BY_ID_FAILED = 5407,
+  GET_NEWS_DETAIL_FAILED = 5408,
 }
 
 export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
@@ -223,4 +230,15 @@ export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
 
   // 资讯管理相关
   [ErrorCode.LIST_NEWS_FAILED]: 'List news failed due to unexpected error.',
+  [ErrorCode.UPSERT_NEWS_FAILED]: 'Upsert news failed due to unexpected error.',
+  [ErrorCode.NEWS_NOT_FOUND]: 'News not found.',
+  [ErrorCode.UPDATE_NEWS_STATUS_FAILED]:
+    'Update news status failed due to unexpected error.',
+  [ErrorCode.DELETE_NEWS_FAILED]: 'Delete news failed due to unexpected error.',
+  [ErrorCode.GET_NEWS_OPTIONS_BY_TITLE_FAILED]:
+    'Get news options by title failed due to unexpected error.',
+  [ErrorCode.GET_NEWS_OPTIONS_BY_ID_FAILED]:
+    'Get news options by id failed due to unexpected error.',
+  [ErrorCode.GET_NEWS_DETAIL_FAILED]:
+    'Get news detail failed due to unexpected error.',
 };
