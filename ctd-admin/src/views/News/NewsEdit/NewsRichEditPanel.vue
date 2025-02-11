@@ -3,6 +3,7 @@
     <quill-editor
       v-model:content="modal"
       theme="snow"
+      contentType="html"
       :toolbar="toolbar"
       w-full
       max-w-200

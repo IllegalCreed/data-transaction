@@ -1,6 +1,6 @@
 <template>
   <div class="news-edit-root-container">
-    <span class="panel-title">{{ id === '-1' ? '新建资讯' : '编辑资讯' }}</span>
+    <span class="panel-title">{{ id > 0 ? '新建资讯' : '编辑资讯' }}</span>
     <el-form
       @submit.prevent
       :model="newsInfo"
@@ -10,7 +10,10 @@
       label-position="top"
     >
       <el-form-item label="资讯标题" prop="title" max-w-120>
-        <el-input v-model="newsInfo.title" placeholder="请输入" :validate-event="false" />
+        <el-input v-model="newsInfo.title" placeholder="请输入" />
+      </el-form-item>
+      <el-form-item label="作者" prop="author" max-w-120>
+        <el-input v-model="newsInfo.author" placeholder="请输入" />
       </el-form-item>
       <el-form-item label="摘要" prop="summary" max-w-120>
         <el-input
@@ -18,10 +21,9 @@
           placeholder="请输入"
           type="textarea"
           :autosize="{ minRows: 2, maxRows: 5 }"
-          :validate-event="false"
         />
       </el-form-item>
-      <el-form-item label="发布时间" prop="publicDate" max-w-120>
+      <el-form-item label="发布时间" prop="publishedAt" max-w-120>
         <el-date-picker
           v-model="newsInfo.publishedAt"
           type="date"
@@ -40,13 +42,13 @@
         </el-select>
       </el-form-item>
       <el-form-item label="资讯封面" prop="coverImageUrl">
-        <image-picker v-model="coverImage" />
+        <image-picker v-model="coverImageRef" />
       </el-form-item>
       <el-form-item label="资讯头图" prop="headerImageUrl">
-        <image-picker v-model="headerImage" />
+        <image-picker v-model="headerImageRef" />
       </el-form-item>
       <el-form-item label="资讯正文" prop="content">
-        <news-rich-edit-panel v-model:content="newsInfo.content" />
+        <news-rich-edit-panel v-model="newsInfo.content" />
       </el-form-item>
     </el-form>
     <div>
@@ -60,98 +62,91 @@ defineOptions({
   name: 'news-edit'
 })
 
+import { type FormInstance, type FormRules } from 'element-plus'
 import ImagePicker from '@/components/ImagePicker.vue'
 import NewsRichEditPanel from './NewsRichEditPanel.vue'
-import { v4 as uuidv4 } from 'uuid'
-import { type FormInstance, type FormRules } from 'element-plus'
-import type { INews } from '@/types/news'
+import { ActiveStatus } from '@/constants/mapData'
+import type { INews, INewsDTO } from '@/types/news'
 
-const id = useRouteParams<string>('id')
+const id = useRouteParams<number>('id', -1, { transform: Number })
 const form = useTemplateRef<FormInstance>('form')
-const rules = reactive<FormRules<INews>>({
+const rules = reactive<FormRules<INewsDTO>>({
   title: [{ required: true, message: '请输入资讯名称', trigger: 'blur' }],
   summary: [{ required: true, message: '请输入摘要', trigger: 'blur' }],
-  publicDate: [{ required: true, message: '请选择发布时间', trigger: 'blur' }],
+  publishedAt: [{ required: true, message: '请选择发布时间', trigger: 'blur' }],
   content: [{ required: true, message: '请输入正文', trigger: 'blur' }]
 })
 
 import { useNewsStore } from '@/stores/modules/news'
 const { getNewsDetail: getNewsDetailAction, upsertNews: upsertNewsAction } = useNewsStore()
-const newsInfo = reactive<INews>({
-  id: id.value,
+const newsInfo = reactive<INewsDTO>({
   title: '',
+  author: '',
   summary: '',
   content: '',
   status: ActiveStatus.Inactive,
-  readCount: 0,
-  publishedAt: '',
-  createTime: '',
-  updateTime: ''
+  publishedAt: ''
 })
 
 onMounted(async () => {
-  if (id.value !== '-1') {
+  if (id.value > 0) {
     const fetchedNewsDetailData = await getNewsDetailAction(id.value)
-    Object.assign(newsInfo, fetchedNewsDetailData)
-    if (newsInfo.coverImageUrl) {
-      coverImage.value = {
-        id: uuidv4(),
-        url: newsInfo.coverImageUrl,
-        name: newsInfo.coverImageUrl,
-        raw: undefined
-      }
-    }
-    if (newsInfo.headerImageUrl) {
-      headerImage.value = {
-        id: uuidv4(),
-        url: newsInfo.headerImageUrl,
-        name: newsInfo.headerImageUrl,
-        raw: undefined
-      }
-    }
+    Object.assign(newsInfo, mapINewsToINewsDTO(fetchedNewsDetailData))
   }
 })
 
-// 图片相关
-const coverImage = ref<IUploadFile>()
-const headerImage = ref<IUploadFile>()
+function mapINewsToINewsDTO(scene: INews): INewsDTO {
+  const { title, author, summary, coverImageUrl, headerImageUrl, content, status, publishedAt } =
+    scene
 
-import { useFileStore } from '@/stores/modules/file'
-import { ActiveStatus } from '@/constants/mapData'
-import type { IUploadFile } from '@/types/common'
-const { uploadFile: uploadFileAction } = useFileStore()
-const uploadImage = async () => {
-  if (coverImage.value) {
-    if (coverImage.value.raw) {
-      const url = await uploadFileAction(coverImage.value.raw)
-      coverImage.value.url = url
-      coverImage.value.name = url
-      coverImage.value.raw = undefined
-      newsInfo.coverImageUrl = url
-    }
-  }
-  if (headerImage.value) {
-    if (headerImage.value.raw) {
-      const url = await uploadFileAction(headerImage.value.raw)
-      headerImage.value.url = url
-      headerImage.value.name = url
-      headerImage.value.raw = undefined
-      newsInfo.headerImageUrl = url
-    }
+  return {
+    title,
+    author,
+    summary,
+    coverImageUrl,
+    headerImageUrl,
+    content,
+    status,
+    publishedAt
   }
 }
 
+// 图片相关
+import { useSingleImage } from '@/composables/useSingleImage'
+const { imageRef: coverImageRef, uploadImage: uploadCoverImage } = useSingleImage(
+  computed(() => newsInfo.coverImageUrl)
+)
+const { imageRef: headerImageRef, uploadImage: uploadHeaderImage } = useSingleImage(
+  computed(() => newsInfo.headerImageUrl)
+)
+
+// 选项相关
 import { activeStatusOptions } from '@/constants/mapData'
 
+// 提交
 const submit = async () => {
   if (await form.value?.validate()) {
-    await uploadImage()
-    await upsertNewsAction(id.value, newsInfo)
-    ElMessage.success('提交成功')
-    goBack()
+    const newCoverUrl = await uploadCoverImage()
+    if (newCoverUrl) {
+      newsInfo.coverImageUrl = newCoverUrl
+    }
+    const newHeaderUrl = await uploadHeaderImage()
+    if (newHeaderUrl) {
+      newsInfo.headerImageUrl = newHeaderUrl
+    }
+    try {
+      await upsertNewsAction(id.value, newsInfo)
+      ElMessage.success('提交成功')
+      goBack()
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        ElMessage.error('提交失败')
+      }
+    }
   }
 }
 
+// 返回
 import { useRouterStore } from '@/stores/modules/router'
 const { deleteView } = useRouterStore()
 const router = useRouter()

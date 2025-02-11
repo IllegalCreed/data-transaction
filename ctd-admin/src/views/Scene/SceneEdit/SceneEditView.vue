@@ -62,7 +62,7 @@
         <el-input v-model="sceneInfo.link" placeholder="请输入" />
       </el-form-item>
       <el-form-item v-else label="场景正文" prop="content">
-        <scene-rich-edit-panel v-model:content="sceneInfo.content" />
+        <scene-rich-edit-panel v-model="sceneInfo.content" />
       </el-form-item>
     </el-form>
     <div>
@@ -85,7 +85,9 @@ import type { IScene, ISceneDTO } from '@/types/scene'
 const id = useRouteParams<number>('id', -1, { transform: Number })
 const form = useTemplateRef<FormInstance>('form')
 const rules = reactive<FormRules<ISceneDTO>>({
-  title: [{ required: true, message: '请输入场景名称', trigger: 'blur' }]
+  title: [{ required: true, message: '请输入场景名称', trigger: 'blur' }],
+  summary: [{ required: true, message: '请输入摘要', trigger: 'blur' }],
+  content: [{ required: true, message: '请输入正文', trigger: 'blur' }]
 })
 
 import { useSceneStore } from '@/stores/modules/scene'

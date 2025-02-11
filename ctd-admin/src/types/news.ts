@@ -26,4 +26,4 @@ export type INewsItem = Omit<INews, 'summary' | 'coverImageUrl' | 'headerImageUr
 /**
  * 新增修改新闻
  */
-export type INewsDTO = Omit<INews, 'id' | 'createTime' | 'updateTime' | 'readCount'>
+export type INewsDTO = Omit<INews, 'id' | 'createdAt' | 'updatedAt' | 'readCount'>

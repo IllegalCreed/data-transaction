@@ -2,6 +2,7 @@
   <div>
     <quill-editor
       v-model:content="modal"
+      contentType="html"
       theme="snow"
       :toolbar="toolbar"
       w-full
