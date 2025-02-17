@@ -51,7 +51,8 @@ export const useSettingsStore = defineStore('settings', () => {
     { key: 'user', label: '用户相关', value: false, children: [] },
     { key: 'company', label: '公司相关', value: false, children: [] },
     { key: 'scene', label: '场景相关', value: false, children: [] },
-    { key: 'news', label: '资讯相关', value: false, children: [] }
+    { key: 'news', label: '资讯相关', value: false, children: [] },
+    { key: 'banner', label: '横幅相关', value: false, children: [] }
   ])
 
   const findMockTreeValueByKey = (key: string) => {

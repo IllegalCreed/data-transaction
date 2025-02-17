@@ -23,7 +23,7 @@
 
     <el-divider class="!my-0" />
 
-    <scene-tabel
+    <scene-table
       :data="data"
       :loading="getListLoading"
       :column-list="columnList"
@@ -41,7 +41,7 @@
           @apply="refresh"
         />
       </template>
-    </scene-tabel>
+    </scene-table>
 
     <el-pagination
       self-center
@@ -62,7 +62,7 @@ defineOptions({
 })
 
 import FilterSortPanel from '@/components/FilterSortPanel.vue'
-import SceneTabel from './SceneTable.vue'
+import SceneTable from './SceneTable.vue'
 import { SCENE_PROP_LABEL_MAP } from '@/constants/mapData/scene'
 import { useChangeScenesStatus, useDeleteScenes, useSearchScene } from './composables'
 

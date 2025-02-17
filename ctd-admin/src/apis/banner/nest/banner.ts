@@ -1,26 +1,28 @@
 import request from '@/axios'
 import type { ActiveStatus } from '@/constants/mapData'
-import type { LinkTypes } from '@/constants/mapData/banner'
-import type { IBannerDTO } from '@/types/banner'
+import type { IBannerDTO, IBannerItem } from '@/types/banner'
+import type { IFilterDTO, ISort, ITableColumnDTO } from '@/types/table'
 
 export const getBanners = (
   searchQuery: string,
-  status: ActiveStatus | null,
-  linkType: LinkTypes | null,
+  filters: IFilterDTO<IBannerItem>[],
+  sorts: ISort<IBannerItem>[],
+  columns: ITableColumnDTO<IBannerItem>[],
   pageNum: number,
   pageSize: number
 ): Promise<unknown> => {
-  const params = {
+  const data = {
     searchQuery,
-    status,
-    linkType,
+    filters,
+    sorts,
+    columns,
     pageNum,
     pageSize
   }
-  return request.get(
+  return request.post(
     {
-      url: '/banner',
-      params
+      url: '/platform/banner/list',
+      data
     },
     true
   )
@@ -29,7 +31,7 @@ export const getBanners = (
 export const getBanner = (id: string | number): Promise<unknown> => {
   return request.get(
     {
-      url: `/banner/${id}`
+      url: `/platform/banner/${id}`
     },
     true
   )
@@ -43,7 +45,7 @@ export const upsertBanner = (id: string | number, bannerInfo: IBannerDTO): Promi
 
   return request.post(
     {
-      url: '/banner/upsert',
+      url: '/platform/banner/upsert',
       data
     },
     true
@@ -54,27 +56,27 @@ export const changeBannersStatus = (
   ids: (string | number)[],
   status: ActiveStatus
 ): Promise<unknown> => {
-  const params = {
+  const data = {
     ids,
     status
   }
-  return request.put(
+  return request.post(
     {
-      url: '/banner/change-status',
-      params
+      url: '/platform/banner/change-status',
+      data
     },
     true
   )
 }
 
 export const deleteBanners = (ids: (string | number)[]): Promise<unknown> => {
-  const params = {
+  const data = {
     ids
   }
-  return request.delete(
+  return request.post(
     {
-      url: '/banner/delete',
-      params
+      url: '/platform/banner/delete',
+      data
     },
     true
   )

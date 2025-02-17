@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { useSettingsStore } from '../settings'
-import type { apiListResult } from '@/types/common'
+import type { apiListResult, ICommonReturn } from '@/types/common'
 import type { IBanner, IBannerDTO, IBannerItem } from '@/types/banner'
 import {
   getBanners as getBannersAPI,
@@ -11,35 +11,35 @@ import {
 } from '@/apis/banner'
 import { banners as mockBanners } from '@/constants/mockData/banner'
 import type { ActiveStatus } from '@/constants/mapData'
-import type { LinkTypes } from '@/constants/mapData/banner'
+import type { IFilterDTO, ISort, ITableColumnDTO } from '@/types/table'
 
 export const useBannerStore = defineStore('banner', () => {
   const settingsStore = useSettingsStore()
+  const { findMockTreeValueByKey } = settingsStore
 
   const getBanners = (
     searchQuery: string,
-    status: ActiveStatus | null,
-    linkType: LinkTypes | null,
+    filters: IFilterDTO<IBannerItem>[],
+    sorts: ISort<IBannerItem>[],
+    columns: ITableColumnDTO<IBannerItem>[],
     pageNum: number,
     pageSize: number
-  ): Promise<apiListResult<IBannerItem>> => {
-    return new Promise<apiListResult<IBannerItem>>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+  ): Promise<ICommonReturn<apiListResult<IBannerItem>>> => {
+    return new Promise<ICommonReturn<apiListResult<IBannerItem>>>((resolve, reject) => {
+      if (findMockTreeValueByKey('banner')) {
         window.setTimeout(() => {
           const result = mockBanners.filter((item) => {
-            const statusMatch = status ? item.status === status : true
-            const linkTypeMatch = linkType ? item.linkType === linkType : true
             const searchMatch = searchQuery ? item.title.includes(searchQuery) : true
 
-            return statusMatch && searchMatch && linkTypeMatch
+            return searchMatch
           })
 
-          resolve({ total: result.length, rows: result })
+          resolve({ data: { total: result.length, rows: result }, code: 0, msg: 'success' })
         }, 1000)
       } else {
-        getBannersAPI(searchQuery, status, linkType, pageNum, pageSize)
+        getBannersAPI(searchQuery, filters, sorts, columns, pageNum, pageSize)
           .then((res) => {
-            const result = res as apiListResult<IBannerItem>
+            const result = res as ICommonReturn<apiListResult<IBannerItem>>
             resolve(result)
           })
           .catch((error: Error) => {
@@ -52,7 +52,7 @@ export const useBannerStore = defineStore('banner', () => {
 
   const getBanner = (id: string | number): Promise<IBanner> => {
     return new Promise<IBanner>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('banner')) {
         window.setTimeout(() => {
           const result = mockBanners.find((item) => item.id === Number(id))
           if (result) {
@@ -64,8 +64,8 @@ export const useBannerStore = defineStore('banner', () => {
       } else {
         getBannerAPI(id)
           .then((res) => {
-            const result = res as IBanner
-            resolve(result)
+            const result = res as ICommonReturn<IBanner>
+            resolve(result.data)
           })
           .catch((error: Error) => {
             reject(error)
@@ -77,7 +77,7 @@ export const useBannerStore = defineStore('banner', () => {
 
   const upsertBanner = (id: string | number, bannerInfo: IBannerDTO): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('banner')) {
         window.setTimeout(() => {
           resolve()
         }, 1000)
@@ -96,7 +96,7 @@ export const useBannerStore = defineStore('banner', () => {
 
   const changeBannersStatus = (ids: (string | number)[], status: ActiveStatus): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('banner')) {
         window.setTimeout(() => {
           resolve()
         }, 1000)
@@ -115,7 +115,7 @@ export const useBannerStore = defineStore('banner', () => {
 
   const deleteBanners = (ids: (string | number)[]): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-      if (settingsStore.mockEnabled) {
+      if (findMockTreeValueByKey('banner')) {
         window.setTimeout(() => {
           resolve()
         }, 1000)
