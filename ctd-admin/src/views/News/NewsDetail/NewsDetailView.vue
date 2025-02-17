@@ -96,9 +96,10 @@ const {
   },
   {
     immediate: false,
-    onError: (e) => {
-      const error = e as Error
-      ElMessage.error(error.message)
+    onError: (error) => {
+      if (error instanceof Error) {
+        ElMessage.error('获取详情失败')
+      }
     }
   }
 )

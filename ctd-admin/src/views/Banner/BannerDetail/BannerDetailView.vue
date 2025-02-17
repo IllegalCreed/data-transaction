@@ -18,15 +18,19 @@
       </div>
       <div class="prop" v-if="bannerInfo.linkType === LinkTypes.Scene">
         <span class="label">场景名称：</span>
-        <span class="value">{{ nameByID }}</span>
+        <span class="value">{{ bannerInfo.data.name }}</span>
+      </div>
+      <div class="prop" v-if="bannerInfo.linkType === LinkTypes.News">
+        <span class="label">资讯名称：</span>
+        <span class="value">{{ bannerInfo.data.name }}</span>
       </div>
       <div class="prop" v-if="bannerInfo.linkType === LinkTypes.Product">
         <span class="label">产品名称：</span>
-        <span class="value">{{ nameByID }}</span>
+        <span class="value">{{ bannerInfo.data.name }}</span>
       </div>
       <div class="prop" v-if="bannerInfo.linkType === LinkTypes.Demand">
         <span class="label">需求名称：</span>
-        <span class="value">{{ nameByID }}</span>
+        <span class="value">{{ bannerInfo.data.name }}</span>
       </div>
       <div class="prop" items-center>
         <span class="label">状态:</span>
@@ -34,11 +38,11 @@
       </div>
       <div class="prop">
         <span class="label">创建时间：</span>
-        <span class="value">{{ bannerInfo.createdAt }}</span>
+        <span class="value">{{ dayjs(bannerInfo.createdAt).format('YYYY-MM-DD HH:mm:ss') }}</span>
       </div>
       <div class="prop">
         <span class="label">更新时间：</span>
-        <span class="value">{{ bannerInfo.updatedAt }}</span>
+        <span class="value">{{ dayjs(bannerInfo.updatedAt).format('YYYY-MM-DD HH:mm:ss') }}</span>
       </div>
       <div class="prop" grid-col-span-3>
         <span class="label">图片：</span>
@@ -58,6 +62,7 @@ defineOptions({
   name: 'banner-detail'
 })
 
+import dayjs from 'dayjs'
 const id = useRouteParams<string | number>('id')
 // watch(id, () => {
 //   executeGetBannerAction()
@@ -82,54 +87,18 @@ const {
   },
   {
     immediate: false,
-    onError: (e) => {
-      const error = e as Error
-      ElMessage.error(error.message)
+    onError: (error) => {
+      if (error instanceof Error) {
+        ElMessage.error('获取详情失败')
+      }
     }
   }
 )
 
-onMounted(() => {
-  executeGetBannerAction()
+onMounted(async () => {
+  await executeGetBannerAction()
 })
 
-import type { IBanner, IBannerWithId } from '@/types/banner'
-const nameByID = ref<string>('')
-function hasIdData(banner: IBanner): banner is IBannerWithId {
-  return (
-    banner.linkType === LinkTypes.Scene ||
-    banner.linkType === LinkTypes.Product ||
-    banner.linkType === LinkTypes.Demand
-  )
-}
-
-watchEffect(async () => {
-  if (!hasIdData(bannerInfo.value)) {
-    return
-  }
-  const id = bannerInfo.value.data.id
-  switch (bannerInfo.value.linkType) {
-    case LinkTypes.Demand:
-      nameByID.value = (await getDemandOptionsByIDAction(id)).label
-      return
-    case LinkTypes.Product:
-      nameByID.value = (await getProductOptionsByIDAction(id)).label
-      return
-    case LinkTypes.Scene:
-      nameByID.value = (await getSceneOptionsByIDAction(id)).label
-      return
-    default:
-      nameByID.value = ''
-      return
-  }
-})
-
-import { useProductStore } from '@/stores/modules/product'
-const { getProductOptionsByID: getProductOptionsByIDAction } = useProductStore()
-import { useDemandStore } from '@/stores/modules/demand'
-const { getDemandOptionsByID: getDemandOptionsByIDAction } = useDemandStore()
-import { useSceneStore } from '@/stores/modules/scene'
-const { getSceneOptionsByID: getSceneOptionsByIDAction } = useSceneStore()
 import { ACTIVE_STATUS_COLOR_MAP, ACTIVE_STATUS_MAP, ActiveStatus } from '@/constants/mapData'
 const stautsColor = (status: ActiveStatus) => ACTIVE_STATUS_COLOR_MAP[status]
 const statusLabel = (status: ActiveStatus) => ACTIVE_STATUS_MAP[status]

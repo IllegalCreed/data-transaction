@@ -51,10 +51,54 @@ export enum ErrorCode {
   ADMIN_ALREADY_EXISTS = 5001,
   CREATE_ADMIN_FAILED = 5002,
   UPDATE_ADMIN_PASSWORD_FAILED = 5003,
-  GET_ADMIN_NAME_FAILED = 5004
+  GET_ADMIN_NAME_FAILED = 5004,
+
+  // 用户管理相关
+  GET_USER_LIST_FAILED = 5102,
+  GET_USER_DETAIL_FAILED = 5103,
+  UPDATE_USER_STATUS_FAILED = 5104,
+  DELETE_USER_FAILED = 5105,
+
+  // 公司管理相关
+  GET_COMPANY_LIST_FAILED = 5201,
+  UPSERT_COMPANY_FAILED = 5202,
+  GET_COMPANY_DETAIL_FAILED = 5203,
+  COMPANY_NOT_FOUND = 5204,
+  UPDATE_COMPANY_STATUS_FAILED = 5205,
+  DELETE_COMPANY_FAILED = 5206,
+  GET_COMPANY_OPTIONS_BY_NAME_FAILED = 5207,
+  GET_COMPANY_OPTIONS_BY_ID_FAILED = 5208,
+
+  // 场景管理相关
+  GET_SCENE_LIST_FAILED = 5301,
+  GET_SCENE_OPTIONS_BY_TITLE_FAILED = 5302,
+  GET_SCENE_OPTIONS_BY_ID_FAILED = 5303,
+  SCENE_NOT_FOUND = 5304,
+  UPSERT_SCENE_FAILED = 5305,
+  GET_SCENE_DETAIL_FAILED = 5306,
+  UPDATE_SCENE_STATUS_FAILED = 5307,
+  DELETE_SCENE_FAILED = 5308,
+
+  // 资讯管理相关
+  LIST_NEWS_FAILED = 5401,
+  UPSERT_NEWS_FAILED = 5402,
+  NEWS_NOT_FOUND = 5403,
+  UPDATE_NEWS_STATUS_FAILED = 5404,
+  DELETE_NEWS_FAILED = 5405,
+  GET_NEWS_OPTIONS_BY_TITLE_FAILED = 5406,
+  GET_NEWS_OPTIONS_BY_ID_FAILED = 5407,
+  GET_NEWS_DETAIL_FAILED = 5408,
+
+  // 横幅管理相关
+  LIST_BANNER_FAILED = 5501,
+  UPSERT_BANNER_FAILED = 5502,
+  BANNER_NOT_FOUND = 5503,
+  UPDATE_BANNER_STATUS_FAILED = 5504,
+  DELETE_BANNER_FAILED = 5505,
+  GET_BANNER_DETAIL_FAILED = 5506
 }
 
-export const ErrorCodeMessages: { [key: number]: string } = {
+export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
   // 通用
   [ErrorCode.INVALID_CREDENTIALS]: '身份验证失败',
   [ErrorCode.SEND_EMAIL_FAILED]: '发送邮件失败',
@@ -108,5 +152,49 @@ export const ErrorCodeMessages: { [key: number]: string } = {
   [ErrorCode.ADMIN_ALREADY_EXISTS]: '管理员已存在',
   [ErrorCode.CREATE_ADMIN_FAILED]: '创建管理员失败',
   [ErrorCode.UPDATE_ADMIN_PASSWORD_FAILED]: '更新管理员密码失败',
-  [ErrorCode.GET_ADMIN_NAME_FAILED]: '获取管理员姓名失败'
+  [ErrorCode.GET_ADMIN_NAME_FAILED]: '获取管理员姓名失败',
+
+  // 用户管理相关
+  [ErrorCode.GET_USER_LIST_FAILED]: '获取用户列表失败。',
+  [ErrorCode.GET_USER_DETAIL_FAILED]: '获取用户详情失败。',
+  [ErrorCode.UPDATE_USER_STATUS_FAILED]: '更新用户状态失败。',
+  [ErrorCode.DELETE_USER_FAILED]: '删除用户失败。',
+
+  // 公司管理相关
+  [ErrorCode.GET_COMPANY_LIST_FAILED]: '获取公司列表失败。',
+  [ErrorCode.UPSERT_COMPANY_FAILED]: '公司增删改失败。',
+  [ErrorCode.GET_COMPANY_DETAIL_FAILED]: '获取公司详情失败。',
+  [ErrorCode.COMPANY_NOT_FOUND]: '未找到公司。',
+  [ErrorCode.UPDATE_COMPANY_STATUS_FAILED]: '更新公司状态失败。',
+  [ErrorCode.DELETE_COMPANY_FAILED]: '删除公司失败。',
+  [ErrorCode.GET_COMPANY_OPTIONS_BY_NAME_FAILED]: '根据公司名称获取公司选项失败。',
+  [ErrorCode.GET_COMPANY_OPTIONS_BY_ID_FAILED]: '根据公司ID获取公司选项失败。',
+
+  // 场景管理相关
+  [ErrorCode.GET_SCENE_LIST_FAILED]: '获取场景列表失败。',
+  [ErrorCode.GET_SCENE_OPTIONS_BY_TITLE_FAILED]: '根据场景标题获取场景选项失败。',
+  [ErrorCode.GET_SCENE_OPTIONS_BY_ID_FAILED]: '根据场景ID获取场景选项失败。',
+  [ErrorCode.SCENE_NOT_FOUND]: '未找到场景。',
+  [ErrorCode.UPSERT_SCENE_FAILED]: '场景增删改失败。',
+  [ErrorCode.GET_SCENE_DETAIL_FAILED]: '获取场景详情失败。',
+  [ErrorCode.UPDATE_SCENE_STATUS_FAILED]: '更新场景状态失败。',
+  [ErrorCode.DELETE_SCENE_FAILED]: '删除场景失败。',
+
+  // 资讯管理相关
+  [ErrorCode.LIST_NEWS_FAILED]: '获取资讯列表失败。',
+  [ErrorCode.UPSERT_NEWS_FAILED]: '资讯增删改失败。',
+  [ErrorCode.NEWS_NOT_FOUND]: '未找到资讯。',
+  [ErrorCode.UPDATE_NEWS_STATUS_FAILED]: '更新资讯状态失败。',
+  [ErrorCode.DELETE_NEWS_FAILED]: '删除资讯失败。',
+  [ErrorCode.GET_NEWS_OPTIONS_BY_TITLE_FAILED]: '根据资讯标题获取资讯选项失败。',
+  [ErrorCode.GET_NEWS_OPTIONS_BY_ID_FAILED]: '根据资讯ID获取资讯选项失败。',
+  [ErrorCode.GET_NEWS_DETAIL_FAILED]: '获取资讯详情失败。',
+
+  // 横幅管理相关
+  [ErrorCode.LIST_BANNER_FAILED]: '获取横幅列表失败。',
+  [ErrorCode.UPSERT_BANNER_FAILED]: '横幅增删改失败。',
+  [ErrorCode.BANNER_NOT_FOUND]: '未找到横幅。',
+  [ErrorCode.UPDATE_BANNER_STATUS_FAILED]: '更新横幅状态失败。',
+  [ErrorCode.DELETE_BANNER_FAILED]: '删除横幅失败。',
+  [ErrorCode.GET_BANNER_DETAIL_FAILED]: '获取横幅详情失败。'
 }

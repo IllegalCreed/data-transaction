@@ -22,7 +22,7 @@ interface IBannerOuterLink extends IBannerBase {
 
 export interface IBannerWithId extends IBannerBase {
   linkType: LinkTypes.Scene | LinkTypes.Product | LinkTypes.Demand | LinkTypes.News
-  data: { id: string | number }
+  data: { id: string | number; name?: string }
 }
 
 export type IBanner = IBannerNone | IBannerOuterLink | IBannerWithId
