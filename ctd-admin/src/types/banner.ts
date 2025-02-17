@@ -7,8 +7,8 @@ interface IBannerBase {
   imageUrl: string
   linkType: LinkTypes
   status: ActiveStatus
-  createTime: string
-  updateTime: string
+  createdAt: string
+  updatedAt: string
 }
 
 interface IBannerNone extends IBannerBase {
@@ -21,7 +21,7 @@ interface IBannerOuterLink extends IBannerBase {
 }
 
 export interface IBannerWithId extends IBannerBase {
-  linkType: LinkTypes.Scene | LinkTypes.Product | LinkTypes.Demand
+  linkType: LinkTypes.Scene | LinkTypes.Product | LinkTypes.Demand | LinkTypes.News
   data: { id: string | number }
 }
 
@@ -29,10 +29,10 @@ export type IBanner = IBannerNone | IBannerOuterLink | IBannerWithId
 
 export type IBannerItem = Omit<IBanner, 'imageUrl'>
 
-type IBannerNoneDTO = Omit<IBannerNone, 'id' | 'createTime' | 'updateTime'>
+type IBannerNoneDTO = Omit<IBannerNone, 'id' | 'createdAt' | 'updatedAt'>
 
-type IBannerOuterLinkDTO = Omit<IBannerOuterLink, 'id' | 'createTime' | 'updateTime'>
+type IBannerOuterLinkDTO = Omit<IBannerOuterLink, 'id' | 'createdAt' | 'updatedAt'>
 
-type IBannerWithIdDTO = Omit<IBannerWithId, 'id' | 'createTime' | 'updateTime'>
+type IBannerWithIdDTO = Omit<IBannerWithId, 'id' | 'createdAt' | 'updatedAt'>
 
 export type IBannerDTO = IBannerNoneDTO | IBannerOuterLinkDTO | IBannerWithIdDTO

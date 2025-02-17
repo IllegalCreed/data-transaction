@@ -9,8 +9,8 @@ export const banners: IBanner[] = [
     imageUrl: new URL('@/assets/placeholder/productDefault.png', import.meta.url).href,
     linkType: LinkTypes.None,
     status: ActiveStatus.Inactive,
-    createTime: '2022-01-01 00:00:00',
-    updateTime: '2022-01-01 00:00:00'
+    createdAt: '2022-01-01 00:00:00',
+    updatedAt: '2022-01-01 00:00:00'
   },
   {
     id: 2,
@@ -19,8 +19,8 @@ export const banners: IBanner[] = [
     linkType: LinkTypes.OuterLink,
     data: 'www.baidu.com',
     status: ActiveStatus.Active,
-    createTime: '2022-01-01 00:00:00',
-    updateTime: '2022-01-01 00:00:00'
+    createdAt: '2022-01-01 00:00:00',
+    updatedAt: '2022-01-01 00:00:00'
   },
   {
     id: 3,
@@ -31,8 +31,8 @@ export const banners: IBanner[] = [
       id: 1
     },
     status: ActiveStatus.Active,
-    createTime: '2022-01-01 00:00:00',
-    updateTime: '2022-01-01 00:00:00'
+    createdAt: '2022-01-01 00:00:00',
+    updatedAt: '2022-01-01 00:00:00'
   },
   {
     id: 4,
@@ -43,7 +43,7 @@ export const banners: IBanner[] = [
       id: 1
     },
     status: ActiveStatus.Active,
-    createTime: '2022-01-01 00:00:00',
-    updateTime: '2022-01-01 00:00:00'
+    createdAt: '2022-01-01 00:00:00',
+    updatedAt: '2022-01-01 00:00:00'
   }
 ]

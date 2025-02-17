@@ -18,6 +18,7 @@ import { PlatformUserModule } from './modules/platform/user/user.module';
 import { PlatformCompanyModule } from './modules/platform/company/company.module';
 import { PlatformSceneModule } from './modules/platform/scene/scene.module';
 import { PlatformNewsModule } from './modules/platform/news/news.module';
+import { PlatformBannerModule } from './modules/platform/banner/banner.module';
 
 const nodeEnv = process.env.NODE_ENV || 'development';
 
@@ -86,6 +87,7 @@ const nodeEnv = process.env.NODE_ENV || 'development';
     PlatformCompanyModule,
     PlatformSceneModule,
     PlatformNewsModule,
+    PlatformBannerModule,
   ],
   controllers: [],
   providers: [],

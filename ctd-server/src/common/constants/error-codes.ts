@@ -97,6 +97,14 @@ export enum ErrorCode {
   GET_NEWS_OPTIONS_BY_TITLE_FAILED = 5406,
   GET_NEWS_OPTIONS_BY_ID_FAILED = 5407,
   GET_NEWS_DETAIL_FAILED = 5408,
+
+  // 横幅管理相关
+  LIST_BANNER_FAILED = 5501,
+  UPSERT_BANNER_FAILED = 5502,
+  BANNER_NOT_FOUND = 5503,
+  UPDATE_BANNER_STATUS_FAILED = 5504,
+  DELETE_BANNER_FAILED = 5505,
+  GET_BANNER_DETAIL_FAILED = 5506,
 }
 
 export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
@@ -241,4 +249,16 @@ export const ErrorCodeMessages: { [key in ErrorCode]: string } = {
     'Get news options by id failed due to unexpected error.',
   [ErrorCode.GET_NEWS_DETAIL_FAILED]:
     'Get news detail failed due to unexpected error.',
+
+  // 横幅管理相关
+  [ErrorCode.LIST_BANNER_FAILED]: 'List banner failed due to unexpected error.',
+  [ErrorCode.UPSERT_BANNER_FAILED]:
+    'Upsert banner failed due to unexpected error.',
+  [ErrorCode.BANNER_NOT_FOUND]: 'Banner not found.',
+  [ErrorCode.UPDATE_BANNER_STATUS_FAILED]:
+    'Update banner status failed due to unexpected error.',
+  [ErrorCode.DELETE_BANNER_FAILED]:
+    'Delete banner failed due to unexpected error.',
+  [ErrorCode.GET_BANNER_DETAIL_FAILED]:
+    'Get banner detail failed due to unexpected error.',
 };

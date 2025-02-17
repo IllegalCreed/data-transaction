@@ -34,11 +34,11 @@
       </div>
       <div class="prop">
         <span class="label">创建时间：</span>
-        <span class="value">{{ bannerInfo.createTime }}</span>
+        <span class="value">{{ bannerInfo.createdAt }}</span>
       </div>
       <div class="prop">
         <span class="label">更新时间：</span>
-        <span class="value">{{ bannerInfo.updateTime }}</span>
+        <span class="value">{{ bannerInfo.updatedAt }}</span>
       </div>
       <div class="prop" grid-col-span-3>
         <span class="label">图片：</span>
@@ -77,8 +77,8 @@ const {
     imageUrl: '',
     status: ActiveStatus.Inactive,
     linkType: LinkTypes.None,
-    createTime: '',
-    updateTime: ''
+    createdAt: '',
+    updatedAt: ''
   },
   {
     immediate: false,

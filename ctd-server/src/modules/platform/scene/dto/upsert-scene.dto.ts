@@ -12,7 +12,7 @@ import { ActiveStatus } from 'src/enums/active-status.enum';
 export class UpsertSceneDto {
   @IsOptional()
   @IsInt()
-  id: number; // 用于判断是插入还是更新
+  id?: number; // 用于判断是插入还是更新
 
   @IsString({ message: '标题必须是字符串' })
   @IsNotEmpty({ message: '标题不能为空' })
@@ -48,5 +48,6 @@ export class UpsertSceneDto {
   content?: string;
 
   @IsEnum(ActiveStatus)
+  @IsNotEmpty()
   status: ActiveStatus;
 }
